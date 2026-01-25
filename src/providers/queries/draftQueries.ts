@@ -263,7 +263,7 @@ const _sortDataS = (data: any[]) =>
 
 const _sortData = (data: any[]) =>
   data.sort((a, b) => {
-    const dateA = new Date(a.created).getTime();
-    const dateB = new Date(b.created).getTime();
+    const dateA = new Date(a.modified || a.updated || a.created).getTime();
+    const dateB = new Date(b.modified || b.updated || b.created).getTime();
     return dateB > dateA ? 1 : -1;
   });

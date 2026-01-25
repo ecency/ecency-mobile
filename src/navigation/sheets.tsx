@@ -8,6 +8,7 @@ import {
   AccountsBottomSheet,
   QRModal,
   ChatOptionsSheet,
+  ChatChannelOptionsSheet,
 } from '../components';
 import { TippingDialog } from '../components/tipping';
 import { ActionModalPayload } from '../components/actionModal/container/actionModalContainer';
@@ -21,6 +22,7 @@ export enum SheetNames {
   ACCOUNTS_SHEET = 'accounts_sheet',
   QR_SCAN = 'qr_sheet',
   CHAT_OPTIONS = 'chat_options',
+  CHAT_CHANNEL_OPTIONS = 'chat_channel_options',
   TIPPING_DIALOG = 'tipping_dialog',
 }
 
@@ -32,6 +34,7 @@ registerSheet(SheetNames.CROSS_POST, CrossPostModal);
 registerSheet(SheetNames.ACCOUNTS_SHEET, AccountsBottomSheet);
 registerSheet(SheetNames.QR_SCAN, QRModal);
 registerSheet(SheetNames.CHAT_OPTIONS, ChatOptionsSheet);
+registerSheet(SheetNames.CHAT_CHANNEL_OPTIONS, ChatChannelOptionsSheet);
 registerSheet(SheetNames.TIPPING_DIALOG, TippingDialog);
 
 // We extend some of the types here to give us great intellisense
@@ -78,6 +81,19 @@ declare module 'react-native-actions-sheet' {
         currentUserId?: string;
         isOwnMessage?: boolean;
         canModerate?: boolean;
+      };
+    }>;
+    [SheetNames.CHAT_CHANNEL_OPTIONS]: SheetDefinition<{
+      payload: {
+        title?: string;
+        hasUnread?: boolean;
+        isFavorite?: boolean;
+        isMuted?: boolean;
+        isDM?: boolean;
+        onMarkRead?: () => void;
+        onToggleFavorite?: () => void;
+        onToggleMute?: () => void;
+        onLeave?: () => void;
       };
     }>;
     [SheetNames.TIPPING_DIALOG]: SheetDefinition<{

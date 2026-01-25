@@ -115,6 +115,7 @@ import { WalkthroughMarker } from './walkthroughMarker';
 import { LinkPreview, HiveLinkPreview } from './linkPreview';
 import { CrossPostModal } from './crossPostModal';
 import { ChatOptionsSheet } from './chatOptionsSheet';
+import { ChatChannelOptionsSheet } from './chatChannelOptionsSheet';
 
 // Basic UI Elements
 import {
@@ -285,4 +286,5 @@ export {
   CrossPostModal,
   CopyModal,
   ChatOptionsSheet,
+  ChatChannelOptionsSheet,
 };

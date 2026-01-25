@@ -11,7 +11,7 @@ import PeopleResultsContainer from '../container/peopleResultsContainer';
 
 import styles from './peopleResultsStyles';
 
-const PeopleResults = ({ searchValue, isUsername }) => {
+const PeopleResults = ({ searchValue, isUsername, listRef }) => {
   const _renderEmptyContent = () => {
     return (
       <>
@@ -28,6 +28,7 @@ const PeopleResults = ({ searchValue, isUsername }) => {
             <EmptyScreen />
           ) : (
             <FlatList
+              ref={listRef}
               data={users}
               keyExtractor={(item) => item.name}
               renderItem={({ item, index }) => (

@@ -3,8 +3,12 @@ import Config from 'react-native-config';
 import get from 'lodash/get';
 
 import * as Sentry from '@sentry/react-native';
-import { getMutedUsersQueryOptions } from '@ecency/sdk';
-import { getDigitPinCode, getUser } from './dhive';
+import {
+  getAccountFullQueryOptions,
+  getAccountRcQueryOptions,
+  getMutedUsersQueryOptions,
+} from '@ecency/sdk';
+import { getDigitPinCode } from './dhive';
 import { getQueryClient } from '../queries';
 import { getPointsSummary } from '../ecency/ePoint';
 import {
@@ -24,13 +28,54 @@ import { getSCAccessToken, getUnreadNotificationCount } from '../ecency/ecency';
 // Constants
 import AUTH_TYPE from '../../constants/authType';
 import { makeHsCode } from '../../utils/hive-signer-helper';
+import { getAvatar, getName } from '../../utils/user';
+
+const fetchAccount = async (username: string) => {
+  const queryClient = getQueryClient();
+  const account = await queryClient.fetchQuery(getAccountFullQueryOptions(username));
+  let rcAccounts: any[] = [];
+  try {
+    rcAccounts = await queryClient.fetchQuery(getAccountRcQueryOptions(username));
+  } catch {
+    rcAccounts = [];
+  }
+
+  if (!account) {
+    return null;
+  }
+
+  let about: Record<string, any> = {};
+  try {
+    const raw = account.posting_json_metadata;
+    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    if (parsed && typeof parsed === 'object') {
+      about = parsed;
+    }
+  } catch (error) {
+    about = {};
+  }
+
+  const profile = account.profile || about.profile;
+  const normalizedAbout = profile ? { ...about, profile } : about;
+
+  return {
+    ...account,
+    about: normalizedAbout,
+    avatar: getAvatar(normalizedAbout),
+    display_name: getName(normalizedAbout),
+    username: account.name,
+    rc_manabar: rcAccounts?.[0]?.rc_manabar,
+    max_rc: rcAccounts?.[0]?.max_rc,
+    vp_manabar: account.voting_manabar,
+  };
+};
 
 export const login = async (username, password) => {
   let _keyMatched = false;
   let avatar = '';
   let authType = '';
   // Get user account data from HIVE Blockchain
-  const account = await getUser(username);
+  const account = await fetchAccount(username);
 
   if (!account) {
     return Promise.reject(new Error('auth.invalid_username'));
@@ -82,15 +127,8 @@ export const login = async (username, password) => {
     console.warn('Optional user data fetch failed, account can still function without them', err);
   }
 
-  let jsonMetadata;
-  try {
-    jsonMetadata = JSON.parse(account.posting_json_metadata) || '';
-  } catch (err) {
-    jsonMetadata = '';
-  }
-  if (Object.keys(jsonMetadata).length !== 0) {
-    avatar = jsonMetadata.profile.profile_image || '';
-  }
+  const profile = account.about?.profile || account.profile;
+  avatar = profile?.profile_image || account.avatar || '';
 
   const userData = {
     username,
@@ -135,9 +173,9 @@ export const loginWithSC2 = async (code) => {
     hsApi.setAccessToken(get(scTokens, 'access_token', ''));
     const scAccount = await hsApi.me();
 
-    // NOTE: even though sAccount.account has account data but there are certain properties missing from hsApi variant, for instance account.username
-    // that is why we still have to fetch account data using dhive, thought post processing done in dhive variant can be done in utils in future
-    const account = await getUser(scAccount.account.name);
+    // NOTE: hsApi account data is missing fields like account.username,
+    // so we fetch full account data via SDK.
+    const account = await fetchAccount(scAccount.account.name);
     let avatar = '';
 
     try {
@@ -152,15 +190,8 @@ export const loginWithSC2 = async (code) => {
       console.warn('Optional user data fetch failed, account can still function without them', err);
     }
 
-    let jsonMetadata;
-    try {
-      jsonMetadata = JSON.parse(account.posting_json_metadata) || '';
-      if (Object.keys(jsonMetadata).length !== 0) {
-        avatar = jsonMetadata.profile.profile_image || '';
-      }
-    } catch (error) {
-      jsonMetadata = '';
-    }
+    const profile = account.about?.profile || account.profile;
+    avatar = profile?.profile_image || account.avatar || '';
 
     const userData = {
       username: account.name,
@@ -209,9 +240,9 @@ export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => 
     hsApi.setAccessToken(get(scTokens, 'access_token', ''));
     const scAccount = await hsApi.me();
 
-    // NOTE: even though sAccount.account has account data but there are certain properties missing from hsApi variant, for instance account.username
-    // that is why we still have to fetch account data using dhive, thought post processing done in dhive variant can be done in utils in future
-    const account = await getUser(scAccount.account.name);
+    // NOTE: hsApi account data is missing fields like account.username,
+    // so we fetch full account data via SDK.
+    const account = await fetchAccount(scAccount.account.name);
     let avatar = '';
 
     try {
@@ -226,15 +257,8 @@ export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => 
       console.warn('Optional user data fetch failed, account can still function without them', err);
     }
 
-    let jsonMetadata;
-    try {
-      jsonMetadata = JSON.parse(account.posting_json_metadata) || '';
-      if (Object.keys(jsonMetadata).length !== 0) {
-        avatar = jsonMetadata.profile.profile_image || '';
-      }
-    } catch (error) {
-      jsonMetadata = '';
-    }
+    const profile = account.about?.profile || account.profile;
+    avatar = profile?.profile_image || account.avatar || '';
 
     const userData = {
       username: account.name,
@@ -386,7 +410,7 @@ export const refreshSCToken = async (userData, pinCode) => {
 
 export const switchAccount = (username) =>
   new Promise((resolve, reject) => {
-    getUser(username)
+    fetchAccount(username)
       .then((account) => {
         updateCurrentUsername(username)
           .then(() => {

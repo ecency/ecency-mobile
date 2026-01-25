@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { View } from 'react-native';
+import { View, FlatList } from 'react-native';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -22,6 +22,8 @@ const CommunitiesScreen = () => {
   const intl = useIntl();
 
   const [index, setIndex] = React.useState(0);
+  const joinedListRef = React.useRef<FlatList>(null);
+  const discoverListRef = React.useRef<FlatList>(null);
   const [routes] = React.useState([
     {
       key: 'joined',
@@ -65,7 +67,15 @@ const CommunitiesScreen = () => {
               navigationState={{ index, routes }}
               style={[globalStyles.tabView]}
               onIndexChange={setIndex}
-              renderTabBar={TabBar}
+              renderTabBar={(tabProps) => (
+                <TabBar
+                  {...tabProps}
+                  onTabPress={({ route }) => {
+                    const listRef = route.key === 'discover' ? discoverListRef : joinedListRef;
+                    listRef.current?.scrollToOffset({ offset: 0, animated: true });
+                  }}
+                />
+              )}
               commonOptions={{
                 labelStyle: styles.tabLabelColor,
               }}
@@ -82,6 +92,7 @@ const CommunitiesScreen = () => {
                           handleGetSubscriptions={handleGetSubscriptions}
                           handleDiscoverPress={_handleDiscoverPress}
                           isLoading={isSubscriptionsLoading}
+                          listRef={joinedListRef}
                         />
                       </View>
                     );
@@ -97,6 +108,7 @@ const CommunitiesScreen = () => {
                           noResult={discovers.length === 0}
                           screen="communitiesScreenDiscoverTab"
                           isDiscoversLoading={isDiscoversLoading}
+                          listRef={discoverListRef}
                         />
                       </View>
                     );

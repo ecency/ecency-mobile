@@ -10,8 +10,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { unionBy, isArray } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { useBroadcastMutation } from '@ecency/sdk';
-import { getDiscussionCollection, getAccountPosts } from '../../hive/dhive';
+import { getAccountPosts, getDiscussion, useBroadcastMutation } from '@ecency/sdk';
 
 import QUERIES from '../queryKeys';
 import { delay } from '../../../utils/editor';
@@ -19,6 +18,7 @@ import {
   injectPostCache,
   injectVoteCache,
   mapDiscussionToThreads,
+  parseDiscussionCollection,
 } from '../../../utils/postParser';
 import { useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
@@ -156,7 +156,15 @@ export const useWavesQuery = (host: string) => {
         sort: 'posts',
       };
 
-      const result = await getAccountPosts(query);
+      const result =
+        (await getAccountPosts(
+          query.sort,
+          query.account,
+          query.start_author,
+          query.start_permlink,
+          query.limit,
+          query.observer,
+        )) || [];
 
       const _fetchedPermlinks = result.map((post) => post.permlink);
       console.log('permlinks fetched', _fetchedPermlinks);
@@ -181,13 +189,21 @@ export const useWavesQuery = (host: string) => {
 
   const _fetchWaves = async (pagePermlink: string) => {
     console.log('fetching waves from:', host, pagePermlink);
-    const response = await getDiscussionCollection(host, pagePermlink, currentAccount?.username);
+    const response = await getDiscussion(host, pagePermlink, currentAccount?.username);
+    const parsedResponse = response
+      ? await parseDiscussionCollection(response, currentAccount?.username)
+      : null;
 
     // inject cache here...
     const _cachedComments = cacheRef.current.commentsCollection;
     const _cachedVotes = cacheRef.current.votesCollection;
     const _lastCacheUpdate = cacheRef.current.lastCacheUpdate;
-    const _cResponse = injectPostCache(response, _cachedComments, _cachedVotes, _lastCacheUpdate);
+    const _cResponse = injectPostCache(
+      parsedResponse,
+      _cachedComments,
+      _cachedVotes,
+      _lastCacheUpdate,
+    );
 
     const _threadedComments = await mapDiscussionToThreads(_cResponse, host, pagePermlink, 1);
 
@@ -531,7 +547,15 @@ export const fetchLatestWavesContainer = async (host) => {
     sort: 'posts',
   };
 
-  const result = await getAccountPosts(query);
+  const result =
+    (await getAccountPosts(
+      query.sort,
+      query.account,
+      query.start_author,
+      query.start_permlink,
+      query.limit,
+      query.observer,
+    )) || [];
 
   const _latestPost = result[0];
   console.log('latest waves post', host, _latestPost);

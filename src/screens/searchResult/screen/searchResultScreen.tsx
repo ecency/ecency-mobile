@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { TabView } from 'react-native-tab-view';
@@ -58,6 +58,9 @@ const SearchResultScreen = ({ navigation }) => {
 const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => {
   const intl = useIntl();
   const [index, setIndex] = React.useState(0);
+  const postsListRef = React.useRef<FlatList>(null);
+  const peopleListRef = React.useRef<FlatList>(null);
+  const communitiesListRef = React.useRef<FlatList>(null);
   const [routes] = React.useState([
     {
       key: 'posts',
@@ -97,13 +100,17 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
       case 'posts':
         return (
           <View style={styles.tabbarItem}>
-            <PostsResults searchValue={clippedSearchValue} />
+            <PostsResults searchValue={clippedSearchValue} listRef={postsListRef} />
           </View>
         );
       case 'people':
         return (
           <View style={styles.tabbarItem}>
-            <PeopleResults searchValue={clippedSearchValue} isUsername={isUsername} />
+            <PeopleResults
+              searchValue={clippedSearchValue}
+              isUsername={isUsername}
+              listRef={peopleListRef}
+            />
           </View>
         );
       // TOOD: removed topics tab uptill tags search api is resolved
@@ -116,7 +123,7 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
       case 'communities':
         return (
           <View style={styles.tabbarItem}>
-            <Communities searchValue={clippedSearchValue} />
+            <Communities searchValue={clippedSearchValue} listRef={communitiesListRef} />
           </View>
         );
     }
@@ -125,7 +132,20 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
   return (
     <TabView
       style={globalStyles.tabView}
-      renderTabBar={TabBar}
+      renderTabBar={(tabProps) => (
+        <TabBar
+          {...tabProps}
+          onTabPress={({ route }) => {
+            const listRef =
+              route.key === 'people'
+                ? peopleListRef
+                : route.key === 'communities'
+                ? communitiesListRef
+                : postsListRef;
+            listRef.current?.scrollToOffset({ offset: 0, animated: true });
+          }}
+        />
+      )}
       renderScene={renderScene}
       navigationState={{ index, routes }}
       onIndexChange={setIndex}

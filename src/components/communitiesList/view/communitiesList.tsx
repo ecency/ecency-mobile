@@ -13,6 +13,7 @@ const CommunitiesList = ({
   isLoggedIn,
   screen,
   isDiscoversLoading,
+  listRef,
 }) => {
   const _renderItem = ({ item, index }) => {
     return (
@@ -59,6 +60,7 @@ const CommunitiesList = ({
 
   return (
     <FlatList
+      ref={listRef}
       data={data}
       keyExtractor={(item, index) => index.toString()}
       renderItem={true && _renderItem}

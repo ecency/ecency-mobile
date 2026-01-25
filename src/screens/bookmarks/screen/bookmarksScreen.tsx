@@ -32,6 +32,8 @@ const BookmarksScreen = ({
   isFetchingNextFavoritesPage,
 }) => {
   const [tabIndex, setTabIndex] = React.useState(initialTabIndex);
+  const bookmarksListRef = React.useRef<FlatList>(null);
+  const favoritesListRef = React.useRef<FlatList>(null);
   const [routes] = React.useState([
     {
       key: 'bookmarks',
@@ -84,7 +86,7 @@ const BookmarksScreen = ({
     );
   };
 
-  const _getTabItem = (data, type) => {
+  const _getTabItem = (data, type, listRef) => {
     const isFavorites = type === 'favorites';
     const fetchNextPage = isFavorites ? fetchNextFavoritesPage : fetchNextBookmarksPage;
     const hasNextPage = isFavorites ? hasNextFavoritesPage : hasNextBookmarksPage;
@@ -100,6 +102,7 @@ const BookmarksScreen = ({
 
     return (
       <FlatList
+        ref={listRef}
         style={styles.container}
         data={data.map((item) =>
           item._id !== data[item._id] && isFavorites
@@ -146,9 +149,17 @@ const BookmarksScreen = ({
   const renderScene = ({ route }) => {
     switch (route.key) {
       case 'bookmarks':
-        return <View style={styles.tabbarItem}>{_getTabItem(bookmarks, 'bookmarks')}</View>;
+        return (
+          <View style={styles.tabbarItem}>
+            {_getTabItem(bookmarks, 'bookmarks', bookmarksListRef)}
+          </View>
+        );
       case 'favorites':
-        return <View style={styles.tabbarItem}>{_getTabItem(favorites, 'favorites')}</View>;
+        return (
+          <View style={styles.tabbarItem}>
+            {_getTabItem(favorites, 'favorites', favoritesListRef)}
+          </View>
+        );
     }
   };
 
@@ -163,7 +174,15 @@ const BookmarksScreen = ({
       <TabView
         navigationState={{ index: tabIndex, routes }}
         onIndexChange={setTabIndex}
-        renderTabBar={TabBar}
+        renderTabBar={(tabProps) => (
+          <TabBar
+            {...tabProps}
+            onTabPress={({ route }) => {
+              const listRef = route.key === 'favorites' ? favoritesListRef : bookmarksListRef;
+              listRef.current?.scrollToOffset({ offset: 0, animated: true });
+            }}
+          />
+        )}
         renderScene={renderScene}
         style={globalStyles.tabView}
         commonOptions={{

@@ -55,6 +55,8 @@ const DraftsScreen = ({
   isFetchingNextSchedulesPage,
 }) => {
   const actionSheet = useRef(null);
+  const draftsListRef = useRef<FlatList>(null);
+  const schedulesListRef = useRef<FlatList>(null);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const draftsCollection = useAppSelector((state) => state.cache.draftsCollection);
 
@@ -167,7 +169,7 @@ const DraftsScreen = ({
     return _renderItem(idLessDraft, 'unsaved');
   };
 
-  const _getTabItem = (data, type) => {
+  const _getTabItem = (data, type, listRef) => {
     const isDraftsTab = type === 'drafts';
     const fetchNextPage = isDraftsTab ? fetchNextDraftsPage : fetchNextSchedulesPage;
     const hasNextPage = isDraftsTab ? hasNextDraftsPage : hasNextSchedulesPage;
@@ -182,6 +184,7 @@ const DraftsScreen = ({
     return (
       <View style={globalStyles.lightContainer}>
         <FlatList
+          ref={listRef}
           data={data}
           keyExtractor={(item) => item._id}
           removeClippedSubviews={false}
@@ -232,9 +235,15 @@ const DraftsScreen = ({
   const renderScene = ({ route }) => {
     switch (route.key) {
       case 'drafts':
-        return <View style={styles.tabbarItem}>{_getTabItem(drafts, 'drafts')}</View>;
+        return (
+          <View style={styles.tabbarItem}>{_getTabItem(drafts, 'drafts', draftsListRef)}</View>
+        );
       case 'schedules':
-        return <View style={styles.tabbarItem}>{_getTabItem(schedules, 'schedules')}</View>;
+        return (
+          <View style={styles.tabbarItem}>
+            {_getTabItem(schedules, 'schedules', schedulesListRef)}
+          </View>
+        );
     }
   };
 
@@ -251,7 +260,15 @@ const DraftsScreen = ({
           navigationState={{ index, routes }}
           style={globalStyles.tabView}
           onIndexChange={setIndex}
-          renderTabBar={TabBar}
+          renderTabBar={(tabProps) => (
+            <TabBar
+              {...tabProps}
+              onTabPress={({ route }) => {
+                const listRef = route.key === 'schedules' ? schedulesListRef : draftsListRef;
+                listRef.current?.scrollToOffset({ offset: 0, animated: true });
+              }}
+            />
+          )}
           renderScene={renderScene}
           commonOptions={{
             labelStyle: styles.tabLabelColor,

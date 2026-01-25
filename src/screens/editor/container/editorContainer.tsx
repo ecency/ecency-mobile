@@ -11,13 +11,13 @@ import { Buffer } from 'buffer';
 import { useQueryClient } from '@tanstack/react-query';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { postBodySummary } from '@ecency/render-helper';
+import { getPostQueryOptions } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
 import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
   postContent,
-  getPurePost,
   grantPostingPermission,
   reblog,
   postComment,
@@ -134,17 +134,40 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       if (_draftId) {
         draftId = _draftId;
-        const cachedDrafts: any = queryClient.getQueryData([QUERIES.DRAFTS.GET]);
 
-        if (cachedDrafts && cachedDrafts.length) {
-          // get draft from query cache
-          const _draft = cachedDrafts.find((draft) => draft._id === draftId);
+        // Try to get draft from infinite query cache (SDK structure)
+        // Search through all loaded pages
+        let paramDraft = null;
+        const infiniteQueryKey = ['posts', 'drafts', 'infinite', username, 20];
+        const infiniteQueryData: any = queryClient.getQueryData(infiniteQueryKey);
 
-          this.setState({
-            draftId,
-          });
+        if (infiniteQueryData?.pages) {
+          const allDrafts = infiniteQueryData.pages.flatMap((page) => page.data);
+          paramDraft = allDrafts.find((draft) => draft._id === draftId) || null;
+        }
 
-          this._getStorageDraft(username, isReply, _draft);
+        // Set the draftId in state immediately
+        this.setState({
+          draftId,
+        });
+
+        // If draft is in cache, load it immediately
+        if (paramDraft) {
+          this._getStorageDraft(username, isReply, paramDraft);
+        }
+        // If not in cache, fetch from API to get the specific draft
+        // This handles cases where the draft is on a page that hasn't been loaded yet
+        else {
+          getDrafts()
+            .then((drafts) => {
+              const fetchedDraft = drafts.find((d) => d._id === draftId);
+              if (fetchedDraft) {
+                this._getStorageDraft(username, isReply, fetchedDraft);
+              }
+            })
+            .catch((err) => {
+              console.warn('Failed to fetch draft from API', err);
+            });
         }
       }
 
@@ -167,12 +190,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         if (post) {
           draftId = `${currentAccount.name}/${post.author}/${post.permlink}`;
-          const _draft = draftsCollection && draftsCollection[draftId];
+          const _replyDraft = draftsCollection && draftsCollection[draftId];
 
-          if (_draft && !!_draft.body) {
+          if (_replyDraft && !!_replyDraft.body) {
             const _mediaUrls = navigationParams.replyMediaUrls;
             _draftBody =
-              _mediaUrls?.length > 0 ? `${_draft.body}\n\n ![](${_mediaUrls[0]})` : _draft.body;
+              _mediaUrls?.length > 0
+                ? `${_replyDraft.body}\n\n ![](${_mediaUrls[0]})`
+                : _replyDraft.body;
           }
         }
 
@@ -291,9 +316,17 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       // if above fails with either no result returned or timestamp is old,
       // and use draft form nav param if available.
       else if (paramDraft) {
-        const _tags = paramDraft.tags.includes(' ')
-          ? paramDraft.tags.split(' ')
-          : paramDraft.tags.split(',');
+        // SDK returns tags_arr (array) and tags (string)
+        // Prefer tags_arr if available, otherwise parse tags string
+        let _tags = [];
+        if (paramDraft.tags_arr && Array.isArray(paramDraft.tags_arr)) {
+          _tags = paramDraft.tags_arr;
+        } else if (paramDraft.tags) {
+          _tags = paramDraft.tags.includes(' ')
+            ? paramDraft.tags.split(' ')
+            : paramDraft.tags.split(',');
+        }
+
         this.setState({
           draftPost: {
             title: paramDraft.title || '',
@@ -594,7 +627,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         // call fetch post to drafts screen
         if (queryClient) {
-          queryClient.invalidateQueries({ queryKey: [QUERIES.DRAFTS.GET] });
+          // Invalidate drafts queries using SDK query key pattern
+          // This will invalidate both regular and infinite query variants
+          queryClient.invalidateQueries({ queryKey: ['posts', 'drafts', currentAccount.name] });
         }
       }
     } catch (err) {
@@ -759,7 +794,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       let dublicatePost;
       try {
-        dublicatePost = await getPurePost(currentAccount.name, permlink);
+        dublicatePost = await queryClient.fetchQuery(
+          getPostQueryOptions(currentAccount.name, permlink, ''),
+        );
       } catch (e) {
         dublicatePost = null;
       }
