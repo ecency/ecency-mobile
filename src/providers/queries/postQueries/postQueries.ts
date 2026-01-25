@@ -109,11 +109,14 @@ export const usePostsCachePrimer = () => {
     }
 
     console.log('priming data', post.author, post.permlink, post);
-    post.body = renderPostBody({ ...post, last_update: post.updated }, true, Platform.OS !== 'ios');
+    const processedPost = {
+      ...post,
+      body: renderPostBody({ ...post, last_update: post.updated }, true, Platform.OS !== 'ios'),
+    };
 
     // Use SDK query key format with same account identifier as useGetPostQuery
     const { queryKey } = getPostQueryOptions(post.author, post.permlink, currentAccount?.name);
-    queryClient.setQueryData(queryKey, post);
+    queryClient.setQueryData(queryKey, processedPost);
   };
 
   return {

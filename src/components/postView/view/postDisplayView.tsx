@@ -113,8 +113,8 @@ const PostDisplayView = ({
       await fetchPost();
     } finally {
       setRefreshing(false);
+      queryClient.resetQueries({ queryKey: [QUERIES.POST.GET_POLL, author, permlink] });
     }
-    queryClient.resetQueries({ queryKey: [QUERIES.POST.GET_POLL, author, permlink] });
   }, [fetchPost, queryClient, author, permlink]);
 
   const _scrollToComments = useCallback(() => {

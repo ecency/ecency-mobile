@@ -142,7 +142,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         const infiniteQueryData: any = queryClient.getQueryData(infiniteQueryKey);
 
         if (infiniteQueryData?.pages) {
-          const allDrafts = infiniteQueryData.pages.flatMap((page) => page.data);
+          const allDrafts = infiniteQueryData.pages.flatMap((page) => page?.data || []);
           paramDraft = allDrafts.find((draft) => draft._id === draftId) || null;
         }
 
@@ -797,16 +797,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         ? videoPublishMeta.permlink
         : generatePermlink(fields.title || '');
 
-      let dublicatePost;
+      let duplicatePost;
       try {
-        dublicatePost = await queryClient.fetchQuery(
+        duplicatePost = await queryClient.fetchQuery(
           getPostQueryOptions(currentAccount.name, permlink, ''),
         );
       } catch (e) {
-        dublicatePost = null;
+        duplicatePost = null;
       }
 
-      if (dublicatePost && dublicatePost.permlink === permlink) {
+      if (duplicatePost && duplicatePost.permlink === permlink) {
         permlink = generatePermlink(fields.title || '', true);
       }
 

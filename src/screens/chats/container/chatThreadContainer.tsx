@@ -372,7 +372,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
             .catch(console.error);
         }
       },
-      [bootstrapUserId, _updateMentionState],
+      [bootstrapUserId, _updateMentionState, channelId],
     ),
     onMessageEdited: useCallback(
       (post: any) => {
