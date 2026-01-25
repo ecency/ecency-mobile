@@ -329,6 +329,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
                 ...comment,
                 commentKey,
                 level,
+                _cacheKey: cacheKey,
               };
               processedCommentsCache.current.set(cacheKey, commentCopy);
             }
@@ -341,7 +342,19 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         // makes sure replies data is empty, used to compare with children to decide to show read more comments buttons
         const lastReply = replies[replies.length - 1];
         if (lastReply && lastReply.replies && lastReply.replies.length > 0) {
-          replies[replies.length - 1] = { ...lastReply, replies: [] };
+          const newReplies = replies.map((reply, idx) =>
+            idx === replies.length - 1 ? { ...lastReply, replies: [] } : reply,
+          );
+          replies = newReplies;
+          if (lastReply._cacheKey) {
+            const cachedEntry = processedCommentsCache.current.get(lastReply._cacheKey);
+            if (cachedEntry) {
+              processedCommentsCache.current.set(lastReply._cacheKey, {
+                ...cachedEntry,
+                replies: [],
+              });
+            }
+          }
         }
       }
       return replies;

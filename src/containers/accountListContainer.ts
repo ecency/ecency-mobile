@@ -32,22 +32,26 @@ const AccountListContainer = ({ data, children }) => {
   const _handleOnVotersDropdownSelect = (index, text, oldData) => {
     const _data = Object.assign([], oldData || vdata);
     const getRewardValue = (vote) => {
-      const reward = Number(vote?.reward);
-      if (!Number.isNaN(reward)) return reward;
-      const rshares = Number(vote?.rshares);
-      if (!Number.isNaN(rshares)) return rshares;
-      const value = Number(vote?.value);
-      if (!Number.isNaN(value)) return value;
+      const reward = parseFloat(vote?.reward);
+      if (Number.isFinite(reward)) return reward;
+      const rshares = parseFloat(vote?.rshares);
+      if (Number.isFinite(rshares)) return rshares;
+      const value = parseFloat(vote?.value);
+      if (Number.isFinite(value)) return value;
       return 0;
     };
     const getPercentValue = (vote) => {
-      const percent = Number(vote?.percent);
-      if (!Number.isNaN(percent)) return percent;
-      const percent100 = Number(vote?.percent100);
-      if (!Number.isNaN(percent100)) return percent100 * 100;
+      const percent = parseFloat(vote?.percent);
+      if (Number.isFinite(percent)) return percent;
+      const percent100 = parseFloat(vote?.percent100);
+      if (Number.isFinite(percent100)) return percent100 * 100;
       return 0;
     };
-    const getTimeValue = (vote) => (vote?.time ? new Date(vote.time).getTime() : 0);
+    const getTimeValue = (vote) => {
+      if (!vote?.time) return 0;
+      const ts = new Date(vote.time).getTime();
+      return Number.isFinite(ts) ? ts : 0;
+    };
 
     if (filterIndex === index) {
       switch (index) {

@@ -297,17 +297,6 @@ const PostDisplayView = ({
 
   const capitalize = (appname) => appname && appname[0].toUpperCase() + appname.slice(1);
 
-  if (isPostUnavailable) {
-    return (
-      <NoPost
-        imageStyle={styles.noPostImage}
-        defaultText={`${intl.formatMessage({
-          id: 'post.removed_hint',
-        })}`}
-      />
-    );
-  }
-
   const _handleOnPostBodyLoad = useCallback(() => {
     setPostBodyLoading(false);
   }, []);
@@ -425,6 +414,17 @@ const PostDisplayView = ({
       intl,
     ],
   );
+
+  if (isPostUnavailable) {
+    return (
+      <NoPost
+        imageStyle={styles.noPostImage}
+        defaultText={`${intl.formatMessage({
+          id: 'post.removed_hint',
+        })}`}
+      />
+    );
+  }
 
   return (
     <View style={styles.container}>

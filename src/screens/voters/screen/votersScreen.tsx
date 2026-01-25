@@ -32,7 +32,9 @@ const VotersScreen = ({ route }) => {
   const permlink = get(post, 'permlink');
 
   const { data: activeVotes } = useQuery({
-    ...(post ? getEntryActiveVotesQueryOptions(post) : {}),
+    ...(post
+      ? getEntryActiveVotesQueryOptions(post)
+      : { queryKey: ['entryActiveVotes', null], queryFn: () => null }),
     enabled: !!route.params?.content && !!author && !!permlink,
   });
 
