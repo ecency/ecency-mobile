@@ -221,7 +221,6 @@ const PostDisplayView = ({
           <UpvoteButton
             isShowPayoutValue={true}
             content={post}
-            parentType={parentType}
             boldPayout={true}
             onUpvotePress={handleUpvotePress}
             onPayoutDetailsPress={handlePayoutDetailsPress}

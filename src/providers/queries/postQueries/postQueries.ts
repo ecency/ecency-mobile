@@ -46,7 +46,7 @@ export const useGetPostQuery = ({
         Platform.OS !== 'ios',
       ),
     };
-  }, [initialPost?.body, initialPost?.updated]);
+  }, [initialPost]);
 
   const sdkQueryOptions = getPostQueryOptions(author, permlink, currentAccount?.name);
 
@@ -289,6 +289,13 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
   // Cache to store processed comments and avoid recreating objects
   const processedCommentsCache = useRef<Map<string, any>>(new Map());
+
+  useEffect(() => {
+    processedCommentsCache.current.clear();
+    return () => {
+      processedCommentsCache.current.clear();
+    };
+  }, [author, permlink]);
 
   // traverse discussion collection to curate sections
   const restructureData = useCallback(async () => {
