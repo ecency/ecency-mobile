@@ -38,10 +38,27 @@ export const fetchGlobalProperties = () => async (dispatch) => {
   }
 };
 
-export const updateCurrentAccount = (data) => ({
-  type: UPDATE_CURRENT_ACCOUNT,
-  payload: data,
-});
+export const updateCurrentAccount = (data) => {
+  if (!data) {
+    return {
+      type: UPDATE_CURRENT_ACCOUNT,
+      payload: data,
+    };
+  }
+
+  const normalized = { ...data };
+  if (!normalized.name && normalized.username) {
+    normalized.name = normalized.username;
+  }
+  if (!normalized.username && normalized.name) {
+    normalized.username = normalized.name;
+  }
+
+  return {
+    type: UPDATE_CURRENT_ACCOUNT,
+    payload: normalized,
+  };
+};
 
 export const addOtherAccount = (data) => ({
   type: ADD_OTHER_ACCOUNT,

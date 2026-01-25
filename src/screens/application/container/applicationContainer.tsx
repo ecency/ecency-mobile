@@ -822,8 +822,6 @@ class ApplicationContainer extends Component {
   _switchAccount = async (targetAccount) => {
     const { dispatch, isConnected, pinCode, intl } = this.props;
 
-    dispatch(updateCurrentAccount(targetAccount));
-
     if (!isConnected) return;
 
     try {

@@ -58,12 +58,15 @@ const fetchAccount = async (username: string) => {
   const profile = account.profile || about.profile;
   const normalizedAbout = profile ? { ...about, profile } : about;
 
+  const resolvedName = account.name || account.username || username;
+
   return {
     ...account,
+    name: resolvedName,
     about: normalizedAbout,
     avatar: getAvatar(normalizedAbout),
     display_name: getName(normalizedAbout),
-    username: account.name,
+    username: resolvedName,
     rc_manabar: rcAccounts?.[0]?.rc_manabar,
     max_rc: rcAccounts?.[0]?.max_rc,
     vp_manabar: account.voting_manabar,
