@@ -501,7 +501,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   // Component Functions
   const _handleOnDropdownSelect = async (index) => {
     const username = content.author;
-    const isOwnProfile = !username || currentAccount.name === username;
+    const isOwnProfile = !username || currentAccount?.name === username;
 
     switch (options[index]) {
       case 'copy':
