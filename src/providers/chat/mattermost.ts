@@ -210,6 +210,20 @@ export const sendMattermostMessage = async (
   }
 };
 
+export type MattermostDmPrivacy = 'all' | 'followers' | 'none';
+
+export const getMattermostDmPrivacy = async (): Promise<MattermostDmPrivacy> => {
+  const { data } = await chatApi.get('/api/mattermost/me/dm-privacy');
+  return (data?.privacy || data) as MattermostDmPrivacy;
+};
+
+export const updateMattermostDmPrivacy = async (
+  privacy: MattermostDmPrivacy,
+): Promise<MattermostDmPrivacy> => {
+  const { data } = await chatApi.put('/api/mattermost/me/dm-privacy', { privacy });
+  return (data?.privacy || privacy) as MattermostDmPrivacy;
+};
+
 export const fetchMattermostUsersByIds = async (userIds: string[]) => {
   if (!userIds?.length) {
     return [];

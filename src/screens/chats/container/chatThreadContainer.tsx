@@ -21,6 +21,7 @@ import unionBy from 'lodash/unionBy';
 
 import { getCommunityQueryOptions, getPostQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
+import ROUTES from '../../../constants/routeNames';
 import { useAppSelector, useLinkProcessor } from '../../../hooks';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 import { useMattermostWebSocket } from '../../../hooks/useMattermostWebSocket';
@@ -88,6 +89,7 @@ import { ChatHeader } from '../children/ChatHeader';
 import { PinnedMessagesModal } from '../children/PinnedMessagesModal';
 import { OnlineUsersModal } from '../children/OnlineUsersModal';
 import { TypingIndicator } from '../children/TypingIndicator';
+import { DmWarningBanner } from '../children/DmWarningBanner';
 
 interface ChatReaction {
   emoji_name: string;
@@ -167,6 +169,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const [hasMorePosts, setHasMorePosts] = useState<boolean>(true);
   const [pinnedMessagesModalVisible, setPinnedMessagesModalVisible] = useState<boolean>(false);
   const [onlineUsersModalVisible, setOnlineUsersModalVisible] = useState<boolean>(false);
+  const [showDmWarning, setShowDmWarning] = useState<boolean>(false);
   const [linkMeta, setLinkMeta] = useState<{
     url: string;
     author?: string;
@@ -191,6 +194,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const lastSentAtRef = useRef<number>(0);
   const confirmedPendingPostIdsRef = useRef<Set<string>>(new Set());
   const sendTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dismissedDmWarningsRef = useRef<Set<string>>(new Set());
   const messageRef = useRef<string>('');
 
   useEffect(() => {
@@ -229,6 +233,21 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   // Bootstrap user ID extraction
   const bootstrapUserId =
     bootstrapResult?.user?.id || bootstrapResult?.user?.userId || bootstrapResult?.userId;
+
+  useEffect(() => {
+    if (!isDM || !channelId) {
+      setShowDmWarning(false);
+      return;
+    }
+
+    if (dismissedDmWarningsRef.current.has(channelId)) {
+      setShowDmWarning(false);
+      return;
+    }
+
+    const hasReplied = posts.some((post) => post.user_id === bootstrapUserId);
+    setShowDmWarning(!hasReplied && posts.length > 0);
+  }, [isDM, channelId, posts, bootstrapUserId]);
 
   // Mention state updater - declared early so WebSocket callbacks can use it
   const _updateMentionState = useCallback((text: string) => {
@@ -2033,6 +2052,13 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     );
   }, [mentionQuery, mentionSuggestions, _handleSelectMention]);
 
+  const _handleDismissDmWarning = useCallback(() => {
+    if (channelId) {
+      dismissedDmWarningsRef.current.add(channelId);
+    }
+    setShowDmWarning(false);
+  }, [channelId]);
+
   return (
     <SafeAreaView style={styles.container} edges={[]}>
       <ChatHeader
@@ -2046,6 +2072,12 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       />
 
       <View style={{ flex: 1 }}>
+        {showDmWarning && (
+          <DmWarningBanner
+            onDismiss={_handleDismissDmWarning}
+            onSettingsPress={() => navigation.navigate(ROUTES.SCREENS.SETTINGS)}
+          />
+        )}
         <ThreadMessageList
           listRef={listRef}
           processedPosts={processedPosts}

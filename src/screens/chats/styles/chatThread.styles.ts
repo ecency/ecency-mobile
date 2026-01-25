@@ -115,6 +115,47 @@ export const chatThreadStyles = EStyleSheet.create({
   hyperlinkOther: {
     color: '$primaryBlue',
   },
+  dmWarningContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginHorizontal: 16,
+    marginTop: 12,
+    padding: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#F4C26B',
+    backgroundColor: '#FFF6DF',
+  },
+  dmWarningIcon: {
+    marginRight: 8,
+    fontSize: 16,
+  },
+  dmWarningContent: {
+    flex: 1,
+  },
+  dmWarningTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#8A5B00',
+    marginBottom: 4,
+  },
+  dmWarningBody: {
+    fontSize: 12,
+    color: '#8A5B00',
+  },
+  dmWarningLink: {
+    textDecorationLine: 'underline',
+    color: '#8A5B00',
+    fontWeight: '600',
+  },
+  dmWarningClose: {
+    paddingLeft: 8,
+    paddingVertical: 2,
+  },
+  dmWarningCloseText: {
+    fontSize: 14,
+    color: '#8A5B00',
+  },
   replyPreview: {
     flexDirection: 'row',
     marginBottom: 8,

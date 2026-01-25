@@ -46,7 +46,15 @@ const SettingsScreen = ({
   handleOnButtonPress,
   isLoading,
   isHideImages,
+  dmPrivacy,
 }) => {
+  const dmPrivacyOptions = [
+    intl.formatMessage({ id: 'settings.dm-privacy.allow-all' }),
+    intl.formatMessage({ id: 'settings.dm-privacy.followers-only' }),
+    intl.formatMessage({ id: 'settings.dm-privacy.no-one' }),
+  ];
+  const dmPrivacyIndex = ['all', 'followers', 'none'].indexOf(dmPrivacy || 'all');
+
   return (
     <SafeAreaView edges={['top']} style={globalStyles.defaultContainer}>
       <BasicHeader
@@ -95,6 +103,18 @@ const SettingsScreen = ({
             selectedOptionIndex={LANGUAGE_VALUE.indexOf(selectedLanguage)}
             handleOnChange={handleOnChange}
           />
+          {!!isLoggedIn && (
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.dm-privacy.title',
+              })}
+              type="dropdown"
+              actionType={settingsTypes.DM_PRIVACY}
+              options={dmPrivacyOptions}
+              selectedOptionIndex={dmPrivacyIndex < 0 ? 0 : dmPrivacyIndex}
+              handleOnChange={handleOnChange}
+            />
+          )}
           <SettingsItem
             title={intl.formatMessage({
               id: 'settings.server',

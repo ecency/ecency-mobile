@@ -1180,10 +1180,10 @@
     url "^0.11.0"
     xss "^1.0.9"
 
-"@ecency/sdk@^1.5.15":
-  version "1.5.15"
-  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-1.5.15.tgz#f3a26bafb6e880edcc30e9884aca8b24e4cbee20"
-  integrity sha512-C35/itWBUxJ+DFOAOFhdj1geVYX4eNtw7fiSgM9DDRUPGeqtUf8zdnQSMUsv6Viuvk7yUDmBQXPBuwzqy0lw9g==
+"@ecency/sdk@^1.5.16":
+  version "1.5.16"
+  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-1.5.16.tgz#8265674897ce004288221b1856b21b43b6018df8"
+  integrity sha512-Kb3iol4sYN7fQr/KWlpT4LJOwS3XRlCQSqjW2cVJ+PyaeCQpFePyveNCmKKmSvIOEEuCccRyB4mrL23oAp7ouA==
 
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
