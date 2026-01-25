@@ -54,16 +54,16 @@ const CommentsTabContent = ({
       setRefreshing(true);
     }
 
-    const query: any = {
-      account: username,
-      start_author: refresh ? '' : lastAuthor,
-      start_permlink: refresh ? '' : lastPermlink,
-      limit: 10,
-      observer: '',
-      sort: type,
-    };
-
-    const result = await queryClient.fetchQuery(getAccountPostsQueryOptions(query));
+    const result = await queryClient.fetchQuery(
+      getAccountPostsQueryOptions(
+        username,
+        type,
+        refresh ? '' : lastAuthor,
+        refresh ? '' : lastPermlink,
+        10,
+        '',
+      ),
+    );
     const _comments: any[] = refresh ? result : unionBy(data, result, 'permlink');
 
     if (Array.isArray(_comments)) {

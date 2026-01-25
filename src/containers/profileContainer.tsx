@@ -12,6 +12,7 @@ import {
   getAccountFullQueryOptions,
   getRelationshipBetweenAccountsQueryOptions,
   getAccountPostsQueryOptions,
+  getAccountRcQueryOptions,
 } from '@ecency/sdk';
 import {
   selectCurrentAccount,
@@ -59,6 +60,7 @@ class ProfileContainer extends Component {
       isProfileLoading: false,
       isReady: false,
       isOwnProfile,
+      rcAccount: null,
       user: null,
       quickProfile: {
         reputation: get(props, 'route.params.reputation', ''),
@@ -107,21 +109,22 @@ class ProfileContainer extends Component {
     this.setState({ isProfileLoading: true });
 
     if (query) {
-      const queryParams = {
-        account: query.author,
-        limit: 5,
-        observer: currentUsername || '',
-        sort: isOwnProfile ? 'replies' : 'comments',
-      };
-
-      if (comments.length > 0) {
-        queryParams.start_author = query.author;
-        queryParams.start_permlink = query.permlink;
-      }
+      const sort = isOwnProfile ? 'replies' : 'comments';
+      const startAuthor = comments.length > 0 ? query.author : '';
+      const startPermlink = comments.length > 0 ? query.permlink : '';
 
       const queryClient = getQueryClient();
       queryClient
-        .fetchQuery(getAccountPostsQueryOptions(queryParams))
+        .fetchQuery(
+          getAccountPostsQueryOptions(
+            query.author,
+            sort,
+            startAuthor,
+            startPermlink,
+            5,
+            currentUsername || '',
+          ),
+        )
         .then((result) => {
           const _comments = unionBy(comments, result, 'permlink');
           this.setState({
@@ -361,9 +364,16 @@ class ProfileContainer extends Component {
 
   _loadProfile = async (username = null) => {
     let user;
+    let rcAccount = null;
     try {
       const queryClient = getQueryClient();
       user = await queryClient.fetchQuery(getAccountFullQueryOptions(username));
+      try {
+        const rcResult = await queryClient.fetchQuery(getAccountRcQueryOptions(username));
+        rcAccount = rcResult?.[0] ?? null;
+      } catch (error) {
+        rcAccount = null;
+      }
       this._fetchProfile(username);
     } catch (error) {
       this._profileActionDone({ error });
@@ -375,6 +385,7 @@ class ProfileContainer extends Component {
         display_name: get(user, 'display_name'),
         reputation: get(user, 'reputation'),
       },
+      rcAccount,
       user,
       username,
     }));
@@ -543,6 +554,7 @@ class ProfileContainer extends Component {
       isProfileLoading,
       isReady,
       quickProfile,
+      rcAccount,
       user,
       username,
       reverseHeader,
@@ -558,7 +570,7 @@ class ProfileContainer extends Component {
 
     if (user) {
       votingPower = getVotingPower(user).toFixed(1);
-      resourceCredits = getRcPower(user).toFixed(1);
+      resourceCredits = getRcPower(rcAccount || user).toFixed(1);
     }
 
     return (

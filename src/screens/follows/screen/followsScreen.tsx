@@ -36,8 +36,7 @@ class FollowsScreen extends PureComponent {
   };
 
   _renderItem = ({ item, index }) => {
-    const { isFollowing } = this.props;
-    const username = isFollowing ? item.following : item.follower;
+    const username = item.name || item.following || item.follower;
 
     return (
       <UserListItem

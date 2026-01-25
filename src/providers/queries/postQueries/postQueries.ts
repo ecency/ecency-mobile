@@ -180,11 +180,65 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       return;
     }
 
+    // Normalize SDK response to a map keyed by "author/permlink"
+    const normalizeReplies = (replies) => {
+      if (!Array.isArray(replies)) {
+        return replies;
+      }
+      return replies
+        .map((reply) => {
+          if (typeof reply === 'string') {
+            return reply;
+          }
+          if (reply?.author && reply?.permlink) {
+            return `${reply.author}/${reply.permlink}`;
+          }
+          return null;
+        })
+        .filter(Boolean);
+    };
+
+    const normalizeDiscussionData = (rawData) => {
+      if (!rawData) {
+        return {};
+      }
+      if (Array.isArray(rawData)) {
+        return rawData.reduce((acc, comment) => {
+          if (!comment?.author || !comment?.permlink) {
+            return acc;
+          }
+          const key = `${comment.author}/${comment.permlink}`;
+          acc[key] = {
+            ...comment,
+            replies: normalizeReplies(comment.replies),
+          };
+          return acc;
+        }, {});
+      }
+
+      const normalized = {};
+      Object.keys(rawData).forEach((key) => {
+        const comment = rawData[key];
+        if (!comment) {
+          return;
+        }
+        const normalizedKey =
+          comment.author && comment.permlink ? `${comment.author}/${comment.permlink}` : key;
+        normalized[normalizedKey] = {
+          ...comment,
+          replies: normalizeReplies(comment.replies),
+        };
+      });
+      return normalized;
+    };
+
+    const normalizedData = normalizeDiscussionData(query.data);
+
     // Parse SDK comments to convert markdown to HTML using render-helper
     // IMPORTANT: parseComment mutates its input, so we must create a shallow copy first
     const parsedComments = {};
-    Object.keys(query.data).forEach((key) => {
-      const comment = query.data[key];
+    Object.keys(normalizedData).forEach((key) => {
+      const comment = normalizedData[key];
       if (comment && comment.body) {
         // Create shallow copy to avoid mutating React Query cache
         const commentCopy = { ...comment };

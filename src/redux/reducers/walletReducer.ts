@@ -68,6 +68,7 @@ export interface PriceHistory {
 
 export interface CoinActivity {
   trxIndex: number;
+  engineTrxId?: string;
   iconType: string;
   textKey: string;
   created: string;

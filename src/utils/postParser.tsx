@@ -288,27 +288,6 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
     return _comments;
   }
 
-  const commentPaths = Object.keys(_comments);
-
-  // process votes cache - only for comments in this discussion
-  if (cachedVotes) {
-    commentPaths.forEach((path) => {
-      const cachedVote = cachedVotes[path];
-      if (cachedVote) {
-        console.log('injection vote cache');
-        const updatedComment = injectVoteCache(_comments[path], cachedVote);
-        // Only update if injectVoteCache returned a new reference (meaning cache was applied)
-        if (updatedComment !== _comments[path]) {
-          if (!shouldClone) {
-            _comments = { ..._comments };
-            shouldClone = true;
-          }
-          _comments[path] = updatedComment;
-        }
-      }
-    });
-  }
-
   // process comments cache
   if (cachedComments) {
     Object.keys(cachedComments).forEach((path) => {
@@ -355,7 +334,11 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
             }
             // in this case add comment key in children and inject cachedComment in commentsMap
             const parentComment = _comments[_parentPath];
-            _comments[path] = cachedComment;
+            let updatedComment = cachedComment;
+            if (cachedVotes && cachedVotes[path]) {
+              updatedComment = injectVoteCache(updatedComment, cachedVotes[path]);
+            }
+            _comments[path] = updatedComment;
 
             // Don't mutate parent - create new object with updated replies and children
             _comments[_parentPath] = {
@@ -366,6 +349,7 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
 
             // if comment was created very recently enable auto reveal
             if (
+              lastCacheUpdate &&
               lastCacheUpdate.postPath === path &&
               currentTime - lastCacheUpdate.updatedAt < 5000
             ) {
@@ -381,6 +365,27 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
             }
           }
           break;
+      }
+    });
+  }
+
+  const commentPaths = Object.keys(_comments);
+
+  // process votes cache - only for comments in this discussion (after cached inserts)
+  if (cachedVotes) {
+    commentPaths.forEach((path) => {
+      const cachedVote = cachedVotes[path];
+      if (cachedVote) {
+        console.log('injection vote cache');
+        const updatedComment = injectVoteCache(_comments[path], cachedVote);
+        // Only update if injectVoteCache returned a new reference (meaning cache was applied)
+        if (updatedComment !== _comments[path]) {
+          if (!shouldClone) {
+            _comments = { ..._comments };
+            shouldClone = true;
+          }
+          _comments[path] = updatedComment;
+        }
       }
     });
   }
@@ -410,7 +415,7 @@ export const injectVoteCache = (post, voteCache) => {
     // calculate updated totalRShares and send to post
     const _totalRShares = post.active_votes.reduce(
       (accumulator: number, item: any) => accumulator + parseFloat(item.rshares),
-      voteCache.rshares,
+      Number(voteCache.rshares) || 0,
     );
     const _newVote = parseVote(voteCache, post, _totalRShares);
     clonedPost.active_votes = [...post.active_votes, _newVote];
@@ -506,7 +511,10 @@ export const isDownVoted = async (activeVotes, currentUserName) => {
 };
 
 export const parseActiveVotes = (post) => {
-  const _totalRShares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
+  const _totalRShares = post.active_votes.reduce(
+    (accumulator: number, item: any) => accumulator + parseFloat(item.rshares),
+    0,
+  );
 
   if (isArray(post.active_votes)) {
     post.active_votes = post.active_votes.map((vote) => parseVote(vote, post, _totalRShares));

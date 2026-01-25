@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { isBefore } from '../utils/time';
-
 import ROUTES from '../constants/routeNames';
 
 const AccountListContainer = ({ data, children }) => {
@@ -33,17 +31,34 @@ const AccountListContainer = ({ data, children }) => {
 
   const _handleOnVotersDropdownSelect = (index, text, oldData) => {
     const _data = Object.assign([], oldData || vdata);
+    const getRewardValue = (vote) => {
+      const reward = Number(vote?.reward);
+      if (!Number.isNaN(reward)) return reward;
+      const rshares = Number(vote?.rshares);
+      if (!Number.isNaN(rshares)) return rshares;
+      const value = Number(vote?.value);
+      if (!Number.isNaN(value)) return value;
+      return 0;
+    };
+    const getPercentValue = (vote) => {
+      const percent = Number(vote?.percent);
+      if (!Number.isNaN(percent)) return percent;
+      const percent100 = Number(vote?.percent100);
+      if (!Number.isNaN(percent100)) return percent100 * 100;
+      return 0;
+    };
+    const getTimeValue = (vote) => (vote?.time ? new Date(vote.time).getTime() : 0);
 
     if (filterIndex === index) {
       switch (index) {
         case 0:
-          _data.sort((a, b) => Number(a.value) - Number(b.value));
+          _data.sort((a, b) => getRewardValue(a) - getRewardValue(b));
           break;
         case 1:
-          _data.sort((a, b) => a.percent - b.percent);
+          _data.sort((a, b) => getPercentValue(a) - getPercentValue(b));
           break;
         case 2:
-          _data.sort((a, b) => isBefore(b.time, a.time));
+          _data.sort((a, b) => getTimeValue(a) - getTimeValue(b));
           break;
         default:
           break;
@@ -51,13 +66,13 @@ const AccountListContainer = ({ data, children }) => {
     } else {
       switch (index) {
         case 0:
-          _data.sort((a, b) => Number(b.value) - Number(a.value));
+          _data.sort((a, b) => getRewardValue(b) - getRewardValue(a));
           break;
         case 1:
-          _data.sort((a, b) => b.percent - a.percent);
+          _data.sort((a, b) => getPercentValue(b) - getPercentValue(a));
           break;
         case 2:
-          _data.sort((a, b) => isBefore(a.time, b.time));
+          _data.sort((a, b) => getTimeValue(b) - getTimeValue(a));
           break;
         default:
           break;

@@ -80,7 +80,6 @@ const PostDisplayView = ({
   }, []);
 
   useEffect(() => {
-    console.log('[PostDisplayView] Post changed, updating tags');
     if (post) {
       let _tags = get(post.json_metadata, 'tags', []);
       // Don't mutate the original array - create a new one if needed
@@ -89,16 +88,13 @@ const PostDisplayView = ({
       }
       setTags((prevTags) => {
         if (prevTags.length !== _tags.length) {
-          console.log('[PostDisplayView] Tags length changed');
           return _tags;
         }
         for (let i = 0; i < _tags.length; i++) {
           if (prevTags[i] !== _tags[i]) {
-            console.log('[PostDisplayView] Tag value changed at index', i);
             return _tags;
           }
         }
-        console.log('[PostDisplayView] Tags unchanged');
         return prevTags;
       });
     }

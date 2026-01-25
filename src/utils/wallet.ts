@@ -1,5 +1,4 @@
 import get from 'lodash/get';
-import { operationOrders } from '@hiveio/dhive/lib/utils';
 import {
   getQueryClient,
   getAccountsQueryOptions,
@@ -77,18 +76,23 @@ const HBD_ACTIONS = [
 const HIVE_POWER_ACTIONS = ['delegate', 'power_down'];
 
 export const groomingTransactionData = (transaction, hivePerMVests): CoinActivity | null => {
-  if (!transaction || !hivePerMVests) {
+  if (!transaction) {
     return null;
   }
 
+  const vestsToHpRate = hivePerMVests || 0;
+  const isLegacy = Array.isArray(transaction);
+  const opType = isLegacy ? transaction[1]?.op?.[0] : transaction.type;
+  const opData = isLegacy ? transaction[1]?.op?.[1] : transaction;
+  const timestamp = isLegacy ? transaction[1]?.timestamp : transaction.timestamp;
+  const trxIndex = isLegacy ? transaction[0] : transaction.num;
+
   const result: CoinActivity = {
     iconType: 'MaterialIcons',
-    trxIndex: transaction[0],
+    trxIndex,
   };
 
-  [result.textKey] = transaction[1].op;
-  const opData = transaction[1].op[1];
-  const { timestamp } = transaction[1];
+  result.textKey = opType;
 
   result.created = timestamp;
   result.icon = 'local-activity';
@@ -101,7 +105,7 @@ export const groomingTransactionData = (transaction, hivePerMVests): CoinActivit
       const { reward } = opData;
       const { comment_author: commentAuthor, comment_permlink: commentPermlink } = opData;
 
-      result.value = `${vestsToHp(parseToken(reward), hivePerMVests)
+      result.value = `${vestsToHp(parseToken(reward), vestsToHpRate)
         .toFixed(3)
         .replace(',', '.')} HP`;
       result.details = commentAuthor ? `@${commentAuthor}/${commentPermlink}` : null;
@@ -118,7 +122,7 @@ export const groomingTransactionData = (transaction, hivePerMVests): CoinActivit
 
       hbdPayout = parseToken(hbdPayout).toFixed(3).replace(',', '.');
       hivePayout = parseToken(hivePayout).toFixed(3).replace(',', '.');
-      vestingPayout = vestsToHp(parseToken(vestingPayout), hivePerMVests)
+      vestingPayout = vestsToHp(parseToken(vestingPayout), vestsToHpRate)
         .toFixed(3)
         .replace(',', '.');
 
@@ -136,7 +140,7 @@ export const groomingTransactionData = (transaction, hivePerMVests): CoinActivit
 
       rewardHdb = parseToken(rewardHdb).toFixed(3).replace(',', '.');
       rewardHive = parseToken(rewardHive).toFixed(3).replace(',', '.');
-      rewardVests = vestsToHp(parseToken(rewardVests), hivePerMVests).toFixed(3).replace(',', '.');
+      rewardVests = vestsToHp(parseToken(rewardVests), vestsToHpRate).toFixed(3).replace(',', '.');
 
       result.value = `${rewardHdb > 0 ? `${rewardHdb} HBD` : ''} ${
         rewardHive > 0 ? `${rewardHive} HIVE` : ''
@@ -231,6 +235,7 @@ export const groomingEngineHistory = (transaction: HistoryItem): CoinActivity | 
   const result: CoinActivity = {
     iconType: 'MaterialIcons',
     trxIndex: blockNumber,
+    engineTrxId: transactionId || transaction._id,
     textKey: operation,
     created: new Date(timestamp).toISOString(),
     value: `${quantity} ${symbol}`,
@@ -481,7 +486,6 @@ export const fetchCoinActivities = async ({
   limit: number;
   isEngine?: boolean;
 }): Promise<CoinActivity[]> => {
-  const op = operationOrders;
   let history = [];
 
   if (!isEngine) {
@@ -514,18 +518,7 @@ export const fetchCoinActivities = async ({
       case 'HIVE': {
         const queryClient = getQueryClient();
         const result = await queryClient.fetchInfiniteQuery(
-          getTransactionsInfiniteQueryOptions(
-            username,
-            [
-              op.transfer, // HIVE
-              op.transfer_to_vesting, // HIVE, HP
-              op.withdraw_vesting, // HIVE, HP
-              op.transfer_to_savings, // HIVE, HBD
-              op.transfer_from_savings, // HIVE, HBD
-              op.fill_order, // HIVE, HBD
-            ],
-            limit,
-          ),
+          getTransactionsInfiniteQueryOptions(username, limit),
         );
         history = result.pages?.[0] || [];
         break;
@@ -533,19 +526,7 @@ export const fetchCoinActivities = async ({
       case 'HBD': {
         const queryClient = getQueryClient();
         const result = await queryClient.fetchInfiniteQuery(
-          getTransactionsInfiniteQueryOptions(
-            username,
-            [
-              op.transfer, // HIVE //HBD
-              op.author_reward, // HBD, HP
-              op.transfer_to_savings, // HIVE, HBD
-              op.transfer_from_savings, // HIVE, HBD
-              op.fill_convert_request, // HBD
-              op.fill_order, // HIVE, HBD
-              op.sps_fund, // HBD
-            ],
-            limit,
-          ),
+          getTransactionsInfiniteQueryOptions(username, limit),
         );
         history = result.pages?.[0] || [];
         break;
@@ -553,20 +534,7 @@ export const fetchCoinActivities = async ({
       case 'HP': {
         const queryClient = getQueryClient();
         const result = await queryClient.fetchInfiniteQuery(
-          getTransactionsInfiniteQueryOptions(
-            username,
-            [
-              op.author_reward, // HBD, HP
-              op.curation_reward, // HP
-              op.transfer_to_vesting, // HIVE, HP
-              op.withdraw_vesting, // HIVE, HP
-              op.interest, // HP
-              op.claim_reward_balance, // HP
-              op.comment_benefactor_reward, // HP
-              op.return_vesting_delegation, // HP
-            ],
-            limit,
-          ),
+          getTransactionsInfiniteQueryOptions(username, limit),
         );
         history = result.pages?.[0] || [];
         break;
@@ -575,7 +543,10 @@ export const fetchCoinActivities = async ({
         return [];
     }
 
-    const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
+    const transfers = history.filter((tx) => {
+      const opType = Array.isArray(tx) ? get(tx[1], 'op[0]', false) : get(tx, 'type', false);
+      return transferTypes.includes(opType);
+    });
     transfers.sort(compare);
 
     const activities = transfers.map((item) =>
@@ -1075,10 +1046,12 @@ export const fetchAssetsPortfolio = async ({
 };
 
 function compare(a, b) {
-  if (a[1].block < b[1].block) {
+  const aBlock = Array.isArray(a) ? a[1]?.block : a?.block || a?.num;
+  const bBlock = Array.isArray(b) ? b[1]?.block : b?.block || b?.num;
+  if (aBlock < bBlock) {
     return 1;
   }
-  if (a[1].block > b[1].block) {
+  if (aBlock > bBlock) {
     return -1;
   }
   return 0;

@@ -8,11 +8,9 @@ interface StampedData {
 }
 
 export const encryptKey = (data: string, key: string): string => {
-  console.log('encrypting: ', data, key);
   const stampedData = getStampedData(data);
   const encJson = CryptoJS.AES.encrypt(JSON.stringify(stampedData), key).toString();
   const encData = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(encJson));
-  console.log('returning: ', encData);
   return encData;
 };
 
@@ -33,12 +31,10 @@ export const decryptKey = (
 };
 
 const decryptKeyNew = (data: string, key: string): string => {
-  console.log('decrypting new: ', data, key);
   const decData = CryptoJS.enc.Base64.parse(data).toString(CryptoJS.enc.Utf8);
   const bytes = CryptoJS.AES.decrypt(decData, key).toString(CryptoJS.enc.Utf8);
   const stampedData: StampedData = JSON.parse(bytes);
   const ret = processStampedData(stampedData);
-  console.log('returning: ', ret);
   return ret;
 };
 

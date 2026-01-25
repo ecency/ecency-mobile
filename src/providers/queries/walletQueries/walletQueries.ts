@@ -380,8 +380,12 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
 
   const _data = useMemo(() => {
     const _dataArrs = queries.map((query) => query.data);
-    return unionBy(..._dataArrs, 'trxIndex');
-  }, [_lastItem?.data]);
+    const merged = unionBy(..._dataArrs, isEngine ? 'engineTrxId' : 'trxIndex');
+    if (isEngine) {
+      return merged.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
+    }
+    return merged;
+  }, [_lastItem?.data, isEngine]);
 
   return {
     data: _data,

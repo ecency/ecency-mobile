@@ -48,9 +48,7 @@ const FollowsContainer = ({ route }) => {
     }
 
     const filteredUsers = users.filter((item) => {
-      const itemName = isFollowingPress
-        ? get(item, 'following', '').toUpperCase()
-        : get(item, 'follower', '').toUpperCase();
+      const itemName = get(item, 'name', '').toUpperCase();
       const searchText = text.toUpperCase();
 
       return itemName.indexOf(searchText) > -1;

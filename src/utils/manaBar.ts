@@ -27,9 +27,8 @@ interface ManabarAccount {
 }
 
 /**
- * Calculate voting power percentage from account data
+ * Calculate voting power percentage from account data (0-100)
  * Uses dhive client's calculateVPMana to get accurate percentage
- * This matches the SDK's approach in vision-next
  */
 export const getVotingPower = (account: ManabarAccount): number => {
   if (!account || !account.voting_manabar) {
@@ -39,6 +38,7 @@ export const getVotingPower = (account: ManabarAccount): number => {
   try {
     // Use dhive client to calculate VP mana percentage
     const calc = client.rc.calculateVPMana(account as any);
+    // dhive returns percentage in basis points (0..10000); normalize to 0..100
     return (calc.percentage ?? 0) / 100;
   } catch (error) {
     console.warn('Failed to calculate voting power:', error);
@@ -47,15 +47,25 @@ export const getVotingPower = (account: ManabarAccount): number => {
 };
 
 /**
- * Calculate RC power percentage from RC account data
+ * Calculate RC power percentage from RC account data (0-100)
  */
 export const getRcPower = (rcAccount: any): number => {
   if (!rcAccount) {
     return 0;
   }
 
+  if (
+    !rcAccount.rc_manabar ||
+    rcAccount.rc_manabar.current_mana == null ||
+    rcAccount.rc_manabar.last_update_time == null ||
+    rcAccount.max_rc == null
+  ) {
+    return 0;
+  }
+
   try {
     const calc = client.rc.calculateRCMana(rcAccount);
+    // dhive returns percentage in basis points (0..10000); normalize to 0..100
     return (calc.percentage ?? 0) / 100;
   } catch (error) {
     console.warn('Failed to calculate RC power:', error);
@@ -64,9 +74,8 @@ export const getRcPower = (rcAccount: any): number => {
 };
 
 /**
- * Calculate downvote power
- * Returns normalized value (0-1)
- * This matches the SDK's downVotingPower function in account-power.ts
+ * Calculate downvote power percentage (0-100)
+ * This matches the SDK's downVotingPower output expectations
  */
 export const getDownVotingPower = (account: ManabarAccount): number => {
   if (!account || !account.downvote_manabar || !account.vesting_shares) {
@@ -79,7 +88,10 @@ export const getDownVotingPower = (account: ManabarAccount): number => {
       parseFloat(account.received_vesting_shares || '0') -
       parseFloat(account.delegated_vesting_shares || '0');
 
-    const elapsed = Math.floor(Date.now() / 1000) - account.downvote_manabar.last_update_time;
+    const elapsed = Math.max(
+      Math.floor(Date.now() / 1000) - account.downvote_manabar.last_update_time,
+      0,
+    );
     const maxMana = (totalShares * 1000000) / 4;
 
     if (maxMana <= 0) {
@@ -89,6 +101,10 @@ export const getDownVotingPower = (account: ManabarAccount): number => {
     let currentMana =
       parseFloat(account.downvote_manabar.current_mana.toString()) +
       (elapsed * maxMana) / HIVE_VOTING_MANA_REGENERATION_SECONDS;
+
+    if (currentMana < 0) {
+      currentMana = 0;
+    }
 
     if (currentMana > maxMana) {
       currentMana = maxMana;
@@ -101,10 +117,14 @@ export const getDownVotingPower = (account: ManabarAccount): number => {
     }
 
     if (currentManaPerc > 100) {
-      return 1;
+      return 100;
     }
 
-    return currentManaPerc / 100;
+    if (currentManaPerc < 0) {
+      return 0;
+    }
+
+    return currentManaPerc;
   } catch (error) {
     console.warn('Failed to calculate downvote power:', error);
     return 0;

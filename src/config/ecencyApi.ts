@@ -53,7 +53,6 @@ ecencyApi.interceptors.request.use((request) => {
         request.data = {};
       }
       request.data.code = accessToken;
-      console.log('Added access token:', accessToken);
     } else if (selectIsLoggedIn(state)) {
       const errMsg = 'Failed to inject accessToken';
       console.warn(errMsg);

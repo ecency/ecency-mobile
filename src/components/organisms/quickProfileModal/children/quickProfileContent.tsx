@@ -8,6 +8,7 @@ import {
   getFollowCountQueryOptions,
   getAccountFullQueryOptions,
   getRelationshipBetweenAccountsQueryOptions,
+  getAccountRcQueryOptions,
 } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import { MainButton, StatsPanel } from '../../..';
@@ -46,6 +47,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
   const [isFollowing, setIsFollowing] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isFavourite, setIsFavourite] = useState(false);
+  const [rcAccount, setRcAccount] = useState(null);
 
   const isOwnProfile = currentAccount && currentAccount.name === username;
   const currentAccountName = currentAccount ? currentAccount.name : null;
@@ -57,6 +59,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
       _fetchExtraUserData();
     } else {
       setUser(null);
+      setRcAccount(null);
     }
   }, [username]);
 
@@ -66,6 +69,12 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
     try {
       const _user = await queryClient.fetchQuery(getAccountFullQueryOptions(username));
       setUser(_user);
+      try {
+        const rcResult = await queryClient.fetchQuery(getAccountRcQueryOptions(username));
+        setRcAccount(rcResult?.[0] ?? null);
+      } catch (error) {
+        setRcAccount(null);
+      }
     } catch (error) {
       setIsLoading(false);
     }
@@ -212,7 +221,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
 
   if (isProfileLoaded) {
     _votingPower = getVotingPower(user).toFixed(1);
-    _resourceCredits = getRcPower(user).toFixed(0);
+    _resourceCredits = getRcPower(rcAccount || user).toFixed(0);
     _postCount = user.post_count || 0;
     _about = user.about?.profile?.about || '';
     _reputation = parseReputation(user.reputation);
