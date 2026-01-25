@@ -452,6 +452,7 @@ export const useInjectVotesCache = (_data: any | any[]) => {
   const [retData, setRetData] = useState<any | any[] | null>(null);
   const lastProcessedUpdateRef = useRef<string | null>(null);
   const lastDataRef = useRef<any>(_data);
+  const lastVotesRef = useRef<any>(votesCollection);
 
   useEffect(() => {
     if (!lastUpdate || lastUpdate.type !== 'vote') {
@@ -514,6 +515,12 @@ export const useInjectVotesCache = (_data: any | any[]) => {
   }, [lastUpdate]);
 
   useEffect(() => {
+    const votesChanged = lastVotesRef.current !== votesCollection;
+    if (votesChanged) {
+      lastVotesRef.current = votesCollection;
+      lastDataRef.current = null;
+    }
+
     // Only run if _data actually changed reference
     if (_data === lastDataRef.current) {
       return;

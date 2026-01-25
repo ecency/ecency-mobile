@@ -81,9 +81,15 @@ const PostDisplayView = ({
 
   useEffect(() => {
     if (post) {
-      let _tags = get(post.json_metadata, 'tags', []);
-      // Don't mutate the original array - create a new one if needed
-      if (post.category && _tags[0] !== post.category && Array.isArray(_tags)) {
+      const rawTags = get(post.json_metadata, 'tags', []);
+      let _tags = [];
+      if (Array.isArray(rawTags)) {
+        _tags = [...rawTags];
+      } else if (typeof rawTags === 'string') {
+        _tags = [rawTags];
+      }
+
+      if (post.category && !_tags.includes(post.category)) {
         _tags = [post.category, ..._tags];
       }
       setTags((prevTags) => {
