@@ -8,6 +8,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   deleteComment,
   ignoreUser,
@@ -59,6 +60,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
   const userActivityMutation = useUserActivityMutation();
 
   const bottomSheetModalRef = useRef<ActionSheet | null>(null);
@@ -399,7 +401,17 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       dispatch(updateCurrentAccount({ ...currentAccount }));
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
 
-      // TOOD: signal posts or pinned post refresh
+      // Invalidate post query to refetch with updated pin status
+      // SDK uses entryPath format: /@author/permlink
+      queryClient.invalidateQueries({
+        queryKey: ['posts', 'entry', `/@${content.author}/${content.permlink}`],
+      });
+
+      // Invalidate account posts query to update profile feed
+      // This will invalidate all variations (posts, blog, etc.)
+      queryClient.invalidateQueries({
+        queryKey: ['posts', 'account-posts', currentAccount.name],
+      });
     } catch (err) {
       Alert.alert(
         intl.formatMessage({
@@ -423,6 +435,22 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         unpinPost,
       );
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+
+      // Invalidate post query to refetch with updated pin status
+      // SDK uses entryPath format: /@author/permlink
+      queryClient.invalidateQueries({
+        queryKey: ['posts', 'entry', `/@${content.author}/${content.permlink}`],
+      });
+
+      // Invalidate community posts query to update community feed
+      // Invalidate all ranked posts with this community tag
+      queryClient.invalidateQueries({
+        queryKey: ['posts', 'posts-ranked'],
+        predicate: (query) =>
+          query.queryKey[0] === 'posts' &&
+          query.queryKey[1] === 'posts-ranked' &&
+          query.queryKey[3] === content.community,
+      });
     } catch (err) {
       console.warn('Failed to update pin status of community post', err);
       Alert.alert(
