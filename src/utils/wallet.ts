@@ -2,7 +2,6 @@ import get from 'lodash/get';
 import {
   getQueryClient,
   getAccountsQueryOptions,
-  getTransactionsInfiniteQueryOptions,
   getConversionRequestsQueryOptions,
   getDynamicPropsQueryOptions,
   getOpenOrdersQueryOptions,
@@ -16,13 +15,10 @@ import { getCurrencyTokenRate, getPortfolio } from '../providers/ecency/ecency';
 import { CoinActivity, CoinData, DataPair, QuoteItem } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
 import { getEstimatedAmount } from './vote';
-import { getPointsHistory } from '../providers/ecency/ePoint';
 // Constant
-import POINTS from '../constants/options/points';
 import DEFAULT_ASSETS, { ASSET_IDS } from '../constants/defaultAssets';
 
 import parseAsset from './parseAsset';
-import { fetchEngineAccountHistory } from '../providers/hive-engine/hiveEngine';
 import {
   EngineActions,
   EngineOperations,
@@ -471,107 +467,6 @@ export const fetchPendingRequests = async (
  * @param globalProps
  * @returns {Promise<CoinActivity[]>}
  */
-export const fetchCoinActivities = async ({
-  username,
-  assetSymbol,
-  globalProps,
-  startIndex,
-  limit,
-  isEngine,
-}: {
-  username: string;
-  assetSymbol: string;
-  globalProps: GlobalProps;
-  startIndex: number;
-  limit: number;
-  isEngine?: boolean;
-}): Promise<CoinActivity[]> => {
-  let history = [];
-
-  if (!isEngine) {
-    switch (assetSymbol) {
-      case 'POINTS': {
-        // TODO: remove condition when we have a way to fetch paginated points data
-        if (startIndex !== -1) {
-          return [];
-        }
-
-        const pointActivities = await getPointsHistory(username);
-        console.log('Points Activities', pointActivities);
-        const completed =
-          pointActivities && pointActivities.length
-            ? pointActivities.map((item) => {
-                const { icon, iconType, textKey } = POINTS[item.type]
-                  ? POINTS[item.type]
-                  : POINTS.default;
-                return groomingPointsTransactionData({
-                  ...item,
-                  icon,
-                  iconType,
-                  textKey,
-                });
-              })
-            : [];
-
-        return completed;
-      }
-      case 'HIVE': {
-        const queryClient = getQueryClient();
-        const result = await queryClient.fetchInfiniteQuery(
-          getTransactionsInfiniteQueryOptions(username, limit),
-        );
-        history = result.pages?.[0] || [];
-        break;
-      }
-      case 'HBD': {
-        const queryClient = getQueryClient();
-        const result = await queryClient.fetchInfiniteQuery(
-          getTransactionsInfiniteQueryOptions(username, limit),
-        );
-        history = result.pages?.[0] || [];
-        break;
-      }
-      case 'HP': {
-        const queryClient = getQueryClient();
-        const result = await queryClient.fetchInfiniteQuery(
-          getTransactionsInfiniteQueryOptions(username, limit),
-        );
-        history = result.pages?.[0] || [];
-        break;
-      }
-      default:
-        return [];
-    }
-
-    const transfers = history.filter((tx) => {
-      const opType = Array.isArray(tx) ? get(tx[1], 'op[0]', false) : get(tx, 'type', false);
-      return transferTypes.includes(opType);
-    });
-    transfers.sort(compare);
-
-    const activities = transfers.map((item) =>
-      groomingTransactionData(item, globalProps.hivePerMVests),
-    );
-    const filterdActivities: CoinActivity[] = activities
-      ? activities.filter((item) => {
-          return item && item.value && item.value.includes(assetSymbol);
-        })
-      : [];
-
-    console.log('FILTERED comap', activities.length, filterdActivities.length);
-
-    // TODO: process pending requests as separate query //const pendingRequests = await fetchPendingRequests(username, coinSymbol);
-    return filterdActivities;
-  } else {
-    // means asset is engine asset, maps response to
-
-    const engineHistory = await fetchEngineAccountHistory(username, assetSymbol, startIndex, limit);
-    const activities = engineHistory.map(groomingEngineHistory);
-
-    return activities;
-  }
-};
-
 const _processEngineTokens = async (
   engineData: HiveEngineToken[],
   hivePrice: number,
@@ -1044,18 +939,6 @@ export const fetchAssetsPortfolio = async ({
 
   return assetsData;
 };
-
-function compare(a, b) {
-  const aBlock = Array.isArray(a) ? a[1]?.block : a?.block || a?.num;
-  const bBlock = Array.isArray(b) ? b[1]?.block : b?.block || b?.num;
-  if (aBlock < bBlock) {
-    return 1;
-  }
-  if (aBlock > bBlock) {
-    return -1;
-  }
-  return 0;
-}
 
 export const groomingPointsTransactionData = (transaction) => {
   if (!transaction) {

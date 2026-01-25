@@ -1,7 +1,7 @@
-import { useQuery, useQueries, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
 import { useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
-import { unionBy } from 'lodash';
+import { unionBy, get } from 'lodash';
 import { RecurrentTransfer } from 'providers/hive/hive.types';
 import { Alert } from 'react-native';
 import { PortfolioItem, PortfolioLayer } from 'providers/ecency/ecency.types';
@@ -11,6 +11,7 @@ import {
   getCollateralizedConversionRequestsQueryOptions,
   getRecurrentTransfersQueryOptions,
   getOpenOrdersQueryOptions,
+  getTransactionsInfiniteQueryOptions,
 } from '@ecency/sdk';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -27,7 +28,12 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 import { updateClaimCache } from '../../../redux/actions/cacheActions';
 import { selectCurrentAccount, selectPin, selectGlobalProps } from '../../../redux/selectors';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
-import { fetchCoinActivities } from '../../../utils/wallet';
+import { fetchEngineAccountHistory } from '../../hive-engine/hiveEngine';
+import {
+  groomingEngineHistory,
+  groomingTransactionData,
+  transferTypes,
+} from '../../../utils/wallet';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { getPortfolio } from '../../ecency/ecency';
 import { ProfileToken } from '../../../redux/reducers/walletReducer';
@@ -304,93 +310,77 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   const isEngine = layer === 'engine';
 
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [noMoreData, setNoMoreData] = useState(false);
-  const [pageParams, setPageParams] = useState(isEngine ? [0] : [-1]);
 
-  const _fetchActivities = async (pageParam: number) => {
-    console.log('fetching page since:', pageParam);
-
-    if (!username) {
-      console.warn('[Activities] No username available for activities fetch');
-      return [];
-    }
-
-    const _activites = await fetchCoinActivities({
-      username,
-      assetSymbol: symbol,
-      globalProps,
-      startIndex: pageParam,
-      limit: ACTIVITIES_FETCH_LIMIT,
-      isEngine,
-    });
-
-    // console.log('new page fetched', _activites);
-    return _activites || [];
-  };
-
-  const _getNextPageParam = (lastPage: any[]) => {
-    const lastId = !!lastPage?.length && lastPage[lastPage.length - 1].trxIndex;
-    console.log('extracting next page parameter', lastId);
-    return lastId;
-  };
-
-  // query initialization
-  const queries = useQueries({
-    queries: pageParams.map((pageParam) => ({
-      queryKey: [QUERIES.WALLET.GET_ACTIVITIES, username, symbol, pageParam],
-      queryFn: () => _fetchActivities(pageParam),
-      initialData: [],
-      enabled: !!username, // Only fetch when username exists
-    })),
+  const chainQuery = useInfiniteQuery({
+    ...getTransactionsInfiniteQueryOptions(username, ACTIVITIES_FETCH_LIMIT),
+    enabled: !!username && !isEngine,
   });
 
-  const _lastItem = queries[queries.length - 1];
+  const engineQuery = useInfiniteQuery({
+    queryKey: [QUERIES.WALLET.GET_ACTIVITIES, username, symbol, 'engine'],
+    enabled: !!username && isEngine,
+    initialPageParam: 0,
+    queryFn: async ({ pageParam }) => {
+      if (!username) return [];
+      const engineHistory = await fetchEngineAccountHistory(
+        username,
+        symbol,
+        pageParam,
+        ACTIVITIES_FETCH_LIMIT,
+      );
+      return engineHistory.map(groomingEngineHistory);
+    },
+    getNextPageParam: (lastPage, pages) => (lastPage?.length ? pages.length : undefined),
+  });
 
   const _refresh = async () => {
     setIsRefreshing(true);
-    setNoMoreData(false);
-    setPageParams(isEngine ? [0] : [-1]);
-    await queries[0].refetch();
+    await (isEngine ? engineQuery.refetch() : chainQuery.refetch());
     setIsRefreshing(false);
   };
 
   const _fetchNextPage = () => {
-    const lastPage = queries[queries.length - 1];
-
-    if (!lastPage || lastPage.isFetching || lastPage.isLoading || noMoreData) {
-      return;
-    }
-
-    if (!lastPage.data?.length) {
-      setNoMoreData(true);
-      return;
-    }
-
     if (isEngine) {
-      pageParams.push(pageParams.length);
-      setPageParams([...pageParams]);
-    } else {
-      const lastId = _getNextPageParam(lastPage.data);
-      if (lastId && !pageParams.includes(lastId)) {
-        pageParams.push(lastId);
-        setPageParams([...pageParams]);
+      if (engineQuery.hasNextPage && !engineQuery.isFetchingNextPage) {
+        engineQuery.fetchNextPage();
       }
+    } else if (chainQuery.hasNextPage && !chainQuery.isFetchingNextPage) {
+      chainQuery.fetchNextPage();
     }
   };
 
   const _data = useMemo(() => {
-    const _dataArrs = queries.map((query) => query.data);
-    const merged = unionBy(..._dataArrs, isEngine ? 'engineTrxId' : 'trxIndex');
     if (isEngine) {
+      const pages = engineQuery.data?.pages || [];
+      const merged = unionBy(...pages, 'engineTrxId');
       return merged.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
     }
-    return merged;
-  }, [_lastItem?.data, isEngine]);
+
+    const history = chainQuery.data?.pages?.flat() || [];
+    const transfers = history.filter((tx) => {
+      const opType = Array.isArray(tx) ? get(tx[1], 'op[0]', false) : get(tx, 'type', false);
+      return transferTypes.includes(opType);
+    });
+
+    const activities = transfers.map((item) =>
+      groomingTransactionData(item, globalProps.hivePerMVests),
+    );
+
+    return activities.filter((item) => item && item.value && item.value.includes(symbol));
+  }, [
+    chainQuery.data?.pages,
+    engineQuery.data?.pages,
+    isEngine,
+    globalProps.hivePerMVests,
+    symbol,
+  ]);
 
   return {
     data: _data,
     isRefreshing,
-    isLoading: _lastItem?.isLoading || _lastItem?.isFetching,
+    isLoading: isEngine
+      ? engineQuery.isLoading || engineQuery.isFetching
+      : chainQuery.isLoading || chainQuery.isFetching,
     fetchNextPage: _fetchNextPage,
     refresh: _refresh,
   };
