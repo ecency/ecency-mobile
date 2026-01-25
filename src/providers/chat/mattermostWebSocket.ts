@@ -143,7 +143,9 @@ class MattermostWebSocketClient {
 
         console.log('[MattermostWS] Sending authentication...');
         this._authenticate();
-        this._startHeartbeat();
+
+        // Note: Heartbeat will start after receiving "hello" event (in onmessage handler)
+        // This ensures we only ping after successful authentication
         config.onReconnect?.();
       };
 
@@ -167,6 +169,10 @@ class MattermostWebSocketClient {
           // Handle authentication response
           if (message.event === ('hello' as any)) {
             console.log('[MattermostWS] ✓ Authenticated successfully with server');
+
+            // Now that we're authenticated, start heartbeat
+            this._startHeartbeat();
+
             return;
           }
 
