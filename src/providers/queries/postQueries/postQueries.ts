@@ -34,19 +34,19 @@ export const useGetPostQuery = ({
 
   // post process initial post if available
   const _initialPost = useMemo(() => {
-    const _post = initialPost;
-    if (!_post) {
-      return _post;
+    if (!initialPost) {
+      return initialPost;
     }
 
-    _post.body = renderPostBody(
-      { ..._post, last_update: _post.updated },
-      true,
-      Platform.OS !== 'ios',
-    );
-
-    return _post;
-  }, [initialPost?.body]);
+    return {
+      ...initialPost,
+      body: renderPostBody(
+        { ...initialPost, last_update: initialPost.updated },
+        true,
+        Platform.OS !== 'ios',
+      ),
+    };
+  }, [initialPost?.body, initialPost?.updated]);
 
   const sdkQueryOptions = getPostQueryOptions(author, permlink, currentAccount?.name);
 

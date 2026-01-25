@@ -237,7 +237,7 @@ const PostDisplayView = ({
             iconType="MaterialIcons"
             isClickable
             onPress={_handleOnReblogsPress}
-            text={post?.reblogs || ''}
+            text={post?.reblogs ?? 0}
             textMarginLeft={20}
           />
           {isLoggedIn && (
