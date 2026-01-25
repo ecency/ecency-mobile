@@ -574,10 +574,10 @@ class ApplicationContainer extends Component {
 
     try {
       const queryClient = getQueryClient();
-      let accountData = await queryClient.fetchQuery(
+      const sdkAccountData = await queryClient.fetchQuery(
         getAccountFullQueryOptions(realmObject.username),
       );
-      accountData.local = realmObject;
+      let accountData = { ...sdkAccountData, local: realmObject };
 
       // cannot migrate or refresh token since pin would null while pin code modal is open
       if (!isPinCodeOpen || encUnlockPin) {
