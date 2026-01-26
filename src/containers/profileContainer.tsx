@@ -367,7 +367,18 @@ class ProfileContainer extends Component {
     let rcAccount = null;
     try {
       const queryClient = getQueryClient();
-      user = await queryClient.fetchQuery(getAccountFullQueryOptions(username));
+      const rawAccount = await queryClient.fetchQuery(getAccountFullQueryOptions(username));
+
+      // Normalize account data to match expected structure (SDK returns profile directly)
+      // App expects: { about: { profile: {...} } }
+      // SDK returns: { profile: {...} }
+      const profile = rawAccount?.profile || rawAccount?.about?.profile;
+      const normalizedAbout = profile ? { profile } : {};
+      user = {
+        ...rawAccount,
+        about: normalizedAbout,
+      };
+
       try {
         const rcResult = await queryClient.fetchQuery(getAccountRcQueryOptions(username));
         rcAccount = rcResult?.[0] ?? null;

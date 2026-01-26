@@ -56,6 +56,11 @@ export const parseLinkData = (tnode: TNode): LinkData | null => {
     const href = tnode.attributes['data-href'];
     const isInLine = tnode.attributes['data-is-inline'] === 'true';
 
+    // Guard against undefined permlink
+    if (!permlink) {
+      return null;
+    }
+
     // snippets checks if there is anchored post inside permlink and use that instead
     const anchoredPostRegex = /(.*?\#\@)(.*)\/(.*)/;
     const matchedLink = permlink.match(anchoredPostRegex);

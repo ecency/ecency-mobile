@@ -45,7 +45,6 @@ const PostsTabContent = ({
   const currentAccount = useAppSelector(selectCurrentAccount);
 
   const username = currentAccount?.name;
-  const userPinned = currentAccount?.about?.profile?.pinned;
 
   // state
   const [sessionUser, setSessionUser] = useState(username);
@@ -102,14 +101,17 @@ const PostsTabContent = ({
     }
   }, [filterScrollRequest]);
 
+  // Update pinned post when prop changes (for both own profile and viewing others)
   useEffect(() => {
-    console.log('curPinned change', userPinned);
-    if (pageType === 'ownProfile' && userPinned !== curPinned) {
-      setCurPinned(userPinned);
-      _scrollToTop();
-      feedQuery.refresh();
+    if (pinnedPermlink !== curPinned) {
+      console.log('pinnedPermlink prop changed', pinnedPermlink);
+      setCurPinned(pinnedPermlink);
+      if (pageType === 'profile' || pageType === 'ownProfile') {
+        _scrollToTop();
+        feedQuery.refresh();
+      }
     }
-  }, [userPinned]);
+  }, [pinnedPermlink, pageType]);
 
   const _initContent = (_sessionUsername: string) => {
     _scrollToTop();

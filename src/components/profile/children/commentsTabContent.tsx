@@ -49,9 +49,10 @@ const CommentsTabContent = ({
       return;
     }
 
-    setLoading(true);
     if (refresh) {
       setRefreshing(true);
+    } else {
+      setLoading(true);
     }
 
     const result = await queryClient.fetchQuery(

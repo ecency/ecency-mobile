@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import { useQueryClient } from '@tanstack/react-query';
-import { getPostQueryOptions } from '@ecency/sdk';
+import { getPostQueryOptions, getAccountFullQueryOptions } from '@ecency/sdk';
 import {
   deleteComment,
   ignoreUser,
@@ -407,6 +407,10 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
       dispatch(updateCurrentAccount(nextAccount));
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+
+      // Invalidate account query to update profile data with new pinned post
+      const { queryKey: accountQueryKey } = getAccountFullQueryOptions(currentAccount.name);
+      queryClient.invalidateQueries({ queryKey: accountQueryKey });
 
       // Invalidate post query to refetch with updated pin status
       const { queryKey: entryQueryKey } = getPostQueryOptions(
