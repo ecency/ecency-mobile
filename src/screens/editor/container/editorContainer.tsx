@@ -130,7 +130,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     const accessToken = currentAccount?.local?.accessToken
       ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
-      : undefined;
+      : '';
     let isReply;
     let draftId;
     let isEdit;
@@ -661,7 +661,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         if (queryClient) {
           const accessToken = currentAccount?.local?.accessToken
             ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
-            : undefined;
+            : '';
           const { queryKey: draftsQueryKey } = getDraftsQueryOptions(
             currentAccount.name,
             accessToken,

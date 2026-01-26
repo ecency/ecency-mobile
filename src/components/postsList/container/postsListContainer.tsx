@@ -101,13 +101,13 @@ const postsListContainer = (
     });
 
     // Create Set for O(1) lookup instead of O(n) filter
-    const existingPermlinks = new Set(_data.map((post) => post.permlink));
+    const existingPermlinks = new Set(_data.map((post) => `${post.author}/${post.permlink}`));
 
     const _promotedPosts =
       promotedPosts && Array.isArray(promotedPosts)
         ? promotedPosts.filter((item) => {
             const isMuted = mutes && mutes.indexOf(item.author) > -1;
-            const notInPosts = !existingPermlinks.has(item.permlink);
+            const notInPosts = !existingPermlinks.has(`${item.author}/${item.permlink}`);
             return !isMuted && !!item?.author && notInPosts;
           })
         : [];
@@ -135,13 +135,13 @@ const postsListContainer = (
   useEffect(() => {
     console.log('Scroll Position: ', scrollPosition);
     // Determine the target scroll position
-    const targetOffset = cachedPosts && cachedPosts.length === 0 ? 0 : scrollPosition;
+    const targetOffset = data.length === 0 ? 0 : scrollPosition ?? 0;
 
     flatListRef.current?.scrollToOffset({
       offset: targetOffset,
       animated: false,
     });
-  }, [scrollPosition, cachedPosts]);
+  }, [scrollPosition, posts, cachedPosts, data.length]);
 
   // const _setImageRatioInMap = (mapKey: string, height: number) => {
   //   if (mapKey && height) {

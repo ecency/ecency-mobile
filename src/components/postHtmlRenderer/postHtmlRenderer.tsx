@@ -143,7 +143,9 @@ export const PostHtmlRenderer = memo(
             default:
               break;
           }
-        } catch (error) {}
+        } catch (error) {
+          console.error('[PostHtmlRenderer] Failed to handle link press', error);
+        }
       },
       [
         setSelectedLink,

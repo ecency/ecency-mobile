@@ -31,7 +31,7 @@ import { selectIsConnected, selectCurrentAccountName } from '../../../redux/sele
  *
  */
 
-const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder }) => {
+const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder, username }) => {
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
   const queryClient = useQueryClient();
@@ -54,13 +54,13 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder 
       if (text && text !== '@' && text !== '#') {
         if (text[0] === '@') {
           queryClient
-            .fetchQuery(lookupAccountsQueryOptions(text.substr(1).trim()))
+            .fetchQuery(lookupAccountsQueryOptions(text.slice(1).trim()))
             .then((res) => {
               const users = res
                 ? res.map((item) => ({
                     image: getResizedAvatar(item),
                     text: item,
-                    ...item,
+                    value: item,
                   }))
                 : [];
               setSearchResults({ type: 'user', data: users });
@@ -93,7 +93,7 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder 
             if (author) {
               if (permlink) {
                 queryClient
-                  .fetchQuery(getPostQueryOptions(author, permlink, ''))
+                  .fetchQuery(getPostQueryOptions(author, permlink, username || ''))
                   .then((post) => {
                     if (post.post_id !== 0) {
                       const result = {};
@@ -124,7 +124,7 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder 
                     const users = res.map((item) => ({
                       image: getResizedAvatar(item),
                       text: item,
-                      ...item,
+                      value: item,
                     }));
                     setSearchResults({ type: 'user', data: users });
                   })
@@ -160,7 +160,7 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder 
             }
           }
         } else {
-          search({ q: text })
+          search({ q: text, sort: 'trending', hideLow: '0' })
             .then((res) => {
               res.results = res.results
                 .filter((item) => item.title !== '')
