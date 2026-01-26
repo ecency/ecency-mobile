@@ -45,7 +45,7 @@ interface ClaimRewardsMutationVars {
 const ACTIVITIES_FETCH_LIMIT = 50;
 
 /** hook used to return user drafts */
-export const useAssetsQuery = () => {
+export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean } = {}) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const selectedAssets: ProfileToken[] = useAppSelector((state) => state.wallet.selectedAssets);
   const claimsCollection: ClaimsCollection = useAppSelector(
@@ -56,7 +56,12 @@ export const useAssetsQuery = () => {
   // TODO: test assets update with currency and quote change
 
   const assetsQuery = useQuery({
-    queryKey: [QUERIES.WALLET.GET, currentAccount?.name || '', currency.currency],
+    queryKey: [
+      QUERIES.WALLET.GET,
+      currentAccount?.name || '',
+      currency.currency,
+      onlyEnabled ? 'enabled' : 'all',
+    ],
     queryFn: async () => {
       if (!currentAccount?.name) {
         console.warn('[Wallet] No username available for portfolio fetch');
@@ -66,7 +71,7 @@ export const useAssetsQuery = () => {
         console.log('[Wallet] Fetching portfolio for:', currentAccount.name, currency.currency);
       }
       try {
-        const response = await getPortfolio(currentAccount.name, currency.currency, true);
+        const response = await getPortfolio(currentAccount.name, currency.currency, onlyEnabled);
         if (__DEV__) {
           console.log('[Wallet] Portfolio API response:', response?.length || 0, 'items');
           if (response && response.length > 0) {
