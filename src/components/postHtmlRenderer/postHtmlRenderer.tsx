@@ -94,31 +94,33 @@ export const PostHtmlRenderer = memo(
           switch (type) {
             case '_external':
             case 'markdown-external-link':
-              setSelectedLink(href);
+              if (href) {
+                setSelectedLink(href);
+              }
               break;
             case 'markdown-author-link':
-              if (handleOnUserPress) {
+              if (handleOnUserPress && author) {
                 handleOnUserPress(author);
               }
               break;
             case 'markdown-post-link':
-              if (handleOnPostPress) {
+              if (handleOnPostPress && permlink && author) {
                 handleOnPostPress(permlink, author);
               }
               break;
             case 'markdown-tag-link':
-              if (handleTagPress) {
+              if (handleTagPress && tag) {
                 handleTagPress(tag, filter);
               }
               break;
 
             case 'markdown-video-link':
-              if (handleVideoPress) {
+              if (handleVideoPress && videoHref) {
                 handleVideoPress(videoHref);
               }
               break;
             case 'markdown-video-link-youtube':
-              if (handleYoutubePress) {
+              if (handleYoutubePress && youtubeId) {
                 handleYoutubePress(youtubeId, startTime);
               }
 
@@ -126,16 +128,20 @@ export const PostHtmlRenderer = memo(
 
             // unused cases
             case 'markdown-witnesses-link':
-              setSelectedLink(href);
+              if (href) {
+                setSelectedLink(href);
+              }
               break;
 
             case 'markdown-proposal-link':
-              setSelectedLink(href);
+              if (href) {
+                setSelectedLink(href);
+              }
               break;
 
             case 'markdown-community-link':
               // tag press also handles community by default
-              if (handleTagPress) {
+              if (handleTagPress && community) {
                 handleTagPress(community, filter);
               }
               break;
@@ -251,9 +257,9 @@ export const PostHtmlRenderer = memo(
         // process video link
         if (parsedTnode?.type === 'markdown-video-link') {
           if (isComment) {
-            const imgElement = tnode.children.find((child) => {
-              return child.classes.indexOf('video-thumbnail') > 0;
-            });
+            const imgElement = tnode.children.find(
+              (child) => child.classes.indexOf('video-thumbnail') >= 0,
+            );
             if (!imgElement) {
               return <VideoThumb contentWidth={contentWidth} onPress={_onPress} />;
             }
@@ -288,13 +294,13 @@ export const PostHtmlRenderer = memo(
         // render hive post mini card for post-link
         if (parsedTnode?.type === 'markdown-post-link' && parsedTnode.isInLine) {
           const origUrl = parsedTnode.href;
-          const lintMeta = metadata?.links_meta && metadata.links_meta[origUrl || ''];
+          const linkMeta = metadata?.links_meta && metadata.links_meta[origUrl || ''];
 
           return (
             <HiveLinkPreview
               author={parsedTnode.author}
               permlink={parsedTnode.permlink}
-              linkMeta={lintMeta}
+              linkMeta={linkMeta}
               onPress={_onPress}
               contentWidth={contentWidth}
             />

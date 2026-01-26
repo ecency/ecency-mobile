@@ -175,7 +175,7 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
         }
       }
     },
-    [isConnected, queryClient],
+    [isConnected, queryClient, username],
   );
 
   // Create debounced version of search with 500ms delay
