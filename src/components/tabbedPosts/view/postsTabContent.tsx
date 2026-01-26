@@ -104,14 +104,13 @@ const PostsTabContent = ({
   // Update pinned post when prop changes (for both own profile and viewing others)
   useEffect(() => {
     if (pinnedPermlink !== curPinned) {
-      console.log('pinnedPermlink prop changed', pinnedPermlink);
       setCurPinned(pinnedPermlink);
       if (pageType === 'profile' || pageType === 'ownProfile') {
         _scrollToTop();
         feedQuery.refresh();
       }
     }
-  }, [pinnedPermlink, pageType]);
+  }, [pinnedPermlink, pageType, curPinned, feedQuery]);
 
   const _initContent = (_sessionUsername: string) => {
     _scrollToTop();

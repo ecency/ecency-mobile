@@ -182,10 +182,13 @@ export const useFeedQuery = ({
 
   // fetch and filter posts that are not present in top 5 posts currently in list.
   const _fetchLatestPosts = async () => {
+    // Capture current posts BEFORE refetch to detect new ones
+    const _cachedPosts: any[] = [...(feedQuery.data?.pages?.[0] || [])];
+
     await feedQuery.refetch({ cancelRefetch: false });
 
-    const _cachedPosts: any[] = feedQuery.data?.pages?.[0] || [];
-    const _fetchedPosts = _cachedPosts; // After refetch, the first page contains latest data
+    // After refetch, the first page contains latest data
+    const _fetchedPosts: any[] = feedQuery.data?.pages?.[0] || [];
 
     const _latestPosts = [] as any;
 

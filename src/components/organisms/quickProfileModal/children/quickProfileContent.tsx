@@ -71,7 +71,8 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
       setUser(_user);
       try {
         const rcResult = await queryClient.fetchQuery(getAccountRcQueryOptions(username));
-        setRcAccount(rcResult?.[0] ?? null);
+        // SDK may return array or single object
+        setRcAccount(Array.isArray(rcResult) ? rcResult[0] ?? null : rcResult ?? null);
       } catch (error) {
         setRcAccount(null);
       }

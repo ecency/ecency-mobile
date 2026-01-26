@@ -747,8 +747,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     // save reply data to replyCache, draft data to draftsCollection
     if (isReply) {
-      // Replies go to replyCache
-      dispatch(updateReplyCache(draftId, draftField));
+      // Replies go to replyCache - use fallback if draftId is undefined
+      const replyId = draftId || DEFAULT_USER_DRAFT_ID + username;
+      dispatch(updateReplyCache(replyId, draftField));
     } else if (draftId) {
       // Editing existing draft goes to draftsCollection
       dispatch(updateDraftCache(draftId, draftField));

@@ -101,7 +101,7 @@ class ProfileContainer extends Component {
   }
 
   _getReplies = async (query) => {
-    const { isOwnProfile, comments } = this.state;
+    const { isOwnProfile, comments, username } = this.state;
     const {
       currentAccount: { name: currentUsername },
     } = this.props;
@@ -117,7 +117,7 @@ class ProfileContainer extends Component {
       queryClient
         .fetchQuery(
           getAccountPostsQueryOptions(
-            query.author,
+            username || currentUsername || '',
             sort,
             startAuthor,
             startPermlink,
@@ -322,7 +322,7 @@ class ProfileContainer extends Component {
 
         const queryClient = getQueryClient();
 
-        if (!isOwnProfile) {
+        if (!isOwnProfile && currentAccount?.name) {
           const res = await queryClient.fetchQuery(
             getRelationshipBetweenAccountsQueryOptions(currentAccount.name, username),
           );
@@ -381,7 +381,8 @@ class ProfileContainer extends Component {
 
       try {
         const rcResult = await queryClient.fetchQuery(getAccountRcQueryOptions(username));
-        rcAccount = rcResult?.[0] ?? null;
+        // SDK may return array or single object
+        rcAccount = Array.isArray(rcResult) ? rcResult[0] ?? null : rcResult ?? null;
       } catch (error) {
         rcAccount = null;
       }
