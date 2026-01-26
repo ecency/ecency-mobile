@@ -60,7 +60,7 @@ const DraftsScreen = ({
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   // Use specific draft selector instead of entire draftsCollection
-  const idLessDraftId = DEFAULT_USER_DRAFT_ID + currentAccount?.username;
+  const idLessDraftId = DEFAULT_USER_DRAFT_ID + currentAccount?.name;
   const _idLessDraft = useAppSelector(selectDraftById(idLessDraftId));
 
   const idLessDraft = useMemo(() => {

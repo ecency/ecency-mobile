@@ -184,6 +184,12 @@ export const useClaimRewardsMutation = () => {
   const pinHash = useAppSelector(selectPin);
   const currency = useAppSelector((state) => state.application.currency);
   const [isClaimingColl, setIsClaimingColl] = useState<{ [key: string]: boolean }>({});
+  const portfolioKey = [
+    QUERIES.WALLET.GET,
+    currentAccount?.name || '',
+    currency.currency,
+    'enabled',
+  ] as const;
 
   const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
     const account = await getAccount(currentAccount.name);
@@ -218,12 +224,6 @@ export const useClaimRewardsMutation = () => {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));
 
       // Update claim cache and set claimed asset to zero in portfolio data (loop only once)
-      const portfolioKey = [
-        QUERIES.WALLET.GET,
-        currentAccount.name,
-        currency.currency,
-        'enabled',
-      ] as const;
       const portfolioData = queryClient.getQueryData<PortfolioItem[]>(portfolioKey);
 
       if (portfolioData) {

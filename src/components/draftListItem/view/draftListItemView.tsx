@@ -256,6 +256,12 @@ export default React.memo(injectIntl(DraftListItemView), (prev, next) => {
     prev.isFormatedDate === next.isFormatedDate &&
     prev.status === next.status &&
     prev.isSchedules === next.isSchedules &&
-    prev.isUnsaved === next.isUnsaved
+    prev.isUnsaved === next.isUnsaved &&
+    prev.id === next.id &&
+    prev.handleOnPressItem === next.handleOnPressItem &&
+    prev.handleOnRemoveItem === next.handleOnRemoveItem &&
+    prev.handleOnMovePress === next.handleOnMovePress &&
+    prev.handleOnClonePressed === next.handleOnClonePressed &&
+    prev.handleLongPress === next.handleLongPress
   );
 });

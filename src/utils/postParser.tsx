@@ -399,21 +399,19 @@ export const injectVoteCache = (post, voteCache) => {
     return post;
   }
 
-  if (!post.active_votes || !Array.isArray(post.active_votes)) {
-    return post;
-  }
+  const activeVotes = Array.isArray(post.active_votes) ? post.active_votes : [];
 
-  const _voteIndex = post.active_votes.findIndex((i) => i.voter === voteCache.voter);
+  const _voteIndex = activeVotes.findIndex((i) => i.voter === voteCache.voter);
 
   // handle unvote
   if (_voteIndex >= 0 && voteCache.status === CacheStatus.DELETED) {
-    const _vote = post.active_votes[_voteIndex];
+    const _vote = activeVotes[_voteIndex];
     const clonedPost = { ...post };
 
     const _oldReward = calculateVoteReward(_vote.rshares, post);
     clonedPost.total_payout = post.total_payout - _oldReward;
 
-    const updatedVotes = post.active_votes.filter((_, index) => index !== _voteIndex);
+    const updatedVotes = activeVotes.filter((_, index) => index !== _voteIndex);
     clonedPost.active_votes = updatedVotes;
 
     clonedPost.isUpVoted = false;
@@ -434,12 +432,12 @@ export const injectVoteCache = (post, voteCache) => {
       post.total_payout + voteCache.amount * (voteCache.isDownvote ? -1 : 1);
 
     // calculate updated totalRShares and send to post
-    const _totalRShares = post.active_votes.reduce(
+    const _totalRShares = activeVotes.reduce(
       (accumulator: number, item: any) => accumulator + parseFloat(item.rshares),
       Number(voteCache.rshares) || 0,
     );
     const _newVote = parseVote(voteCache, post, _totalRShares);
-    clonedPost.active_votes = [...post.active_votes, _newVote];
+    clonedPost.active_votes = [...activeVotes, _newVote];
 
     // update vote status here
     clonedPost.isUpVoted = !voteCache.isDownvote;
@@ -455,7 +453,7 @@ export const injectVoteCache = (post, voteCache) => {
 
   // if vote already exist
   if (_voteIndex >= 0) {
-    const _vote = post.active_votes[_voteIndex];
+    const _vote = activeVotes[_voteIndex];
 
     // Check if vote actually changed before cloning
     const currentIsUpVoted = !voteCache.isDownvote;
@@ -485,7 +483,7 @@ export const injectVoteCache = (post, voteCache) => {
     updatedVote.percent = voteCache.percent ?? updatedVote.percent;
     updatedVote.percent100 = (voteCache.percent ?? updatedVote.percent) / 100;
 
-    const updatedVotes = [...post.active_votes];
+    const updatedVotes = [...activeVotes];
     updatedVotes[_voteIndex] = updatedVote;
     clonedPost.active_votes = updatedVotes;
 

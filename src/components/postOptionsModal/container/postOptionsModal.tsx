@@ -442,7 +442,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        get(err, 'message', err.toString()),
+        get(err, 'message') || String(err) || 'Unknown error',
       );
     }
   };
@@ -492,7 +492,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        get(err, 'message', err.toString()),
+        get(err, 'message') || String(err) || 'Unknown error',
       );
     }
   };

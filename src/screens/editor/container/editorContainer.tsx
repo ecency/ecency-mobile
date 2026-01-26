@@ -11,7 +11,11 @@ import { Buffer } from 'buffer';
 import { useQueryClient } from '@tanstack/react-query';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { postBodySummary } from '@ecency/render-helper';
-import { getPostQueryOptions } from '@ecency/sdk';
+import {
+  getDraftsInfiniteQueryOptions,
+  getDraftsQueryOptions,
+  getPostQueryOptions,
+} from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
 import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
@@ -22,6 +26,8 @@ import {
   reblog,
   postComment,
 } from '../../../providers/hive/dhive';
+import { decryptKey } from '../../../utils/crypto';
+import { getDigitPinCode } from '../../../providers/hive/dhive';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -120,8 +126,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   // Component Life Cycle Functions
   componentDidMount() {
     this._isMounted = true;
-    const { currentAccount, route, queryClient, dispatch } = this.props;
+    const { currentAccount, route, queryClient, dispatch, pinCode } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
+    const accessToken = currentAccount?.local?.accessToken
+      ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+      : undefined;
     let isReply;
     let draftId;
     let isEdit;
@@ -140,7 +149,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         // Try to get draft from infinite query cache (SDK structure)
         // Search through all loaded pages
         let paramDraft = null;
-        const infiniteQueryKey = ['posts', 'drafts', 'infinite', username, 20];
+        const { queryKey: infiniteQueryKey } = getDraftsInfiniteQueryOptions(
+          username,
+          accessToken,
+          20,
+        );
         const infiniteQueryData: any = queryClient.getQueryData(infiniteQueryKey);
 
         if (infiniteQueryData?.pages) {
@@ -637,12 +650,20 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         // call fetch post to drafts screen
         if (queryClient) {
-          // Invalidate drafts queries using SDK query key pattern
-          // This will invalidate both regular and infinite query variants
-          queryClient.invalidateQueries({ queryKey: ['posts', 'drafts', currentAccount.name] });
-          queryClient.invalidateQueries({
-            queryKey: ['posts', 'drafts', 'infinite', currentAccount.name],
-          });
+          const accessToken = currentAccount?.local?.accessToken
+            ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+            : undefined;
+          const { queryKey: draftsQueryKey } = getDraftsQueryOptions(
+            currentAccount.name,
+            accessToken,
+          );
+          const { queryKey: draftsInfiniteKey } = getDraftsInfiniteQueryOptions(
+            currentAccount.name,
+            accessToken,
+            20,
+          );
+          queryClient.invalidateQueries({ queryKey: draftsQueryKey });
+          queryClient.invalidateQueries({ queryKey: draftsInfiniteKey });
         }
       }
     } catch (err) {
