@@ -57,19 +57,6 @@ const PostsTabContent = ({
   const scrollOffsetRef = useRef(0);
   const SCROLL_POPUP_THRESHOLD = 5000;
 
-  const feedQuery = useFeedQuery({
-    feedUsername,
-    filterKey,
-    tag,
-    cachePage: isInitialTab && isFeedScreen,
-    enableFetchOnAppState: isFeedScreen,
-    pinnedPermlink: curPinned,
-  });
-  const promotedPostsQuery = usePromotedPostsQuery();
-
-  // init state refs;
-  sessionUserRef.current = sessionUser;
-
   const skipPromotedPosts = useMemo(() => {
     switch (pageType) {
       case 'profile':
@@ -80,6 +67,19 @@ const PostsTabContent = ({
         return false;
     }
   }, [pageType]);
+
+  const feedQuery = useFeedQuery({
+    feedUsername,
+    filterKey,
+    tag,
+    cachePage: isInitialTab && isFeedScreen,
+    enableFetchOnAppState: isFeedScreen,
+    pinnedPermlink: curPinned,
+  });
+  const promotedPostsQuery = usePromotedPostsQuery(!skipPromotedPosts);
+
+  // init state refs;
+  sessionUserRef.current = sessionUser;
 
   // side effects
   useEffect(() => {
@@ -110,7 +110,7 @@ const PostsTabContent = ({
         feedQuery.refresh();
       }
     }
-  }, [pinnedPermlink, pageType, curPinned, feedQuery]);
+  }, [pinnedPermlink, pageType, curPinned]);
 
   const _initContent = (_sessionUsername: string) => {
     _scrollToTop();

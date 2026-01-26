@@ -278,7 +278,7 @@ export const useFeedQuery = ({
 };
 
 /** hook used to return promoted posts with NSFW filtering */
-export const usePromotedPostsQuery = () => {
+export const usePromotedPostsQuery = (enabled: boolean = true) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const nsfw = useAppSelector(selectNsfw);
 
@@ -287,6 +287,7 @@ export const usePromotedPostsQuery = () => {
 
   return useQuery({
     ...queryOptions,
+    enabled,
     // Override queryKey to include username for cache invalidation (use empty string if no account)
     queryKey: [QUERIES.FEED.GET_PROMOTED, currentAccount?.name || ''],
     // Apply NSFW filtering and parsePost to results

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { View, Text, useWindowDimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
 
 // Providers
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -79,32 +80,33 @@ const PostDisplayView = ({
     }
   }, []);
 
-  useEffect(() => {
-    if (post) {
-      const rawTags = get(post.json_metadata, 'tags', []);
-      let _tags = [];
-      if (Array.isArray(rawTags)) {
-        _tags = [...rawTags];
-      } else if (typeof rawTags === 'string') {
-        _tags = [rawTags];
-      }
+  const processedTags = useMemo(() => {
+    if (!post) return [];
 
-      if (post.category && !_tags.includes(post.category)) {
-        _tags = [post.category, ..._tags];
-      }
-      setTags((prevTags) => {
-        if (prevTags.length !== _tags.length) {
-          return _tags;
-        }
-        for (let i = 0; i < _tags.length; i++) {
-          if (prevTags[i] !== _tags[i]) {
-            return _tags;
-          }
-        }
-        return prevTags;
-      });
+    const rawTags = get(post.json_metadata, 'tags', []);
+    let _tags = [];
+    if (Array.isArray(rawTags)) {
+      _tags = [...rawTags];
+    } else if (typeof rawTags === 'string') {
+      _tags = [rawTags];
     }
-  }, [post]);
+
+    if (post.category && !_tags.includes(post.category)) {
+      _tags = [post.category, ..._tags];
+    }
+
+    return _tags;
+  }, [post?.json_metadata, post?.category]);
+
+  useEffect(() => {
+    setTags((prevTags) => {
+      // Only update if tags have actually changed
+      if (!isEqual(prevTags, processedTags)) {
+        return processedTags;
+      }
+      return prevTags;
+    });
+  }, [processedTags]);
 
   // Component Functions
   const onRefresh = useCallback(async () => {

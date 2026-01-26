@@ -85,3 +85,11 @@ gradle.properties
 ios/Ecency.xcworkspace/xcuserdata/f.xcuserdatad/UserInterfaceState.xcuserstate
 
 .env.local
+
+# Android drawable resources (auto-generated from build)
+android/app/src/main/res/drawable-hdpi/
+android/app/src/main/res/drawable-mdpi/
+android/app/src/main/res/drawable-xhdpi/
+android/app/src/main/res/drawable-xxhdpi/
+android/app/src/main/res/drawable-xxxhdpi/
+android/app/src/main/assets/
