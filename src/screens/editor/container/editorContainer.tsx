@@ -126,7 +126,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   // Component Life Cycle Functions
   componentDidMount() {
     this._isMounted = true;
-    const { currentAccount, route, queryClient, dispatch, pinCode } = this.props;
+    const { currentAccount, route, queryClient, dispatch, pinCode, intl } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     const accessToken = currentAccount?.local?.accessToken
       ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))

@@ -37,31 +37,49 @@ export const initQueryClient = () => {
       // Cherry pick which queries to dehydrate for persistence
       const queryKeyType = query.queryKey[0];
 
-      // Skip SDK queries that shouldn't be persisted
+      // Handle SDK queries
       if (
         queryKeyType === 'core' ||
         queryKeyType === 'posts' ||
         queryKeyType === 'get-account-full' ||
         queryKeyType === 'notifications'
       ) {
-        // SDK queries - only persist specific ones
-        if (queryKeyType === 'posts' && query.queryKey[1] === 'entry') {
-          return false; // Don't persist individual post entries from SDK
+        // SDK posts queries - selective persistence
+        if (queryKeyType === 'posts') {
+          const subType = query.queryKey[1];
+
+          // Don't persist individual post entries
+          if (subType === 'entry') {
+            return false;
+          }
+
+          // For feed queries (account-posts, posts-ranked), only persist first page
+          if (subType === 'account-posts' || subType === 'posts-ranked') {
+            // These are infinite queries - only persist if it's the first page
+            // Check if query has been fetched (has pages data)
+            const queryData = query.state.data as any;
+            if (queryData?.pages && queryData.pages.length > 1) {
+              return false; // Don't persist if more than first page loaded
+            }
+            return true; // Persist first page only
+          }
+
+          return true; // Persist other post queries
         }
+
         if (queryKeyType === 'notifications' && query.queryKey[1] === 'announcements') {
           return false; // Don't persist announcements
         }
+
         return true; // Persist other SDK queries
       }
 
-      // Handle mobile-specific queries
+      // Handle mobile-specific legacy queries
       switch (queryKeyType) {
         case QUERIES.WAVES.GET:
           return query.queryKey[3] === 0; // only dehydrate first page of waves
         case QUERIES.NOTIFICATIONS.GET:
           return query.queryKey[2] === ''; // only dehydrate first page of notifications
-        case QUERIES.FEED.GET:
-          return query.queryKey[3] === '' && query.queryKey[4]; // only hydrate first page if cacheFlag is enabled
         case 'drafts':
         case 'schedules':
           return query.queryKey[2] === 0; // First page only

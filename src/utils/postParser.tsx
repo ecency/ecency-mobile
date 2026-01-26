@@ -428,8 +428,8 @@ export const injectVoteCache = (post, voteCache) => {
   if (_voteIndex < 0 && voteCache.status !== CacheStatus.DELETED) {
     // Clone post to avoid mutations
     const clonedPost = { ...post };
-    clonedPost.total_payout =
-      post.total_payout + voteCache.amount * (voteCache.isDownvote ? -1 : 1);
+    const voteAmount = (voteCache.amount ?? 0) * (voteCache.isDownvote ? -1 : 1);
+    clonedPost.total_payout = post.total_payout + voteAmount;
 
     // calculate updated totalRShares and send to post
     const _totalRShares = activeVotes.reduce(
@@ -474,7 +474,7 @@ export const injectVoteCache = (post, voteCache) => {
     const _oldReward = calculateVoteReward(_vote.rshares, post);
 
     // update total payout
-    const _voteAmount = voteCache.amount * (voteCache.isDownvote ? -1 : 1);
+    const _voteAmount = (voteCache.amount ?? 0) * (voteCache.isDownvote ? -1 : 1);
     clonedPost.total_payout = post.total_payout + _voteAmount - _oldReward;
 
     // update vote entry

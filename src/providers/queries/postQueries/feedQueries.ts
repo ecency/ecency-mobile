@@ -30,7 +30,7 @@ export const useFeedQuery = ({
   feedUsername,
   filterKey,
   tag,
-  cachePage,
+  cachePage: _cachePage, // No longer used with SDK query keys
   enableFetchOnAppState,
   pinnedPermlink,
 }: FeedQueryParams) => {
@@ -92,19 +92,9 @@ export const useFeedQuery = ({
         true, // enabled
       );
 
-  // Override queryKey to match legacy format for cache compatibility
-  const customQueryKey = [
-    QUERIES.FEED.GET,
-    feedUsername || tag,
-    filterKey,
-    currentAccount?.name || '',
-    cachePage,
-  ];
-
-  // Use infinite query with SDK options, but override queryKey and add NSFW filtering
+  // Use SDK query options directly (no override) for consistency with vision-next
   const feedQuery = useInfiniteQuery({
     ...queryOptions,
-    queryKey: customQueryKey,
     select: (data) => {
       // Apply NSFW filtering and parsePost to each page
       if (!data?.pages) return data;
@@ -225,7 +215,7 @@ export const useFeedQuery = ({
       ...(feedQuery.data?.pages?.slice(1) || []),
     ];
 
-    queryClient.setQueryData(customQueryKey, {
+    queryClient.setQueryData(queryOptions.queryKey, {
       ...feedQuery.data,
       pages: updatedPages,
     });

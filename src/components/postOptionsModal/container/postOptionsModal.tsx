@@ -9,11 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import { useQueryClient } from '@tanstack/react-query';
-import {
-  getAccountPostsInfiniteQueryOptions,
-  getPostsRankedInfiniteQueryOptions,
-  getPostQueryOptions,
-} from '@ecency/sdk';
+import { getPostQueryOptions } from '@ecency/sdk';
 import {
   deleteComment,
   ignoreUser,
@@ -42,7 +38,6 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import styles from '../styles/postOptionsModal.styles';
 import { delay } from '../../../utils/editor';
 import { SheetNames } from '../../../navigation/sheets';
-import QUERIES from '../../../providers/queries/queryKeys';
 import {
   selectCurrentAccount,
   selectIsLoggedIn,
@@ -414,7 +409,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
 
       // Invalidate post query to refetch with updated pin status
-      // SDK uses entryPath format: /@author/permlink
       const { queryKey: entryQueryKey } = getPostQueryOptions(
         content.author,
         content.permlink,
@@ -422,20 +416,14 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       );
       queryClient.invalidateQueries({ queryKey: entryQueryKey });
 
-      // Invalidate account posts query to update profile feed
-      const { queryKey: accountPostsQueryKey } = getAccountPostsInfiniteQueryOptions(
-        currentAccount.name,
-        'blog',
-        10,
-        currentAccount?.name || '',
-        true,
-      );
-      queryClient.invalidateQueries({ queryKey: accountPostsQueryKey });
+      // Invalidate account feed queries to update profile feeds (blog, posts, reblog)
+      // Use SDK query key structure: ['posts', 'account-posts', username, filter, ...]
       queryClient.invalidateQueries({
         predicate: (query) =>
-          query.queryKey[0] === QUERIES.FEED.GET &&
-          query.queryKey[1] === currentAccount.name &&
-          ['blog', 'posts', 'reblog'].includes(String(query.queryKey[2])),
+          query.queryKey[0] === 'posts' &&
+          query.queryKey[1] === 'account-posts' &&
+          query.queryKey[2] === currentAccount.name &&
+          ['blog', 'posts', 'reblog'].includes(String(query.queryKey[3])),
       });
     } catch (err) {
       Alert.alert(
@@ -462,7 +450,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
 
       // Invalidate post query to refetch with updated pin status
-      // SDK uses entryPath format: /@author/permlink
       const { queryKey: entryQueryKey } = getPostQueryOptions(
         content.author,
         content.permlink,
@@ -470,21 +457,13 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       );
       queryClient.invalidateQueries({ queryKey: entryQueryKey });
 
-      // Invalidate community posts query to update community feed
-      // Invalidate all ranked posts with this community tag
-      const { queryKey: rankedQueryKey } = getPostsRankedInfiniteQueryOptions(
-        'created',
-        content.community,
-        10,
-        currentAccount?.name || '',
-        true,
-      );
-      queryClient.invalidateQueries({ queryKey: rankedQueryKey });
+      // Invalidate community feed queries to update community posts
+      // Use SDK query key structure: ['posts', 'posts-ranked', sort, tag, ...]
       queryClient.invalidateQueries({
         predicate: (query) =>
-          query.queryKey[0] === QUERIES.FEED.GET &&
-          query.queryKey[2] === 'communities' &&
-          query.queryKey[1] === content.community,
+          query.queryKey[0] === 'posts' &&
+          query.queryKey[1] === 'posts-ranked' &&
+          query.queryKey[3] === content.community, // tag/community is at index 3
       });
     } catch (err) {
       console.warn('Failed to update pin status of community post', err);
