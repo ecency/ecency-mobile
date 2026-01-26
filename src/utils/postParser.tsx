@@ -84,7 +84,7 @@ export const parsePost = (
     (post.net_rshares < -7000000000 && post.active_votes?.length > 3);
 
   // determine vote status
-  const vote = post.active_votes.find((element) => element.voter === currentUserName);
+  const vote = (post.active_votes || []).find((element) => element.voter === currentUserName);
   post.isUpVoted = !!vote && vote.rshares > 0;
   post.isDownVoted = !!vote && vote.rshares < 0;
 
@@ -262,7 +262,7 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
     (comment.net_rshares < -7000000000 && comment.active_votes?.length > 3);
 
   // set user vote status on comment
-  const vote = comment.active_votes.find((element) => element.voter === currentUsername);
+  const vote = (comment.active_votes || []).find((element) => element.voter === currentUsername);
   comment.isUpVoted = !!vote && vote.rshares > 0;
   comment.isDownVoted = !!vote && vote.rshares < 0;
 
