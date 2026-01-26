@@ -82,7 +82,7 @@ export const useFeedQuery = ({
         sdkSort,
         POSTS_FETCH_COUNT,
         currentAccount?.name || '',
-        true, // always enabled, let component handle enabling
+        Boolean(sdkAccount), // only enable when account is present
       )
     : getPostsRankedInfiniteQueryOptions(
         sdkSort,
@@ -185,10 +185,17 @@ export const useFeedQuery = ({
     // Capture current posts BEFORE refetch to detect new ones
     const _cachedPosts: any[] = [...(feedQuery.data?.pages?.[0] || [])];
 
-    await feedQuery.refetch({ cancelRefetch: false });
+    let refetchResult;
+    try {
+      refetchResult = await feedQuery.refetch({ cancelRefetch: false });
+    } catch (error) {
+      console.warn('Error fetching latest posts:', error);
+      _scheduleLatestPostsCheck();
+      return;
+    }
 
     // After refetch, the first page contains latest data
-    const _fetchedPosts: any[] = feedQuery.data?.pages?.[0] || [];
+    const _fetchedPosts: any[] = refetchResult.data?.pages?.[0] || [];
 
     const _latestPosts = [] as any;
 

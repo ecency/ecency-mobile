@@ -77,6 +77,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
         setRcAccount(null);
       }
     } catch (error) {
+      setUser(null);
       setIsLoading(false);
     }
   };
@@ -84,9 +85,9 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
   const _fetchExtraUserData = async () => {
     try {
       if (username) {
-        let _isFollowing;
-        let _isMuted;
-        let _isFavourite;
+        let _isFollowing = false;
+        let _isMuted = false;
+        let _isFavourite = false;
         let follows;
 
         if (!isOwnProfile) {

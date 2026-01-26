@@ -117,7 +117,7 @@ class ProfileContainer extends Component {
       queryClient
         .fetchQuery(
           getAccountPostsQueryOptions(
-            username || currentUsername || '',
+            username || (comments.length === 0 ? query.author : currentUsername) || '',
             sort,
             startAuthor,
             startPermlink,
