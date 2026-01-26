@@ -72,14 +72,19 @@ const postsListContainer = (
   const nsfw = useAppSelector(selectNsfw);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
-  const cachedPosts = useAppSelector((state) => {
-    return isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts;
-  });
+  const cachedPostsSelector = useMemo(
+    () => (state) => isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts,
+    [isFeedScreen],
+  );
+  const cachedPosts = useAppSelector(cachedPostsSelector);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const mutes = useMemo(() => currentAccount?.mutes || [], [currentAccount?.mutes]);
-  const scrollPosition = useAppSelector((state) => {
-    return isFeedScreen ? state.posts.feedScrollPosition : state.posts.otherScrollPosition;
-  });
+  const scrollPositionSelector = useMemo(
+    () => (state) =>
+      isFeedScreen ? state.posts.feedScrollPosition : state.posts.otherScrollPosition,
+    [isFeedScreen],
+  );
+  const scrollPosition = useAppSelector(scrollPositionSelector);
 
   // const [imageRatios, setImageRatios] = useState(new Map<string, number>());
 
@@ -129,22 +134,14 @@ const postsListContainer = (
 
   useEffect(() => {
     console.log('Scroll Position: ', scrollPosition);
+    // Determine the target scroll position
+    const targetOffset = cachedPosts && cachedPosts.length === 0 ? 0 : scrollPosition;
 
-    if (cachedPosts && cachedPosts.length == 0) {
-      flatListRef.current?.scrollToOffset({
-        offset: 0,
-        animated: false,
-      });
-    }
-  }, [cachedPosts]);
-
-  useEffect(() => {
-    console.log('Scroll Position: ', scrollPosition);
     flatListRef.current?.scrollToOffset({
-      offset: cachedPosts && cachedPosts.length == 0 ? 0 : scrollPosition,
+      offset: targetOffset,
       animated: false,
     });
-  }, [scrollPosition]);
+  }, [scrollPosition, cachedPosts]);
 
   // const _setImageRatioInMap = (mapKey: string, height: number) => {
   //   if (mapKey && height) {

@@ -27,7 +27,7 @@ export const DmWarningBanner: React.FC<DmWarningBannerProps> = ({ onDismiss, onS
         </Text>
       </View>
       <TouchableOpacity onPress={onDismiss} style={styles.dmWarningClose}>
-        {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
+        {}
         <Text style={styles.dmWarningCloseText}>✕</Text>
       </TouchableOpacity>
     </View>

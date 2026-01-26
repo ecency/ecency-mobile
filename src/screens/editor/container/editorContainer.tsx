@@ -25,9 +25,9 @@ import {
   grantPostingPermission,
   reblog,
   postComment,
+  getDigitPinCode,
 } from '../../../providers/hive/dhive';
 import { decryptKey } from '../../../utils/crypto';
-import { getDigitPinCode } from '../../../providers/hive/dhive';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';

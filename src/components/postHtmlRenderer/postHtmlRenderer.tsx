@@ -56,12 +56,18 @@ export const PostHtmlRenderer = memo(
 
     console.log('rendering body', body);
 
-    // new renderer functions
-    body = body
-      .replace(/<center>/g, '<div class="text-center">')
-      .replace(/<\/center>/g, '</div>')
-      .replace(/<span(.*?)>/g, '') // TODO: later handle span with propties lie <span class="ll-key"> and remove on raw <span/>
-      .replace(/<\/span>/g, '');
+    // Memoize body processing to avoid expensive regex operations on every render
+    const processedBody = useMemo(() => {
+      let processed = body;
+      if (processed) {
+        processed = processed
+          .replace(/<center>/g, '<div class="text-center">')
+          .replace(/<\/center>/g, '</div>')
+          .replace(/<span(.*?)>/g, '') // TODO: later handle span with propties lie <span class="ll-key"> and remove on raw <span/>
+          .replace(/<\/span>/g, '');
+      }
+      return processed;
+    }, [body]);
 
     const _minTableColWidth = contentWidth / 3 - 12;
 
@@ -493,7 +499,7 @@ export const PostHtmlRenderer = memo(
 
     return (
       <RenderHTML
-        source={{ html: body }}
+        source={{ html: processedBody }}
         contentWidth={contentWidth}
         baseStyle={baseStyle}
         classesStyles={classesStyles}
