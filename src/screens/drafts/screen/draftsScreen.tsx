@@ -61,7 +61,8 @@ const DraftsScreen = ({
 
   // Use specific draft selector instead of entire draftsCollection
   const idLessDraftId = DEFAULT_USER_DRAFT_ID + currentAccount?.name;
-  const _idLessDraft = useAppSelector(selectDraftById(idLessDraftId));
+  const idLessDraftSelector = useMemo(() => selectDraftById(idLessDraftId), [idLessDraftId]);
+  const _idLessDraft = useAppSelector(idLessDraftSelector);
 
   const idLessDraft = useMemo(() => {
     // if idless unsaved draft exist load that first.

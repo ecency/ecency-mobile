@@ -184,12 +184,13 @@ export const useClaimRewardsMutation = () => {
   const pinHash = useAppSelector(selectPin);
   const currency = useAppSelector((state) => state.application.currency);
   const [isClaimingColl, setIsClaimingColl] = useState<{ [key: string]: boolean }>({});
-  const portfolioKey = [
+  const portfolioBaseKey = [
     QUERIES.WALLET.GET,
     currentAccount?.name || '',
     currency.currency,
-    'enabled',
   ] as const;
+  const portfolioKeyEnabled = [...portfolioBaseKey, 'enabled'] as const;
+  const portfolioKeyAll = [...portfolioBaseKey, 'all'] as const;
 
   const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
     const account = await getAccount(currentAccount.name);
@@ -224,24 +225,35 @@ export const useClaimRewardsMutation = () => {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));
 
       // Update claim cache and set claimed asset to zero in portfolio data (loop only once)
-      const portfolioData = queryClient.getQueryData<PortfolioItem[]>(portfolioKey);
-
-      if (portfolioData) {
-        let claimedValue;
-        const updatedPortfolioData = portfolioData.map((item) => {
+      let claimedValue: number | undefined;
+      const updatePortfolio = (data?: PortfolioItem[]) => {
+        if (!data) return data;
+        return data.map((item) => {
           if (item.symbol === symbol) {
-            claimedValue = item.pendingRewards;
+            if (claimedValue === undefined) {
+              claimedValue = item.pendingRewards;
+            }
             return { ...item, pendingRewards: 0 };
           }
           return item;
         });
+      };
 
-        // update redux claim cache
-        if (claimedValue) {
-          dispatch(updateClaimCache(symbol, claimedValue));
-        }
+      const enabledData = queryClient.getQueryData<PortfolioItem[]>(portfolioKeyEnabled);
+      const allData = queryClient.getQueryData<PortfolioItem[]>(portfolioKeyAll);
+      const updatedEnabledData = updatePortfolio(enabledData);
+      const updatedAllData = updatePortfolio(allData);
 
-        queryClient.setQueryData(portfolioKey, updatedPortfolioData);
+      if (updatedEnabledData) {
+        queryClient.setQueryData(portfolioKeyEnabled, updatedEnabledData);
+      }
+      if (updatedAllData) {
+        queryClient.setQueryData(portfolioKeyAll, updatedAllData);
+      }
+
+      // update redux claim cache
+      if (claimedValue) {
+        dispatch(updateClaimCache(symbol, claimedValue));
       }
 
       dispatch(
@@ -259,7 +271,11 @@ export const useClaimRewardsMutation = () => {
         // In some cases claim request may succeed on backend but fail locally due to
         // long-running response or connectivity hiccups. Re-fetch the portfolio to
         // verify whether pending rewards were actually claimed before surfacing an error.
-        const refreshedPortfolio = await queryClient.fetchQuery<PortfolioItem[]>(portfolioKey);
+        const cachedPortfolio =
+          queryClient.getQueryData<PortfolioItem[]>(portfolioKeyEnabled) ||
+          queryClient.getQueryData<PortfolioItem[]>(portfolioKeyAll);
+        const refreshedPortfolio =
+          cachedPortfolio || (await queryClient.fetchQuery<PortfolioItem[]>(portfolioKeyEnabled));
 
         const pointsAsset = refreshedPortfolio?.find((item) => item.symbol === symbol);
         if (pointsAsset && pointsAsset.pendingRewards === 0) {

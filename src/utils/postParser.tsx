@@ -278,13 +278,13 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
   let shouldClone = false;
   let _comments = commentsMap || {};
   console.log('updating with cache', _comments, cachedComments);
-  if (!_comments || Object.keys(_comments).length === 0) {
-    console.log('Skipping cache injection - no comments');
+  if (!cachedComments && !cachedVotes) {
+    console.log('Skipping cache injection - no cache');
     return _comments;
   }
 
-  if (!cachedComments && !cachedVotes) {
-    console.log('Skipping cache injection - no cache');
+  if (!_comments || Object.keys(_comments).length === 0) {
+    console.log('Skipping cache injection - no comments');
     return _comments;
   }
 

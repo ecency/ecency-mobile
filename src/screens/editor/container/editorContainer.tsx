@@ -516,7 +516,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
     const { isDraftSaved, draftId, thumbUrl, isReply, rewardType, postDescription } = this.state;
-    const { currentAccount, dispatch, intl, queryClient, speakContentBuilder } = this.props;
+    const { currentAccount, dispatch, intl, queryClient, speakContentBuilder, pinCode } =
+      this.props;
 
     try {
       // saves draft locallly
