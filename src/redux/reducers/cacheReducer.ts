@@ -6,6 +6,8 @@ import {
   DELETE_COMMENT_CACHE_ENTRY,
   DELETE_DRAFT_CACHE_ENTRY,
   UPDATE_DRAFT_CACHE,
+  UPDATE_REPLY_CACHE,
+  DELETE_REPLY_CACHE_ENTRY,
   UPDATE_SUBSCRIBED_COMMUNITY_CACHE,
   DELETE_SUBSCRIBED_COMMUNITY_CACHE,
   CLEAR_SUBSCRIBED_COMMUNITIES_CACHE,
@@ -118,6 +120,7 @@ interface State {
   commentsCollection: { [key: string]: Comment };
   pollVotesCollection: { [key: string]: PollVoteCache };
   draftsCollection: { [key: string]: Draft };
+  replyCache: { [key: string]: Draft }; // For waves and reply autosave
   claimsCollection: ClaimsCollection;
   subscribedCommunities: Map<string, SubscribedCommunity>;
   pointActivities: Map<string, PointActivity>;
@@ -131,6 +134,7 @@ const initialState: State = {
   commentsCollection: {},
   pollVotesCollection: {},
   draftsCollection: {},
+  replyCache: {},
   claimsCollection: {},
   announcementsMeta: {},
   proposalsVoteMeta: {},
@@ -226,6 +230,39 @@ const cacheReducer = (state = initialState, action) => {
     case DELETE_DRAFT_CACHE_ENTRY:
       if (state.draftsCollection && state.draftsCollection[payload]) {
         delete state.draftsCollection[payload];
+      }
+      return { ...state };
+
+    case UPDATE_REPLY_CACHE:
+      if (!payload.id || !payload.draft) {
+        return state;
+      }
+
+      if (!state.replyCache) {
+        state.replyCache = {};
+      }
+
+      const replyTime = new Date().getTime();
+      const curReply = state.replyCache[payload.id];
+      const payloadReply = payload.draft;
+
+      payloadReply.created = curReply?.created || replyTime;
+      payloadReply.updated = replyTime;
+      payloadReply.expiresAt = replyTime + 604800000; // 7 days ms
+
+      state.replyCache[payload.id] = payloadReply;
+      return {
+        ...state, // spread operator in requried here, otherwise persist do not register change
+        lastUpdate: {
+          postPath: payload.id,
+          updatedAt: new Date().getTime(),
+          type: 'draft',
+        },
+      };
+
+    case DELETE_REPLY_CACHE_ENTRY:
+      if (state.replyCache && state.replyCache[payload]) {
+        delete state.replyCache[payload];
       }
       return { ...state };
 
@@ -364,6 +401,15 @@ const cacheReducer = (state = initialState, action) => {
           const draft = state.draftsCollection[key];
           if (draft && ((draft?.expiresAt || 0) < currentTime || !draft.body)) {
             delete state.draftsCollection[key];
+          }
+        });
+      }
+
+      if (state.replyCache) {
+        Object.keys(state.replyCache).forEach((key) => {
+          const reply = state.replyCache[key];
+          if (reply && ((reply?.expiresAt || 0) < currentTime || !reply.body)) {
+            delete state.replyCache[key];
           }
         });
       }

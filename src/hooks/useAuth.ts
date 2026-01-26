@@ -1,0 +1,31 @@
+import { useMemo } from 'react';
+import { useAppSelector } from './index';
+import { selectCurrentAccount, selectPin } from '../redux/selectors';
+import { decryptKey } from '../utils/crypto';
+import { getDigitPinCode } from '../providers/hive/dhive';
+
+/**
+ * Global memoized auth hook that returns username and access token
+ * Caches crypto operations (AES-256 decryption) to avoid re-computing on every render
+ * Only recomputes when account or pin changes
+ *
+ * PERFORMANCE: This hook is shared across all queries to prevent duplicate decryption operations.
+ * Previously each query file had its own local useAuth, causing unnecessary AES-256 decryptions.
+ *
+ * @returns {Object} Auth credentials
+ * @returns {string | undefined} username - Current account username
+ * @returns {string | undefined} code - Decrypted access token
+ */
+export const useAuth = () => {
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
+
+  return useMemo(() => {
+    const digitPinCode = getDigitPinCode(pinHash);
+    const accessToken = currentAccount?.local?.accessToken
+      ? decryptKey(currentAccount.local.accessToken, digitPinCode)
+      : undefined;
+
+    return { username: currentAccount?.name, code: accessToken };
+  }, [currentAccount?.name, currentAccount?.local?.accessToken, pinHash]);
+};

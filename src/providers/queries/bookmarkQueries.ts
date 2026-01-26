@@ -9,28 +9,8 @@ import {
   useAccountFavouriteDelete,
 } from '@ecency/sdk';
 import { useIntl } from 'react-intl';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch, useAuth } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
-import { selectCurrentAccount, selectPin } from '../../redux/selectors';
-import { decryptKey } from '../../utils/crypto';
-import { getDigitPinCode } from '../hive/dhive';
-
-/**
- * Get username and access token from Redux state
- * Used internally by mutation hooks to access auth credentials
- */
-const useAuth = () => {
-  const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinHash = useAppSelector(selectPin);
-  const digitPinCode = getDigitPinCode(pinHash);
-
-  const username = currentAccount?.name;
-  const accessToken = currentAccount?.local?.accessToken
-    ? decryptKey(currentAccount.local.accessToken, digitPinCode)
-    : undefined;
-
-  return { username, code: accessToken };
-};
 
 /**
  * Hook to return user bookmarks with infinite scroll pagination

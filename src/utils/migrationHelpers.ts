@@ -397,6 +397,38 @@ const reduxMigrations = {
 
     return state;
   },
+  14: (state) => {
+    // Migrate reply and wave drafts from draftsCollection to replyCache
+    state.cache.replyCache = {};
+
+    if (state.cache.draftsCollection) {
+      const _replyCache = {};
+      const _draftsToKeep = {};
+
+      Object.keys(state.cache.draftsCollection).forEach((key) => {
+        const draft = state.cache.draftsCollection[key];
+
+        // Identify waves: username/ecency.waves
+        // Identify replies: username/parentAuthor/parentPermlink (has 2+ slashes)
+        const isWaveOrReply =
+          key.includes('/ecency.waves') ||
+          (key.split('/').length >= 3 && !key.startsWith('DEFAULT_USER_DRAFT_ID_'));
+
+        if (isWaveOrReply) {
+          // Move to replyCache
+          _replyCache[key] = draft;
+        } else {
+          // Keep in draftsCollection
+          _draftsToKeep[key] = draft;
+        }
+      });
+
+      state.cache.replyCache = _replyCache;
+      state.cache.draftsCollection = _draftsToKeep;
+    }
+
+    return state;
+  },
 };
 
 export default {

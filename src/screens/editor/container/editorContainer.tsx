@@ -49,8 +49,10 @@ import {
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import {
   deleteDraftCacheEntry,
+  deleteReplyCacheEntry,
   updateCommentCache,
   updateDraftCache,
+  updateReplyCache,
 } from '../../../redux/actions/cacheActions';
 import QUERIES from '../../../providers/queries/queryKeys';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
@@ -118,7 +120,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   // Component Life Cycle Functions
   componentDidMount() {
     this._isMounted = true;
-    const { currentAccount, route, draftsCollection, queryClient, dispatch } = this.props;
+    const { currentAccount, route, queryClient, dispatch } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
     let draftId;
@@ -190,7 +192,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         if (post) {
           draftId = `${currentAccount.name}/${post.author}/${post.permlink}`;
-          const _replyDraft = draftsCollection && draftsCollection[draftId];
+          // For replies, use replyCache instead of draftsCollection
+          const { replyCache } = this.props;
+          const _replyDraft = replyCache && replyCache[draftId];
 
           if (_replyDraft && !!_replyDraft.body) {
             const _mediaUrls = navigationParams.replyMediaUrls;
@@ -280,9 +284,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _getStorageDraft = async (username, isReply, paramDraft) => {
-    const { draftsCollection } = this.props;
+    const { draftsCollection, replyCache } = this.props;
     if (isReply) {
-      const _draft = draftsCollection && draftsCollection[paramDraft._id];
+      // For replies, use replyCache instead of draftsCollection
+      const _draft = replyCache && replyCache[paramDraft._id];
       if (_draft && !!_draft.body) {
         this.setState({
           draftPost: {
@@ -706,12 +711,15 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       meta: Object.keys(meta).length > 0 ? meta : undefined,
     };
 
-    // save reply data or save existing draft data locall
-    if (isReply || draftId) {
+    // save reply data to replyCache, draft data to draftsCollection
+    if (isReply) {
+      // Replies go to replyCache
+      dispatch(updateReplyCache(draftId, draftField));
+    } else if (draftId) {
+      // Editing existing draft goes to draftsCollection
       dispatch(updateDraftCache(draftId, draftField));
-    }
-    // update editor data locally
-    else if (!isReply) {
+    } else {
+      // New post autosave goes to draftsCollection
       dispatch(updateDraftCache(DEFAULT_USER_DRAFT_ID + username, draftField));
     }
   };
@@ -926,7 +934,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       pinCode,
       dispatch,
       userActivityMutation,
-      draftsCollection,
+      replyCache,
       speakContentBuilder,
     } = this.props;
     const { isPostSending } = this.state;
@@ -997,9 +1005,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             ),
           );
 
-          // delete quick comment draft cache if it exist
-          if (draftsCollection && draftsCollection[draftId]) {
-            dispatch(deleteDraftCacheEntry(draftId));
+          // delete quick comment draft cache if it exist (from replyCache)
+          if (replyCache && replyCache[draftId]) {
+            dispatch(deleteReplyCacheEntry(draftId));
           }
 
           this._isSubmitting = false;
@@ -1450,6 +1458,7 @@ const mapStateToProps = (state) => ({
   pollDraftsMap: state.editor.pollDraftsMap,
   defaultRewardType: state.editor.defaultRewardType,
   draftsCollection: state.cache.draftsCollection,
+  replyCache: state.cache.replyCache,
 });
 
 const mapQueriesToProps = () => ({

@@ -9,6 +9,8 @@ import {
   DELETE_COMMENT_CACHE_ENTRY,
   UPDATE_DRAFT_CACHE,
   DELETE_DRAFT_CACHE_ENTRY,
+  UPDATE_REPLY_CACHE,
+  DELETE_REPLY_CACHE_ENTRY,
   UPDATE_SUBSCRIBED_COMMUNITY_CACHE,
   DELETE_SUBSCRIBED_COMMUNITY_CACHE,
   CLEAR_SUBSCRIBED_COMMUNITIES_CACHE,
@@ -121,6 +123,19 @@ export const updateDraftCache = (id: string, draft: Draft) => ({
 export const deleteDraftCacheEntry = (id: string) => ({
   payload: id,
   type: DELETE_DRAFT_CACHE_ENTRY,
+});
+
+export const updateReplyCache = (id: string, draft: Draft) => ({
+  payload: {
+    id,
+    draft,
+  },
+  type: UPDATE_REPLY_CACHE,
+});
+
+export const deleteReplyCacheEntry = (id: string) => ({
+  payload: id,
+  type: DELETE_REPLY_CACHE_ENTRY,
 });
 
 export const updateClaimCache = (assetId: string, rewardValue: number) => ({

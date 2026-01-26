@@ -31,12 +31,12 @@ import {
   UserAvatar,
 } from '..';
 import { delay } from '../../utils/editor';
-import { deleteDraftCacheEntry, updateDraftCache } from '../../redux/actions/cacheActions';
+import { deleteReplyCacheEntry, updateReplyCache } from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
 import RootNavigation from '../../navigation/rootNavigation';
 import { Draft } from '../../redux/reducers/cacheReducer';
 import { RootState } from '../../redux/store/store';
-import { selectCurrentAccount } from '../../redux/selectors';
+import { selectCurrentAccount, selectReplyById } from '../../redux/selectors';
 import { useAppSelector } from '../../hooks';
 
 import { postQueries } from '../../providers/queries';
@@ -70,7 +70,6 @@ export const QuickPostModalContent = forwardRef(
     const pollWizardModalRef = useRef(null);
 
     const currentAccount = useAppSelector(selectCurrentAccount);
-    const draftsCollection = useAppSelector((state: RootState) => state.cache.draftsCollection);
     const pollDraftsMap = useAppSelector((state: RootState) => state.editor.pollDraftsMap);
 
     const [commentValue, setCommentValue] = useState('');
@@ -84,9 +83,9 @@ export const QuickPostModalContent = forwardRef(
     const parentAuthor = selectedPost ? selectedPost.author : '';
     const parentPermlink = selectedPost ? selectedPost.permlink : '';
 
-    // Use SDK query to fetch community data
+    // Use SDK query to fetch community data - only when communityToCheck is set
     const { data: community } = useQuery({
-      ...getCommunityQueryOptions(communityToCheck || undefined, currentAccount.name),
+      ...getCommunityQueryOptions(communityToCheck || '', currentAccount.name),
       enabled: !!communityToCheck,
     });
 
@@ -98,10 +97,18 @@ export const QuickPostModalContent = forwardRef(
           )
         : selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
 
-    const draftId =
-      mode === 'wave'
-        ? `${currentAccount.name}/ecency.waves` // TODO: update author based on selected host
-        : `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
+    const draftId = useMemo(
+      () =>
+        mode === 'wave'
+          ? `${currentAccount.name}/ecency.waves` // TODO: update author based on selected host
+          : `${currentAccount.name}/${parentAuthor}/${parentPermlink}`, // different draftId for each user acount
+      [mode, currentAccount.name, parentAuthor, parentPermlink],
+    );
+
+    // Use specific reply selector for waves and quick replies
+    const currentDraft = useAppSelector((state: RootState) => selectReplyById(draftId)(state)) as
+      | Draft
+      | undefined;
 
     const pollDraft = draftId && pollDraftsMap[draftId];
 
@@ -129,19 +136,11 @@ export const QuickPostModalContent = forwardRef(
       };
     }, []);
 
-    // load quick comment value from cache
+    // load quick comment value from cache using memoized draft lookup
     useEffect(() => {
       let _value = '';
-      if (
-        draftsCollection &&
-        !!draftsCollection[draftId] &&
-        currentAccount.name === draftsCollection[draftId].author
-      ) {
-        const quickComment: Draft = draftsCollection[draftId];
-        _value =
-          currentAccount.name === quickComment.author && !!quickComment.body
-            ? quickComment.body
-            : '';
+      if (currentDraft && currentAccount.name === currentDraft.author) {
+        _value = currentDraft.body || '';
       }
 
       setCommentValue(_value);
@@ -153,7 +152,7 @@ export const QuickPostModalContent = forwardRef(
       if (selectedPost?.community) {
         setCommunityToCheck(selectedPost.community);
       }
-    }, [selectedPost]);
+    }, [currentDraft, currentAccount.name, selectedPost?.community]);
 
     // Check if user can comment based on community data from SDK query
     useEffect(() => {
@@ -168,24 +167,27 @@ export const QuickPostModalContent = forwardRef(
       }
     }, [community]);
 
-    // add quick comment value into cache
-    const _addQuickCommentIntoCache = (value = commentValue) => {
-      const quickCommentDraftData: Draft = {
-        author: currentAccount.name,
-        body: value,
-      };
+    // add quick comment value into cache - memoized with useCallback
+    const _addQuickCommentIntoCache = useCallback(
+      (value = commentValue) => {
+        const quickCommentDraftData: Draft = {
+          author: currentAccount.name,
+          body: value,
+        };
 
-      // add quick comment cache entry
-      dispatch(updateDraftCache(draftId, quickCommentDraftData));
-    };
+        // add quick comment/wave cache entry to replyCache
+        dispatch(updateReplyCache(draftId, quickCommentDraftData));
+      },
+      [commentValue, currentAccount.name, draftId, dispatch],
+    );
 
-    // handle close press
-    const _handleClosePress = () => {
+    // handle close press - memoized with useCallback
+    const _handleClosePress = useCallback(() => {
       onClose();
-    };
+    }, [onClose]);
 
-    // navigate to post on summary press
-    const _handleOnSummaryPress = () => {
+    // navigate to post on summary press - memoized with useCallback
+    const _handleOnSummaryPress = useCallback(() => {
       Keyboard.dismiss();
       onClose();
       postsCachePrimer.cachePost(selectedPost);
@@ -197,7 +199,7 @@ export const QuickPostModalContent = forwardRef(
         },
         key: get(selectedPost, 'permlink'),
       });
-    };
+    }, [onClose, postsCachePrimer, selectedPost]);
 
     // handle submit reply
     const _submitPost = async () => {
@@ -221,9 +223,9 @@ export const QuickPostModalContent = forwardRef(
       }
 
       if (_isSuccess) {
-        // delete quick comment draft cache if it exist
-        if (draftsCollection && draftsCollection[draftId]) {
-          dispatch(deleteDraftCacheEntry(draftId));
+        // delete quick comment/wave cache if it exists
+        if (currentDraft) {
+          dispatch(deleteReplyCacheEntry(draftId));
         }
         dispatch(removePollDraft(draftId));
         setCommentValue('');

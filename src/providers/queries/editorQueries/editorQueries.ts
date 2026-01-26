@@ -16,13 +16,12 @@ import { Image } from 'react-native-image-crop-picker';
 // import Config from 'react-native-config';
 // import { Platform } from 'react-native';
 import * as Sentry from '@sentry/react-native';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector, useAuth } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { uploadImage } from '../../ecency/ecency';
 import { MediaItem, Snippet } from '../../ecency/ecency.types';
-import { signImage, getDigitPinCode } from '../../hive/dhive';
+import { signImage } from '../../hive/dhive';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
-import { decryptKey } from '../../../utils/crypto';
 
 /**
  * EDITOR QUERIES - SDK MIGRATION STATUS
@@ -49,23 +48,6 @@ interface MediaUploadVars {
   media: Image;
   addToUploads: boolean;
 }
-
-/**
- * Get username and access token from Redux state
- * Used internally by mutation hooks to access auth credentials
- */
-const useAuth = () => {
-  const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinHash = useAppSelector(selectPin);
-  const digitPinCode = getDigitPinCode(pinHash);
-
-  const username = currentAccount?.name;
-  const accessToken = currentAccount?.local?.accessToken
-    ? decryptKey(currentAccount.local.accessToken, digitPinCode)
-    : undefined;
-
-  return { username, code: accessToken };
-};
 
 /** GET QUERIES (using SDK) */
 

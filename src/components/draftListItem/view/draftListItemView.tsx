@@ -237,4 +237,8 @@ const DraftListItemView = ({
   );
 };
 
-export default injectIntl(DraftListItemView);
+export default React.memo(injectIntl(DraftListItemView), (prev, next) => {
+  return (
+    prev.draftItem._id === next.draftItem._id && prev.draftItem.modified === next.draftItem.modified
+  );
+});
