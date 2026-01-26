@@ -538,9 +538,11 @@ export const parseActiveVotes = (post) => {
 
   if (votes.length) {
     post.active_votes = votes.map((vote) => parseVote(vote, post, _totalRShares));
+  } else {
+    post.active_votes = votes;
   }
 
-  return post.active_votes || votes;
+  return post.active_votes;
 };
 
 export const parseVote = (activeVote: any, post: any, _totalRShares?: number) => {

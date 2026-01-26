@@ -182,6 +182,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             })
             .catch((err) => {
               console.warn('Failed to fetch draft from API', err);
+              dispatch(
+                toastNotification(
+                  intl.formatMessage({
+                    id: 'alert.fail',
+                    defaultMessage: 'Fetch failed.',
+                  }),
+                ),
+              );
             });
         }
       }
