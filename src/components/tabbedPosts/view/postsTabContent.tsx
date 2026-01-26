@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { debounce } from 'lodash';
 import BackgroundTimer from 'react-native-background-timer';
@@ -20,10 +20,6 @@ import {
 } from '../../../redux/selectors';
 import { useAppSelector } from '../../../hooks';
 import { ProposalVoteRequest } from '../..';
-
-let scrollOffset = 0;
-let blockPopup = false;
-const SCROLL_POPUP_THRESHOLD = 5000;
 
 const PostsTabContent = ({
   filterKey,
@@ -56,6 +52,10 @@ const PostsTabContent = ({
 
   const sessionUserRef = useRef(sessionUser);
   const postFetchTimerRef = useRef<any>(null);
+  const blockPopupRef = useRef(false);
+  const blockPopupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const scrollOffsetRef = useRef(0);
+  const SCROLL_POPUP_THRESHOLD = 5000;
 
   const feedQuery = useFeedQuery({
     feedUsername,
@@ -132,9 +132,17 @@ const PostsTabContent = ({
     postsListRef?.current?.scrollToTop();
     setEnableScrollTop(false);
     scrollPopupDebouce.cancel();
-    blockPopup = true;
-    setTimeout(() => {
-      blockPopup = false;
+    blockPopupRef.current = true;
+
+    // Clear existing timeout
+    if (blockPopupTimeoutRef.current) {
+      clearTimeout(blockPopupTimeoutRef.current);
+    }
+
+    // Set new timeout
+    blockPopupTimeoutRef.current = setTimeout(() => {
+      blockPopupRef.current = false;
+      blockPopupTimeoutRef.current = null;
     }, 1000);
   };
 
@@ -156,20 +164,31 @@ const PostsTabContent = ({
     return <TabEmptyView filterKey={filterKey} isNoPost={_isNoPost} />;
   };
 
-  const scrollPopupDebouce = debounce(
-    (value) => {
-      setEnableScrollTop(value);
-    },
-    500,
-    { leading: true },
+  const scrollPopupCallback = useCallback((value: boolean) => {
+    setEnableScrollTop(value);
+  }, []);
+
+  const scrollPopupDebouce = useMemo(
+    () => debounce(scrollPopupCallback, 500, { leading: true }),
+    [scrollPopupCallback],
   );
+
+  // Cleanup debounce and timeout on unmount
+  useEffect(() => {
+    return () => {
+      scrollPopupDebouce.cancel();
+      if (blockPopupTimeoutRef.current) {
+        clearTimeout(blockPopupTimeoutRef.current);
+      }
+    };
+  }, [scrollPopupDebouce]);
 
   const _onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const currentOffset = event.nativeEvent.contentOffset.y;
-    const scrollUp = currentOffset < scrollOffset;
-    scrollOffset = currentOffset;
+    const scrollUp = currentOffset < scrollOffsetRef.current;
+    scrollOffsetRef.current = currentOffset;
 
-    if (scrollUp && !blockPopup && currentOffset > SCROLL_POPUP_THRESHOLD) {
+    if (scrollUp && !blockPopupRef.current && currentOffset > SCROLL_POPUP_THRESHOLD) {
       scrollPopupDebouce(true);
     }
   };

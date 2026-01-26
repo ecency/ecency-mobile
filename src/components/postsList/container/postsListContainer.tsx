@@ -95,11 +95,14 @@ const postsListContainer = (
       return !isMuted && !!item?.author;
     });
 
+    // Create Set for O(1) lookup instead of O(n) filter
+    const existingPermlinks = new Set(_data.map((post) => post.permlink));
+
     const _promotedPosts =
       promotedPosts && Array.isArray(promotedPosts)
         ? promotedPosts.filter((item) => {
             const isMuted = mutes && mutes.indexOf(item.author) > -1;
-            const notInPosts = _data.filter((x) => x.permlink === item.permlink).length <= 0;
+            const notInPosts = !existingPermlinks.has(item.permlink);
             return !isMuted && !!item?.author && notInPosts;
           })
         : [];
@@ -254,7 +257,7 @@ const postsListContainer = (
         data={cacheInjectedData}
         showsVerticalScrollIndicator={false}
         renderItem={_renderItem}
-        keyExtractor={(content, index) => `${content.author}/${content.permlink}-${index}`}
+        keyExtractor={(content) => `${content.author}/${content.permlink}`}
         onEndReachedThreshold={1}
         maxToRenderPerBatch={5}
         initialNumToRender={3}

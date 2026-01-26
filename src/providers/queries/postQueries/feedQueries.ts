@@ -197,15 +197,14 @@ export const useFeedQuery = ({
     // After refetch, the first page contains latest data
     const _fetchedPosts: any[] = refetchResult.data?.pages?.[0] || [];
 
+    // Create Set of cached post keys for O(1) lookup
+    const cachedKeys = new Set(_cachedPosts.map((post) => `${post.author}/${post.permlink}`));
+
     const _latestPosts = [] as any;
 
     _fetchedPosts.forEach((post) => {
-      const newPostAuthPrem = post.author + post.permlink;
-      const postExist = _cachedPosts.find(
-        (cPost) => cPost.author + cPost.permlink === newPostAuthPrem,
-      );
-
-      if (!postExist) {
+      const postKey = `${post.author}/${post.permlink}`;
+      if (!cachedKeys.has(postKey)) {
         _latestPosts.push(post);
       }
     });
