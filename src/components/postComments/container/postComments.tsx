@@ -104,13 +104,14 @@ const PostComments = forwardRef(
     }));
 
     useEffect(() => {
-      if (!discussionQuery.isLoading) {
+      // Use isFetching instead of isLoading to properly handle both initial load and refetch
+      if (!discussionQuery.isFetching) {
         handleOnCommentsLoaded();
         if (refreshing) {
           setRefreshing(false);
         }
       }
-    }, [discussionQuery.isLoading, handleOnCommentsLoaded, refreshing, setRefreshing]);
+    }, [discussionQuery.isFetching, handleOnCommentsLoaded, refreshing, setRefreshing]);
 
     const _onRefresh = () => {
       setRefreshing(true);
@@ -314,7 +315,8 @@ const PostComments = forwardRef(
         return null;
       }
 
-      if (discussionQuery.isLoading || !!sortedSections.length) {
+      // Use isFetching to show spinner during both initial load and refetch
+      if (discussionQuery.isFetching || !!sortedSections.length) {
         return (
           <ActivityIndicator
             style={styles.loadingIndicator}
@@ -330,7 +332,7 @@ const PostComments = forwardRef(
       );
     }, [
       isPostLoading,
-      discussionQuery.isLoading,
+      discussionQuery.isFetching,
       sortedSections.length,
       _handleEmptyPress,
       emptyTextMessage,
