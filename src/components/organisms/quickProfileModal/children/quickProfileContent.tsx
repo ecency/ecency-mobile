@@ -65,7 +65,16 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
 
       // Then fetch new data
       setIsLoading(true);
-      Promise.all([_fetchUser(), _fetchExtraUserData()]).finally(() => setIsLoading(false));
+      (async () => {
+        try {
+          await Promise.all([_fetchUser(), _fetchExtraUserData()]);
+        } catch (error) {
+          // Errors are handled within individual functions
+          console.warn('Error fetching profile data:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      })();
     } else {
       setUser(null);
       setRcAccount(null);
