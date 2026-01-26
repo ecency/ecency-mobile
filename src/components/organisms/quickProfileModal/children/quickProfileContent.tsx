@@ -55,6 +55,15 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
 
   useEffect(() => {
     if (username) {
+      // Clear stale data first to prevent showing previous profile during fetch
+      setUser(null);
+      setRcAccount(null);
+      setFollows(null);
+      setIsFollowing(false);
+      setIsMuted(false);
+      setIsFavourite(false);
+
+      // Then fetch new data
       setIsLoading(true);
       Promise.all([_fetchUser(), _fetchExtraUserData()]).finally(() => setIsLoading(false));
     } else {
@@ -95,7 +104,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
             );
             _isFollowing = res && res.follows;
             _isMuted = res && res.ignores;
-            _isFavourite = await checkFavorite(username);
+            _isFavourite = Boolean(await checkFavorite(username));
           } else {
             _isFollowing = false;
             _isMuted = false;
