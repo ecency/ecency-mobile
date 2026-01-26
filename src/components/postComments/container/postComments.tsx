@@ -200,7 +200,16 @@ const PostComments = forwardRef(
           },
         });
       },
-      [currentAccount, pinHash, discussionQuery.data, dispatch, intl],
+      [
+        currentAccount,
+        pinHash,
+        discussionQuery.data,
+        dispatch,
+        intl,
+        author,
+        permlink,
+        queryClient,
+      ],
     );
 
     const _openReplyThread = useCallback(
