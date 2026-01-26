@@ -389,16 +389,22 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
   ) => {
     const params = {
-      ...currentAccount.about.profile,
+      ...(currentAccount.about?.profile || {}),
       pinned: unpinPost ? null : content.permlink,
     };
 
     try {
       await profileUpdate(params, pinCode, currentAccount);
 
-      currentAccount.about.profile = { ...params };
+      const nextAccount = {
+        ...currentAccount,
+        about: {
+          ...(currentAccount.about || {}),
+          profile: { ...params },
+        },
+      };
 
-      dispatch(updateCurrentAccount({ ...currentAccount }));
+      dispatch(updateCurrentAccount(nextAccount));
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
 
       // Invalidate post query to refetch with updated pin status
