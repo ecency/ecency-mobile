@@ -25,7 +25,7 @@ export const initQueryClient = () => {
     console.error('Failed to initialize SDK config:', error);
   });
 
-  const _shouldDehdrateQuery = (query: Query) => {
+  const _shouldDehydrateQuery = (query: Query) => {
     const _isSuccess = query.state.status === 'success';
 
     // Don't persist queries with undefined in their query keys
@@ -83,7 +83,7 @@ export const initQueryClient = () => {
     persistOptions: {
       persister: asyncStoragePersister,
       dehydrateOptions: {
-        shouldDehydrateQuery: _shouldDehdrateQuery,
+        shouldDehydrateQuery: _shouldDehydrateQuery,
       },
     },
   } as PersistQueryClientProviderProps;

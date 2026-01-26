@@ -10,6 +10,11 @@ import { FlatList } from 'react-native-gesture-handler';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import { useQueryClient } from '@tanstack/react-query';
 import {
+  getAccountPostsInfiniteQueryOptions,
+  getPostsRankedInfiniteQueryOptions,
+  getPostQueryOptions,
+} from '@ecency/sdk';
+import {
   deleteComment,
   ignoreUser,
   pinCommunityPost,
@@ -37,6 +42,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import styles from '../styles/postOptionsModal.styles';
 import { delay } from '../../../utils/editor';
 import { SheetNames } from '../../../navigation/sheets';
+import QUERIES from '../../../providers/queries/queryKeys';
 import {
   selectCurrentAccount,
   selectIsLoggedIn,
@@ -409,14 +415,27 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
       // Invalidate post query to refetch with updated pin status
       // SDK uses entryPath format: /@author/permlink
-      queryClient.invalidateQueries({
-        queryKey: ['posts', 'entry', `/@${content.author}/${content.permlink}`],
-      });
+      const { queryKey: entryQueryKey } = getPostQueryOptions(
+        content.author,
+        content.permlink,
+        currentAccount?.name || '',
+      );
+      queryClient.invalidateQueries({ queryKey: entryQueryKey });
 
       // Invalidate account posts query to update profile feed
-      // This will invalidate all variations (posts, blog, etc.)
+      const { queryKey: accountPostsQueryKey } = getAccountPostsInfiniteQueryOptions(
+        currentAccount.name,
+        'blog',
+        10,
+        currentAccount?.name || '',
+        true,
+      );
+      queryClient.invalidateQueries({ queryKey: accountPostsQueryKey });
       queryClient.invalidateQueries({
-        queryKey: ['posts', 'account-posts', currentAccount.name],
+        predicate: (query) =>
+          query.queryKey[0] === QUERIES.FEED.GET &&
+          query.queryKey[1] === currentAccount.name &&
+          ['blog', 'posts', 'reblog'].includes(String(query.queryKey[2])),
       });
     } catch (err) {
       Alert.alert(
@@ -444,18 +463,28 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
       // Invalidate post query to refetch with updated pin status
       // SDK uses entryPath format: /@author/permlink
-      queryClient.invalidateQueries({
-        queryKey: ['posts', 'entry', `/@${content.author}/${content.permlink}`],
-      });
+      const { queryKey: entryQueryKey } = getPostQueryOptions(
+        content.author,
+        content.permlink,
+        currentAccount?.name || '',
+      );
+      queryClient.invalidateQueries({ queryKey: entryQueryKey });
 
       // Invalidate community posts query to update community feed
       // Invalidate all ranked posts with this community tag
+      const { queryKey: rankedQueryKey } = getPostsRankedInfiniteQueryOptions(
+        'created',
+        content.community,
+        10,
+        currentAccount?.name || '',
+        true,
+      );
+      queryClient.invalidateQueries({ queryKey: rankedQueryKey });
       queryClient.invalidateQueries({
-        queryKey: ['posts', 'posts-ranked'],
         predicate: (query) =>
-          query.queryKey[0] === 'posts' &&
-          query.queryKey[1] === 'posts-ranked' &&
-          query.queryKey[3] === content.community,
+          query.queryKey[0] === QUERIES.FEED.GET &&
+          query.queryKey[2] === 'communities' &&
+          query.queryKey[1] === content.community,
       });
     } catch (err) {
       console.warn('Failed to update pin status of community post', err);

@@ -233,7 +233,7 @@ const cacheReducer = (state = initialState, action) => {
       }
       return { ...state };
 
-    case UPDATE_REPLY_CACHE:
+    case UPDATE_REPLY_CACHE: {
       if (!payload.id || !payload.draft) {
         return state;
       }
@@ -259,6 +259,7 @@ const cacheReducer = (state = initialState, action) => {
           type: 'draft',
         },
       };
+    }
 
     case DELETE_REPLY_CACHE_ENTRY:
       if (state.replyCache && state.replyCache[payload]) {

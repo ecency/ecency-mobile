@@ -218,11 +218,13 @@ export const useClaimRewardsMutation = () => {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));
 
       // Update claim cache and set claimed asset to zero in portfolio data (loop only once)
-      const portfolioData: PortfolioItem[] | undefined = queryClient.getQueryData<any[]>([
+      const portfolioKey = [
         QUERIES.WALLET.GET,
         currentAccount.name,
         currency.currency,
-      ]);
+        'enabled',
+      ] as const;
+      const portfolioData = queryClient.getQueryData<PortfolioItem[]>(portfolioKey);
 
       if (portfolioData) {
         let claimedValue;
@@ -239,10 +241,7 @@ export const useClaimRewardsMutation = () => {
           dispatch(updateClaimCache(symbol, claimedValue));
         }
 
-        queryClient.setQueryData(
-          [QUERIES.WALLET.GET, currentAccount.name, currency.currency],
-          updatedPortfolioData,
-        );
+        queryClient.setQueryData(portfolioKey, updatedPortfolioData);
       }
 
       dispatch(
@@ -260,11 +259,7 @@ export const useClaimRewardsMutation = () => {
         // In some cases claim request may succeed on backend but fail locally due to
         // long-running response or connectivity hiccups. Re-fetch the portfolio to
         // verify whether pending rewards were actually claimed before surfacing an error.
-        const refreshedPortfolio = await queryClient.fetchQuery<PortfolioItem[]>([
-          QUERIES.WALLET.GET,
-          currentAccount.name,
-          currency.currency,
-        ]);
+        const refreshedPortfolio = await queryClient.fetchQuery<PortfolioItem[]>(portfolioKey);
 
         const pointsAsset = refreshedPortfolio?.find((item) => item.symbol === symbol);
         if (pointsAsset && pointsAsset.pendingRewards === 0) {
@@ -317,7 +312,7 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const chainQuery = useInfiniteQuery({
-    ...getTransactionsInfiniteQueryOptions(username, ACTIVITIES_FETCH_LIMIT),
+    ...getTransactionsInfiniteQueryOptions(username ?? '', ACTIVITIES_FETCH_LIMIT),
     enabled: !!username && !isEngine,
   });
 

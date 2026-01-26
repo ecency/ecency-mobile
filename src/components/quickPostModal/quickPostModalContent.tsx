@@ -149,9 +149,7 @@ export const QuickPostModalContent = forwardRef(
       });
 
       // check if user can comment to community
-      if (selectedPost?.community) {
-        setCommunityToCheck(selectedPost.community);
-      }
+      setCommunityToCheck(selectedPost?.community ?? null);
     }, [currentDraft, currentAccount.name, selectedPost?.community]);
 
     // Check if user can comment based on community data from SDK query

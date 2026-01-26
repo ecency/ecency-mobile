@@ -23,8 +23,12 @@ import { toastNotification } from '../../redux/actions/uiAction';
  */
 export const useGetDraftsQuery = (limit = 20) => {
   const { username, code } = useAuth();
+  const enabled = !!username && !!code;
 
-  const infiniteQuery = useInfiniteQuery(getDraftsInfiniteQueryOptions(username, code, limit));
+  const infiniteQuery = useInfiniteQuery({
+    ...getDraftsInfiniteQueryOptions(username ?? '', code ?? '', limit),
+    enabled,
+  });
 
   // Flatten pages into single array
   // Backend returns already sorted data, no need for client-side sorting
@@ -48,8 +52,12 @@ export const useGetDraftsQuery = (limit = 20) => {
  */
 export const useGetSchedulesQuery = (limit = 20) => {
   const { username, code } = useAuth();
+  const enabled = !!username && !!code;
 
-  const infiniteQuery = useInfiniteQuery(getSchedulesInfiniteQueryOptions(username, code, limit));
+  const infiniteQuery = useInfiniteQuery({
+    ...getSchedulesInfiniteQueryOptions(username ?? '', code ?? '', limit),
+    enabled,
+  });
 
   // Flatten pages into single array
   // Backend returns already sorted data, no need for client-side sorting

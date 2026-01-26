@@ -1,4 +1,4 @@
-import { get, isArray } from 'lodash';
+import { get } from 'lodash';
 import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
 import { Image as ExpoImage } from 'expo-image';
@@ -405,6 +405,27 @@ export const injectVoteCache = (post, voteCache) => {
 
   const _voteIndex = post.active_votes.findIndex((i) => i.voter === voteCache.voter);
 
+  // handle unvote
+  if (_voteIndex >= 0 && voteCache.status === CacheStatus.DELETED) {
+    const _vote = post.active_votes[_voteIndex];
+    const clonedPost = { ...post };
+
+    const _oldReward = calculateVoteReward(_vote.rshares, post);
+    clonedPost.total_payout = post.total_payout - _oldReward;
+
+    const updatedVotes = post.active_votes.filter((_, index) => index !== _voteIndex);
+    clonedPost.active_votes = updatedVotes;
+
+    clonedPost.isUpVoted = false;
+    clonedPost.isDownVoted = false;
+
+    if (post.stats) {
+      clonedPost.stats = { ...post.stats, total_votes: updatedVotes.length };
+    }
+
+    return clonedPost;
+  }
+
   // if vote do not already exist
   if (_voteIndex < 0 && voteCache.status !== CacheStatus.DELETED) {
     // Clone post to avoid mutations
@@ -511,16 +532,17 @@ export const isDownVoted = async (activeVotes, currentUserName) => {
 };
 
 export const parseActiveVotes = (post) => {
-  const _totalRShares = post.active_votes.reduce(
+  const votes = Array.isArray(post.active_votes) ? post.active_votes : [];
+  const _totalRShares = votes.reduce(
     (accumulator: number, item: any) => accumulator + parseFloat(item.rshares),
     0,
   );
 
-  if (isArray(post.active_votes)) {
-    post.active_votes = post.active_votes.map((vote) => parseVote(vote, post, _totalRShares));
+  if (votes.length) {
+    post.active_votes = votes.map((vote) => parseVote(vote, post, _totalRShares));
   }
 
-  return post.active_votes;
+  return post.active_votes || votes;
 };
 
 export const parseVote = (activeVote: any, post: any, _totalRShares?: number) => {

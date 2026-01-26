@@ -234,7 +234,7 @@ const DraftsScreen = ({
     ],
   );
 
-  const _renderEmptyContent = () => {
+  const _renderEmptyContent = useCallback(() => {
     if (isLoading) {
       return (
         <View>
@@ -251,14 +251,11 @@ const DraftsScreen = ({
         })}
       </Text>
     );
-  };
+  }, [intl, isLoading]);
 
   const _renderHeader = useCallback(() => {
     return _renderItem(processedIdLessDraft, 'unsaved');
   }, [_renderItem, processedIdLessDraft]);
-
-  // Constants for FlatList optimization
-  const ITEM_HEIGHT = 120; // Estimated item height for getItemLayout
 
   const _getTabItem = useCallback(
     (data, type, listRef) => {
@@ -275,12 +272,6 @@ const DraftsScreen = ({
         }
       };
 
-      const getItemLayout = (_data: any, index: number) => ({
-        length: ITEM_HEIGHT,
-        offset: ITEM_HEIGHT * index,
-        index,
-      });
-
       const renderItem = ({ item }: { item: any }) => _renderItem(item, type);
 
       return (
@@ -290,13 +281,12 @@ const DraftsScreen = ({
             data={data}
             keyExtractor={(item) => item._id}
             removeClippedSubviews={true}
-            getItemLayout={getItemLayout}
             maxToRenderPerBatch={10}
             updateCellsBatchingPeriod={50}
             windowSize={21}
             renderItem={renderItem}
             ListHeaderComponent={isDraftsTab && processedIdLessDraft ? _renderHeader : null}
-            ListEmptyComponent={_renderEmptyContent()}
+            ListEmptyComponent={_renderEmptyContent}
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.5}
             ListFooterComponent={isFetchingNextPage ? <PostCardPlaceHolder /> : null}
@@ -323,6 +313,7 @@ const DraftsScreen = ({
       isFetchingNextSchedulesPage,
       _renderItem,
       _renderHeader,
+      _renderEmptyContent,
       processedIdLessDraft,
       isLoading,
       onRefresh,

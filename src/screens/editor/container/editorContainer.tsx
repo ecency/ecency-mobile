@@ -287,7 +287,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const { draftsCollection, replyCache } = this.props;
     if (isReply) {
       // For replies, use replyCache instead of draftsCollection
-      const _draft = replyCache && replyCache[paramDraft._id];
+      const replyId = paramDraft?._id || this.state.draftId;
+      if (!replyId) {
+        return;
+      }
+      const _draft = replyCache && replyCache[replyId];
       if (_draft && !!_draft.body) {
         this.setState({
           draftPost: {
