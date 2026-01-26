@@ -16,6 +16,7 @@ import Slider from '@esteemapp/react-native-slider';
 import { useIntl } from 'react-intl';
 import { Placement } from 'react-native-popover-view/dist/Types';
 import { useQueryClient } from '@tanstack/react-query';
+import { getDiscussionsQueryOptions } from '@ecency/sdk';
 import {
   setCommentUpvotePercent,
   setPostUpvotePercent,
@@ -234,6 +235,16 @@ const UpvotePopover = forwardRef(({}, ref) => {
           queryClient.invalidateQueries({
             queryKey: ['posts', 'entry', `/@${_author}/${_permlink}`],
           });
+
+          // If voting on a comment, also invalidate parent post's discussion query
+          if (content?.parent_author) {
+            queryClient.invalidateQueries({
+              queryKey: getDiscussionsQueryOptions(
+                { author: content.parent_author, permlink: content.parent_permlink } as any,
+                'created' as any,
+              ).queryKey,
+            });
+          }
         })
         .catch((err) => {
           _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
@@ -308,6 +319,16 @@ const UpvotePopover = forwardRef(({}, ref) => {
           queryClient.invalidateQueries({
             queryKey: ['posts', 'entry', `/@${_author}/${_permlink}`],
           });
+
+          // If voting on a comment, also invalidate parent post's discussion query
+          if (content?.parent_author) {
+            queryClient.invalidateQueries({
+              queryKey: getDiscussionsQueryOptions(
+                { author: content.parent_author, permlink: content.parent_permlink } as any,
+                'created' as any,
+              ).queryKey,
+            });
+          }
         })
         .catch((err) => {
           dispatch(

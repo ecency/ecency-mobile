@@ -17,6 +17,8 @@ import { RefreshControl } from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SheetManager } from 'react-native-actions-sheet';
 import { FlashList } from '@shopify/flash-list';
+import { useQueryClient } from '@tanstack/react-query';
+import { getDiscussionsQueryOptions } from '@ecency/sdk';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
@@ -56,6 +58,7 @@ const PostComments = forwardRef(
     const intl = useIntl();
     const dispatch = useAppDispatch();
     const navigation = useNavigation();
+    const queryClient = useQueryClient();
 
     const currentAccount = useAppSelector(selectCurrentAccount);
     const pinHash = useAppSelector(selectPin);
@@ -168,6 +171,12 @@ const PostComments = forwardRef(
               delete updatedItem.updated;
               dispatch(updateCommentCache(_commentPath, updatedItem, { isUpdate: true }));
             }
+
+            // Invalidate discussion query cache to refresh comment list
+            queryClient.invalidateQueries({
+              queryKey: getDiscussionsQueryOptions({ author, permlink } as any, 'created' as any)
+                .queryKey,
+            });
           } catch (err) {
             console.warn('Failed to delete comment');
           }

@@ -1,6 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
 import { useIntl } from 'react-intl';
+import { useQueryClient } from '@tanstack/react-query';
+import { getDiscussionsQueryOptions } from '@ecency/sdk';
 import { useAppSelector, useStateWithRef } from '../../hooks';
 import { postComment } from '../../providers/hive/dhive';
 import { extractMetadata, generateUniquePermlink, makeJsonMetadata } from '../../utils/editor';
@@ -16,6 +18,7 @@ import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 export const usePostSubmitter = () => {
   const dispatch = useDispatch();
   const intl = useIntl();
+  const queryClient = useQueryClient();
 
   const pusblishWaveMutation = usePublishWaveMutation();
 
@@ -120,6 +123,18 @@ export const usePostSubmitter = () => {
             parentTags: parentTags || ['ecency'],
           }),
         );
+
+        // Invalidate discussion query cache to show new comment immediately
+        // For comments, invalidate parent post's discussion
+        // For waves, parentPost is the waves container
+        if (postType !== PostTypes.WAVE) {
+          queryClient.invalidateQueries({
+            queryKey: getDiscussionsQueryOptions(
+              { author: parentAuthor, permlink: parentPermlink } as any,
+              'created' as any,
+            ).queryKey,
+          });
+        }
 
         return _cacheCommentData;
       } catch (error) {
