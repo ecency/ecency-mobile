@@ -55,8 +55,8 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
 
   useEffect(() => {
     if (username) {
-      _fetchUser();
-      _fetchExtraUserData();
+      setIsLoading(true);
+      Promise.all([_fetchUser(), _fetchExtraUserData()]).finally(() => setIsLoading(false));
     } else {
       setUser(null);
       setRcAccount(null);
@@ -65,7 +65,6 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
 
   // NETWORK CALLS
   const _fetchUser = async () => {
-    setIsLoading(true);
     try {
       const _user = await queryClient.fetchQuery(getAccountFullQueryOptions(username));
       setUser(_user);
@@ -78,7 +77,6 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
       }
     } catch (error) {
       setUser(null);
-      setIsLoading(false);
     }
   };
 
@@ -116,7 +114,6 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
         setIsFollowing(_isFollowing);
         setIsMuted(_isMuted);
         setIsFavourite(_isFavourite);
-        setIsLoading(false);
       }
     } catch (error) {
       console.warn('Failed to fetch complete profile data', error);
@@ -126,7 +123,6 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
         }),
         error.message || error.toString(),
       );
-      setIsLoading(false);
     }
   };
 
