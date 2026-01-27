@@ -24,7 +24,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   const scrollRef = useRef<ScrollView>();
-  const inputRef = useRef<any>(null);
+  const inputRef = useRef<React.ElementRef<typeof TextInput>>(null);
   const textRef = useRef('');
   const tagsRef = useRef<string[]>([]);
 
@@ -66,13 +66,12 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
 
   const _registerNewTags = useCallback(
     debounce((newTags: string[], skipLast = true) => {
-      const inputVal = newTags.length > 0 && skipLast && newTags.pop();
+      const inputVal = newTags.length > 0 && skipLast ? newTags[newTags.length - 1] : '';
+      const tagsToProcess = skipLast ? newTags.slice(0, -1) : newTags;
       const updatedTags = [...tagsRef.current];
 
-      newTags.forEach((tag) => {
-        if (tag.startsWith('#')) {
-          tag = tag.substring(1);
-        }
+      tagsToProcess.forEach((rawTag) => {
+        const tag = rawTag.startsWith('#') ? rawTag.substring(1) : rawTag;
 
         if (!tag.length) {
           return;
@@ -125,8 +124,8 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   };
 
   const _handleOnEnd = () => {
-    if (text.length > 1) {
-      _registerNewTags(text.split(SEPARATOR_REGEX), false);
+    if (textRef.current.length > 1) {
+      _registerNewTags(textRef.current.split(SEPARATOR_REGEX), false);
     }
   };
 
