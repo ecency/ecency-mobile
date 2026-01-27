@@ -228,34 +228,37 @@ const MarkdownEditorView = ({
     }
   };
 
-  const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
-    if (Platform.OS === 'ios') {
-      setBodyText(_text);
-      setSelection(_selection);
-      bodySelectionRef.current = _selection;
-    } else {
-      // Android: Use setNativeProps to avoid text corruption
-      inputRef?.current?.setNativeProps({
-        text: _text,
-      });
-      bodySelectionRef.current = _selection;
-      inputRef?.current?.setNativeProps({
-        selection: _selection,
-      });
-      bodyTextRef.current = _text;
-    }
+  const _setTextAndSelection = useCallback(
+    ({ selection: _selection, text: _text }) => {
+      if (Platform.OS === 'ios') {
+        setBodyText(_text);
+        setSelection(_selection);
+        bodySelectionRef.current = _selection;
+      } else {
+        // Android: Use setNativeProps to avoid text corruption
+        inputRef?.current?.setNativeProps({
+          text: _text,
+        });
+        bodySelectionRef.current = _selection;
+        inputRef?.current?.setNativeProps({
+          selection: _selection,
+        });
+        bodyTextRef.current = _text;
+      }
 
-    if (isSnippetsOpen) {
-      setIsSnippetsOpen(false);
-    }
+      if (isSnippetsOpen) {
+        setIsSnippetsOpen(false);
+      }
 
-    // Trigger the debounced save and isEditing update
-    if (!isEditing) {
-      console.log('force setting isEditing to true', true);
-      setIsEditing(true);
-    }
-    _debouncedOnTextChange();
-  }, []);
+      // Trigger the debounced save and isEditing update
+      if (!isEditing) {
+        console.log('force setting isEditing to true', true);
+        setIsEditing(true);
+      }
+      _debouncedOnTextChange();
+    },
+    [isEditing, isSnippetsOpen, _debouncedOnTextChange],
+  );
 
   const _renderPreview = () => (
     <ScrollView style={styles.previewContainer} contentContainerStyle={styles.previewContent}>

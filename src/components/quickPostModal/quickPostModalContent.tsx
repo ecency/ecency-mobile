@@ -68,6 +68,7 @@ export const QuickPostModalContent = forwardRef(
 
     const inputRef = useRef<RNTextInput | null>(null);
     const pollWizardModalRef = useRef(null);
+    const commentValueRef = useRef('');
 
     const currentAccount = useAppSelector(selectCurrentAccount);
     const pollDraftsMap = useAppSelector((state: RootState) => state.editor.pollDraftsMap);
@@ -143,10 +144,15 @@ export const QuickPostModalContent = forwardRef(
         _value = currentDraft.body || '';
       }
 
-      setCommentValue(_value);
-      inputRef.current?.setNativeProps({
-        text: _value,
-      });
+      commentValueRef.current = _value;
+      if (Platform.OS === 'ios') {
+        setCommentValue(_value);
+      } else {
+        // Android: Use setNativeProps to avoid re-renders
+        inputRef.current?.setNativeProps({
+          text: _value,
+        });
+      }
 
       // check if user can comment to community
       setCommunityToCheck(selectedPost?.community ?? null);
@@ -167,7 +173,7 @@ export const QuickPostModalContent = forwardRef(
 
     // add quick comment value into cache - memoized with useCallback
     const _addQuickCommentIntoCache = useCallback(
-      (value = commentValue) => {
+      (value = commentValueRef.current) => {
         const quickCommentDraftData: Draft = {
           author: currentAccount.name,
           body: value,
@@ -176,7 +182,7 @@ export const QuickPostModalContent = forwardRef(
         // add quick comment/wave cache entry to replyCache
         dispatch(updateReplyCache(draftId, quickCommentDraftData));
       },
-      [commentValue, currentAccount.name, draftId, dispatch],
+      [currentAccount.name, draftId, dispatch],
     );
 
     // handle close press - memoized with useCallback
@@ -206,8 +212,9 @@ export const QuickPostModalContent = forwardRef(
       }
 
       let _isSuccess = false;
+      const _currentValue = commentValueRef.current;
       const _body =
-        mediaUrls.length > 0 ? `${commentValue}\n\n ![](${mediaUrls[0]})` : commentValue;
+        mediaUrls.length > 0 ? `${_currentValue}\n\n ![](${mediaUrls[0]})` : _currentValue;
 
       switch (mode) {
         case 'comment':
@@ -292,8 +299,25 @@ export const QuickPostModalContent = forwardRef(
 
     const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), []);
 
+    // Debounced state update for character count display (won't interfere with typing)
+    const _debouncedStateUpdate = useCallback(
+      debounce((value) => {
+        if (Platform.OS === 'android') {
+          setCommentValue(value);
+        }
+      }, 300),
+      [],
+    );
+
     const _onChangeText = (value) => {
-      setCommentValue(value);
+      commentValueRef.current = value;
+      // iOS: Update state immediately for controlled input
+      // Android: Use debounced update for character count (won't interfere with typing)
+      if (Platform.OS === 'ios') {
+        setCommentValue(value);
+      } else {
+        _debouncedStateUpdate(value);
+      }
       _deboucedCacheUpdate(value);
     };
 
@@ -469,6 +493,7 @@ export const QuickPostModalContent = forwardRef(
           <TextInput
             innerRef={inputRef}
             onChangeText={_onChangeText}
+            value={Platform.OS === 'ios' ? commentValue : undefined}
             autoFocus={true}
             placeholder={intl.formatMessage({
               id: _placeholderId,

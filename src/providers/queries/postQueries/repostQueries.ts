@@ -126,7 +126,9 @@ export function useReblogMutation(author: string, permlink: string) {
           }
           const _curIndex = data.indexOf(username);
           if (vars.undo) {
-            data.splice(_curIndex, 1);
+            if (_curIndex >= 0) {
+              data.splice(_curIndex, 1);
+            }
           } else if (_curIndex < 0) {
             data.splice(0, 0, username);
           }
@@ -205,7 +207,7 @@ export function useCrossPostMutation() {
     currentAccount?.name || '',
     ({ post, communityId, message }) => {
       const { title } = post;
-      const author = currentAccount?.username || '';
+      const author = currentAccount?.name || currentAccount?.username || '';
       const permlink = `${post.permlink}-${communityId}`;
       const body = makeCrossPostMessage(post, author, message);
 

@@ -793,8 +793,10 @@ class ApplicationContainer extends Component {
     }
 
     try {
+      const safeUsername = encodeURIComponent(username);
+      this._notificationUsername = username;
       console.log('Connecting notification websocket for user:', username);
-      const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${username}`);
+      const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${safeUsername}`);
       this._notificationWs = ws;
 
       ws.onopen = () => {
@@ -890,12 +892,16 @@ class ApplicationContainer extends Component {
         if (event.code !== 1000 && this._wsReconnectAttempts < 5) {
           this._wsReconnectAttempts++;
           const delay = Math.min(1000 * 2 ** this._wsReconnectAttempts, 30000);
+          const latestUsername =
+            this.props?.currentAccount?.name || this._notificationUsername || username;
           console.log(
             `Reconnecting websocket in ${delay}ms (attempt ${this._wsReconnectAttempts})`,
           );
 
           this._wsReconnectTimer = setTimeout(() => {
-            this._connectNotificationServer(username);
+            if (latestUsername) {
+              this._connectNotificationServer(latestUsername);
+            }
           }, delay);
         }
       };

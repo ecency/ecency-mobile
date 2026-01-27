@@ -66,7 +66,13 @@ export const usePostStatsQuery = (urlPath: string, dateRange = 'all') =>
     queryKey: [QUERIES.PLAUSIBLE.GET_POST_STATS, urlPath, dateRange],
     queryFn: () => fetchPostStats(urlPath, dateRange),
     enabled: !!urlPath, // Only enable the query if urlPath is not empty
-    staleTime: 60000, // Set staleTime to 1 minute (60000 ms)
+    staleTime: 5 * 60 * 1000, // 5 minutes - stats don't change frequently
+    gcTime: 30 * 60 * 1000, // Keep in cache for 30 minutes
+    retry: 2, // Retry failed requests twice
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 5000), // Exponential backoff
+    refetchOnWindowFocus: false, // Don't refetch when app comes to foreground
+    refetchOnMount: false, // Don't refetch on component mount if data exists
+    placeholderData: { pageviews: 0 }, // Show 0 immediately while loading
   });
 
 /**
@@ -83,7 +89,12 @@ export const usePostStatsByCountry = (urlPath: string, dateRange = 'all') =>
     queryFn: () =>
       fetchPostStatsByDimension<PostStatsByCountry>(urlPath, dateRange, 'country_name'),
     enabled: !!urlPath, // Only enable the query if urlPath is not empty
-    staleTime: 60000, // Set staleTime to 1 minute (60000 ms)
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 30 * 60 * 1000, // Keep in cache for 30 minutes
+    retry: 2,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 5000),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
 /**
@@ -99,5 +110,10 @@ export const usePostStatsByDevice = (urlPath: string, dateRange = 'all') =>
     queryKey: [QUERIES.PLAUSIBLE.GET_POST_STATS_BY_DEVICE, urlPath, dateRange],
     queryFn: async () => fetchPostStatsByDimension<PostStatsByDevice>(urlPath, dateRange, 'device'),
     enabled: !!urlPath, // Only enable the query if urlPath is not empty
-    staleTime: 60000, // Set staleTime to 1 minute (60000 ms)
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 30 * 60 * 1000, // Keep in cache for 30 minutes
+    retry: 2,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 5000),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
