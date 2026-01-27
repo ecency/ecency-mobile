@@ -348,8 +348,12 @@ class ApplicationContainer extends Component {
 
       const { unreadActivityCount, dispatch } = this.props;
 
-      // Increment unread count (was only done by websocket before)
-      dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
+      const notificationTypes = ['mention', 'reply', 'transfer', 'delegations'];
+      const messageType = remoteMessage?.data?.type;
+      if (notificationTypes.includes(messageType)) {
+        // Increment unread count (was only done by websocket before)
+        dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
+      }
 
       // Show foreground notification banner
       this.setState({
@@ -723,8 +727,8 @@ class ApplicationContainer extends Component {
         return false;
       }
 
-      // Request permission first
-      const authStatus = await getMessaging().requestPermission();
+      // Check permission without prompting
+      const authStatus = await getMessaging().hasPermission();
       const permissionGranted = authStatus === 1 || authStatus === 2; // authorized or provisional
 
       if (!permissionGranted) {

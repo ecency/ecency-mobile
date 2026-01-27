@@ -16,7 +16,7 @@ import {
   Keyboard,
   Platform,
   ActivityIndicator,
-  TextInput,
+  TextInput as RNTextInput,
 } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
@@ -74,7 +74,7 @@ export const QuickPostModalContent = forwardRef(
     const postsCachePrimer = postQueries.usePostsCachePrimer();
     const postSubmitter = usePostSubmitter();
 
-    const inputRef = useRef<TextInput | null>(null);
+    const inputRef = useRef<RNTextInput | null>(null);
     const pollWizardModalRef = useRef(null);
     const commentValueRef = useRef('');
 
