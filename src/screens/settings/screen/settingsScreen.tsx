@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { ScrollView, View, RefreshControl } from 'react-native';
+import { ScrollView, View, RefreshControl, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
@@ -29,6 +29,7 @@ const SettingsScreen = ({
   isBiometricEnabled,
   isLoggedIn,
   isNotificationSettingsOpen,
+  isFCMAvailable,
   nsfw,
   selectedApi,
   selectedCurrency,
@@ -308,6 +309,17 @@ const SettingsScreen = ({
                 handleOnChange={handleOnChange}
               />
             </CollapsibleCard>
+            {isFCMAvailable === false && (
+              <View
+                style={{ padding: 16, backgroundColor: '#FFF3CD', borderRadius: 8, marginTop: 8 }}
+              >
+                <Text style={{ color: '#856404', fontSize: 13, lineHeight: 18 }}>
+                  {intl.formatMessage({
+                    id: 'settings.notification.fcm_unavailable',
+                  })}
+                </Text>
+              </View>
+            )}
           </View>
         )}
         <View style={[styles.settingsCard, styles.paddingBottom]}>

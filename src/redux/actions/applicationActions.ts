@@ -15,6 +15,7 @@ import {
   IS_DEFAULT_FOOTER,
   IS_LOGIN_DONE,
   IS_NOTIFICATION_OPEN,
+  SET_FCM_AVAILABLE,
   LOGIN,
   SET_API,
   SET_CURRENCY,
@@ -72,6 +73,11 @@ export const setWaveUpvotePercent = (payload) => ({
 export const changeAllNotificationSettings = (payload) => ({
   payload,
   type: CHANGE_ALL_NOTIFICATION_SETTINGS,
+});
+
+export const setFCMAvailable = (payload: boolean) => ({
+  payload,
+  type: SET_FCM_AVAILABLE,
 });
 
 export const changeNotificationSettings = (payload) => {

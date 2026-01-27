@@ -62,6 +62,7 @@ import {
   isRenderRequired,
   isPinCodeOpen,
   setEncryptedUnlockPin,
+  setFCMAvailable,
 } from '../../../redux/actions/applicationActions';
 import {
   setAvatarCacheStamp,
@@ -111,6 +112,14 @@ let appStateSub: NativeEventSubscription | null = null;
 class ApplicationContainer extends Component {
   _pinCodeTimer: any = null;
 
+  _notificationWs: WebSocket | null = null;
+
+  _wsReconnectTimer: any = null;
+
+  _wsReconnectAttempts: number = 0;
+
+  _fcmAvailable: boolean | null = null; // Cache FCM availability check
+
   constructor(props) {
     super(props);
     this.state = {
@@ -121,13 +130,20 @@ class ApplicationContainer extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const { dispatch } = this.props;
     this._setNetworkListener();
 
     appStateSub = AppState.addEventListener('change', this._handleAppStateChange);
 
-    this._createPushListener();
+    // Only create FCM listener if FCM is available
+    const fcmAvailable = await this._checkFCMAvailability();
+    if (fcmAvailable) {
+      this._createPushListener();
+      console.log('Using FCM for foreground notifications');
+    } else {
+      console.log('FCM not available - will use WebSocket fallback when user logs in');
+    }
 
     // set avatar cache stamp to invalidate previous session avatars
     dispatch(setAvatarCacheStamp(new Date().getTime()));
@@ -184,6 +200,8 @@ class ApplicationContainer extends Component {
     if (firebaseOnMessageListener) {
       firebaseOnMessageListener();
     }
+
+    this._disconnectNotificationServer();
 
     this.netListener();
   }
@@ -326,6 +344,12 @@ class ApplicationContainer extends Component {
     firebaseOnMessageListener = getMessaging().onMessage((remoteMessage) => {
       console.log('Notification Received: foreground', remoteMessage);
 
+      const { unreadActivityCount, dispatch } = this.props;
+
+      // Increment unread count (was only done by websocket before)
+      dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
+
+      // Show foreground notification banner
       this.setState({
         foregroundNotificationData: remoteMessage,
       });
@@ -611,7 +635,20 @@ class ApplicationContainer extends Component {
       }
       dispatch(updateCurrentAccount(accountData));
       dispatch(fetchSubscribedCommunities(realmObject.username));
-      this._connectNotificationServer(accountData.name);
+
+      // Connect to notification server based on FCM availability
+      // If FCM is available, it will handle notifications
+      // If not, use WebSocket as fallback
+      const fcmAvailable = await this._checkFCMAvailability();
+      if (!fcmAvailable) {
+        console.log('Connecting to WebSocket notification server (FCM not available)');
+        this._connectNotificationServer(accountData.name);
+      } else {
+        console.log('Using FCM for notifications (WebSocket not needed)');
+        // Ensure any previous websocket is disconnected
+        this._disconnectNotificationServer();
+      }
+
       // TODO: better update device push token here after access token refresh
     } catch (err) {
       Alert.alert(
@@ -658,21 +695,213 @@ class ApplicationContainer extends Component {
     });
   };
 
-  _connectNotificationServer = (username) => {
-    /* eslint no-undef: "warn" */
-    const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${username}`);
+  /**
+   * Check if FCM (Firebase Cloud Messaging) is available on this device
+   * Returns cached result if already checked
+   *
+   * FCM requires:
+   * - iOS: APNS (Apple Push Notification Service) - not available on simulators
+   * - Android: Google Play Services - not available on custom ROMs, Huawei devices, emulators without Google APIs
+   */
+  _checkFCMAvailability = async (): Promise<boolean> => {
+    const { dispatch } = this.props;
 
-    ws.onmessage = () => {
-      const { activeBottomTab, unreadActivityCount, dispatch } = this.props;
+    // Return cached result if already checked
+    if (this._fcmAvailable !== null) {
+      return this._fcmAvailable;
+    }
 
-      dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
-
-      // Workaround
-      if (activeBottomTab === ROUTES.TABBAR.NOTIFICATION) {
-        dispatch(updateActiveBottomTab(''));
-        dispatch(updateActiveBottomTab(ROUTES.TABBAR.NOTIFICATION));
+    try {
+      // iOS Simulator check - APNS not available
+      const isEmulator = await DeviceInfo.isEmulator();
+      if (Platform.OS === 'ios' && isEmulator) {
+        console.log('FCM not available: iOS Simulator (no APNS)');
+        this._fcmAvailable = false;
+        dispatch(setFCMAvailable(false));
+        return false;
       }
-    };
+
+      // Request permission first
+      const authStatus = await getMessaging().requestPermission();
+      const permissionGranted = authStatus === 1 || authStatus === 2; // authorized or provisional
+
+      if (!permissionGranted) {
+        console.log('FCM not available: User denied notification permission');
+        this._fcmAvailable = false;
+        dispatch(setFCMAvailable(false));
+        return false;
+      }
+
+      // Try to get FCM token - this will fail if FCM isn't available
+      const token = await getMessaging().getToken();
+
+      if (token) {
+        console.log('FCM is available - token obtained');
+        this._fcmAvailable = true;
+        dispatch(setFCMAvailable(true));
+        return true;
+      } else {
+        console.log('FCM not available: No token returned');
+        this._fcmAvailable = false;
+        dispatch(setFCMAvailable(false));
+        return false;
+      }
+    } catch (error) {
+      const errorMessage = error.message || '';
+
+      // Expected errors when FCM is not available
+      if (
+        errorMessage.includes('MISSING_INSTANCEID_SERVICE') ||
+        errorMessage.includes('SERVICE_NOT_AVAILABLE') ||
+        errorMessage.includes('AUTHENTICATION_FAILED') ||
+        errorMessage.includes('APNS')
+      ) {
+        console.log('FCM not available:', errorMessage);
+        this._fcmAvailable = false;
+        dispatch(setFCMAvailable(false));
+        return false;
+      }
+
+      // Unexpected error - assume FCM not available to be safe
+      console.warn('FCM availability check failed:', error);
+      this._fcmAvailable = false;
+      dispatch(setFCMAvailable(false));
+      return false;
+    }
+  };
+
+  _disconnectNotificationServer = () => {
+    if (this._notificationWs) {
+      console.log('Disconnecting notification websocket');
+      this._notificationWs.close();
+      this._notificationWs = null;
+    }
+    if (this._wsReconnectTimer) {
+      clearTimeout(this._wsReconnectTimer);
+      this._wsReconnectTimer = null;
+    }
+    this._wsReconnectAttempts = 0;
+  };
+
+  _connectNotificationServer = (username) => {
+    // Clean up existing connection first
+    this._disconnectNotificationServer();
+
+    if (!username || !Config.ACTIVITY_WEBSOCKET_URL) {
+      console.log('Skipping websocket - missing username or URL');
+      return;
+    }
+
+    try {
+      console.log('Connecting notification websocket for user:', username);
+      const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${username}`);
+      this._notificationWs = ws;
+
+      ws.onopen = () => {
+        console.log('Notification websocket connected');
+        this._wsReconnectAttempts = 0;
+      };
+
+      ws.onmessage = (event) => {
+        const { activeBottomTab, unreadActivityCount, dispatch } = this.props;
+
+        console.log('Websocket notification received:', event.data);
+
+        // Update unread count
+        dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
+
+        // Try to parse notification data from enotify-py websocket
+        // Format: { event: "notify", type: "mention"|"reply", source: "username", target: "username", extra: {...}, timestamp: "..." }
+        let wsData = null;
+        try {
+          if (event.data) {
+            wsData = JSON.parse(event.data);
+          }
+        } catch (err) {
+          console.log('Websocket message is not JSON, treating as simple ping');
+        }
+
+        // Convert enotify-py websocket format to FCM format for ForegroundNotification component
+        if (
+          wsData &&
+          wsData.event === 'notify' &&
+          (wsData.type === 'mention' ||
+            wsData.type === 'reply' ||
+            wsData.type === 'transfer' ||
+            wsData.type === 'delegations')
+        ) {
+          const { type, source, target, extra } = wsData;
+
+          // Build FCM-compatible notification object
+          const fcmFormat = {
+            data: {
+              id: `ws-${Date.now()}`,
+              source,
+              target,
+              type,
+              // For mentions/replies: extra.permlink
+              // For transfers/delegations: no permlink needed
+              permlink1: (extra?.permlink || '').substring(0, 250),
+              permlink2: (extra?.permlink || '').substring(250, 500),
+              permlink3: (extra?.permlink || '').substring(500, 750),
+              // For transfers/delegations: extra.amount
+              amount: extra?.amount || '',
+            },
+            notification: {
+              title:
+                type === 'mention'
+                  ? `@${source} mentioned @${target}`
+                  : type === 'reply'
+                  ? `@${source} replied to @${target}`
+                  : type === 'transfer'
+                  ? `@${source} transferred to @${target}`
+                  : `@${source} delegated to @${target}`,
+              body:
+                type === 'reply' && extra?.body
+                  ? extra.body.substring(0, 100)
+                  : type === 'transfer' || type === 'delegations'
+                  ? extra?.amount || ''
+                  : '',
+            },
+          };
+
+          console.log('Converted websocket to FCM format:', fcmFormat);
+          this.setState({
+            foregroundNotificationData: fcmFormat,
+          });
+        }
+
+        // Workaround: Force refresh notification tab if active
+        if (activeBottomTab === ROUTES.TABBAR.NOTIFICATION) {
+          dispatch(updateActiveBottomTab(''));
+          dispatch(updateActiveBottomTab(ROUTES.TABBAR.NOTIFICATION));
+        }
+      };
+
+      ws.onerror = (error) => {
+        console.warn('Notification websocket error:', error);
+      };
+
+      ws.onclose = (event) => {
+        console.log('Notification websocket closed:', event.code, event.reason);
+        this._notificationWs = null;
+
+        // Only reconnect if not a normal closure and component is still mounted
+        if (event.code !== 1000 && this._wsReconnectAttempts < 5) {
+          this._wsReconnectAttempts++;
+          const delay = Math.min(1000 * 2 ** this._wsReconnectAttempts, 30000);
+          console.log(
+            `Reconnecting websocket in ${delay}ms (attempt ${this._wsReconnectAttempts})`,
+          );
+
+          this._wsReconnectTimer = setTimeout(() => {
+            this._connectNotificationServer(username);
+          }, delay);
+        }
+      };
+    } catch (error) {
+      console.error('Failed to create notification websocket:', error);
+    }
   };
 
   _repairUserAccountData = async (username) => {

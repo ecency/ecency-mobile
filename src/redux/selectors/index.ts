@@ -129,6 +129,11 @@ export const selectIsNotificationOpen = createSelector(
   (application) => application.isNotificationOpen,
 );
 
+export const selectIsFCMAvailable = createSelector(
+  [getApplicationState],
+  (application) => application.isFCMAvailable,
+);
+
 // App State
 export const selectApi = createSelector([getApplicationState], (application) => application.api);
 
