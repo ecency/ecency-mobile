@@ -126,16 +126,6 @@ export const QuickPostModalContent = forwardRef(
       [commentValue, mode],
     );
 
-    useImperativeHandle(
-      ref,
-      () => ({
-        handleSheetClose() {
-          _addQuickCommentIntoCache(commentValueRef.current);
-        },
-      }),
-      [_addQuickCommentIntoCache],
-    );
-
     useEffect(() => {
       const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
       const hideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
@@ -156,6 +146,7 @@ export const QuickPostModalContent = forwardRef(
         _value = currentDraft.body || '';
       }
 
+      commentValueRef.current = _value;
       setCommentValue(_value);
 
       // check if user can comment to community
@@ -187,6 +178,17 @@ export const QuickPostModalContent = forwardRef(
         dispatch(updateReplyCache(draftId, quickCommentDraftData));
       },
       [currentAccount.name, draftId, dispatch],
+    );
+
+    // Expose imperative handle for sheet close - must come after _addQuickCommentIntoCache
+    useImperativeHandle(
+      ref,
+      () => ({
+        handleSheetClose() {
+          _addQuickCommentIntoCache(commentValueRef.current || '');
+        },
+      }),
+      [_addQuickCommentIntoCache],
     );
 
     // handle close press - memoized with useCallback
@@ -237,9 +239,10 @@ export const QuickPostModalContent = forwardRef(
         }
         dispatch(removePollDraft(draftId));
         setCommentValue('');
+        commentValueRef.current = '';
         onClose();
       } else {
-        _addQuickCommentIntoCache(); // add comment value into cache if there is error while posting comment
+        _addQuickCommentIntoCache(commentValue); // add comment value into cache if there is error while posting comment
       }
     };
 

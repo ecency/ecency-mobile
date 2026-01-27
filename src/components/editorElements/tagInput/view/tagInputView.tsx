@@ -61,6 +61,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   const _registerNewTags = useCallback(
     debounce((newTags: string[], skipLast = true) => {
       const inputVal = newTags.length > 0 && skipLast && newTags.pop();
+      const updatedTags = [...tags];
 
       newTags.forEach((tag) => {
         if (tag.startsWith('#')) {
@@ -71,29 +72,29 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
           return;
         }
 
-        if (!tags.includes(tag)) {
+        if (!updatedTags.includes(tag)) {
           // check if tag is community and post communtiy is not already selected
-          if (isCommunity(tag) && !isCommunity(tags[0])) {
+          if (isCommunity(tag) && !isCommunity(updatedTags[0])) {
             // add community tag
-            tags.splice(0, 0, tag);
+            updatedTags.splice(0, 0, tag);
             setCommunity(tag);
             dispatch(toastNotification(intl.formatMessage({ id: 'editor.community_selected' })));
           } else {
             // add simple tag
-            tags.push(tag);
+            updatedTags.push(tag);
           }
         } else {
           dispatch(toastNotification(intl.formatMessage({ id: 'editor.tag_duplicate' })));
         }
       });
 
-      setTags([...tags]);
+      setTags(updatedTags);
       const newText = inputVal || '';
       textRef.current = newText;
       setText(newText);
-      _verifyTagsUpdate(tags);
+      _verifyTagsUpdate(updatedTags);
       if (handleTagChanged) {
-        handleTagChanged([...tags]);
+        handleTagChanged(updatedTags);
       }
       setTimeout(() => {
         if (scrollRef.current) {
