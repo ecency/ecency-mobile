@@ -120,7 +120,7 @@ export function useReblogMutation(author: string, permlink: string) {
             return data;
           }
 
-          const username = currentAccount?.username;
+          const username = currentAccount?.name || currentAccount?.username;
           if (!username) {
             return data;
           }

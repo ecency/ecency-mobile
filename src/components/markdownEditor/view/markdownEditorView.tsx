@@ -203,7 +203,12 @@ const MarkdownEditorView = ({
       //   console.log("Updating draft state")
       //   setIsDraftupdated(true);
       // }
-      setBodyText(input);
+
+      // Only update state on iOS where input is controlled
+      // On Android, avoid state updates to prevent text corruption
+      if (Platform.OS === 'ios') {
+        setBodyText(input);
+      }
       bodyTextRef.current = input;
 
       if (!isEditing) {
@@ -227,6 +232,7 @@ const MarkdownEditorView = ({
     if (Platform.OS === 'ios') {
       setBodyText(_text);
       setSelection(_selection);
+      bodySelectionRef.current = _selection;
     } else {
       // Android: Use setNativeProps to avoid text corruption
       inputRef?.current?.setNativeProps({
@@ -236,13 +242,19 @@ const MarkdownEditorView = ({
       inputRef?.current?.setNativeProps({
         selection: _selection,
       });
+      bodyTextRef.current = _text;
     }
 
     if (isSnippetsOpen) {
       setIsSnippetsOpen(false);
     }
 
-    _changeText(_text);
+    // Trigger the debounced save and isEditing update
+    if (!isEditing) {
+      console.log('force setting isEditing to true', true);
+      setIsEditing(true);
+    }
+    _debouncedOnTextChange();
   }, []);
 
   const _renderPreview = () => (

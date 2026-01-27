@@ -66,11 +66,21 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
             break;
           case 'transfer':
             titleText = `@${source} ${intl.formatMessage({ id: 'notification.transfer' })}`;
-            bodyText = amount || '';
+            bodyText =
+              amount ||
+              intl.formatMessage({
+                id: 'notification.amount_unknown',
+                defaultMessage: 'Amount unavailable',
+              });
             break;
           case 'delegations':
             titleText = `@${source} ${intl.formatMessage({ id: 'notification.delegations' })}`;
-            bodyText = amount || '';
+            bodyText =
+              amount ||
+              intl.formatMessage({
+                id: 'notification.amount_unknown',
+                defaultMessage: 'Amount unavailable',
+              });
             break;
         }
 

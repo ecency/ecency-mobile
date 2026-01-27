@@ -1125,6 +1125,20 @@ class ApplicationContainer extends Component {
 
       dispatch(updateCurrentAccount(_currentAccount));
       dispatch(fetchSubscribedCommunities(_currentAccount.name));
+
+      // Ensure notification channel is connected for the new account
+      try {
+        const fcmAvailable = await this._checkFCMAvailability();
+        if (!fcmAvailable) {
+          console.log('Connecting to WebSocket notification server (FCM not available)');
+          this._connectNotificationServer(_currentAccount.name);
+        } else {
+          console.log('Using FCM for notifications (WebSocket not needed)');
+          this._disconnectNotificationServer();
+        }
+      } catch (wsErr) {
+        console.warn('Failed to update notification channel after account switch', wsErr);
+      }
     } catch (err) {
       dispatch(
         toastNotification(
