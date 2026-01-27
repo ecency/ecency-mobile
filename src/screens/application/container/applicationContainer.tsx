@@ -809,10 +809,26 @@ class ApplicationContainer extends Component {
         accessToken,
       );
     } catch (error) {
-      // Handle APNS-specific errors gracefully
-      if (error.code === 'messaging/unknown' || error.message?.includes('APNS')) {
-        console.log('APNS not available (likely simulator or development environment)');
+      // Handle platform-specific FCM errors gracefully
+      const errorMessage = error.message || '';
+      const isUnknownError = error.code === 'messaging/unknown';
+
+      if (Platform.OS === 'ios' && (isUnknownError || errorMessage.includes('APNS'))) {
+        // iOS: APNS not available (likely simulator or development environment)
+        console.log('APNS not available on iOS - likely simulator or missing configuration');
+      } else if (
+        Platform.OS === 'android' &&
+        (errorMessage.includes('MISSING_INSTANCEID_SERVICE') ||
+          errorMessage.includes('SERVICE_NOT_AVAILABLE') ||
+          errorMessage.includes('AUTHENTICATION_FAILED'))
+      ) {
+        // Android: Google Play Services issues (common on emulators, custom ROMs, outdated devices)
+        console.log(
+          'Google Play Services not available or misconfigured - FCM disabled for this device',
+        );
+        // Don't send to Sentry as this is expected on some Android configurations
       } else {
+        // Unexpected error - log and report to Sentry
         console.warn('Failed to enable notification:', error);
         Sentry.captureException(error);
       }
