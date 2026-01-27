@@ -5,6 +5,7 @@ export default [
   'reply',
   'translate',
   'reblog',
+  'undo-reblog',
   'pin-blog',
   'unpin-blog',
   'pin-community',

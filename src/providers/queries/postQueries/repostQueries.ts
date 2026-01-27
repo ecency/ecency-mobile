@@ -16,11 +16,12 @@ import { decryptKey } from '../../../utils/crypto';
 import { mapAuthTypeToLoginType } from '../../../utils/authMapper';
 
 /** hook used to return post reblogs using SDK */
-export const useGetReblogsQuery = (author: string, permlink: string) => {
+export const useGetReblogsQuery = (author: string, permlink: string, enabled = true) => {
   const query = useQuery<string[]>({
     ...getReblogsQueryOptions(author, permlink),
     initialData: [],
     gcTime: 30 * 60 * 1000, // keeps cache for 30 minutes
+    enabled: enabled && !!author && !!permlink, // Only fetch when enabled and valid params
   });
 
   return query;
@@ -111,7 +112,7 @@ export function useReblogMutation(author: string, permlink: string) {
 
     onSuccess: (resp, vars) => {
       console.log('reblog response', resp);
-      // update poll cache here
+      // update reblogs cache
       queryClient.setQueryData<ReturnType<typeof useGetReblogsQuery>['data']>(
         [QUERIES.POST.GET_REBLOGS, author, permlink],
         (data) => {
@@ -133,6 +134,16 @@ export function useReblogMutation(author: string, permlink: string) {
           return [...data] as ReturnType<typeof useGetReblogsQuery>['data'];
         },
       );
+
+      // Invalidate user's blog feed to show added/removed reblog
+      // SDK query key structure: ['posts', 'account-posts', username, 'blog', ...]
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0] === 'posts' &&
+          query.queryKey[1] === 'account-posts' &&
+          query.queryKey[2] === currentAccount?.name &&
+          query.queryKey[3] === 'blog',
+      });
     },
     onError: (error) => {
       if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {

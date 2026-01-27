@@ -44,6 +44,7 @@ import {
   selectIsPinCodeOpen,
   selectPin,
 } from '../../../redux/selectors';
+import { useGetReblogsQuery } from '../../../providers/queries/postQueries/repostQueries';
 
 /*
  *            Props Name        Description                                     Value
@@ -78,6 +79,13 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
   const [content, setContent] = useState<any>(null);
   const [options, setOptions] = useState(OPTIONS);
+
+  // Fetch reblogs to check if post is already reblogged
+  const reblogsQuery = useGetReblogsQuery(
+    content?.author || '',
+    content?.permlink || '',
+    !!content, // Only fetch when content is available
+  );
 
   useImperativeHandle(ref, () => ({
     show: (_content) => {
@@ -121,7 +129,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         reportTimer.current = null;
       }
     };
-  }, [content]);
+  }, [content, reblogsQuery.data]);
 
   const _initOptions = () => {
     // check if post is owned by current user or not, if so pinned or not
@@ -150,9 +158,17 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       !content.children &&
       !content.active_votes?.length;
 
+    // check if post is reblogged by current user
+    const _isReblogged =
+      reblogsQuery.data && currentAccount ? reblogsQuery.data.includes(currentAccount.name) : false;
+
     // cook options list based on collected flags
     const _options = OPTIONS.filter((option) => {
       switch (option) {
+        case 'reblog':
+          return !_isReblogged; // Show "reblog" only if not reblogged
+        case 'undo-reblog':
+          return _isReblogged; // Show "undo-reblog" only if already reblogged
         case 'pin-blog':
           return _canUpdateBlogPin && !_isPinnedInProfile;
         case 'unpin-blog':
@@ -334,27 +350,42 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       });
   };
 
-  const _reblog = () => {
+  const _reblog = (undo = false) => {
     if (!isLoggedIn) {
       showLoginAlert({ intl });
       return;
     }
     if (isLoggedIn) {
-      reblog(currentAccount, pinCode, content.author, get(content, 'permlink', ''))
+      reblog(currentAccount, pinCode, content.author, get(content, 'permlink', ''), undo)
         .then((response) => {
-          // track user activity points ty=130
-          userActivityMutation.mutate({
-            pointsTy: PointActivityIds.REBLOG,
-            transactionId: response.id,
-          });
+          // track user activity points ty=130 (only for reblog, not undo)
+          if (!undo) {
+            userActivityMutation.mutate({
+              pointsTy: PointActivityIds.REBLOG,
+              transactionId: response.id,
+            });
+          }
 
           dispatch(
             toastNotification(
               intl.formatMessage({
-                id: 'alert.success_rebloged',
+                id: undo ? 'alert.success_reblog_deleted' : 'alert.success_rebloged',
               }),
             ),
           );
+
+          // Refetch reblogs to update the list
+          reblogsQuery.refetch();
+
+          // Invalidate user's blog feed to show added/removed reblog
+          // SDK query key structure: ['posts', 'account-posts', username, 'blog', ...]
+          queryClient.invalidateQueries({
+            predicate: (query) =>
+              query.queryKey[0] === 'posts' &&
+              query.queryKey[1] === 'account-posts' &&
+              query.queryKey[2] === currentAccount.name &&
+              query.queryKey[3] === 'blog',
+          });
         })
         .catch((error) => {
           if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {
@@ -366,7 +397,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
               ),
             );
           } else {
-            if (error && error.jse_shortmsg.split(': ')[1].includes('wait to transact')) {
+            if (error && error.jse_shortmsg?.split(': ')[1]?.includes('wait to transact')) {
               // when RC is not enough, offer boosting account
               dispatch(setRcOffer(true));
             } else {
@@ -538,7 +569,11 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         break;
 
       case 'reblog':
-        _reblog();
+        _reblog(false);
+        break;
+
+      case 'undo-reblog':
+        _reblog(true);
         break;
 
       case 'reply':
