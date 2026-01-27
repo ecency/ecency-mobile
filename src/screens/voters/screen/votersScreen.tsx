@@ -5,12 +5,13 @@ import get from 'lodash/get';
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useQuery } from '@tanstack/react-query';
+import { getEntryActiveVotesQueryOptions } from '@ecency/sdk';
 import { BasicHeader, FilterBar, VotersDisplay } from '../../../components';
 
 import AccountListContainer from '../../../containers/accountListContainer';
 
 // Utils
-import { getActiveVotes } from '../../../providers/hive/dhive';
 import { parseActiveVotes } from '../../../utils/postParser';
 import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
 import globalStyles from '../../../globalStyles';
@@ -27,19 +28,33 @@ const VotersScreen = ({ route }) => {
     id: 'voters.voters_info',
   });
 
+  const author = get(post, 'author');
+  const permlink = get(post, 'permlink');
+
+  const { data: activeVotes } = useQuery({
+    ...(post
+      ? getEntryActiveVotesQueryOptions(post)
+      : { queryKey: ['entryActiveVotes', null], queryFn: () => null }),
+    enabled: !!route.params?.content && !!author && !!permlink,
+  });
+
   useEffect(() => {
-    if (route.params?.content) {
-      getActiveVotes(get(post, 'author'), get(post, 'permlink'))
-        .then((result) => {
-          result.sort((a, b) => b.rshares - a.rshares);
-          post.active_votes = parseActiveVotes({ ...post, active_votes: result });
-          setPost({ ...post });
-        })
-        .catch(() => {
-          console.log('cancel pressed');
-        });
+    if (activeVotes && route.params?.content) {
+      setPost((prev) => {
+        if (!prev) return prev;
+
+        const sortedVotes = [...activeVotes].sort(
+          (a, b) => parseFloat(b.rshares) - parseFloat(a.rshares),
+        );
+        const parsedVotes = parseActiveVotes({ ...prev, active_votes: sortedVotes });
+
+        return {
+          ...prev,
+          active_votes: parsedVotes,
+        };
+      });
     }
-  }, [route.params?.content]);
+  }, [activeVotes, route.params?.content]);
 
   const _activeVotes = _cPost.active_votes.slice();
 

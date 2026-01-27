@@ -8,6 +8,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
+import { useQueryClient } from '@tanstack/react-query';
+import { getPostQueryOptions, getAccountFullQueryOptions } from '@ecency/sdk';
 import {
   deleteComment,
   ignoreUser,
@@ -42,6 +44,7 @@ import {
   selectIsPinCodeOpen,
   selectPin,
 } from '../../../redux/selectors';
+import { useGetReblogsQuery } from '../../../providers/queries/postQueries/repostQueries';
 
 /*
  *            Props Name        Description                                     Value
@@ -59,6 +62,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
   const userActivityMutation = useUserActivityMutation();
 
   const bottomSheetModalRef = useRef<ActionSheet | null>(null);
@@ -75,6 +79,13 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
   const [content, setContent] = useState<any>(null);
   const [options, setOptions] = useState(OPTIONS);
+
+  // Fetch reblogs to check if post is already reblogged
+  const reblogsQuery = useGetReblogsQuery(
+    content?.author || '',
+    content?.permlink || '',
+    !!content, // Only fetch when content is available
+  );
 
   useImperativeHandle(ref, () => ({
     show: (_content) => {
@@ -118,7 +129,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         reportTimer.current = null;
       }
     };
-  }, [content]);
+  }, [content, reblogsQuery.data]);
 
   const _initOptions = () => {
     // check if post is owned by current user or not, if so pinned or not
@@ -147,9 +158,17 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       !content.children &&
       !content.active_votes?.length;
 
+    // check if post is reblogged by current user
+    const _isReblogged =
+      reblogsQuery.data && currentAccount ? reblogsQuery.data.includes(currentAccount.name) : false;
+
     // cook options list based on collected flags
     const _options = OPTIONS.filter((option) => {
       switch (option) {
+        case 'reblog':
+          return !_isReblogged; // Show "reblog" only if not reblogged
+        case 'undo-reblog':
+          return _isReblogged; // Show "undo-reblog" only if already reblogged
         case 'pin-blog':
           return _canUpdateBlogPin && !_isPinnedInProfile;
         case 'unpin-blog':
@@ -331,27 +350,42 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       });
   };
 
-  const _reblog = () => {
+  const _reblog = (undo = false) => {
     if (!isLoggedIn) {
       showLoginAlert({ intl });
       return;
     }
     if (isLoggedIn) {
-      reblog(currentAccount, pinCode, content.author, get(content, 'permlink', ''))
+      reblog(currentAccount, pinCode, content.author, get(content, 'permlink', ''), undo)
         .then((response) => {
-          // track user activity points ty=130
-          userActivityMutation.mutate({
-            pointsTy: PointActivityIds.REBLOG,
-            transactionId: response.id,
-          });
+          // track user activity points ty=130 (only for reblog, not undo)
+          if (!undo) {
+            userActivityMutation.mutate({
+              pointsTy: PointActivityIds.REBLOG,
+              transactionId: response.id,
+            });
+          }
 
           dispatch(
             toastNotification(
               intl.formatMessage({
-                id: 'alert.success_rebloged',
+                id: undo ? 'alert.success_reblog_deleted' : 'alert.success_rebloged',
               }),
             ),
           );
+
+          // Refetch reblogs to update the list
+          reblogsQuery.refetch();
+
+          // Invalidate user's blog feed to show added/removed reblog
+          // SDK query key structure: ['posts', 'account-posts', username, 'blog', ...]
+          queryClient.invalidateQueries({
+            predicate: (query) =>
+              query.queryKey[0] === 'posts' &&
+              query.queryKey[1] === 'account-posts' &&
+              query.queryKey[2] === currentAccount.name &&
+              query.queryKey[3] === 'blog',
+          });
         })
         .catch((error) => {
           if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {
@@ -363,7 +397,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
               ),
             );
           } else {
-            if (error && error.jse_shortmsg.split(': ')[1].includes('wait to transact')) {
+            if (error && error.jse_shortmsg?.split(': ')[1]?.includes('wait to transact')) {
               // when RC is not enough, offer boosting account
               dispatch(setRcOffer(true));
             } else {
@@ -387,25 +421,51 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
   ) => {
     const params = {
-      ...currentAccount.about.profile,
+      ...(currentAccount.about?.profile || {}),
       pinned: unpinPost ? null : content.permlink,
     };
 
     try {
       await profileUpdate(params, pinCode, currentAccount);
 
-      currentAccount.about.profile = { ...params };
+      const nextAccount = {
+        ...currentAccount,
+        about: {
+          ...(currentAccount.about || {}),
+          profile: { ...params },
+        },
+      };
 
-      dispatch(updateCurrentAccount({ ...currentAccount }));
+      dispatch(updateCurrentAccount(nextAccount));
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
 
-      // TOOD: signal posts or pinned post refresh
+      // Invalidate account query to update profile data with new pinned post
+      const { queryKey: accountQueryKey } = getAccountFullQueryOptions(currentAccount.name);
+      queryClient.invalidateQueries({ queryKey: accountQueryKey });
+
+      // Invalidate post query to refetch with updated pin status
+      const { queryKey: entryQueryKey } = getPostQueryOptions(
+        content.author,
+        content.permlink,
+        currentAccount?.name || '',
+      );
+      queryClient.invalidateQueries({ queryKey: entryQueryKey });
+
+      // Invalidate account feed queries to update profile feeds (blog, posts, reblog)
+      // Use SDK query key structure: ['posts', 'account-posts', username, filter, ...]
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0] === 'posts' &&
+          query.queryKey[1] === 'account-posts' &&
+          query.queryKey[2] === currentAccount.name &&
+          ['blog', 'posts', 'reblog'].includes(String(query.queryKey[3])),
+      });
     } catch (err) {
       Alert.alert(
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        get(err, 'message', err.toString()),
+        get(err, 'message') || String(err) || 'Unknown error',
       );
     }
   };
@@ -423,13 +483,30 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         unpinPost,
       );
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+
+      // Invalidate post query to refetch with updated pin status
+      const { queryKey: entryQueryKey } = getPostQueryOptions(
+        content.author,
+        content.permlink,
+        currentAccount?.name || '',
+      );
+      queryClient.invalidateQueries({ queryKey: entryQueryKey });
+
+      // Invalidate community feed queries to update community posts
+      // Use SDK query key structure: ['posts', 'posts-ranked', sort, tag, ...]
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0] === 'posts' &&
+          query.queryKey[1] === 'posts-ranked' &&
+          query.queryKey[3] === content.community, // tag/community is at index 3
+      });
     } catch (err) {
       console.warn('Failed to update pin status of community post', err);
       Alert.alert(
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        get(err, 'message', err.toString()),
+        get(err, 'message') || String(err) || 'Unknown error',
       );
     }
   };
@@ -473,7 +550,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   // Component Functions
   const _handleOnDropdownSelect = async (index) => {
     const username = content.author;
-    const isOwnProfile = !username || currentAccount.username === username;
+    const isOwnProfile = !username || currentAccount?.name === username;
 
     switch (options[index]) {
       case 'copy':
@@ -492,7 +569,11 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         break;
 
       case 'reblog':
-        _reblog();
+        _reblog(false);
+        break;
+
+      case 'undo-reblog':
+        _reblog(true);
         break;
 
       case 'reply':

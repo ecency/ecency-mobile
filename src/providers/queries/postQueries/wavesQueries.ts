@@ -10,7 +10,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { unionBy, isArray } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { getDiscussionCollection, getAccountPosts, deleteComment } from '../../hive/dhive';
+import { getAccountPosts, getDiscussion, useBroadcastMutation } from '@ecency/sdk';
 
 import QUERIES from '../queryKeys';
 import { delay } from '../../../utils/editor';
@@ -18,6 +18,7 @@ import {
   injectPostCache,
   injectVoteCache,
   mapDiscussionToThreads,
+  parseDiscussionCollection,
 } from '../../../utils/postParser';
 import { useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
@@ -27,18 +28,19 @@ import {
   selectCurrentAccountMutes,
   selectPin,
 } from '../../../redux/selectors';
+import authType from '../../../constants/authType';
+import { decryptKey } from '../../../utils/crypto';
+import { getDigitPinCode } from '../../hive/dhive';
+import { mapAuthTypeToLoginType } from '../../../utils/authMapper';
 
 export const useWavesQuery = (host: string) => {
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
-  const intl = useIntl();
 
   const cache = useAppSelector((state) => state.cache);
   const mutes = useAppSelector(selectCurrentAccountMutes);
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinCode = useAppSelector(selectPin);
 
-  // TOTO: import bot authors query here
+  // TODO: import bot authors query here
   const botAuthorsQuery = useBotAuthorsQuery();
 
   const cacheRef = useRef(cache);
@@ -61,7 +63,8 @@ export const useWavesQuery = (host: string) => {
   // query initialization
   const wavesQueries = useQueries({
     queries: activePermlinks.map((pagePermlink, index) => ({
-      queryKey: [QUERIES.WAVES.GET, host, pagePermlink, index], // index at end is used to track query hydration
+      // index at end is used to track query hydration
+      queryKey: [QUERIES.WAVES.GET, host, pagePermlink, index],
       queryFn: () => _fetchWaves(pagePermlink),
       initialData: [],
     })),
@@ -153,7 +156,15 @@ export const useWavesQuery = (host: string) => {
         sort: 'posts',
       };
 
-      const result = await getAccountPosts(query);
+      const result =
+        (await getAccountPosts(
+          query.sort,
+          query.account,
+          query.start_author,
+          query.start_permlink,
+          query.limit,
+          query.observer,
+        )) || [];
 
       const _fetchedPermlinks = result.map((post) => post.permlink);
       console.log('permlinks fetched', _fetchedPermlinks);
@@ -178,13 +189,21 @@ export const useWavesQuery = (host: string) => {
 
   const _fetchWaves = async (pagePermlink: string) => {
     console.log('fetching waves from:', host, pagePermlink);
-    const response = await getDiscussionCollection(host, pagePermlink, currentAccount?.username);
+    const response = await getDiscussion(host, pagePermlink, currentAccount?.username);
+    const parsedResponse = response
+      ? await parseDiscussionCollection(response, currentAccount?.username)
+      : null;
 
     // inject cache here...
     const _cachedComments = cacheRef.current.commentsCollection;
     const _cachedVotes = cacheRef.current.votesCollection;
     const _lastCacheUpdate = cacheRef.current.lastCacheUpdate;
-    const _cResponse = injectPostCache(response, _cachedComments, _cachedVotes, _lastCacheUpdate);
+    const _cResponse = injectPostCache(
+      parsedResponse,
+      _cachedComments,
+      _cachedVotes,
+      _lastCacheUpdate,
+    );
 
     const _threadedComments = await mapDiscussionToThreads(_cResponse, host, pagePermlink, 1);
 
@@ -232,7 +251,10 @@ export const useWavesQuery = (host: string) => {
     setPermlinksBucket([]);
     setActivePermlinks([]);
     await _fetchPermlinks('', true);
-    await wavesQueries[0].refetch();
+    // Wait for next tick to allow activePermlinks to update before refetching
+    if (wavesQueries[0]?.refetch) {
+      await wavesQueries[0].refetch();
+    }
     setIsRefreshing(false);
   };
 
@@ -269,19 +291,24 @@ export const useWavesQuery = (host: string) => {
 
     const queryResponse = await _firstQuery.refetch();
 
-    const _newData: any[] = queryResponse.data || [];
+    const _latestData: any[] = queryResponse.data || [];
+
+    // Guard against empty _filteredData - if no previous waves, return first 5 new waves
+    if (!_prevLatestWave) {
+      return _latestData?.slice(0, 5) || [];
+    }
 
     // check if new waves are available
-    const _lastIndex = _newData?.findIndex(
+    const _lastIndex = _latestData?.findIndex(
       (item) => item.author + item.permlink === _prevLatestWave.author + _prevLatestWave.permlink,
     );
 
     let _newWaves: any[] = [];
     if (_lastIndex && _lastIndex !== 0) {
       if (_lastIndex < 0) {
-        _newWaves = _newData?.slice(0, 5) || [];
+        _newWaves = _latestData?.slice(0, 5) || [];
       } else {
-        _newWaves = _newData?.slice(0, _lastIndex) || [];
+        _newWaves = _latestData?.slice(0, _lastIndex) || [];
       }
     }
 
@@ -289,38 +316,7 @@ export const useWavesQuery = (host: string) => {
   };
 
   // wave delete mutation to delete wave and update query
-  const deleteWave = async ({ _permlink, _parent_permlink }: any) => {
-    const response = await deleteComment(currentAccount, pinCode, _permlink);
-
-    if (!response?.id) {
-      throw new Error('Failed to delete the wave');
-    }
-    return { _permlink, _parent_permlink };
-  };
-
-  const deleteMutation = useMutation({
-    mutationFn: deleteWave,
-    onSuccess: ({ _permlink, _parent_permlink }) => {
-      // find container index based on _parent_permlink of comment/wave being deleted
-      const _containerIndex = activePermlinks.indexOf(_parent_permlink);
-      if (_containerIndex >= 0) {
-        // get query data from wavesQueries based on container index
-        const _qData: any[] | undefined = wavesQueries[_containerIndex].data;
-        // create query key for updating query data
-        const _qKey = [QUERIES.WAVES.GET, host, _parent_permlink, _containerIndex];
-        if (_qData && _qData.length > 0) {
-          // filter out comment/wave which is deleted and set query data
-          const _filteredData = _qData.filter((w) => w.permlink !== _permlink);
-          queryClient.setQueryData(_qKey, _filteredData);
-        }
-      }
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
-    },
-    onError: (error) => {
-      console.log('Failed to delete wave:', error);
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.error' })));
-    },
-  });
+  const deleteMutation = useDeleteWaveMutation(host, activePermlinks, wavesQueries);
 
   return {
     data: _filteredData,
@@ -331,6 +327,155 @@ export const useWavesQuery = (host: string) => {
     refresh: _refresh,
     deleteWave: deleteMutation.mutate,
   };
+};
+
+export const useDeleteWaveMutation = (
+  host: string,
+  activePermlinks: string[],
+  wavesQueries: any[],
+) => {
+  const queryClient = useQueryClient();
+  const dispatch = useDispatch();
+  const intl = useIntl();
+
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
+
+  // Use refs to store latest values to avoid stale credentials
+  const currentAccountRef = useRef(currentAccount);
+  const pinHashRef = useRef(pinHash);
+
+  // Update refs whenever values change
+  useEffect(() => {
+    currentAccountRef.current = currentAccount;
+  }, [currentAccount]);
+
+  useEffect(() => {
+    pinHashRef.current = pinHash;
+  }, [pinHash]);
+
+  // Compute auth credentials using refs to get fresh values
+  const getAuthCredentials = () => {
+    const account = currentAccountRef.current;
+    const pin = pinHashRef.current;
+
+    // Defensive checks: verify account and required fields exist
+    if (!account || !account.local || !account.local.authType || !account.name) {
+      console.error('[WavesQueries] Missing account or auth credentials for wave deletion');
+      return null;
+    }
+
+    const digitPinCode = getDigitPinCode(pin);
+    if (!digitPinCode) {
+      console.error('[WavesQueries] Failed to get digit pin code');
+      return null;
+    }
+
+    const isHiveSigner =
+      account.local.authType === authType.STEEM_CONNECT ||
+      account.local.authType === authType.HIVE_AUTH;
+
+    const accessToken = isHiveSigner
+      ? decryptKey(account.local.accessToken, digitPinCode)
+      : undefined;
+    const postingKey =
+      !isHiveSigner && account.local.postingKey
+        ? decryptKey(account.local.postingKey, digitPinCode)
+        : undefined;
+
+    return {
+      accessToken,
+      postingKey,
+      loginType: mapAuthTypeToLoginType(account.local.authType),
+      username: account.name,
+    };
+  };
+
+  // Capture stable username for both mutation key and operation author
+  // to ensure they never diverge even if account changes
+  const usernameForKey = currentAccount.name;
+
+  const broadcastMutation = useBroadcastMutation<{ permlink: string; parentPermlink: string }>(
+    [QUERIES.WAVES.DELETE],
+    usernameForKey,
+    ({ permlink }) => {
+      // Verify credentials at mutation time
+      const latestAuth = getAuthCredentials();
+      if (!latestAuth) {
+        throw new Error('Cannot delete wave: authentication credentials are missing');
+      }
+      // Use the same stable username for author to match mutation key
+      return [
+        [
+          'delete_comment',
+          {
+            author: usernameForKey,
+            permlink,
+          },
+        ],
+      ];
+    },
+    () => {}, // onSuccess callback
+    // Auth object - SDK will use this at mutation time
+    // Note: Cannot use IIFE here as it would capture stale credentials
+    // Instead, relying on SDK's internal handling of accessToken/postingKey
+    {
+      // These are computed at init time but SDK should handle refresh
+      // Alternative: use custom broadcast function for truly fresh credentials
+      get accessToken() {
+        const auth = getAuthCredentials();
+        return auth?.accessToken;
+      },
+      get postingKey() {
+        const auth = getAuthCredentials();
+        return auth?.postingKey;
+      },
+      get loginType() {
+        const auth = getAuthCredentials();
+        return auth?.loginType || 'privateKey';
+      },
+    },
+  );
+
+  return useMutation({
+    mutationFn: async ({
+      _permlink,
+      _parent_permlink,
+    }: {
+      _permlink: string;
+      _parent_permlink: string;
+    }) => {
+      const response = await broadcastMutation.mutateAsync({
+        permlink: _permlink,
+        parentPermlink: _parent_permlink,
+      });
+
+      if (!response) {
+        throw new Error('Failed to delete the wave');
+      }
+      return { _permlink, _parent_permlink };
+    },
+    onSuccess: ({ _permlink, _parent_permlink }) => {
+      // find container index based on _parent_permlink of comment/wave being deleted
+      const _containerIndex = activePermlinks.indexOf(_parent_permlink);
+      if (_containerIndex >= 0) {
+        // get query data from wavesQueries based on container index
+        const _qData: any[] | undefined = wavesQueries[_containerIndex]?.data;
+        // create query key for updating query data
+        const _qKey = [QUERIES.WAVES.GET, host, _parent_permlink, _containerIndex];
+        if (_qData && _qData.length > 0) {
+          // filter out comment/wave which is deleted and set query data
+          const _updatedData = _qData.filter((w) => w.permlink !== _permlink);
+          queryClient.setQueryData(_qKey, _updatedData);
+        }
+      }
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
+    },
+    onError: (error) => {
+      console.log('Failed to delete wave:', error);
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.error' })));
+    },
+  });
 };
 
 export const usePublishWaveMutation = () => {
@@ -402,13 +547,21 @@ export const fetchLatestWavesContainer = async (host) => {
     sort: 'posts',
   };
 
-  const result = await getAccountPosts(query);
+  const result =
+    (await getAccountPosts(
+      query.sort,
+      query.account,
+      query.start_author,
+      query.start_permlink,
+      query.limit,
+      query.observer,
+    )) || [];
 
   const _latestPost = result[0];
-  console.log('lates waves post', host, _latestPost);
+  console.log('latest waves post', host, _latestPost);
 
   if (!_latestPost) {
-    throw new Error('Lates waves container could be not fetched');
+    throw new Error('Latest waves container could not be fetched');
   }
 
   return _latestPost;

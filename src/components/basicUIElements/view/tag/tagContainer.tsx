@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
-import { getCommunityTitle } from '../../../../providers/hive/dhive';
+import { getCommunityQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 // Middleware
 
 // Constants
@@ -33,6 +34,7 @@ const TagContainer = ({
   removeEnabled,
 }) => {
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
 
   const [label, setLabel] = useState(value);
   const [isCommunity, setIsCommunity] = useState(false);
@@ -41,7 +43,8 @@ const TagContainer = ({
     let isCancelled = false;
     const fetchData = async (val) => {
       try {
-        const dd = await getCommunityTitle(val);
+        const community = await queryClient.fetchQuery(getCommunityQueryOptions(val, ''));
+        const dd = community?.title || val;
         if (!isCancelled) {
           setLabel(dd);
           setIsCommunity(value !== dd);

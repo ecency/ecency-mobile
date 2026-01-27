@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { ScrollView, View, RefreshControl } from 'react-native';
+import { ScrollView, View, RefreshControl, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
@@ -29,6 +29,7 @@ const SettingsScreen = ({
   isBiometricEnabled,
   isLoggedIn,
   isNotificationSettingsOpen,
+  isFCMAvailable,
   nsfw,
   selectedApi,
   selectedCurrency,
@@ -46,7 +47,15 @@ const SettingsScreen = ({
   handleOnButtonPress,
   isLoading,
   isHideImages,
+  dmPrivacy,
 }) => {
+  const dmPrivacyOptions = [
+    intl.formatMessage({ id: 'settings.dm-privacy.allow-all' }),
+    intl.formatMessage({ id: 'settings.dm-privacy.followers-only' }),
+    intl.formatMessage({ id: 'settings.dm-privacy.no-one' }),
+  ];
+  const dmPrivacyIndex = ['all', 'followers', 'none'].indexOf(dmPrivacy || 'all');
+
   return (
     <SafeAreaView edges={['top']} style={globalStyles.defaultContainer}>
       <BasicHeader
@@ -95,6 +104,18 @@ const SettingsScreen = ({
             selectedOptionIndex={LANGUAGE_VALUE.indexOf(selectedLanguage)}
             handleOnChange={handleOnChange}
           />
+          {!!isLoggedIn && (
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.dm-privacy.title',
+              })}
+              type="dropdown"
+              actionType={settingsTypes.DM_PRIVACY}
+              options={dmPrivacyOptions}
+              selectedOptionIndex={dmPrivacyIndex < 0 ? 0 : dmPrivacyIndex}
+              handleOnChange={handleOnChange}
+            />
+          )}
           <SettingsItem
             title={intl.formatMessage({
               id: 'settings.server',
@@ -288,6 +309,17 @@ const SettingsScreen = ({
                 handleOnChange={handleOnChange}
               />
             </CollapsibleCard>
+            {isFCMAvailable === false && (
+              <View
+                style={{ padding: 16, backgroundColor: '#FFF3CD', borderRadius: 8, marginTop: 8 }}
+              >
+                <Text style={{ color: '#856404', fontSize: 13, lineHeight: 18 }}>
+                  {intl.formatMessage({
+                    id: 'settings.notification.fcm_unavailable',
+                  })}
+                </Text>
+              </View>
+            )}
           </View>
         )}
         <View style={[styles.settingsCard, styles.paddingBottom]}>

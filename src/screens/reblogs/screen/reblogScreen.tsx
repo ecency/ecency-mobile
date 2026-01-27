@@ -56,7 +56,7 @@ const ReblogScreen = ({ route }) => {
     let _deleteEnabled = false;
     if (reblogsQuery.data instanceof Array) {
       _reblogs = reblogsQuery.data.map((username) => ({ account: username }));
-      _deleteEnabled = currentAccount ? reblogsQuery.data.includes(currentAccount.username) : false;
+      _deleteEnabled = currentAccount ? reblogsQuery.data.includes(currentAccount.name) : false;
     }
     return {
       reblogs: _reblogs,

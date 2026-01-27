@@ -4,11 +4,11 @@ import { unionBy } from 'lodash';
 import { Image } from 'react-native';
 import VersionNumber from 'react-native-version-number';
 import getSlug from 'speakingurl';
+import { getQueryClient, getPostQueryOptions } from '@ecency/sdk';
 import { PostTypes } from '../constants/postTypes';
 import { ThreeSpeakVideo } from '../providers/speak/speak.types';
 import { PollDraft } from '../providers/ecency/ecency.types';
 import { ContentType, PollMetadata, PostMetadata } from '../providers/hive/hive.types';
-import { getPost } from '../providers/hive/dhive';
 import postUrlParser from './postUrlParser';
 import { POLLS_PROTOCOL_VERSION } from '../providers/polls/polls';
 
@@ -265,6 +265,8 @@ export const extractMetadata = async ({
   const postPromises: Promise<any>[] = [];
   const promiseUrls: string[] = [];
 
+  const queryClient = getQueryClient();
+
   filteredUrls.forEach((url) => {
     try {
       // Check if url is a post url
@@ -273,7 +275,7 @@ export const extractMetadata = async ({
       if (author && permlink) {
         // Store URL info alongside the promise
         promiseUrls.push(url);
-        postPromises.push(getPost(author, permlink));
+        postPromises.push(queryClient.fetchQuery(getPostQueryOptions(author, permlink, '')));
       }
     } catch (e) {
       console.log('error parsing url: ', url, e);

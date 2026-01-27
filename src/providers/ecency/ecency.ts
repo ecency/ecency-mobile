@@ -49,7 +49,6 @@ export const getFiatHbdRate = (fiatCode: string) =>
 
 export const getLatestQuotes = async (currencyRate: number): Promise<LatestMarketPrices> => {
   try {
-    console.log('using currency rate', currencyRate);
     const res = await ecencyApi.get('/private-api/market-data/latest');
 
     if (!res.data) {
@@ -57,7 +56,6 @@ export const getLatestQuotes = async (currencyRate: number): Promise<LatestMarke
     }
 
     const data = convertLatestQuotes(res.data, currencyRate);
-    console.log('parsed quotes data', data, currencyRate);
 
     // TODO fetch engine quotes here
 
@@ -83,7 +81,6 @@ export const getReceivedVestingShares = async (
 ): Promise<ReceivedVestingShare[]> => {
   try {
     const res = await ecencyApi.get(`/private-api/received-vesting/${username}`);
-    console.log('Vesting Shares User', username, res.data);
     if (!res.data || !res.data.list) {
       throw new Error('No vesting shares for user');
     }
@@ -502,7 +499,7 @@ export const markNotifications = async (id: string | null = null) => {
 export const setPushToken = async (data, accessToken = null) => {
   try {
     if (!data.username) {
-      console.log('skipping push token setting, as no user is provided');
+      console.warn('skipping push token setting, as no user is provided');
       return;
     }
 
@@ -773,7 +770,6 @@ export const uploadImage = async (media, username, sign, uploadProgress = null) 
 export const getNodes = async () => {
   try {
     const response = await serverList.get('');
-    console.log('nodes response', response.data);
 
     const nodes = response.data?.hived ?? response.data;
 
@@ -803,7 +799,6 @@ export const getSCAccessToken = async (
     const response = await ecencyApi.post('/auth-api/hs-token-refresh', {
       code,
     });
-    console.log(`Success: ${response.status}`);
     return response.data;
   } catch (error) {
     if (retriesCount > 0) {
@@ -824,7 +819,6 @@ export const getSCAccessToken = async (
  */
 export const getPromotedEntries = async (username: string) => {
   try {
-    console.log('Fetching promoted entries');
     return ecencyApi.get('/private-api/promoted-entries').then((resp) => {
       return resp.data.map((post_data: any) =>
         post_data ? parsePost(post_data, username, true) : null,
@@ -843,7 +837,6 @@ export const getPromotedEntries = async (username: string) => {
  */
 export const getBoostPlusPrice = async () => {
   try {
-    console.log('Fetching boost plus prices');
     return ecencyApi.post('/private-api/boost-plus-price').then((resp) => {
       return resp.data;
     });
@@ -864,7 +857,6 @@ export const getBoostPlusAccount = async (account: string) => {
     account,
   };
   try {
-    console.log('Fetching boosted plus account');
     return ecencyApi.post('/private-api/boosted-plus-account', data).then((resp) => {
       return resp.data;
     });
@@ -948,7 +940,6 @@ export const getReferralsList = async (
         max_id: maxId,
       },
     });
-    console.log('Referrals List', username, res.data);
     if (!res.data) {
       throw new Error('No Referrals for this user!');
     }
@@ -965,7 +956,6 @@ export const getReferralsList = async (
 export const getReferralsStats = async (username: string): Promise<ReferralStat> => {
   try {
     const res = await ecencyApi.get(`/private-api/referrals/${username}/stats`);
-    console.log('Referrals Stats', username, res.data);
     if (!res.data) {
       throw new Error('No Referrals for this user!');
     }
@@ -993,7 +983,6 @@ export const getCommentHistory = async (
       permlink,
     };
     const res = await ecencyApi.post('/private-api/comment-history', data);
-    console.log('comment history', res.data);
     if (!res.data) {
       throw new Error('No history data!');
     }
@@ -1043,7 +1032,6 @@ export const getAnnouncements = async (accessToken: string) => {
     const params = accessToken ? { code: accessToken } : null;
 
     const res = await ecencyApi.get('/private-api/announcements', { params });
-    console.log('announcements fetcehd', res.data);
     if (!res.data) {
       throw new Error('No announcements found!');
     }
@@ -1091,8 +1079,6 @@ export const getBotAuthers = async () => {
     const res = await ecencyApi.get('/private-api/public/bots');
     const { data } = res;
 
-    console.log('bots fetched', data);
-
     if (!data || !isArray(data)) {
       throw new Error('invalid bot authers data');
     }
@@ -1110,8 +1096,6 @@ export const getActiveProposalMeta = async () => {
     const res = await ecencyApi.get('/private-api/proposal/active');
 
     const data = convertProposalMeta(res.data);
-
-    console.log('active proposal meta', data);
 
     if (!data) {
       throw new Error('invalid proposal data');

@@ -15,6 +15,7 @@ import {
   IS_DEFAULT_FOOTER,
   IS_LOGIN_DONE,
   IS_NOTIFICATION_OPEN,
+  SET_FCM_AVAILABLE,
   LOGIN,
   SET_API,
   SET_CURRENCY,
@@ -50,6 +51,7 @@ interface State {
   isLoginDone: boolean;
   isLogingOut: boolean;
   isNotificationOpen: boolean;
+  isFCMAvailable: boolean | null; // FCM (Firebase Cloud Messaging) availability - null means not checked yet
   language: string;
   loading: boolean; // It is lock to all screen and shows loading animation.
   notificationDetails: {
@@ -91,6 +93,7 @@ const initialState: State = {
   isLoginDone: false,
   isLogingOut: false,
   isNotificationOpen: true,
+  isFCMAvailable: null, // Not checked yet
   language: 'en-US',
   loading: false, // It is lock to all screen and shows loading animation.
   notificationDetails: {
@@ -150,6 +153,10 @@ const applicationReducer = (state = initialState, action): State => {
     case IS_NOTIFICATION_OPEN:
       return Object.assign({}, state, {
         isNotificationOpen: action.payload,
+      });
+    case SET_FCM_AVAILABLE:
+      return Object.assign({}, state, {
+        isFCMAvailable: action.payload,
       });
     case CHANGE_COMMENT_NOTIFICATION:
       return Object.assign({}, state, {

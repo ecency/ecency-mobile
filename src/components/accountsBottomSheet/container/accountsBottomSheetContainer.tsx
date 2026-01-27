@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { Alert } from 'react-native';
 import { SheetManager } from 'react-native-actions-sheet';
+import { getMutedUsersQueryOptions } from '@ecency/sdk';
 import RootNavigation from '../../../navigation/rootNavigation';
 
 import { setPrevLoggedInUsers, updateCurrentAccount } from '../../../redux/actions/accountAction';
@@ -20,7 +21,8 @@ import AccountsBottomSheet, { AccountsBottomSheetRef } from '../view/accountsBot
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
-import { getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
+import { getDigitPinCode } from '../../../providers/hive/dhive';
+import { getQueryClient } from '../../../providers/queries';
 
 import { useAppSelector } from '../../../hooks';
 import {
@@ -126,11 +128,9 @@ const AccountsBottomSheetContainer = () => {
       let _currentAccount = await switchAccount(accountData.username);
       let realmData = await getUserDataWithUsername(accountData.username);
 
-      _currentAccount.username = _currentAccount.name;
-
       if (!realmData[0]) {
         realmData = await repairUserAccountData(
-          _currentAccount.username,
+          _currentAccount.name,
           dispatch,
           intl,
           accounts,
@@ -170,12 +170,17 @@ const AccountsBottomSheetContainer = () => {
 
       const accessToken = decryptKey(encryptedAccessToken, getDigitPinCode(pinHash));
       _currentAccount.unread_activity_count = await getUnreadNotificationCount(accessToken);
-      _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
-      _currentAccount.mutes = await getMutes(_currentAccount.username);
+      _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.name);
+
+      // Fetch muted users using SDK query
+      const queryClient = getQueryClient();
+      _currentAccount.mutes = await queryClient.fetchQuery(
+        getMutedUsersQueryOptions(_currentAccount.name),
+      );
 
       dispatch(updateCurrentAccount(_currentAccount));
       dispatch(clearSubscribedCommunitiesCache());
-      dispatch(fetchSubscribedCommunities(_currentAccount.username));
+      dispatch(fetchSubscribedCommunities(_currentAccount.name));
     } catch (error) {
       Alert.alert(
         intl.formatMessage({

@@ -1,13 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { getLeaderboard } from '../../ecency/ecency';
-import QUERIES from '../queryKeys';
+import { getDiscoverLeaderboardQueryOptions } from '@ecency/sdk';
 
-/** hook used to return user drafts */
+/** hook used to return leaderboard data using SDK */
 export const useGetLeaderboardQuery = (duration: 'day' | 'week' | 'month') => {
-  const _getLeaderboard = async () => {
-    const data = await getLeaderboard(duration);
-    return data || [];
-  };
-
-  return useQuery({ queryKey: [QUERIES.LEADERBOARD.GET, duration], queryFn: _getLeaderboard });
+  return useQuery(getDiscoverLeaderboardQueryOptions(duration));
 };

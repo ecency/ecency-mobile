@@ -27,20 +27,20 @@ export const ProposalVoteRequest = () => {
   const activeProposalMetaQuery = useActiveProposalMetaQuery();
   const _ecencyProposalId = activeProposalMetaQuery.data?.id;
 
-  // make sure proposalVotedQuery returnes updated data on id change
+  // make sure proposalVotedQuery returns updated data on id change
   const proposalVotedQuery = useProposalVotedQuery(_ecencyProposalId);
   const proposalVoteMutation = useProposalVoteMutation();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
-  // assess if user should be promopted to vote proposal
+  // assess if user should be prompted to vote proposal
   // makes sure this logic is only calculated once on launch
   const [skipOnLaunch] = useState(
     !isLoggedIn || proposalVotedQuery.data || proposalVotedQuery.meta?.processed,
   );
 
-  // render or no render based on dimiss action performed
+  // render or no render based on dismiss action performed
   const skipRender = useMemo(() => {
     if (!skipOnLaunch && proposalVotedQuery.meta) {
       const curTime = new Date().getTime();
@@ -77,7 +77,7 @@ export const ProposalVoteRequest = () => {
               dispatch(
                 updateProposalVoteMeta(
                   _ecencyProposalId,
-                  currentAccount.username,
+                  currentAccount.name,
                   true,
                   new Date().getTime(),
                 ),
@@ -90,7 +90,7 @@ export const ProposalVoteRequest = () => {
               dispatch(
                 updateProposalVoteMeta(
                   _ecencyProposalId,
-                  currentAccount.username,
+                  currentAccount.name,
                   false,
                   new Date().getTime(),
                 ),

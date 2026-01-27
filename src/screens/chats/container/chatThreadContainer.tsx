@@ -19,6 +19,9 @@ import { useDispatch } from 'react-redux';
 import { SheetManager } from 'react-native-actions-sheet';
 import unionBy from 'lodash/unionBy';
 
+import { getCommunityQueryOptions, getPostQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
+import ROUTES from '../../../constants/routeNames';
 import { useAppSelector, useLinkProcessor } from '../../../hooks';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 import { useMattermostWebSocket } from '../../../hooks/useMattermostWebSocket';
@@ -43,7 +46,7 @@ import {
   unpinMattermostPost,
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
-import { signImage, getCommunity, getPost } from '../../../providers/hive/dhive';
+import { signImage } from '../../../providers/hive/dhive';
 import { chatThreadStyles as styles } from '../styles/chatThread.styles';
 import { emojifyMessage } from '../../../utils/emoji';
 import { extractImageUrls, extractUrls } from '../../../utils/editor';
@@ -86,6 +89,7 @@ import { ChatHeader } from '../children/ChatHeader';
 import { PinnedMessagesModal } from '../children/PinnedMessagesModal';
 import { OnlineUsersModal } from '../children/OnlineUsersModal';
 import { TypingIndicator } from '../children/TypingIndicator';
+import { DmWarningBanner } from '../children/DmWarningBanner';
 
 interface ChatReaction {
   emoji_name: string;
@@ -132,6 +136,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { handleLink } = useLinkProcessor();
+  const queryClient = useQueryClient();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinCode = useAppSelector(selectPin);
@@ -164,6 +169,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const [hasMorePosts, setHasMorePosts] = useState<boolean>(true);
   const [pinnedMessagesModalVisible, setPinnedMessagesModalVisible] = useState<boolean>(false);
   const [onlineUsersModalVisible, setOnlineUsersModalVisible] = useState<boolean>(false);
+  const [showDmWarning, setShowDmWarning] = useState<boolean>(false);
   const [linkMeta, setLinkMeta] = useState<{
     url: string;
     author?: string;
@@ -182,6 +188,29 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const listRef = useRef<FlatList<ChatPost>>(null);
   const inputRef = useRef<TextInput>(null);
   const lastMarkedViewedAtRef = useRef<number | null>(null);
+  const lastSentPendingIdRef = useRef<string | null>(null);
+  const lastSentMessageRef = useRef<string | null>(null);
+  const lastSentRootIdRef = useRef<string | null>(null);
+  const lastSentAtRef = useRef<number>(0);
+  const confirmedPendingPostIdsRef = useRef<Set<string>>(new Set());
+  const sendTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dismissedDmWarningsRef = useRef<Set<string>>(new Set());
+  const repliedChannelsRef = useRef<Set<string>>(new Set());
+  const messageRef = useRef<string>('');
+
+  useEffect(() => {
+    return () => {
+      if (sendTimeoutRef.current) {
+        clearTimeout(sendTimeoutRef.current);
+        sendTimeoutRef.current = null;
+      }
+      lastSentPendingIdRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    messageRef.current = message;
+  }, [message]);
 
   // User lookup state
   const [userLookup, setUserLookup] = useState<Record<string, any>>(() => {
@@ -206,6 +235,41 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const bootstrapUserId =
     bootstrapResult?.user?.id || bootstrapResult?.user?.userId || bootstrapResult?.userId;
 
+  useEffect(() => {
+    if (!isDM || !channelId) {
+      setShowDmWarning(false);
+      return;
+    }
+
+    if (dismissedDmWarningsRef.current.has(channelId)) {
+      setShowDmWarning(false);
+      return;
+    }
+
+    if (!bootstrapUserId) {
+      setShowDmWarning(false);
+      return;
+    }
+
+    const hasReplied =
+      repliedChannelsRef.current.has(channelId) ||
+      posts.some((post) => post.user_id === bootstrapUserId);
+    setShowDmWarning(!hasReplied && posts.length > 0);
+  }, [isDM, channelId, posts, bootstrapUserId]);
+
+  // Mention state updater - declared early so WebSocket callbacks can use it
+  const _updateMentionState = useCallback((text: string) => {
+    const match = text.match(/(^|[\s\n])@([a-zA-Z0-9_.-]*)$/);
+    if (match) {
+      const startIndex = (match.index || 0) + match[1].length;
+      setMentionStartIndex(startIndex);
+      setMentionQuery(match[2]);
+    } else {
+      setMentionStartIndex(null);
+      setMentionQuery(null);
+    }
+  }, []);
+
   // WebSocket connection for real-time updates
   const {
     isConnected: isWsConnected,
@@ -223,9 +287,69 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           return;
         }
 
-        // Skip messages from current user - they're already added optimistically on send
-        if (post.user_id === bootstrapUserId) {
+        // Clear input when we get confirmation of our own message via WebSocket
+        const pendingPostId = post.pending_post_id as string | undefined;
+        const pendingMatch =
+          pendingPostId &&
+          post.user_id === bootstrapUserId &&
+          pendingPostId === lastSentPendingIdRef.current;
+        const fallbackMatch =
+          !pendingPostId &&
+          post.user_id === bootstrapUserId &&
+          lastSentMessageRef.current !== null &&
+          emojifyMessage(post.message) === lastSentMessageRef.current &&
+          (post.root_id || '') === (lastSentRootIdRef.current || '') &&
+          Math.abs((post.create_at || 0) - lastSentAtRef.current) < 30000;
+
+        if (pendingMatch || fallbackMatch) {
+          const confirmedId = lastSentPendingIdRef.current;
+          if (confirmedId) {
+            confirmedPendingPostIdsRef.current.add(confirmedId);
+          }
+          if (channelId) {
+            repliedChannelsRef.current.add(channelId);
+          }
+          setPosts((prevPosts) => {
+            const exists = prevPosts.find((p) => p.id === normalized.id);
+            if (exists) {
+              return prevPosts;
+            }
+            return [normalized, ...prevPosts];
+          });
+          const shouldClearComposer =
+            messageRef.current.trim() === '' ||
+            emojifyMessage(messageRef.current.trim()) === lastSentMessageRef.current;
+          if (shouldClearComposer) {
+            setMessage('');
+            _updateMentionState('');
+            setRootPost(null);
+            setLinkMeta(null);
+          }
+          setIsSending(false);
+          lastSentPendingIdRef.current = null;
+          lastSentMessageRef.current = null;
+          lastSentRootIdRef.current = null;
+          lastSentAtRef.current = 0;
+          if (sendTimeoutRef.current) {
+            clearTimeout(sendTimeoutRef.current);
+            sendTimeoutRef.current = null;
+          }
+
+          // Refocus input after sending
+          setTimeout(() => inputRef.current?.focus(), 50);
           return;
+        }
+
+        // Skip only messages that match known pending client ids from this device
+        if (post.user_id === bootstrapUserId) {
+          const pendingId = post.pending_post_id as string | undefined;
+          if (
+            pendingId &&
+            (pendingId === lastSentPendingIdRef.current ||
+              confirmedPendingPostIdsRef.current.has(pendingId))
+          ) {
+            return;
+          }
         }
 
         setPosts((prevPosts) => {
@@ -248,7 +372,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
             .catch(console.error);
         }
       },
-      [bootstrapUserId],
+      [bootstrapUserId, _updateMentionState, channelId],
     ),
     onMessageEdited: useCallback(
       (post: any) => {
@@ -339,18 +463,6 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   });
 
   // Callbacks
-  const _updateMentionState = useCallback((text: string) => {
-    const match = text.match(/(^|[\s\n])@([a-zA-Z0-9_.-]*)$/);
-    if (match) {
-      const startIndex = (match.index || 0) + match[1].length;
-      setMentionStartIndex(startIndex);
-      setMentionQuery(match[2]);
-    } else {
-      setMentionStartIndex(null);
-      setMentionQuery(null);
-    }
-  }, []);
-
   const _handleMessageChange = useCallback(
     (text: string) => {
       setMessage(text);
@@ -549,7 +661,9 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       }
 
       try {
-        const community = await getCommunity(derivedCommunityIdentifier, currentAccount.name);
+        const community = await queryClient.fetchQuery(
+          getCommunityQueryOptions(derivedCommunityIdentifier, currentAccount.name),
+        );
         const team = community?.team || [];
         const isModerator = team.some(
           (member: any) =>
@@ -563,7 +677,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     };
 
     resolveModeration();
-  }, [currentAccount?.name, derivedCommunityIdentifier]);
+  }, [currentAccount?.name, derivedCommunityIdentifier, queryClient]);
 
   // Detect and fetch link metadata when message changes
   useEffect(() => {
@@ -591,7 +705,9 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         const parsed = postUrlParser(firstUrl);
         if (parsed?.author && parsed?.permlink) {
           // It's a Hive post, fetch from Hive
-          const post = await getPost(parsed.author, parsed.permlink, currentAccount?.name);
+          const post = await queryClient.fetchQuery(
+            getPostQueryOptions(parsed.author, parsed.permlink, currentAccount?.name),
+          );
 
           if (post && post.title) {
             setLinkMeta({
@@ -1103,39 +1219,100 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           }),
         };
 
-        const response = await sendMattermostMessage(channelId, emojifiedMessage, rootId, props);
+        // Generate unique pending_post_id for idempotency across load-balanced instances
+        const pendingPostId = `${bootstrapUserId || 'user'}_${Date.now()}_${Math.random()
+          .toString(36)
+          .substring(2, 11)}`;
+
+        // Store pending ID for WebSocket confirmation
+        lastSentPendingIdRef.current = pendingPostId;
+        lastSentMessageRef.current = emojifiedMessage;
+        lastSentRootIdRef.current = rootId || '';
+        lastSentAtRef.current = Date.now();
+        if (sendTimeoutRef.current) {
+          clearTimeout(sendTimeoutRef.current);
+        }
+        sendTimeoutRef.current = setTimeout(() => {
+          if (lastSentPendingIdRef.current === pendingPostId) {
+            setIsSending(false);
+          }
+        }, 30000);
+
+        const response = await sendMattermostMessage(
+          channelId,
+          emojifiedMessage,
+          rootId,
+          props,
+          pendingPostId,
+        );
         const newPost = normalizePost(response);
         if (newPost) {
-          setPosts((prev) => sortPosts([...prev, newPost]));
-          _resolveUserProfiles(collectMissingUserIds([newPost], userLookupRef.current));
+          if (channelId) {
+            repliedChannelsRef.current.add(channelId);
+          }
+          const wasConfirmed = confirmedPendingPostIdsRef.current.has(pendingPostId);
+          if (!wasConfirmed) {
+            setPosts((prev) => sortPosts([...prev, newPost]));
+            _resolveUserProfiles(collectMissingUserIds([newPost], userLookupRef.current));
 
-          // Scroll to bottom when new message is sent
-          setTimeout(() => {
-            listRef.current?.scrollToIndex({
-              index: 0,
-              animated: true,
-              viewPosition: 0,
-            });
-          }, 100);
+            // Scroll to bottom when new message is sent
+            setTimeout(() => {
+              listRef.current?.scrollToIndex({
+                index: 0,
+                animated: true,
+                viewPosition: 0,
+              });
+            }, 100);
+          } else {
+            confirmedPendingPostIdsRef.current.delete(pendingPostId);
+          }
         }
       }
-      setMessage('');
-      _updateMentionState('');
-      setRootPost(null);
-      setLinkMeta(null);
+
+      // Only clear input via HTTP if WebSocket is NOT connected
+      // WebSocket will handle it via onNewMessage callback for instant feedback
+      if (!isWsConnected) {
+        setMessage('');
+        _updateMentionState('');
+        setRootPost(null);
+        setLinkMeta(null);
+        lastSentPendingIdRef.current = null;
+        lastSentMessageRef.current = null;
+        lastSentRootIdRef.current = null;
+        lastSentAtRef.current = 0;
+        if (sendTimeoutRef.current) {
+          clearTimeout(sendTimeoutRef.current);
+          sendTimeoutRef.current = null;
+        }
+      }
     } catch (err: any) {
-      // Check if this is a ban error
-      if (err?.isBanError) {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'chats.banned_from_chat',
-              defaultMessage: 'Unusual activity detected. Please try again after some time.',
-            }),
-          ),
-        );
+      // Clear pending ID on error so we don't match it later
+      const pendingId = lastSentPendingIdRef.current;
+      if (pendingId && confirmedPendingPostIdsRef.current.has(pendingId)) {
+        confirmedPendingPostIdsRef.current.delete(pendingId);
       } else {
-        setError(err?.message || 'Unable to send your message.');
+        // Check if this is a ban error
+        if (err?.isBanError) {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'chats.banned_from_chat',
+                defaultMessage: 'Unusual activity detected. Please try again after some time.',
+              }),
+            ),
+          );
+        } else {
+          setError(err?.message || 'Unable to send your message.');
+        }
+      }
+
+      lastSentPendingIdRef.current = null;
+      lastSentMessageRef.current = null;
+      lastSentRootIdRef.current = null;
+      lastSentAtRef.current = 0;
+      if (sendTimeoutRef.current) {
+        clearTimeout(sendTimeoutRef.current);
+        sendTimeoutRef.current = null;
       }
     } finally {
       setIsSending(false);
@@ -1889,6 +2066,13 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     );
   }, [mentionQuery, mentionSuggestions, _handleSelectMention]);
 
+  const _handleDismissDmWarning = useCallback(() => {
+    if (channelId) {
+      dismissedDmWarningsRef.current.add(channelId);
+    }
+    setShowDmWarning(false);
+  }, [channelId]);
+
   return (
     <SafeAreaView style={styles.container} edges={[]}>
       <ChatHeader
@@ -1898,9 +2082,16 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         onBack={handleBack}
         onMembersPress={() => setOnlineUsersModalVisible(true)}
         onPinnedPress={() => setPinnedMessagesModalVisible(true)}
+        isDM={isDM}
       />
 
       <View style={{ flex: 1 }}>
+        {showDmWarning && (
+          <DmWarningBanner
+            onDismiss={_handleDismissDmWarning}
+            onSettingsPress={() => navigation.navigate(ROUTES.SCREENS.SETTINGS)}
+          />
+        )}
         <ThreadMessageList
           listRef={listRef}
           processedPosts={processedPosts}

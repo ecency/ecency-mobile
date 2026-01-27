@@ -35,6 +35,7 @@ interface Props {
   getActivities: () => void;
   changeSelectedFilter: () => void;
   navigateToNotificationRoute: () => void;
+  listRef?: React.RefObject<SectionList>;
 }
 
 const NotificationView = ({
@@ -47,10 +48,12 @@ const NotificationView = ({
   getActivities,
   changeSelectedFilter,
   navigateToNotificationRoute,
+  listRef: externalListRef,
 }: Props) => {
   const intl = useIntl();
 
-  const listRef = useRef<SectionList>(null);
+  const internalListRef = useRef<SectionList>(null);
+  const listRef = externalListRef || internalListRef;
 
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const [selectedIndex, setSelectedIndex] = useState(0);

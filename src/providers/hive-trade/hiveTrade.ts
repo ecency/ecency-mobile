@@ -29,6 +29,11 @@ export const limitOrderCreate = (
   const digitPinCode = getDigitPinCode(pinHash);
   const key = getActiveKey(currentAccount?.local, digitPinCode);
 
+  const owner = currentAccount?.name ?? currentAccount?.username;
+  if (!owner) {
+    return Promise.reject(new Error('Missing account name'));
+  }
+
   if (key) {
     const privateKey = PrivateKey.fromString(key);
 
@@ -36,13 +41,7 @@ export const limitOrderCreate = (
     expiration.setDate(expiration.getDate() + 27);
     [expiration] = expiration.toISOString().split('.');
 
-    const data = getLimitOrderCreateOpData(
-      currentAccount.username,
-      amountToSell,
-      minToReceive,
-      orderType,
-      idPrefix,
-    );
+    const data = getLimitOrderCreateOpData(owner, amountToSell, minToReceive, orderType, idPrefix);
 
     const args: Operation[] = [['limit_order_create', data]];
 
@@ -69,13 +68,18 @@ export const limitOrderCancel = (currentAccount: any, pinHash: string, orderid: 
   const digitPinCode = getDigitPinCode(pinHash);
   const key = getActiveKey(currentAccount?.local, digitPinCode);
 
+  const owner = currentAccount?.name ?? currentAccount?.username;
+  if (!owner) {
+    return Promise.reject(new Error('Missing account name'));
+  }
+
   if (key) {
     const privateKey = PrivateKey.fromString(key);
     const ops: Operation[] = [
       [
         'limit_order_cancel',
         {
-          owner: currentAccount.username,
+          owner,
           orderid,
         },
       ],
@@ -104,13 +108,12 @@ export const generateHsLimitOrderCreatePath = (
   orderType: TransactionType,
   idPrefix = OrderIdPrefix.EMPTY,
 ) => {
-  const data = getLimitOrderCreateOpData(
-    currentAccount.username,
-    amountToSell,
-    minToReceive,
-    orderType,
-    idPrefix,
-  );
+  const owner = currentAccount?.name ?? currentAccount?.username;
+  if (!owner) {
+    throw new Error('Missing account name');
+  }
+
+  const data = getLimitOrderCreateOpData(owner, amountToSell, minToReceive, orderType, idPrefix);
 
   const query = new URLSearchParams(data).toString();
 

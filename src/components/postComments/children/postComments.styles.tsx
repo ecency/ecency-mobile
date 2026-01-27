@@ -14,4 +14,7 @@ export default EStyleSheet.create({
     marginTop: 5,
     padding: 32,
   },
+  loadingIndicator: {
+    marginTop: 16,
+  },
 });

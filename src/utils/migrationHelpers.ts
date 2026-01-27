@@ -4,6 +4,7 @@ import Config from 'react-native-config';
 // Constants
 import { SheetManager } from 'react-native-actions-sheet';
 import { isArray } from 'lodash';
+import { getMutedUsersQueryOptions } from '@ecency/sdk';
 import THEME_OPTIONS from '../constants/options/theme';
 import { getUnreadNotificationCount } from '../providers/ecency/ecency';
 import { getPointsSummary } from '../providers/ecency/ePoint';
@@ -14,7 +15,8 @@ import {
   refreshSCToken,
   updatePinCode,
 } from '../providers/hive/auth';
-import { getDigitPinCode, getMutes } from '../providers/hive/dhive';
+import { getDigitPinCode } from '../providers/hive/dhive';
+import { getQueryClient } from '../providers/queries';
 import AUTH_TYPE from '../constants/authType';
 
 // Services
@@ -105,7 +107,7 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
   try {
     const pinData = {
       pinCode: Config.DEFAULT_PIN,
-      username: currentAccount.username,
+      username: currentAccount.name,
       oldPinCode,
     };
 
@@ -155,14 +157,19 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
   // get unread notifications
   try {
     _currentAccount.unread_activity_count = await getUnreadNotificationCount();
-    _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
-    _currentAccount.mutes = await getMutes(_currentAccount.username);
+    _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.name);
+
+    // Fetch muted users using SDK query
+    const queryClient = getQueryClient();
+    _currentAccount.mutes = await queryClient.fetchQuery(
+      getMutedUsersQueryOptions(_currentAccount.name),
+    );
   } catch (err) {
     console.warn('Optional user data fetch failed, account can still function without them', err);
   }
 
   dispatch(updateCurrentAccount({ ..._currentAccount }));
-  dispatch(fetchSubscribedCommunities(_currentAccount.username));
+  dispatch(fetchSubscribedCommunities(_currentAccount.name));
 };
 
 export const repairUserAccountData = async (username, dispatch, intl, accounts, pinHash) => {
@@ -172,7 +179,7 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
     await removeUserData(username);
 
     // extract key information from otherAccounts if data is available, use key to re-verify account;
-    let _userAccount = accounts.find((account) => account.username === username);
+    let _userAccount = accounts.find((account) => account.name === username);
     const _authType = _userAccount?.local?.authType;
     if (!_authType) {
       throw new Error('could not recover account data from redux copy');
@@ -244,9 +251,9 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
 export const repairOtherAccountsData = (accounts, realmAuthData, dispatch) => {
   accounts.forEach((account) => {
     const accRealmData = realmAuthData.find((data) => data.username === account.name);
-    if ((!account.local?.accessToken || !account.username) && accRealmData) {
+    if (!account.local?.accessToken && accRealmData) {
       account.local = accRealmData;
-      account.username = accRealmData.username;
+      // Note: account.name is the primary field, no need to set username separately
       dispatch(updateOtherAccount({ ...account }));
     }
   });
@@ -378,7 +385,8 @@ const reduxMigrations = {
   },
   13: (state) => {
     state.wallet.selectedAssets = state.wallet.selectedCoins || DEFAULT_ASSETS;
-    if ((state.wallet.selectedAssets[0].symbol = 'POINTS')) {
+    // Fix first asset symbol if it's not POINTS (migration from old data)
+    if (state.wallet.selectedAssets[0] && state.wallet.selectedAssets[0].symbol !== 'POINTS') {
       state.wallet.selectedAssets[0].symbol = 'POINTS';
     } // ensuring correct symbol for ecency points
 
@@ -386,6 +394,38 @@ const reduxMigrations = {
     delete state.wallet.coinsData;
 
     state.cache.claimsCollection = {};
+
+    return state;
+  },
+  14: (state) => {
+    // Migrate reply and wave drafts from draftsCollection to replyCache
+    state.cache.replyCache = {};
+
+    if (state.cache.draftsCollection) {
+      const _replyCache = {};
+      const _draftsToKeep = {};
+
+      Object.keys(state.cache.draftsCollection).forEach((key) => {
+        const draft = state.cache.draftsCollection[key];
+
+        // Identify waves: username/ecency.waves
+        // Identify replies: username/parentAuthor/parentPermlink (has 2+ slashes)
+        const isWaveOrReply =
+          key.includes('/ecency.waves') ||
+          (key.split('/').length >= 3 && !key.startsWith('DEFAULT_USER_DRAFT_ID_'));
+
+        if (isWaveOrReply) {
+          // Move to replyCache
+          _replyCache[key] = draft;
+        } else {
+          // Keep in draftsCollection
+          _draftsToKeep[key] = draft;
+        }
+      });
+
+      state.cache.replyCache = _replyCache;
+      state.cache.draftsCollection = _draftsToKeep;
+    }
 
     return state;
   },

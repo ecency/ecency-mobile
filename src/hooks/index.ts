@@ -5,6 +5,7 @@ import type { RootState, AppDispatch } from '../redux/store/store';
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
+export * from './useAuth';
 export * from './usePostLogin';
 export * from './useLinkProcessor';
 export * from './useStateWithRef';

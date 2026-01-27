@@ -129,6 +129,11 @@ export const selectIsNotificationOpen = createSelector(
   (application) => application.isNotificationOpen,
 );
 
+export const selectIsFCMAvailable = createSelector(
+  [getApplicationState],
+  (application) => application.isFCMAvailable,
+);
+
 // App State
 export const selectApi = createSelector([getApplicationState], (application) => application.api);
 
@@ -171,7 +176,7 @@ export const selectCurrentAccount = createSelector(
 
 export const selectCurrentAccountUsername = createSelector(
   [selectCurrentAccount],
-  (currentAccount) => currentAccount?.username || null,
+  (currentAccount) => currentAccount?.name || null,
 );
 
 export const selectCurrentAccountMutes = createSelector(
@@ -251,6 +256,18 @@ export const makeSelectVoteForPost = () =>
     [selectVotesCollection, (_state: any, postPath: string) => postPath],
     (votesCollection, postPath) => votesCollection[postPath],
   );
+
+// Selector for specific draft by ID (prevents reading entire draftsCollection)
+export const selectDraftById = (draftId: string) =>
+  createSelector([getCacheState], (cache) => cache.draftsCollection?.[draftId]);
+
+// Selector for specific reply/wave by ID (prevents reading entire replyCache)
+export const selectReplyById = (replyId: string) =>
+  createSelector([getCacheState], (cache) => cache.replyCache?.[replyId]);
+
+// Selector for specific vote by post path (prevents reading entire votesCollection)
+export const selectVoteByPath = (postPath: string) =>
+  createSelector([getCacheState], (cache) => cache.votesCollection?.[postPath]);
 
 // Communities selectors
 export const selectTopCommunities = createSelector(

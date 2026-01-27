@@ -9,13 +9,23 @@ import React, {
   useMemo,
 } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, TouchableOpacity, Keyboard, Platform, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Keyboard,
+  Platform,
+  ActivityIndicator,
+  TextInput as RNTextInput,
+} from 'react-native';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { get, debounce } from 'lodash';
 import { postBodySummary } from '@ecency/render-helper';
 import { Image as ExpoImage } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { getCommunityQueryOptions } from '@ecency/sdk';
+import { useQuery } from '@tanstack/react-query';
 import styles from './quickPostModal.styles';
 import {
   Icon,
@@ -29,12 +39,12 @@ import {
   UserAvatar,
 } from '..';
 import { delay } from '../../utils/editor';
-import { deleteDraftCacheEntry, updateDraftCache } from '../../redux/actions/cacheActions';
+import { deleteReplyCacheEntry, updateReplyCache } from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
 import RootNavigation from '../../navigation/rootNavigation';
 import { Draft } from '../../redux/reducers/cacheReducer';
 import { RootState } from '../../redux/store/store';
-import { selectCurrentAccount } from '../../redux/selectors';
+import { selectCurrentAccount, selectReplyById } from '../../redux/selectors';
 import { useAppSelector } from '../../hooks';
 
 import { postQueries } from '../../providers/queries';
@@ -44,7 +54,6 @@ import {
   MediaInsertStatus,
 } from '../uploadsGalleryModal/container/uploadsGalleryModal';
 import { removePollDraft } from '../../redux/actions/editorActions';
-import { getCommunity } from '../../providers/hive/dhive';
 import { CommunityRole, CommunityTypeId } from '../../providers/hive/hive.types';
 
 export interface QuickPostModalContentProps {
@@ -67,9 +76,9 @@ export const QuickPostModalContent = forwardRef(
 
     const inputRef = useRef<RNTextInput | null>(null);
     const pollWizardModalRef = useRef(null);
+    const commentValueRef = useRef('');
 
     const currentAccount = useAppSelector(selectCurrentAccount);
-    const draftsCollection = useAppSelector((state: RootState) => state.cache.draftsCollection);
     const pollDraftsMap = useAppSelector((state: RootState) => state.editor.pollDraftsMap);
 
     const [commentValue, setCommentValue] = useState('');
@@ -78,9 +87,16 @@ export const QuickPostModalContent = forwardRef(
     const [mediaModalVisible, setMediaModalVisible] = useState(false);
     const [canCommentToCommunity, setCanCommentToCommunity] = useState(true);
     const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+    const [communityToCheck, setCommunityToCheck] = useState<string | null>(null);
 
     const parentAuthor = selectedPost ? selectedPost.author : '';
     const parentPermlink = selectedPost ? selectedPost.permlink : '';
+
+    // Use SDK query to fetch community data - only when communityToCheck is set
+    const { data: community } = useQuery({
+      ...getCommunityQueryOptions(communityToCheck || '', currentAccount.name),
+      enabled: !!communityToCheck,
+    });
 
     const headerText =
       mode === 'wave'
@@ -90,10 +106,18 @@ export const QuickPostModalContent = forwardRef(
           )
         : selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
 
-    const draftId =
-      mode === 'wave'
-        ? `${currentAccount.name}/ecency.waves` // TODO: update author based on selected host
-        : `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
+    const draftId = useMemo(
+      () =>
+        mode === 'wave'
+          ? `${currentAccount.name}/ecency.waves` // TODO: update author based on selected host
+          : `${currentAccount.name}/${parentAuthor}/${parentPermlink}`, // different draftId for each user acount
+      [mode, currentAccount.name, parentAuthor, parentPermlink],
+    );
+
+    // Use specific reply selector for waves and quick replies
+    const currentDraft = useAppSelector((state: RootState) => selectReplyById(draftId)(state)) as
+      | Draft
+      | undefined;
 
     const pollDraft = draftId && pollDraftsMap[draftId];
 
@@ -121,61 +145,60 @@ export const QuickPostModalContent = forwardRef(
       };
     }, []);
 
-    // load quick comment value from cache
+    // load quick comment value from cache using memoized draft lookup
     useEffect(() => {
       let _value = '';
-      if (
-        draftsCollection &&
-        !!draftsCollection[draftId] &&
-        currentAccount.name === draftsCollection[draftId].author
-      ) {
-        const quickComment: Draft = draftsCollection[draftId];
-        _value =
-          currentAccount.name === quickComment.author && !!quickComment.body
-            ? quickComment.body
-            : '';
+      if (currentDraft && currentAccount.name === currentDraft.author) {
+        _value = currentDraft.body || '';
       }
 
+      commentValueRef.current = _value;
       setCommentValue(_value);
-      inputRef.current?.setNativeProps({
-        text: _value,
-      });
+      if (Platform.OS !== 'ios') {
+        // Android: Use setNativeProps to avoid re-renders
+        inputRef.current?.setNativeProps({
+          text: _value,
+        });
+      }
 
       // check if user can comment to community
-      if (selectedPost?.community) {
-        _checkCanCommentToCommunity(selectedPost.community);
-      }
-    }, [selectedPost]);
+      setCommunityToCheck(selectedPost?.community ?? null);
+    }, [currentDraft, currentAccount.name, selectedPost?.community]);
 
-    const _checkCanCommentToCommunity = async (communityName: string) => {
-      const community = await getCommunity(communityName, currentAccount.name);
-      const _canCommentToCommunity =
-        !community ||
-        !(
+    // Check if user can comment based on community data from SDK query
+    useEffect(() => {
+      if (community) {
+        const _canCommentToCommunity = !(
           community.type_id === CommunityTypeId.COUNCIL &&
           community.context?.role === CommunityRole.GUEST
         );
-      setCanCommentToCommunity(_canCommentToCommunity);
-    };
+        setCanCommentToCommunity(_canCommentToCommunity);
+      } else {
+        setCanCommentToCommunity(true);
+      }
+    }, [community]);
 
-    // add quick comment value into cache
-    const _addQuickCommentIntoCache = (value = commentValue) => {
-      const quickCommentDraftData: Draft = {
-        author: currentAccount.name,
-        body: value,
-      };
+    // add quick comment value into cache - memoized with useCallback
+    const _addQuickCommentIntoCache = useCallback(
+      (value = commentValueRef.current) => {
+        const quickCommentDraftData: Draft = {
+          author: currentAccount.name,
+          body: value,
+        };
 
-      // add quick comment cache entry
-      dispatch(updateDraftCache(draftId, quickCommentDraftData));
-    };
+        // add quick comment/wave cache entry to replyCache
+        dispatch(updateReplyCache(draftId, quickCommentDraftData));
+      },
+      [currentAccount.name, draftId, dispatch],
+    );
 
-    // handle close press
-    const _handleClosePress = () => {
+    // handle close press - memoized with useCallback
+    const _handleClosePress = useCallback(() => {
       onClose();
-    };
+    }, [onClose]);
 
-    // navigate to post on summary press
-    const _handleOnSummaryPress = () => {
+    // navigate to post on summary press - memoized with useCallback
+    const _handleOnSummaryPress = useCallback(() => {
       Keyboard.dismiss();
       onClose();
       postsCachePrimer.cachePost(selectedPost);
@@ -187,7 +210,7 @@ export const QuickPostModalContent = forwardRef(
         },
         key: get(selectedPost, 'permlink'),
       });
-    };
+    }, [onClose, postsCachePrimer, selectedPost]);
 
     // handle submit reply
     const _submitPost = async () => {
@@ -196,8 +219,9 @@ export const QuickPostModalContent = forwardRef(
       }
 
       let _isSuccess = false;
+      const _currentValue = commentValueRef.current;
       const _body =
-        mediaUrls.length > 0 ? `${commentValue}\n\n ![](${mediaUrls[0]})` : commentValue;
+        mediaUrls.length > 0 ? `${_currentValue}\n\n ![](${mediaUrls[0]})` : _currentValue;
 
       switch (mode) {
         case 'comment':
@@ -211,9 +235,9 @@ export const QuickPostModalContent = forwardRef(
       }
 
       if (_isSuccess) {
-        // delete quick comment draft cache if it exist
-        if (draftsCollection && draftsCollection[draftId]) {
-          dispatch(deleteDraftCacheEntry(draftId));
+        // delete quick comment/wave cache if it exists
+        if (currentDraft) {
+          dispatch(deleteReplyCacheEntry(draftId));
         }
         dispatch(removePollDraft(draftId));
         setCommentValue('');
@@ -280,12 +304,40 @@ export const QuickPostModalContent = forwardRef(
       }
     };
 
-    const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), []);
+    const _deboucedCacheUpdate = useMemo(
+      () => debounce(_addQuickCommentIntoCache, 500),
+      [_addQuickCommentIntoCache],
+    );
+
+    // Debounced state update for character count display (won't interfere with typing)
+    const _debouncedStateUpdate = useMemo(
+      () =>
+        debounce((value) => {
+          if (Platform.OS === 'android') {
+            setCommentValue(value);
+          }
+        }, 300),
+      [],
+    );
 
     const _onChangeText = (value) => {
-      setCommentValue(value);
+      commentValueRef.current = value;
+      // iOS: Update state immediately for controlled input
+      // Android: Use debounced update for character count (won't interfere with typing)
+      if (Platform.OS === 'ios') {
+        setCommentValue(value);
+      } else {
+        _debouncedStateUpdate(value);
+      }
       _deboucedCacheUpdate(value);
     };
+
+    useEffect(() => {
+      return () => {
+        _deboucedCacheUpdate.cancel();
+        _debouncedStateUpdate.cancel();
+      };
+    }, [_deboucedCacheUpdate, _debouncedStateUpdate]);
 
     // VIEW_RENDERERS
 
@@ -299,9 +351,9 @@ export const QuickPostModalContent = forwardRef(
 
     const _renderAvatar = () => (
       <View style={styles.avatarAndNameContainer}>
-        <UserAvatar noAction username={currentAccount.username} />
+        <UserAvatar noAction username={currentAccount.name} />
         <View style={styles.nameContainer}>
-          <Text style={styles.name}>{`@${currentAccount.username}`}</Text>
+          <Text style={styles.name}>{`@${currentAccount.name}`}</Text>
         </View>
 
         {!canCommentToCommunity && (
@@ -360,7 +412,7 @@ export const QuickPostModalContent = forwardRef(
           <UploadsGalleryModal
             ref={uploadsGalleryModalRef}
             isPreviewActive={false}
-            username={currentAccount.username}
+            username={currentAccount.name}
             allowMultiple={false}
             hideToolbarExtension={() => {
               setMediaModalVisible(false);
@@ -459,6 +511,7 @@ export const QuickPostModalContent = forwardRef(
           <TextInput
             innerRef={inputRef}
             onChangeText={_onChangeText}
+            value={Platform.OS === 'ios' ? commentValue : undefined}
             autoFocus={true}
             placeholder={intl.formatMessage({
               id: _placeholderId,

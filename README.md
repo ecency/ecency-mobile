@@ -61,11 +61,16 @@ Installing dependencies will automatically run Gradle patch script required by R
 The repository follows the typical React Native layout:
 
 - `src/` – application source (components, screens, navigation, redux, etc.)
+  - `src/providers/queries/` – SDK query hooks and configuration
+  - `src/providers/hive/` – Hive blockchain operations (dhive.ts)
+  - `src/redux/` – Redux state management
 - `android/` – native Android project
 - `ios/` – native iOS project
 - `resources/` – static assets
 - `__tests__/` – Jest tests
 - `patches/` – patch-package files applied during install
+
+**Note**: The app primarily uses `@ecency/sdk` for data fetching (with some legacy dhive usage remaining during migration).
 
 ## Development tips
 

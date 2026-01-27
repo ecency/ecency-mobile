@@ -41,9 +41,14 @@ class MattermostWebSocketClient {
 
   private reconnectAttempts = 0;
 
-  private maxReconnectAttempts = 10;
+  private maxReconnectAttempts = Infinity; // Never give up - keep trying with backoff
 
   private reconnectDelay = 1000;
+
+  // Prevent indefinite reconnects - give up after 1 hour
+  private readonly MAX_DISCONNECT_DURATION = 60 * 60 * 1000; // 1 hour
+
+  private firstDisconnectTime: number | null = null;
 
   private heartbeatInterval: ReturnType<typeof setInterval> | null = null;
 
@@ -60,6 +65,16 @@ class MattermostWebSocketClient {
   private isClosed = false;
 
   private receivedMessageIds = new Set<string>();
+
+  // Connection metrics for debugging
+  private metrics = {
+    connectionsOpened: 0,
+    reconnects: 0,
+    totalDisconnects: 0,
+    firstConnectedAt: 0,
+    lastConnectedAt: 0,
+    lastDisconnectedAt: 0,
+  };
 
   connect(config: MattermostWebSocketConfig) {
     if (this.isConnecting || this.ws?.readyState === WebSocket.OPEN) {
@@ -111,6 +126,14 @@ class MattermostWebSocketClient {
         console.log('[MattermostWS] Final readyState:', this.ws?.readyState);
         this.isConnecting = false;
         this.reconnectAttempts = 0;
+        this.firstDisconnectTime = null; // Reset disconnect timer on successful connection
+
+        // Track metrics
+        this.metrics.connectionsOpened++;
+        if (this.metrics.firstConnectedAt === 0) {
+          this.metrics.firstConnectedAt = Date.now();
+        }
+        this.metrics.lastConnectedAt = Date.now();
 
         // Clear connection timeout
         if (this.connectionTimeout) {
@@ -120,7 +143,9 @@ class MattermostWebSocketClient {
 
         console.log('[MattermostWS] Sending authentication...');
         this._authenticate();
-        this._startHeartbeat();
+
+        // Note: Heartbeat will start after receiving "hello" event (in onmessage handler)
+        // This ensures we only ping after successful authentication
         config.onReconnect?.();
       };
 
@@ -144,6 +169,10 @@ class MattermostWebSocketClient {
           // Handle authentication response
           if (message.event === ('hello' as any)) {
             console.log('[MattermostWS] ✓ Authenticated successfully with server');
+
+            // Now that we're authenticated, start heartbeat
+            this._startHeartbeat();
+
             return;
           }
 
@@ -207,6 +236,10 @@ class MattermostWebSocketClient {
           this.connectionTimeout = null;
         }
 
+        // Track metrics
+        this.metrics.totalDisconnects++;
+        this.metrics.lastDisconnectedAt = Date.now();
+
         // Don't reconnect if we got HTTP 426, 404, 403, 401, 1000 (normal/timeout), or 1006 (abnormal closure)
         // These indicate the endpoint doesn't support WebSocket, auth failed, or connection issues
         const doNotReconnectCodes = [426, 404, 403, 401, 1000, 1002, 1003, 1006];
@@ -214,6 +247,29 @@ class MattermostWebSocketClient {
 
         if (!this.isClosed && !shouldNotReconnect) {
           console.log('[MattermostWS] Will attempt to reconnect');
+
+          // Track first disconnect time for max duration check
+          if (this.firstDisconnectTime === null) {
+            this.firstDisconnectTime = Date.now();
+          }
+
+          // Check if we've been disconnected too long (1 hour)
+          const disconnectDuration = Date.now() - this.firstDisconnectTime;
+          if (disconnectDuration > this.MAX_DISCONNECT_DURATION) {
+            console.error(
+              `[MattermostWS] Disconnected for ${Math.round(
+                disconnectDuration / 1000 / 60,
+              )} minutes. Giving up. Please refresh the app.`,
+            );
+            this.isClosed = true;
+            if (this.reconnectTimeout) {
+              clearTimeout(this.reconnectTimeout);
+              this.reconnectTimeout = null;
+            }
+            config.onClose?.();
+            return;
+          }
+
           config.onClose?.();
           this._scheduleReconnect();
         } else if (shouldNotReconnect) {
@@ -254,6 +310,7 @@ class MattermostWebSocketClient {
 
     this.config = null;
     this.reconnectAttempts = 0;
+    this.firstDisconnectTime = null;
     this.receivedMessageIds.clear();
   }
 
@@ -357,6 +414,7 @@ class MattermostWebSocketClient {
     }
 
     this.reconnectAttempts++;
+    this.metrics.reconnects++;
     const delay = Math.min(this.reconnectDelay * 2 ** (this.reconnectAttempts - 1), 30000);
 
     console.log(`[MattermostWS] Reconnecting in ${delay}ms (attempt ${this.reconnectAttempts})`);
@@ -407,6 +465,16 @@ class MattermostWebSocketClient {
 
   isConnected(): boolean {
     return this.ws?.readyState === WebSocket.OPEN;
+  }
+
+  // Get connection metrics for debugging
+  getMetrics() {
+    return {
+      ...this.metrics,
+      isConnected: this.isConnected(),
+      reconnectAttempts: this.reconnectAttempts,
+      uptime: this.metrics.firstConnectedAt ? Date.now() - this.metrics.firstConnectedAt : 0,
+    };
   }
 }
 

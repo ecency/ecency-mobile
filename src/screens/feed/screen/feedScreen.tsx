@@ -67,8 +67,8 @@ const FeedScreen = () => {
   const _contentComentsTab = (type: 'comments' | 'replies') => {
     return (
       <CommentsTabContent
-        username={currentAccount.username}
-        selectedUser={currentAccount.username}
+        username={currentAccount.name}
+        selectedUser={currentAccount.name}
         isOwnProfile={true}
         type={type}
       />

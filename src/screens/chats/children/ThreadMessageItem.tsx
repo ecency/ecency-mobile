@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { useIntl } from 'react-intl';
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
-import { UserAvatar, Icon } from '../../../components';
+import { UserAvatar, Icon, ImageViewer } from '../../../components';
 import { getHiveUsernameFromMattermostUser } from '../../../providers/chat/mattermost';
 import { ChatPost, setLinkText, renderTextWithBoldMentions } from '../utils/messageFormatters';
 import { UnreadMarker } from './UnreadMarker';
@@ -69,6 +69,7 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
     const timestamp = post.create_at || post.update_at;
     const body = formatPostBody(post, timestamp);
     const { text: messageText, images: messageImages } = parseMessageContent(body);
+    const imageViewerRef = useRef(null);
 
     const showUnreadMarker = firstUnreadIndex !== null && index === firstUnreadIndex;
 
@@ -114,15 +115,20 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
               </Hyperlink>
             )}
             {messageImages.map((url: string) => (
-              <Image
+              <TouchableOpacity
                 key={url}
-                source={{ uri: url }}
-                style={[
-                  styles.chatImage,
-                  isOwnMessage ? styles.chatImageOwn : styles.chatImageOther,
-                ]}
-                resizeMode="cover"
-              />
+                onPress={() => imageViewerRef.current?.show(url, messageImages)}
+                activeOpacity={0.9}
+              >
+                <Image
+                  source={{ uri: url }}
+                  style={[
+                    styles.chatImage,
+                    isOwnMessage ? styles.chatImageOwn : styles.chatImageOther,
+                  ]}
+                  resizeMode="cover"
+                />
+              </TouchableOpacity>
             ))}
             {post.props?.link_url &&
               renderLinkPreview({
@@ -165,6 +171,7 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
           </TouchableOpacity>
         </View>
         {renderReactions(post.metadata?.reactions || post.props?.reactions, isOwnMessage)}
+        <ImageViewer ref={imageViewerRef} />
       </View>
     );
   },

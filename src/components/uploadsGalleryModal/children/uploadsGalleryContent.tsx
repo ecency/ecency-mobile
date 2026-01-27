@@ -47,6 +47,9 @@ type Props = {
   handleOpenSpeakUploader: () => void;
   handleOpenCamera: () => void;
   handleIsScrolledTop: (isScrolledTop: boolean) => void;
+  fetchNextPage?: () => void;
+  hasNextPage?: boolean;
+  isFetchingNextPage?: boolean;
 };
 
 const UploadsGalleryContent = ({
@@ -59,6 +62,9 @@ const UploadsGalleryContent = ({
   handleOpenCamera,
   handleOpenSpeakUploader,
   handleIsScrolledTop,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
 }: Props) => {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -147,6 +153,12 @@ const UploadsGalleryContent = ({
   const _onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset } = event.nativeEvent;
     handleIsScrolledTop(contentOffset.y <= 0);
+  };
+
+  const _handleLoadMore = () => {
+    if (isExpandedMode && hasNextPage && !isFetchingNextPage && fetchNextPage) {
+      fetchNextPage();
+    }
   };
 
   // render list item for snippet and handle actions;
@@ -377,6 +389,20 @@ const UploadsGalleryContent = ({
     setViewableItemsMap(visibleMap);
   };
 
+  const _renderFooter = () => {
+    if (!isExpandedMode && mediaUploads.length > 0) {
+      return _renderExpansionButton();
+    }
+    if (isExpandedMode && isFetchingNextPage) {
+      return (
+        <View style={{ padding: 16, alignItems: 'center' }}>
+          <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />
+        </View>
+      );
+    }
+    return null;
+  };
+
   return (
     <Animated.View style={{ ...styles.container, height: animatedHeight }}>
       <FlatList
@@ -390,13 +416,15 @@ const UploadsGalleryContent = ({
         }
         ListHeaderComponent={_renderHeaderContent}
         ListEmptyComponent={_renderEmptyContent}
-        ListFooterComponent={!isExpandedMode && mediaUploads.length > 0 && _renderExpansionButton}
+        ListFooterComponent={_renderFooter}
         extraData={deleteIds}
         horizontal={!isExpandedMode}
         numColumns={isExpandedMode ? 2 : 1}
         keyboardShouldPersistTaps="always"
         onViewableItemsChanged={_visibleItemsChanged}
         onScroll={_onScroll}
+        onEndReached={_handleLoadMore}
+        onEndReachedThreshold={0.5}
       />
 
       {_renderDeleteButton()}

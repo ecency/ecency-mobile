@@ -36,7 +36,7 @@ export const ImportPrivateKeyModalModal = forwardRef(({}, ref) => {
   //  sign key with password or master key
   const _handleSignKey = async () => {
     const data = {
-      username: currentAccount.username,
+      username: currentAccount.name,
       password: key,
       pinCode: digitPinCode,
     };

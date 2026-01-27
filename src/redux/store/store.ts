@@ -36,11 +36,12 @@ const persistConfig = {
   key: 'root',
   // Storage Method (React Native)
   storage: AsyncStorage,
-  version: 13, // New version 0, default or previous version -1, versions are useful migrations
+  version: 14, // New version 14: Migrated reply/wave cache from draftsCollection to replyCache
   // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   transforms: [transformCacheVoteMap, transformWalkthroughMap],
   migrate: createMigrate(MigrationHelpers.reduxMigrations, { debug: false }),
+  throttle: 1000, // Limit AsyncStorage writes to once per second
 };
 
 // // Middleware: Redux Persist Persisted Reducer

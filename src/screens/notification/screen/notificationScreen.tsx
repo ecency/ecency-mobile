@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { View } from 'react-native';
+import { View, SectionList } from 'react-native';
 
 // Components
 import { TabView } from 'react-native-tab-view';
@@ -24,6 +24,7 @@ const NotificationScreen = ({
   const intl = useIntl();
 
   const [index, setIndex] = React.useState(0);
+  const notificationsListRef = React.useRef<SectionList>(null);
   const [routes] = React.useState([
     {
       key: 'notifications',
@@ -56,6 +57,7 @@ const NotificationScreen = ({
                   isLoading={isLoading}
                   changeSelectedFilter={changeSelectedFilter}
                   globalProps={globalProps}
+                  listRef={notificationsListRef}
                 />
               )}
             </LoggedInContainer>
@@ -77,7 +79,23 @@ const NotificationScreen = ({
       <TabView
         navigationState={{ index, routes }}
         style={styles.tabView}
-        renderTabBar={TabBar}
+        renderTabBar={(tabProps) => (
+          <TabBar
+            {...tabProps}
+            onTabPress={({ route }) => {
+              if (route.key === 'notifications') {
+                if (!notifications || notifications.length === 0) {
+                  return;
+                }
+                notificationsListRef.current?.scrollToLocation({
+                  itemIndex: 0,
+                  sectionIndex: 0,
+                  animated: true,
+                });
+              }
+            }}
+          />
+        )}
         onIndexChange={setIndex}
         renderScene={renderScene}
         commonOptions={{

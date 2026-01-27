@@ -11,6 +11,8 @@ interface ChatHeaderProps {
   onBack: () => void;
   onMembersPress: () => void;
   onPinnedPress: () => void;
+  onOptionsPress?: () => void;
+  isDM?: boolean;
 }
 
 export const ChatHeader: React.FC<ChatHeaderProps> = ({
@@ -20,6 +22,8 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   onBack,
   onMembersPress,
   onPinnedPress,
+  onOptionsPress,
+  isDM,
 }) => {
   return (
     <View style={styles.container}>
@@ -57,6 +61,18 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
               color={EStyleSheet.value('$iconColor')}
             />
             <Text style={styles.iconCount}>{pinnedCount}</Text>
+          </TouchableOpacity>
+        )}
+
+        {/* Options Menu (DMs only) */}
+        {isDM && onOptionsPress && (
+          <TouchableOpacity style={styles.iconButton} onPress={onOptionsPress}>
+            <Icon
+              name="dots-vertical"
+              iconType="MaterialCommunityIcons"
+              size={20}
+              color={EStyleSheet.value('$iconColor')}
+            />
           </TouchableOpacity>
         )}
       </View>

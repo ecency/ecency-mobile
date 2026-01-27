@@ -323,12 +323,66 @@ const ChatsContainer = () => {
     [_ensureBootstrap, _updateChannelState],
   );
 
+  // ============================================================================
+  // Channel Resolution
+  // ============================================================================
+
+  const _resolveChannelIdentity = useCallback(
+    async (channel: any) => {
+      const currentId = _getChannelId(channel);
+      const name = channel?.name || channel?.display_name || currentId;
+
+      if (currentId && name && currentId !== name) {
+        return { channelId: currentId, resolvedChannel: channel };
+      }
+
+      if (!name) {
+        return null;
+      }
+
+      const searched = await searchMattermostChannels(name);
+      const normalized = _normalizeChannels(searched);
+      const match = normalized.find(
+        (item) =>
+          _getChannelId(item) === currentId ||
+          item.name === name ||
+          item.display_name === channel?.display_name,
+      );
+
+      if (match) {
+        return { channelId: _getChannelId(match) || match.name || name, resolvedChannel: match };
+      }
+
+      if (channel?.type === 'D') {
+        const channelResponse = await fetchMattermostChannels();
+        const fallbackChannels = _normalizeChannels(channelResponse);
+        const dmMatch = fallbackChannels.find(
+          (item) =>
+            _getChannelId(item) === currentId ||
+            item.name === name ||
+            item.display_name === channel?.display_name,
+        );
+
+        if (dmMatch) {
+          return {
+            channelId: _getChannelId(dmMatch) || dmMatch.name || name,
+            resolvedChannel: dmMatch,
+          };
+        }
+      }
+
+      return null;
+    },
+    [_getChannelId, _normalizeChannels],
+  );
+
   const _handleLeaveChannel = useCallback(
     async (channel: any) => {
       try {
         await _ensureBootstrap();
         const resolved = await _resolveChannelIdentity(channel);
         const channelId = resolved?.channelId || _getChannelId(channel) || channel?.name;
+        const channelName = channel?.name;
 
         if (!channelId) {
           throw new Error(
@@ -341,16 +395,18 @@ const ChatsContainer = () => {
 
         await leaveMattermostChannel(channelId);
         setChannels((prev) =>
-          prev.filter(
-            (item) =>
-              item.id !== channelId &&
-              item.channel_id !== channelId &&
-              item.name !== channelId &&
-              item.id !== channel.id &&
-              item.channel_id !== channel.channel_id &&
-              item.name !== channel.name,
-          ),
+          prev.filter((item) => {
+            const itemId = _getChannelId(item);
+            if (itemId && itemId === channelId) {
+              return false;
+            }
+            if (channelName && (item.name === channelName || item.display_name === channelName)) {
+              return false;
+            }
+            return true;
+          }),
         );
+        await _loadChannels(true);
       } catch (err: any) {
         setError(
           err?.message ||
@@ -361,7 +417,7 @@ const ChatsContainer = () => {
         );
       }
     },
-    [_ensureBootstrap, _getChannelId, _resolveChannelIdentity, intl],
+    [_ensureBootstrap, _getChannelId, _loadChannels, _resolveChannelIdentity, intl],
   );
 
   const _handleMarkChannelRead = useCallback(
@@ -410,42 +466,19 @@ const ChatsContainer = () => {
       const name = channel.display_name || channel.name;
       const { totalUnread } = _getUnreadMeta(channel);
       const hasUnread = (totalUnread || 0) > 0;
-      SheetManager.show(SheetNames.ACTION_MODAL, {
+      const isDM = channel?.type === 'D';
+
+      SheetManager.show(SheetNames.CHAT_CHANNEL_OPTIONS, {
         payload: {
-          title: `${name} - ${intl.formatMessage({
-            id: 'chats.channel_options',
-            defaultMessage: 'Channel options',
-          })}`,
-          buttons: [
-            ...(hasUnread
-              ? [
-                  {
-                    text: intl.formatMessage({
-                      id: 'chats.mark_as_read',
-                      defaultMessage: 'Mark as read',
-                    }),
-                    onPress: () => _handleMarkChannelRead(channel),
-                  },
-                ]
-              : []),
-            {
-              text: channel.is_favorite
-                ? intl.formatMessage({ id: 'chats.unfavorite', defaultMessage: 'Remove favorite' })
-                : intl.formatMessage({ id: 'chats.favorite', defaultMessage: 'Favorite' }),
-              onPress: () => _handleToggleFavorite(channel),
-            },
-            {
-              text: channel.is_muted
-                ? intl.formatMessage({ id: 'chats.unmute', defaultMessage: 'Unmute' })
-                : intl.formatMessage({ id: 'chats.mute', defaultMessage: 'Mute' }),
-              onPress: () => _handleToggleMute(channel),
-            },
-            {
-              text: intl.formatMessage({ id: 'chats.leave', defaultMessage: 'Leave channel' }),
-              style: 'destructive',
-              onPress: () => _handleLeaveChannel(channel),
-            },
-          ],
+          title: name,
+          hasUnread,
+          isFavorite: channel.is_favorite,
+          isMuted: channel.is_muted,
+          isDM,
+          onMarkRead: hasUnread ? () => _handleMarkChannelRead(channel) : undefined,
+          onToggleFavorite: () => _handleToggleFavorite(channel),
+          onToggleMute: () => _handleToggleMute(channel),
+          onLeave: () => _handleLeaveChannel(channel),
         },
       });
     },
@@ -457,41 +490,6 @@ const ChatsContainer = () => {
       _handleToggleMute,
       intl,
     ],
-  );
-
-  // ============================================================================
-  // Channel Resolution
-  // ============================================================================
-
-  const _resolveChannelIdentity = useCallback(
-    async (channel: any) => {
-      const currentId = _getChannelId(channel);
-      const name = channel?.name || channel?.display_name || currentId;
-
-      if (currentId && name && currentId !== name) {
-        return { channelId: currentId, resolvedChannel: channel };
-      }
-
-      if (!name) {
-        return null;
-      }
-
-      const searched = await searchMattermostChannels(name);
-      const normalized = _normalizeChannels(searched);
-      const match = normalized.find(
-        (item) =>
-          _getChannelId(item) === currentId ||
-          item.name === name ||
-          item.display_name === channel?.display_name,
-      );
-
-      if (!match) {
-        return null;
-      }
-
-      return { channelId: _getChannelId(match) || match.name || name, resolvedChannel: match };
-    },
-    [_getChannelId, _normalizeChannels],
   );
 
   const _resolveDirectChannel = useCallback(

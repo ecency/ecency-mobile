@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
+import { getAnnouncementsQueryOptions } from '@ecency/sdk';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { useEffect, useMemo } from 'react';
 import VersionNumber from 'react-native-version-number';
 import { SheetManager } from 'react-native-actions-sheet';
-import { getAnnouncements } from '../ecency/ecency';
-import QUERIES from './queryKeys';
 import { useAppSelector, useLinkProcessor } from '../../hooks';
 import { updateAnnoucementsMeta } from '../../redux/actions/cacheActions';
 import { getPostUrl } from '../../utils/post';
@@ -32,14 +31,12 @@ export const useAnnouncementsQuery = () => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const announcementsMeta = useAppSelector((state) => state.cache.announcementsMeta);
 
-  const announcmentsQuery = useQuery({
-    queryKey: [QUERIES.ANNOUNCEMENTS.GET],
-    queryFn: () => {
-      const encToken = currentAccount?.local?.accessToken;
-      const token = !!encToken && decryptKey(encToken, getDigitPinCode(pinHash));
-      return getAnnouncements(token);
-    },
-  });
+  // Prepare access token for SDK
+  const encToken = currentAccount?.local?.accessToken;
+  const accessToken = encToken ? decryptKey(encToken, getDigitPinCode(pinHash)) : '';
+
+  // Use SDK query options
+  const announcmentsQuery = useQuery(getAnnouncementsQueryOptions(accessToken));
 
   useEffect(() => {
     // bypass if it's first launch after new version install/update
@@ -66,7 +63,7 @@ export const useAnnouncementsQuery = () => {
     }
 
     _showAnnouncement(firstAnnounce, _metaId);
-  }, [announcmentsQuery.data, currentAccount.username, lastAppVersion]);
+  }, [announcmentsQuery.data, currentAccount.name, lastAppVersion]);
 
   const _showAnnouncement = async (data, metaId) => {
     const _markAsSeen = () => {

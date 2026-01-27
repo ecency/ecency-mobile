@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo, Suspense, lazy } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { debounce } from 'lodash';
 import BackgroundTimer from 'react-native-background-timer';
@@ -19,14 +19,7 @@ import {
   selectIsConnected,
 } from '../../../redux/selectors';
 import { useAppSelector } from '../../../hooks';
-
-const ProposalVoteRequest = lazy(() =>
-  import('../..').then((mod) => ({ default: mod.ProposalVoteRequest })),
-);
-
-let scrollOffset = 0;
-let blockPopup = false;
-const SCROLL_POPUP_THRESHOLD = 5000;
+import { ProposalVoteRequest } from '../..';
 
 const PostsTabContent = ({
   filterKey,
@@ -47,8 +40,7 @@ const PostsTabContent = ({
   const isConnected = useAppSelector(selectIsConnected);
   const currentAccount = useAppSelector(selectCurrentAccount);
 
-  const username = currentAccount?.username;
-  const userPinned = currentAccount?.about?.profile?.pinned;
+  const username = currentAccount?.name;
 
   // state
   const [sessionUser, setSessionUser] = useState(username);
@@ -60,19 +52,10 @@ const PostsTabContent = ({
 
   const sessionUserRef = useRef(sessionUser);
   const postFetchTimerRef = useRef<any>(null);
-
-  const feedQuery = useFeedQuery({
-    feedUsername,
-    filterKey,
-    tag,
-    cachePage: isInitialTab && isFeedScreen,
-    enableFetchOnAppState: isFeedScreen,
-    pinnedPermlink: curPinned,
-  });
-  const promotedPostsQuery = usePromotedPostsQuery();
-
-  // init state refs;
-  sessionUserRef.current = sessionUser;
+  const blockPopupRef = useRef(false);
+  const blockPopupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const scrollOffsetRef = useRef(0);
+  const SCROLL_POPUP_THRESHOLD = 5000;
 
   const skipPromotedPosts = useMemo(() => {
     switch (pageType) {
@@ -84,6 +67,19 @@ const PostsTabContent = ({
         return false;
     }
   }, [pageType]);
+
+  const feedQuery = useFeedQuery({
+    feedUsername,
+    filterKey,
+    tag,
+    cachePage: isInitialTab && isFeedScreen,
+    enableFetchOnAppState: isFeedScreen,
+    pinnedPermlink: curPinned,
+  });
+  const promotedPostsQuery = usePromotedPostsQuery(!skipPromotedPosts);
+
+  // init state refs;
+  sessionUserRef.current = sessionUser;
 
   // side effects
   useEffect(() => {
@@ -105,14 +101,16 @@ const PostsTabContent = ({
     }
   }, [filterScrollRequest]);
 
+  // Update pinned post when prop changes (for both own profile and viewing others)
   useEffect(() => {
-    console.log('curPinned change', userPinned);
-    if (pageType === 'ownProfile' && userPinned !== curPinned) {
-      setCurPinned(userPinned);
-      _scrollToTop();
-      feedQuery.refresh();
+    if (pinnedPermlink !== curPinned) {
+      setCurPinned(pinnedPermlink);
+      if (pageType === 'profile' || pageType === 'ownProfile') {
+        _scrollToTop();
+        feedQuery.refresh();
+      }
     }
-  }, [userPinned]);
+  }, [pinnedPermlink, pageType, curPinned]);
 
   const _initContent = (_sessionUsername: string) => {
     _scrollToTop();
@@ -134,9 +132,17 @@ const PostsTabContent = ({
     postsListRef?.current?.scrollToTop();
     setEnableScrollTop(false);
     scrollPopupDebouce.cancel();
-    blockPopup = true;
-    setTimeout(() => {
-      blockPopup = false;
+    blockPopupRef.current = true;
+
+    // Clear existing timeout
+    if (blockPopupTimeoutRef.current) {
+      clearTimeout(blockPopupTimeoutRef.current);
+    }
+
+    // Set new timeout
+    blockPopupTimeoutRef.current = setTimeout(() => {
+      blockPopupRef.current = false;
+      blockPopupTimeoutRef.current = null;
     }, 1000);
   };
 
@@ -148,13 +154,9 @@ const PostsTabContent = ({
 
   const _renderHeader = useMemo(() => {
     if (isLoggedIn && pageType === 'main' && isInitialTab) {
-      return (
-        <Suspense>
-          <ProposalVoteRequest />
-        </Suspense>
-      );
+      return <ProposalVoteRequest />;
     }
-  }, [currentAccount.username]);
+  }, [isLoggedIn, pageType, isInitialTab, currentAccount?.name]);
 
   // view rendereres
   const _renderEmptyContent = () => {
@@ -162,20 +164,31 @@ const PostsTabContent = ({
     return <TabEmptyView filterKey={filterKey} isNoPost={_isNoPost} />;
   };
 
-  const scrollPopupDebouce = debounce(
-    (value) => {
-      setEnableScrollTop(value);
-    },
-    500,
-    { leading: true },
+  const scrollPopupCallback = useCallback((value: boolean) => {
+    setEnableScrollTop(value);
+  }, []);
+
+  const scrollPopupDebouce = useMemo(
+    () => debounce(scrollPopupCallback, 500, { leading: true }),
+    [scrollPopupCallback],
   );
+
+  // Cleanup debounce and timeout on unmount
+  useEffect(() => {
+    return () => {
+      scrollPopupDebouce.cancel();
+      if (blockPopupTimeoutRef.current) {
+        clearTimeout(blockPopupTimeoutRef.current);
+      }
+    };
+  }, [scrollPopupDebouce]);
 
   const _onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const currentOffset = event.nativeEvent.contentOffset.y;
-    const scrollUp = currentOffset < scrollOffset;
-    scrollOffset = currentOffset;
+    const scrollUp = currentOffset < scrollOffsetRef.current;
+    scrollOffsetRef.current = currentOffset;
 
-    if (scrollUp && !blockPopup && currentOffset > SCROLL_POPUP_THRESHOLD) {
+    if (scrollUp && !blockPopupRef.current && currentOffset > SCROLL_POPUP_THRESHOLD) {
       scrollPopupDebouce(true);
     }
   };
@@ -201,7 +214,7 @@ const PostsTabContent = ({
         ref={postsListRef}
         posts={feedQuery.data}
         isFeedScreen={isFeedScreen}
-        promotedPosts={!skipPromotedPosts ? promotedPostsQuery.data : []}
+        promotedPosts={!skipPromotedPosts ? promotedPostsQuery.data || [] : []}
         onLoadPosts={(shouldReset) => {
           if (shouldReset) {
             feedQuery.refresh();

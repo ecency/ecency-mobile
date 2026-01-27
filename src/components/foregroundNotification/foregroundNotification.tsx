@@ -20,7 +20,8 @@ interface RemoteMessage {
     permlink1: string;
     permlink2: string;
     permlink3: string;
-    type: 'mention' | 'reply';
+    amount?: string;
+    type: 'mention' | 'reply' | 'transfer' | 'delegations';
   };
   notification: {
     body: string;
@@ -46,22 +47,47 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
 
   useEffect(() => {
     if (remoteMessage) {
-      const { source, target, type, id } = remoteMessage.data;
-      if (activeId !== id && (type === 'reply' || type === 'mention')) {
-        let titlePrefixId = '';
+      const { source, target, type, id, amount } = remoteMessage.data;
+      if (
+        activeId !== id &&
+        (type === 'reply' || type === 'mention' || type === 'transfer' || type === 'delegations')
+      ) {
+        let titleText = '';
+        let bodyText = '';
+
         switch (type) {
           case 'reply':
-            titlePrefixId = 'notification.reply_on';
+            titleText = `${intl.formatMessage({ id: 'notification.reply_on' })} @${target}`;
+            bodyText = intl.formatMessage({ id: 'notification.reply_body' });
             break;
           case 'mention':
-            titlePrefixId = 'notification.mention_on';
+            titleText = `${intl.formatMessage({ id: 'notification.mention_on' })} @${target}`;
+            bodyText = intl.formatMessage({ id: 'notification.reply_body' });
+            break;
+          case 'transfer':
+            titleText = `@${source} ${intl.formatMessage({ id: 'notification.transfer' })}`;
+            bodyText =
+              amount ||
+              intl.formatMessage({
+                id: 'notification.amount_unknown',
+                defaultMessage: 'Amount unavailable',
+              });
+            break;
+          case 'delegations':
+            titleText = `@${source} ${intl.formatMessage({ id: 'notification.delegations' })}`;
+            bodyText =
+              amount ||
+              intl.formatMessage({
+                id: 'notification.amount_unknown',
+                defaultMessage: 'Amount unavailable',
+              });
             break;
         }
 
         setActiveId(id);
         setUsername(source);
-        setTitle(`${intl.formatMessage({ id: titlePrefixId })} @${target}`);
-        setBody(intl.formatMessage({ id: 'notification.reply_body' }));
+        setTitle(titleText);
+        setBody(bodyText);
         show();
       }
     }
@@ -89,18 +115,30 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
 
   const _onPress = () => {
     const { data } = remoteMessage;
-    const fullPermlink =
-      get(data, 'permlink1', '') + get(data, 'permlink2', '') + get(data, 'permlink3', '');
+    const { type } = data;
 
-    const params = {
-      author: get(data, 'source', ''),
-      permlink: fullPermlink,
-    };
-    const key = fullPermlink;
-    const name = ROUTES.SCREENS.POST;
+    let routeName;
+    let params;
+    let key;
+
+    if (type === 'transfer' || type === 'delegations') {
+      // Navigate to wallet for financial transactions
+      routeName = ROUTES.TABBAR.WALLET;
+    } else {
+      // Navigate to post for reply/mention
+      const fullPermlink =
+        get(data, 'permlink1', '') + get(data, 'permlink2', '') + get(data, 'permlink3', '');
+
+      params = {
+        author: get(data, 'source', ''),
+        permlink: fullPermlink,
+      };
+      key = fullPermlink;
+      routeName = ROUTES.SCREENS.POST;
+    }
 
     RootNavigation.navigate({
-      name,
+      name: routeName,
       params,
       key,
     });

@@ -24,8 +24,16 @@ const BookmarksScreen = ({
   removeFavorite,
   removeBookmark,
   initialTabIndex,
+  fetchNextBookmarksPage,
+  hasNextBookmarksPage,
+  isFetchingNextBookmarksPage,
+  fetchNextFavoritesPage,
+  hasNextFavoritesPage,
+  isFetchingNextFavoritesPage,
 }) => {
   const [tabIndex, setTabIndex] = React.useState(initialTabIndex);
+  const bookmarksListRef = React.useRef<FlatList>(null);
+  const favoritesListRef = React.useRef<FlatList>(null);
   const [routes] = React.useState([
     {
       key: 'bookmarks',
@@ -78,11 +86,23 @@ const BookmarksScreen = ({
     );
   };
 
-  const _getTabItem = (data, type) => {
+  const _getTabItem = (data, type, listRef) => {
     const isFavorites = type === 'favorites';
+    const fetchNextPage = isFavorites ? fetchNextFavoritesPage : fetchNextBookmarksPage;
+    const hasNextPage = isFavorites ? hasNextFavoritesPage : hasNextBookmarksPage;
+    const isFetchingNextPage = isFavorites
+      ? isFetchingNextFavoritesPage
+      : isFetchingNextBookmarksPage;
+
+    const handleLoadMore = () => {
+      if (hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    };
 
     return (
       <FlatList
+        ref={listRef}
         style={styles.container}
         data={data.map((item) =>
           item._id !== data[item._id] && isFavorites
@@ -94,6 +114,9 @@ const BookmarksScreen = ({
         removeClippedSubviews={false}
         renderItem={({ item, index }) => _renderItem(item, index, type)}
         ListEmptyComponent={_renderEmptyContent()}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={isFetchingNextPage ? <WalletDetailsPlaceHolder /> : null}
       />
     );
   };
@@ -126,9 +149,17 @@ const BookmarksScreen = ({
   const renderScene = ({ route }) => {
     switch (route.key) {
       case 'bookmarks':
-        return <View style={styles.tabbarItem}>{_getTabItem(bookmarks, 'bookmarks')}</View>;
+        return (
+          <View style={styles.tabbarItem}>
+            {_getTabItem(bookmarks, 'bookmarks', bookmarksListRef)}
+          </View>
+        );
       case 'favorites':
-        return <View style={styles.tabbarItem}>{_getTabItem(favorites, 'favorites')}</View>;
+        return (
+          <View style={styles.tabbarItem}>
+            {_getTabItem(favorites, 'favorites', favoritesListRef)}
+          </View>
+        );
     }
   };
 
@@ -143,7 +174,15 @@ const BookmarksScreen = ({
       <TabView
         navigationState={{ index: tabIndex, routes }}
         onIndexChange={setTabIndex}
-        renderTabBar={TabBar}
+        renderTabBar={(tabProps) => (
+          <TabBar
+            {...tabProps}
+            onTabPress={({ route }) => {
+              const listRef = route.key === 'favorites' ? favoritesListRef : bookmarksListRef;
+              listRef.current?.scrollToOffset({ offset: 0, animated: true });
+            }}
+          />
+        )}
         renderScene={renderScene}
         style={globalStyles.tabView}
         commonOptions={{

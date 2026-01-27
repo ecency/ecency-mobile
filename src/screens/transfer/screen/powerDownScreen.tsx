@@ -1,22 +1,19 @@
-/* eslint-disable react/no-unused-state */
-import React, { Fragment, Component } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Text, View, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 import Animated, { BounceInRight } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getWithdrawRoutes } from '../../../providers/hive/dhive';
+import { getWithdrawRoutesQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import AUTH_TYPE from '../../../constants/authType';
 
 import {
   BasicHeader,
   TransferFormItem,
   MainButton,
-  DropdownButton,
   Modal,
-  SquareButton,
-  IconButton,
   BeneficiarySelectionContent,
   TextInput,
   HiveAuthModal,
@@ -33,206 +30,242 @@ import { OptionsModal } from '../../../components/atoms';
 import TransferTypes from '../../../constants/transferTypes';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
 
-/* Props
- * ------------------------------------------------
- *   @prop { type }    name                - Description....
- */
+const PowerDownScreen = ({
+  currentAccountName,
+  selectedAccount,
+  getAccountsWithUsername,
+  transferType,
+  hivePerMVests,
+  handleOnModalClose,
+  transferToAccount,
+  accountType,
+  setWithdrawVestingRoute,
+}) => {
+  const intl = useIntl();
+  const queryClient = useQueryClient();
 
-class PowerDownView extends Component {
-  constructor(props) {
-    super(props);
-    this.hiveAuthModalRef = React.createRef();
-    this.state = {
-      from: props.currentAccountName,
-      amount: 0,
-      hp: 0.0,
-      steemConnectTransfer: false,
-      isTransfering: false,
-      isOpenWithdrawAccount: false,
-      destinationAccounts: [],
-      disableDone: false,
-      isAmountValid: false,
-    };
+  const [amount, setAmount] = useState(0);
+  const [hp, setHp] = useState(0.0);
+  const [isTransfering, setIsTransfering] = useState(false);
+  const [isOpenWithdrawAccount, setIsOpenWithdrawAccount] = useState(false);
+  const [destinationAccounts, setDestinationAccounts] = useState([]);
+  const [_disableDone, setDisableDone] = useState(false);
+  const [isAmountValid, setIsAmountValid] = useState(false);
 
-    this.startActionSheet = React.createRef();
-    this.stopActionSheet = React.createRef();
-    this.amountTextInput = React.createRef();
-  }
+  const hiveAuthModalRef = useRef(null);
+  const startActionSheet = useRef(null);
+  const stopActionSheet = useRef(null);
+  const amountTextInput = useRef(null);
 
-  // Component Functions
-
-  _fetchRoutes = (username) => {
-    return getWithdrawRoutes(username)
-      .then((res) => {
+  const fetchRoutes = useCallback(
+    async (username) => {
+      try {
+        const res = await queryClient.fetchQuery(getWithdrawRoutesQueryOptions(username));
         const accounts = res.map((item) => ({
           username: item.to_account,
           percent: item.percent,
           autoPowerUp: item.auto_vest,
         }));
-        this.setState({
-          destinationAccounts: accounts,
-        });
+        setDestinationAccounts(accounts);
         return res;
-      })
-      .catch((e) => {
-        alert(e.message || e.toString());
-      });
-  };
+      } catch (e) {
+        Alert.alert(intl.formatMessage({ id: 'alert.error' }), e.message || e.toString());
+      }
+    },
+    [queryClient, intl],
+  );
 
-  _handleTransferAction = () => {
-    const { transferToAccount, accountType, intl } = this.props;
-    const { from, destinationAccounts, amount } = this.state;
+  const handleHiveAuthModalClose = useCallback(() => {
+    setIsTransfering(false);
+    if (handleOnModalClose) {
+      handleOnModalClose();
+    }
+  }, [handleOnModalClose]);
 
-    this.setState({ isTransfering: true });
+  const handleTransferAction = useCallback(
+    (amountOverride?: number) => {
+      setIsTransfering(true);
 
-    // TODO: check if this need to accomodate HIVE_AUTH;
-    if (accountType === AUTH_TYPE.STEEM_CONNECT) {
-      Alert.alert(
-        intl.formatMessage({ id: 'alert.warning' }),
-        intl.formatMessage({ id: 'transfer.sc_power_down_error' }),
+      // Use explicit amount override (for stop power down) or current amount state
+      const amountToUse = amountOverride !== undefined ? amountOverride : amount;
+
+      if (accountType === AUTH_TYPE.STEEM_CONNECT) {
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.warning' }),
+          intl.formatMessage({ id: 'transfer.sc_power_down_error' }),
+        );
+        setIsTransfering(false);
+      } else if (accountType === AUTH_TYPE.HIVE_AUTH) {
+        const opArray = buildTransferOpsArray(TransferTypes.WITHDRAW_VESTING, {
+          from: currentAccountName,
+          to: destinationAccounts,
+          amount: amountToUse.toFixed(6),
+          fundType: 'VESTS',
+        });
+        hiveAuthModalRef.current?.broadcastActiveOps(opArray);
+        // Loading state will be cleared by handleHiveAuthModalClose
+      } else {
+        transferToAccount(currentAccountName, destinationAccounts, amountToUse, '')
+          .then(() => {
+            setIsTransfering(false);
+          })
+          .catch((error) => {
+            setIsTransfering(false);
+            Alert.alert(
+              intl.formatMessage({ id: 'alert.error' }),
+              error.message || error.toString(),
+            );
+          });
+      }
+    },
+    [accountType, intl, currentAccountName, destinationAccounts, amount, transferToAccount],
+  );
+
+  const validateHP = useCallback(
+    ({ value, availableVestingShares }) => {
+      const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
+      const parsedHpValue = parseFloat(value.toString().replace(',', '.'));
+      const amountValid = !(
+        Number.isNaN(parsedHpValue) ||
+        parsedHpValue < 0.0 ||
+        parsedHpValue > totalHP
       );
-      this.setState({ steemConnectTransfer: true, isTransfering: false });
-    } else if (accountType === AUTH_TYPE.HIVE_AUTH) {
-      const opArray = buildTransferOpsArray(TransferTypes.WITHDRAW_VESTING, {
-        from,
-        to: destinationAccounts,
-        amount: amount.toFixed(6),
-        fundType: 'VESTS',
-      });
-      this.hiveAuthModalRef.current?.broadcastActiveOps(opArray);
-    } else {
-      transferToAccount(from, destinationAccounts, amount, '');
-    }
-  };
-
-  // validate hp value if it is out of range or not a valid number
-  _validateHP = ({ value, availableVestingShares }) => {
-    const { hivePerMVests } = this.props;
-    const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
-    const parsedHpValue = parseFloat(value.toString().replace(',', '.'));
-    const amountValid = !(
-      Number.isNaN(parsedHpValue) ||
-      parsedHpValue < 0.0 ||
-      parsedHpValue >= totalHP
-    );
-    return amountValid;
-  };
-
-  _handleAmountChange = ({ hpValue, availableVestingShares }) => {
-    const { hivePerMVests } = this.props;
-    const parsedValue = parseFloat(hpValue.toString().replace(',', '.'));
-    const vestsForHp = hpToVests(parsedValue, hivePerMVests);
-    const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
-
-    if (Number.isNaN(parsedValue)) {
-      this.setState({ amount: 0, hp: 0.0, isAmountValid: false });
-    } else if (parsedValue >= totalHP) {
-      this.setState({
-        amount: availableVestingShares,
-        hp: totalHP,
-        isAmountValid: false,
-      });
-    } else {
-      this.setState({ amount: vestsForHp, hp: parsedValue, isAmountValid: true });
-    }
-  };
-
-  _handleSliderAmountChange = ({ value, availableVestingShares }) => {
-    const { hivePerMVests } = this.props;
-    const hp = vestsToHp(value, hivePerMVests).toFixed(3);
-    const isAmountValid = value !== 0 && value <= availableVestingShares;
-    this.setState({ amount: value, hp, isAmountValid });
-  };
-
-  // renderers
-  _renderDropdown = (accounts, currentAccountName) => (
-    <DropdownButton
-      dropdownButtonStyle={styles.dropdownButtonStyle}
-      rowTextStyle={styles.rowTextStyle}
-      style={styles.dropdown}
-      dropdownStyle={styles.dropdownStyle}
-      textStyle={styles.dropdownText}
-      options={accounts.map((item) => item.username)}
-      defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
-      onSelect={(index, value) => this._handleOnDropdownChange(value)}
-    />
+      return amountValid;
+    },
+    [hivePerMVests],
   );
 
-  _renderDestinationAccountItems = () => {
-    const { destinationAccounts } = this.state;
+  const handleAmountChange = useCallback(
+    ({ hpValue, availableVestingShares }) => {
+      const parsedValue = parseFloat(hpValue.toString().replace(',', '.'));
+      const vestsForHp = hpToVests(parsedValue, hivePerMVests);
+      const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
 
-    if (destinationAccounts.length <= 0) {
-      return this._renderButton();
-    }
-    return (
-      <Fragment>
-        {destinationAccounts.map((item) => (
-          <View style={styles.destinationAccountsLists} key={item.username}>
-            <Text>{item.username}</Text>
-            <IconButton
-              style={styles.iconButton}
-              size={20}
-              iconStyle={styles.crossIcon}
-              iconType="MaterialIcons"
-              name="clear"
-              onPress={() => this._removeDestinationAccount(item)}
-            />
-          </View>
-        ))}
-        {this._renderButton()}
-      </Fragment>
-    );
-  };
-
-  _removeDestinationAccount = (account) => {
-    const { destinationAccounts } = this.state;
-    const { setWithdrawVestingRoute, currentAccountName } = this.props;
-
-    const result = destinationAccounts.filter((item) => item.username !== account.username);
-
-    setWithdrawVestingRoute(currentAccountName, account.username, 0, false);
-    this.setState({ destinationAccounts: result });
-  };
-
-  _renderButton = () => (
-    <SquareButton
-      style={styles.formButton}
-      textStyle={styles.formButtonText}
-      onPress={() => this.setState({ isOpenWithdrawAccount: true })}
-      text="Add withdraw account"
-    />
+      if (Number.isNaN(parsedValue)) {
+        setAmount(0);
+        setHp(0.0);
+        setIsAmountValid(false);
+      } else if (parsedValue > totalHP) {
+        setAmount(availableVestingShares);
+        setHp(totalHP);
+        setIsAmountValid(false);
+      } else {
+        setAmount(vestsForHp);
+        setHp(parsedValue);
+        setIsAmountValid(true);
+      }
+    },
+    [hivePerMVests],
   );
 
-  _renderInformationText = (text) => <Text style={styles.amountText}>{text}</Text>;
-
-  _renderIncomingFunds = (poweringDownFund, poweringDownVests, nextPowerDown) => (
-    <Fragment>
-      <Text style={styles.incomingFundSteem}>{`+ ${poweringDownFund} HIVE`}</Text>
-      <Text style={styles.incomingFundVests}>{`- ${poweringDownVests} VESTS`}</Text>
-      <Text style={styles.nextPowerDown}>{nextPowerDown}</Text>
-    </Fragment>
+  const handleSliderAmountChange = useCallback(
+    ({ value, availableVestingShares }) => {
+      const hpValue = vestsToHp(value, hivePerMVests).toFixed(3);
+      const isValid = value !== 0 && value <= availableVestingShares;
+      setAmount(value);
+      setHp(hpValue);
+      setIsAmountValid(isValid);
+    },
+    [hivePerMVests],
   );
 
-  _renderBeneficiarySelectionContent = () => {
-    const { intl } = this.props;
-    const { destinationAccounts } = this.state;
+  const removeDestinationAccount = useCallback(
+    async (account) => {
+      try {
+        // Perform blockchain operation first
+        await setWithdrawVestingRoute(currentAccountName, account.username, 0, false);
+        // Only update state after successful blockchain call
+        setDestinationAccounts((prev) => prev.filter((item) => item.username !== account.username));
+      } catch (error) {
+        console.error('[PowerDown] Failed to remove destination account:', error);
+        // Optionally show user-facing error message here
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.fail' }),
+          error?.message || intl.formatMessage({ id: 'alert.error' }),
+        );
+      }
+    },
+    [setWithdrawVestingRoute, currentAccountName, intl],
+  );
 
+  const handleOnSubmit = useCallback(
+    async (username, percent, autoPowerUp) => {
+      // Check if account already exists before updating state
+      if (destinationAccounts.some((item) => item.username === username)) {
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.fail' }),
+          intl.formatMessage({ id: 'alert.same_user' }),
+        );
+        return;
+      }
+
+      try {
+        // Perform blockchain operation first
+        await setWithdrawVestingRoute(currentAccountName, username, percent, autoPowerUp);
+
+        // Only update state after successful blockchain call
+        setDestinationAccounts([...destinationAccounts, { username, percent, autoPowerUp }]);
+        setIsOpenWithdrawAccount(false);
+      } catch (error) {
+        console.error('[PowerDown] Failed to set withdraw vesting route:', error);
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.fail' }),
+          error?.message || intl.formatMessage({ id: 'alert.error' }),
+        );
+      }
+    },
+    [destinationAccounts, setWithdrawVestingRoute, currentAccountName, intl],
+  );
+
+  useEffect(() => {
+    if (!currentAccountName) return;
+    fetchRoutes(currentAccountName);
+  }, [currentAccountName, fetchRoutes]);
+
+  let poweringDownVests = 0;
+  let availableVestingShares = 0;
+  let poweringDownFund = 0;
+
+  const poweringDown = !isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'));
+  const nextPowerDown = parseDate(get(selectedAccount, 'next_vesting_withdrawal'));
+
+  if (poweringDown) {
+    poweringDownVests = parseToken(get(selectedAccount, 'vesting_withdraw_rate'));
+    poweringDownFund = vestsToHp(poweringDownVests, hivePerMVests).toFixed(3);
+  } else {
+    availableVestingShares =
+      parseToken(get(selectedAccount, 'vesting_shares')) -
+      (Number(get(selectedAccount, 'to_withdraw')) - Number(get(selectedAccount, 'withdrawn'))) /
+        1e6 -
+      parseToken(get(selectedAccount, 'delegated_vesting_shares'));
+  }
+
+  const spCalculated = vestsToHp(amount, hivePerMVests);
+  const fundPerWeek = Math.round((spCalculated / 13) * 1000) / 1000;
+  const totalHP = vestsToHp(availableVestingShares, hivePerMVests);
+
+  const renderBeneficiarySelectionContent = () => {
     const powerDownBeneficiaries = destinationAccounts?.map((item) => ({
       account: item.username,
       weight: item.percent * 100,
       autoPowerUp: item.autoPowerUp,
     }));
 
-    const _handleSaveBeneficiary = (beneficiaries) => {
-      const destinationAccounts = beneficiaries.map((item) => ({
+    const handleSaveBeneficiary = (beneficiaries) => {
+      const accounts = beneficiaries.map((item) => ({
         username: item.account,
         percent: item.weight / 100,
         autoPowerUp: item.autoPowerUp,
       }));
-      const latestDestinationAccount = destinationAccounts[destinationAccounts.length - 1];
-      if (latestDestinationAccount.username && latestDestinationAccount.percent) {
-        this._handleOnSubmit(
+
+      // Guard against empty accounts array
+      if (accounts.length === 0) {
+        return;
+      }
+
+      const latestDestinationAccount = accounts[accounts.length - 1];
+      if (latestDestinationAccount?.username && latestDestinationAccount?.percent) {
+        handleOnSubmit(
           latestDestinationAccount.username,
           latestDestinationAccount.percent,
           latestDestinationAccount.autoPowerUp,
@@ -240,304 +273,219 @@ class PowerDownView extends Component {
       }
     };
 
-    const _handleRemoveBeneficiary = (beneficiary) => {
+    const handleRemoveBeneficiary = (beneficiary) => {
       if (beneficiary) {
         const beneficiaryAccount = {
           username: beneficiary.account,
           percent: beneficiary.weight / 100,
           autoPowerUp: beneficiary.autoPowerUp,
         };
-        this._removeDestinationAccount(beneficiaryAccount);
+        removeDestinationAccount(beneficiaryAccount);
       }
     };
+
     return (
       <View style={styles.beneficiaryContainer}>
         <BeneficiarySelectionContent
           label={intl.formatMessage({ id: 'transfer.withdraw_accounts' })}
           labelStyle={{ ...styles.sectionHeading, paddingLeft: 0 }}
-          setDisableDone={this._handleSetDisableDone}
+          setDisableDone={setDisableDone}
           powerDown={true}
           powerDownBeneficiaries={powerDownBeneficiaries}
-          handleSaveBeneficiary={_handleSaveBeneficiary}
-          handleRemoveBeneficiary={_handleRemoveBeneficiary}
+          handleSaveBeneficiary={handleSaveBeneficiary}
+          handleRemoveBeneficiary={handleRemoveBeneficiary}
         />
       </View>
     );
   };
 
-  _renderAmountInput = (placeholder, availableVestingShares) => {
-    const { isAmountValid } = this.state;
-    return (
-      <TextInput
-        style={[styles.amountInput, !isAmountValid && styles.error]}
-        onChangeText={(value) =>
-          this.setState({
-            hp: value.replace(',', '.'),
-            isAmountValid: this._validateHP({ value, availableVestingShares }),
-          })
-        }
-        value={this.state.hp.toString()}
-        placeholder={placeholder}
-        placeholderTextColor="#c1c5c7"
-        autoCapitalize="none"
-        multiline={false}
-        keyboardType="decimal-pad"
-        innerRef={this.amountTextInput}
-        blurOnSubmit={true}
-        returnKeyType="done"
-        onEndEditing={(e) =>
-          this._handleAmountChange({ hpValue: e.nativeEvent.text, availableVestingShares })
-        }
-      />
-    );
-  };
-
-  _handleSetDisableDone = (value) => {
-    this.setState({ disableDone: value });
-  };
-
-  _handleOnDropdownChange = (value) => {
-    const { fetchBalance } = this.props;
-
-    fetchBalance(value);
-    this._fetchRoutes(value);
-    this.setState({ from: value, amount: 0 });
-  };
-
-  _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
-
-  _handleOnSubmit = (username, percent, autoPowerUp) => {
-    const { destinationAccounts } = this.state;
-    const { setWithdrawVestingRoute, currentAccountName, intl } = this.props;
-
-    if (!destinationAccounts.some((item) => item.username === username)) {
-      destinationAccounts.push({ username, percent, autoPowerUp });
-      setWithdrawVestingRoute(currentAccountName, username, percent, autoPowerUp);
-      this.setState({
-        isOpenWithdrawAccount: false,
-        destinationAccounts,
-      });
-    } else {
-      Alert.alert(
-        intl.formatMessage({ id: 'alert.fail' }),
-        intl.formatMessage({ id: 'alert.same_user' }),
-      );
-    }
-  };
-
-  // Component Life Cycles
-  UNSAFE_componentWillMount() {
-    const { currentAccountName } = this.props;
-
-    this._fetchRoutes(currentAccountName);
-  }
-
-  render() {
-    const {
-      selectedAccount,
-      intl,
-      getAccountsWithUsername,
-      transferType,
-      hivePerMVests,
-      handleOnModalClose,
-    } = this.props;
-    const { amount, hp, isAmountValid, isTransfering, isOpenWithdrawAccount } = this.state;
-    let poweringDownVests = 0;
-    let availableVestingShares = 0;
-    let poweringDownFund = 0;
-
-    const poweringDown = !isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'));
-    const nextPowerDown = parseDate(get(selectedAccount, 'next_vesting_withdrawal'));
-
-    if (poweringDown) {
-      poweringDownVests = parseToken(get(selectedAccount, 'vesting_withdraw_rate'));
-      poweringDownFund = vestsToHp(poweringDownVests, hivePerMVests).toFixed(3);
-    } else {
-      availableVestingShares =
-        parseToken(get(selectedAccount, 'vesting_shares')) -
-        (Number(get(selectedAccount, 'to_withdraw')) - Number(get(selectedAccount, 'withdrawn'))) /
-          1e6 -
-        parseToken(get(selectedAccount, 'delegated_vesting_shares'));
-    }
-
-    const spCalculated = vestsToHp(amount, hivePerMVests);
-    const fundPerWeek = Math.round((spCalculated / 13) * 1000) / 1000;
-    const totalHP = vestsToHp(availableVestingShares, hivePerMVests);
-
-    const _renderSlider = () => (
-      <View style={styles.sliderBox}>
-        <View style={styles.emptyBox} />
-        <View style={styles.sliderContainer}>
-          <Slider
-            style={styles.slider}
-            trackStyle={styles.track}
-            thumbStyle={styles.thumb}
-            minimumTrackTintColor="#357ce6"
-            thumbTintColor="#007ee5"
-            maximumValue={availableVestingShares}
-            value={amount}
-            onValueChange={(value) =>
-              this._handleSliderAmountChange({ value, availableVestingShares })
-            }
-          />
-          <View style={styles.sliderAmountContainer}>
-            <Text style={styles.amountText}>{`MAX  ${totalHP.toFixed(3)} HP`}</Text>
-          </View>
-        </View>
-      </View>
-    );
-
-    const _renderMiddleContent = () => {
-      const { intl } = this.props;
-      return (
-        <Animated.View entering={BounceInRight.duration(500).delay(300)}>
-          <View style={styles.stepTwoContainer}>
-            <Text style={styles.sectionHeading}>
-              {intl.formatMessage({ id: 'transfer.power_down_amount_head' })}
-            </Text>
-            <View style={styles.alreadyDelegateRow}>
-              <Text style={styles.sectionSubheading}>
-                {intl.formatMessage({ id: 'transfer.power_down_amount_subhead' })}
-              </Text>
-            </View>
-
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.amount_hp' })}
-              rightComponent={() =>
-                this._renderAmountInput(
-                  intl.formatMessage({ id: 'transfer.amount' }),
-                  availableVestingShares,
-                )
-              }
-              containerStyle={styles.paddBottom}
-            />
-            {_renderSlider()}
-            <View style={styles.estimatedContainer}>
-              <Text style={styles.leftEstimated} />
-              <Text style={styles.rightEstimated}>
-                {intl.formatMessage({ id: 'transfer.estimated_weekly' })} :
-                {`+ ${fundPerWeek.toFixed(3)} HIVE`}
-              </Text>
-            </View>
-          </View>
-        </Animated.View>
-      );
-    };
-
-    const _renderPowerDownInfo = () => {
-      const days = daysTillDate(nextPowerDown);
-      return (
-        <View style={styles.powerDownInfoContainer}>
-          <Text style={styles.sectionHeading}>
-            {intl.formatMessage({ id: 'transfer.powering_down' })}
-          </Text>
-          <Text style={styles.sectionSubheading}>
-            {`${intl.formatMessage({
-              id: 'transfer.powering_down_subheading',
-            })}\n${intl.formatMessage(
-              { id: 'transfer.powering_down_info' },
-              { days, hp: poweringDownFund },
-            )}`}
-          </Text>
-        </View>
-      );
-    };
-
-    const _handleMainBtn = () => {
-      if (this._validateHP({ value: hp, availableVestingShares })) {
-        this._handleAmountChange({ hpValue: hp, availableVestingShares });
-        this.startActionSheet.current.show();
+  const renderAmountInput = (placeholder, maxVests) => (
+    <TextInput
+      style={[styles.amountInput, !isAmountValid && styles.error]}
+      onChangeText={(value) => {
+        setHp(value.replace(',', '.'));
+        setIsAmountValid(validateHP({ value, availableVestingShares: maxVests }));
+      }}
+      value={hp.toString()}
+      placeholder={placeholder}
+      placeholderTextColor="#c1c5c7"
+      autoCapitalize="none"
+      multiline={false}
+      keyboardType="decimal-pad"
+      innerRef={amountTextInput}
+      blurOnSubmit={true}
+      returnKeyType="done"
+      onEndEditing={(e) =>
+        handleAmountChange({ hpValue: e.nativeEvent.text, availableVestingShares: maxVests })
       }
-    };
+    />
+  );
 
-    const _renderBottomContent = () => (
-      <View style={styles.bottomContent}>
-        {!poweringDown && (
-          <Fragment>
-            <MainButton
-              style={styles.button}
-              isDisable={hp <= 0 || !isAmountValid}
-              onPress={_handleMainBtn}
-              isLoading={isTransfering}
-            >
-              <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
-            </MainButton>
-          </Fragment>
-        )}
-        {poweringDown && (
-          <MainButton
-            style={styles.stopButton}
-            onPress={() => this.stopActionSheet.current.show()}
-            isLoading={isTransfering}
-          >
-            <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.stop' })}</Text>
-          </MainButton>
-        )}
+  const renderSlider = () => (
+    <View style={styles.sliderBox}>
+      <View style={styles.emptyBox} />
+      <View style={styles.sliderContainer}>
+        <Slider
+          style={styles.slider}
+          trackStyle={styles.track}
+          thumbStyle={styles.thumb}
+          minimumTrackTintColor="#357ce6"
+          thumbTintColor="#007ee5"
+          maximumValue={availableVestingShares}
+          value={amount}
+          onValueChange={(value) => handleSliderAmountChange({ value, availableVestingShares })}
+        />
+        <View style={styles.sliderAmountContainer}>
+          <Text style={styles.amountText}>{`MAX  ${totalHP.toFixed(3)} HP`}</Text>
+        </View>
+      </View>
+    </View>
+  );
+
+  const renderMiddleContent = () => (
+    <Animated.View entering={BounceInRight.duration(500).delay(300)}>
+      <View style={styles.stepTwoContainer}>
+        <Text style={styles.sectionHeading}>
+          {intl.formatMessage({ id: 'transfer.power_down_amount_head' })}
+        </Text>
+        <View style={styles.alreadyDelegateRow}>
+          <Text style={styles.sectionSubheading}>
+            {intl.formatMessage({ id: 'transfer.power_down_amount_subhead' })}
+          </Text>
+        </View>
+
+        <TransferFormItem
+          label={intl.formatMessage({ id: 'transfer.amount_hp' })}
+          rightComponent={() =>
+            renderAmountInput(intl.formatMessage({ id: 'transfer.amount' }), availableVestingShares)
+          }
+          containerStyle={styles.paddBottom}
+        />
+        {renderSlider()}
+        <View style={styles.estimatedContainer}>
+          <Text style={styles.leftEstimated} />
+          <Text style={styles.rightEstimated}>
+            {intl.formatMessage({ id: 'transfer.estimated_weekly' })} :
+            {`+ ${fundPerWeek.toFixed(3)} HIVE`}
+          </Text>
+        </View>
+      </View>
+    </Animated.View>
+  );
+
+  const renderPowerDownInfo = () => {
+    const days = daysTillDate(nextPowerDown);
+    return (
+      <View style={styles.powerDownInfoContainer}>
+        <Text style={styles.sectionHeading}>
+          {intl.formatMessage({ id: 'transfer.powering_down' })}
+        </Text>
+        <Text style={styles.sectionSubheading}>
+          {`${intl.formatMessage({
+            id: 'transfer.powering_down_subheading',
+          })}\n${intl.formatMessage(
+            { id: 'transfer.powering_down_info' },
+            { days, hp: poweringDownFund },
+          )}`}
+        </Text>
       </View>
     );
-    return (
-      <SafeAreaView style={styles.container}>
-        <BasicHeader
-          title={intl.formatMessage({ id: `wallet.${transferType}` })}
-          backIconName="close"
-        />
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.powerDownKeyboadrAvoidingContainer}
-          keyboardShouldPersistTaps="always"
-        >
-          <ScrollView
-            keyboardShouldPersistTaps="always"
-            style={styles.scroll}
-            contentContainerStyle={styles.scrollContentContainer}
-          >
-            {!poweringDown && this._renderBeneficiarySelectionContent()}
-            {!poweringDown && _renderMiddleContent()}
-            {poweringDown && _renderPowerDownInfo()}
-            {_renderBottomContent()}
-          </ScrollView>
-        </KeyboardAvoidingView>
-        <OptionsModal
-          ref={this.startActionSheet}
-          options={[
-            intl.formatMessage({ id: 'alert.confirm' }),
-            intl.formatMessage({ id: 'alert.cancel' }),
-          ]}
-          title={intl.formatMessage({ id: 'transfer.information' })}
-          cancelButtonIndex={1}
-          destructiveButtonIndex={0}
-          onPress={(index) => (index === 0 ? this._handleTransferAction() : null)}
-        />
-        <OptionsModal
-          ref={this.stopActionSheet}
-          options={[
-            intl.formatMessage({ id: 'alert.confirm' }),
-            intl.formatMessage({ id: 'alert.cancel' }),
-          ]}
-          title={intl.formatMessage({ id: 'transfer.stop_information' })}
-          cancelButtonIndex={1}
-          destructiveButtonIndex={0}
-          onPress={(index) =>
-            index === 0 ? this.setState({ amount: 0 }, this._handleTransferAction()) : null
-          }
-        />
-        <Modal
-          isOpen={isOpenWithdrawAccount}
-          isCloseButton
-          isFullScreen
-          title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
-          handleOnModalClose={() => this.setState({ isOpenWithdrawAccount: false })}
-        >
-          <WithdrawAccountModal
-            getAccountsWithUsername={getAccountsWithUsername}
-            handleOnSubmit={this._handleOnSubmit}
-          />
-        </Modal>
-        <HiveAuthModal ref={this.hiveAuthModalRef} onClose={handleOnModalClose} />
-      </SafeAreaView>
-    );
-  }
-}
+  };
 
-export default injectIntl(PowerDownView);
-/* eslint-enable */
+  const handleMainBtn = () => {
+    if (validateHP({ value: hp, availableVestingShares })) {
+      handleAmountChange({ hpValue: hp, availableVestingShares });
+      startActionSheet.current.show();
+    }
+  };
+
+  const renderBottomContent = () => (
+    <View style={styles.bottomContent}>
+      {!poweringDown && (
+        <MainButton
+          style={styles.button}
+          isDisable={hp <= 0 || !isAmountValid || _disableDone}
+          onPress={handleMainBtn}
+          isLoading={isTransfering}
+        >
+          <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
+        </MainButton>
+      )}
+      {poweringDown && (
+        <MainButton
+          style={styles.stopButton}
+          onPress={() => stopActionSheet.current.show()}
+          isLoading={isTransfering}
+        >
+          <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.stop' })}</Text>
+        </MainButton>
+      )}
+    </View>
+  );
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <BasicHeader
+        title={intl.formatMessage({ id: `wallet.${transferType}` })}
+        backIconName="close"
+      />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.powerDownKeyboadrAvoidingContainer}
+      >
+        <ScrollView
+          keyboardShouldPersistTaps="always"
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContentContainer}
+        >
+          {!poweringDown && renderBeneficiarySelectionContent()}
+          {!poweringDown && renderMiddleContent()}
+          {poweringDown && renderPowerDownInfo()}
+          {renderBottomContent()}
+        </ScrollView>
+      </KeyboardAvoidingView>
+      <OptionsModal
+        ref={startActionSheet}
+        options={[
+          intl.formatMessage({ id: 'alert.confirm' }),
+          intl.formatMessage({ id: 'alert.cancel' }),
+        ]}
+        title={intl.formatMessage({ id: 'transfer.information' })}
+        cancelButtonIndex={1}
+        destructiveButtonIndex={0}
+        onPress={(index) => (index === 0 ? handleTransferAction() : null)}
+      />
+      <OptionsModal
+        ref={stopActionSheet}
+        options={[
+          intl.formatMessage({ id: 'alert.confirm' }),
+          intl.formatMessage({ id: 'alert.cancel' }),
+        ]}
+        title={intl.formatMessage({ id: 'transfer.stop_information' })}
+        cancelButtonIndex={1}
+        destructiveButtonIndex={0}
+        onPress={(index) => {
+          if (index === 0) {
+            setAmount(0);
+            handleTransferAction(0); // Explicit 0 for stop power down
+          }
+        }}
+      />
+      <Modal
+        isOpen={isOpenWithdrawAccount}
+        isCloseButton
+        isFullScreen
+        title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
+        handleOnModalClose={() => setIsOpenWithdrawAccount(false)}
+      >
+        <WithdrawAccountModal
+          getAccountsWithUsername={getAccountsWithUsername}
+          handleOnSubmit={handleOnSubmit}
+        />
+      </Modal>
+      <HiveAuthModal ref={hiveAuthModalRef} onClose={handleHiveAuthModalClose} />
+    </SafeAreaView>
+  );
+};
+
+export default PowerDownScreen;

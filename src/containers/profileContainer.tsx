@@ -8,6 +8,13 @@ import { injectIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
 import {
+  getFollowCountQueryOptions,
+  getAccountFullQueryOptions,
+  getRelationshipBetweenAccountsQueryOptions,
+  getAccountPostsQueryOptions,
+  getAccountRcQueryOptions,
+} from '@ecency/sdk';
+import {
   selectCurrentAccount,
   selectIsLoggedIn,
   selectIsDarkTheme,
@@ -16,15 +23,8 @@ import {
   selectIsConnected,
   selectHidePostsThumbnails,
 } from '../redux/selectors';
-import {
-  followUser,
-  unfollowUser,
-  ignoreUser,
-  getFollows,
-  getUser,
-  getRelationship,
-  getAccountPosts,
-} from '../providers/hive/dhive';
+import { followUser, unfollowUser, ignoreUser } from '../providers/hive/dhive';
+import { getQueryClient } from '../providers/queries';
 import { startMattermostDirectMessage } from '../providers/chat/mattermost';
 
 // Ecency providers
@@ -60,6 +60,7 @@ class ProfileContainer extends Component {
       isProfileLoading: false,
       isReady: false,
       isOwnProfile,
+      rcAccount: null,
       user: null,
       quickProfile: {
         reputation: get(props, 'route.params.reputation', ''),
@@ -100,50 +101,40 @@ class ProfileContainer extends Component {
   }
 
   _getReplies = async (query) => {
-    const { isOwnProfile, comments } = this.state;
+    const { isOwnProfile, comments, username } = this.state;
     const {
       currentAccount: { name: currentUsername },
     } = this.props;
 
     this.setState({ isProfileLoading: true });
-    let repliesAction;
-
-    if (!isOwnProfile) {
-      repliesAction = getAccountPosts;
-      if (query) {
-        query.account = query.author;
-        if (comments.length > 0) {
-          query.start_author = query.author;
-          query.start_permlink = query.permlink;
-        }
-        query.limit = 5;
-        query.observer = currentUsername || ''; // TODO: add current account username here
-        query.sort = 'comments';
-      }
-    } else {
-      repliesAction = getAccountPosts;
-      if (query) {
-        query.account = query.author;
-        if (comments.length > 0) {
-          query.start_author = query.author;
-          query.start_permlink = query.permlink;
-        }
-        query.limit = 5;
-        query.observer = currentUsername || ''; // TODO: add current account username here
-        query.sort = 'replies';
-      }
-    }
 
     if (query) {
-      delete query.author;
-      delete query.permlink;
-      repliesAction(query).then((result) => {
-        const _comments = unionBy(comments, result, 'permlink');
-        this.setState({
-          comments: _comments,
-          isProfileLoading: false,
+      const sort = isOwnProfile ? 'replies' : 'comments';
+      const startAuthor = comments.length > 0 ? query.author : '';
+      const startPermlink = comments.length > 0 ? query.permlink : '';
+
+      const queryClient = getQueryClient();
+      queryClient
+        .fetchQuery(
+          getAccountPostsQueryOptions(
+            username || (comments.length === 0 ? query.author : currentUsername) || '',
+            sort,
+            startAuthor,
+            startPermlink,
+            5,
+            currentUsername || '',
+          ),
+        )
+        .then((result) => {
+          const _comments = unionBy(comments, result, 'permlink');
+          this.setState({
+            comments: _comments,
+            isProfileLoading: false,
+          });
+        })
+        .catch(() => {
+          this.setState({ isProfileLoading: false });
         });
-      });
     }
   };
 
@@ -329,15 +320,20 @@ class ProfileContainer extends Component {
         let isFavorite;
         let follows;
 
-        if (!isOwnProfile) {
-          const res = await getRelationship(currentAccount.name, username);
+        const queryClient = getQueryClient();
+
+        if (!isOwnProfile && currentAccount?.name) {
+          const res = await queryClient.fetchQuery(
+            getRelationshipBetweenAccountsQueryOptions(currentAccount.name, username),
+          );
           _isFollowing = res && res.follows;
           _isMuted = res && res.ignores;
           isFavorite = await checkFavorite(username);
         }
 
         try {
-          follows = await getFollows(username);
+          // Fetch follow counts using SDK query
+          follows = await queryClient.fetchQuery(getFollowCountQueryOptions(username));
         } catch (err) {
           follows = null;
         }
@@ -368,9 +364,28 @@ class ProfileContainer extends Component {
 
   _loadProfile = async (username = null) => {
     let user;
-    const { isOwnProfile } = this.state;
+    let rcAccount = null;
     try {
-      user = await getUser(username, isOwnProfile);
+      const queryClient = getQueryClient();
+      const rawAccount = await queryClient.fetchQuery(getAccountFullQueryOptions(username));
+
+      // Normalize account data to match expected structure (SDK returns profile directly)
+      // App expects: { about: { profile: {...} } }
+      // SDK returns: { profile: {...} }
+      const profile = rawAccount?.profile || rawAccount?.about?.profile;
+      const normalizedAbout = profile ? { profile } : {};
+      user = {
+        ...rawAccount,
+        about: normalizedAbout,
+      };
+
+      try {
+        const rcResult = await queryClient.fetchQuery(getAccountRcQueryOptions(username));
+        // SDK may return array or single object
+        rcAccount = Array.isArray(rcResult) ? rcResult[0] ?? null : rcResult ?? null;
+      } catch (error) {
+        rcAccount = null;
+      }
       this._fetchProfile(username);
     } catch (error) {
       this._profileActionDone({ error });
@@ -382,6 +397,7 @@ class ProfileContainer extends Component {
         display_name: get(user, 'display_name'),
         reputation: get(user, 'reputation'),
       },
+      rcAccount,
       user,
       username,
     }));
@@ -550,6 +566,7 @@ class ProfileContainer extends Component {
       isProfileLoading,
       isReady,
       quickProfile,
+      rcAccount,
       user,
       username,
       reverseHeader,
@@ -565,7 +582,7 @@ class ProfileContainer extends Component {
 
     if (user) {
       votingPower = getVotingPower(user).toFixed(1);
-      resourceCredits = getRcPower(user).toFixed(1);
+      resourceCredits = getRcPower(rcAccount || user).toFixed(1);
     }
 
     return (

@@ -73,7 +73,7 @@ export const AutoHeightImage = ({
       });
     }
     return _height;
-  }, [imgUrl]);
+  }, [imgUrl, contentWidth, aspectRatio, metadata]);
 
   const [imgWidth, setImgWidth] = useState(contentWidth);
   const [height, setHeight] = useState(_initialHeight);

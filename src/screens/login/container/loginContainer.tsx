@@ -10,8 +10,9 @@ import { useNavigation } from '@react-navigation/native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
+import { getAccountsQueryOptions } from '@ecency/sdk';
+import { getQueryClient } from '../../../providers/queries';
 import { login, loginWithSC2 } from '../../../providers/hive/auth';
-import { getAccounts } from '../../../providers/hive/dhive';
 
 import {
   failedAccount,
@@ -290,7 +291,8 @@ class LoginContainer extends PureComponent {
     }
 
     try {
-      const accounts = await getAccounts([username]);
+      const queryClient = getQueryClient();
+      const accounts = await queryClient.fetchQuery(getAccountsQueryOptions([username]));
 
       return accounts;
     } catch (error) {

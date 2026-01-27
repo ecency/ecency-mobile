@@ -5,6 +5,8 @@ import { Text, View, FlatList } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
+import { getCommunityQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import { useAppSelector } from '../../../hooks';
 import { NoPost, PostCardPlaceHolder, UserListItem } from '../..';
 import globalStyles from '../../../globalStyles';
@@ -17,7 +19,6 @@ import {
   subscribeCommunity,
 } from '../../../redux/actions/communitiesAction';
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
-import { getCommunity } from '../../../providers/hive/dhive';
 import { SheetNames } from '../../../navigation/sheets';
 import {
   selectIsLoggedIn,
@@ -35,6 +36,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
 
   // redux properties
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -140,12 +142,12 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
 
   // fetching
   const _getRecommendedUsers = () => dispatch(fetchLeaderboard());
-  const _getRecommendedCommunities = () => dispatch(fetchCommunities('', 10));
+  const _getRecommendedCommunities = () => dispatch(fetchCommunities(10));
 
   // formating
   const _formatRecommendedCommunities = async (communitiesArray) => {
     try {
-      const ecency = await getCommunity('hive-125125');
+      const ecency = await queryClient.fetchQuery(getCommunityQueryOptions('hive-125125'));
 
       const recommendeds = [ecency, ...communitiesArray];
       recommendeds.forEach((item) => Object.assign(item, { isSubscribed: false }));

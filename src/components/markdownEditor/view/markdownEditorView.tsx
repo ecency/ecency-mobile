@@ -203,7 +203,12 @@ const MarkdownEditorView = ({
       //   console.log("Updating draft state")
       //   setIsDraftupdated(true);
       // }
-      setBodyText(input);
+
+      // Only update state on iOS where input is controlled
+      // On Android, avoid state updates to prevent text corruption
+      if (Platform.OS === 'ios') {
+        setBodyText(input);
+      }
       bodyTextRef.current = input;
 
       if (!isEditing) {
@@ -218,20 +223,43 @@ const MarkdownEditorView = ({
 
   const _handleOnSelectionChange = async (event) => {
     bodySelectionRef.current = event.nativeEvent.selection;
-    setSelection(event.nativeEvent.selection);
+    if (Platform.OS === 'ios') {
+      setSelection(event.nativeEvent.selection);
+    }
   };
 
-  const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
-    setBodyText(_text);
-    setSelection(_selection);
-    bodySelectionRef.current = _selection;
+  const _setTextAndSelection = useCallback(
+    ({ selection: _selection, text: _text }) => {
+      if (Platform.OS === 'ios') {
+        setBodyText(_text);
+        setSelection(_selection);
+        bodySelectionRef.current = _selection;
+        bodyTextRef.current = _text;
+      } else {
+        // Android: Use setNativeProps to avoid text corruption
+        inputRef?.current?.setNativeProps({
+          text: _text,
+        });
+        bodySelectionRef.current = _selection;
+        inputRef?.current?.setNativeProps({
+          selection: _selection,
+        });
+        bodyTextRef.current = _text;
+      }
 
-    if (isSnippetsOpen) {
-      setIsSnippetsOpen(false);
-    }
+      if (isSnippetsOpen) {
+        setIsSnippetsOpen(false);
+      }
 
-    _changeText(_text);
-  }, []);
+      // Trigger the debounced save and isEditing update
+      if (!isEditing) {
+        console.log('force setting isEditing to true', true);
+        setIsEditing(true);
+      }
+      _debouncedOnTextChange();
+    },
+    [isEditing, isSnippetsOpen, _debouncedOnTextChange],
+  );
 
   const _renderPreview = () => (
     <ScrollView style={styles.previewContainer} contentContainerStyle={styles.previewContent}>
@@ -349,9 +377,9 @@ const MarkdownEditorView = ({
         <View style={styles.replySection}>
           <TouchableOpacity style={styles.accountTile} onPress={() => changeUser()}>
             <View style={styles.avatarAndNameContainer}>
-              <UserAvatar noAction username={currentAccount.username} />
+              <UserAvatar noAction username={currentAccount.name} />
               <View style={styles.nameContainer}>
-                <Text style={styles.name}>{`@${currentAccount.username}`}</Text>
+                <Text style={styles.name}>{`@${currentAccount.name}`}</Text>
               </View>
               <Icon
                 size={24}
@@ -381,8 +409,8 @@ const MarkdownEditorView = ({
         editable={editable}
         contextMenuHidden={false}
         scrollEnabled={editorScrollEnabled}
-        value={bodyText}
-        selection={selection}
+        value={Platform.OS === 'ios' ? bodyText : undefined}
+        selection={Platform.OS === 'ios' ? selection : undefined}
       />
     </>
   );

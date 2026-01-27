@@ -3,10 +3,11 @@ import { useIntl } from 'react-intl';
 import { ActivityIndicator, RefreshControl, View } from 'react-native';
 import { unionBy } from 'lodash';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { getAccountPostsQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import { Comments, NoPost } from '../..';
 import { useAppSelector } from '../../../hooks';
 import { selectHidePostsThumbnails } from '../../../redux/selectors';
-import { getAccountPosts } from '../../../providers/hive/dhive';
 import styles from '../profileStyles';
 
 interface CommentsTabContentProps {
@@ -25,6 +26,7 @@ const CommentsTabContent = ({
   selectedUser,
 }: CommentsTabContentProps) => {
   const intl = useIntl();
+  const queryClient = useQueryClient();
 
   const isHideImage = useAppSelector(selectHidePostsThumbnails);
 
@@ -47,21 +49,22 @@ const CommentsTabContent = ({
       return;
     }
 
-    setLoading(true);
     if (refresh) {
       setRefreshing(true);
+    } else {
+      setLoading(true);
     }
 
-    const query: any = {
-      account: username,
-      start_author: refresh ? '' : lastAuthor,
-      start_permlink: refresh ? '' : lastPermlink,
-      limit: 10,
-      observer: '',
-      sort: type,
-    };
-
-    const result = await getAccountPosts(query);
+    const result = await queryClient.fetchQuery(
+      getAccountPostsQueryOptions(
+        username,
+        type,
+        refresh ? '' : lastAuthor,
+        refresh ? '' : lastPermlink,
+        10,
+        '',
+      ),
+    );
     const _comments: any[] = refresh ? result : unionBy(data, result, 'permlink');
 
     if (Array.isArray(_comments)) {

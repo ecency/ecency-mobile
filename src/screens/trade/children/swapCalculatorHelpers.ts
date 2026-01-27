@@ -1,7 +1,8 @@
 import { Alert } from 'react-native';
 import * as Sentry from '@sentry/react-native';
+import { getOrderBookQueryOptions } from '@ecency/sdk';
+import { getQueryClient } from '../../../providers/queries';
 import { MarketAsset, OrdersDataItem } from '../../../providers/hive-trade/hiveTrade.types';
-import { getOrderBook } from '../../../providers/hive/dhive';
 
 interface ProcessingResult {
   tooMuchSlippage?: boolean;
@@ -20,9 +21,15 @@ function calculatePrice(intAmount: number, book: OrdersDataItem[], asset: 'hive'
   return +book[index].real_price;
 }
 
+/**
+ * Fetches the Hive order book using the SDK query client.
+ * This function is for non-hook contexts like getNewAmount.
+ * For hook contexts, use getOrderBookQueryOptions with useQuery instead.
+ */
 export async function fetchHiveOrderBook() {
   try {
-    return await getOrderBook();
+    const queryClient = getQueryClient();
+    return await queryClient.fetchQuery(getOrderBookQueryOptions());
   } catch (e) {
     Sentry.captureException(e);
     Alert.alert('Order book is empty');

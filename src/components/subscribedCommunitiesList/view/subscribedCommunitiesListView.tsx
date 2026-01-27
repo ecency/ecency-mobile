@@ -26,6 +26,7 @@ const SubscribedCommunitiesListView = ({
   handleSubscribeButtonPress,
   handleGetSubscriptions,
   handleDiscoverPress,
+  listRef,
 }) => {
   const intl = useIntl();
 
@@ -96,6 +97,7 @@ const SubscribedCommunitiesListView = ({
 
   return (
     <FlatList
+      ref={listRef}
       data={data}
       keyExtractor={(item, index) => index.toString()}
       renderItem={_renderListItem}

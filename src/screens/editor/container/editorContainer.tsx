@@ -11,17 +11,23 @@ import { Buffer } from 'buffer';
 import { useQueryClient } from '@tanstack/react-query';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { postBodySummary } from '@ecency/render-helper';
+import {
+  getDraftsInfiniteQueryOptions,
+  getDraftsQueryOptions,
+  getPostQueryOptions,
+} from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
 import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
   postContent,
-  getPurePost,
   grantPostingPermission,
   reblog,
   postComment,
+  getDigitPinCode,
 } from '../../../providers/hive/dhive';
+import { decryptKey } from '../../../utils/crypto';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -49,8 +55,10 @@ import {
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import {
   deleteDraftCacheEntry,
+  deleteReplyCacheEntry,
   updateCommentCache,
   updateDraftCache,
+  updateReplyCache,
 } from '../../../redux/actions/cacheActions';
 import QUERIES from '../../../providers/queries/queryKeys';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
@@ -118,8 +126,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   // Component Life Cycle Functions
   componentDidMount() {
     this._isMounted = true;
-    const { currentAccount, route, draftsCollection, queryClient, dispatch } = this.props;
+    const { currentAccount, route, queryClient, dispatch, pinCode, intl } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
+    const accessToken = currentAccount?.local?.accessToken
+      ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+      : '';
     let isReply;
     let draftId;
     let isEdit;
@@ -134,17 +145,52 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       if (_draftId) {
         draftId = _draftId;
-        const cachedDrafts: any = queryClient.getQueryData([QUERIES.DRAFTS.GET]);
 
-        if (cachedDrafts && cachedDrafts.length) {
-          // get draft from query cache
-          const _draft = cachedDrafts.find((draft) => draft._id === draftId);
+        // Try to get draft from infinite query cache (SDK structure)
+        // Search through all loaded pages
+        let paramDraft = null;
+        const { queryKey: infiniteQueryKey } = getDraftsInfiniteQueryOptions(
+          username,
+          accessToken,
+          20,
+        );
+        const infiniteQueryData: any = queryClient.getQueryData(infiniteQueryKey);
 
-          this.setState({
-            draftId,
-          });
+        if (infiniteQueryData?.pages) {
+          const allDrafts = infiniteQueryData.pages.flatMap((page) => page?.data || []);
+          paramDraft = allDrafts.find((draft) => draft._id === draftId) || null;
+        }
 
-          this._getStorageDraft(username, isReply, _draft);
+        // Set the draftId in state immediately
+        this.setState({
+          draftId,
+        });
+
+        // If draft is in cache, load it immediately
+        if (paramDraft) {
+          this._getStorageDraft(username, isReply, paramDraft);
+        }
+        // If not in cache, fetch from API to get the specific draft
+        // This handles cases where the draft is on a page that hasn't been loaded yet
+        else {
+          getDrafts()
+            .then((drafts) => {
+              const fetchedDraft = drafts.find((d) => d._id === draftId);
+              if (fetchedDraft) {
+                this._getStorageDraft(username, isReply, fetchedDraft);
+              }
+            })
+            .catch((err) => {
+              console.warn('Failed to fetch draft from API', err);
+              dispatch(
+                toastNotification(
+                  intl.formatMessage({
+                    id: 'alert.fail',
+                    defaultMessage: 'Fetch failed.',
+                  }),
+                ),
+              );
+            });
         }
       }
 
@@ -167,12 +213,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         if (post) {
           draftId = `${currentAccount.name}/${post.author}/${post.permlink}`;
-          const _draft = draftsCollection && draftsCollection[draftId];
+          // For replies, use replyCache instead of draftsCollection
+          const { replyCache } = this.props;
+          const _replyDraft = replyCache && replyCache[draftId];
 
-          if (_draft && !!_draft.body) {
+          if (_replyDraft && !!_replyDraft.body) {
             const _mediaUrls = navigationParams.replyMediaUrls;
             _draftBody =
-              _mediaUrls?.length > 0 ? `${_draft.body}\n\n ![](${_mediaUrls[0]})` : _draft.body;
+              _mediaUrls?.length > 0
+                ? `${_replyDraft.body}\n\n ![](${_mediaUrls[0]})`
+                : _replyDraft.body;
           }
         }
 
@@ -255,9 +305,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _getStorageDraft = async (username, isReply, paramDraft) => {
-    const { draftsCollection } = this.props;
+    const { draftsCollection, replyCache } = this.props;
     if (isReply) {
-      const _draft = draftsCollection && draftsCollection[paramDraft._id];
+      // For replies, use replyCache instead of draftsCollection
+      const replyId = paramDraft?._id || this.state.draftId;
+      if (!replyId) {
+        return;
+      }
+      const _draft = replyCache && replyCache[replyId];
       if (_draft && !!_draft.body) {
         this.setState({
           draftPost: {
@@ -291,9 +346,18 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       // if above fails with either no result returned or timestamp is old,
       // and use draft form nav param if available.
       else if (paramDraft) {
-        const _tags = paramDraft.tags.includes(' ')
-          ? paramDraft.tags.split(' ')
-          : paramDraft.tags.split(',');
+        // SDK returns tags_arr (array) and tags (string)
+        // Prefer tags_arr if available, otherwise parse tags string
+        let _tags = [];
+        if (paramDraft.tags_arr && Array.isArray(paramDraft.tags_arr)) {
+          _tags = paramDraft.tags_arr;
+        } else if (paramDraft.tags) {
+          _tags = paramDraft.tags
+            .split(/[,\s]+/)
+            .map((tag) => tag.trim())
+            .filter((tag) => !!tag);
+        }
+
         this.setState({
           draftPost: {
             title: paramDraft.title || '',
@@ -341,7 +405,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     if (isArray(draft.meta?.beneficiaries)) {
       const filteredBeneficiaries = draft.meta.beneficiaries.filter(
-        (item) => item.account !== currentAccount.username,
+        (item) => item.account !== currentAccount.name,
       ); // remove default beneficiary from array while saving
 
       dispatch(setBeneficiaries(_draftId, filteredBeneficiaries));
@@ -460,7 +524,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
     const { isDraftSaved, draftId, thumbUrl, isReply, rewardType, postDescription } = this.state;
-    const { currentAccount, dispatch, intl, queryClient, speakContentBuilder } = this.props;
+    const { currentAccount, dispatch, intl, queryClient, speakContentBuilder, pinCode } =
+      this.props;
 
     try {
       // saves draft locallly
@@ -568,7 +633,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             });
           }
           const filteredBeneficiaries = beneficiaries.filter(
-            (item) => item.account !== currentAccount.username,
+            (item) => item.account !== currentAccount.name,
           ); // remove default beneficiary from array while saving
           dispatch(setBeneficiaries(_resDraft._id, filteredBeneficiaries));
 
@@ -594,7 +659,20 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         // call fetch post to drafts screen
         if (queryClient) {
-          queryClient.invalidateQueries({ queryKey: [QUERIES.DRAFTS.GET] });
+          const accessToken = currentAccount?.local?.accessToken
+            ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+            : '';
+          const { queryKey: draftsQueryKey } = getDraftsQueryOptions(
+            currentAccount.name,
+            accessToken,
+          );
+          const { queryKey: draftsInfiniteKey } = getDraftsInfiniteQueryOptions(
+            currentAccount.name,
+            accessToken,
+            20,
+          );
+          queryClient.invalidateQueries({ queryKey: draftsQueryKey });
+          queryClient.invalidateQueries({ queryKey: draftsInfiniteKey });
         }
       }
     } catch (err) {
@@ -667,12 +745,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       meta: Object.keys(meta).length > 0 ? meta : undefined,
     };
 
-    // save reply data or save existing draft data locall
-    if (isReply || draftId) {
+    // save reply data to replyCache, draft data to draftsCollection
+    if (isReply) {
+      // Replies go to replyCache - use fallback if draftId is undefined
+      const replyId = draftId || DEFAULT_USER_DRAFT_ID + username;
+      dispatch(updateReplyCache(replyId, draftField));
+    } else if (draftId) {
+      // Editing existing draft goes to draftsCollection
       dispatch(updateDraftCache(draftId, draftField));
-    }
-    // update editor data locally
-    else if (!isReply) {
+    } else {
+      // New post autosave goes to draftsCollection
       dispatch(updateDraftCache(DEFAULT_USER_DRAFT_ID + username, draftField));
     }
   };
@@ -693,6 +775,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       userActivityMutation,
       speakContentBuilder,
       speakMutations,
+      queryClient,
     } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 
@@ -757,14 +840,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         ? videoPublishMeta.permlink
         : generatePermlink(fields.title || '');
 
-      let dublicatePost;
+      let duplicatePost;
       try {
-        dublicatePost = await getPurePost(currentAccount.name, permlink);
+        duplicatePost = await queryClient.fetchQuery(
+          getPostQueryOptions(currentAccount.name, permlink, ''),
+        );
       } catch (e) {
-        dublicatePost = null;
+        duplicatePost = null;
       }
 
-      if (dublicatePost && dublicatePost.permlink === permlink) {
+      if (duplicatePost && duplicatePost.permlink === permlink) {
         permlink = generatePermlink(fields.title || '', true);
       }
 
@@ -884,7 +969,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       pinCode,
       dispatch,
       userActivityMutation,
-      draftsCollection,
+      replyCache,
       speakContentBuilder,
     } = this.props;
     const { isPostSending } = this.state;
@@ -955,16 +1040,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             ),
           );
 
-          // delete quick comment draft cache if it exist
-          if (draftsCollection && draftsCollection[draftId]) {
-            dispatch(deleteDraftCacheEntry(draftId));
+          // delete quick comment draft cache if it exist (from replyCache)
+          if (replyCache && replyCache[draftId]) {
+            dispatch(deleteReplyCacheEntry(draftId));
           }
+
+          this._isSubmitting = false;
         })
         .catch((error) => {
-          this._handleSubmitFailure(error);
-        })
-        .finally(() => {
           this._isSubmitting = false;
+          this._handleSubmitFailure(error);
         });
     }
   };
@@ -1408,6 +1493,7 @@ const mapStateToProps = (state) => ({
   pollDraftsMap: state.editor.pollDraftsMap,
   defaultRewardType: state.editor.defaultRewardType,
   draftsCollection: state.cache.draftsCollection,
+  replyCache: state.cache.replyCache,
 });
 
 const mapQueriesToProps = () => ({

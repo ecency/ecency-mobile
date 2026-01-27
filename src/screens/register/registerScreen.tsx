@@ -4,6 +4,8 @@ import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { debounce } from 'lodash';
 // Internal Components
+import { lookupAccountsQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import { FormInput, InformationArea, LoginHeader, MainButton } from '../../components';
 
 // Constants
@@ -13,12 +15,12 @@ import ROUTES from '../../constants/routeNames';
 import styles from './registerStyles';
 import { RegisterAccountModal } from './children/registerAccountModal';
 import { ECENCY_TERMS_URL } from '../../config/ecencyApi';
-import { lookupAccounts } from '../../providers/hive/dhive';
 import { useAppSelector } from '../../hooks';
 import { selectIsConnected } from '../../redux/selectors';
 
 const RegisterScreen = ({ navigation, route }) => {
   const intl = useIntl();
+  const queryClient = useQueryClient();
 
   const registerAccountModalRef = useRef(null);
 
@@ -72,7 +74,7 @@ const RegisterScreen = ({ navigation, route }) => {
     }
 
     try {
-      const validUsers = await lookupAccounts(username);
+      const validUsers = await queryClient.fetchQuery(lookupAccountsQueryOptions(username));
 
       return validUsers;
     } catch (error) {
@@ -137,8 +139,8 @@ const RegisterScreen = ({ navigation, route }) => {
     }
 
     _getAccountsWithUsername(value).then((res) => {
-      const isValid = !res.includes(value);
-      if (!isValid) {
+      const isValid = res ? !res.includes(value) : false;
+      if (!isValid && res) {
         setUsernameError(intl.formatMessage({ id: 'register.validation.username_exists' }));
       }
       setIsUserExist(!isValid);
@@ -155,7 +157,7 @@ const RegisterScreen = ({ navigation, route }) => {
       return;
     }
     _getAccountsWithUsername(value).then((res) => {
-      const isValid = res.includes(value);
+      const isValid = res ? res.includes(value) : false;
       setIsRefUsernameValid(isValid);
     });
   };

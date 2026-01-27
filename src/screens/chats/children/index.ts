@@ -17,3 +17,4 @@ export * from './TypingIndicator';
 export * from './ChatHeader';
 export * from './PinnedMessagesModal';
 export * from './OnlineUsersModal';
+export * from './DmWarningBanner';

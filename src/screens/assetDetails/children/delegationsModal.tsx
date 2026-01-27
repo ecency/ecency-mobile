@@ -3,6 +3,8 @@ import { useIntl } from 'react-intl';
 import { FlatList, RefreshControl } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useQueryClient } from '@tanstack/react-query';
+import { getVestingDelegationsQueryOptions } from '@ecency/sdk';
 
 import unionBy from 'lodash/unionBy';
 import AccountListContainer from '../../../containers/accountListContainer';
@@ -15,7 +17,6 @@ import {
   selectIsDarkTheme,
   selectGlobalProps,
 } from '../../../redux/selectors';
-import { getVestingDelegations } from '../../../providers/hive/dhive';
 import { getReceivedVestingShares } from '../../../providers/ecency/ecency';
 import { vestsToHp } from '../../../utils/conversions';
 
@@ -34,6 +35,7 @@ interface DelegationItem {
 export const DelegationsModal = forwardRef(({}, ref) => {
   const intl = useIntl();
   const navigation = useNavigation<StackNavigationProp<any>>();
+  const queryClient = useQueryClient();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const globalProps = useAppSelector(selectGlobalProps);
@@ -62,7 +64,10 @@ export const DelegationsModal = forwardRef(({}, ref) => {
     let resData: any = [];
     const limit = 1000;
 
-    const response = await getVestingDelegations(currentAccount.username, startUsername, limit);
+    const response = await queryClient.fetchQuery(
+      getVestingDelegationsQueryOptions(currentAccount.name, startUsername, limit),
+    );
+
     resData = response.map(
       (item) =>
         ({
@@ -81,7 +86,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
   };
 
   const _getReceivedDelegations = async () => {
-    const response = await getReceivedVestingShares(currentAccount.username);
+    const response = await getReceivedVestingShares(currentAccount.name);
     return response.map((item) => ({
       username: item.delegator,
       vestingShares: item.vesting_shares,

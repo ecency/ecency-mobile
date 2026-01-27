@@ -237,4 +237,31 @@ const DraftListItemView = ({
   );
 };
 
-export default injectIntl(DraftListItemView);
+export default React.memo(injectIntl(DraftListItemView), (prev, next) => {
+  return (
+    prev.draftItem?._id === next.draftItem?._id &&
+    prev.draftItem?.modified === next.draftItem?.modified &&
+    prev.isSelected === next.isSelected &&
+    prev.isDeleting === next.isDeleting &&
+    prev.isCloning === next.isCloning &&
+    prev.batchSelectionActive === next.batchSelectionActive &&
+    prev.intl?.locale === next.intl?.locale &&
+    prev.title === next.title &&
+    prev.summary === next.summary &&
+    prev.mainTag === next.mainTag &&
+    prev.username === next.username &&
+    prev.reputation === next.reputation &&
+    prev.created === next.created &&
+    prev.image === next.image &&
+    prev.isFormatedDate === next.isFormatedDate &&
+    prev.status === next.status &&
+    prev.isSchedules === next.isSchedules &&
+    prev.isUnsaved === next.isUnsaved &&
+    prev.id === next.id &&
+    prev.handleOnPressItem === next.handleOnPressItem &&
+    prev.handleOnRemoveItem === next.handleOnRemoveItem &&
+    prev.handleOnMovePress === next.handleOnMovePress &&
+    prev.handleOnClonePressed === next.handleOnClonePressed &&
+    prev.handleLongPress === next.handleLongPress
+  );
+});

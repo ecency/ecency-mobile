@@ -192,8 +192,9 @@ export const sendMattermostMessage = async (
   message: string,
   rootId: string,
   props: any,
+  pendingPostId?: string,
 ) => {
-  const payload = { message, rootId, props };
+  const payload = { message, rootId, props, pendingPostId };
   try {
     const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/posts`, payload);
     return data;
@@ -207,6 +208,20 @@ export const sendMattermostMessage = async (
     }
     throw err;
   }
+};
+
+export type MattermostDmPrivacy = 'all' | 'followers' | 'none';
+
+export const getMattermostDmPrivacy = async (): Promise<MattermostDmPrivacy> => {
+  const { data } = await chatApi.get('/api/mattermost/me/dm-privacy');
+  return (data?.privacy || data) as MattermostDmPrivacy;
+};
+
+export const updateMattermostDmPrivacy = async (
+  privacy: MattermostDmPrivacy,
+): Promise<MattermostDmPrivacy> => {
+  const { data } = await chatApi.put('/api/mattermost/me/dm-privacy', { privacy });
+  return (data?.privacy || privacy) as MattermostDmPrivacy;
 };
 
 export const fetchMattermostUsersByIds = async (userIds: string[]) => {

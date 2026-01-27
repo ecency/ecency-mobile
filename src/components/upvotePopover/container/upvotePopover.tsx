@@ -15,6 +15,8 @@ import Popover from 'react-native-popover-view';
 import Slider from '@esteemapp/react-native-slider';
 import { useIntl } from 'react-intl';
 import { Placement } from 'react-native-popover-view/dist/Types';
+import { useQueryClient } from '@tanstack/react-query';
+import { getDiscussionsQueryOptions } from '@ecency/sdk';
 import {
   setCommentUpvotePercent,
   setPostUpvotePercent,
@@ -81,6 +83,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
   const dispatch = useAppDispatch();
   const deviceWidth = useWindowDimensions().width;
 
+  const queryClient = useQueryClient();
   const userActivityMutation = useUserActivityMutation();
 
   const onVotingStartRef = useRef<any>(null);
@@ -227,6 +230,21 @@ const UpvotePopover = forwardRef(({}, ref) => {
             false,
             sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED,
           );
+
+          // Invalidate post query cache to refetch updated stats
+          queryClient.invalidateQueries({
+            queryKey: ['posts', 'entry', `/@${_author}/${_permlink}`],
+          });
+
+          // If voting on a comment, also invalidate parent post's discussion query
+          if (content?.parent_author) {
+            queryClient.invalidateQueries({
+              queryKey: getDiscussionsQueryOptions(
+                { author: content.parent_author, permlink: content.parent_permlink } as any,
+                'created' as any,
+              ).queryKey,
+            });
+          }
         })
         .catch((err) => {
           _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
@@ -296,6 +314,21 @@ const UpvotePopover = forwardRef(({}, ref) => {
             true,
             sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED,
           );
+
+          // Invalidate post query cache to refetch updated stats
+          queryClient.invalidateQueries({
+            queryKey: ['posts', 'entry', `/@${_author}/${_permlink}`],
+          });
+
+          // If voting on a comment, also invalidate parent post's discussion query
+          if (content?.parent_author) {
+            queryClient.invalidateQueries({
+              queryKey: getDiscussionsQueryOptions(
+                { author: content.parent_author, permlink: content.parent_permlink } as any,
+                'created' as any,
+              ).queryKey,
+            });
+          }
         })
         .catch((err) => {
           dispatch(
@@ -354,7 +387,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
       rshares,
       percent: Math.round(sliderValue * 100) * 100,
       incrementStep,
-      voter: currentAccount.username,
+      voter: currentAccount.name,
       expiresAt: curTime + 30000,
       status,
     };

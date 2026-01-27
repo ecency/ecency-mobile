@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 import { debounce } from 'lodash';
+import { lookupAccountsQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import { UserAvatar } from '../..';
-import { lookupAccounts } from '../../../providers/hive/dhive';
 import { extractWordAtIndex } from '../../../utils/editor';
 import styles from '../styles/markdownEditorStyles';
 
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export const UsernameAutofillBar = ({ text, selection, onApplyUsername }: Props) => {
+  const queryClient = useQueryClient();
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [query, setQuery] = useState('');
 
@@ -51,7 +53,7 @@ export const UsernameAutofillBar = ({ text, selection, onApplyUsername }: Props)
           let users = [];
           if (username) {
             setQuery(username);
-            users = await lookupAccounts(username);
+            users = await queryClient.fetchQuery(lookupAccountsQueryOptions(username));
             console.log('result users for', username, users);
           }
           setSearchedUsers(users);
@@ -60,7 +62,7 @@ export const UsernameAutofillBar = ({ text, selection, onApplyUsername }: Props)
       200,
       { leading: true },
     ),
-    [],
+    [queryClient, query],
   );
 
   const _onUserSelect = (username) => {

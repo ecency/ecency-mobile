@@ -36,8 +36,7 @@ class FollowsScreen extends PureComponent {
   };
 
   _renderItem = ({ item, index }) => {
-    const { isFollowing } = this.props;
-    const username = isFollowing ? item.following : item.follower;
+    const username = item.name || item.following || item.follower;
 
     return (
       <UserListItem
@@ -49,7 +48,8 @@ class FollowsScreen extends PureComponent {
   };
 
   render() {
-    const { loadMore, data, isFollowing, count, handleSearch, intl, isLoading } = this.props;
+    const { loadMore, data, isFollowing, count, handleSearch, intl, isLoading, isError, error } =
+      this.props;
     const title = intl.formatMessage({
       id: !isFollowing ? 'profile.follower' : 'profile.following',
     });
@@ -72,6 +72,13 @@ class FollowsScreen extends PureComponent {
           ListEmptyComponent={
             isLoading ? (
               <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />
+            ) : isError ? (
+              <Text style={styles.text}>
+                {intl.formatMessage({
+                  id: 'alert.fail',
+                })}
+                {error?.message ? `: ${error.message}` : ''}
+              </Text>
             ) : (
               <Text style={styles.text}>
                 {intl.formatMessage({

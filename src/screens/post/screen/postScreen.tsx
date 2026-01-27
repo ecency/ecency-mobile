@@ -71,9 +71,10 @@ const PostScreen = ({ route }) => {
         setParentPermlink(post.parent_permlink);
       }
 
-      setIsOwnPost(currentAccount.username === post.author);
+      const nextIsOwnPost = currentAccount.name === post.author;
+      setIsOwnPost(nextIsOwnPost);
     }
-  }, [getPostQuery.data]);
+  }, [getPostQuery.data, currentAccount.name, isWavePost, tracker.recordEvent]);
 
   // // Component Functions
   const _loadPost = async (_author = null, _permlink = null) => {

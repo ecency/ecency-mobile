@@ -99,7 +99,7 @@ export function useVotePollMutation(poll: Poll | null) {
       const vote = {
         choices,
         userHp,
-        username: currentAccount.username,
+        username: currentAccount.name,
         votedAt: curTime,
         expiresAt: curTime + 120000,
         status: CacheStatus.PENDING,

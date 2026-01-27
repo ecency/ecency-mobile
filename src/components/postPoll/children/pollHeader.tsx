@@ -3,12 +3,13 @@ import { View, Text } from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
+import { getCommunityQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import styles from '../styles/pollHeader.styles';
 
 import { Icon, PopoverWrapper } from '../..';
 import { getTimeFromNow } from '../../../utils/time';
 import { PollPreferredInterpretation, PostMetadata } from '../../../providers/hive/hive.types';
-import { getCommunityTitle } from '../../../providers/hive/dhive';
 
 interface PollHeaderProps {
   metadata: PostMetadata;
@@ -18,6 +19,7 @@ interface PollHeaderProps {
 
 export const PollHeader = ({ metadata, expired, compactView }: PollHeaderProps) => {
   const intl = useIntl();
+  const queryClient = useQueryClient();
 
   // cache community names if community restriction is applicable
   const [communityNames, setCommunityNames] = useState<string[]>([]);
@@ -27,7 +29,12 @@ export const PollHeader = ({ metadata, expired, compactView }: PollHeaderProps) 
       return;
     }
 
-    Promise.all(metadata.community_membership.map(getCommunityTitle))
+    Promise.all(
+      metadata.community_membership.map(async (tag) => {
+        const community = await queryClient.fetchQuery(getCommunityQueryOptions(tag, ''));
+        return community?.title || tag;
+      }),
+    )
       .then(setCommunityNames)
       .catch((error) => {
         console.error('Failed to fetch community names:', error);

@@ -41,6 +41,9 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
     data: drafts = [],
     isFetching: isFetchingDrafts,
     refetch: refetchDrafts,
+    fetchNextPage: fetchNextDraftsPage,
+    hasNextPage: hasNextDraftsPage,
+    isFetchingNextPage: isFetchingNextDraftsPage,
   } = useGetDraftsQuery();
 
   const {
@@ -48,6 +51,9 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
     data: schedules = [],
     isFetching: isFetchingSchedules,
     refetch: refetchSchedules,
+    fetchNextPage: fetchNextSchedulesPage,
+    hasNextPage: hasNextSchedulesPage,
+    isFetchingNextPage: isFetchingNextSchedulesPage,
   } = useGetSchedulesQuery();
 
   const [initialTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
@@ -143,6 +149,13 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
       handleItemLongPress={_handleItemLongPress}
       batchSelectedItems={[...batchSelectedDrafts, ...batchSelectedSchedules]}
       handleBatchDeletePress={_handleBatchDelete}
+      // Pagination props
+      fetchNextDraftsPage={fetchNextDraftsPage}
+      hasNextDraftsPage={hasNextDraftsPage}
+      isFetchingNextDraftsPage={isFetchingNextDraftsPage}
+      fetchNextSchedulesPage={fetchNextSchedulesPage}
+      hasNextSchedulesPage={hasNextSchedulesPage}
+      isFetchingNextSchedulesPage={isFetchingNextSchedulesPage}
       // onChangeTab={_onChangeTab}
     />
   );

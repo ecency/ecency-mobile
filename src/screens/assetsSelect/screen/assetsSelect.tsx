@@ -52,7 +52,7 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
 
-  const assetsQuery = walletQueries.useAssetsQuery();
+  const assetsQuery = walletQueries.useAssetsQuery({ onlyEnabled: false });
 
   // const coinsData = useAppSelector((state) => state.wallet.coinsData);
 

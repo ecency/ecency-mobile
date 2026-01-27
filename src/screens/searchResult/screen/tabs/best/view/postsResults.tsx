@@ -19,7 +19,7 @@ import { getTimeFromNow } from '../../../../../../utils/time';
 import styles from './postsResultsStyles';
 import { SheetNames } from '../../../../../../navigation/sheets';
 
-const PostsResults = ({ searchValue }) => {
+const PostsResults = ({ searchValue, listRef }) => {
   const _showProfileModal = (username) => {
     if (username) {
       SheetManager.show(SheetNames.QUICK_PROFILE, {
@@ -107,6 +107,7 @@ const PostsResults = ({ searchValue }) => {
             <EmptyScreen />
           ) : (
             <FlatList
+              ref={listRef}
               data={data}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item, index }) => (

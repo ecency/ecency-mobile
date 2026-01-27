@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { lookupAccountsQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import styles from './styles';
 
 import { CheckBox, FormInput, IconButton, TextButton } from '..';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { lookupAccounts } from '../../providers/hive/dhive';
 import { setBeneficiaries as setBeneficiariesAction } from '../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID } from '../../redux/constants/constants';
 import { Beneficiary } from '../../redux/reducers/editorReducer';
@@ -39,6 +40,7 @@ const BeneficiarySelectionContent = ({
 }: BeneficiarySelectionContentProps) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
   const beneficiariesMap = useAppSelector((state) => state.editor.beneficiariesMap);
   const username = useAppSelector(selectCurrentAccountName);
@@ -163,7 +165,7 @@ const BeneficiarySelectionContent = ({
   };
 
   const _lookupAccounts = debounce((username) => {
-    lookupAccounts(username).then((res) => {
+    queryClient.fetchQuery(lookupAccountsQueryOptions(username)).then((res) => {
       const isValid = res.includes(username);
       // check if username duplicates else lookup contacts, done here to avoid debounce and post call mismatch
       const notExistAlready = !beneficiaries.find((item) => item.account === username);

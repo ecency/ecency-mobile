@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import { getPostTipsQueryOptions } from '@ecency/sdk';
 import { useIntl } from 'react-intl';
-import { getPostTips } from '../../ecency/ecency';
 import { PostTipsResponse } from '../../ecency/ecency.types';
 import QUERIES from '../queryKeys';
 import { useAppDispatch } from '../../../hooks';
@@ -14,25 +14,13 @@ interface UsePostTipsQueryProps {
 }
 
 /**
- * Fetches tips for a specific post
+ * Fetches tips for a specific post using SDK
  * Caching: 5 minutes stale time (tips change infrequently during post viewing)
  * No persistence needed - tips are post-specific and frequently updated
  */
 export const usePostTipsQuery = ({ author, permlink, enabled = true }: UsePostTipsQueryProps) => {
   return useQuery<PostTipsResponse | null>({
-    queryKey: [QUERIES.POST.GET_TIPS, author, permlink],
-    queryFn: async () => {
-      if (!author || !permlink) {
-        return null;
-      }
-      try {
-        return await getPostTips(author, permlink);
-      } catch (error) {
-        console.log('Failed to fetch tips:', error);
-        // Return empty tips data on error
-        return { meta: { count: 0, totals: {} }, list: [] };
-      }
-    },
+    ...getPostTipsQueryOptions(author || '', permlink || ''),
     enabled: enabled && !!author && !!permlink,
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 30 * 60 * 1000, // 30 minutes

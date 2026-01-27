@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useRef } from 'react';
+import React, { memo, useMemo, useRef, useCallback } from 'react';
 import RenderHTML, {
   CustomRendererProps,
   domNodeToHTMLString,
@@ -56,88 +56,112 @@ export const PostHtmlRenderer = memo(
 
     console.log('rendering body', body);
 
-    // new renderer functions
-    body = body
-      .replace(/<center>/g, '<div class="text-center">')
-      .replace(/<\/center>/g, '</div>')
-      .replace(/<span(.*?)>/g, '') // TODO: later handle span with propties lie <span class="ll-key"> and remove on raw <span/>
-      .replace(/<\/span>/g, '');
+    // Memoize body processing to avoid expensive regex operations on every render
+    const processedBody = useMemo(() => {
+      let processed = body;
+      if (processed) {
+        processed = processed
+          .replace(/<center>/g, '<div class="text-center">')
+          .replace(/<\/center>/g, '</div>')
+          .replace(/<span(.*?)>/g, '') // TODO: later handle span with propties lie <span class="ll-key"> and remove on raw <span/>
+          .replace(/<\/span>/g, '');
+      }
+      return processed;
+    }, [body]);
 
     const _minTableColWidth = contentWidth / 3 - 12;
 
-    const _handleOnLinkPress = (data: LinkData) => {
-      if (!data) {
-        return;
-      }
-
-      const {
-        type,
-        href,
-        author,
-        permlink,
-        tag,
-        youtubeId,
-        startTime,
-        filter,
-        videoHref,
-        community,
-      } = data;
-
-      try {
-        switch (type) {
-          case '_external':
-          case 'markdown-external-link':
-            setSelectedLink(href);
-            break;
-          case 'markdown-author-link':
-            if (handleOnUserPress) {
-              handleOnUserPress(author);
-            }
-            break;
-          case 'markdown-post-link':
-            if (handleOnPostPress) {
-              handleOnPostPress(permlink, author);
-            }
-            break;
-          case 'markdown-tag-link':
-            if (handleTagPress) {
-              handleTagPress(tag, filter);
-            }
-            break;
-
-          case 'markdown-video-link':
-            if (handleVideoPress) {
-              handleVideoPress(videoHref);
-            }
-            break;
-          case 'markdown-video-link-youtube':
-            if (handleYoutubePress) {
-              handleYoutubePress(youtubeId, startTime);
-            }
-
-            break;
-
-          // unused cases
-          case 'markdown-witnesses-link':
-            setSelectedLink(href);
-            break;
-
-          case 'markdown-proposal-link':
-            setSelectedLink(href);
-            break;
-
-          case 'markdown-community-link':
-            // tag press also handles community by default
-            if (handleTagPress) {
-              handleTagPress(community, filter);
-            }
-            break;
-
-          default:
-            break;
+    const _handleOnLinkPress = useCallback(
+      (data: LinkData) => {
+        if (!data) {
+          return;
         }
-      } catch (error) {}
-    };
+
+        const {
+          type,
+          href,
+          author,
+          permlink,
+          tag,
+          youtubeId,
+          startTime,
+          filter,
+          videoHref,
+          community,
+        } = data;
+
+        try {
+          switch (type) {
+            case '_external':
+            case 'markdown-external-link':
+              if (href) {
+                setSelectedLink(href);
+              }
+              break;
+            case 'markdown-author-link':
+              if (handleOnUserPress && author) {
+                handleOnUserPress(author);
+              }
+              break;
+            case 'markdown-post-link':
+              if (handleOnPostPress && permlink && author) {
+                handleOnPostPress(permlink, author);
+              }
+              break;
+            case 'markdown-tag-link':
+              if (handleTagPress && tag) {
+                handleTagPress(tag, filter);
+              }
+              break;
+
+            case 'markdown-video-link':
+              if (handleVideoPress && videoHref) {
+                handleVideoPress(videoHref);
+              }
+              break;
+            case 'markdown-video-link-youtube':
+              if (handleYoutubePress && youtubeId) {
+                handleYoutubePress(youtubeId, startTime);
+              }
+
+              break;
+
+            // unused cases
+            case 'markdown-witnesses-link':
+              if (href) {
+                setSelectedLink(href);
+              }
+              break;
+
+            case 'markdown-proposal-link':
+              if (href) {
+                setSelectedLink(href);
+              }
+              break;
+
+            case 'markdown-community-link':
+              // tag press also handles community by default
+              if (handleTagPress && community) {
+                handleTagPress(community, filter);
+              }
+              break;
+
+            default:
+              break;
+          }
+        } catch (error) {
+          console.error('[PostHtmlRenderer] Failed to handle link press', error);
+        }
+      },
+      [
+        setSelectedLink,
+        handleOnUserPress,
+        handleOnPostPress,
+        handleTagPress,
+        handleVideoPress,
+        handleYoutubePress,
+      ],
+    );
 
     // this method checks if image is a child of table column
     // and calculates img width accordingly,
@@ -159,7 +183,7 @@ export const PostHtmlRenderer = memo(
     };
 
     // Does some needed dom modifications for proper rendering
-    const _onElement = (element: Element) => {
+    const _onElement = useCallback((element: Element) => {
       // Handle data-align attribute on any element
       if (element.attribs && element.attribs['data-align']) {
         const alignValue = element.attribs['data-align'].toLowerCase();
@@ -217,131 +241,137 @@ export const PostHtmlRenderer = memo(
           }
         });
       }
-    };
+    }, []);
 
-    const _anchorRenderer = ({ InternalRenderer, tnode, ...props }: CustomRendererProps<TNode>) => {
-      const parsedTnode = parseLinkData(tnode);
+    const _anchorRenderer = useCallback(
+      ({ InternalRenderer, tnode, ...props }: CustomRendererProps<TNode>) => {
+        const parsedTnode = parseLinkData(tnode);
 
-      const _onPress = () => {
-        // parse link data and handle on link press
-        const linkData = parseLinkData(tnode);
-        console.log('Link Data:', linkData);
-        _handleOnLinkPress(linkData);
-      };
+        const _onPress = () => {
+          // parse link data and handle on link press
+          const linkData = parseLinkData(tnode);
+          console.log('Link Data:', linkData);
+          _handleOnLinkPress(linkData);
+        };
 
-      // process video link
-      if (parsedTnode?.type === 'markdown-video-link') {
-        if (isComment) {
-          const imgElement = tnode.children.find((child) => {
-            return child.classes.indexOf('video-thumbnail') > 0;
-          });
-          if (!imgElement) {
-            return <VideoThumb contentWidth={contentWidth} onPress={_onPress} />;
+        // process video link
+        if (parsedTnode?.type === 'markdown-video-link') {
+          if (isComment) {
+            const imgElement = tnode.children.find(
+              (child) => child.classes.indexOf('video-thumbnail') >= 0,
+            );
+            if (!imgElement) {
+              return <VideoThumb contentWidth={contentWidth} onPress={_onPress} />;
+            }
+          } else {
+            return (
+              <VideoPlayer
+                mode={parsedTnode.youtubeId ? 'youtube' : 'uri'}
+                contentWidth={contentWidth}
+                uri={parsedTnode.videoHref}
+                youtubeVideoId={parsedTnode.youtubeId}
+                startTime={parsedTnode.startTime}
+                disableAutoplay={true}
+              />
+            );
           }
-        } else {
+        }
+
+        if (tnode.children.length === 1 && tnode.children[0].tagName === 'img') {
+          const maxImgWidth = getMaxImageWidth(tnode);
           return (
-            <VideoPlayer
-              mode={parsedTnode.youtubeId ? 'youtube' : 'uri'}
-              contentWidth={contentWidth}
-              uri={parsedTnode.videoHref}
-              youtubeVideoId={parsedTnode.youtubeId}
-              startTime={parsedTnode.startTime}
-              disableAutoplay={true}
+            <AutoHeightImage
+              contentWidth={maxImgWidth}
+              imgUrl={tnode.children[0].attributes.src}
+              metadata={metadata}
+              isAnchored={false}
+              activeOpacity={0.8}
+              onPress={_onPress}
             />
           );
         }
-      }
 
-      if (tnode.children.length === 1 && tnode.children[0].tagName === 'img') {
-        const maxImgWidth = getMaxImageWidth(tnode);
-        return (
-          <AutoHeightImage
-            contentWidth={maxImgWidth}
-            imgUrl={tnode.children[0].attributes.src}
-            metadata={metadata}
-            isAnchored={false}
-            activeOpacity={0.8}
-            onPress={_onPress}
-          />
-        );
-      }
+        // render hive post mini card for post-link
+        if (parsedTnode?.type === 'markdown-post-link' && parsedTnode.isInLine) {
+          const origUrl = parsedTnode.href;
+          const linkMeta = metadata?.links_meta && metadata.links_meta[origUrl || ''];
 
-      // render hive post mini card for post-link
-      if (parsedTnode?.type === 'markdown-post-link' && parsedTnode.isInLine) {
-        const origUrl = parsedTnode.href;
-        const lintMeta = metadata?.links_meta && metadata.links_meta[origUrl || ''];
+          return (
+            <HiveLinkPreview
+              author={parsedTnode.author}
+              permlink={parsedTnode.permlink}
+              linkMeta={linkMeta}
+              onPress={_onPress}
+              contentWidth={contentWidth}
+            />
+          );
+        }
 
-        return (
-          <HiveLinkPreview
-            author={parsedTnode.author}
-            permlink={parsedTnode.permlink}
-            linkMeta={lintMeta}
-            onPress={_onPress}
-            contentWidth={contentWidth}
-          />
-        );
-      }
+        // render user avatar
+        if (parsedTnode?.type === 'markdown-author-link') {
+          const usernameStyle = { ...styles.tagText, marginLeft: 4 };
+          return (
+            <Text>
+              {' '}
+              <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
+                <UserAvatar
+                  username={parsedTnode.author || ''}
+                  size="small"
+                  metadata={metadata}
+                  noAction
+                />
+                <Text style={usernameStyle}>@{tnode.attributes['data-author']}</Text>
+              </TouchableOpacity>{' '}
+            </Text>
+          );
+        }
 
-      // render user avatar
-      if (parsedTnode?.type === 'markdown-author-link') {
-        const usernameStyle = { ...styles.tagText, marginLeft: 4 };
-        return (
-          <Text>
-            {' '}
-            <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
-              <UserAvatar
-                username={parsedTnode.author || ''}
-                size="small"
-                metadata={metadata}
-                noAction
-              />
-              <Text style={usernameStyle}>@{tnode.attributes['data-author']}</Text>
-            </TouchableOpacity>{' '}
-          </Text>
-        );
-      }
+        // render tag
+        if (parsedTnode?.type === 'markdown-tag-link') {
+          return (
+            <Text>
+              {' '}
+              <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
+                <Text style={styles.tagText}>#{parsedTnode.tag}</Text>
+              </TouchableOpacity>{' '}
+            </Text>
+          );
+        }
 
-      // render tag
-      if (parsedTnode?.type === 'markdown-tag-link') {
-        return (
-          <Text>
-            {' '}
-            <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
-              <Text style={styles.tagText}>#{parsedTnode.tag}</Text>
-            </TouchableOpacity>{' '}
-          </Text>
-        );
-      }
+        return <InternalRenderer tnode={tnode} onPress={_onPress} {...props} />;
+      },
+      [_handleOnLinkPress, isComment, contentWidth, metadata],
+    );
 
-      return <InternalRenderer tnode={tnode} onPress={_onPress} {...props} />;
-    };
+    const _imageRenderer = useCallback(
+      ({ tnode }: CustomRendererProps<TNode>) => {
+        const imgUrl = tnode.attributes.src;
+        const _onPress = () => {
+          console.log('Image Pressed:', imgUrl);
+          setSelectedImage(imgUrl, postImgUrlsRef.current);
+        };
 
-    const _imageRenderer = ({ tnode }: CustomRendererProps<TNode>) => {
-      const imgUrl = tnode.attributes.src;
-      const _onPress = () => {
-        console.log('Image Pressed:', imgUrl);
-        setSelectedImage(imgUrl, postImgUrlsRef.current);
-      };
+        const isVideoThumb = tnode.classes?.indexOf('video-thumbnail') >= 0;
+        const isAnchored = tnode.parent?.tagName === 'a';
 
-      const isVideoThumb = tnode.classes?.indexOf('video-thumbnail') >= 0;
-      const isAnchored = tnode.parent?.tagName === 'a';
-
-      if (isVideoThumb) {
-        return <VideoThumb contentWidth={contentWidth} uri={imgUrl} />;
-      } else {
-        const maxImgWidth = getMaxImageWidth(tnode);
-        return (
-          <AutoHeightImage
-            contentWidth={maxImgWidth}
-            imgUrl={imgUrl}
-            metadata={metadata}
-            isAnchored={isAnchored}
-            onPress={_onPress}
-            enableViewabilityTracker={enableViewabilityTracker}
-          />
-        );
-      }
-    };
+        if (isVideoThumb) {
+          return <VideoThumb contentWidth={contentWidth} uri={imgUrl} />;
+        } else {
+          const maxImgWidth = getMaxImageWidth(tnode);
+          return (
+            <AutoHeightImage
+              contentWidth={maxImgWidth}
+              imgUrl={imgUrl}
+              metadata={metadata}
+              isAnchored={isAnchored}
+              onPress={_onPress}
+              enableViewabilityTracker={enableViewabilityTracker}
+            />
+          );
+        }
+      },
+      [contentWidth, metadata, enableViewabilityTracker, setSelectedImage],
+    );
 
     /**
      * the para renderer is designed to remove margins from para
@@ -349,77 +379,88 @@ export const PostHtmlRenderer = memo(
      * unique misalignment of bullet and content
      * @returns Default Renderer
      */
-    const _paraRenderer = ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
-      const { tnode } = props;
-      const isInsideLi = tnode.parent?.tagName === 'li';
+    const _paraRenderer = useCallback(
+      ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
+        const { tnode } = props;
+        const isInsideLi = tnode.parent?.tagName === 'li';
 
-      const handleLongPress = () => {
-        const paragraphText = domNodeToHTMLString(tnode.domNode);
-        if (handleParaSelection && !!paragraphText) {
-          const rawText = postBodySummary(paragraphText, paragraphText.length, Platform.OS);
-          handleParaSelection(rawText);
-        }
-      };
+        const handleLongPress = () => {
+          const paragraphText = domNodeToHTMLString(tnode.domNode);
+          if (handleParaSelection && !!paragraphText) {
+            const rawText = postBodySummary(paragraphText, paragraphText.length, Platform.OS);
+            handleParaSelection(rawText);
+          }
+        };
 
-      const styleOverride = isInsideLi ? styles.pLi : styles.p;
-      props.style = { ...props.style, ...styleOverride };
-      const _onPress = props.onPress || handleOnContentPress;
+        const styleOverride = isInsideLi ? styles.pLi : styles.p;
+        props.style = { ...props.style, ...styleOverride };
+        const _onPress = props.onPress || handleOnContentPress;
 
-      return (
-        <TouchableOpacity onLongPress={handleLongPress} onPress={_onPress} activeOpacity={0.8}>
-          <TDefaultRenderer {...props} />
-        </TouchableOpacity>
-      );
-    };
+        return (
+          <TouchableOpacity onLongPress={handleLongPress} onPress={_onPress} activeOpacity={0.8}>
+            <TDefaultRenderer {...props} />
+          </TouchableOpacity>
+        );
+      },
+      [handleParaSelection, handleOnContentPress],
+    );
 
     // eslint-disable-next-line max-len
     // based on the number of columns a table have, sets scroll enabled or disable, also adjust table full width
-    const _tableRenderer = ({ InternalRenderer, ...props }: CustomRendererProps<TNode>) => {
-      // recursive calculates the max number of table columns (th) in the table
-      const getMaxThCount = (node: TNode) => {
-        if (!node || !node.children) return 0;
-        let max = 0;
-        node.children.forEach((child) => {
-          if (child.tagName === 'tr' && child.children) {
-            const thCount = child.children.filter((c) => c.tagName === 'th').length;
-            if (thCount > max) max = thCount;
-          }
-          // Recursively check for nested tr elements
-          const childMax = getMaxThCount(child);
-          if (childMax > max) max = childMax;
-        });
-        return max;
-      };
+    const _tableRenderer = useCallback(
+      ({ InternalRenderer, ...props }: CustomRendererProps<TNode>) => {
+        // recursive calculates the max number of table columns (th) in the table
+        const getMaxThCount = (node: TNode) => {
+          if (!node || !node.children) return 0;
+          let max = 0;
+          node.children.forEach((child) => {
+            if (child.tagName === 'tr' && child.children) {
+              const thCount = child.children.filter((c) => c.tagName === 'th').length;
+              if (thCount > max) max = thCount;
+            }
+            // Recursively check for nested tr elements
+            const childMax = getMaxThCount(child);
+            if (childMax > max) max = childMax;
+          });
+          return max;
+        };
 
-      const maxColumns = getMaxThCount(props.tnode);
+        const maxColumns = getMaxThCount(props.tnode);
 
-      const isScrollable = maxColumns > 3;
-      const _tableWidth = isScrollable ? maxColumns * _minTableColWidth : contentWidth;
-      props.style = { width: _tableWidth };
+        const isScrollable = maxColumns > 3;
+        const _tableWidth = isScrollable ? maxColumns * _minTableColWidth : contentWidth;
+        props.style = { width: _tableWidth };
 
-      return (
-        <ScrollView horizontal={true} scrollEnabled={isScrollable}>
-          <InternalRenderer {...props} />
-        </ScrollView>
-      );
-    };
+        return (
+          <ScrollView horizontal={true} scrollEnabled={isScrollable}>
+            <InternalRenderer {...props} />
+          </ScrollView>
+        );
+      },
+      [_minTableColWidth, contentWidth],
+    );
 
     // iframe renderer for rendering iframes in body
-    const _iframeRenderer = function IframeRenderer(props) {
-      const iframeProps = useHtmlIframeProps(props);
+    const _iframeRenderer = useCallback(
+      function IframeRenderer(props) {
+        const iframeProps = useHtmlIframeProps(props);
 
-      if (isComment) {
-        const _onPress = () => {
-          console.log('iframe thumb Pressed:', iframeProps);
-          if (handleVideoPress) {
-            handleVideoPress(iframeProps.source.uri);
-          }
-        };
-        return <VideoThumb contentWidth={contentWidth} onPress={_onPress} />;
-      } else {
-        return <VideoPlayer mode="uri" uri={iframeProps.source.uri} contentWidth={contentWidth} />;
-      }
-    };
+        if (isComment) {
+          const _onPress = () => {
+            console.log('iframe thumb Pressed:', iframeProps);
+            if (handleVideoPress) {
+              handleVideoPress(iframeProps.source.uri);
+            }
+          };
+          return <VideoThumb contentWidth={contentWidth} onPress={_onPress} />;
+        } else {
+          return (
+            <VideoPlayer mode="uri" uri={iframeProps.source.uri} contentWidth={contentWidth} />
+          );
+        }
+      },
+      [isComment, handleVideoPress, contentWidth],
+    );
 
     const tagsStyles = useMemo(
       () => ({
@@ -465,14 +506,14 @@ export const PostHtmlRenderer = memo(
         iframe: _iframeRenderer,
         table: _tableRenderer,
       }),
-      [],
+      [_imageRenderer, _anchorRenderer, _paraRenderer, _iframeRenderer, _tableRenderer],
     );
 
     const domVisitors = useMemo(
       () => ({
         onElement: _onElement,
       }),
-      [],
+      [_onElement],
     );
 
     const customHTMLElementModels = useMemo(
@@ -493,7 +534,7 @@ export const PostHtmlRenderer = memo(
 
     return (
       <RenderHTML
-        source={{ html: body }}
+        source={{ html: processedBody }}
         contentWidth={contentWidth}
         baseStyle={baseStyle}
         classesStyles={classesStyles}

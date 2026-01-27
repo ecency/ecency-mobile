@@ -67,7 +67,8 @@ const CommentView = ({
   const childCount = comment.children;
   const { replies } = comment;
   const _depth = commentNumber || comment.level;
-  const _currentUsername = currentAccountUsername || currentAccount?.username;
+  const _currentUsername =
+    currentAccountUsername || currentAccount?.name || currentAccount?.username;
 
   const _showSubCommentsToggle = async (force = false) => {
     if (

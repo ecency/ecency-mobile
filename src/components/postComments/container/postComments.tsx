@@ -5,6 +5,7 @@ import React, {
   useState,
   useMemo,
   useEffect,
+  useCallback,
   Fragment,
 } from 'react';
 import { ActivityIndicator, FlatList, Text } from 'react-native';
@@ -16,6 +17,8 @@ import { RefreshControl } from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SheetManager } from 'react-native-actions-sheet';
 import { FlashList } from '@shopify/flash-list';
+import { useQueryClient } from '@tanstack/react-query';
+import { getDiscussionsQueryOptions } from '@ecency/sdk';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
@@ -55,6 +58,7 @@ const PostComments = forwardRef(
     const intl = useIntl();
     const dispatch = useAppDispatch();
     const navigation = useNavigation();
+    const queryClient = useQueryClient();
 
     const currentAccount = useAppSelector(selectCurrentAccount);
     const pinHash = useAppSelector(selectPin);
@@ -78,6 +82,10 @@ const PostComments = forwardRef(
       () => sortComments(selectedFilter, discussionQuery.sectionedData),
       [discussionQuery.sectionedData, selectedFilter],
     );
+    const listData = useMemo(
+      () => (isPostLoading ? [] : sortedSections),
+      [isPostLoading, sortedSections],
+    );
 
     useImperativeHandle(ref, () => ({
       bounceCommentButton: () => {
@@ -87,20 +95,23 @@ const PostComments = forwardRef(
         }
       },
       scrollToComments: () => {
-        if (commentsListRef.current && !sortedSections.length) {
+        if (commentsListRef.current && !listData.length) {
           commentsListRef.current.scrollToOffset({ offset: headerHeight + 200 });
-        } else if (commentsListRef.current && sortedSections.length) {
+        } else if (commentsListRef.current && listData.length) {
           commentsListRef.current.scrollToIndex({ index: 0, viewOffset: 108 });
         }
       },
     }));
 
     useEffect(() => {
-      if (!discussionQuery.isLoading) {
+      // Use isFetching instead of isLoading to properly handle both initial load and refetch
+      if (!discussionQuery.isFetching) {
         handleOnCommentsLoaded();
-        setRefreshing(false);
+        if (refreshing) {
+          setRefreshing(false);
+        }
       }
-    }, [discussionQuery.isLoading]);
+    }, [discussionQuery.isFetching, handleOnCommentsLoaded, refreshing, setRefreshing]);
 
     const _onRefresh = () => {
       setRefreshing(true);
@@ -108,172 +119,258 @@ const PostComments = forwardRef(
       onRefresh();
     };
 
-    const _handleOnDropdownSelect = (option, index) => {
+    const _handleOnDropdownSelect = useCallback((option, index) => {
       setSelectedFilter(option);
       setSelectedOptionIndex(index);
-    };
+    }, []);
 
-    const _handleOnVotersPress = (activeVotes, content) => {
-      navigation.navigate({
-        name: ROUTES.SCREENS.VOTERS,
-        params: {
-          activeVotes,
-          content,
-        },
-        key: content.permlink,
-      } as never);
-    };
+    const _handleOnVotersPress = useCallback(
+      (activeVotes, content) => {
+        navigation.navigate({
+          name: ROUTES.SCREENS.VOTERS,
+          params: {
+            activeVotes,
+            content,
+          },
+          key: content.permlink,
+        } as never);
+      },
+      [navigation],
+    );
 
-    const _handleOnEditPress = (item) => {
-      navigation.navigate({
-        name: ROUTES.SCREENS.EDITOR,
-        key: `editor_edit_reply_${item.permlink}`,
-        params: {
-          isEdit: true,
-          isReply: true,
-          post: item,
-        },
-      } as never);
-    };
+    const _handleOnEditPress = useCallback(
+      (item) => {
+        navigation.navigate({
+          name: ROUTES.SCREENS.EDITOR,
+          key: `editor_edit_reply_${item.permlink}`,
+          params: {
+            isEdit: true,
+            isReply: true,
+            post: item,
+          },
+        } as never);
+      },
+      [navigation],
+    );
 
-    const _handleDeleteComment = (_permlink) => {
-      const _onConfirmDelete = async () => {
-        try {
-          await deleteComment(currentAccount, pinHash, _permlink);
-          // remove cached entry based on parent
-          const _commentPath = `${currentAccount.username}/${_permlink}`;
-          console.log('deleted comment', _commentPath);
+    const _handleDeleteComment = useCallback(
+      (_permlink) => {
+        const _onConfirmDelete = async () => {
+          try {
+            await deleteComment(currentAccount, pinHash, _permlink);
+            // remove cached entry based on parent
+            const _commentPath = `${currentAccount.name}/${_permlink}`;
+            console.log('deleted comment', _commentPath);
 
-          const _deletedItem = discussionQuery.data[_commentPath];
-          if (_deletedItem) {
-            _deletedItem.status = CacheStatus.DELETED;
-            delete _deletedItem.updated;
-            dispatch(updateCommentCache(_commentPath, _deletedItem, { isUpdate: true }));
+            const _deletedItem = discussionQuery.data?.[_commentPath];
+            if (_deletedItem) {
+              // Don't mutate - create new object
+              const updatedItem = {
+                ..._deletedItem,
+                status: CacheStatus.DELETED,
+              };
+              delete updatedItem.updated;
+              dispatch(updateCommentCache(_commentPath, updatedItem, { isUpdate: true }));
+            }
+
+            // Invalidate discussion query cache to refresh comment list
+            queryClient.invalidateQueries({
+              queryKey: getDiscussionsQueryOptions({ author, permlink } as any, 'created' as any)
+                .queryKey,
+            });
+          } catch (err) {
+            console.warn('Failed to delete comment');
           }
-        } catch (err) {
-          console.warn('Failed to delete comment');
-        }
-      };
+        };
 
-      SheetManager.show(SheetNames.ACTION_MODAL, {
-        payload: {
-          title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
-          buttons: [
-            {
-              text: intl.formatMessage({ id: 'alert.cancel' }),
-              onPress: () => {
-                console.log('canceled delete comment');
+        SheetManager.show(SheetNames.ACTION_MODAL, {
+          payload: {
+            title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
+            buttons: [
+              {
+                text: intl.formatMessage({ id: 'alert.cancel' }),
+                onPress: () => {
+                  console.log('canceled delete comment');
+                },
               },
-            },
-            {
-              text: intl.formatMessage({ id: 'alert.delete' }),
-              onPress: _onConfirmDelete,
-            },
-          ],
-        },
-      });
-    };
+              {
+                text: intl.formatMessage({ id: 'alert.delete' }),
+                onPress: _onConfirmDelete,
+              },
+            ],
+          },
+        });
+      },
+      [
+        currentAccount,
+        pinHash,
+        discussionQuery.data,
+        dispatch,
+        intl,
+        author,
+        permlink,
+        queryClient,
+      ],
+    );
 
-    const _openReplyThread = (comment) => {
-      postsCachePrimer.cachePost(comment);
-      navigation.navigate({
-        name: ROUTES.SCREENS.POST,
-        key: comment.permlink,
-        params: {
-          author: comment.author,
-          permlink: comment.permlink,
-        },
-      } as never);
-    };
+    const _openReplyThread = useCallback(
+      (comment) => {
+        postsCachePrimer.cachePost(comment);
+        navigation.navigate({
+          name: ROUTES.SCREENS.POST,
+          key: comment.permlink,
+          params: {
+            author: comment.author,
+            permlink: comment.permlink,
+          },
+        } as never);
+      },
+      [postsCachePrimer, navigation],
+    );
 
-    const _handleOnUserPress = (username) => {
+    const _handleOnUserPress = useCallback((username) => {
       SheetManager.show(SheetNames.QUICK_PROFILE, {
         payload: {
           username,
         },
       });
-    };
+    }, []);
 
-    const _handleShowOptionsMenu = (comment) => {
+    const _handleShowOptionsMenu = useCallback((comment) => {
       if (postOptionsModalRef.current) {
         postOptionsModalRef.current.show(comment);
       }
-    };
+    }, []);
 
-    const _onContentSizeChange = (x: number, y: number) => {
+    const _onContentSizeChange = useCallback((x: number, y: number) => {
       if (y !== headerHeightRef.current) {
         headerHeightRef.current = y;
         setHeaderHeight(y);
       }
-    };
+    }, []);
 
-    const _onScroll = (event) => {
+    const _onScroll = useCallback((event) => {
       const windowHeight = event.nativeEvent.layoutMeasurement.height;
       checkViewability(windowHeight);
-    };
+    }, []);
 
-    const _postContentView = (
-      <>
-        {postContentView && postContentView}
-
-        {!isPostLoading && (
-          <FilterBar
-            dropdownIconName="arrow-drop-down"
-            options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
-            defaultText={intl.formatMessage({ id: `comment_filter.${VALUE[0]}` })}
-            onDropdownSelect={(selectedIndex) =>
-              _handleOnDropdownSelect(COMMENT_FILTER[selectedIndex], selectedIndex)
-            }
-            selectedOptionIndex={selectedOptionIndex}
-          />
-        )}
-        <BotCommentsPreview comments={discussionQuery.botComments} />
-      </>
+    const filterOptions = useMemo(
+      () => VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` })),
+      [intl],
     );
 
-    const _renderEmptyContent = () => {
+    const filterDefaultText = useMemo(
+      () => intl.formatMessage({ id: `comment_filter.${VALUE[0]}` }),
+      [intl],
+    );
+
+    const handleFilterSelect = useCallback(
+      (selectedIndex: number) => {
+        _handleOnDropdownSelect(COMMENT_FILTER[selectedIndex], selectedIndex);
+      },
+      [_handleOnDropdownSelect],
+    );
+
+    const _postContentView = useMemo(
+      () => (
+        <>
+          {postContentView && postContentView}
+
+          {!isPostLoading && (
+            <FilterBar
+              dropdownIconName="arrow-drop-down"
+              options={filterOptions}
+              defaultText={filterDefaultText}
+              onDropdownSelect={handleFilterSelect}
+              selectedOptionIndex={selectedOptionIndex}
+            />
+          )}
+          <BotCommentsPreview comments={discussionQuery.botComments} />
+        </>
+      ),
+      [
+        postContentView,
+        isPostLoading,
+        filterOptions,
+        filterDefaultText,
+        handleFilterSelect,
+        selectedOptionIndex,
+        discussionQuery.botComments,
+      ],
+    );
+
+    const emptyTextMessage = useMemo(
+      () => intl.formatMessage({ id: 'comments.no_comments' }),
+      [intl],
+    );
+
+    const _handleEmptyPress = useCallback(() => {
+      if (handleOnReplyPress) {
+        handleOnReplyPress();
+      }
+    }, [handleOnReplyPress]);
+
+    const _renderEmptyContent = useCallback(() => {
       if (isPostLoading) {
         return null;
       }
 
-      if (discussionQuery.isLoading || !!sortedSections.length) {
+      // Use isFetching to show spinner during both initial load and refetch
+      if (discussionQuery.isFetching || !!sortedSections.length) {
         return (
-          <ActivityIndicator style={{ marginTop: 16 }} color={EStyleSheet.value('$primaryBlack')} />
+          <ActivityIndicator
+            style={styles.loadingIndicator}
+            color={EStyleSheet.value('$primaryBlack')}
+          />
         );
       }
-      const _onPress = () => {
-        if (handleOnReplyPress) {
-          handleOnReplyPress();
-        }
-      };
+
       return (
-        <Text onPress={_onPress} style={styles.emptyText}>
-          {intl.formatMessage({ id: 'comments.no_comments' })}
+        <Text onPress={_handleEmptyPress} style={styles.emptyText}>
+          {emptyTextMessage}
         </Text>
       );
-    };
+    }, [
+      isPostLoading,
+      discussionQuery.isFetching,
+      sortedSections.length,
+      _handleEmptyPress,
+      emptyTextMessage,
+    ]);
 
-    const _renderItem = ({ item, index }) => {
-      return (
-        <CommentsSection
-          item={item}
-          index={index}
-          mainAuthor={mainAuthor}
-          handleDeleteComment={_handleDeleteComment}
-          handleOnEditPress={_handleOnEditPress}
-          handleOnVotersPress={_handleOnVotersPress}
-          handleOnMenuPress={_handleShowOptionsMenu}
-          handleOnUserPress={_handleOnUserPress}
-          handleImagePress={postInteractionRef.current?.handleImagePress}
-          handleLinkPress={postInteractionRef.current?.handleLinkPress}
-          handleVideoPress={postInteractionRef.current?.handleVideoPress}
-          handleYoutubePress={postInteractionRef.current?.handleYoutubePress}
-          handleParaSelection={postInteractionRef.current?.handleParaSelection}
-          openReplyThread={_openReplyThread}
-          onUpvotePress={(args) => onUpvotePress({ ...args, postType: PostTypes.COMMENT })}
-        />
-      );
-    };
+    const _renderItem = useCallback(
+      ({ item, index }) => {
+        return (
+          <CommentsSection
+            item={item}
+            index={index}
+            mainAuthor={mainAuthor}
+            handleDeleteComment={_handleDeleteComment}
+            handleOnEditPress={_handleOnEditPress}
+            handleOnVotersPress={_handleOnVotersPress}
+            handleOnMenuPress={_handleShowOptionsMenu}
+            handleOnUserPress={_handleOnUserPress}
+            handleImagePress={postInteractionRef.current?.handleImagePress}
+            handleLinkPress={postInteractionRef.current?.handleLinkPress}
+            handleVideoPress={postInteractionRef.current?.handleVideoPress}
+            handleYoutubePress={postInteractionRef.current?.handleYoutubePress}
+            handleParaSelection={postInteractionRef.current?.handleParaSelection}
+            openReplyThread={_openReplyThread}
+            onUpvotePress={(args) => onUpvotePress({ ...args, postType: PostTypes.COMMENT })}
+          />
+        );
+      },
+      [
+        mainAuthor,
+        _handleDeleteComment,
+        _handleOnEditPress,
+        _handleOnVotersPress,
+        _handleShowOptionsMenu,
+        _handleOnUserPress,
+        _openReplyThread,
+        onUpvotePress,
+      ],
+    );
 
     return (
       <Fragment>
@@ -283,7 +380,7 @@ const PostComments = forwardRef(
           contentContainerStyle={styles.listContent}
           ListHeaderComponent={_postContentView}
           ListEmptyComponent={_renderEmptyContent}
-          data={isPostLoading ? [] : sortedSections.slice()}
+          data={listData}
           onContentSizeChange={_onContentSizeChange}
           renderItem={_renderItem}
           onScroll={_onScroll}

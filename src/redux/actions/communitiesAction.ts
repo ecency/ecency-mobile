@@ -1,5 +1,10 @@
 import { Dispatch } from 'redux';
 import {
+  getCommunitiesQueryOptions,
+  getQueryClient,
+  getAccountSubscriptionsQueryOptions,
+} from '@ecency/sdk';
+import {
   FETCH_COMMUNITIES,
   FETCH_COMMUNITIES_SUCCESS,
   FETCH_COMMUNITIES_FAIL,
@@ -15,19 +20,21 @@ import {
   TOAST_NOTIFICATION,
 } from '../constants/constants';
 
-import {
-  getCommunities,
-  getSubscriptions,
-  subscribeCommunity as subscribeCommunityReq,
-} from '../../providers/hive/dhive';
+import { subscribeCommunity as subscribeCommunityReq } from '../../providers/hive/dhive';
 
 // Fetch Communities
-export const fetchCommunities = (last: any, limit: any, query: any, sort: any, observer: any) => {
-  return (dispatch: Dispatch) => {
+export const fetchCommunities = (limit: any, query: any, sort: any, observer: any) => {
+  return async (dispatch: Dispatch) => {
     dispatch({ type: FETCH_COMMUNITIES });
-    getCommunities(last, limit, query, sort, observer)
-      .then((res) => dispatch(fetchCommunitiesSuccess(res)))
-      .catch((err) => dispatch(fetchCommunitiesFail(err)));
+    try {
+      const queryClient = getQueryClient();
+      const res = await queryClient.fetchQuery(
+        getCommunitiesQueryOptions(sort || 'rank', query, limit || 100, observer),
+      );
+      dispatch(fetchCommunitiesSuccess(res));
+    } catch (err) {
+      dispatch(fetchCommunitiesFail(err));
+    }
   };
 };
 
@@ -43,15 +50,17 @@ export const fetchCommunitiesFail = (payload: any) => ({
 
 // Fetch Subscribed Communities
 export const fetchSubscribedCommunities = (username: string) => {
-  return (dispatch: Dispatch) => {
+  return async (dispatch: Dispatch) => {
     dispatch({ type: FETCH_SUBSCRIBED_COMMUNITIES });
-    getSubscriptions(username)
-      .then((res) => {
-        res.forEach((item) => item.push(true)); // add true value for subscribe status
-        res.sort((a, b) => a[1].localeCompare(b[1]));
-        dispatch(fetchSubscribedCommunitiesSuccess(res));
-      })
-      .catch((err) => dispatch(fetchSubscribedCommunitiesFail(err)));
+    try {
+      const queryClient = getQueryClient();
+      const res: any = await queryClient.fetchQuery(getAccountSubscriptionsQueryOptions(username));
+      res.forEach((item) => item.push(true)); // add true value for subscribe status
+      res.sort((a, b) => a[1].localeCompare(b[1]));
+      dispatch(fetchSubscribedCommunitiesSuccess(res));
+    } catch (err) {
+      dispatch(fetchSubscribedCommunitiesFail(err));
+    }
   };
 };
 

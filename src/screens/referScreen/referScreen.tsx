@@ -85,7 +85,7 @@ const ReferScreen = () => {
   };
 
   const _handleRefer = () => {
-    const shareUrl = `https://ecency.com/signup?referral=${currentAccount.username}`;
+    const shareUrl = `https://ecency.com/signup?referral=${currentAccount.name}`;
     Share.share({
       message: shareUrl,
     });

@@ -56,7 +56,7 @@ export const useUserActivityMutation = () => {
       // read pending activities from redux
       if (currentAccount && pointActivitiesCache && pointActivitiesCache.size) {
         Array.from(pointActivitiesCache).forEach(([id, activity]) => {
-          if (currentAccount.username === activity.username) {
+          if (currentAccount.name === activity.username) {
             mutation.mutate({
               cacheId: id,
               ...activity,

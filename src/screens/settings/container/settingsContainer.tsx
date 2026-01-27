@@ -43,6 +43,11 @@ import {
 } from '../../../redux/actions/applicationActions';
 import { logout, logoutDone, toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, deleteAccount } from '../../../providers/ecency/ecency';
+import {
+  getMattermostDmPrivacy,
+  updateMattermostDmPrivacy,
+  type MattermostDmPrivacy,
+} from '../../../providers/chat/mattermost';
 import { checkClient } from '../../../providers/hive/dhive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { useGetServersQuery } from '../../../providers/queries';
@@ -58,6 +63,7 @@ import {
   selectNotificationDetails,
   selectEncUnlockPin,
   selectIsNotificationOpen,
+  selectIsFCMAvailable,
   selectApi,
   selectIsBiometricEnabled,
   selectColorTheme,
@@ -92,12 +98,24 @@ class SettingsContainer extends Component {
     this.state = {
       isNotificationMenuOpen: props.isNotificationSettingsOpen,
       isLoading: false,
+      dmPrivacy: 'all',
     };
+  }
+
+  async componentDidMount() {
+    const { isLoggedIn } = this.props as any;
+    if (!isLoggedIn) return;
+    try {
+      const dmPrivacy = await getMattermostDmPrivacy();
+      this.setState({ dmPrivacy });
+    } catch {
+      // best-effort: keep default
+    }
   }
 
   // Component Functions
   _handleDropdownSelected = async (action, actionType) => {
-    const { dispatch, selectedLanguage, intl } = this.props;
+    const { dispatch, selectedLanguage, intl } = this.props as any;
     switch (actionType) {
       case 'currency':
         this._currencyChange(action);
@@ -126,6 +144,18 @@ class SettingsContainer extends Component {
         dispatch(setColorTheme(action));
 
         break;
+      case settingsTypes.DM_PRIVACY: {
+        const options: MattermostDmPrivacy[] = ['all', 'followers', 'none'];
+        const nextValue = options[action] || 'all';
+        try {
+          const updated = await updateMattermostDmPrivacy(nextValue);
+          this.setState({ dmPrivacy: updated });
+          dispatch(toastNotification(intl.formatMessage({ id: 'settings.dm-privacy-updated' })));
+        } catch {
+          dispatch(toastNotification(intl.formatMessage({ id: 'settings.dm-privacy-failed' })));
+        }
+        break;
+      }
 
       default:
         break;
@@ -403,7 +433,7 @@ class SettingsContainer extends Component {
       Platform.Version
     }`;
     const appVersion = `${DeviceInfo.getVersion()} (${DeviceInfo.getBuildNumber()})`;
-    const username = currentAccount?.username || 'Unknown User';
+    const username = currentAccount?.name || 'Unknown User';
 
     const _emailBody = intl.formatMessage(
       { id: 'settings.feedback_body' },
@@ -433,7 +463,7 @@ class SettingsContainer extends Component {
     const { dispatch, intl, currentAccount } = this.props;
 
     const _onConfirm = () => {
-      deleteAccount(currentAccount.username)
+      deleteAccount(currentAccount.name, '')
         .then(() => {
           dispatch(
             toastNotification(
@@ -533,7 +563,7 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { isNotificationMenuOpen, isLoading } = this.state as any;
+    const { isNotificationMenuOpen, isLoading, dmPrivacy } = this.state as any;
     const { colorTheme, getServersQuery } = this.props as any;
     const serverList = getServersQuery.data;
 
@@ -545,6 +575,7 @@ class SettingsContainer extends Component {
         handleOnButtonPress={this._handleButtonPress}
         isLoading={isLoading}
         colorThemeIndex={colorTheme}
+        dmPrivacy={dmPrivacy}
         {...this.props}
       />
     );
@@ -562,6 +593,7 @@ const mapStateToProps = (state) => {
     isDefaultFooter: selectIsDefaultFooter(state),
     isLoggedIn: selectIsLoggedIn(state),
     isNotificationSettingsOpen: selectIsNotificationOpen(state),
+    isFCMAvailable: selectIsFCMAvailable(state),
     nsfw: selectNsfw(state),
     notificationDetails,
     commentNotification: notificationDetails.commentNotification,

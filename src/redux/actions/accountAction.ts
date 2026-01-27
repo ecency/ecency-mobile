@@ -1,4 +1,4 @@
-import { fetchGlobalProps } from '../../providers/hive/dhive';
+import { getQueryClient, getDynamicPropsQueryOptions, type DynamicProps } from '@ecency/sdk';
 import {
   ADD_OTHER_ACCOUNT,
   FETCH_ACCOUNT_FAIL,
@@ -13,18 +13,52 @@ import {
 } from '../constants/constants';
 import { PrevLoggedInUsers } from '../reducers/accountReducer';
 
-export const fetchGlobalProperties = () => (dispatch) =>
-  fetchGlobalProps().then((res) =>
+export const fetchGlobalProperties = () => async (dispatch) => {
+  try {
+    const queryClient = getQueryClient();
+    const props: DynamicProps = await queryClient.fetchQuery(getDynamicPropsQueryOptions());
+
+    // SDK already returns parsed numeric values
+    const res = {
+      hivePerMVests: props.hivePerMVests,
+      base: props.base,
+      quote: props.quote,
+      fundRecentClaims: props.fundRecentClaims,
+      fundRewardBalance: props.fundRewardBalance,
+      hbdPrintRate: props.hbdPrintRate,
+    };
+
     dispatch({
       type: SET_GLOBAL_PROPS,
       payload: { ...res },
-    }),
-  );
+    });
+  } catch (error) {
+    console.error('Failed to fetch global properties:', error);
+    dispatch(failedAccount(error));
+  }
+};
 
-export const updateCurrentAccount = (data) => ({
-  type: UPDATE_CURRENT_ACCOUNT,
-  payload: data,
-});
+export const updateCurrentAccount = (data) => {
+  if (!data) {
+    return {
+      type: UPDATE_CURRENT_ACCOUNT,
+      payload: data,
+    };
+  }
+
+  const normalized = { ...data };
+  if (!normalized.name && normalized.username) {
+    normalized.name = normalized.username;
+  }
+  if (!normalized.username && normalized.name) {
+    normalized.username = normalized.name;
+  }
+
+  return {
+    type: UPDATE_CURRENT_ACCOUNT,
+    payload: normalized,
+  };
+};
 
 export const addOtherAccount = (data) => ({
   type: ADD_OTHER_ACCOUNT,

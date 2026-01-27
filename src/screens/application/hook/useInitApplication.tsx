@@ -86,7 +86,7 @@ export const useInitApplication = () => {
     _initPushListener();
 
     return _cleanup;
-  }, [currentAccount.username]);
+  }, [currentAccount.name]);
 
   useEffect(() => {
     const sub = Linking.addEventListener('url', (event) => {
