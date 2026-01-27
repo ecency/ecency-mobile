@@ -233,6 +233,8 @@ export const QuickPostModalContent = forwardRef(
       }
 
       if (_isSuccess) {
+        // Cancel any pending debounced cache update
+        _deboucedCacheUpdate.cancel();
         // delete quick comment/wave cache if it exists
         if (currentDraft) {
           dispatch(deleteReplyCacheEntry(draftId));

@@ -26,10 +26,16 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   const scrollRef = useRef<ScrollView>();
   const inputRef = useRef<any>(null);
   const textRef = useRef('');
+  const tagsRef = useRef<string[]>([]);
 
   const [tags, setTags] = useState<string[]>([]);
   const [text, setText] = useState('');
   const [warning, setWarning] = useState(null);
+
+  // Keep tagsRef in sync with tags state
+  useEffect(() => {
+    tagsRef.current = tags;
+  }, [tags]);
 
   useEffect(() => {
     // read and add tag items
@@ -61,7 +67,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   const _registerNewTags = useCallback(
     debounce((newTags: string[], skipLast = true) => {
       const inputVal = newTags.length > 0 && skipLast && newTags.pop();
-      const updatedTags = [...tags];
+      const updatedTags = [...tagsRef.current];
 
       newTags.forEach((tag) => {
         if (tag.startsWith('#')) {
@@ -102,8 +108,15 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
         }
       }, 100);
     }, 500),
-    [tags],
+    [dispatch, intl, setCommunity, handleTagChanged],
   );
+
+  // Cancel pending debounce on cleanup
+  useEffect(() => {
+    return () => {
+      _registerNewTags.cancel();
+    };
+  }, [_registerNewTags]);
 
   const _handleOnChange = (val: string) => {
     textRef.current = val;
@@ -119,11 +132,12 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
 
   const _renderTag = (tag, index) => {
     const _onPress = () => {
-      tags.splice(index, 1);
-      setTags([...tags]);
-      _verifyTagsUpdate(tags);
+      const updatedTags = [...tags];
+      updatedTags.splice(index, 1);
+      setTags(updatedTags);
+      _verifyTagsUpdate(updatedTags);
       if (handleTagChanged) {
-        handleTagChanged([...tags]);
+        handleTagChanged(updatedTags);
       }
     };
 
