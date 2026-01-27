@@ -24,6 +24,8 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   const scrollRef = useRef<ScrollView>();
+  const inputRef = useRef<any>(null);
+  const textRef = useRef('');
 
   const [tags, setTags] = useState<string[]>([]);
   const [text, setText] = useState('');
@@ -86,7 +88,9 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
       });
 
       setTags([...tags]);
-      setText(inputVal || '');
+      const newText = inputVal || '';
+      textRef.current = newText;
+      setText(newText);
       _verifyTagsUpdate(tags);
       if (handleTagChanged) {
         handleTagChanged([...tags]);
@@ -101,6 +105,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   );
 
   const _handleOnChange = (val: string) => {
+    textRef.current = val;
     setText(val);
     _registerNewTags(val.split(SEPARATOR_REGEX));
   };
@@ -145,6 +150,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
       >
         {tags.map(_renderTag)}
         <TextInput
+          innerRef={inputRef}
           style={styles.textInput}
           placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
           editable={!isPreviewActive}
@@ -154,6 +160,8 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
           })}
           autoCompleteType="off"
           autoCorrect={false}
+          autoComplete="off"
+          spellCheck={false}
           autoFocus={autoFocus}
           autoCapitalize="none"
           keyboardType={Platform.select({

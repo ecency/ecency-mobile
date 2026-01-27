@@ -24,6 +24,9 @@ const PostDescription = ({
         value={postDescription}
         onChangeText={handlePostDescriptionChange}
         autoCapitalize="none"
+        autoCorrect={false}
+        autoComplete="off"
+        spellCheck={false}
         maxLength={255}
         placeholder={intl.formatMessage({ id: 'editor.short_desc_placeholder' })}
         editable

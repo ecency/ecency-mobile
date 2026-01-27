@@ -105,7 +105,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   }));
 
   useEffect(() => {
-    if (content) {
+    if (content && !reblogsQuery.isLoading) {
       _initOptions();
     }
 
@@ -129,7 +129,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         reportTimer.current = null;
       }
     };
-  }, [content, reblogsQuery.data]);
+  }, [content, reblogsQuery.data, reblogsQuery.isLoading]);
 
   const _initOptions = () => {
     // check if post is owned by current user or not, if so pinned or not
