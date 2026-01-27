@@ -161,13 +161,13 @@ export const QuickPostModalContent = forwardRef(
     // Check if user can comment based on community data from SDK query
     useEffect(() => {
       if (community) {
-        const _canCommentToCommunity =
-          !community ||
-          !(
-            community.type_id === CommunityTypeId.COUNCIL &&
-            community.context?.role === CommunityRole.GUEST
-          );
+        const _canCommentToCommunity = !(
+          community.type_id === CommunityTypeId.COUNCIL &&
+          community.context?.role === CommunityRole.GUEST
+        );
         setCanCommentToCommunity(_canCommentToCommunity);
+      } else {
+        setCanCommentToCommunity(true);
       }
     }, [community]);
 
@@ -297,7 +297,10 @@ export const QuickPostModalContent = forwardRef(
       }
     };
 
-    const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), []);
+    const _deboucedCacheUpdate = useMemo(
+      () => debounce(_addQuickCommentIntoCache, 500),
+      [_addQuickCommentIntoCache],
+    );
 
     // Debounced state update for character count display (won't interfere with typing)
     const _debouncedStateUpdate = useCallback(
@@ -320,6 +323,12 @@ export const QuickPostModalContent = forwardRef(
       }
       _deboucedCacheUpdate(value);
     };
+
+    useEffect(() => {
+      return () => {
+        _deboucedCacheUpdate.cancel();
+      };
+    }, [_deboucedCacheUpdate]);
 
     // VIEW_RENDERERS
 

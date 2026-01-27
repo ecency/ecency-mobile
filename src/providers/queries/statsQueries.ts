@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useCallback } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import QUERIES from './queryKeys';
 import {
@@ -35,16 +35,20 @@ export const usePlausibleTracker = () => {
     },
   });
 
-  const _recordEvent = (urlPath: string, isScreenEvent?: boolean) => {
-    if (!isScreenEvent || !screenEventRecorded.current) {
-      if (isScreenEvent) {
-        screenEventRecorded.current = true;
-      }
+  // Memoize the recordEvent function to prevent unnecessary re-renders
+  const _recordEvent = useCallback(
+    (urlPath: string, isScreenEvent?: boolean) => {
+      if (!isScreenEvent || !screenEventRecorded.current) {
+        if (isScreenEvent) {
+          screenEventRecorded.current = true;
+        }
 
-      // Trigger the mutation (API call)
-      mutation.mutate(urlPath);
-    }
-  };
+        // Trigger the mutation (API call)
+        mutation.mutate(urlPath);
+      }
+    },
+    [mutation.mutate],
+  );
 
   return {
     recordEvent: _recordEvent,
@@ -72,7 +76,7 @@ export const usePostStatsQuery = (urlPath: string, dateRange = 'all') =>
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 5000), // Exponential backoff
     refetchOnWindowFocus: false, // Don't refetch when app comes to foreground
     refetchOnMount: false, // Don't refetch on component mount if data exists
-    placeholderData: { pageviews: 0 }, // Show 0 immediately while loading
+    placeholderData: { pageviews: 0, visitors: 0, visit_duration: 0 }, // Show 0 immediately while loading
   });
 
 /**

@@ -234,6 +234,7 @@ const MarkdownEditorView = ({
         setBodyText(_text);
         setSelection(_selection);
         bodySelectionRef.current = _selection;
+        bodyTextRef.current = _text;
       } else {
         // Android: Use setNativeProps to avoid text corruption
         inputRef?.current?.setNativeProps({

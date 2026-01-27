@@ -114,6 +114,8 @@ class ApplicationContainer extends Component {
 
   _notificationWs: WebSocket | null = null;
 
+  _notificationUsername: string | null = null;
+
   _wsReconnectTimer: any = null;
 
   _wsReconnectAttempts: number = 0;
@@ -1161,7 +1163,7 @@ class ApplicationContainer extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       isDarkTheme: _isDarkTheme,
-      currentAccount: { username },
+      currentAccount: { name },
       selectedLanguage,
       isLogingOut,
       isConnected,
@@ -1190,7 +1192,7 @@ class ApplicationContainer extends Component {
     }
 
     if (isLogingOut !== nextProps.isLogingOut && nextProps.isLogingOut) {
-      this._logout(username);
+      this._logout(name);
     }
 
     if (isConnected !== null && isConnected !== nextProps.isConnected && nextProps.isConnected) {

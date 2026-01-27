@@ -16,13 +16,6 @@ import { selectCurrentAccount } from '../../../redux/selectors';
 const PostScreen = ({ route }) => {
   const params = route.params || {};
   const tracker = usePlausibleTracker();
-  const memoizedTracker = useMemo(
-    () => ({
-      recordEvent: tracker.recordEvent,
-      screenEventRecorded: tracker.screenEventRecorded,
-    }),
-    [tracker.recordEvent, tracker.screenEventRecorded],
-  );
   const navigation = useNavigation();
 
   // // refs
@@ -68,7 +61,7 @@ const PostScreen = ({ route }) => {
     const post = getPostQuery.data;
 
     if (post) {
-      memoizedTracker.recordEvent(post.url, true);
+      tracker.recordEvent(post.url, true);
 
       const _fetchParent =
         post && post.depth > 0 && post.parent_author && post.parent_permlink && !isWavePost;
@@ -81,7 +74,7 @@ const PostScreen = ({ route }) => {
       const nextIsOwnPost = currentAccount.name === post.author;
       setIsOwnPost(nextIsOwnPost);
     }
-  }, [getPostQuery.data, currentAccount.name, isWavePost, memoizedTracker]);
+  }, [getPostQuery.data, currentAccount.name, isWavePost, tracker.recordEvent]);
 
   // // Component Functions
   const _loadPost = async (_author = null, _permlink = null) => {
