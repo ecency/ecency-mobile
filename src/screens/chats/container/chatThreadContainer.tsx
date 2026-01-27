@@ -321,6 +321,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
             emojifyMessage(messageRef.current.trim()) === lastSentMessageRef.current;
           if (shouldClearComposer) {
             setMessage('');
+            messageRef.current = '';
             _updateMentionState('');
             setRootPost(null);
             setLinkMeta(null);
@@ -1114,11 +1115,12 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const _resetEditing = useCallback(() => {
     setEditingPostId(null);
     setMessage('');
+    messageRef.current = '';
     setMentionQuery(null);
     setMentionStartIndex(null);
     setRootPost(null);
     setLinkMeta(null);
-  }, [setMessage]);
+  }, []);
 
   const _cancelReply = useCallback(() => {
     setRootPost(null);
@@ -1143,11 +1145,12 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       const nextMessage = `${before}${mentionText}${needsSpaceAfter}${after}`;
 
       setMessage(nextMessage);
+      messageRef.current = nextMessage;
       _updateMentionState(nextMessage);
 
       setTimeout(() => inputRef.current?.focus(), 50);
     },
-    [mentionQuery, mentionStartIndex, _updateMentionState, setMessage],
+    [mentionQuery, mentionStartIndex, _updateMentionState],
   );
 
   const _handleStartEdit = useCallback(
@@ -1156,11 +1159,12 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       const timestamp = post.create_at || post.update_at;
       const body = formatPostBody(post, userLookup, timestamp);
       setMessage(body);
+      messageRef.current = body;
       _updateMentionState(body);
       setEditingPostId(post.id || null);
       setTimeout(() => inputRef.current?.focus(), 100);
     },
-    [userLookup, _updateMentionState, setMessage],
+    [userLookup, _updateMentionState],
   );
 
   const _handleSend = async () => {
@@ -1274,6 +1278,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       // WebSocket will handle it via onNewMessage callback for instant feedback
       if (!isWsConnected) {
         setMessage('');
+        messageRef.current = '';
         _updateMentionState('');
         setRootPost(null);
         setLinkMeta(null);
@@ -1360,6 +1365,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         const prev = messageRef.current;
         const next = prev ? `${prev.trim()} ${uploadedUrl}` : uploadedUrl;
         setMessage(next);
+        messageRef.current = next;
         _updateMentionState(next);
       } else {
         setError('Unable to attach image.');

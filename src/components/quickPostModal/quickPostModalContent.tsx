@@ -76,6 +76,7 @@ export const QuickPostModalContent = forwardRef(
 
     const inputRef = useRef<RNTextInput | null>(null);
     const pollWizardModalRef = useRef(null);
+    const commentValueRef = useRef('');
 
     const currentAccount = useAppSelector(selectCurrentAccount);
     const pollDraftsMap = useAppSelector((state: RootState) => state.editor.pollDraftsMap);
@@ -125,11 +126,15 @@ export const QuickPostModalContent = forwardRef(
       [commentValue, mode],
     );
 
-    useImperativeHandle(ref, () => ({
-      handleSheetClose() {
-        _addQuickCommentIntoCache();
-      },
-    }));
+    useImperativeHandle(
+      ref,
+      () => ({
+        handleSheetClose() {
+          _addQuickCommentIntoCache(commentValueRef.current);
+        },
+      }),
+      [_addQuickCommentIntoCache],
+    );
 
     useEffect(() => {
       const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
@@ -172,7 +177,7 @@ export const QuickPostModalContent = forwardRef(
 
     // add quick comment value into cache - memoized with useCallback
     const _addQuickCommentIntoCache = useCallback(
-      (value = commentValue) => {
+      (value: string) => {
         const quickCommentDraftData: Draft = {
           author: currentAccount.name,
           body: value,
@@ -181,7 +186,7 @@ export const QuickPostModalContent = forwardRef(
         // add quick comment/wave cache entry to replyCache
         dispatch(updateReplyCache(draftId, quickCommentDraftData));
       },
-      [currentAccount.name, draftId, dispatch, commentValue],
+      [currentAccount.name, draftId, dispatch],
     );
 
     // handle close press - memoized with useCallback
@@ -298,6 +303,7 @@ export const QuickPostModalContent = forwardRef(
     );
 
     const _onChangeText = (value) => {
+      commentValueRef.current = value;
       setCommentValue(value);
       _deboucedCacheUpdate(value);
     };

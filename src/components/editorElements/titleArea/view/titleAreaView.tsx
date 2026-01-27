@@ -29,13 +29,12 @@ class TitleAreaView extends Component {
   }
 
   // Component Life Cycles
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
-    const { text } = this.state;
-    if (nextProps.value !== text) {
-      this.setState({ text: nextProps.value });
-      this.textRef = nextProps.value;
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value && this.props.value !== this.state.text) {
+      this.setState({ text: this.props.value });
+      this.textRef = this.props.value;
     }
-  };
+  }
 
   // Component Functions
   _handleOnChange = (text) => {

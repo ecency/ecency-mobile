@@ -180,10 +180,11 @@ export const useFeedQuery = ({
     }
   };
 
-  // fetch and filter posts that are not present in top 5 posts currently in list.
+  // fetch and filter posts that are not present in currently loaded posts
   const _fetchLatestPosts = async () => {
-    // Capture current posts BEFORE refetch to detect new ones
-    const _cachedPosts: any[] = [...(feedQuery.data?.pages?.[0] || [])];
+    // Capture ALL current posts BEFORE refetch to detect new ones
+    // Check all pages, not just the first one, to avoid showing duplicates
+    const _cachedPosts: any[] = feedQuery.data?.pages ? feedQuery.data.pages.flat() : [];
 
     let refetchResult;
     try {
@@ -197,7 +198,7 @@ export const useFeedQuery = ({
     // After refetch, the first page contains latest data
     const _fetchedPosts: any[] = refetchResult.data?.pages?.[0] || [];
 
-    // Create Set of cached post keys for O(1) lookup
+    // Create Set of cached post keys for O(1) lookup across ALL pages
     const cachedKeys = new Set(_cachedPosts.map((post) => `${post.author}/${post.permlink}`));
 
     const _latestPosts = [] as any;

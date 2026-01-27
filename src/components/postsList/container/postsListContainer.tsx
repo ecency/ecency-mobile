@@ -138,15 +138,15 @@ const postsListContainer = (
     console.log('Scroll Position: ', scrollPosition);
 
     // Only restore scroll position once on initial mount, not during pagination
+    // Only set the flag after we actually restore a position with data present
     if (!hasInitiallyScrolled.current && scrollPosition !== undefined && scrollPosition > 0) {
-      const targetOffset = data.length === 0 ? 0 : scrollPosition;
-
-      flatListRef.current?.scrollToOffset({
-        offset: targetOffset,
-        animated: false,
-      });
-
-      hasInitiallyScrolled.current = true;
+      if (data.length > 0) {
+        flatListRef.current?.scrollToOffset({
+          offset: scrollPosition,
+          animated: false,
+        });
+        hasInitiallyScrolled.current = true;
+      }
     }
   }, [scrollPosition, data.length]);
 

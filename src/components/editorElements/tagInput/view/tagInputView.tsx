@@ -139,7 +139,6 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
     );
   };
 
-  console.log('text : ', text, '\nvalue : ', value);
   return (
     <View style={[globalStyles.containerHorizontal16, styles.container]}>
       <ScrollView
@@ -158,7 +157,6 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
           placeholder={intl.formatMessage({
             id: 'editor.tags',
           })}
-          autoCompleteType="off"
           autoCorrect={false}
           autoComplete="off"
           spellCheck={false}
