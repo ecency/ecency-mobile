@@ -9,7 +9,15 @@ import React, {
   useMemo,
 } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, TouchableOpacity, Keyboard, Platform, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Keyboard,
+  Platform,
+  ActivityIndicator,
+  TextInput,
+} from 'react-native';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { get, debounce } from 'lodash';
@@ -66,7 +74,7 @@ export const QuickPostModalContent = forwardRef(
     const postsCachePrimer = postQueries.usePostsCachePrimer();
     const postSubmitter = usePostSubmitter();
 
-    const inputRef = useRef<RNTextInput | null>(null);
+    const inputRef = useRef<TextInput | null>(null);
     const pollWizardModalRef = useRef(null);
     const commentValueRef = useRef('');
 
@@ -145,9 +153,8 @@ export const QuickPostModalContent = forwardRef(
       }
 
       commentValueRef.current = _value;
-      if (Platform.OS === 'ios') {
-        setCommentValue(_value);
-      } else {
+      setCommentValue(_value);
+      if (Platform.OS !== 'ios') {
         // Android: Use setNativeProps to avoid re-renders
         inputRef.current?.setNativeProps({
           text: _value,
@@ -303,12 +310,13 @@ export const QuickPostModalContent = forwardRef(
     );
 
     // Debounced state update for character count display (won't interfere with typing)
-    const _debouncedStateUpdate = useCallback(
-      debounce((value) => {
-        if (Platform.OS === 'android') {
-          setCommentValue(value);
-        }
-      }, 300),
+    const _debouncedStateUpdate = useMemo(
+      () =>
+        debounce((value) => {
+          if (Platform.OS === 'android') {
+            setCommentValue(value);
+          }
+        }, 300),
       [],
     );
 
@@ -327,8 +335,9 @@ export const QuickPostModalContent = forwardRef(
     useEffect(() => {
       return () => {
         _deboucedCacheUpdate.cancel();
+        _debouncedStateUpdate.cancel();
       };
-    }, [_deboucedCacheUpdate]);
+    }, [_deboucedCacheUpdate, _debouncedStateUpdate]);
 
     // VIEW_RENDERERS
 

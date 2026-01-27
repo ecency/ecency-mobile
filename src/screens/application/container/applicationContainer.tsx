@@ -811,9 +811,6 @@ class ApplicationContainer extends Component {
 
         console.log('Websocket notification received:', event.data);
 
-        // Update unread count
-        dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
-
         // Try to parse notification data from enotify-py websocket
         // Format: { event: "notify", type: "mention"|"reply", source: "username", target: "username", extra: {...}, timestamp: "..." }
         let wsData = null;
@@ -834,6 +831,8 @@ class ApplicationContainer extends Component {
             wsData.type === 'transfer' ||
             wsData.type === 'delegations')
         ) {
+          // Update unread count only for real notifications
+          dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
           const { type, source, target, extra } = wsData;
 
           // Build FCM-compatible notification object
