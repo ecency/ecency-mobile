@@ -213,9 +213,7 @@ const MarkdownEditorView = ({
 
   const _handleOnSelectionChange = async (event) => {
     bodySelectionRef.current = event.nativeEvent.selection;
-    if (Platform.OS === 'ios') {
-      setSelection(event.nativeEvent.selection);
-    }
+    setSelection(event.nativeEvent.selection);
   };
 
   const _setTextAndSelection = useCallback(

@@ -238,11 +238,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       if (navigationParams.isEdit) {
         ({ isEdit } = navigationParams);
+        // For comments, markdownBody might not be set, so fall back to body
+        const postBody = get(post, 'markdownBody', '') || get(post, 'body', '');
         this.setState({
           isEdit,
           draftPost: {
             title: get(post, 'title', ''),
-            body: get(post, 'markdownBody', ''),
+            body: postBody,
             tags: get(post, 'json_metadata.tags', []),
           },
         });
