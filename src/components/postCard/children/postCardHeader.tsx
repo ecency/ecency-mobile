@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { View } from 'react-native';
 
@@ -32,7 +32,20 @@ const PostCardHeaderComponent = ({
   handleCardInteraction,
 }: Props) => {
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
-  const dateString = useMemo(() => getTimeFromNow(content?.created), [content]);
+
+  // Add state to trigger re-renders for time updates
+  const [updateTrigger, setUpdateTrigger] = useState(0);
+
+  // Update time display every minute
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setUpdateTrigger((prev) => prev + 1);
+    }, 60000); // Update every 60 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const dateString = useMemo(() => getTimeFromNow(content?.created), [content, updateTrigger]);
   const _isPollPost =
     content?.json_metadata?.content_type === ContentType.POLL && !!content?.json_metadata?.question;
 
