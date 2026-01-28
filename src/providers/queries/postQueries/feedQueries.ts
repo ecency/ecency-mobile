@@ -135,6 +135,18 @@ export const useFeedQuery = ({
     cacheRef.current = cache;
   }, [cache]);
 
+  // Schedule initial post check when feed data loads successfully
+  useEffect(() => {
+    if (
+      feedQuery.isSuccess &&
+      feedQuery.data?.pages?.[0] &&
+      feedQuery.data.pages[0].length > 0 &&
+      !postFetchTimerRef.current
+    ) {
+      _scheduleLatestPostsCheck();
+    }
+  }, [feedQuery.isSuccess, feedQuery.data?.pages]);
+
   const _cleanup = () => {
     if (postFetchTimerRef.current) {
       BackgroundTimer.clearTimeout(postFetchTimerRef.current);
@@ -180,10 +192,11 @@ export const useFeedQuery = ({
     }
   };
 
-  // fetch and filter posts that are not present in top 5 posts currently in list.
+  // fetch and filter posts that are not present in currently loaded posts
   const _fetchLatestPosts = async () => {
-    // Capture current posts BEFORE refetch to detect new ones
-    const _cachedPosts: any[] = [...(feedQuery.data?.pages?.[0] || [])];
+    // Capture ALL current posts BEFORE refetch to detect new ones
+    // Check all pages, not just the first one, to avoid showing duplicates
+    const _cachedPosts: any[] = feedQuery.data?.pages ? feedQuery.data.pages.flat() : [];
 
     let refetchResult;
     try {
@@ -197,7 +210,7 @@ export const useFeedQuery = ({
     // After refetch, the first page contains latest data
     const _fetchedPosts: any[] = refetchResult.data?.pages?.[0] || [];
 
-    // Create Set of cached post keys for O(1) lookup
+    // Create Set of cached post keys for O(1) lookup across ALL pages
     const cachedKeys = new Set(_cachedPosts.map((post) => `${post.author}/${post.permlink}`));
 
     const _latestPosts = [] as any;
@@ -312,16 +325,18 @@ export const usePromotedPostsQuery = (enabled: boolean = true) => {
 
 // calculate posts check refresh time for selected filter;
 export const calculateTimeLeftForPostCheck = (firstPost: any) => {
-  const refetchTime = 600000;
+  const refetchTime = 120000; // Check every 2 minutes for new content
 
-  // schedules refresh 30 minutes after last post creation time
+  // Calculate time since post creation to potentially adjust frequency
   const currentTime = new Date().getTime();
-  const createdAt = new Date(firstPost.created).getTime();
-
+  const createdAt = new Date(firstPost?.created).getTime();
   const timeSpent = currentTime - createdAt;
-  let timeLeft = refetchTime - timeSpent;
-  if (timeLeft < 30000) {
-    timeLeft = refetchTime;
+
+  // If post is very recent (< 5 minutes old), check more frequently
+  if (timeSpent < 300000) {
+    return 60000; // Check every 1 minute for fresh content
   }
-  return timeLeft;
+
+  // Otherwise check every 2 minutes
+  return refetchTime;
 };

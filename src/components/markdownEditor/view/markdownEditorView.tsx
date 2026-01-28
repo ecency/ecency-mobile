@@ -198,17 +198,7 @@ const MarkdownEditorView = ({
 
   const _changeText = useCallback(
     (input) => {
-      // check if draft is just loaded or is updated. Fix for username bar auto loading when draft ends with a username
-      // if (draftBody && !isDraftUpdated && draftBody !== input) {
-      //   console.log("Updating draft state")
-      //   setIsDraftupdated(true);
-      // }
-
-      // Only update state on iOS where input is controlled
-      // On Android, avoid state updates to prevent text corruption
-      if (Platform.OS === 'ios') {
-        setBodyText(input);
-      }
+      setBodyText(input);
       bodyTextRef.current = input;
 
       if (!isEditing) {
@@ -218,7 +208,7 @@ const MarkdownEditorView = ({
 
       _debouncedOnTextChange();
     },
-    [isEditing],
+    [isEditing, _debouncedOnTextChange],
   );
 
   const _handleOnSelectionChange = async (event) => {
@@ -230,22 +220,10 @@ const MarkdownEditorView = ({
 
   const _setTextAndSelection = useCallback(
     ({ selection: _selection, text: _text }) => {
-      if (Platform.OS === 'ios') {
-        setBodyText(_text);
-        setSelection(_selection);
-        bodySelectionRef.current = _selection;
-        bodyTextRef.current = _text;
-      } else {
-        // Android: Use setNativeProps to avoid text corruption
-        inputRef?.current?.setNativeProps({
-          text: _text,
-        });
-        bodySelectionRef.current = _selection;
-        inputRef?.current?.setNativeProps({
-          selection: _selection,
-        });
-        bodyTextRef.current = _text;
-      }
+      setBodyText(_text);
+      setSelection(_selection);
+      bodySelectionRef.current = _selection;
+      bodyTextRef.current = _text;
 
       if (isSnippetsOpen) {
         setIsSnippetsOpen(false);
@@ -395,6 +373,8 @@ const MarkdownEditorView = ({
       <TextInput
         multiline={true}
         autoCorrect={false}
+        autoComplete="off"
+        spellCheck={false}
         autoFocus={!!draftBtnTooltipRegistered}
         onChangeText={_changeText}
         onSelectionChange={_handleOnSelectionChange}
@@ -409,8 +389,8 @@ const MarkdownEditorView = ({
         editable={editable}
         contextMenuHidden={false}
         scrollEnabled={editorScrollEnabled}
-        value={Platform.OS === 'ios' ? bodyText : undefined}
-        selection={Platform.OS === 'ios' ? selection : undefined}
+        value={bodyText}
+        selection={selection}
       />
     </>
   );

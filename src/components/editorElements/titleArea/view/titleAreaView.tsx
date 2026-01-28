@@ -24,19 +24,25 @@ class TitleAreaView extends Component {
       text: props.value || null,
       height: 0,
     };
+    this.inputRef = React.createRef();
+    this.textRef = props.value || '';
   }
 
   // Component Life Cycles
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
-    const { text } = this.state;
-    if (nextProps.value !== text) {
-      this.setState({ text: nextProps.value });
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value && this.props.value !== this.state.text) {
+      this.setState({ text: this.props.value });
+      this.textRef = this.props.value;
     }
-  };
+  }
 
   // Component Functions
   _handleOnChange = (text) => {
     const { onChange, handleIsValid, componentID } = this.props;
+
+    this.textRef = text;
+    this.setState({ text });
+
     if (onChange) {
       onChange(text);
     }
@@ -54,6 +60,7 @@ class TitleAreaView extends Component {
     return (
       <View style={[globalStyles.containerHorizontal16, { height: Math.max(maxHeight, height) }]}>
         <TextInput
+          innerRef={this.inputRef}
           style={[styles.textInput, { height: Math.max(maxHeight, height) }]}
           placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
           editable={!isPreviewActive}
@@ -61,6 +68,9 @@ class TitleAreaView extends Component {
           placeholder={intl.formatMessage({
             id: 'editor.title',
           })}
+          autoCorrect={false}
+          autoComplete="off"
+          spellCheck={false}
           multiline
           numberOfLines={2}
           onContentSizeChange={(event) => {

@@ -24,10 +24,18 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   const scrollRef = useRef<ScrollView>();
+  const inputRef = useRef<React.ElementRef<typeof TextInput>>(null);
+  const textRef = useRef('');
+  const tagsRef = useRef<string[]>([]);
 
   const [tags, setTags] = useState<string[]>([]);
   const [text, setText] = useState('');
   const [warning, setWarning] = useState(null);
+
+  // Keep tagsRef in sync with tags state
+  useEffect(() => {
+    tagsRef.current = tags;
+  }, [tags]);
 
   useEffect(() => {
     // read and add tag items
@@ -58,38 +66,40 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
 
   const _registerNewTags = useCallback(
     debounce((newTags: string[], skipLast = true) => {
-      const inputVal = newTags.length > 0 && skipLast && newTags.pop();
+      const inputVal = newTags.length > 0 && skipLast ? newTags[newTags.length - 1] : '';
+      const tagsToProcess = skipLast ? newTags.slice(0, -1) : newTags;
+      const updatedTags = [...tagsRef.current];
 
-      newTags.forEach((tag) => {
-        if (tag.startsWith('#')) {
-          tag = tag.substring(1);
-        }
+      tagsToProcess.forEach((rawTag) => {
+        const tag = rawTag.startsWith('#') ? rawTag.substring(1) : rawTag;
 
         if (!tag.length) {
           return;
         }
 
-        if (!tags.includes(tag)) {
+        if (!updatedTags.includes(tag)) {
           // check if tag is community and post communtiy is not already selected
-          if (isCommunity(tag) && !isCommunity(tags[0])) {
+          if (isCommunity(tag) && !isCommunity(updatedTags[0])) {
             // add community tag
-            tags.splice(0, 0, tag);
+            updatedTags.splice(0, 0, tag);
             setCommunity(tag);
             dispatch(toastNotification(intl.formatMessage({ id: 'editor.community_selected' })));
           } else {
             // add simple tag
-            tags.push(tag);
+            updatedTags.push(tag);
           }
         } else {
           dispatch(toastNotification(intl.formatMessage({ id: 'editor.tag_duplicate' })));
         }
       });
 
-      setTags([...tags]);
-      setText(inputVal || '');
-      _verifyTagsUpdate(tags);
+      setTags(updatedTags);
+      const newText = inputVal || '';
+      textRef.current = newText;
+      setText(newText);
+      _verifyTagsUpdate(updatedTags);
       if (handleTagChanged) {
-        handleTagChanged([...tags]);
+        handleTagChanged(updatedTags);
       }
       setTimeout(() => {
         if (scrollRef.current) {
@@ -97,27 +107,36 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
         }
       }, 100);
     }, 500),
-    [tags],
+    [dispatch, intl, setCommunity, handleTagChanged],
   );
 
+  // Cancel pending debounce on cleanup
+  useEffect(() => {
+    return () => {
+      _registerNewTags.cancel();
+    };
+  }, [_registerNewTags]);
+
   const _handleOnChange = (val: string) => {
+    textRef.current = val;
     setText(val);
     _registerNewTags(val.split(SEPARATOR_REGEX));
   };
 
   const _handleOnEnd = () => {
-    if (text.length > 1) {
-      _registerNewTags(text.split(SEPARATOR_REGEX), false);
+    if (textRef.current.length > 1) {
+      _registerNewTags(textRef.current.split(SEPARATOR_REGEX), false);
     }
   };
 
   const _renderTag = (tag, index) => {
     const _onPress = () => {
-      tags.splice(index, 1);
-      setTags([...tags]);
-      _verifyTagsUpdate(tags);
+      const updatedTags = [...tags];
+      updatedTags.splice(index, 1);
+      setTags(updatedTags);
+      _verifyTagsUpdate(updatedTags);
       if (handleTagChanged) {
-        handleTagChanged([...tags]);
+        handleTagChanged(updatedTags);
       }
     };
 
@@ -134,7 +153,6 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
     );
   };
 
-  console.log('text : ', text, '\nvalue : ', value);
   return (
     <View style={[globalStyles.containerHorizontal16, styles.container]}>
       <ScrollView
@@ -145,6 +163,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
       >
         {tags.map(_renderTag)}
         <TextInput
+          innerRef={inputRef}
           style={styles.textInput}
           placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
           editable={!isPreviewActive}
@@ -152,8 +171,9 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
           placeholder={intl.formatMessage({
             id: 'editor.tags',
           })}
-          autoCompleteType="off"
           autoCorrect={false}
+          autoComplete="off"
+          spellCheck={false}
           autoFocus={autoFocus}
           autoCapitalize="none"
           keyboardType={Platform.select({

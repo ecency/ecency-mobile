@@ -321,6 +321,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
             emojifyMessage(messageRef.current.trim()) === lastSentMessageRef.current;
           if (shouldClearComposer) {
             setMessage('');
+            messageRef.current = '';
             _updateMentionState('');
             setRootPost(null);
             setLinkMeta(null);
@@ -466,6 +467,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const _handleMessageChange = useCallback(
     (text: string) => {
       setMessage(text);
+      messageRef.current = text;
       _updateMentionState(text);
 
       // Send typing indicator via WebSocket
@@ -1113,6 +1115,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const _resetEditing = useCallback(() => {
     setEditingPostId(null);
     setMessage('');
+    messageRef.current = '';
     setMentionQuery(null);
     setMentionStartIndex(null);
     setRootPost(null);
@@ -1130,19 +1133,20 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         return;
       }
 
-      setMessage((prev) => {
-        const start = mentionStartIndex ?? prev.length;
-        const queryLength = mentionQuery?.length ?? 0;
-        const afterStart = (mentionStartIndex ?? prev.length) + 1 + queryLength;
-        const before = mentionStartIndex !== null ? prev.slice(0, start) : prev;
-        const after = mentionStartIndex !== null ? prev.slice(afterStart) : '';
-        const mentionText = `@${username}`;
-        const needsSpaceAfter =
-          after.length === 0 ? ' ' : after.startsWith(' ') || after.startsWith('\n') ? '' : ' ';
-        const nextMessage = `${before}${mentionText}${needsSpaceAfter}${after}`;
-        _updateMentionState(nextMessage);
-        return nextMessage;
-      });
+      const prev = messageRef.current;
+      const start = mentionStartIndex ?? prev.length;
+      const queryLength = mentionQuery?.length ?? 0;
+      const afterStart = (mentionStartIndex ?? prev.length) + 1 + queryLength;
+      const before = mentionStartIndex !== null ? prev.slice(0, start) : prev;
+      const after = mentionStartIndex !== null ? prev.slice(afterStart) : '';
+      const mentionText = `@${username}`;
+      const needsSpaceAfter =
+        after.length === 0 ? ' ' : after.startsWith(' ') || after.startsWith('\n') ? '' : ' ';
+      const nextMessage = `${before}${mentionText}${needsSpaceAfter}${after}`;
+
+      setMessage(nextMessage);
+      messageRef.current = nextMessage;
+      _updateMentionState(nextMessage);
 
       setTimeout(() => inputRef.current?.focus(), 50);
     },
@@ -1155,6 +1159,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       const timestamp = post.create_at || post.update_at;
       const body = formatPostBody(post, userLookup, timestamp);
       setMessage(body);
+      messageRef.current = body;
       _updateMentionState(body);
       setEditingPostId(post.id || null);
       setTimeout(() => inputRef.current?.focus(), 100);
@@ -1273,6 +1278,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       // WebSocket will handle it via onNewMessage callback for instant feedback
       if (!isWsConnected) {
         setMessage('');
+        messageRef.current = '';
         _updateMentionState('');
         setRootPost(null);
         setLinkMeta(null);
@@ -1356,11 +1362,11 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       const uploadedUrl = uploadResult?.url || uploadResult?.image || uploadResult?.[0]?.url;
 
       if (uploadedUrl) {
-        setMessage((prev) => {
-          const next = prev ? `${prev.trim()} ${uploadedUrl}` : uploadedUrl;
-          _updateMentionState(next);
-          return next;
-        });
+        const prev = messageRef.current;
+        const next = prev ? `${prev.trim()} ${uploadedUrl}` : uploadedUrl;
+        setMessage(next);
+        messageRef.current = next;
+        _updateMentionState(next);
       } else {
         setError('Unable to attach image.');
       }

@@ -132,16 +132,23 @@ const postsListContainer = (
     },
   }));
 
+  const hasInitiallyScrolled = useRef(false);
+
   useEffect(() => {
     console.log('Scroll Position: ', scrollPosition);
-    // Determine the target scroll position
-    const targetOffset = data.length === 0 ? 0 : scrollPosition ?? 0;
 
-    flatListRef.current?.scrollToOffset({
-      offset: targetOffset,
-      animated: false,
-    });
-  }, [scrollPosition, posts, cachedPosts, data.length]);
+    // Only restore scroll position once on initial mount, not during pagination
+    // Only set the flag after we actually restore a position with data present
+    if (!hasInitiallyScrolled.current && scrollPosition !== undefined && scrollPosition > 0) {
+      if (data.length > 0) {
+        flatListRef.current?.scrollToOffset({
+          offset: scrollPosition,
+          animated: false,
+        });
+        hasInitiallyScrolled.current = true;
+      }
+    }
+  }, [scrollPosition, data.length]);
 
   // const _setImageRatioInMap = (mapKey: string, height: number) => {
   //   if (mapKey && height) {

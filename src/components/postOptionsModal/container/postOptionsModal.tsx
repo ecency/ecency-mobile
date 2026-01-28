@@ -81,10 +81,13 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   const [options, setOptions] = useState(OPTIONS);
 
   // Fetch reblogs to check if post is already reblogged
+  // Skip fetching on own profile page where we can determine reblog status from author field alone
+  const shouldFetchReblogs = !!content && pageType !== 'ownProfile';
+
   const reblogsQuery = useGetReblogsQuery(
     content?.author || '',
     content?.permlink || '',
-    !!content, // Only fetch when content is available
+    shouldFetchReblogs, // Only fetch when needed
   );
 
   useImperativeHandle(ref, () => ({
@@ -105,7 +108,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   }));
 
   useEffect(() => {
-    if (content) {
+    if (content && !reblogsQuery.isLoading) {
       _initOptions();
     }
 
@@ -129,7 +132,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         reportTimer.current = null;
       }
     };
-  }, [content, reblogsQuery.data]);
+  }, [content, reblogsQuery.data, reblogsQuery.isLoading]);
 
   const _initOptions = () => {
     // check if post is owned by current user or not, if so pinned or not
@@ -159,8 +162,22 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       !content.active_votes?.length;
 
     // check if post is reblogged by current user
-    const _isReblogged =
-      reblogsQuery.data && currentAccount ? reblogsQuery.data.includes(currentAccount.name) : false;
+    // Priority 1: On own profile's blog page, if author != current user, it must be reblogged
+    const _isOwnProfileReblog =
+      pageType === 'ownProfile' && currentAccount && content.author !== currentAccount.name;
+
+    // Priority 2: Check if reblogged_by field includes current user (available from blog feed)
+    const _isRebloggedFromField =
+      content.reblogged_by &&
+      Array.isArray(content.reblogged_by) &&
+      currentAccount &&
+      content.reblogged_by.includes(currentAccount.name);
+
+    // Priority 3: Fall back to reblogs query data
+    const _isRebloggedFromQuery =
+      reblogsQuery.data && currentAccount && reblogsQuery.data.includes(currentAccount.name);
+
+    const _isReblogged = _isOwnProfileReblog || _isRebloggedFromField || _isRebloggedFromQuery;
 
     // cook options list based on collected flags
     const _options = OPTIONS.filter((option) => {

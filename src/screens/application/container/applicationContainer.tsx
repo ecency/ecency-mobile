@@ -456,7 +456,18 @@ class ApplicationContainer extends Component {
   _checkHiveAuthExpiry = (authData: any) => {
     const { intl } = this.props;
 
-    if (authData?.username) {
+    // Only check expiry for session-based authentication (HiveAuth/Keychain or HiveSigner)
+    // Skip for private key accounts (masterKey, postingKey, etc.)
+    const isSessionBasedAuth =
+      authData?.authType === AUTH_TYPE.HIVE_AUTH || authData?.authType === AUTH_TYPE.STEEM_CONNECT;
+
+    if (
+      authData?.username &&
+      isSessionBasedAuth &&
+      authData.hiveAuthExpiry &&
+      typeof authData.hiveAuthExpiry === 'number' &&
+      authData.hiveAuthExpiry > 0
+    ) {
       const curTime = new Date().getTime();
       if (curTime > authData.hiveAuthExpiry) {
         SheetManager.show(SheetNames.ACTION_MODAL, {
