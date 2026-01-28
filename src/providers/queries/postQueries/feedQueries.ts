@@ -248,6 +248,8 @@ export const useFeedQuery = ({
 
   const _resetLatestPosts = () => {
     setLatestPosts([]);
+    // Reschedule next check so user can see future new content
+    _scheduleLatestPostsCheck();
   };
 
   const _refresh = async () => {

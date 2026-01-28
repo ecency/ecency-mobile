@@ -128,6 +128,11 @@ const PostsTabContent = ({
     feedQuery.mergetLatestPosts();
   };
 
+  const _onScrollToTopPress = () => {
+    _scrollToTop();
+    // Don't merge posts - this is just a scroll convenience button
+  };
+
   const _scrollToTop = () => {
     postsListRef?.current?.scrollToTop();
     setEnableScrollTop(false);
@@ -240,7 +245,7 @@ const PostsTabContent = ({
           feedQuery.resetLatestPosts();
         }}
       />
-      <ScrollTopPopup enable={enableScrollTop} onPress={_onPostsPopupPress} />
+      <ScrollTopPopup enable={enableScrollTop} onPress={_onScrollToTopPress} />
     </>
   );
 };
