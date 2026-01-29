@@ -151,6 +151,7 @@
     "reply": "atsakymas",
     "bookmarks": "pridėti į žymes",
     "translate": "Translate",
+    "voice": "Voice",
     "boost": "sustiprink",
     "pin-community": "Prisegti prie bendruomenės"
   },
@@ -1334,5 +1335,14 @@
     "confirm_delete_title": "Confirm Delete",
     "request_sent": "Your request for deletion is sent",
     "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data"
+  },
+  "tts": {
+    "settings_title": "Text-to-Speech Settings",
+    "voice": "Voice",
+    "voice_hint": "System default voice will be used",
+    "speed": "Speed",
+    "pitch": "Pitch",
+    "test_voice": "Test Voice",
+    "settings_info": "These settings will be used when reading posts aloud"
   }
 }
