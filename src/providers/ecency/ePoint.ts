@@ -42,9 +42,12 @@ export const getPointsSummary = async (username: string): Promise<EcencyUser> =>
   }
 };
 
-export const getPointsHistory = async (username: string): Promise<UserPoint[]> => {
+export const getPointsHistory = async (
+  username: string,
+  type: number = 0,
+): Promise<UserPoint[]> => {
   try {
-    const data = { username };
+    const data = { username, type };
     const response = await ecencyApi.post('/private-api/point-list', data);
     return response.data;
   } catch (error) {

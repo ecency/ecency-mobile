@@ -1,4 +1,5 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { getPointsQueryOptions } from '@ecency/sdk';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import {
   deletePointActivityCache,
@@ -15,6 +16,16 @@ interface UserActivityMutationVars {
   transactionId?: string;
   cacheId?: string;
 }
+
+/**
+ * Hook to get points summary and transactions using SDK
+ * @param username - The username to fetch points for
+ * @param filter - Transaction type filter (0 = all, 10 = transfer, 20 = boost, etc.)
+ * @returns Query result with points, uPoints (unclaimed), and transactions
+ */
+export const useGetPointsQuery = (username?: string, filter = 0) => {
+  return useQuery(getPointsQueryOptions(username, filter));
+};
 
 export const useUserActivityMutation = () => {
   const dispatch = useAppDispatch();

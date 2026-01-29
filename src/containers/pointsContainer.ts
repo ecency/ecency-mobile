@@ -17,11 +17,12 @@ import {
   selectIsConnected,
   selectActiveBottomTab,
 } from '../redux/selectors';
-import { getPointsSummary, claimPoints, getPointsHistory } from '../providers/ecency/ePoint';
+import { claimPoints } from '../providers/ecency/ePoint';
 import { boost } from '../providers/hive/dhive';
 import { getQueryClient } from '../providers/queries';
 import { getUserDataWithUsername } from '../realm/realm';
 import { toastNotification } from '../redux/actions/uiAction';
+import { useGetPointsQuery } from '../providers/queries/pointQueries';
 
 // Constant
 import POINTS from '../constants/options/points';
@@ -52,6 +53,12 @@ const PointsContainer = ({
   route,
 }) => {
   const navigation = useNavigation();
+  const intl = useIntl();
+  const dispatch = useDispatch();
+
+  // Use SDK query for points data
+  console.log('PointsContainer - username:', username, 'isConnected:', isConnected);
+  const pointsQuery = useGetPointsQuery(username);
 
   const [userPoints, setUserPoints] = useState({});
   const [userActivities, setUserActivities] = useState([]);
@@ -61,26 +68,85 @@ const PointsContainer = ({
   const [estimatedEstm, setEstimatedEstm] = useState(0);
   const [navigationParams, setNavigationParams] = useState({});
   const [balance, setBalance] = useState(0);
-  const intl = useIntl();
-  const dispatch = useDispatch();
+
+  // Helper function to groom user activities
+  const _groomUserActivities = useCallback(
+    (_userActivities) =>
+      _userActivities.map((item) =>
+        groomingPointsTransactionData({
+          ...item,
+          icon: get(POINTS[get(item, 'type')], 'icon'),
+          iconType: get(POINTS[get(item, 'type')], 'iconType'),
+          textKey: get(POINTS[get(item, 'type')], 'textKey'),
+        }),
+      ),
+    [],
+  );
+
+  // Update state when points query data changes
+  useEffect(() => {
+    console.log('Points query status:', {
+      isLoading: pointsQuery.isLoading,
+      isFetching: pointsQuery.isFetching,
+      isError: pointsQuery.isError,
+      error: pointsQuery.error,
+      hasData: !!pointsQuery.data,
+    });
+
+    if (pointsQuery.isError) {
+      console.error('Points query error:', pointsQuery.error);
+      setIsLoading(false);
+      setRefreshing(false);
+      setUserActivities([]);
+      return;
+    }
+
+    if (pointsQuery.data) {
+      console.log('Points query data:', pointsQuery.data);
+      const _balance = Math.round(parseFloat(pointsQuery.data.points) * 1000) / 1000;
+      setBalance(_balance);
+      setUserPoints({
+        points: pointsQuery.data.points,
+        unclaimed_points: pointsQuery.data.uPoints,
+      });
+
+      if (pointsQuery.data.transactions && Array.isArray(pointsQuery.data.transactions)) {
+        const groomed = _groomUserActivities(pointsQuery.data.transactions);
+        console.log('Groomed transactions:', groomed.length);
+        setUserActivities(groomed);
+      } else {
+        console.log('No transactions data');
+        setUserActivities([]);
+      }
+
+      // Update estimated value
+      getPointsEstimate(_balance, currency).then(setEstimatedEstm);
+    }
+
+    setIsLoading(pointsQuery.isLoading);
+    setRefreshing(pointsQuery.isFetching && !pointsQuery.isLoading);
+  }, [
+    pointsQuery.data,
+    pointsQuery.isLoading,
+    pointsQuery.isFetching,
+    pointsQuery.isError,
+    pointsQuery.error,
+    currency,
+    _groomUserActivities,
+  ]);
 
   useEffect(() => {
-    if (isConnected) {
-      _fetchUserPointActivities(username);
-    }
-
     if (route && route.params) {
       const _navigationParams = route.params;
-
       setNavigationParams(_navigationParams);
     }
-  }, [_fetchUserPointActivities, isConnected, route, username]);
+  }, [route]);
 
   useEffect(() => {
     if (isConnected && activeBottomTab === ROUTES.TABBAR.WALLET && username) {
-      _fetchUserPointActivities(username);
+      pointsQuery.refetch();
     }
-  }, [isConnected, username, _fetchUserPointActivities, activeBottomTab]);
+  }, [isConnected, username, activeBottomTab]);
 
   // Component Functions
 
@@ -127,69 +193,25 @@ const PointsContainer = ({
     }
   };
 
-  const _groomUserActivities = (_userActivities) =>
-    _userActivities.map((item) =>
-      groomingPointsTransactionData({
-        ...item,
-        icon: get(POINTS[get(item, 'type')], 'icon'),
-        iconType: get(POINTS[get(item, 'type')], 'iconType'),
-        textKey: get(POINTS[get(item, 'type')], 'textKey'),
-      }),
-    );
-
   const _fetchUserPointActivities = useCallback(
     async (_username = username) => {
       if (!_username) {
         return;
       }
-      setRefreshing(true);
-
-      await getPointsSummary(_username)
-        .then(async (userPointsP) => {
-          const _balance = Math.round(get(userPointsP, 'points') * 1000) / 1000;
-          setUserPoints(userPointsP);
-          setBalance(_balance);
-          setEstimatedEstm(await getPointsEstimate(_balance, currency));
-        })
-        .catch((err) => {
-          Alert.alert(get(err, 'message', 'Error'));
-        });
-
-      await getPointsHistory(_username)
-        .then((userActivitiesP) => {
-          // getPointsHistory returns an array
-          if (Array.isArray(userActivitiesP) && userActivitiesP.length > 0) {
-            setUserActivities(_groomUserActivities(userActivitiesP));
-          } else {
-            // Set empty array if no activities
-            setUserActivities([]);
-          }
-        })
-        .catch((err) => {
-          if (err) {
-            Alert.alert(get(err, 'message') || err.toString());
-          }
-          // Set empty array on error so UI shows "no activities" instead of spinner
-          setUserActivities([]);
-        });
-
-      setRefreshing(false);
-      setIsLoading(false);
+      // Refetch using SDK query
+      await pointsQuery.refetch();
     },
-    [currency, username],
+    [username, pointsQuery],
   );
 
   const _getUserBalance = async (_username) => {
-    await getPointsSummary(_username)
-      .then((_userPoints) => {
-        const _balance = Math.round(get(_userPoints, 'points') * 1000) / 1000;
-        return _balance;
-      })
-      .catch((err) => {
-        if (err) {
-          Alert.alert(get(err, 'message') || err.toString());
-        }
-      });
+    // Refetch points data to get latest balance
+    const result = await pointsQuery.refetch();
+    if (result.data) {
+      const _balance = Math.round(parseFloat(result.data.points) * 1000) / 1000;
+      return _balance;
+    }
+    return 0;
   };
 
   const _claimPoints = async () => {
