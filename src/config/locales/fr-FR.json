@@ -151,6 +151,7 @@
     "reply": "répondre",
     "bookmarks": "ajouter aux signets",
     "translate": "Traduire",
+    "voice": "Voice",
     "boost": "accélérer",
     "pin-community": "Épingler à la communauté"
   },
@@ -1334,5 +1335,14 @@
     "confirm_delete_title": "Confirmer la suppression",
     "request_sent": "Votre demande de suppression a été envoyée",
     "confirm_delete_body": "Êtes-vous sûr de vouloir supprimer le compte ? Toutes vos données seront effacées"
+  },
+  "tts": {
+    "settings_title": "Text-to-Speech Settings",
+    "voice": "Voice",
+    "voice_hint": "System default voice will be used",
+    "speed": "Speed",
+    "pitch": "Pitch",
+    "test_voice": "Test Voice",
+    "settings_info": "These settings will be used when reading posts aloud"
   }
 }
