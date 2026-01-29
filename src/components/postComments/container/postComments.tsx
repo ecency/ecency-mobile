@@ -175,8 +175,12 @@ const PostComments = forwardRef(
 
             // Invalidate discussion query cache to refresh comment list
             queryClient.invalidateQueries({
-              queryKey: getDiscussionsQueryOptions({ author, permlink } as any, 'created' as any)
-                .queryKey,
+              queryKey: getDiscussionsQueryOptions(
+                { author, permlink } as any,
+                'created' as any,
+                true,
+                currentAccount.name, // Pass observer to match the query key used in useDiscussionQuery
+              ).queryKey,
             });
           } catch (err) {
             console.warn('Failed to delete comment');

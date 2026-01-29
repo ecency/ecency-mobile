@@ -54,7 +54,7 @@ const PointsContainer = ({
   const navigation = useNavigation();
 
   const [userPoints, setUserPoints] = useState({});
-  const [userActivities, setUserActivities] = useState(null);
+  const [userActivities, setUserActivities] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -157,14 +157,20 @@ const PointsContainer = ({
 
       await getPointsHistory(_username)
         .then((userActivitiesP) => {
-          if (Object.entries(userActivitiesP).length !== 0) {
+          // getPointsHistory returns an array
+          if (Array.isArray(userActivitiesP) && userActivitiesP.length > 0) {
             setUserActivities(_groomUserActivities(userActivitiesP));
+          } else {
+            // Set empty array if no activities
+            setUserActivities([]);
           }
         })
         .catch((err) => {
           if (err) {
             Alert.alert(get(err, 'message') || err.toString());
           }
+          // Set empty array on error so UI shows "no activities" instead of spinner
+          setUserActivities([]);
         });
 
       setRefreshing(false);

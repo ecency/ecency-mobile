@@ -132,6 +132,8 @@ export const usePostSubmitter = () => {
             queryKey: getDiscussionsQueryOptions(
               { author: parentAuthor, permlink: parentPermlink } as any,
               'created' as any,
+              true,
+              currentAccount.name, // Pass observer to match the query key used in useDiscussionQuery
             ).queryKey,
           });
         }
