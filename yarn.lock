@@ -11067,9 +11067,9 @@ react-native-actions-sheet@^0.9.7:
   resolved "https://registry.npmjs.org/react-native-actions-sheet/-/react-native-actions-sheet-0.9.7.tgz"
   integrity sha512-rjUwxUr5dxbdSLDtLDUFAdSlFxpNSpJsbXLhHkBzEBMxEMPUhRT3zqbvKqsPj0JUkjwuRligxrhbIJZkg/6ZDw==
 
-"react-native-actionsheet@git+https://github.com/ecency/react-native-actionsheet":
+"react-native-actionsheet@https://github.com/ecency/react-native-actionsheet":
   version "2.4.2"
-  resolved "git+ssh://git@github.com/ecency/react-native-actionsheet.git#c74540db08a4c2049ee9c8a8077b5c476b536e2c"
+  resolved "https://github.com/ecency/react-native-actionsheet#c74540db08a4c2049ee9c8a8077b5c476b536e2c"
 
 react-native-autoheight-webview@^1.6.5:
   version "1.6.5"
