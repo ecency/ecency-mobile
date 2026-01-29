@@ -7517,7 +7517,7 @@ highlight-words-core@^1.0.3:
 
 "hive-auth-wrapper@git+https://github.com/noumantahir/hive-auth-wrapper.git":
   version "1.0.0"
-  resolved "git+ssh://git@github.com/noumantahir/hive-auth-wrapper.git#ed5ef49a53108081c68d3a89ef20489098890d78"
+  resolved "git+https://github.com/noumantahir/hive-auth-wrapper.git#ed5ef49a53108081c68d3a89ef20489098890d78"
   dependencies:
     assert "^2.0.0"
     uuid "^8.3.2"
@@ -13577,7 +13577,7 @@ uuid@^7.0.3:
 
 uuid@^8.3.2:
   version "8.3.2"
-  resolved "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 v8-compile-cache-lib@^3.0.1:
