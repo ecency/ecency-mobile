@@ -24,7 +24,10 @@ interface UserActivityMutationVars {
  * @returns Query result with points, uPoints (unclaimed), and transactions
  */
 export const useGetPointsQuery = (username?: string, filter = 0) => {
-  return useQuery(getPointsQueryOptions(username, filter));
+  return useQuery({
+    ...getPointsQueryOptions(username, filter),
+    enabled: !!username,
+  });
 };
 
 export const useUserActivityMutation = () => {

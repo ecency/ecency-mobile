@@ -47,12 +47,32 @@ export const TTSControls = ({ post, style }: TTSControlsProps) => {
   const handlePlayPause = async () => {
     if (isPlaying && !isPaused) {
       // Pause
-      await Speech.pause();
-      setIsPaused(true);
+      try {
+        await Speech.pause();
+        setIsPaused(true);
+      } catch (error) {
+        console.error('TTS pause failed:', error);
+        Speech.stop();
+        if (isMountedRef.current) {
+          setIsPlaying(false);
+          setIsPaused(false);
+          setIsLoading(false);
+        }
+      }
     } else if (isPaused) {
       // Resume
-      await Speech.resume();
-      setIsPaused(false);
+      try {
+        await Speech.resume();
+        setIsPaused(false);
+      } catch (error) {
+        console.error('TTS resume failed:', error);
+        Speech.stop();
+        if (isMountedRef.current) {
+          setIsPlaying(false);
+          setIsPaused(false);
+          setIsLoading(false);
+        }
+      }
     } else {
       // Start playing
       setIsLoading(true);

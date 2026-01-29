@@ -83,7 +83,13 @@ export const hasReadableContent = (post: any): boolean => {
  */
 export const getEstimatedReadingTime = (post: any, wordsPerMinute: number = 150): number => {
   const text = extractPlainTextForTTS(post);
-  const wordCount = text.split(/\s+/).length;
+  const trimmedText = text.trim();
+
+  if (trimmedText.length === 0) {
+    return 0;
+  }
+
+  const wordCount = trimmedText.split(/\s+/).filter(Boolean).length;
   return Math.ceil((wordCount / wordsPerMinute) * 60);
 };
 

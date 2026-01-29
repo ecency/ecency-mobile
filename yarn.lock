@@ -6703,7 +6703,7 @@ expo-modules-core@2.5.0:
 
 expo-speech@^14.0.8:
   version "14.0.8"
-  resolved "https://registry.npmjs.org/expo-speech/-/expo-speech-14.0.8.tgz"
+  resolved "https://registry.yarnpkg.com/expo-speech/-/expo-speech-14.0.8.tgz#fa7861ab55244fb64916a4939f93d33f03cf28b5"
   integrity sha512-UjBFCFv58nutlLw92L7kUS0ZjbOOfaTdiEv/HbjvMrT6BfldoOLLBZbaEcEhDdZK36NY/kass0Kzxk+co6vxSQ==
 
 expo@^53.0.20:

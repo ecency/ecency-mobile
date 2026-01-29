@@ -57,7 +57,14 @@ const PointsContainer = ({
   const dispatch = useDispatch();
 
   // Use SDK query for points data
-  console.log('PointsContainer - username:', username, 'isConnected:', isConnected);
+  if (__DEV__) {
+    console.log(
+      'PointsContainer - username:',
+      username ? '[redacted]' : 'undefined',
+      'isConnected:',
+      isConnected,
+    );
+  }
   const pointsQuery = useGetPointsQuery(username);
 
   const [userPoints, setUserPoints] = useState({});
@@ -85,24 +92,37 @@ const PointsContainer = ({
 
   // Update state when points query data changes
   useEffect(() => {
-    console.log('Points query status:', {
-      isLoading: pointsQuery.isLoading,
-      isFetching: pointsQuery.isFetching,
-      isError: pointsQuery.isError,
-      error: pointsQuery.error,
-      hasData: !!pointsQuery.data,
-    });
+    if (__DEV__) {
+      console.log('Points query status:', {
+        isLoading: pointsQuery.isLoading,
+        isFetching: pointsQuery.isFetching,
+        isError: pointsQuery.isError,
+        error: pointsQuery.error,
+        hasData: !!pointsQuery.data,
+      });
+    }
 
     if (pointsQuery.isError) {
-      console.error('Points query error:', pointsQuery.error);
+      if (__DEV__) {
+        console.error('Points query error:', pointsQuery.error);
+      }
       setIsLoading(false);
       setRefreshing(false);
       setUserActivities([]);
+      setBalance(0);
+      setUserPoints({});
+      setEstimatedEstm(0);
       return;
     }
 
     if (pointsQuery.data) {
-      console.log('Points query data:', pointsQuery.data);
+      if (__DEV__) {
+        console.log('Points query data:', {
+          hasPoints: !!pointsQuery.data.points,
+          hasUPoints: !!pointsQuery.data.uPoints,
+          transactionCount: pointsQuery.data.transactions?.length || 0,
+        });
+      }
       const _balance = Math.round(parseFloat(pointsQuery.data.points) * 1000) / 1000;
       setBalance(_balance);
       setUserPoints({
@@ -112,10 +132,14 @@ const PointsContainer = ({
 
       if (pointsQuery.data.transactions && Array.isArray(pointsQuery.data.transactions)) {
         const groomed = _groomUserActivities(pointsQuery.data.transactions);
-        console.log('Groomed transactions:', groomed.length);
+        if (__DEV__) {
+          console.log('Groomed transactions:', groomed.length);
+        }
         setUserActivities(groomed);
       } else {
-        console.log('No transactions data');
+        if (__DEV__) {
+          console.log('No transactions data');
+        }
         setUserActivities([]);
       }
 
