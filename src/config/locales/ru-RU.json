@@ -151,6 +151,7 @@
     "reply": "ответить",
     "bookmarks": "добавить в закладки",
     "translate": "Перевод",
+    "voice": "Voice",
     "boost": "усилить",
     "pin-community": "Закрепить в сообществе"
   },
@@ -1334,5 +1335,14 @@
     "confirm_delete_title": "Подтвердите удаление",
     "request_sent": "Ваш запрос на удаление отправлен",
     "confirm_delete_body": "Вы уверены, что хотите удалить учётную запись? Это сотрёт все ваши данные"
+  },
+  "tts": {
+    "settings_title": "Text-to-Speech Settings",
+    "voice": "Voice",
+    "voice_hint": "System default voice will be used",
+    "speed": "Speed",
+    "pitch": "Pitch",
+    "test_voice": "Test Voice",
+    "settings_info": "These settings will be used when reading posts aloud"
   }
 }
