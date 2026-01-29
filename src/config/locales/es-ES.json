@@ -151,7 +151,7 @@
     "reply": "responder",
     "bookmarks": "añadir a favoritos",
     "translate": "Traducir",
-    "voice": "Voice",
+    "voice": "Voz",
     "boost": "impulsar",
     "pin-community": "Anclar a la comunidad"
   },
@@ -1337,12 +1337,12 @@
     "confirm_delete_body": "¿Estás seguro de que deseas eliminar la cuenta? Se borrarán todos tus datos"
   },
   "tts": {
-    "settings_title": "Text-to-Speech Settings",
-    "voice": "Voice",
-    "voice_hint": "System default voice will be used",
-    "speed": "Speed",
+    "settings_title": "Configuración de texto a voz",
+    "voice": "Voz",
+    "voice_hint": "Se utilizará la voz predeterminada del sistema",
+    "speed": "Velocidad",
     "pitch": "Pitch",
-    "test_voice": "Test Voice",
-    "settings_info": "These settings will be used when reading posts aloud"
+    "test_voice": "Probar Voz",
+    "settings_info": "Estos ajustes se utilizarán al leer mensajes en voz alta"
   }
 }
