@@ -116,6 +116,7 @@ import { LinkPreview, HiveLinkPreview } from './linkPreview';
 import { CrossPostModal } from './crossPostModal';
 import { ChatOptionsSheet } from './chatOptionsSheet';
 import { ChatChannelOptionsSheet } from './chatChannelOptionsSheet';
+import { TTSControls } from './textToSpeech/ttsControls';
 
 // Basic UI Elements
 import {
@@ -287,4 +288,5 @@ export {
   CopyModal,
   ChatOptionsSheet,
   ChatChannelOptionsSheet,
+  TTSControls,
 };
