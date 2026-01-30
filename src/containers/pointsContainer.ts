@@ -71,14 +71,15 @@ const PointsContainer = ({
   // Helper function to groom user activities
   const _groomUserActivities = useCallback(
     (_userActivities) =>
-      _userActivities.map((item) =>
-        groomingPointsTransactionData({
+      _userActivities.map((item) => {
+        const pointType = POINTS[get(item, 'type')] || POINTS.default;
+        return groomingPointsTransactionData({
           ...item,
-          icon: get(POINTS[get(item, 'type')], 'icon'),
-          iconType: get(POINTS[get(item, 'type')], 'iconType'),
-          textKey: get(POINTS[get(item, 'type')], 'textKey'),
-        }),
-      ),
+          icon: get(pointType, 'icon'),
+          iconType: get(pointType, 'iconType'),
+          textKey: get(pointType, 'textKey'),
+        });
+      }),
     [],
   );
 

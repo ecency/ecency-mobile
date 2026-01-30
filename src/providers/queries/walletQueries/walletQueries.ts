@@ -353,14 +353,15 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
     if (isPoints) {
       // For POINTS, use transactions from SDK points query
       const transactions = pointsQuery.data?.transactions || [];
-      return transactions.map((item) =>
-        groomingPointsTransactionData({
+      return transactions.map((item) => {
+        const pointType = POINTS[get(item, 'type')] || POINTS.default;
+        return groomingPointsTransactionData({
           ...item,
-          icon: get(POINTS[get(item, 'type')], 'icon'),
-          iconType: get(POINTS[get(item, 'type')], 'iconType'),
-          textKey: get(POINTS[get(item, 'type')], 'textKey'),
-        }),
-      );
+          icon: get(pointType, 'icon'),
+          iconType: get(pointType, 'iconType'),
+          textKey: get(pointType, 'textKey'),
+        });
+      });
     }
 
     if (isEngine) {
