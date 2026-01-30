@@ -751,7 +751,11 @@
     "muted": "Content is muted for violation",
     "community_muted": "Content muted for community guidelines violation",
     "promoted": "PROMOTED",
-    "image_saved": "圖片已存到圖庫"
+    "image_saved": "圖片已存到圖庫",
+    "words": "Words",
+    "reading": "Reading",
+    "listen": "Listen",
+    "min": "min"
   },
   "promote": {
     "information": "您確定要推廣嗎？",
@@ -1343,6 +1347,8 @@
     "speed": "Speed",
     "pitch": "Pitch",
     "test_voice": "Test Voice",
-    "settings_info": "These settings will be used when reading posts aloud"
+    "settings_info": "These settings will be used when reading posts aloud",
+    "play": "Play",
+    "pause": "Pause"
   }
 }
