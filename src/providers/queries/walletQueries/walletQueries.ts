@@ -12,8 +12,10 @@ import {
   getRecurrentTransfersQueryOptions,
   getOpenOrdersQueryOptions,
   getTransactionsInfiniteQueryOptions,
+  getPointsQueryOptions,
 } from '@ecency/sdk';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
+import POINTS from '../../../constants/options/points';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { claimPoints } from '../../ecency/ePoint';
 import {
@@ -32,6 +34,7 @@ import { fetchEngineAccountHistory } from '../../hive-engine/hiveEngine';
 import {
   groomingEngineHistory,
   groomingTransactionData,
+  groomingPointsTransactionData,
   transferTypes,
 } from '../../../utils/wallet';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
@@ -64,26 +67,12 @@ export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean }
     ],
     queryFn: async () => {
       if (!currentAccount?.name) {
-        console.warn('[Wallet] No username available for portfolio fetch');
         return [];
-      }
-      if (__DEV__) {
-        console.log('[Wallet] Fetching portfolio for:', currentAccount.name, currency.currency);
       }
       try {
         const response = await getPortfolio(currentAccount.name, currency.currency, onlyEnabled);
-        if (__DEV__) {
-          console.log('[Wallet] Portfolio API response:', response?.length || 0, 'items');
-          if (response && response.length > 0) {
-            console.log(
-              '[Wallet] Portfolio symbols:',
-              response.map((r) => r.symbol),
-            );
-          }
-        }
 
         if (!response || response.length === 0) {
-          console.warn('Empty portfolio response');
           return [];
         }
 
@@ -101,9 +90,6 @@ export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean }
           return item;
         });
 
-        if (__DEV__) {
-          console.log('Processed portfolio data:', updatedResponse.length, 'items');
-        }
         return updatedResponse;
       } catch (err) {
         console.error('Failed to get portfolio data:', err);
@@ -116,36 +102,17 @@ export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean }
   });
 
   const selectedData = useMemo(() => {
-    if (__DEV__) {
-      console.log('[Wallet] Computing selectedData...');
-      console.log('[Wallet] - assetsQuery.data:', assetsQuery.data?.length || 0, 'items');
-      console.log('[Wallet] - selectedAssets:', selectedAssets.length, 'items');
-      console.log(
-        '[Wallet] - selectedAssets symbols:',
-        selectedAssets.map((a) => a.symbol),
-      );
-    }
-
     if (!assetsQuery.data || !assetsQuery.data.length) {
-      console.warn('[Wallet] No portfolio data available from API');
       return [];
     }
 
     if (selectedAssets.length === 0) {
-      console.warn('[Wallet] No assets selected in Redux - this is the problem!');
       return [];
     }
 
     // filter only selected tokens from portfolio data
     const dataMap = new Map(assetsQuery.data.map((item) => [item.symbol, item]));
-    if (__DEV__) {
-      console.log('[Wallet] - Portfolio symbols:', Array.from(dataMap.keys()));
-    }
-
     const filtered = selectedAssets.map((token) => dataMap.get(token.symbol)).filter(Boolean);
-    if (__DEV__) {
-      console.log('[Wallet] - Filtered result:', filtered.length, 'items');
-    }
 
     return filtered;
   }, [assetsQuery.data, selectedAssets]);
@@ -221,7 +188,6 @@ export const useClaimRewardsMutation = () => {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: true }));
     },
     onSuccess: (data, { symbol }) => {
-      console.log('successfully initiated claim action activity', data, { symbol });
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));
 
       // Update claim cache and set claimed asset to zero in portfolio data (loop only once)
@@ -324,12 +290,19 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
 
   const username = currentAccount?.name;
   const isEngine = layer === 'engine';
+  const isPoints = layer === 'points';
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  // For POINTS, use SDK points query to get activities from Ecency API
+  const pointsQuery = useQuery({
+    ...getPointsQueryOptions(username, 0),
+    enabled: !!username && isPoints,
+  });
+
   const chainQuery = useInfiniteQuery({
     ...getTransactionsInfiniteQueryOptions(username ?? '', ACTIVITIES_FETCH_LIMIT),
-    enabled: !!username && !isEngine,
+    enabled: !!username && !isEngine && !isPoints,
   });
 
   const engineQuery = useInfiniteQuery({
@@ -351,11 +324,22 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
 
   const _refresh = async () => {
     setIsRefreshing(true);
-    await (isEngine ? engineQuery.refetch() : chainQuery.refetch());
+    if (isPoints) {
+      await pointsQuery.refetch();
+    } else if (isEngine) {
+      await engineQuery.refetch();
+    } else {
+      await chainQuery.refetch();
+    }
     setIsRefreshing(false);
   };
 
   const _fetchNextPage = () => {
+    // Points query doesn't support pagination (all transactions returned at once)
+    if (isPoints) {
+      return;
+    }
+
     if (isEngine) {
       if (engineQuery.hasNextPage && !engineQuery.isFetchingNextPage) {
         engineQuery.fetchNextPage();
@@ -366,6 +350,19 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   };
 
   const _data = useMemo(() => {
+    if (isPoints) {
+      // For POINTS, use transactions from SDK points query
+      const transactions = pointsQuery.data?.transactions || [];
+      return transactions.map((item) =>
+        groomingPointsTransactionData({
+          ...item,
+          icon: get(POINTS[get(item, 'type')], 'icon'),
+          iconType: get(POINTS[get(item, 'type')], 'iconType'),
+          textKey: get(POINTS[get(item, 'type')], 'textKey'),
+        }),
+      );
+    }
+
     if (isEngine) {
       const pages = engineQuery.data?.pages || [];
       const merged = unionBy(...pages, 'engineTrxId');
@@ -384,8 +381,10 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
 
     return activities.filter((item) => item && item.value && item.value.includes(symbol));
   }, [
+    pointsQuery.data?.transactions,
     chainQuery.data?.pages,
     engineQuery.data?.pages,
+    isPoints,
     isEngine,
     globalProps.hivePerMVests,
     symbol,
@@ -394,7 +393,9 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   return {
     data: _data,
     isRefreshing,
-    isLoading: isEngine
+    isLoading: isPoints
+      ? pointsQuery.isLoading || pointsQuery.isFetching
+      : isEngine
       ? engineQuery.isLoading || engineQuery.isFetching
       : chainQuery.isLoading || chainQuery.isFetching,
     fetchNextPage: _fetchNextPage,
