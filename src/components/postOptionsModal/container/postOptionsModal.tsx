@@ -659,10 +659,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
           },
         });
         break;
-      case 'voice':
-        await delay(700);
-        SheetManager.show(SheetNames.TTS_SETTINGS);
-        break;
       case 'delete-post':
         await delay(700);
         _deletePost();

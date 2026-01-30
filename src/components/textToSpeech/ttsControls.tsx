@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import * as Speech from 'expo-speech';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { useIntl } from 'react-intl';
+import { Icon } from '../icon';
 import { IconButton } from '../iconButton';
 import { extractPlainTextForTTS, hasReadableContent } from '../../utils/textToSpeech';
 import { loadTTSSettings, TTSSettings } from '../../utils/ttsSettings';
@@ -9,9 +11,11 @@ import { loadTTSSettings, TTSSettings } from '../../utils/ttsSettings';
 interface TTSControlsProps {
   post: any;
   style?: any;
+  showLabel?: boolean;
 }
 
-export const TTSControls = ({ post, style }: TTSControlsProps) => {
+export const TTSControls = ({ post, style, showLabel = false }: TTSControlsProps) => {
+  const intl = useIntl();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -152,15 +156,35 @@ export const TTSControls = ({ post, style }: TTSControlsProps) => {
         <ActivityIndicator size="small" color={EStyleSheet.value('$primaryBlue')} />
       ) : (
         <>
-          <IconButton
-            iconType="MaterialCommunityIcons"
-            name={isPlaying && !isPaused ? 'pause' : 'play'}
-            onPress={handlePlayPause}
-            size={24}
-            color={EStyleSheet.value('$primaryBlack')}
-            style={styles.playButton}
-          />
-          {isPlaying && (
+          {showLabel ? (
+            <TouchableOpacity
+              onPress={handlePlayPause}
+              style={styles.playButtonWithLabel}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              <Icon
+                iconType="MaterialCommunityIcons"
+                name={isPlaying && !isPaused ? 'pause' : 'play'}
+                size={20}
+                color={EStyleSheet.value('$primaryBlue')}
+              />
+              <Text style={styles.playLabel}>
+                {isPlaying && !isPaused
+                  ? intl.formatMessage({ id: 'tts.pause' })
+                  : intl.formatMessage({ id: 'tts.play' })}
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <IconButton
+              iconType="MaterialCommunityIcons"
+              name={isPlaying && !isPaused ? 'pause' : 'play'}
+              onPress={handlePlayPause}
+              size={24}
+              color={EStyleSheet.value('$primaryBlack')}
+              style={styles.playButton}
+            />
+          )}
+          {isPlaying && !showLabel && (
             <IconButton
               iconType="MaterialCommunityIcons"
               name="stop"
@@ -186,5 +210,15 @@ const styles = EStyleSheet.create({
   },
   stopButton: {
     marginRight: 0,
+  },
+  playButtonWithLabel: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  playLabel: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '$primaryBlue',
   },
 });

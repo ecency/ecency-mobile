@@ -5,13 +5,7 @@ import { View } from 'react-native';
 import { Image as ExpoImage } from 'expo-image';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  BasicHeader,
-  IconButton,
-  PostDisplay,
-  PostOptionsModal,
-  TTSControls,
-} from '../../../components/index';
+import { BasicHeader, IconButton, PostDisplay, PostOptionsModal } from '../../../components/index';
 import styles from '../styles/postScreen.styles';
 
 // Component
@@ -126,7 +120,6 @@ const PostScreen = ({ route }) => {
 
   const _headerRightComponent = (
     <View style={styles.headerRight}>
-      {getPostQuery.data && <TTSControls post={getPostQuery.data} />}
       <IconButton
         iconStyle={styles.optionsIcon}
         iconType="MaterialCommunityIcons"

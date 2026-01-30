@@ -16,6 +16,7 @@ import { getTimeFromNow } from '../../../utils/time';
 import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
 import { PostPlaceHolder, StickyBar, TextWithIcon, NoPost } from '../../basicUIElements';
 import { ParentPost } from '../../parentPost';
+import { PostReadingMetadata } from '../children/postReadingMetadata';
 
 // Styles
 import styles from './postDisplayStyles';
@@ -373,6 +374,7 @@ const PostDisplayView = ({
                   />
                 </View>
               </View>
+              <PostReadingMetadata post={post} />
               <PostBody
                 body={post.body}
                 metadata={post.json_metadata}
