@@ -751,7 +751,11 @@
     "muted": "Sisältö mykistetty rikkomuksen vuoksi",
     "community_muted": "Sisältö mykistetty yhteisön sääntöjen vastaisena",
     "promoted": "Ylennetty",
-    "image_saved": "Tallennettu kuvagalleriaan"
+    "image_saved": "Tallennettu kuvagalleriaan",
+    "words": "Words",
+    "reading": "Reading",
+    "listen": "Listen",
+    "min": "min"
   },
   "promote": {
     "information": "Haluatko varmasti korostaa?",
@@ -1343,6 +1347,8 @@
     "speed": "Speed",
     "pitch": "Pitch",
     "test_voice": "Test Voice",
-    "settings_info": "These settings will be used when reading posts aloud"
+    "settings_info": "These settings will be used when reading posts aloud",
+    "play": "Play",
+    "pause": "Pause"
   }
 }
