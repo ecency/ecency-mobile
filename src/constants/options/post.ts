@@ -4,7 +4,6 @@ export default [
   'copy',
   'reply',
   'translate',
-  'voice',
   'reblog',
   'undo-reblog',
   'pin-blog',
