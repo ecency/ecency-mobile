@@ -751,7 +751,11 @@
     "muted": "Contenido silenciado por infracción",
     "community_muted": "Contenido silenciado por violación de las directrices comunitarias",
     "promoted": "PROMOCIONADO",
-    "image_saved": "Imagen guardada en la galería de fotos"
+    "image_saved": "Imagen guardada en la galería de fotos",
+    "words": "Words",
+    "reading": "Reading",
+    "listen": "Listen",
+    "min": "min"
   },
   "promote": {
     "information": "¿Seguro de que desea promocionar?",
@@ -1343,6 +1347,8 @@
     "speed": "Velocidad",
     "pitch": "Pitch",
     "test_voice": "Probar Voz",
-    "settings_info": "Estos ajustes se utilizarán al leer mensajes en voz alta"
+    "settings_info": "Estos ajustes se utilizarán al leer mensajes en voz alta",
+    "play": "Play",
+    "pause": "Pause"
   }
 }
