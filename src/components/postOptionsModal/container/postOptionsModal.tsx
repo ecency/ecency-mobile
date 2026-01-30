@@ -394,14 +394,19 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
           // Refetch reblogs to update the list
           reblogsQuery.refetch();
 
-          // Invalidate user's blog feed to show added/removed reblog
-          // SDK query key structure: ['posts', 'account-posts', username, 'blog', ...]
+          // Invalidate the specific post query to update reblog stats
+          queryClient.invalidateQueries({
+            queryKey: ['posts', 'entry', `/@${content.author}/${get(content, 'permlink', '')}`],
+          });
+
+          // Invalidate account posts query to show added/removed reblog in blog and reblog filters
+          // SDK query key structure: ['posts', 'account-posts', username, filter, ...]
           queryClient.invalidateQueries({
             predicate: (query) =>
               query.queryKey[0] === 'posts' &&
               query.queryKey[1] === 'account-posts' &&
               query.queryKey[2] === currentAccount.name &&
-              query.queryKey[3] === 'blog',
+              ['blog', 'reblog'].includes(String(query.queryKey[3])),
           });
         })
         .catch((error) => {
