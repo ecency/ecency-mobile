@@ -751,7 +751,11 @@
     "muted": "Content is muted for violation",
     "community_muted": "Content muted for community guidelines violation",
     "promoted": "PROMOTED",
-    "image_saved": "Immagine salvata in Galleria Foto"
+    "image_saved": "Immagine salvata in Galleria Foto",
+    "words": "Words",
+    "reading": "Reading",
+    "listen": "Listen",
+    "min": "min"
   },
   "promote": {
     "information": "Sei sicuro di voler promuovere il post?",
@@ -1343,6 +1347,8 @@
     "speed": "Speed",
     "pitch": "Pitch",
     "test_voice": "Test Voice",
-    "settings_info": "These settings will be used when reading posts aloud"
+    "settings_info": "These settings will be used when reading posts aloud",
+    "play": "Play",
+    "pause": "Pause"
   }
 }
