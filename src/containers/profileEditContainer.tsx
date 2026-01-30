@@ -165,8 +165,9 @@ class ProfileEditContainer extends Component {
 
     this.setState({ isLoading: true });
 
-    // TOOD: preserve pinned post permlink
+    // Preserve all existing profile fields and only update the ones being edited
     const params = {
+      ...(currentAccount.about?.profile || {}),
       profile_image: avatarUrl,
       cover_image: coverUrl,
       name,
@@ -181,7 +182,10 @@ class ProfileEditContainer extends Component {
       await profileUpdate(params, pinCode, currentAccount);
 
       const _currentAccount = { ...currentAccount, display_name: name, avatar: avatarUrl };
-      _currentAccount.about.profile = { ...params };
+      _currentAccount.about = {
+        ...(currentAccount.about || {}),
+        profile: params,
+      };
 
       dispatch(updateCurrentAccount(_currentAccount));
       dispatch(setAvatarCacheStamp(new Date().getTime()));
