@@ -85,7 +85,6 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-      console.log('updating coins activities on app resume', assetSymbol);
       _fetchDetails(true);
     }
 
@@ -102,7 +101,6 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       }
       return;
     } else if (activitiesQuery.isLoading) {
-      console.log('Skipping transaction fetch');
       return;
     }
 

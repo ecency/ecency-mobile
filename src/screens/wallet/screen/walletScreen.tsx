@@ -129,7 +129,6 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
 
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-      console.log('updating selected coins data on app resume');
       _refetchData();
     }
     appState.current = nextAppState;
