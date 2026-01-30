@@ -2360,7 +2360,10 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     const _params = {
       account: get(currentAccount, 'name'),
       json_metadata: '',
-      posting_json_metadata: jsonStringify({ profile: params }),
+      posting_json_metadata: jsonStringify({
+        ...(currentAccount.about || {}),
+        profile: params,
+      }),
       extensions: [],
     };
 
@@ -2379,7 +2382,10 @@ export const profileUpdate = async (params, pin, currentAccount) => {
         {
           account: get(currentAccount, 'name'),
           json_metadata: '',
-          posting_json_metadata: jsonStringify({ profile: params }),
+          posting_json_metadata: jsonStringify({
+            ...(currentAccount.about || {}),
+            profile: params,
+          }),
           extensions: [],
         },
       ],
