@@ -751,7 +751,11 @@
     "muted": "Content is muted for violation",
     "community_muted": "Content muted for community guidelines violation",
     "promoted": "PROMOTED",
-    "image_saved": "Vaizdas išsaugotas fotogalerijoje"
+    "image_saved": "Vaizdas išsaugotas fotogalerijoje",
+    "words": "Words",
+    "reading": "Reading",
+    "listen": "Listen",
+    "min": "min"
   },
   "promote": {
     "information": "Ar tikrai norite reklamuoti?",
@@ -1343,6 +1347,8 @@
     "speed": "Speed",
     "pitch": "Pitch",
     "test_voice": "Test Voice",
-    "settings_info": "These settings will be used when reading posts aloud"
+    "settings_info": "These settings will be used when reading posts aloud",
+    "play": "Play",
+    "pause": "Pause"
   }
 }
