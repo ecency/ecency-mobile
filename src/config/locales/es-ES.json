@@ -752,9 +752,9 @@
     "community_muted": "Contenido silenciado por violación de las directrices comunitarias",
     "promoted": "PROMOCIONADO",
     "image_saved": "Imagen guardada en la galería de fotos",
-    "words": "Words",
-    "reading": "Reading",
-    "listen": "Listen",
+    "words": "Palabras",
+    "reading": "Leyendo",
+    "listen": "Escuchar",
     "min": "min"
   },
   "promote": {
@@ -1348,7 +1348,7 @@
     "pitch": "Pitch",
     "test_voice": "Probar Voz",
     "settings_info": "Estos ajustes se utilizarán al leer mensajes en voz alta",
-    "play": "Play",
-    "pause": "Pause"
+    "play": "Reproducir",
+    "pause": "Pausa"
   }
 }
