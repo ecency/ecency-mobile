@@ -30,6 +30,7 @@ import {
   recurrentTransferToken,
 } from '../providers/hive/dhive';
 import { getQueryClient } from '../providers/queries';
+import QUERIES from '../providers/queries/queryKeys';
 import { toastNotification } from '../redux/actions/uiAction';
 import { getUserDataWithUsername } from '../realm/realm';
 import { getPointsSummary } from '../providers/ecency/ePoint';
@@ -212,9 +213,34 @@ class TransferContainer extends Component {
   };
 
   _delayedRefreshCoinsData = () => {
-    setTimeout(() => {
-      // TODO: invalidate portfolio query data here
-    }, 3000);
+    const { currentAccount } = this.props;
+    const queryClient = getQueryClient();
+
+    // Invalidate wallet-related queries after operations
+    if (currentAccount?.name) {
+      // Invalidate portfolio/balance queries for all currencies
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0] === QUERIES.WALLET.GET && query.queryKey[1] === currentAccount.name,
+      });
+
+      // Invalidate activities/transactions queries for all assets
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0] === QUERIES.WALLET.GET_ACTIVITIES &&
+          query.queryKey[1] === currentAccount.name,
+      });
+
+      // Invalidate pending requests (conversions, limit orders, savings withdrawals)
+      queryClient.invalidateQueries({
+        queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS],
+      });
+
+      // Invalidate recurring transfers
+      queryClient.invalidateQueries({
+        queryKey: [QUERIES.WALLET.GET_RECURRING_TRANSFERS],
+      });
+    }
   };
 
   _transferToAccount = async (

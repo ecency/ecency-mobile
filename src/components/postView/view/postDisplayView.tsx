@@ -374,7 +374,7 @@ const PostDisplayView = ({
                   />
                 </View>
               </View>
-              <PostReadingMetadata post={post} />
+              {post && <PostReadingMetadata post={post} />}
               <PostBody
                 body={post.body}
                 metadata={post.json_metadata}

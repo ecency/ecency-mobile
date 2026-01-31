@@ -25,11 +25,14 @@ import { getTimeFromNow } from '../../../utils/time';
 import { repostQueries } from '../../../providers/queries';
 
 const renderUserListItem = (item, index, handleOnUserPress) => {
+  // Safely handle timestamp - only show if it exists
+  const description = item.timestamp ? getTimeFromNow(item.timestamp) : '';
+
   return (
     <UserListItem
       index={index}
       username={item.account}
-      description={getTimeFromNow(item.timestamp)}
+      description={description}
       handleOnPress={() => handleOnUserPress(item.account)}
     />
   );
@@ -55,14 +58,25 @@ const ReblogScreen = ({ route }) => {
     let _reblogs: any[] = [];
     let _deleteEnabled = false;
     if (reblogsQuery.data instanceof Array) {
-      _reblogs = reblogsQuery.data.map((username) => ({ account: username }));
-      _deleteEnabled = currentAccount ? reblogsQuery.data.includes(currentAccount.name) : false;
+      _reblogs = reblogsQuery.data.map((item) => {
+        // Handle both string (username) and object formats
+        if (typeof item === 'string') {
+          return { account: item, timestamp: null };
+        }
+        // If it's already an object, use it directly
+        return { account: item.account || item, timestamp: item.timestamp || null };
+      });
+
+      const usernames = reblogsQuery.data.map((item) =>
+        typeof item === 'string' ? item : item.account || item,
+      );
+      _deleteEnabled = currentAccount ? usernames.includes(currentAccount.name) : false;
     }
     return {
       reblogs: _reblogs,
       deleteEnabled: _deleteEnabled,
     };
-  }, [reblogsQuery.data?.length]);
+  }, [reblogsQuery.data, currentAccount?.name]);
 
   const headerTitle = intl.formatMessage({
     id: 'reblog.title',
