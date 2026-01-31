@@ -172,15 +172,43 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       cachedVotesKeys: Object.keys(cachedVotes || {}).length,
     });
 
-    if (!query.data) {
+    // Even if query.data is empty, we should try to show cached comments
+    // This handles the case where user posts a comment before discussion finishes loading
+    const hasCache = cachedComments && Object.keys(cachedComments).length > 0;
+
+    if (!query.data && !hasCache) {
       setData((prev) => {
         if (Object.keys(prev).length === 0) {
           return prev;
         }
-        console.log('[useDiscussionQuery] Clearing data');
+        console.log('[useDiscussionQuery] Clearing data - no query data and no cache');
         return {};
       });
       return;
+    }
+
+    // If we have cache but no query data yet, we need to create synthetic parent entries
+    // so that injectPostCache can properly inject the cached comments
+    const initialData = {};
+    if (!query.data && hasCache) {
+      console.log('[useDiscussionQuery] Creating synthetic parents for cached comments');
+      // Create synthetic parent entries for cached comments
+      Object.keys(cachedComments).forEach((path) => {
+        const cachedComment = cachedComments[path];
+        const _parentPath = `${cachedComment.parent_author}/${cachedComment.parent_permlink}`;
+
+        // Create a minimal synthetic parent if it doesn't exist
+        if (!initialData[_parentPath]) {
+          initialData[_parentPath] = {
+            author: cachedComment.parent_author,
+            permlink: cachedComment.parent_permlink,
+            replies: [],
+            children: 0,
+            // Mark as synthetic so we know it's temporary
+            _synthetic: true,
+          };
+        }
+      });
     }
 
     // Normalize SDK response to a map keyed by "author/permlink"
@@ -235,14 +263,15 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       return normalized;
     };
 
-    const normalizedData = normalizeDiscussionData(query.data);
+    // Use initialData if query.data is not available yet (e.g., still loading)
+    const normalizedData = normalizeDiscussionData(query.data || initialData);
 
     // Parse SDK comments to convert markdown to HTML using render-helper
     // IMPORTANT: parseComment mutates its input, so we must create a shallow copy first
     const parsedComments = {};
     Object.keys(normalizedData).forEach((key) => {
       const comment = normalizedData[key];
-      if (comment && comment.body) {
+      if (comment && comment.body && !comment._synthetic) {
         // Create shallow copy to avoid mutating React Query cache
         const commentCopy = { ...comment };
         parsedComments[key] = parseComment(commentCopy, currentAccount?.name);

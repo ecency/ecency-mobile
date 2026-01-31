@@ -169,7 +169,9 @@ export const sendHiveOperations = async (
   } catch (err) {
     captureExceptionWithRpcParams(err, { operations }, (scope) => {
       scope.setTag('context', 'send-hive-operations');
-      scope.setContext('operationsArray', { operations });
+      scope.setContext('operationsArray', {
+        operations: operations.map((op) => (Array.isArray(op) ? [...op] : op)),
+      });
     });
     throw err;
   }
