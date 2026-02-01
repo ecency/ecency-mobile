@@ -14,11 +14,12 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { getCommentHistoryQueryOptions } from '@ecency/sdk';
 import { BasicHeader, Icon, PostPlaceHolder, TextInput } from '../../components';
 
 // styles
 import styles from './editHistoryScreenStyles';
-import { getCommentHistory } from '../../providers/ecency/ecency';
+import { getQueryClient } from '../../providers/queries';
 import { dateToFormatted } from '../../utils/time';
 import historyBuilder from './historyBuilder';
 
@@ -96,7 +97,10 @@ const EditHistoryScreen = ({ route }) => {
 
   const _getCommentHistory = async () => {
     setIsLoading(true);
-    const responseData = await getCommentHistory(author, permlink);
+    const queryClient = getQueryClient();
+    const responseData = await queryClient.fetchQuery(
+      getCommentHistoryQueryOptions(author, permlink, false),
+    );
     if (!responseData) {
       setIsLoading(false);
       Alert.alert('No History found!');

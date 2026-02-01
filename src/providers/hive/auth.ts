@@ -8,6 +8,7 @@ import {
   getAccountRcQueryOptions,
   getMutedUsersQueryOptions,
 } from '@ecency/sdk';
+import { getNotificationsUnreadCountQueryOptions } from '@ecency/sdk';
 import { getDigitPinCode } from './dhive';
 import { getQueryClient } from '../queries';
 import { getPointsSummary } from '../ecency/ePoint';
@@ -23,7 +24,7 @@ import {
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
-import { getSCAccessToken, getUnreadNotificationCount } from '../ecency/ecency';
+import { getSCAccessToken } from '../ecency/ecency';
 
 // Constants
 import AUTH_TYPE from '../../constants/authType';
@@ -119,12 +120,14 @@ export const login = async (username, password) => {
 
   // fetch optional account data;
   try {
-    const accessToken = scTokens?.access_token;
-    account.unread_activity_count = await getUnreadNotificationCount(accessToken);
+    const queryClient = getQueryClient();
+    const accessToken = scTokens?.access_token || '';
+    account.unread_activity_count = await queryClient.fetchQuery(
+      getNotificationsUnreadCountQueryOptions(account.username, accessToken),
+    );
     account.pointsSummary = await getPointsSummary(account.username);
 
     // Fetch muted users using SDK query
-    const queryClient = getQueryClient();
     account.mutes = await queryClient.fetchQuery(getMutedUsersQueryOptions(account.username));
   } catch (err) {
     console.warn('Optional user data fetch failed, account can still function without them', err);
@@ -185,12 +188,14 @@ export const loginWithSC2 = async (code) => {
     let avatar = '';
 
     try {
+      const queryClient = getQueryClient();
       const accessToken = scTokens ? scTokens.access_token : '';
-      account.unread_activity_count = await getUnreadNotificationCount(accessToken);
+      account.unread_activity_count = await queryClient.fetchQuery(
+        getNotificationsUnreadCountQueryOptions(account.username, accessToken),
+      );
       account.pointsSummary = await getPointsSummary(account.username);
 
       // Fetch muted users using SDK query
-      const queryClient = getQueryClient();
       account.mutes = await queryClient.fetchQuery(getMutedUsersQueryOptions(account.username));
     } catch (err) {
       console.warn('Optional user data fetch failed, account can still function without them', err);
@@ -255,12 +260,14 @@ export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => 
     let avatar = '';
 
     try {
+      const queryClient = getQueryClient();
       const accessToken = scTokens ? scTokens.access_token : '';
-      account.unread_activity_count = await getUnreadNotificationCount(accessToken);
+      account.unread_activity_count = await queryClient.fetchQuery(
+        getNotificationsUnreadCountQueryOptions(account.username, accessToken),
+      );
       account.pointsSummary = await getPointsSummary(account.username);
 
       // Fetch muted users using SDK query
-      const queryClient = getQueryClient();
       account.mutes = await queryClient.fetchQuery(getMutedUsersQueryOptions(account.username));
     } catch (err) {
       console.warn('Optional user data fetch failed, account can still function without them', err);

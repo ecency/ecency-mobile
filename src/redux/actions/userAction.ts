@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+import { getDiscoverLeaderboardQueryOptions, LeaderBoardDuration } from '@ecency/sdk';
 import {
   FOLLOW_USER,
   FOLLOW_USER_SUCCESS,
@@ -16,7 +17,7 @@ import {
   followUser as followUserReq,
   unfollowUser as unfollowUserReq,
 } from '../../providers/hive/dhive';
-import { getLeaderboard } from '../../providers/ecency/ecency';
+import { getQueryClient } from '../../providers/queries';
 
 // Follow User
 export const followUser = (
@@ -103,10 +104,12 @@ export const unfollowUserFail = (error: any, data: any, failToastText: string) =
 };
 
 // Fetch Leaderboard
-export const fetchLeaderboard = (duration = 'day') => {
+export const fetchLeaderboard = (duration: LeaderBoardDuration = 'day') => {
   return (dispatch: Dispatch) => {
     dispatch({ type: FETCH_LEADERBOARD });
-    getLeaderboard(duration)
+    const queryClient = getQueryClient();
+    queryClient
+      .fetchQuery(getDiscoverLeaderboardQueryOptions(duration))
       .then((res) => dispatch(fetchLeaderboardSuccess(res)))
       .catch((err) => dispatch(fetchLeaderboardFail(err)));
   };

@@ -3,9 +3,9 @@ import get from 'lodash/get';
 import { connect } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
+import { getSearchTopicsQueryOptions } from '@ecency/sdk';
 import ROUTES from '../../../../../../constants/routeNames';
-
-import { searchTag } from '../../../../../../providers/ecency/ecency';
+import { getQueryClient } from '../../../../../../providers/queries';
 
 const OtherResultContainer = ({ children, searchValue }) => {
   const navigation = useNavigation();
@@ -14,23 +14,14 @@ const OtherResultContainer = ({ children, searchValue }) => {
   const [noResult, setNoResult] = useState(false);
 
   useEffect(() => {
-    if (searchValue && searchValue.length <= 10) {
+    const queryClient = getQueryClient();
+
+    if (searchValue) {
       setNoResult(false);
       setTags([]);
 
-      searchTag(searchValue.trim(), 20)
-        .then((res) => {
-          if (res && res.length === 0) {
-            setNoResult(true);
-          }
-          setTags(res);
-        })
-        .catch(() => {
-          setNoResult(true);
-          setTags([]);
-        });
-    } else {
-      searchTag(searchValue.trim(), 20, 1)
+      queryClient
+        .fetchQuery(getSearchTopicsQueryOptions(searchValue.trim(), 20))
         .then((res) => {
           if (res && res.length === 0) {
             setNoResult(true);

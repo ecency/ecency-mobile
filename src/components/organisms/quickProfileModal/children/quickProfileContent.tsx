@@ -12,7 +12,11 @@ import {
 } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import { MainButton, StatsPanel } from '../../..';
-import { addFavorite, checkFavorite, deleteFavorite } from '../../../../providers/ecency/ecency';
+import { checkFavorite } from '../../../../providers/ecency/ecency';
+import {
+  useAddFavouriteMutation,
+  useDeleteFavouriteMutation,
+} from '../../../../providers/queries/bookmarkQueries';
 import { followUser } from '../../../../providers/hive/dhive';
 import { getRcPower, getVotingPower } from '../../../../utils/manaBar';
 import styles from './quickProfileStyles';
@@ -40,6 +44,9 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinCode = useAppSelector(selectPin);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
+
+  const addFavouriteMutation = useAddFavouriteMutation();
+  const deleteFavouriteMutation = useDeleteFavouriteMutation();
 
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
@@ -172,38 +179,34 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
     }
   };
 
-  const _onFavouritePress = async () => {
-    try {
-      setIsLoading(true);
-      let favoriteAction;
+  const _onFavouritePress = () => {
+    setIsLoading(true);
 
-      if (isFavourite) {
-        favoriteAction = deleteFavorite;
-      } else {
-        favoriteAction = addFavorite;
-      }
+    const mutation = isFavourite ? deleteFavouriteMutation : addFavouriteMutation;
 
-      await favoriteAction(username);
-
-      dispatch(
-        toastNotification(
+    mutation.mutate(username, {
+      onSuccess: () => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: isFavourite ? 'alert.success_unfavorite' : 'alert.success_favorite',
+            }),
+          ),
+        );
+        setIsFavourite(!isFavourite);
+        setIsLoading(false);
+      },
+      onError: (error: any) => {
+        console.warn('Failed to perform favorite action', error);
+        setIsLoading(false);
+        Alert.alert(
           intl.formatMessage({
-            id: isFavourite ? 'alert.success_unfavorite' : 'alert.success_favorite',
+            id: 'alert.fail',
           }),
-        ),
-      );
-      setIsFavourite(!isFavourite);
-      setIsLoading(false);
-    } catch (error) {
-      console.warn('Failed to perform favorite action');
-      setIsLoading(false);
-      Alert.alert(
-        intl.formatMessage({
-          id: 'alert.fail',
-        }),
-        error.message || error.toString(),
-      );
-    }
+          error.message || error.toString(),
+        );
+      },
+    });
   };
 
   // UI CALLBACKS

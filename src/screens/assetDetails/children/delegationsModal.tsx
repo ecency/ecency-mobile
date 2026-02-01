@@ -4,7 +4,10 @@ import { FlatList, RefreshControl } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useQueryClient } from '@tanstack/react-query';
-import { getVestingDelegationsQueryOptions } from '@ecency/sdk';
+import {
+  getVestingDelegationsQueryOptions,
+  getReceivedVestingSharesQueryOptions,
+} from '@ecency/sdk';
 
 import unionBy from 'lodash/unionBy';
 import AccountListContainer from '../../../containers/accountListContainer';
@@ -17,7 +20,6 @@ import {
   selectIsDarkTheme,
   selectGlobalProps,
 } from '../../../redux/selectors';
-import { getReceivedVestingShares } from '../../../providers/ecency/ecency';
 import { vestsToHp } from '../../../utils/conversions';
 
 export enum MODES {
@@ -86,7 +88,9 @@ export const DelegationsModal = forwardRef(({}, ref) => {
   };
 
   const _getReceivedDelegations = async () => {
-    const response = await getReceivedVestingShares(currentAccount.name);
+    const response = await queryClient.fetchQuery(
+      getReceivedVestingSharesQueryOptions(currentAccount.name),
+    );
     return response.map((item) => ({
       username: item.delegator,
       vestingShares: item.vesting_shares,

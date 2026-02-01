@@ -19,6 +19,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { debounce } from 'lodash';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
+import { getReceivedVestingSharesQueryOptions } from '@ecency/sdk';
 import AUTH_TYPE from '../../../constants/authType';
 import { hsOptions } from '../../../constants/hsOptions';
 
@@ -38,7 +39,7 @@ import {
 import styles from './transferStyles';
 
 // Utils
-import { getReceivedVestingShares } from '../../../providers/ecency/ecency';
+import { getQueryClient } from '../../../providers/queries';
 import parseToken from '../../../utils/parseToken';
 import { isEmptyDate } from '../../../utils/time';
 import { hpToVests, vestsToHp } from '../../../utils/conversions';
@@ -180,7 +181,10 @@ class DelegateScreen extends Component {
     try {
       const { hivePerMVests } = this.props;
       const delegateeUser = this.state.destination;
-      const vestingShares = await getReceivedVestingShares(delegateeUser);
+      const queryClient = getQueryClient();
+      const vestingShares = await queryClient.fetchQuery(
+        getReceivedVestingSharesQueryOptions(delegateeUser),
+      );
       if (vestingShares && vestingShares.length) {
         const curShare = vestingShares.find((item) => item.delegator === this.state.from);
         if (curShare) {

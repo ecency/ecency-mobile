@@ -9,9 +9,9 @@ import {
   lookupAccountsQueryOptions,
   getTrendingTagsQueryOptions,
   getPostQueryOptions,
+  getSearchQueryOptions,
 } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
-import { search } from '../../../providers/ecency/ecency';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -160,16 +160,17 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
             }
           }
         } else {
-          search({ q: text, sort: 'trending', hideLow: '0' })
+          queryClient
+            .fetchQuery(getSearchQueryOptions(text, 'newest', false))
             .then((res) => {
-              res.results = res.results
+              const results = res
                 .filter((item) => item.title !== '')
                 .map((item) => ({
                   image: item.img_url || getResizedAvatar(get(item, 'author')),
                   text: item.title,
                   ...item,
                 }));
-              setSearchResults({ type: 'content', data: get(res, 'results', []) });
+              setSearchResults({ type: 'content', data: results });
             })
             .catch((e) => console.log('search', e));
         }

@@ -15,7 +15,11 @@ import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 // Constants
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
-import { getMutedUsersQueryOptions, getAccountFullQueryOptions } from '@ecency/sdk';
+import {
+  getMutedUsersQueryOptions,
+  getAccountFullQueryOptions,
+  getNotificationsUnreadCountQueryOptions,
+} from '@ecency/sdk';
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
 
@@ -39,7 +43,8 @@ import {
   refreshSCToken,
   switchAccount,
 } from '../../../providers/hive/auth';
-import { setPushToken, getUnreadNotificationCount } from '../../../providers/ecency/ecency';
+import { setPushToken } from '../../../providers/ecency/ecency';
+import { decryptKey } from '../../../utils/crypto';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
 import RootNavigation from '../../../navigation/rootNavigation';
 import {
@@ -377,9 +382,16 @@ class ApplicationContainer extends Component {
   };
 
   _refreshUnreadActivityCount = async () => {
-    const { dispatch, isLoggedIn } = this.props;
-    if (isLoggedIn) {
-      const unreadActivityCount = await getUnreadNotificationCount();
+    const { dispatch, isLoggedIn, currentAccount, pinCode } = this.props;
+    if (isLoggedIn && currentAccount) {
+      const username = currentAccount.name;
+      const accessToken = currentAccount?.local?.accessToken
+        ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+        : '';
+      const queryClient = getQueryClient();
+      const unreadActivityCount = await queryClient.fetchQuery(
+        getNotificationsUnreadCountQueryOptions(username, accessToken),
+      );
       dispatch(updateUnreadActivityCount(unreadActivityCount));
     }
   };
@@ -636,7 +648,12 @@ class ApplicationContainer extends Component {
       }
 
       try {
-        accountData.unread_activity_count = await getUnreadNotificationCount();
+        const accessToken = realmObject.accessToken
+          ? decryptKey(realmObject.accessToken, getDigitPinCode(pinCode))
+          : '';
+        accountData.unread_activity_count = await queryClient.fetchQuery(
+          getNotificationsUnreadCountQueryOptions(realmObject.username, accessToken),
+        );
 
         // Fetch muted users using SDK query
         accountData.mutes = await queryClient.fetchQuery(
@@ -1131,7 +1148,12 @@ class ApplicationContainer extends Component {
 
       try {
         const queryClient = getQueryClient();
-        _currentAccount.unread_activity_count = await getUnreadNotificationCount();
+        const accessToken = _currentAccount?.local?.accessToken
+          ? decryptKey(_currentAccount.local.accessToken, getDigitPinCode(pinCode))
+          : '';
+        _currentAccount.unread_activity_count = await queryClient.fetchQuery(
+          getNotificationsUnreadCountQueryOptions(_currentAccount.name, accessToken),
+        );
         _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.name);
 
         // Fetch muted users using SDK query

@@ -15,10 +15,13 @@ import {
   getDraftsInfiniteQueryOptions,
   getDraftsQueryOptions,
   getPostQueryOptions,
+  addDraft,
+  updateDraft,
+  addSchedule,
 } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
-import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
+import { getQueryClient } from '../../../providers/queries';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
   postContent,
@@ -173,8 +176,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         // If not in cache, fetch from API to get the specific draft
         // This handles cases where the draft is on a page that hasn't been loaded yet
         else {
-          getDrafts()
-            .then((drafts) => {
+          const { queryKey: draftsQueryKey } = getDraftsQueryOptions(username, accessToken);
+          queryClient
+            .fetchQuery(draftsQueryKey)
+            .then((result) => {
+              const drafts = result?.data || [];
               const fetchedDraft = drafts.find((d) => d._id === draftId);
               if (fetchedDraft) {
                 this._getStorageDraft(username, isReply, fetchedDraft);
@@ -436,7 +442,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
    * @param isReply
    * */
   _fetchDraftsForComparison = async (isReply) => {
-    const { currentAccount, isLoggedIn, draftsCollection } = this.props;
+    const { currentAccount, isLoggedIn, draftsCollection, pinCode } = this.props;
     const username = get(currentAccount, 'name', '');
 
     // initilizes editor with reply or non remote id less draft
@@ -471,7 +477,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         return;
       }
 
-      const remoteDrafts = await getDrafts();
+      const accessToken = currentAccount?.local?.accessToken
+        ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+        : '';
+      const { queryKey: draftsQueryKey } = getDraftsQueryOptions(username, accessToken);
+      const queryClient = getQueryClient();
+      const result = await queryClient.fetchQuery(draftsQueryKey);
+      const remoteDrafts = result?.data || [];
 
       const loadRecentDraft = () => {
         // if no draft available means local draft is recent
@@ -598,15 +610,20 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
 
+        const username = currentAccount.name;
+        const accessToken = currentAccount?.local?.accessToken
+          ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+          : '';
+
         // update draft is draftId is present
         if (draftId && draftField && !saveAsNew) {
-          await updateDraft(
+          await updateDraft(username, accessToken, {
             draftId,
-            draftField.title || '',
-            draftField.body,
-            draftField.tags,
-            jsonMeta,
-          );
+            title: draftField.title || '',
+            body: draftField.body,
+            tags: draftField.tags,
+            meta: jsonMeta,
+          });
 
           if (this._isMounted) {
             this.setState({
@@ -619,9 +636,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         // create new darft otherwise
         else if (draftField) {
           const { title, body, tags } = draftField;
-          const draft = { title, body, tags, meta: jsonMeta };
-          const response = await addDraft(draft);
-          const _resDraft = response.pop();
+          const response = await addDraft(username, accessToken, {
+            title,
+            body,
+            tags,
+            meta: jsonMeta,
+          });
+          const _resDraft = response;
 
           if (!_resDraft) {
             throw new Error('newly saved draft not returned in response');
@@ -1325,7 +1346,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _setScheduledPost = (data) => {
-    const { dispatch, intl, currentAccount, navigation } = this.props;
+    const { dispatch, intl, currentAccount, navigation, pinCode } = this.props;
     const { rewardType } = this.state;
 
     const options = makeOptions({
@@ -1335,14 +1356,20 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       beneficiaries: data.beneficiaries,
     });
 
-    addSchedule(
-      data.permlink,
-      data.fields.title || '',
-      data.fields.body,
-      data.jsonMeta,
+    const username = currentAccount.name;
+    const accessToken = currentAccount?.local?.accessToken
+      ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+      : '';
+
+    addSchedule(username, accessToken, {
+      permlink: data.permlink,
+      title: data.fields.title || '',
+      body: data.fields.body,
+      meta: data.jsonMeta,
       options,
-      data.scheduleDate,
-    )
+      schedule: data.scheduleDate,
+      reblog: 0,
+    })
       .then(() => {
         this.setState({
           isPostSending: false,

@@ -20,11 +20,13 @@ import { orientations } from '../../../redux/constants/orientationsConstants';
 import isAndroidTablet from '../../../utils/isAndroidTablet';
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
-import { useAnnouncementsQuery, useUserActivityMutation } from '../../../providers/queries';
+import {
+  useAnnouncementsQuery,
+  useUserActivityMutation,
+  useNotificationReadMutation,
+} from '../../../providers/queries';
 import THEME_OPTIONS from '../../../constants/options/theme';
 import { setCurrency, setIsDarkTheme } from '../../../redux/actions/applicationActions';
-import { markNotifications } from '../../../providers/ecency/ecency';
-import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { selectCurrentAccount } from '../../../redux/selectors';
@@ -47,6 +49,7 @@ export const useInitApplication = () => {
   const messagingEventRef = useRef<any>(null);
 
   const userActivityMutation = useUserActivityMutation();
+  const markNotificationsReadMutation = useNotificationReadMutation();
   useAnnouncementsQuery();
 
   // equivalent of componentWillMount and update on props,
@@ -260,9 +263,8 @@ export const useInitApplication = () => {
           break;
       }
 
-      markNotifications(activity_id).then((result) => {
-        dispatch(updateUnreadActivityCount(result.unread));
-      });
+      // Mark notification as read (mutation handles Redux update in onSuccess)
+      markNotificationsReadMutation.mutate(activity_id);
 
       if (!some(params, isEmpty)) {
         if (isPinCodeOpen) {

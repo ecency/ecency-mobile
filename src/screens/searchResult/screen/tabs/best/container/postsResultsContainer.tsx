@@ -3,10 +3,13 @@ import get from 'lodash/get';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { getPostQueryOptions, getAccountPostsQueryOptions } from '@ecency/sdk';
+import {
+  getPostQueryOptions,
+  getAccountPostsQueryOptions,
+  getSearchQueryOptions,
+} from '@ecency/sdk';
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { search } from '../../../../../../providers/ecency/ecency';
 import { getQueryClient, postQueries } from '../../../../../../providers/queries';
 import postUrlParser from '../../../../../../utils/postUrlParser';
 import { selectCurrentAccountUsername } from '../../../../../../redux/selectors';
@@ -46,8 +49,11 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     }
     // search with query
     else if (searchValue) {
-      const res = await search({ q: `${searchValue} type:post`, sort });
-      _data = res.results || [];
+      const queryClient = getQueryClient();
+      const res = await queryClient.fetchQuery(
+        getSearchQueryOptions(`${searchValue} type:post`, sort, false),
+      );
+      _data = res || [];
       setScrollId(res.scroll_id);
     }
     // get initial posts if not search value

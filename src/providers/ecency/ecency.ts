@@ -1,35 +1,57 @@
-import { proxifyImageSrc } from '@ecency/render-helper';
 import { isArray } from 'lodash';
-import { Platform } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 import ecencyApi from '../../config/ecencyApi';
 import { upload } from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
 import { SERVER_LIST } from '../../constants/options/api';
-import { parsePost } from '../../utils/postParser';
 import {
-  convertAnnouncement,
-  convertCommentHistory,
-  convertDraft,
   convertLatestQuotes,
-  convertPortfolio,
   convertProposalMeta,
   convertReferral,
   convertReferralStat,
 } from './converters';
-import {
-  CommentHistoryItem,
-  LatestMarketPrices,
-  MediaItem,
-  NotificationFilters,
-  PostTipsResponse,
-  PurchaseRequestData,
-  ReceivedVestingShare,
-  Referral,
-  ReferralStat,
-  Snippet,
-} from './ecency.types';
+import { LatestMarketPrices, PurchaseRequestData, Referral, ReferralStat } from './ecency.types';
 import { delay } from '../../utils/editor';
+
+/**
+ * ================================================================================
+ * ECENCY API - MOBILE-SPECIFIC FUNCTIONS
+ * ================================================================================
+ *
+ * This file contains Ecency API functions that are mobile-specific or not yet
+ * available in @ecency/sdk. Most query/mutation operations have been migrated
+ * to SDK - use SDK versions when available.
+ *
+ * MIGRATED TO SDK (removed from this file):
+ * - Queries: getReceivedVestingShares, getLeaderboard, getCommentHistory
+ * - Search: search, searchAccount, searchTag
+ * - Drafts: getDrafts, addDraft, updateDraft -> SDK draft mutations
+ * - Schedules: addSchedule, getSchedules, deleteScheduledPost, moveScheduledToDraft
+ * - Bookmarks: addBookmark, getBookmarks, deleteBookmark -> useAddBookmark, useDeleteBookmark
+ * - Notifications: getUnreadNotificationCount, getNotifications, markNotifications -> SDK notification queries/mutations
+ * - Images: getImages, addImage, deleteImage -> SDK image mutations
+ * - Snippets/Fragments: getFragments, addFragment, updateFragment, deleteFragment -> SDK fragment mutations
+ * - Portfolio: getPortfolio -> getPortfolioQueryOptions
+ * - Tips: getPostTips -> getPostTipsQueryOptions
+ * - Announcements: getAnnouncements -> getAnnouncementsQueryOptions
+ * - Promotions: getPromotedEntries -> getPromotedPostsQuery
+ *
+ * STILL IN THIS FILE (mobile-specific or not in SDK):
+ * - Currency APIs: getFiatHbdRate, getLatestQuotes, getCurrencyTokenRate
+ * - Images: uploadImage (React Native specific - SDK uses browser File API)
+ * - Notifications: setPushToken (device registration)
+ * - Accounts: deleteAccount, signUp
+ * - Reporting: addReport
+ * - Search: searchPath (path search for boost/promote)
+ * - Misc: getNodes, purchaseOrder, getSCAccessToken, getBotAuthers, getActiveProposalMeta
+ *
+ * TODO - Can be migrated to SDK (but still used by old code):
+ * - Favorites: checkFavorite, addFavorite, deleteFavorite -> getFavouritesQueryOptions, useAccountFavouriteAdd, useAccountFavouriteDelete
+ * - Referrals: getReferralsList, getReferralsStats -> getReferralsInfiniteQueryOptions, getReferralsStatsQueryOptions
+ * - Boost: getBoostPlusAccount, getBoostPlusPrice -> getBoostPlusAccountPricesQueryOptions, getBoostPlusPricesQueryOptions
+ *
+ * ================================================================================
+ */
 
 /**
  * ************************************
@@ -75,170 +97,6 @@ export const getCurrencyTokenRate = (currency, token) =>
       Sentry.captureException(err);
       return 0;
     });
-
-export const getReceivedVestingShares = async (
-  username: string,
-): Promise<ReceivedVestingShare[]> => {
-  try {
-    const res = await ecencyApi.get(`/private-api/received-vesting/${username}`);
-    if (!res.data || !res.data.list) {
-      throw new Error('No vesting shares for user');
-    }
-    return res.data.list;
-  } catch (error) {
-    Sentry.captureException(error);
-    console.warn(error);
-    throw error;
-  }
-};
-
-/**
- * returns list of saved drafts on ecency server
- */
-export const getDrafts = async () => {
-  try {
-    const res = await ecencyApi.post('/private-api/drafts');
-    const rawData = res.data;
-
-    if (!rawData) {
-      return [];
-    }
-
-    const _retData = rawData.length > 0 ? rawData.map(convertDraft) : [];
-    return _retData;
-  } catch (error) {
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * @params draftId
- */
-export const deleteDraft = async (draftId: string) => {
-  try {
-    const data = { id: draftId };
-    const res = await ecencyApi.post('/private-api/drafts-delete', data);
-    const rawData = res.data;
-
-    if (!rawData) {
-      throw new Error('Invalid response, drafts data not returned');
-    }
-
-    const _retData = rawData.length > 0 ? rawData.map(convertDraft) : [];
-    return _retData;
-  } catch (error) {
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * @param draft
- */
-export const addDraft = async (draft: any) => {
-  const { title, body, tags, meta } = draft;
-  try {
-    const newDraft = { title, body, tags, meta };
-    const res = await ecencyApi.post('/private-api/drafts-add', newDraft);
-    const rawData = res.data?.drafts;
-
-    if (!rawData) {
-      throw new Error('Invalid response, drafts data not returned');
-    }
-
-    const data = rawData.length > 0 ? rawData.map(convertDraft) : [];
-
-    return data;
-  } catch (error) {
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * @params draftId
- * @params title
- * @params body
- * @params tags
- * @params meta
- */
-export const updateDraft = async (
-  draftId: string,
-  title: string,
-  body: string,
-  tags: string,
-  meta: any,
-) => {
-  try {
-    const data = { id: draftId, title, body, tags, meta };
-    const res = await ecencyApi.post('/private-api/drafts-update', data);
-    if (res.data) {
-      return res.data;
-    } else {
-      throw new Error('No data returned in response');
-    }
-  } catch (error) {
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * ************************************
- * BOOKMARKS ECENCY APIS IMPLEMENTATION
- * ************************************
- */
-
-/**
- * Adds post to user's bookmarks
- * @param author
- * @param permlink
- * @returns array of saved bookmarks
- */
-export const addBookmark = async (author: string, permlink: string) => {
-  try {
-    const data = { author, permlink };
-    const response = await ecencyApi.post('/private-api/bookmarks-add', data);
-    return response.data;
-  } catch (error) {
-    console.warn('Failed to add bookmark', error);
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * fetches saved bookmarks of user
- * @returns array of saved bookmarks
- */
-export const getBookmarks = async () => {
-  try {
-    const response = await ecencyApi.post('/private-api/bookmarks');
-    return response.data;
-  } catch (error) {
-    console.warn('Failed to get saved bookmarks', error);
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * Deletes bookmark from user's saved bookmarks
- * @params bookmarkId
- * @returns array of saved bookmarks
- */
-export const deleteBookmark = async (bookmarkId: string) => {
-  try {
-    const data = { id: bookmarkId };
-    const response = await ecencyApi.post('/private-api/bookmarks-delete', data);
-    return response.data;
-  } catch (error) {
-    console.warn('Failed to delete bookmark', error);
-    Sentry.captureException(error);
-    throw error;
-  }
-};
 
 /**
  * TOOD:
@@ -359,142 +217,9 @@ export const deleteFavorite = async (targetUsername: string) => {
 
 /**
  * ************************************
- * SNIPPETS ECENCY APIS IMPLEMENTATION
- * ************************************
- */
-
-/**
- * Fetches all saved user fragments/snippets from ecency
- * @returns array of fragments
- */
-export const getFragments = async () => {
-  try {
-    const response = await ecencyApi.post('/private-api/fragments');
-    return response.data as Snippet[];
-  } catch (error) {
-    console.warn('Failed to get fragments', error);
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * Adds new fragment/snippets to user's saved fragments/snippets
- * @params title title
- * @params body body
- * @returns array of fragments
- */
-
-export const addFragment = async (title: string, body: string) => {
-  try {
-    const data = { title, body };
-    const response = await ecencyApi.post('/private-api/fragments-add', data);
-    return response.data;
-  } catch (error) {
-    console.warn('Failed to add fragment', error);
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * Updates a fragment content using fragment id
- * @params fragmentId
- * @params title
- * @params body
- * @returns array of fragments
- */
-export const updateFragment = async (fragmentId: string, title: string, body: string) => {
-  try {
-    const data = { id: fragmentId, title, body };
-    const response = await ecencyApi.post('/private-api/fragments-update', data);
-    return response.data;
-  } catch (error) {
-    console.warn('Failed to update fragment', error);
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * Deletes user saved fragment using specified fragment id
- * @params fragmentId
- * @returns array of fragments
- */
-export const deleteFragment = async (fragmentId: string) => {
-  try {
-    const data = { id: fragmentId };
-    const response = await ecencyApi.post('/private-api/fragments-delete', data);
-    return response.data;
-  } catch (error) {
-    console.warn('Failed to delete fragment', error);
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * ************************************
  * ACTIVITES ECENCY APIS IMPLEMENTATION
  * ************************************
  */
-
-export const getLeaderboard = async (duration: 'day' | 'week' | 'month') => {
-  try {
-    const response = await ecencyApi.get(`private-api/leaderboard/${duration}`);
-
-    const rawData = response.data;
-    if (!rawData || !isArray(rawData)) {
-      throw new Error('Invalid response returned');
-    }
-    return rawData;
-  } catch (error) {
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * fetches notifications from ecency server using filter and since props
- * @param data optional filter and since props;
- * @returns array of notifications
- */
-export const getNotifications = async (data: {
-  filter?: NotificationFilters;
-  since?: string;
-  limit?: number;
-}) => {
-  try {
-    const response = await ecencyApi.post('/private-api/notifications', data);
-    return response.data;
-  } catch (error) {
-    console.warn('Failed to get notifications', error);
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-export const getUnreadNotificationCount = async (accessToken?: string) => {
-  try {
-    const data = accessToken ? { code: accessToken } : {};
-    const response = await ecencyApi.post('/private-api/notifications/unread', data);
-    return response.data ? response.data.count : 0;
-  } catch (error) {
-    Sentry.captureException(error);
-    return 0;
-  }
-};
-
-export const markNotifications = async (id: string | null = null) => {
-  try {
-    const data = id ? { id } : {};
-    const response = await ecencyApi.post('/private-api/notifications/mark', data);
-    return response.data;
-  } catch (error) {
-    Sentry.captureException(error);
-    throw error;
-  }
-};
 
 export const setPushToken = async (data, accessToken = null) => {
   try {
@@ -521,23 +246,6 @@ export const setPushToken = async (data, accessToken = null) => {
  * ************************************
  */
 
-export const search = async (data: {
-  q: string;
-  sort: string;
-  hideLow: string;
-  since?: string;
-  scroll_id?: string;
-}) => {
-  try {
-    const response = await ecencyApi.post('/search-api/search', data);
-    return response.data;
-  } catch (error) {
-    console.warn('Search failed', error);
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
 /**
  *
  * @param q query
@@ -555,192 +263,12 @@ export const searchPath = async (q: string) => {
   }
 };
 
-/**
- *
- * @param q query
- * @param limit number of posts to fetch
- * @param random random
- * @returns array of accounts
- */
-export const searchAccount = async (q = '', limit = 20, random = 0) => {
-  try {
-    const data = {
-      q,
-      limit,
-      random,
-    };
-    const response = await ecencyApi.post('/search-api/search-account', data);
-    return response.data;
-  } catch (error) {
-    console.warn('account search failed', error);
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- *
- * @param q query
- * @param limit number of posts to fetch
- * @param random random
- * @returns array of accounts
- */
-export const searchTag = async (q = '', limit = 20, random = 0) => {
-  try {
-    const data = {
-      q,
-      limit,
-      random,
-    };
-    const response = await ecencyApi.post('/search-api/search-tag', data);
-    return response.data;
-  } catch (error) {
-    console.warn('tag search failed', error);
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * ************************************
- * SCHEDULES ECENCY APIS IMPLEMENTATION
- * ************************************
- */
-
-/**
- * Adds new post to scheduled posts
- * @param permlink
- * @param title
- * @param body
- * @param meta
- * @param options
- * @param scheduleDate
- * @returns All scheduled posts
- */
-export const addSchedule = async (
-  permlink: string,
-  title: string,
-  body: string,
-  meta: any,
-  options: any,
-  scheduleDate: string,
-) => {
-  try {
-    const data = {
-      title,
-      permlink,
-      meta,
-      body,
-      schedule: scheduleDate,
-      options,
-      reblog: 0,
-    };
-    const response = await ecencyApi.post('/private-api/schedules-add', data);
-    return response.data;
-  } catch (error) {
-    console.warn('Failed to add post to schedule', error);
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * Fetches all scheduled posts against current user
- * @returns array of app scheduled posts
- */
-export const getSchedules = async () => {
-  try {
-    const response = await ecencyApi.post('/private-api/schedules');
-    return response.data || [];
-  } catch (error) {
-    console.warn('Failed to get schedules');
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * Removes post from scheduled posts using post id;
- * @param id
- * @returns array of scheduled posts
- */
-export const deleteScheduledPost = async (id: string) => {
-  try {
-    const data = { id };
-    const response = await ecencyApi.post('/private-api/schedules-delete', data);
-    return response.data || [];
-  } catch (error) {
-    console.warn('Failed to delete scheduled post');
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * Moves scheduled post to draft using schedule id
- * @param id
- * @returns Array of scheduled posts
- */
-export const moveScheduledToDraft = async (id: string) => {
-  try {
-    const data = { id };
-    const response = await ecencyApi.post('/private-api/schedules-move', data);
-    return response.data;
-  } catch (error) {
-    console.warn('Failed to move scheduled post to drafts');
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
 // Old image service
 /**
  * ************************************
  * IMAGES ECENCY APIS IMPLEMENTATION
  * ************************************
  */
-
-export const getImages = async () => {
-  try {
-    const { data }: { data: MediaItem[] } = await ecencyApi.post('/private-api/images');
-    return data.map((item) => ({
-      ...item,
-      thumbUrl: proxifyImageSrc(
-        item.thumbUrl || item.url,
-        200,
-        200,
-        Platform.OS === 'ios' ? 'match' : 'webp',
-      ),
-    }));
-  } catch (error) {
-    console.warn('Failed to get images', error);
-    Sentry.captureException(error);
-  }
-};
-
-export const addImage = async (url: string) => {
-  try {
-    const data = { url };
-    const response = await ecencyApi.post('/private-api/images-add', data);
-    return response.data as MediaItem[];
-  } catch (error) {
-    console.warn('Failed to add image', error);
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-export const deleteImage = async (id: string) => {
-  try {
-    const data = { id };
-    const response = await ecencyApi.post('/private-api/images-delete', data);
-    return response.data;
-  } catch (error) {
-    console.warn('Failed to delete image', error);
-    Sentry.captureException(error);
-    throw error;
-  }
-};
 
 export const uploadImage = async (media, username, sign, uploadProgress = null) => {
   try {
@@ -809,25 +337,6 @@ export const getSCAccessToken = async (
       Sentry.captureException(error);
       throw error;
     }
-  }
-};
-
-/**
- * fetches promoted posts for tab content
- * @param username for parsing post data
- * @returns array of promoted posts
- */
-export const getPromotedEntries = async (username: string) => {
-  try {
-    return ecencyApi.get('/private-api/promoted-entries').then((resp) => {
-      return resp.data.map((post_data: any) =>
-        post_data ? parsePost(post_data, username, true) : null,
-      );
-    });
-  } catch (error) {
-    console.warn('Failed to get promoted enties');
-    Sentry.captureException(error);
-    return error;
   }
 };
 
@@ -969,110 +478,9 @@ export const getReferralsStats = async (username: string): Promise<ReferralStat>
 
 /**
  * ************************************
- * EDIT HISTORY API IMPLEMENTATION
- * ************************************
- */
-
-export const getCommentHistory = async (
-  author: string,
-  permlink: string,
-): Promise<CommentHistoryItem[]> => {
-  try {
-    const data = {
-      author,
-      permlink,
-    };
-    const res = await ecencyApi.post('/private-api/comment-history', data);
-    if (!res.data) {
-      throw new Error('No history data!');
-    }
-    return res?.data?.list.map((item) => convertCommentHistory(item));
-  } catch (error) {
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-/**
- * ************************************
  * POST TIPS API IMPLEMENTATION
  * ************************************
  */
-
-/**
- * Fetches existing tips for a specific post
- * @param author post author
- * @param permlink post permlink
- * @returns object with meta (count, totals) and list of tips
- */
-export const getPostTips = async (author: string, permlink: string): Promise<PostTipsResponse> => {
-  try {
-    const data = { author, permlink };
-    const res = await ecencyApi.post('/private-api/post-tips', data);
-
-    if (!res.data) {
-      // Return empty tips data instead of throwing error
-      return { meta: { count: 0, totals: {} }, list: [] };
-    }
-
-    // Ensure data has required structure
-    return {
-      meta: res.data.meta || { count: 0, totals: {} },
-      list: res.data.list || [],
-    };
-  } catch (error) {
-    Sentry.captureException(error);
-    // Return empty tips data on error instead of throwing
-    return { meta: { count: 0, totals: {} }, list: [] };
-  }
-};
-
-export const getAnnouncements = async (accessToken: string) => {
-  try {
-    const params = accessToken ? { code: accessToken } : null;
-
-    const res = await ecencyApi.get('/private-api/announcements', { params });
-    if (!res.data) {
-      throw new Error('No announcements found!');
-    }
-    return res?.data.map(convertAnnouncement);
-  } catch (error) {
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-export const getPortfolio = async (username: string, currency?: string, onlyEnabled?: boolean) => {
-  try {
-    if (!username) {
-      throw new Error('Username must be passed for fethcing portfolio');
-    }
-
-    // Backend expects uppercase currency codes (USD, EUR, etc.)
-    const uppercaseCurrency = currency?.toUpperCase();
-
-    const res = await ecencyApi.post('/wallet-api/portfolio-v2', {
-      username,
-      currency: uppercaseCurrency,
-      onlyEnabled,
-    });
-
-    if (!res.data || !isArray(res.data.wallets)) {
-      throw new Error('invalid portfolio response data');
-    }
-
-    const data = convertPortfolio(res.data.wallets);
-
-    if (!data) {
-      throw new Error('invalid portfolio data');
-    }
-
-    return data;
-  } catch (error) {
-    Sentry.captureException(error);
-    throw error;
-  }
-};
 
 export const getBotAuthers = async () => {
   try {
