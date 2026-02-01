@@ -236,9 +236,11 @@ class TransferContainer extends Component {
         queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS],
       });
 
-      // Invalidate recurring transfers
+      // Invalidate recurring transfers for current account only (any coinId)
       queryClient.invalidateQueries({
-        queryKey: [QUERIES.WALLET.GET_RECURRING_TRANSFERS],
+        predicate: (query) =>
+          query.queryKey[0] === QUERIES.WALLET.GET_RECURRING_TRANSFERS &&
+          query.queryKey[2] === currentAccount.name,
       });
     }
   };

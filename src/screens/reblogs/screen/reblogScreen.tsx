@@ -58,18 +58,36 @@ const ReblogScreen = ({ route }) => {
     let _reblogs: any[] = [];
     let _deleteEnabled = false;
     if (reblogsQuery.data instanceof Array) {
-      _reblogs = reblogsQuery.data.map((item) => {
-        // Handle both string (username) and object formats
+      // Safe extractor: ensures we always get a string username or null
+      const extractUsername = (item: any): string | null => {
         if (typeof item === 'string') {
-          return { account: item, timestamp: null };
+          return item;
         }
-        // If it's already an object, use it directly
-        return { account: item.account || item, timestamp: item.timestamp || null };
-      });
+        if (item && typeof item === 'object' && typeof item.account === 'string') {
+          return item.account;
+        }
+        // Unknown format - skip
+        return null;
+      };
 
-      const usernames = reblogsQuery.data.map((item) =>
-        typeof item === 'string' ? item : item.account || item,
-      );
+      _reblogs = reblogsQuery.data
+        .map((item) => {
+          const account = extractUsername(item);
+          if (!account) {
+            return null; // Skip invalid entries
+          }
+          return {
+            account,
+            timestamp: typeof item === 'object' ? item.timestamp || null : null,
+          };
+        })
+        .filter(Boolean); // Remove null entries
+
+      // Extract usernames as strings only for deleteEnabled check
+      const usernames = reblogsQuery.data
+        .map(extractUsername)
+        .filter((username): username is string => username !== null);
+
       _deleteEnabled = currentAccount ? usernames.includes(currentAccount.name) : false;
     }
     return {

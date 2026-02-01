@@ -13,6 +13,7 @@ import {
   getOpenOrdersQueryOptions,
   getTransactionsInfiniteQueryOptions,
   getPointsQueryOptions,
+  getPortfolioQueryOptions,
 } from '@ecency/sdk';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import POINTS from '../../../constants/options/points';
@@ -38,7 +39,6 @@ import {
   transferTypes,
 } from '../../../utils/wallet';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
-import { getPortfolio } from '../../ecency/ecency';
 import { ProfileToken } from '../../../redux/reducers/walletReducer';
 
 interface ClaimRewardsMutationVars {
@@ -59,44 +59,37 @@ export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean }
   // TODO: test assets update with currency and quote change
 
   const assetsQuery = useQuery({
+    ...getPortfolioQueryOptions(currentAccount?.name || '', currency.currency, onlyEnabled),
+    // Override queryKey to match legacy format for cache compatibility
     queryKey: [
       QUERIES.WALLET.GET,
       currentAccount?.name || '',
       currency.currency,
       onlyEnabled ? 'enabled' : 'all',
     ],
-    queryFn: async () => {
-      if (!currentAccount?.name) {
+    // Transform SDK response to match mobile app format
+    select: (data) => {
+      if (!data?.wallets || data.wallets.length === 0) {
         return [];
       }
-      try {
-        const response = await getPortfolio(currentAccount.name, currency.currency, onlyEnabled);
 
-        if (!response || response.length === 0) {
-          return [];
+      // Update response with redux claim cache if pendingRewards value and cache value is equal and cache is not expired
+      const updatedResponse = data.wallets.map((item) => {
+        const claimCache = claimsCollection[item.symbol];
+        const cachedRewardValue = Number(claimCache?.rewardValue) || 0;
+        if (
+          claimCache?.expiresAt &&
+          claimCache?.expiresAt > Date.now() &&
+          item.pendingRewards === cachedRewardValue
+        ) {
+          return { ...item, pendingRewards: 0 };
         }
+        return item;
+      });
 
-        // update response with redux claim cachce if pendingRewards value and cache valuye is equal and cache is not expired
-        const updatedResponse = response.map((item) => {
-          const claimCache = claimsCollection[item.symbol];
-          const cachedRewardValue = Number(claimCache?.rewardValue) || 0;
-          if (
-            claimCache?.expiresAt &&
-            claimCache?.expiresAt > Date.now() &&
-            item.pendingRewards === cachedRewardValue
-          ) {
-            return { ...item, pendingRewards: 0 };
-          }
-          return item;
-        });
-
-        return updatedResponse;
-      } catch (err) {
-        console.error('Failed to get portfolio data:', err);
-        throw err; // Re-throw to set error state instead of returning empty array
-      }
+      return updatedResponse;
     },
-    initialData: [],
+    initialData: { username: '', wallets: [] },
     enabled: !!currentAccount?.name, // Only fetch when logged in
     retry: 2,
   });

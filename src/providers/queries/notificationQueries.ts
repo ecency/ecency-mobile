@@ -1,79 +1,43 @@
-import { useQueries } from '@tanstack/react-query';
-import { useState, useMemo } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
 import { useIntl } from 'react-intl';
-import { unionBy } from 'lodash';
 import * as Sentry from '@sentry/react-native';
-import { useMarkNotificationsRead } from '@ecency/sdk';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useMarkNotificationsRead, getNotificationsInfiniteQueryOptions } from '@ecency/sdk';
+import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
 import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
 import { toastNotification } from '../../redux/actions/uiAction';
-import { getNotifications } from '../ecency/ecency';
 import { NotificationFilters } from '../ecency/ecency.types';
 import { markHiveNotifications, getDigitPinCode } from '../hive/dhive';
-import QUERIES from './queryKeys';
 import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 import { decryptKey } from '../../utils/crypto';
 
 const FETCH_LIMIT = 20;
 
+/**
+ * Hook to fetch notifications using SDK's infinite query
+ * Migrated from custom useQueries implementation to SDK's getNotificationsInfiniteQueryOptions
+ */
 export const useNotificationsQuery = (filter: NotificationFilters) => {
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [pageParams, setPageParams] = useState(['']);
+  const { username, code } = useAuth();
 
-  const _fetchNotifications = async (pageParam: string) => {
-    console.log('fetching page since:', pageParam);
-    const response = await getNotifications({ filter, since: pageParam, limit: FETCH_LIMIT });
-    // console.log('new page fetched', response);
-    return response || [];
-  };
-
-  const _getNextPageParam = (lastPage: any[]) => {
-    const lastId = !!lastPage?.length && lastPage[lastPage.length - 1].id;
-    console.log('extracting next page parameter', lastId);
-    return lastId;
-  };
-
-  // query initialization
-  const notificationQueries = useQueries({
-    queries: pageParams.map((pageParam) => ({
-      queryKey: [QUERIES.NOTIFICATIONS.GET, filter, pageParam],
-      queryFn: () => _fetchNotifications(pageParam),
-      initialData: [],
-    })),
+  const infiniteQuery = useInfiniteQuery({
+    ...getNotificationsInfiniteQueryOptions(username || '', code, filter, FETCH_LIMIT),
+    enabled: !!username && !!code,
   });
 
-  const _lastPage = notificationQueries[notificationQueries.length - 1];
-
-  const _refresh = async () => {
-    setIsRefreshing(true);
-    setPageParams(['']);
-    await notificationQueries[0].refetch();
-    setIsRefreshing(false);
-  };
-
-  const _fetchNextPage = () => {
-    if (!_lastPage || _lastPage.isFetching) {
-      return;
-    }
-
-    const lastId = _getNextPageParam(_lastPage.data);
-    if (lastId && !pageParams.includes(lastId)) {
-      pageParams.push(lastId);
-      setPageParams([...pageParams]);
-    }
-  };
-
-  const _dataArrs = notificationQueries.map((query) => query.data);
-
-  // Memoize the data array to prevent infinite re-renders in RecyclerView
-  const data = useMemo(() => unionBy(..._dataArrs, 'id'), [_dataArrs]);
+  // Flatten pages into single array for backwards compatibility
+  const data = useMemo(() => {
+    if (!infiniteQuery.data?.pages) return [];
+    return infiniteQuery.data.pages.flatMap((page) => page.data);
+  }, [infiniteQuery.data?.pages]);
 
   return {
     data,
-    isRefreshing,
-    isLoading: _lastPage.isLoading || _lastPage.isFetching,
-    fetchNextPage: _fetchNextPage,
-    refresh: _refresh,
+    isRefreshing: infiniteQuery.isRefetching,
+    isLoading: infiniteQuery.isLoading || infiniteQuery.isFetching,
+    fetchNextPage: infiniteQuery.fetchNextPage,
+    refresh: infiniteQuery.refetch,
+    hasNextPage: infiniteQuery.hasNextPage,
   };
 };
 

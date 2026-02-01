@@ -422,8 +422,13 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
     Object.keys(commentsMap).forEach((key) => {
       const comment = commentsMap[key];
 
-      // process first level comment
-      if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
+      // process first level comment (exclude synthetic parent entries)
+      if (
+        comment &&
+        comment.parent_author === author &&
+        comment.parent_permlink === permlink &&
+        !comment._synthetic
+      ) {
         const cacheKey = `${key}-root-1`;
         let commentCopy = processedCommentsCache.current.get(cacheKey);
 

@@ -118,9 +118,9 @@ export const TTSControls = ({ post, style, showLabel = false }: TTSControlsProps
           return;
         }
 
-        // Check if TTS is available on the device
-        const isAvailable = await Speech.isSpeakingAsync().catch(() => false);
-        console.log('TTS availability check:', isAvailable);
+        // Check if TTS is currently speaking
+        const isSpeaking = await Speech.isSpeakingAsync().catch(() => false);
+        console.log('TTS speaking status:', isSpeaking);
 
         // Reload settings in case they changed
         const settings = await loadTTSSettings();
