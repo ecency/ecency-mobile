@@ -186,17 +186,12 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
 
     mutation.mutate(username, {
       onSuccess: () => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: isFavourite ? 'alert.success_unfavorite' : 'alert.success_favorite',
-            }),
-          ),
-        );
+        // Toast is already dispatched by the mutation hook
         setIsFavourite(!isFavourite);
         setIsLoading(false);
       },
       onError: (error: any) => {
+        // Error toast is already dispatched by the mutation hook
         console.warn('Failed to perform favorite action', error);
         setIsLoading(false);
         Alert.alert(

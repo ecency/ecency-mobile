@@ -89,7 +89,7 @@ export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean }
 
       return updatedResponse;
     },
-    initialData: { username: '', wallets: [] },
+    initialData: [],
     enabled: !!currentAccount?.name, // Only fetch when logged in
     retry: 2,
   });
@@ -262,13 +262,7 @@ export const useClaimRewardsMutation = () => {
       return isClaimingColl[symbol] || false;
     }
 
-    Object.keys(isClaimingColl).forEach((key) => {
-      if (isClaimingColl[key] === true) {
-        return true;
-      }
-    });
-
-    return false;
+    return Object.values(isClaimingColl).some((isClaiming) => isClaiming === true);
   };
 
   return {

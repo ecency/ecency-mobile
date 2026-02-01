@@ -25,8 +25,8 @@ import { getTimeFromNow } from '../../../utils/time';
 import { repostQueries } from '../../../providers/queries';
 
 const renderUserListItem = (item, index, handleOnUserPress) => {
-  // Safely handle timestamp - only show if it exists
-  const description = item.timestamp ? getTimeFromNow(item.timestamp) : '';
+  // Safely handle timestamp - getTimeFromNow can return null
+  const description = (item.timestamp ? getTimeFromNow(item.timestamp) : null) ?? '';
 
   return (
     <UserListItem

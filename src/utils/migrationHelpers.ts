@@ -156,9 +156,10 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
   // get unread notifications
   try {
     const queryClient = getQueryClient();
-    const accessToken = _currentAccount?.local?.accessToken
-      ? decryptKey(_currentAccount.local.accessToken, Config.DEFAULT_PIN)
-      : '';
+    const accessToken =
+      (_currentAccount?.local?.accessToken
+        ? decryptKey(_currentAccount.local.accessToken, Config.DEFAULT_PIN)
+        : '') ?? '';
     _currentAccount.unread_activity_count = await queryClient.fetchQuery(
       getNotificationsUnreadCountQueryOptions(_currentAccount.name, accessToken),
     );

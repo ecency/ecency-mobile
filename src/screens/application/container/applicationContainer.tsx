@@ -44,7 +44,6 @@ import {
   switchAccount,
 } from '../../../providers/hive/auth';
 import { setPushToken } from '../../../providers/ecency/ecency';
-import { decryptKey } from '../../../utils/crypto';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
 import RootNavigation from '../../../navigation/rootNavigation';
 import {

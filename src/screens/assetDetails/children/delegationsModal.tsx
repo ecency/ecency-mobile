@@ -186,7 +186,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
             />
             <FlatList
               data={filterResult || data}
-              keyExtractor={(item) => item.delegator}
+              keyExtractor={(item) => item.username}
               removeClippedSubviews={false}
               renderItem={_renderItem}
               refreshControl={

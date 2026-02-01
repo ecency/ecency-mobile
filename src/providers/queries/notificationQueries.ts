@@ -107,7 +107,6 @@ export const useNotificationReadMutation = () => {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       }
     },
-    isLoading: sdkMutation.isLoading,
     isPending: sdkMutation.isPending,
     // Don't expose mutateAsync
   };

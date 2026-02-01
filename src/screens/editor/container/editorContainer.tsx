@@ -176,9 +176,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         // If not in cache, fetch from API to get the specific draft
         // This handles cases where the draft is on a page that hasn't been loaded yet
         else {
-          const { queryKey: draftsQueryKey } = getDraftsQueryOptions(username, accessToken);
+          const draftsQueryOptions = getDraftsQueryOptions(username, accessToken);
           queryClient
-            .fetchQuery(draftsQueryKey)
+            .fetchQuery(draftsQueryOptions)
             .then((result) => {
               const drafts = result?.data || [];
               const fetchedDraft = drafts.find((d) => d._id === draftId);
@@ -480,9 +480,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const accessToken = currentAccount?.local?.accessToken
         ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
         : '';
-      const { queryKey: draftsQueryKey } = getDraftsQueryOptions(username, accessToken);
+      const draftsQueryOptions = getDraftsQueryOptions(username, accessToken);
       const queryClient = getQueryClient();
-      const result = await queryClient.fetchQuery(draftsQueryKey);
+      const result = await queryClient.fetchQuery(draftsQueryOptions);
       const remoteDrafts = result?.data || [];
 
       const loadRecentDraft = () => {
@@ -666,9 +666,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
           dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
 
-          // clear local copy if darft save is successful
-          const username = get(currentAccount, 'name', '');
-
+          // clear local copy if draft save is successful
           dispatch(deleteDraftCacheEntry(draftId || DEFAULT_USER_DRAFT_ID + username));
         }
 

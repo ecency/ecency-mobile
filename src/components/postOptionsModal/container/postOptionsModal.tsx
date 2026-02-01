@@ -348,29 +348,11 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       showLoginAlert({ intl });
       return;
     }
-    addBookmarkMutation.mutate(
-      { author: get(content, 'author'), permlink: get(content, 'permlink') },
-      {
-        onSuccess: () => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'bookmarks.added',
-              }),
-            ),
-          );
-        },
-        onError: () => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'alert.fail',
-              }),
-            ),
-          );
-        },
-      },
-    );
+    // Toast notifications are handled by the mutation hook
+    addBookmarkMutation.mutate({
+      author: get(content, 'author'),
+      permlink: get(content, 'permlink'),
+    });
   };
 
   const _reblog = (undo = false) => {

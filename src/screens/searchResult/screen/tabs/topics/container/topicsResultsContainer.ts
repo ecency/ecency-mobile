@@ -15,24 +15,29 @@ const OtherResultContainer = ({ children, searchValue }) => {
 
   useEffect(() => {
     const queryClient = getQueryClient();
+    const trimmed = searchValue?.trim();
 
-    if (searchValue) {
+    if (!trimmed) {
       setNoResult(false);
       setTags([]);
-
-      queryClient
-        .fetchQuery(getSearchTopicsQueryOptions(searchValue.trim(), 20))
-        .then((res) => {
-          if (res && res.length === 0) {
-            setNoResult(true);
-          }
-          setTags(res);
-        })
-        .catch(() => {
-          setNoResult(true);
-          setTags([]);
-        });
+      return;
     }
+
+    setNoResult(false);
+    setTags([]);
+
+    queryClient
+      .fetchQuery(getSearchTopicsQueryOptions(trimmed, 20))
+      .then((res) => {
+        if (res && res.length === 0) {
+          setNoResult(true);
+        }
+        setTags(res);
+      })
+      .catch(() => {
+        setNoResult(true);
+        setTags([]);
+      });
   }, [searchValue]);
 
   // Component Functions

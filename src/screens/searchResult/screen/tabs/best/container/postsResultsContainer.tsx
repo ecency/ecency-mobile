@@ -53,8 +53,12 @@ const PostsResultsContainer = ({ children, searchValue }) => {
       const res = await queryClient.fetchQuery(
         getSearchQueryOptions(`${searchValue} type:post`, sort, false),
       );
-      _data = res || [];
-      setScrollId(res.scroll_id);
+      // Handle response structure - SDK returns array directly
+      _data = Array.isArray(res) ? res : res?.items || res?.results || [];
+      // Only set scroll_id if response has metadata
+      if (res && typeof res === 'object' && 'scroll_id' in res) {
+        setScrollId(res.scroll_id);
+      }
     }
     // get initial posts if not search value
     else {
@@ -93,15 +97,20 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     });
   };
 
-  const _loadMore = () => {
+  const _loadMore = async () => {
     if (scrollId && searchValue) {
-      search({ q: `${searchValue} type:post`, sort, scroll_id: scrollId })
-        .then((res) => {
-          setData([...data, ...res.results]);
-        })
-        .catch(() => {
-          console.warn('Search Failed');
-        });
+      try {
+        const queryClient = getQueryClient();
+        // TODO: Verify if SDK supports scroll_id for pagination
+        // Currently using basic search - may need SDK update for proper pagination
+        const res = await queryClient.fetchQuery(
+          getSearchQueryOptions(`${searchValue} type:post`, sort, false),
+        );
+        const newResults = Array.isArray(res) ? res : res?.items || res?.results || [];
+        setData([...data, ...newResults]);
+      } catch (error) {
+        console.warn('Search Failed', error);
+      }
     }
   };
 

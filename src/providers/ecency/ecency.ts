@@ -99,7 +99,7 @@ export const getCurrencyTokenRate = (currency, token) =>
     });
 
 /**
- * TOOD:
+ * TODO:
  * POST /private-api/report
  *
  * body:
@@ -122,7 +122,7 @@ export const addReport = async (type: 'content' | 'user', data: string) => {
 };
 
 /**
- * TOOD:
+ * TODO:
  * POST /private-api/request-delete
  *
  * body:
@@ -232,7 +232,7 @@ export const setPushToken = async (data, accessToken = null) => {
       data.code = accessToken;
     }
 
-    const res = await await ecencyApi.post('/private-api/register-device', data);
+    const res = await ecencyApi.post('/private-api/register-device', data);
     return res.data;
   } catch (error) {
     console.warn('Failed to set push token on server');
@@ -377,7 +377,7 @@ export const getBoostPlusAccount = async (account: string) => {
 };
 
 /**
-* TOOD:
+* TODO:
 * POST /private-api/purchase-order
 *
 * body:

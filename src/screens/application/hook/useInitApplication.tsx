@@ -264,7 +264,9 @@ export const useInitApplication = () => {
       }
 
       // Mark notification as read (mutation handles Redux update in onSuccess)
-      markNotificationsReadMutation.mutate(activity_id);
+      if (activity_id) {
+        markNotificationsReadMutation.mutate(activity_id);
+      }
 
       if (!some(params, isEmpty)) {
         if (isPinCodeOpen) {
