@@ -51,6 +51,11 @@ export default EStyleSheet.create({
     fontWeight: '500',
     marginTop: 2,
   },
+  timestamp: {
+    color: '$iconColor',
+    fontSize: 11,
+    marginTop: 4,
+  },
   isNewNotification: {
     backgroundColor: '$primaryLightBlue',
     borderBottomWidth: 0.5,

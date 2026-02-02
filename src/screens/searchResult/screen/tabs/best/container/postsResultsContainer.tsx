@@ -35,6 +35,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
 
     setNoResult(false);
     setData(_data);
+    setScrollId('');
 
     // parse author and permlink if url
     const { author, permlink } = postUrlParser(searchValue) || {};
@@ -58,6 +59,8 @@ const PostsResultsContainer = ({ children, searchValue }) => {
       // Only set scroll_id if response has metadata
       if (res && typeof res === 'object' && 'scroll_id' in res) {
         setScrollId(res.scroll_id);
+      } else {
+        setScrollId('');
       }
     }
     // get initial posts if not search value

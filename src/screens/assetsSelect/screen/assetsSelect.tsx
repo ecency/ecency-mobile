@@ -68,16 +68,31 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
   const [query, setQuery] = useState('');
 
   useEffect(() => {
-    selectionRef.current = selectedAssets.filter(
-      (item) =>
-        (item.isEngine || item.isSpk || item.isChain) &&
-        assetsQuery.selectedableData?.some((asset) => asset.symbol === item.symbol),
-    );
-    _updateSortedList();
-  }, []);
+    // Only initialize selection when data is available
+    if (assetsQuery.selectedableData && assetsQuery.selectedableData.length > 0) {
+      const filtered = selectedAssets.filter(
+        (item) =>
+          (item.isEngine || item.isSpk || item.isChain) &&
+          assetsQuery.selectedableData?.some((asset) => asset.symbol === item.symbol),
+      );
+
+      console.log('[AssetsSelect] Initializing selection:', {
+        totalSelectedAssets: selectedAssets.length,
+        selectedSymbols: selectedAssets.map((a) => a.symbol),
+        filteredCount: filtered.length,
+        filteredSymbols: filtered.map((a) => a.symbol),
+        availableCount: assetsQuery.selectedableData.length,
+      });
+
+      selectionRef.current = filtered;
+      _updateSortedList();
+    }
+  }, [assetsQuery.selectedableData, selectedAssets]);
 
   useEffect(() => {
     const data: SelectableAsset[] = [];
+    const unselectedAssets: string[] = [];
+
     assetsQuery.selectedableData?.forEach((asset) => {
       const _name = asset.name?.toLowerCase() || '';
       const _symbol = asset.symbol.toLowerCase();
@@ -86,9 +101,19 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
       const _isSelected =
         selectionRef.current.findIndex((item) => item.symbol === asset.symbol) > -1;
 
+      if (!_isSelected) {
+        unselectedAssets.push(asset.symbol);
+      }
+
       if (query === '' || _isSelected || _symbol.includes(_query) || _name.includes(_query)) {
         data.push(mapAssetLayer(asset));
       }
+    });
+
+    console.log('[AssetsSelect] Building list data:', {
+      totalData: data.length,
+      unselectedAssets,
+      selectedCount: selectionRef.current.length,
     });
 
     setListData(data);
@@ -243,6 +268,13 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
       const key = item.symbol;
       const index = selectionRef.current.findIndex((selected) => selected.symbol === item.symbol);
       const isSelected = index >= 0;
+
+      // Log for all assets to see selection state
+      console.log('[AssetsSelect] Checkbox state:', {
+        symbol: item.symbol,
+        index,
+        isSelected,
+      });
 
       const isEngine = item.isEngine ?? item.layer === 'engine';
       const isSpk = item.isSpk ?? item.layer === 'spk';

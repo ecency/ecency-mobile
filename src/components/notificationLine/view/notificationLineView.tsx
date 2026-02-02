@@ -7,6 +7,7 @@ import get from 'lodash/get';
 import { UserAvatar } from '../../userAvatar';
 
 import { rcFormatter, vestsToHp } from '../../../utils/conversions';
+import { formatNotificationTimestamp } from '../../../utils/time';
 
 // Styles
 import styles from './notificationLineStyles';
@@ -122,6 +123,9 @@ const NotificationLineView = ({
             <Text numberOfLines={2} style={styles.description} ellipsizeMode="tail">
               {notification.description}
             </Text>
+          )}
+          {notification.ts && (
+            <Text style={styles.timestamp}>{formatNotificationTimestamp(notification.ts)}</Text>
           )}
         </View>
 

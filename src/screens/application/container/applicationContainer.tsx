@@ -388,11 +388,16 @@ class ApplicationContainer extends Component {
         (currentAccount?.local?.accessToken
           ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
           : '') ?? '';
-      const queryClient = getQueryClient();
-      const unreadActivityCount = await queryClient.fetchQuery(
-        getNotificationsUnreadCountQueryOptions(username, accessToken),
-      );
-      dispatch(updateUnreadActivityCount(unreadActivityCount));
+      try {
+        const queryClient = getQueryClient();
+        const unreadActivityCount = await queryClient.fetchQuery(
+          getNotificationsUnreadCountQueryOptions(username, accessToken),
+        );
+        dispatch(updateUnreadActivityCount(unreadActivityCount));
+      } catch (error) {
+        console.warn('Failed to refresh unread activity count', error);
+        dispatch(updateUnreadActivityCount(0));
+      }
     }
   };
 

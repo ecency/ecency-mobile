@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { View, SectionList } from 'react-native';
+import { View, FlatList } from 'react-native';
 
 // Components
 import { TabView } from 'react-native-tab-view';
@@ -24,7 +24,7 @@ const NotificationScreen = ({
   const intl = useIntl();
 
   const [index, setIndex] = React.useState(0);
-  const notificationsListRef = React.useRef<SectionList>(null);
+  const notificationsListRef = React.useRef<FlatList>(null);
   const [routes] = React.useState([
     {
       key: 'notifications',
@@ -87,9 +87,8 @@ const NotificationScreen = ({
                 if (!notifications || notifications.length === 0) {
                   return;
                 }
-                notificationsListRef.current?.scrollToLocation({
-                  itemIndex: 0,
-                  sectionIndex: 0,
+                notificationsListRef.current?.scrollToOffset({
+                  offset: 0,
                   animated: true,
                 });
               }

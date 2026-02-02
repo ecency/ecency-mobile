@@ -11,30 +11,42 @@ import { markHiveNotifications, getDigitPinCode } from '../hive/dhive';
 import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 import { decryptKey } from '../../utils/crypto';
 
-const FETCH_LIMIT = 20;
+const FETCH_LIMIT = 20; // Fetch 20 notifications per page
 
 /**
  * Hook to fetch notifications using SDK's infinite query
  * Migrated from custom useQueries implementation to SDK's getNotificationsInfiniteQueryOptions
+ * @param filter - Notification filter (undefined for all notifications)
  */
-export const useNotificationsQuery = (filter: NotificationFilters) => {
+export const useNotificationsQuery = (filter?: NotificationFilters) => {
   const { username, code } = useAuth();
 
+  const sdkOptions = getNotificationsInfiniteQueryOptions(username, code, filter, FETCH_LIMIT);
+
   const infiniteQuery = useInfiniteQuery({
-    ...getNotificationsInfiniteQueryOptions(username || '', code, filter, FETCH_LIMIT),
-    enabled: !!username && !!code,
+    ...sdkOptions,
+    enabled: !!username && !!code, // Both are required for notifications
+    staleTime: 0, // Always consider data stale so first page refreshes on mount
+    gcTime: 30 * 60 * 1000, // 30 minutes - keep in cache for 30 minutes
+    maxPages: 10, // Limit to 10 pages (200 items) maximum
+    refetchOnMount: true, // Refetch first page on mount to show fresh data
+    refetchOnWindowFocus: false, // Don't refetch when window regains focus
   });
 
   // Flatten pages into single array for backwards compatibility
   const data = useMemo(() => {
     if (!infiniteQuery.data?.pages) return [];
-    return infiniteQuery.data.pages.flatMap((page) => page.data);
+    // SDK returns pages as arrays directly, not wrapped in { data: [...] }
+    return infiniteQuery.data.pages
+      .flatMap((page) => (Array.isArray(page) ? page : page.data || []))
+      .filter((item) => item != null); // Filter out undefined/null items
   }, [infiniteQuery.data?.pages]);
 
   return {
     data,
     isRefreshing: infiniteQuery.isRefetching,
     isLoading: infiniteQuery.isLoading || infiniteQuery.isFetching,
+    isFetchingNextPage: infiniteQuery.isFetchingNextPage,
     fetchNextPage: infiniteQuery.fetchNextPage,
     refresh: infiniteQuery.refetch,
     hasNextPage: infiniteQuery.hasNextPage,

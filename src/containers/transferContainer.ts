@@ -216,33 +216,41 @@ class TransferContainer extends Component {
     const { currentAccount } = this.props;
     const queryClient = getQueryClient();
 
-    // Invalidate wallet-related queries after operations
-    if (currentAccount?.name) {
-      // Invalidate portfolio/balance queries for all currencies
-      queryClient.invalidateQueries({
+    if (!currentAccount?.name) return;
+
+    // Immediately invalidate to show loading state
+    queryClient.invalidateQueries({
+      predicate: (query) =>
+        query.queryKey[0] === QUERIES.WALLET.GET && query.queryKey[1] === currentAccount.name,
+    });
+
+    // Wait 3 seconds for blockchain to process, then force refetch all wallet queries
+    setTimeout(() => {
+      // Refetch portfolio/balance queries for all currencies (forces immediate update)
+      queryClient.refetchQueries({
         predicate: (query) =>
           query.queryKey[0] === QUERIES.WALLET.GET && query.queryKey[1] === currentAccount.name,
       });
 
-      // Invalidate activities/transactions queries for all assets
-      queryClient.invalidateQueries({
+      // Refetch activities/transactions queries for all assets
+      queryClient.refetchQueries({
         predicate: (query) =>
           query.queryKey[0] === QUERIES.WALLET.GET_ACTIVITIES &&
           query.queryKey[1] === currentAccount.name,
       });
 
-      // Invalidate pending requests (conversions, limit orders, savings withdrawals)
-      queryClient.invalidateQueries({
+      // Refetch pending requests (conversions, limit orders, savings withdrawals)
+      queryClient.refetchQueries({
         queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS],
       });
 
-      // Invalidate recurring transfers for current account only (any coinId)
-      queryClient.invalidateQueries({
+      // Refetch recurring transfers for current account only (any coinId)
+      queryClient.refetchQueries({
         predicate: (query) =>
           query.queryKey[0] === QUERIES.WALLET.GET_RECURRING_TRANSFERS &&
           query.queryKey[2] === currentAccount.name,
       });
-    }
+    }, 3000); // 3 second delay for blockchain processing
   };
 
   _transferToAccount = async (

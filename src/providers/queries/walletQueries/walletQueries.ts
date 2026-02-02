@@ -285,17 +285,23 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   const pointsQuery = useQuery({
     ...getPointsQueryOptions(username, 0),
     enabled: !!username && isPoints,
+    staleTime: 0, // Always consider stale so pull-to-refresh works immediately
+    gcTime: 5 * 60 * 1000, // Keep in cache for 5 minutes
   });
 
   const chainQuery = useInfiniteQuery({
     ...getTransactionsInfiniteQueryOptions(username ?? '', ACTIVITIES_FETCH_LIMIT),
     enabled: !!username && !isEngine && !isPoints,
+    staleTime: 0, // Always consider stale so pull-to-refresh works immediately
+    gcTime: 5 * 60 * 1000, // Keep in cache for 5 minutes
   });
 
   const engineQuery = useInfiniteQuery({
     queryKey: [QUERIES.WALLET.GET_ACTIVITIES, username, symbol, 'engine'],
     enabled: !!username && isEngine,
     initialPageParam: 0,
+    staleTime: 0, // Always consider stale so pull-to-refresh works immediately
+    gcTime: 5 * 60 * 1000, // Keep in cache for 5 minutes
     queryFn: async ({ pageParam }) => {
       if (!username) return [];
       const engineHistory = await fetchEngineAccountHistory(
