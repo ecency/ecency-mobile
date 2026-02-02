@@ -102,7 +102,7 @@ const EditHistoryScreen = ({ route }) => {
       const responseData = await queryClient.fetchQuery(
         getCommentHistoryQueryOptions(author, permlink, false),
       );
-      if (!responseData) {
+      if (!responseData || (Array.isArray(responseData) && responseData.length === 0)) {
         Alert.alert('No History found!');
         return;
       }

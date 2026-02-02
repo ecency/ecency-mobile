@@ -113,8 +113,11 @@ const ReblogScreen = ({ route }) => {
 
     if (isLoggedIn) {
       setIsReblogging(true);
-      await reblogMutation.mutateAsync({ undo: deleteEnabled });
-      setIsReblogging(false);
+      try {
+        await reblogMutation.mutateAsync({ undo: deleteEnabled });
+      } finally {
+        setIsReblogging(false);
+      }
     }
   };
 

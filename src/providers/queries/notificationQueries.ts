@@ -53,17 +53,11 @@ export const useNotificationReadMutation = () => {
 
   // Get auth credentials
   const digitPinCode = getDigitPinCode(pinHash);
-  if (!digitPinCode) {
-    Sentry.captureException(new Error('Failed to derive digitPinCode'));
-  }
   const username = currentAccount?.name;
   const accessToken =
     currentAccount?.local?.accessToken && digitPinCode
       ? decryptKey(currentAccount.local.accessToken, digitPinCode)
       : undefined;
-  if (!accessToken && currentAccount?.local?.accessToken) {
-    Sentry.captureException(new Error('Credential derivation failed'));
-  }
 
   // Use SDK hook with optimistic updates
   const sdkMutation = useMarkNotificationsRead(

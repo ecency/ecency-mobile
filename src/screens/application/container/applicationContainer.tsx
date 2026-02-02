@@ -384,9 +384,10 @@ class ApplicationContainer extends Component {
     const { dispatch, isLoggedIn, currentAccount, pinCode } = this.props;
     if (isLoggedIn && currentAccount) {
       const username = currentAccount.name;
-      const accessToken = currentAccount?.local?.accessToken
-        ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
-        : '';
+      const accessToken =
+        (currentAccount?.local?.accessToken
+          ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+          : '') ?? '';
       const queryClient = getQueryClient();
       const unreadActivityCount = await queryClient.fetchQuery(
         getNotificationsUnreadCountQueryOptions(username, accessToken),
@@ -647,9 +648,10 @@ class ApplicationContainer extends Component {
       }
 
       try {
-        const accessToken = realmObject.accessToken
-          ? decryptKey(realmObject.accessToken, getDigitPinCode(pinCode))
-          : '';
+        const accessToken =
+          (realmObject.accessToken
+            ? decryptKey(realmObject.accessToken, getDigitPinCode(pinCode))
+            : '') ?? '';
         accountData.unread_activity_count = await queryClient.fetchQuery(
           getNotificationsUnreadCountQueryOptions(realmObject.username, accessToken),
         );
@@ -1147,9 +1149,10 @@ class ApplicationContainer extends Component {
 
       try {
         const queryClient = getQueryClient();
-        const accessToken = _currentAccount?.local?.accessToken
-          ? decryptKey(_currentAccount.local.accessToken, getDigitPinCode(pinCode))
-          : '';
+        const accessToken =
+          (_currentAccount?.local?.accessToken
+            ? decryptKey(_currentAccount.local.accessToken, getDigitPinCode(pinCode))
+            : '') ?? '';
         _currentAccount.unread_activity_count = await queryClient.fetchQuery(
           getNotificationsUnreadCountQueryOptions(_currentAccount.name, accessToken),
         );

@@ -107,7 +107,14 @@ const PostsResultsContainer = ({ children, searchValue }) => {
           getSearchQueryOptions(`${searchValue} type:post`, sort, false),
         );
         const newResults = Array.isArray(res) ? res : res?.items || res?.results || [];
-        setData([...data, ...newResults]);
+
+        // Deduplicate by creating a Set of existing permlinks
+        const existingPermlinks = new Set(data.map((item) => item.permlink));
+        const filteredNewResults = newResults.filter(
+          (item) => !existingPermlinks.has(item.permlink),
+        );
+
+        setData([...data, ...filteredNewResults]);
       } catch (error) {
         console.warn('Search Failed', error);
       }
