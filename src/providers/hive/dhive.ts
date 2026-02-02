@@ -32,6 +32,11 @@ import {
   getDynamicPropsQueryOptions,
   getTrendingTagsQueryOptions,
   getDiscussionsQueryOptions,
+  getRewardFundQueryOptions,
+  getMarketStatisticsQueryOptions,
+  getOrderBookQueryOptions,
+  getFeedHistoryQueryOptions,
+  getCurrentMedianHistoryPriceQueryOptions,
 } from '@ecency/sdk';
 import { getServer, getCache, setCache } from '../../realm/realm';
 
@@ -44,8 +49,6 @@ import {
   parseDiscussionCollection,
 } from '../../utils/postParser';
 import { getName, getAvatar, parseReputation } from '../../utils/user';
-import parseToken from '../../utils/parseToken';
-import parseAsset from '../../utils/parseAsset';
 import { jsonStringify } from '../../utils/jsonUtils';
 import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 
@@ -266,64 +269,78 @@ export const getDynamicGlobalProperties = async () => {
   return queryClient.fetchQuery(getDynamicPropsQueryOptions());
 };
 
-export const getRewardFund = () => client.database.call('get_reward_fund', ['post']);
+/**
+ * Get reward fund using SDK query
+ */
+export const getRewardFund = () => {
+  const queryClient = getQueryClient();
+  return queryClient.fetchQuery(getRewardFundQueryOptions());
+};
 
-export const getMarketStatistics = () => client.call('condenser_api', 'get_ticker', []);
+/**
+ * Get market statistics using SDK query
+ */
+export const getMarketStatistics = () => {
+  const queryClient = getQueryClient();
+  return queryClient.fetchQuery(getMarketStatisticsQueryOptions());
+};
 
-export const getOrderBook = (limit = 500) =>
-  client.call('condenser_api', 'get_order_book', [limit]);
+/**
+ * Get order book using SDK query
+ */
+export const getOrderBook = (limit = 500) => {
+  const queryClient = getQueryClient();
+  return queryClient.fetchQuery(getOrderBookQueryOptions(limit));
+};
 
+/**
+ * Get feed history using SDK query
+ */
 export const getFeedHistory = async () => {
   try {
-    const feedHistory = await client.database.call('get_feed_history');
-    return feedHistory;
+    const queryClient = getQueryClient();
+    return await queryClient.fetchQuery(getFeedHistoryQueryOptions());
   } catch (error) {
     return error;
   }
 };
 
+/**
+ * Get current median history price using SDK query
+ */
 export const getCurrentMedianHistoryPrice = async () => {
   try {
-    const feedHistory = await client.database.call('get_current_median_history_price');
-    return feedHistory;
+    const queryClient = getQueryClient();
+    return await queryClient.fetchQuery(getCurrentMedianHistoryPriceQueryOptions());
   } catch (error) {
     return error;
   }
 };
 
+/**
+ * Fetch global properties using SDK query
+ * Returns a subset of properties from getDynamicPropsQueryOptions for backward compatibility
+ */
 export const fetchGlobalProps = async () => {
-  let globalDynamic;
-  let medianHistory;
-  let rewardFund;
-
   try {
-    globalDynamic = await getDynamicGlobalProperties();
-    await setCache('globalDynamic', globalDynamic);
-    medianHistory = await getFeedHistory();
-    rewardFund = await getRewardFund();
-  } catch (e) {
-    return;
-  }
+    const queryClient = getQueryClient();
+    const dynamicProps = await queryClient.fetchQuery(getDynamicPropsQueryOptions());
 
-  const hivePerMVests =
-    (parseToken(get(globalDynamic, 'total_vesting_fund_hive')) /
-      parseToken(get(globalDynamic, 'total_vesting_shares'))) *
-    1e6;
-  const hbdPrintRate = get(globalDynamic, 'hbd_print_rate');
-  const base = parseAsset(get(medianHistory, 'current_median_history.base')).amount;
-  const quote = parseAsset(get(medianHistory, 'current_median_history.quote')).amount;
-  const fundRecentClaims = get(rewardFund, 'recent_claims');
-  const fundRewardBalance = parseToken(get(rewardFund, 'reward_balance'));
-  const globalProps = {
-    hivePerMVests,
-    base,
-    quote,
-    fundRecentClaims,
-    fundRewardBalance,
-    hbdPrintRate,
-  };
+    // Cache raw blockchain data for backward compatibility
+    if (dynamicProps.raw?.globalDynamic) {
+      await setCache('globalDynamic', dynamicProps.raw.globalDynamic);
+    }
 
-  return globalProps;
+    // Return subset of props for backward compatibility
+    return {
+      hivePerMVests: dynamicProps.hivePerMVests,
+      base: dynamicProps.base,
+      quote: dynamicProps.quote,
+      fundRecentClaims: dynamicProps.fundRecentClaims,
+      fundRewardBalance: dynamicProps.fundRewardBalance,
+      hbdPrintRate: dynamicProps.hbdPrintRate,
+    };
+  } catch (e) {}
 };
 
 /**

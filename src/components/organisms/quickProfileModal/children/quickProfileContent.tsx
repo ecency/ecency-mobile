@@ -9,15 +9,16 @@ import {
   getAccountFullQueryOptions,
   getRelationshipBetweenAccountsQueryOptions,
   getAccountRcQueryOptions,
+  checkFavouriteQueryOptions,
 } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import { MainButton, StatsPanel } from '../../..';
-import { checkFavorite } from '../../../../providers/ecency/ecency';
 import {
   useAddFavouriteMutation,
   useDeleteFavouriteMutation,
 } from '../../../../providers/queries/bookmarkQueries';
-import { followUser } from '../../../../providers/hive/dhive';
+import { followUser, getDigitPinCode } from '../../../../providers/hive/dhive';
+import { decryptKey } from '../../../../utils/crypto';
 import { getRcPower, getVotingPower } from '../../../../utils/manaBar';
 import styles from './quickProfileStyles';
 import { ProfileBasic } from './profileBasic';
@@ -120,7 +121,20 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
             );
             _isFollowing = res && res.follows;
             _isMuted = res && res.ignores;
-            _isFavourite = Boolean(await checkFavorite(username));
+
+            // Check if user is favorited using SDK query
+            const accessToken =
+              currentAccount?.local?.accessToken && pinCode
+                ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+                : undefined;
+
+            if (accessToken) {
+              _isFavourite = Boolean(
+                await queryClient.fetchQuery(
+                  checkFavouriteQueryOptions(currentAccountName, accessToken, username),
+                ),
+              );
+            }
           } else {
             _isFollowing = false;
             _isMuted = false;

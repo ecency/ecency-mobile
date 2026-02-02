@@ -284,7 +284,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
           dispatch(
             toastNotification(
               intl.formatMessage({
-                id: 'alert.fail',
+                id: 'report.added',
               }),
             ),
           );

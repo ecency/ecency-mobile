@@ -4,7 +4,10 @@ import { FlatList, RefreshControl } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useQueryClient } from '@tanstack/react-query';
-import { getVestingDelegationsQueryOptions, getAccountFullQueryOptions } from '@ecency/sdk';
+import {
+  getVestingDelegationsQueryOptions,
+  getReceivedVestingSharesQueryOptions,
+} from '@ecency/sdk';
 
 import unionBy from 'lodash/unionBy';
 import AccountListContainer from '../../../containers/accountListContainer';
@@ -85,10 +88,11 @@ export const DelegationsModal = forwardRef(({}, ref) => {
   };
 
   const _getReceivedDelegations = async () => {
-    // Get account to access received_vesting_shares
-    const account = await queryClient.fetchQuery(getAccountFullQueryOptions(currentAccount.name));
-    const receivedVestingShares = account?.received_vesting_shares || [];
-    return receivedVestingShares.map((item) => ({
+    // Use SDK query to fetch received vesting shares directly
+    const receivedVestingShares = await queryClient.fetchQuery(
+      getReceivedVestingSharesQueryOptions(currentAccount.name),
+    );
+    return (receivedVestingShares || []).map((item) => ({
       username: item.delegator,
       vestingShares: item.vesting_shares,
       timestamp: item.timestamp,

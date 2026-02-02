@@ -13,6 +13,7 @@ import {
   getRelationshipBetweenAccountsQueryOptions,
   getAccountPostsQueryOptions,
   getAccountRcQueryOptions,
+  checkFavouriteQueryOptions,
 } from '@ecency/sdk';
 import {
   selectCurrentAccount,
@@ -23,16 +24,17 @@ import {
   selectIsConnected,
   selectHidePostsThumbnails,
 } from '../redux/selectors';
-import { followUser, unfollowUser, ignoreUser } from '../providers/hive/dhive';
+import { followUser, unfollowUser, ignoreUser, getDigitPinCode } from '../providers/hive/dhive';
 import { getQueryClient } from '../providers/queries';
 import { startMattermostDirectMessage } from '../providers/chat/mattermost';
 
 // Ecency providers
-import { checkFavorite, addFavorite, deleteFavorite, addReport } from '../providers/ecency/ecency';
+import { addFavorite, deleteFavorite, addReport } from '../providers/ecency/ecency';
 
 // Utilitites
 import { getRcPower, getVotingPower } from '../utils/manaBar';
 import { toastNotification, setRcOffer } from '../redux/actions/uiAction';
+import { decryptKey } from '../utils/crypto';
 
 // Constants
 import { default as ROUTES } from '../constants/routeNames';
@@ -328,7 +330,18 @@ class ProfileContainer extends Component {
           );
           _isFollowing = res && res.follows;
           _isMuted = res && res.ignores;
-          isFavorite = await checkFavorite(username);
+
+          // Check if user is favorited using SDK query
+          const accessToken =
+            currentAccount?.local?.accessToken && pinCode
+              ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+              : undefined;
+
+          if (accessToken) {
+            isFavorite = await queryClient.fetchQuery(
+              checkFavouriteQueryOptions(currentAccount.name, accessToken, username),
+            );
+          }
         }
 
         try {
