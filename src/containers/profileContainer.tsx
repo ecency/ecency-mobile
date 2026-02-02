@@ -583,7 +583,7 @@ class ProfileContainer extends Component {
     return (
       children &&
       children({
-        about: get(user, 'about.profile'),
+        about: get(user, 'profile.about'),
         activePage,
         avatar,
         setEstimatedWalletValue: this._setEstimatedWalletValue,

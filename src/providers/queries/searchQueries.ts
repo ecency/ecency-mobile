@@ -1,10 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import {
-  getSearchQueryOptions,
+  getSearchApiInfiniteQueryOptions,
   getSearchAccountQueryOptions,
   getSearchPathQueryOptions,
   getSearchTopicsQueryOptions,
 } from '@ecency/sdk';
+
+// Export as getSearchQueryOptions for backwards compatibility
+export const getSearchQueryOptions = getSearchApiInfiniteQueryOptions;
 
 /**
  * Hook to search for posts/content

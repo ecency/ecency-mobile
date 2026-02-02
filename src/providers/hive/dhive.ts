@@ -1770,11 +1770,8 @@ export const lookupAccounts = async (username) => {
 export const getTrendingTags = async (tag, number = 20) => {
   try {
     const queryClient = getQueryClient();
-    const result = await queryClient.fetchInfiniteQuery({
-      ...getTrendingTagsQueryOptions(number),
-      pages: 1,
-    });
-    const tags = result.pages[0] || [];
+    const result = await queryClient.fetchQuery(getTrendingTagsQueryOptions(number));
+    const tags = result || [];
     return tags;
   } catch (error) {
     return [];

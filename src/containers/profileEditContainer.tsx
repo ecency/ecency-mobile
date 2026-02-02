@@ -50,16 +50,17 @@ class ProfileEditContainer extends Component {
 
   constructor(props) {
     super(props);
+    const profile = props.currentAccount.profile || {};
     this.state = {
       isLoading: false,
       isUploading: false,
       saveEnabled: false,
-      about: get(props.currentAccount, 'profile.about'),
-      name: get(props.currentAccount, 'profile.name'),
-      location: get(props.currentAccount, 'profile.location'),
-      website: get(props.currentAccount, 'profile.website'),
-      coverUrl: get(props.currentAccount, 'profile.cover_image'),
-      pinned: get(props.currentAccount, 'profile.pinned'),
+      about: profile.about,
+      name: profile.name,
+      location: profile.location,
+      website: profile.website,
+      coverUrl: profile.cover_image,
+      pinned: profile.pinned,
       avatarUrl: get(props.currentAccount, 'avatar'),
     };
   }

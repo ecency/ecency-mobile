@@ -653,8 +653,8 @@ class ApplicationContainer extends Component {
       try {
         const queryClient = getQueryClient();
         const accessToken =
-          (realmObject.accessToken
-            ? decryptKey(realmObject.accessToken, getDigitPinCode(pinCode))
+          (accountData?.local?.accessToken
+            ? decryptKey(accountData.local.accessToken, getDigitPinCode(pinCode))
             : '') ?? '';
         accountData.unread_activity_count = await queryClient.fetchQuery(
           getNotificationsUnreadCountQueryOptions(realmObject.username, accessToken),

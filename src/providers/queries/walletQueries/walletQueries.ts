@@ -693,12 +693,9 @@ export const useUpdateProfileTokensMutation = () => {
 
   const mutation = useMutation<any, Error, ProfileToken[]>({
     mutationFn: async (tokens) => {
-      if (!currentAccount?.profile) {
-        throw new Error('Profile metadata not available');
-      }
-
+      const baseProfile = currentAccount?.profile || {};
       const newProfileMeta = {
-        ...(currentAccount.profile || {}),
+        ...baseProfile,
         tokens: [...tokens],
       };
 

@@ -168,7 +168,7 @@ const AccountsBottomSheetContainer = () => {
       _currentAccount.local.accessToken = encryptedAccessToken;
 
       const queryClient = getQueryClient();
-      const accessToken = decryptKey(encryptedAccessToken, getDigitPinCode(pinHash));
+      const accessToken = decryptKey(encryptedAccessToken, getDigitPinCode(pinHash)) ?? '';
       _currentAccount.unread_activity_count = await queryClient.fetchQuery(
         getNotificationsUnreadCountQueryOptions(_currentAccount.name, accessToken),
       );

@@ -111,13 +111,14 @@ const PostsResultsContainer = ({ children, searchValue }) => {
         );
         const newResults = Array.isArray(res) ? res : res?.items || res?.results || [];
 
-        // Deduplicate by creating a Set of existing permlinks
-        const existingPermlinks = new Set(data.map((item) => item.permlink));
-        const filteredNewResults = newResults.filter(
-          (item) => !existingPermlinks.has(item.permlink),
-        );
-
-        setData([...data, ...filteredNewResults]);
+        // Use functional updater to avoid stale closure reads
+        setData((prev) => {
+          const existingPermlinks = new Set(prev.map((item) => item.permlink));
+          const filteredNewResults = newResults.filter(
+            (item) => !existingPermlinks.has(item.permlink),
+          );
+          return [...prev, ...filteredNewResults];
+        });
       } catch (error) {
         console.warn('Search Failed', error);
       }

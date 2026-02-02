@@ -161,7 +161,10 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
       return 0;
     });
 
-    const insertIndex = Math.min(selection.length, _data.length);
+    // Count only visible selected items to fix separator placement when search filters are active
+    const selectedSymbols = new Set(selection.map((item) => item.symbol));
+    const visibleSelectedCount = _data.filter((item) => selectedSymbols.has(item.symbol)).length;
+    const insertIndex = Math.min(visibleSelectedCount, _data.length);
     _data.splice(insertIndex, 0, {
       isSectionSeparator: true,
     } as SelectableAsset);
