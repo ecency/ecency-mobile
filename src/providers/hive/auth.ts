@@ -7,8 +7,8 @@ import {
   getAccountFullQueryOptions,
   getAccountRcQueryOptions,
   getMutedUsersQueryOptions,
+  getNotificationsUnreadCountQueryOptions,
 } from '@ecency/sdk';
-import { getNotificationsUnreadCountQueryOptions } from '@ecency/sdk';
 import { getDigitPinCode } from './dhive';
 import { getQueryClient } from '../queries';
 import { getPointsSummary } from '../ecency/ePoint';
@@ -45,28 +45,28 @@ const fetchAccount = async (username: string) => {
     return null;
   }
 
-  let about: Record<string, any> = {};
-  try {
-    const raw = account.posting_json_metadata;
-    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
-    if (parsed && typeof parsed === 'object') {
-      about = parsed;
+  // Parse profile from posting_json_metadata if not already provided by SDK
+  let profile: Record<string, any> = account.profile || {};
+  if (!profile || Object.keys(profile).length === 0) {
+    try {
+      const raw = account.posting_json_metadata;
+      const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+      if (parsed && typeof parsed === 'object') {
+        profile = parsed.profile || {};
+      }
+    } catch (error) {
+      profile = {};
     }
-  } catch (error) {
-    about = {};
   }
-
-  const profile = account.profile || about.profile;
-  const normalizedAbout = profile ? { ...about, profile } : about;
 
   const resolvedName = account.name || account.username || username;
 
   return {
     ...account,
     name: resolvedName,
-    about: normalizedAbout,
-    avatar: getAvatar(normalizedAbout),
-    display_name: getName(normalizedAbout),
+    profile,
+    avatar: getAvatar({ profile }),
+    display_name: getName({ profile }),
     username: resolvedName,
     rc_manabar: rcAccounts?.[0]?.rc_manabar,
     max_rc: rcAccounts?.[0]?.max_rc,
@@ -133,7 +133,7 @@ export const login = async (username, password) => {
     console.warn('Optional user data fetch failed, account can still function without them', err);
   }
 
-  const profile = account.about?.profile || account.profile;
+  const { profile } = account;
   avatar = profile?.profile_image || account.avatar || '';
 
   const userData = {
@@ -201,7 +201,7 @@ export const loginWithSC2 = async (code) => {
       console.warn('Optional user data fetch failed, account can still function without them', err);
     }
 
-    const profile = account.about?.profile || account.profile;
+    const { profile } = account;
     avatar = profile?.profile_image || account.avatar || '';
 
     const userData = {
@@ -273,7 +273,7 @@ export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => 
       console.warn('Optional user data fetch failed, account can still function without them', err);
     }
 
-    const profile = account.about?.profile || account.profile;
+    const { profile } = account;
     avatar = profile?.profile_image || account.avatar || '';
 
     const userData = {

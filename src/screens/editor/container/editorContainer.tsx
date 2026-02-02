@@ -21,7 +21,7 @@ import {
 } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
-import { getQueryClient } from '../../../providers/queries';
+import { getQueryClient, speakQueries } from '../../../providers/queries';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
   postContent,
@@ -69,7 +69,6 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
 import { PostTypes } from '../../../constants/postTypes';
 
-import { speakQueries } from '../../../providers/queries';
 import {
   BENEFICIARY_SRC_ENCODER,
   DEFAULT_SPEAK_BENEFICIARIES,

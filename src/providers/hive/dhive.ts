@@ -19,6 +19,20 @@ import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import * as hiveuri from 'hive-uri';
 import * as Sentry from '@sentry/react-native';
+import {
+  getQueryClient,
+  getAccountFullQueryOptions,
+  getAccountsQueryOptions,
+  getPostQueryOptions,
+  parseProfileMetadata,
+  getCommunityQueryOptions,
+  getCommunitiesQueryOptions,
+  getAccountSubscriptionsQueryOptions,
+  getRelationshipBetweenAccountsQueryOptions,
+  getDynamicPropsQueryOptions,
+  getTrendingTagsQueryOptions,
+  getDiscussionsQueryOptions,
+} from '@ecency/sdk';
 import { getServer, getCache, setCache } from '../../realm/realm';
 
 // Utils
@@ -32,7 +46,6 @@ import {
 import { getName, getAvatar, parseReputation } from '../../utils/user';
 import parseToken from '../../utils/parseToken';
 import parseAsset from '../../utils/parseAsset';
-import filterNsfwPost from '../../utils/filterNsfwPost';
 import { jsonStringify } from '../../utils/jsonUtils';
 import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 
@@ -246,7 +259,10 @@ export const buildActiveCustomJsonOpArr = (
 
 export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
 
-export const getDynamicGlobalProperties = () => client.database.getDynamicGlobalProperties();
+export const getDynamicGlobalProperties = async () => {
+  const queryClient = getQueryClient();
+  return queryClient.fetchQuery(getDynamicPropsQueryOptions());
+};
 
 export const getRewardFund = () => client.database.call('get_reward_fund', ['post']);
 
@@ -379,21 +395,17 @@ export const getSavingsWithdrawFrom = async (username) => {
 /**
  * @method getAccount fetch raw account data without post processings
  * @param username username
+ * Uses SDK internally for blockchain data fetching
  */
-export const getAccount = (username) =>
-  new Promise((resolve, reject) => {
-    client.database
-      .getAccounts([username])
-      .then((response) => {
-        if (response.length) {
-          resolve(response[0]);
-        }
-        throw new Error(`Account not found, ${JSON.stringify(response)}`);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+export const getAccount = async (username) => {
+  const queryClient = getQueryClient();
+  const accounts = await queryClient.fetchQuery(getAccountsQueryOptions([username]));
+
+  if (accounts && accounts.length > 0) {
+    return accounts[0];
+  }
+  throw new Error(`Account not found, ${username}`);
+};
 
 export const getAccountHistory = (user, operations, startIndex = -1, limit = 1000) =>
   new Promise((resolve, reject) => {
@@ -425,20 +437,24 @@ export const getState = async (path) => {
 };
 
 /**
- * @method getUser get account data
+ * @method getUser get account data with calculated fields
  * @param user username
+ * Uses SDK internally for blockchain data fetching
  */
 export const getUser = async (user) => {
   try {
-    const account = await client.database.getAccounts([user]);
-    const _account = {
-      ...account[0],
-    };
-    const unreadActivityCount = 0;
+    const queryClient = getQueryClient();
 
-    if (account && account.length < 1) {
+    // Fetch account data using SDK
+    const accountData = await queryClient.fetchQuery(getAccountFullQueryOptions(user));
+    if (!accountData) {
       return null;
     }
+
+    const _account = {
+      ...accountData,
+    };
+    const unreadActivityCount = 0;
 
     let globalProperties;
     try {
@@ -476,16 +492,23 @@ export const getUser = async (user) => {
       get(globalProperties, 'total_vesting_fund_hive'),
     );
 
+    // Parse profile metadata using SDK
+    // parseProfileMetadata returns the full parsed metadata structure
     if (has(_account, 'posting_json_metadata')) {
       try {
-        _account.about = JSON.parse(get(_account, 'posting_json_metadata'));
+        const parsed = parseProfileMetadata(get(_account, 'posting_json_metadata'));
+        // parsed is the full metadata object, extract the profile field
+        _account.profile =
+          parsed && typeof parsed === 'object' && parsed.profile ? parsed.profile : {};
       } catch (e) {
-        _account.about = {};
+        _account.profile = {};
       }
+    } else {
+      _account.profile = {};
     }
 
-    _account.avatar = getAvatar(get(_account, 'about'));
-    _account.display_name = getName(get(_account, 'about'));
+    _account.avatar = getAvatar({ profile: _account.profile });
+    _account.display_name = getName({ profile: _account.profile });
 
     return _account;
   } catch (error) {
@@ -495,7 +518,8 @@ export const getUser = async (user) => {
 
 export const getAccounts = async (usernames: string[]) => {
   try {
-    const accounts = await client.database.call('get_accounts', [usernames]);
+    const queryClient = getQueryClient();
+    const accounts = await queryClient.fetchQuery(getAccountsQueryOptions(usernames));
     return accounts;
   } catch (error) {
     console.warn('Failed to get accounts', error);
@@ -526,10 +550,8 @@ const cache = {};
 const patt = /hive-\d\w+/g;
 export const getCommunity = async (tag, observer = '') => {
   try {
-    const community = await client.call('bridge', 'get_community', {
-      name: tag,
-      observer,
-    });
+    const queryClient = getQueryClient();
+    const community = await queryClient.fetchQuery(getCommunityQueryOptions(tag, observer));
     if (community) {
       return community;
     } else {
@@ -579,13 +601,10 @@ export const getCommunities = async (
 ) => {
   try {
     console.log('Getting communities', query);
-    const data = await client.call('bridge', 'list_communities', {
-      last,
-      limit,
-      query,
-      sort,
-      observer,
-    });
+    const queryClient = getQueryClient();
+    const data = await queryClient.fetchQuery(
+      getCommunitiesQueryOptions(sort, query, limit, observer, true),
+    );
     if (data) {
       return data;
     } else {
@@ -602,9 +621,8 @@ export const getCommunities = async (
 
 export const getSubscriptions = async (account = '') => {
   try {
-    const data = await client.call('bridge', 'list_all_subscriptions', {
-      account,
-    });
+    const queryClient = getQueryClient();
+    const data = await queryClient.fetchQuery(getAccountSubscriptionsQueryOptions(account));
     if (data) {
       return data;
     } else {
@@ -654,25 +672,17 @@ export const getMutes = async (currentUsername) => {
   }
 };
 
-export const getRelationship = (follower, following) =>
-  new Promise((resolve, reject) => {
-    if (follower) {
-      client
-        .call('bridge', 'get_relationship_between_accounts', [follower, following])
-        .then((result) => {
-          if (result) {
-            resolve(result);
-          } else {
-            resolve(false);
-          }
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    } else {
-      resolve(false);
-    }
-  });
+export const getRelationship = async (follower, following) => {
+  if (!follower) {
+    return false;
+  }
+
+  const queryClient = getQueryClient();
+  const result = await queryClient.fetchQuery(
+    getRelationshipBetweenAccountsQueryOptions(follower, following),
+  );
+  return result || false;
+};
 
 /** DEPRECATED - Do not use this method and it's an invalid use of get_following call
  *  almost always returns wrong data, espacially when user is not in following or follwers list */
@@ -831,66 +841,7 @@ export const getActiveVotes = (author, permlink) =>
 // getPostReblogs removed - replaced by getReblogsQueryOptions from @ecency/sdk
 // See src/providers/queries/postQueries/repostQueries.ts for SDK-based implementation
 
-export const getRankedPosts = async (query: any, currentUserName: string, filterNsfw: string) => {
-  try {
-    console.log('[getRankedPosts] Query:', query);
-
-    let posts = await client.call('bridge', 'get_ranked_posts', query);
-
-    console.log('[getRankedPosts] Raw API response:', posts ? posts.length : 0, 'posts');
-
-    if (posts) {
-      const areComments = query.sort === 'comments' || query.sort === 'replies';
-
-      posts = areComments
-        ? parseComments(posts, currentUserName)
-        : await resolvePosts(posts, currentUserName);
-
-      if (filterNsfw !== '0') {
-        const updatedPosts = filterNsfwPost(posts, filterNsfw);
-        console.log(
-          '[getRankedPosts] After NSFW filter:',
-          updatedPosts ? updatedPosts.length : 0,
-          'posts',
-        );
-        return updatedPosts;
-      }
-    }
-    console.log('[getRankedPosts] Returning posts:', posts ? posts.length : 0);
-    return posts;
-  } catch (error) {
-    console.error('[getRankedPosts] Error:', error);
-    return error;
-  }
-};
-
-export const getAccountPosts = async (
-  query: any,
-  currentUserName?: string,
-  filterNsfw?: string,
-) => {
-  try {
-    console.log('Getting account posts: ', query);
-    let posts = await client.call('bridge', 'get_account_posts', query);
-
-    if (posts) {
-      const areComments = query.sort === 'comments' || query.sort === 'replies';
-
-      posts = areComments
-        ? parseComments(posts, currentUserName)
-        : await resolvePosts(posts, currentUserName);
-
-      if (filterNsfw !== '0') {
-        const updatedPosts = filterNsfwPost(posts, filterNsfw);
-        return updatedPosts;
-      }
-    }
-    console.log(`Returning fetched posts: ${posts}` ? posts.length : null);
-    return posts;
-  } catch (error) {
-    return error;
-  }
-};
+// getRankedPosts and getAccountPosts removed - components use SDK infinite query hooks directly
 
 export const getRepliesByLastUpdate = async (query, currentUsername) => {
   try {
@@ -912,7 +863,10 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
   permlink = permlink && permlink.toLowerCase();
   try {
     console.log('Getting post: ', author, permlink);
-    const post = await client.call('bridge', 'get_post', { author, permlink });
+    const queryClient = getQueryClient();
+    const post = await queryClient.fetchQuery(
+      getPostQueryOptions(author, permlink, currentUserName),
+    );
     console.log('post fetched', post?.post_id);
 
     // check for cross post, resolve it
@@ -995,7 +949,10 @@ export const getDiscussionCollection = async (
   currentUsername?: string,
 ) => {
   try {
-    const commentsMap = await client.call('bridge', 'get_discussion', { author, permlink });
+    const queryClient = getQueryClient();
+    const commentsMap = await queryClient.fetchQuery(
+      getDiscussionsQueryOptions(author, permlink, currentUsername),
+    );
 
     const _parsedCollection = await parseDiscussionCollection(commentsMap, currentUsername);
     return _parsedCollection;
@@ -1007,7 +964,10 @@ export const getDiscussionCollection = async (
 
 export const getComments = async (author: string, permlink: string, currentUsername?: string) => {
   try {
-    const commentsMap = await client.call('bridge', 'get_discussion', { author, permlink });
+    const queryClient = getQueryClient();
+    const commentsMap = await queryClient.fetchQuery(
+      getDiscussionsQueryOptions(author, permlink, currentUsername),
+    );
 
     // it appear the get_discussion fetches the parent post as an intry in thread
     // may be later we can make use of this to save post fetch call in post display
@@ -1020,6 +980,8 @@ export const getComments = async (author: string, permlink: string, currentUsern
     return error;
   }
 };
+
+// resolvePosts removed - was only used by getRankedPosts/getAccountPosts which were removed
 
 // resolve individual post based on simple or cross post
 const resolvePost = async (
@@ -1078,37 +1040,7 @@ const resolvePost = async (
   return null;
 };
 
-// resolves posts to be used in the feed,
-const resolvePosts = async (posts, currentUsername) => {
-  if (posts) {
-    console.log('[resolvePosts] Raw posts from API:', posts.length, 'posts');
-    console.log(
-      '[resolvePosts] First raw post sample:',
-      posts[0]
-        ? { author: posts[0].author, permlink: posts[0].permlink, title: posts[0].title }
-        : 'none',
-    );
-
-    const formattedPosts = posts.map(async (post) => resolvePost(post, currentUsername));
-    const _formattedPost = await Promise.all(formattedPosts);
-
-    console.log('[resolvePosts] Resolved posts:', _formattedPost.length, 'posts');
-    console.log(
-      '[resolvePosts] First resolved post sample:',
-      _formattedPost[0]
-        ? {
-            author: _formattedPost[0].author,
-            permlink: _formattedPost[0].permlink,
-            title: _formattedPost[0].title,
-            image: _formattedPost[0].image,
-          }
-        : 'none',
-    );
-
-    return _formattedPost;
-  }
-  return null;
-};
+// resolvePosts removed - was only used by getRankedPosts/getAccountPosts which were removed
 
 /**
  * @method getPostWithComments get user data
@@ -1835,11 +1767,15 @@ export const lookupAccounts = async (username) => {
 
 export const getTrendingTags = async (tag, number = 20) => {
   try {
-    const tags = await client.database.call('get_trending_tags', [tag, number]);
+    const queryClient = getQueryClient();
+    const result = await queryClient.fetchInfiniteQuery({
+      ...getTrendingTagsQueryOptions(number),
+      pages: 1,
+    });
+    const tags = result.pages[0] || [];
     return tags;
   } catch (error) {
     return [];
-    // throw error;
   }
 };
 
@@ -2363,9 +2299,8 @@ export const profileUpdate = async (params, pin, currentAccount) => {
       account: get(currentAccount, 'name'),
       json_metadata: '',
       posting_json_metadata: jsonStringify({
-        ...(currentAccount.about || {}),
         profile: {
-          ...(currentAccount.about?.profile || {}),
+          ...(currentAccount.profile || {}),
           ...params,
         },
       }),
@@ -2388,9 +2323,8 @@ export const profileUpdate = async (params, pin, currentAccount) => {
           account: get(currentAccount, 'name'),
           json_metadata: '',
           posting_json_metadata: jsonStringify({
-            ...(currentAccount.about || {}),
             profile: {
-              ...(currentAccount.about?.profile || {}),
+              ...(currentAccount.profile || {}),
               ...params,
             },
           }),

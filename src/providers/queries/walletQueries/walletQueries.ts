@@ -690,11 +690,15 @@ export const useUpdateProfileTokensMutation = () => {
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinHash = useAppSelector(selectPin);
-
+  console.log(currentAccount);
   const mutation = useMutation<any, Error, ProfileToken[]>({
     mutationFn: async (tokens) => {
+      if (!currentAccount?.profile) {
+        throw new Error('Profile metadata not available');
+      }
+
       const newProfileMeta = {
-        ...currentAccount.about.profile,
+        ...(currentAccount.profile || {}),
         tokens: [...tokens],
       };
 
@@ -707,10 +711,7 @@ export const useUpdateProfileTokensMutation = () => {
       // update current account in redux
       const _currentAccount = {
         ...currentAccount,
-        about: {
-          ...currentAccount.about,
-          profile: newProfileMeta,
-        },
+        profile: newProfileMeta,
       };
       dispatch(updateCurrentAccount({ ..._currentAccount }));
     },

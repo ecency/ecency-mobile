@@ -431,7 +431,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
   ) => {
     const params = {
-      ...(currentAccount.about?.profile || {}),
+      ...(currentAccount.profile || {}),
       pinned: unpinPost ? null : content.permlink,
     };
 
@@ -440,10 +440,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
       const nextAccount = {
         ...currentAccount,
-        about: {
-          ...(currentAccount.about || {}),
-          profile: { ...params },
-        },
+        profile: { ...params },
       };
 
       dispatch(updateCurrentAccount(nextAccount));

@@ -237,7 +237,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
     _votingPower = getVotingPower(user).toFixed(1);
     _resourceCredits = getRcPower(rcAccount || user).toFixed(0);
     _postCount = user.post_count || 0;
-    _about = user.about?.profile?.about || '';
+    _about = user.profile?.about || '';
     _reputation = parseReputation(user.reputation);
     _createdData = getTimeFromNowNative(user.created);
 

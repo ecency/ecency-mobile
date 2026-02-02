@@ -54,12 +54,12 @@ class ProfileEditContainer extends Component {
       isLoading: false,
       isUploading: false,
       saveEnabled: false,
-      about: get(props.currentAccount, 'about.profile.about'),
-      name: get(props.currentAccount, 'about.profile.name'),
-      location: get(props.currentAccount, 'about.profile.location'),
-      website: get(props.currentAccount, 'about.profile.website'),
-      coverUrl: get(props.currentAccount, 'about.profile.cover_image'),
-      pinned: get(props.currentAccount, 'about.profile.pinned'),
+      about: get(props.currentAccount, 'profile.about'),
+      name: get(props.currentAccount, 'profile.name'),
+      location: get(props.currentAccount, 'profile.location'),
+      website: get(props.currentAccount, 'profile.website'),
+      coverUrl: get(props.currentAccount, 'profile.cover_image'),
+      pinned: get(props.currentAccount, 'profile.pinned'),
       avatarUrl: get(props.currentAccount, 'avatar'),
     };
   }
@@ -167,7 +167,7 @@ class ProfileEditContainer extends Component {
 
     // Preserve all existing profile fields and only update the ones being edited
     const params = {
-      ...(currentAccount.about?.profile || {}),
+      ...(currentAccount.profile || {}),
       profile_image: avatarUrl,
       cover_image: coverUrl,
       name,
@@ -182,10 +182,7 @@ class ProfileEditContainer extends Component {
       await profileUpdate(params, pinCode, currentAccount);
 
       const _currentAccount = { ...currentAccount, display_name: name, avatar: avatarUrl };
-      _currentAccount.about = {
-        ...(currentAccount.about || {}),
-        profile: params,
-      };
+      _currentAccount.profile = params;
 
       dispatch(updateCurrentAccount(_currentAccount));
       dispatch(setAvatarCacheStamp(new Date().getTime()));

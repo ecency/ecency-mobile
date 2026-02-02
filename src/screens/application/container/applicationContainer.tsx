@@ -15,11 +15,8 @@ import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 // Constants
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
-import {
-  getMutedUsersQueryOptions,
-  getAccountFullQueryOptions,
-  getNotificationsUnreadCountQueryOptions,
-} from '@ecency/sdk';
+import { getMutedUsersQueryOptions, getNotificationsUnreadCountQueryOptions } from '@ecency/sdk';
+
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
 
@@ -35,7 +32,7 @@ import {
   getLastUpdateCheck,
   setLastUpdateCheck,
 } from '../../../realm/realm';
-import { getDigitPinCode } from '../../../providers/hive/dhive';
+import { getDigitPinCode, getUser } from '../../../providers/hive/dhive';
 import { getQueryClient } from '../../../providers/queries';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import {
@@ -290,13 +287,17 @@ class ApplicationContainer extends Component {
   };
 
   _handleAppStateChange = (nextAppState) => {
-    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
+    const { isPinCodeOpen: _isPinCodeOpen, currentAccount } = this.props;
     const { appState } = this.state;
 
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this._refreshGlobalProps();
       this._refreshUnreadActivityCount();
       this._refreshUnreadChats();
+      // Refresh account data to get latest profile updates from blockchain
+      if (currentAccount?.local) {
+        this._fetchUserDataFromDsteem(currentAccount.local);
+      }
       if (_isPinCodeOpen && this._pinCodeTimer) {
         clearTimeout(this._pinCodeTimer);
       }
@@ -631,11 +632,8 @@ class ApplicationContainer extends Component {
     const { dispatch, intl, pinCode, isPinCodeOpen, encUnlockPin } = this.props;
 
     try {
-      const queryClient = getQueryClient();
-      const sdkAccountData = await queryClient.fetchQuery(
-        getAccountFullQueryOptions(realmObject.username),
-      );
-      let accountData = { ...sdkAccountData, local: realmObject };
+      let accountData = await getUser(realmObject.username);
+      accountData.local = realmObject;
 
       // cannot migrate or refresh token since pin would null while pin code modal is open
       if (!isPinCodeOpen || encUnlockPin) {
@@ -653,6 +651,7 @@ class ApplicationContainer extends Component {
       }
 
       try {
+        const queryClient = getQueryClient();
         const accessToken =
           (realmObject.accessToken
             ? decryptKey(realmObject.accessToken, getDigitPinCode(pinCode))
