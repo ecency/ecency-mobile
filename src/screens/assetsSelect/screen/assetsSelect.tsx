@@ -101,7 +101,9 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
 
   useEffect(() => {
     const data: SelectableAsset[] = [];
+    const addedSymbols = new Set<string>();
 
+    // Add tokens from assetsQuery (Hive tokens)
     assetsQuery.selectedableData?.forEach((asset) => {
       const _name = asset.name?.toLowerCase() || '';
       const _symbol = asset.symbol.toLowerCase();
@@ -112,6 +114,23 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
 
       if (query === '' || _isSelected || _symbol.includes(_query) || _name.includes(_query)) {
         data.push(mapAssetLayer(asset));
+        addedSymbols.add(asset.symbol);
+      }
+    });
+
+    // Add CHAIN tokens from profile that aren't in assetsQuery (external tokens)
+    selectionRef.current.forEach((selectedAsset) => {
+      if (selectedAsset.isChain && !addedSymbols.has(selectedAsset.symbol)) {
+        const _symbol = selectedAsset.symbol.toLowerCase();
+        const _query = query.toLowerCase();
+
+        if (query === '' || _symbol.includes(_query)) {
+          data.push({
+            symbol: selectedAsset.symbol,
+            layer: 'chain',
+            isChain: true,
+          } as SelectableAsset);
+        }
       }
     });
 
@@ -173,7 +192,7 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
 
     // 3. Handle ENGINE and SPK tokens (user can add/remove)
     const engineSpkTokens = selectionRef.current
-      .filter((item) => item.isEngine || item.isSpk)
+      .filter((item) => (item.isEngine || item.isSpk) && item.symbol)
       .map((item) => ({
         symbol: item.symbol,
         type: item.isEngine ? TokenType.ENGINE : TokenType.SPK,
@@ -183,7 +202,10 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
       }));
 
     // Final tokens array - HIVE tokens excluded (always enabled by default)
-    const tokens = [...chainTokens, ...engineSpkTokens];
+    // Filter out any tokens with missing required fields
+    const tokens = [...chainTokens, ...engineSpkTokens].filter(
+      (token) => token.symbol && token.type,
+    );
 
     updateProfileTokensMutation.mutateAsync(tokens);
     _navigationGoBack();

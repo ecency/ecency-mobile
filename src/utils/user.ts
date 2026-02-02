@@ -36,15 +36,23 @@ export const parseReputation = (input: string | number): number => {
 };
 
 export const getName = (about) => {
+  // Handle both formats: { profile: { name: "..." } } or { name: "..." }
   if (about.profile && about.profile.name) {
     return about.profile.name;
+  }
+  if (about.name) {
+    return about.name;
   }
   return null;
 };
 
 export const getAvatar = (about) => {
+  // Handle both formats: { profile: { profile_image: "..." } } or { profile_image: "..." }
   if (about.profile && about.profile.profile_image) {
     return about.profile.profile_image;
+  }
+  if (about.profile_image) {
+    return about.profile_image;
   }
   return null;
 };

@@ -153,7 +153,9 @@ export const sendHiveOperations = async (
   key: PrivateKey | PrivateKey[],
 ): Promise<TransactionConfirmation> => {
   try {
-    const { head_block_number, head_block_id, time } = await getDynamicGlobalProperties();
+    // Get raw dynamic global properties from blockchain (not SDK transformed data)
+    const dynamicProps = await client.database.getDynamicGlobalProperties();
+    const { head_block_number, head_block_id, time } = dynamicProps;
     const ref_block_num = head_block_number & 0xffff;
     const ref_block_prefix = Buffer.from(head_block_id, 'hex').readUInt32LE(4);
     const expireTime = 60 * 1000;
@@ -493,13 +495,12 @@ export const getUser = async (user) => {
     );
 
     // Parse profile metadata using SDK
-    // parseProfileMetadata returns the full parsed metadata structure
+    // parseProfileMetadata may return: { profile: {...} } or {...} directly
     if (has(_account, 'posting_json_metadata')) {
       try {
         const parsed = parseProfileMetadata(get(_account, 'posting_json_metadata'));
-        // parsed is the full metadata object, extract the profile field
-        _account.profile =
-          parsed && typeof parsed === 'object' && parsed.profile ? parsed.profile : {};
+        // Handle both formats: extract profile field if wrapped, or use directly
+        _account.profile = parsed?.profile || parsed || {};
       } catch (e) {
         _account.profile = {};
       }
@@ -507,8 +508,9 @@ export const getUser = async (user) => {
       _account.profile = {};
     }
 
-    _account.avatar = getAvatar({ profile: _account.profile });
-    _account.display_name = getName({ profile: _account.profile });
+    // getName/getAvatar now handle both formats (profile object or wrapped)
+    _account.avatar = getAvatar(_account.profile);
+    _account.display_name = getName(_account.profile);
 
     return _account;
   } catch (error) {
@@ -2289,6 +2291,24 @@ export const profileUpdate = async (params, pin, currentAccount) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getPostingKey(get(currentAccount, 'local'), digitPinCode);
 
+  // Parse existing posting_json_metadata to preserve all top-level fields
+  let existingMetadata = {};
+  try {
+    const raw = get(currentAccount, 'posting_json_metadata');
+    existingMetadata = typeof raw === 'string' ? JSON.parse(raw) : raw || {};
+  } catch (e) {
+    existingMetadata = {};
+  }
+
+  // Construct new metadata preserving all existing fields
+  const newMetadata = {
+    ...existingMetadata,
+    profile: {
+      ...(currentAccount.profile || {}),
+      ...params,
+    },
+  };
+
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
     const api = new hsClient({
@@ -2298,12 +2318,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     const _params = {
       account: get(currentAccount, 'name'),
       json_metadata: '',
-      posting_json_metadata: jsonStringify({
-        profile: {
-          ...(currentAccount.profile || {}),
-          ...params,
-        },
-      }),
+      posting_json_metadata: jsonStringify(newMetadata),
       extensions: [],
     };
 
@@ -2316,22 +2331,14 @@ export const profileUpdate = async (params, pin, currentAccount) => {
   }
 
   if (key) {
-    const opArray = [
-      [
-        'account_update2',
-        {
-          account: get(currentAccount, 'name'),
-          json_metadata: '',
-          posting_json_metadata: jsonStringify({
-            profile: {
-              ...(currentAccount.profile || {}),
-              ...params,
-            },
-          }),
-          extensions: [],
-        },
-      ],
-    ];
+    const _params = {
+      account: get(currentAccount, 'name'),
+      json_metadata: '',
+      posting_json_metadata: jsonStringify(newMetadata),
+      extensions: [],
+    };
+
+    const opArray = [['account_update2', _params]];
 
     const privateKey = PrivateKey.fromString(key);
 

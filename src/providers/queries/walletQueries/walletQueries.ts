@@ -690,7 +690,7 @@ export const useUpdateProfileTokensMutation = () => {
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinHash = useAppSelector(selectPin);
-  console.log(currentAccount);
+
   const mutation = useMutation<any, Error, ProfileToken[]>({
     mutationFn: async (tokens) => {
       if (!currentAccount?.profile) {

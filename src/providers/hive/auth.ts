@@ -47,6 +47,7 @@ const fetchAccount = async (username: string) => {
 
   // Parse profile from posting_json_metadata if not already provided by SDK
   let profile: Record<string, any> = account.profile || {};
+
   if (!profile || Object.keys(profile).length === 0) {
     try {
       const raw = account.posting_json_metadata;
@@ -65,8 +66,8 @@ const fetchAccount = async (username: string) => {
     ...account,
     name: resolvedName,
     profile,
-    avatar: getAvatar({ profile }),
-    display_name: getName({ profile }),
+    avatar: getAvatar(profile),
+    display_name: getName(profile),
     username: resolvedName,
     rc_manabar: rcAccounts?.[0]?.rc_manabar,
     max_rc: rcAccounts?.[0]?.max_rc,
