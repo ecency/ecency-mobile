@@ -92,10 +92,13 @@ const BoostPlus = ({
   });
 
   useEffect(() => {
-    const points = Number(pointsQuery.data?.points || 0);
+    if (!pointsQuery.data || pointsQuery.data.points === undefined) {
+      return;
+    }
+    const points = Number(pointsQuery.data?.points);
     const balanceValue = Math.round(points * 1000) / 1000;
     setBalance(Number.isNaN(balanceValue) ? _balance : balanceValue);
-  }, [pointsQuery.data?.points, _balance]);
+  }, [pointsQuery.data, _balance]);
 
   useEffect(() => {
     const response = boostAccountQuery.data;

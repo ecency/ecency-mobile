@@ -93,6 +93,9 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
   const performSearch = useCallback(
     (text) => {
       if (text && text.length < 3) {
+        setSearchMode('none');
+        setContentQuery('');
+        setSearchResults({});
         return;
       }
       if (!isConnected) {
@@ -300,13 +303,18 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
   };
 
   const _handleLoadMore = useCallback(() => {
+    if (searchMode !== 'content') {
+      return;
+    }
     if (!contentQueryEnabled || !contentSearchQuery.hasNextPage) {
       return;
     }
-    if (!contentSearchQuery.isFetchingNextPage) {
-      contentSearchQuery.fetchNextPage().catch((err) => console.log('search load more', err));
+    if (contentSearchQuery.isFetchingNextPage) {
+      return;
     }
+    contentSearchQuery.fetchNextPage().catch((err) => console.log('search load more', err));
   }, [
+    searchMode,
     contentQueryEnabled,
     contentSearchQuery.hasNextPage,
     contentSearchQuery.isFetchingNextPage,
@@ -323,8 +331,8 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
       placeholder={placeholder}
       searchResults={searchResults}
       onLoadMore={_handleLoadMore}
-      hasMore={!!contentSearchQuery.hasNextPage}
-      isLoadingMore={contentSearchQuery.isFetchingNextPage}
+      hasMore={searchMode === 'content' && !!contentSearchQuery.hasNextPage}
+      isLoadingMore={searchMode === 'content' && contentSearchQuery.isFetchingNextPage}
     />
   );
 };

@@ -46,6 +46,7 @@ const PromoteView = ({
 
   const startActionSheet = useRef(null);
   const timerRef = useRef<number | null>(null);
+  const lastQueryKeyRef = useRef<unknown[] | null>(null);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -81,6 +82,11 @@ const PromoteView = ({
     }
 
     if (text && text.length > 0) {
+      if (lastQueryKeyRef.current) {
+        queryClient.cancelQueries({ queryKey: lastQueryKeyRef.current });
+      }
+      const nextQueryKey = getSearchPathQueryOptions(text).queryKey;
+      lastQueryKeyRef.current = nextQueryKey;
       timerRef.current = setTimeout(
         () =>
           queryClient

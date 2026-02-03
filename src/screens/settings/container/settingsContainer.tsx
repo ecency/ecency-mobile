@@ -413,7 +413,6 @@ class SettingsContainer extends Component {
         otherAccounts.map(async (item) => {
           try {
             const token = await getMessaging().getToken();
-            console.log('FCM Token:', token);
 
             const data = {
               username: item.username,

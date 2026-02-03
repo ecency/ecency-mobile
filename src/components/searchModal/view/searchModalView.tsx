@@ -87,14 +87,14 @@ class SearchModalView extends PureComponent {
               renderItem={this._renderItem}
               keyExtractor={(item, index) => get(item, 'id', index).toString()}
               removeClippedSubviews
-              onEndReached={hasMore ? onLoadMore : undefined}
+              onEndReached={hasMore && !isLoadingMore ? onLoadMore : undefined}
               onEndReachedThreshold={0.6}
               initialNumToRender={20}
               ListFooterComponent={
                 hasMore ? (
                   <TouchableOpacity
                     style={styles.searchItems}
-                    onPress={onLoadMore}
+                    onPress={isLoadingMore ? undefined : onLoadMore}
                     disabled={isLoadingMore}
                   >
                     <View style={styles.searchItemTextWrapper}>
