@@ -340,10 +340,12 @@ export const groomingWalletTabData = async ({
 
   walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
 
-  const hasQuotes = quotes?.hive_dollar?.price != null && quotes?.hive?.price != null;
+  const hbdQuote = quotes?.hive_dollar?.price;
+  const hiveQuote = quotes?.hive?.price;
+  const hasQuotes = hbdQuote != null && hiveQuote != null;
   // If cached quotes are missing, fall back to on-chain median price (HBD ~ 1, HIVE = pricePerHive).
-  const ppHbd = hasQuotes ? quotes.hive_dollar.price : 1;
-  const ppHive = hasQuotes ? quotes.hive.price : pricePerHive;
+  const ppHbd = hbdQuote != null ? hbdQuote : 1;
+  const ppHive = hiveQuote != null ? hiveQuote : pricePerHive;
 
   walletData.estimatedHiveValue = (walletData.balance + walletData.savingBalance) * ppHive;
   walletData.estimatedHbdValue = totalHbd * ppHbd;
