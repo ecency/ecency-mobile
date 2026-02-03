@@ -244,6 +244,21 @@ export const useClaimRewardsMutation = () => {
           queryKey: portfolioBaseKey,
         });
       }
+
+      // Invalidate activities/transactions after claim so activity list updates
+      await Promise.all([
+        queryClient.invalidateQueries({
+          predicate: (query) =>
+            query.queryKey[0] === QUERIES.WALLET.GET_ACTIVITIES &&
+            query.queryKey[1] === currentAccount.name,
+        }),
+        queryClient.invalidateQueries({
+          predicate: (query) =>
+            query.queryKey[0] === 'accounts' &&
+            query.queryKey[1] === 'transactions' &&
+            query.queryKey[2] === currentAccount.name,
+        }),
+      ]);
     },
     onError: async (error, { symbol }) => {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));

@@ -223,6 +223,16 @@ class TransferContainer extends Component {
       predicate: (query) =>
         query.queryKey[0] === QUERIES.WALLET.GET && query.queryKey[1] === currentAccount.name,
     });
+    queryClient.invalidateQueries({
+      predicate: (query) =>
+        query.queryKey[0] === 'accounts' &&
+        query.queryKey[1] === 'transactions' &&
+        query.queryKey[2] === currentAccount.name,
+    });
+    queryClient.invalidateQueries({
+      predicate: (query) =>
+        query.queryKey[0] === 'points' && query.queryKey[1] === currentAccount.name,
+    });
 
     // Wait 3 seconds for blockchain to process, then force refetch all wallet queries
     setTimeout(() => {
@@ -237,6 +247,16 @@ class TransferContainer extends Component {
         predicate: (query) =>
           query.queryKey[0] === QUERIES.WALLET.GET_ACTIVITIES &&
           query.queryKey[1] === currentAccount.name,
+      });
+      queryClient.refetchQueries({
+        predicate: (query) =>
+          query.queryKey[0] === 'accounts' &&
+          query.queryKey[1] === 'transactions' &&
+          query.queryKey[2] === currentAccount.name,
+      });
+      queryClient.refetchQueries({
+        predicate: (query) =>
+          query.queryKey[0] === 'points' && query.queryKey[1] === currentAccount.name,
       });
 
       // Refetch pending requests (conversions, limit orders, savings withdrawals)
