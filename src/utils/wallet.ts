@@ -318,16 +318,14 @@ export const groomingWalletTabData = async ({
 
   const shouldFetchFeedHistory = isRefresh || !globalProps?.base || !globalProps?.quote;
   // use base and quote from account.globalProps redux
-  const feedHistory = shouldFetchFeedHistory
-    ? (await queryClient.fetchQuery(getDynamicPropsQueryOptions())).feedHistory
+  const dynamicProps = shouldFetchFeedHistory
+    ? await queryClient.fetchQuery(getDynamicPropsQueryOptions())
     : {
-        current_median_history: {
-          base: globalProps.base,
-          quote: globalProps.quote,
-        },
+        base: globalProps.base,
+        quote: globalProps.quote,
       };
-  const base = parseToken(feedHistory.current_median_history.base);
-  const quote = parseToken(feedHistory.current_median_history.quote);
+  const base = parseToken(dynamicProps.base);
+  const quote = parseToken(dynamicProps.quote);
 
   walletData.hivePerMVests = globalProps.hivePerMVests;
 
