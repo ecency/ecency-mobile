@@ -2043,6 +2043,15 @@ export const claimRewardBalance = (account, pinCode, rewardHive, rewardHbd, rewa
       accessToken: token,
     });
 
+    // Verify the method exists before calling
+    if (typeof api.claimRewardBalance !== 'function') {
+      const errorMsg = `HiveSigner client error: claimRewardBalance is ${typeof api.claimRewardBalance}. API object: ${JSON.stringify(
+        Object.keys(api || {}),
+      )}`;
+      Sentry.captureMessage(errorMsg, 'error');
+      return Promise.reject(new Error(errorMsg));
+    }
+
     return api.claimRewardBalance(get(account, 'name'), rewardHive, rewardHbd, rewardVests);
   }
 

@@ -3,14 +3,14 @@ import get from 'lodash/get';
 
 import { useNavigation } from '@react-navigation/native';
 
-import {
-  getPostQueryOptions,
-  getAccountPostsQueryOptions,
-  getSearchQueryOptions,
-} from '@ecency/sdk';
+import { getPostQueryOptions, getAccountPostsQueryOptions, search } from '@ecency/sdk';
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { getQueryClient, postQueries } from '../../../../../../providers/queries';
+import {
+  getQueryClient,
+  postQueries,
+  getSearchQueryOptions,
+} from '../../../../../../providers/queries';
 import postUrlParser from '../../../../../../utils/postUrlParser';
 import { selectCurrentAccountUsername } from '../../../../../../redux/selectors';
 import { useAppSelector } from '../../../../../../hooks';
@@ -23,12 +23,35 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   const [sort] = useState('newest');
   const [scrollId, setScrollId] = useState('');
   const [noResult, setNoResult] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const currentAccountUsername = useAppSelector(selectCurrentAccountUsername);
 
   useEffect(() => {
     _fetchResults();
   }, [searchValue]);
+
+  const normalizeSearchResponse = (res) => {
+    if (!res) {
+      return { results: [], scrollId: '' };
+    }
+    if (Array.isArray(res)) {
+      return { results: res, scrollId: '' };
+    }
+    if (res.pages && Array.isArray(res.pages)) {
+      const { pages } = res;
+      const results = pages.flatMap((page) => page?.results || []);
+      const lastPage = pages[pages.length - 1];
+      return { results, scrollId: lastPage?.scroll_id || '' };
+    }
+    if (Array.isArray(res.results)) {
+      return { results: res.results, scrollId: res.scroll_id || '' };
+    }
+    if (Array.isArray(res.items)) {
+      return { results: res.items, scrollId: res.scroll_id || '' };
+    }
+    return { results: [], scrollId: '' };
+  };
 
   const _fetchResults = async () => {
     let _data: any = [];
@@ -54,14 +77,9 @@ const PostsResultsContainer = ({ children, searchValue }) => {
       const res = await queryClient.fetchQuery(
         getSearchQueryOptions(`${searchValue} type:post`, sort, false),
       );
-      // Handle response structure - SDK returns array directly
-      _data = Array.isArray(res) ? res : res?.items || res?.results || [];
-      // Only set scroll_id if response has metadata
-      if (res && typeof res === 'object' && 'scroll_id' in res) {
-        setScrollId(res.scroll_id);
-      } else {
-        setScrollId('');
-      }
+      const normalized = normalizeSearchResponse(res);
+      _data = normalized.results;
+      setScrollId(normalized.scrollId);
     }
     // get initial posts if not search value
     else {
@@ -101,27 +119,29 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   };
 
   const _loadMore = async () => {
-    if (scrollId && searchValue) {
-      try {
-        const queryClient = getQueryClient();
-        // TODO: Verify if SDK supports scroll_id for pagination
-        // Currently using basic search - may need SDK update for proper pagination
-        const res = await queryClient.fetchQuery(
-          getSearchQueryOptions(`${searchValue} type:post`, sort, false),
-        );
-        const newResults = Array.isArray(res) ? res : res?.items || res?.results || [];
+    if (!scrollId || !searchValue || isLoadingMore) {
+      return;
+    }
+    try {
+      setIsLoadingMore(true);
+      const res = await search(`${searchValue} type:post`, sort, '0', undefined, scrollId);
+      const newResults = normalizeSearchResponse(res).results;
+      const nextScrollId =
+        res && typeof res === 'object' && 'scroll_id' in res ? res.scroll_id || '' : '';
 
-        // Use functional updater to avoid stale closure reads
-        setData((prev) => {
-          const existingPermlinks = new Set(prev.map((item) => item.permlink));
-          const filteredNewResults = newResults.filter(
-            (item) => !existingPermlinks.has(item.permlink),
-          );
-          return [...prev, ...filteredNewResults];
-        });
-      } catch (error) {
-        console.warn('Search Failed', error);
-      }
+      // Use functional updater to avoid stale closure reads
+      setData((prev) => {
+        const existingPermlinks = new Set(prev.map((item) => item.permlink));
+        const filteredNewResults = newResults.filter(
+          (item) => !existingPermlinks.has(item.permlink),
+        );
+        return [...prev, ...filteredNewResults];
+      });
+      setScrollId(nextScrollId);
+    } catch (error) {
+      console.warn('Search Failed', error);
+    } finally {
+      setIsLoadingMore(false);
     }
   };
 

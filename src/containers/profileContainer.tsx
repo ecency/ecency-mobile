@@ -316,7 +316,7 @@ class ProfileContainer extends Component {
       const { username: _username, isFollowing, isMuted, isOwnProfile } = this.state;
 
       if (username) {
-        const { currentAccount } = this.props;
+        const { currentAccount, pinCode } = this.props;
         let _isFollowing;
         let _isMuted;
         let isFavorite;

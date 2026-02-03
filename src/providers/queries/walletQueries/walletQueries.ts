@@ -69,7 +69,8 @@ export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean }
     ],
     // Transform SDK response to match mobile app format
     select: (data) => {
-      if (!data?.wallets || data.wallets.length === 0) {
+      // Defensive check: ensure data and wallets exist and wallets is an array
+      if (!data || !data.wallets || !Array.isArray(data.wallets) || data.wallets.length === 0) {
         return [];
       }
 
@@ -180,13 +181,13 @@ export const useClaimRewardsMutation = () => {
     onMutate({ symbol }) {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: true }));
     },
-    onSuccess: (data, { symbol }) => {
+    onSuccess: async (data, { symbol }) => {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));
 
       // Update claim cache and set claimed asset to zero in portfolio data (loop only once)
       let claimedValue: number | undefined;
       const updatePortfolio = (data?: PortfolioItem[]) => {
-        if (!data) return data;
+        if (!data || !Array.isArray(data)) return data;
         return data.map((item) => {
           if (item.symbol === symbol) {
             if (claimedValue === undefined) {
@@ -222,6 +223,27 @@ export const useClaimRewardsMutation = () => {
           }),
         ),
       );
+
+      // Wait 2 seconds before invalidating to allow backend to process the claim
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Invalidate queries to fetch fresh data from backend
+      if (symbol === 'POINTS') {
+        // Invalidate both Points and portfolio queries
+        await Promise.all([
+          queryClient.invalidateQueries({
+            queryKey: ['points', currentAccount.name],
+          }),
+          queryClient.invalidateQueries({
+            queryKey: portfolioBaseKey,
+          }),
+        ]);
+      } else {
+        // Invalidate portfolio queries for HIVE/HBD/HP claims
+        await queryClient.invalidateQueries({
+          queryKey: portfolioBaseKey,
+        });
+      }
     },
     onError: async (error, { symbol }) => {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));

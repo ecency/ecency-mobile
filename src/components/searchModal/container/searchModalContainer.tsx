@@ -9,7 +9,6 @@ import {
   lookupAccountsQueryOptions,
   getTrendingTagsQueryOptions,
   getPostQueryOptions,
-  getSearchQueryOptions,
 } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -22,7 +21,7 @@ import postUrlParser from '../../../utils/postUrlParser';
 
 // Component
 import SearchModalView from '../view/searchModalView';
-import { postQueries } from '../../../providers/queries';
+import { postQueries, getSearchQueryOptions } from '../../../providers/queries';
 import { selectIsConnected, selectCurrentAccountName } from '../../../redux/selectors';
 
 /*
@@ -43,6 +42,25 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
   };
 
   // Core search logic (will be debounced)
+  const normalizeSearchResponse = (res) => {
+    if (!res) {
+      return [];
+    }
+    if (Array.isArray(res)) {
+      return res;
+    }
+    if (res.pages && Array.isArray(res.pages)) {
+      return res.pages.flatMap((page) => page?.results || []);
+    }
+    if (Array.isArray(res.results)) {
+      return res.results;
+    }
+    if (Array.isArray(res.items)) {
+      return res.items;
+    }
+    return [];
+  };
+
   const performSearch = useCallback(
     (text) => {
       if (text && text.length < 3) {
@@ -163,7 +181,7 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
           queryClient
             .fetchQuery(getSearchQueryOptions(text, 'newest', false))
             .then((res) => {
-              const results = res
+              const results = normalizeSearchResponse(res)
                 .filter((item) => item.title !== '')
                 .map((item) => ({
                   image: item.img_url || getResizedAvatar(get(item, 'author')),
