@@ -63,6 +63,7 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
   const [listData, setListData] = useState<SelectableAsset[]>([]);
   const [sortedList, setSortedList] = useState<SelectableAsset[]>([]);
   const [query, setQuery] = useState('');
+  const [selectionVersion, setSelectionVersion] = useState(0);
 
   useEffect(() => {
     // Initialize selectionRef from profile metadata
@@ -97,6 +98,7 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
     }
     // Don't call _updateSortedList() here - Effect 2 will handle it
     // when it processes assetsQuery.selectedableData
+    setSelectionVersion((v) => v + 1);
   }, [currentAccount]);
 
   useEffect(() => {
@@ -143,7 +145,7 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
 
     setListData(data);
     _updateSortedList({ data });
-  }, [query, assetsQuery.selectedableData]);
+  }, [query, assetsQuery.selectedableData, selectionVersion]);
 
   const _updateSortedList = ({ data }: { data?: SelectableAsset[] } = { data: listData }) => {
     const source = data || listData;
@@ -217,8 +219,12 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
       (token) => token.symbol && token.type,
     );
 
-    updateProfileTokensMutation.mutateAsync(tokens);
-    _navigationGoBack();
+    try {
+      await updateProfileTokensMutation.mutateAsync(tokens);
+      _navigationGoBack();
+    } catch (error) {
+      console.warn('Failed to update profile tokens', error);
+    }
   };
 
   const _navigationGoBack = () => {

@@ -170,7 +170,15 @@ const WalletContainer = ({
         )} ${getBalance(get(_walletData, 'rewardVestingHive', 0), ' HP')}`,
       );
     },
-    [globalProps, setEstimatedWalletValue, hivePerMVests],
+    [
+      globalProps,
+      currency,
+      quotes,
+      forceUsdEstimate,
+      currencyRate,
+      setEstimatedWalletValue,
+      hivePerMVests,
+    ],
   );
 
   const _isHasUnclaimedRewards = (account) => {

@@ -324,8 +324,8 @@ export const groomingWalletTabData = async ({
         base: globalProps.base,
         quote: globalProps.quote,
       };
-  const base = parseToken(dynamicProps.base);
-  const quote = parseToken(dynamicProps.quote);
+  const { base } = dynamicProps;
+  const { quote } = dynamicProps;
 
   walletData.hivePerMVests = globalProps.hivePerMVests;
 
