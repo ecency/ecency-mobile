@@ -56,6 +56,7 @@ const BoostPlus = ({
     ...getBoostPlusPricesQueryOptions(code),
     queryKey: [QUERIES.REDEEM.GET_BOOST_PLUS_PRICES, code],
     initialData: [],
+    enabled: !!code,
   });
 
   const _boostDays = useMemo(

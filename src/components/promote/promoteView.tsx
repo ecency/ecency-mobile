@@ -76,15 +76,17 @@ const PromoteView = ({
       timerRef.current = null;
     }
 
+    if (lastQueryKeyRef.current) {
+      queryClient.cancelQueries({ queryKey: lastQueryKeyRef.current });
+      lastQueryKeyRef.current = null;
+    }
+
     if (text.trim().length < 3) {
       setPermlinkSuggestions([]);
       return;
     }
 
     if (text && text.length > 0) {
-      if (lastQueryKeyRef.current) {
-        queryClient.cancelQueries({ queryKey: lastQueryKeyRef.current });
-      }
       const nextQueryKey = getSearchPathQueryOptions(text).queryKey;
       lastQueryKeyRef.current = nextQueryKey;
       timerRef.current = setTimeout(

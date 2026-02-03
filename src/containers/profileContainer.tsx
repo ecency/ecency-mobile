@@ -340,9 +340,9 @@ class ProfileContainer extends Component {
 
         const favoritePromise =
           !isOwnProfile && currentAccount?.name && accessToken
-            ? queryClient.fetchQuery(
-                checkFavouriteQueryOptions(currentAccount.name, accessToken, username),
-              )
+            ? queryClient
+                .fetchQuery(checkFavouriteQueryOptions(currentAccount.name, accessToken, username))
+                .catch(() => undefined)
             : Promise.resolve(undefined);
 
         const followsPromise = queryClient
@@ -445,7 +445,7 @@ class ProfileContainer extends Component {
   };
 
   _handleOnFavoritePress = (isFavorite = false) => {
-    const { dispatch, intl } = this.props;
+    const { intl } = this.props;
     const { username } = this.state;
     const { addFavouriteMutation, deleteFavouriteMutation } = this.props;
 
@@ -458,13 +458,6 @@ class ProfileContainer extends Component {
     mutation
       .mutateAsync({ account: username })
       .then(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: isFavorite ? 'alert.success_unfavorite' : 'alert.success_favorite',
-            }),
-          ),
-        );
         this.setState({ isFavorite: !isFavorite, isProfileLoading: false });
       })
       .catch((error) => {
