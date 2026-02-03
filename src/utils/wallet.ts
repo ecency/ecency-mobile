@@ -268,7 +268,7 @@ export const groomingWalletTabData = async ({
   user,
   globalProps,
   quotes,
-  userCurrency,
+  userCurrency: _userCurrency,
   isRefresh,
 }) => {
   const walletData = {};
@@ -316,8 +316,9 @@ export const groomingWalletTabData = async ({
   walletData.savingBalance = parseToken(userdata.savings_balance);
   walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
 
+  const shouldFetchFeedHistory = isRefresh || !globalProps?.base || !globalProps?.quote;
   // use base and quote from account.globalProps redux
-  const feedHistory = isRefresh
+  const feedHistory = shouldFetchFeedHistory
     ? (await queryClient.fetchQuery(getDynamicPropsQueryOptions())).feedHistory
     : {
         current_median_history: {
@@ -341,11 +342,10 @@ export const groomingWalletTabData = async ({
 
   walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
 
-  // if refresh not required, use cached quotes
-  const ppHbd = !isRefresh
-    ? quotes.hive_dollar.price
-    : await getCurrencyTokenRate(userCurrency, 'hbd');
-  const ppHive = !isRefresh ? quotes.hive.price : await getCurrencyTokenRate(userCurrency, 'hive');
+  const hasQuotes = quotes?.hive_dollar?.price != null && quotes?.hive?.price != null;
+  // If cached quotes are missing, fall back to on-chain median price (HBD ~ 1, HIVE = pricePerHive).
+  const ppHbd = hasQuotes ? quotes.hive_dollar.price : 1;
+  const ppHive = hasQuotes ? quotes.hive.price : pricePerHive;
 
   walletData.estimatedHiveValue = (walletData.balance + walletData.savingBalance) * ppHive;
   walletData.estimatedHbdValue = totalHbd * ppHbd;
