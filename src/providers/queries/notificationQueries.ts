@@ -98,8 +98,13 @@ export const useNotificationReadMutation = () => {
       if (pendingMutation && Date.now() - pendingMutation.timestamp < 5000) {
         try {
           // Refetch notifications to verify if the mutation actually succeeded
+          const notificationsQueryKey = getNotificationsInfiniteQueryOptions(
+            username,
+            accessToken,
+          ).queryKey;
           await queryClient.invalidateQueries({
-            queryKey: ['notifications', username],
+            queryKey: notificationsQueryKey,
+            exact: false,
           });
 
           // If we get here, the mutation likely succeeded despite the optimistic update failure

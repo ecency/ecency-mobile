@@ -297,24 +297,16 @@ export const getOrderBook = (limit = 500) => {
  * Get feed history using SDK query
  */
 export const getFeedHistory = async () => {
-  try {
-    const queryClient = getQueryClient();
-    return await queryClient.fetchQuery(getFeedHistoryQueryOptions());
-  } catch (error) {
-    return error;
-  }
+  const queryClient = getQueryClient();
+  return queryClient.fetchQuery(getFeedHistoryQueryOptions());
 };
 
 /**
  * Get current median history price using SDK query
  */
 export const getCurrentMedianHistoryPrice = async () => {
-  try {
-    const queryClient = getQueryClient();
-    return await queryClient.fetchQuery(getCurrentMedianHistoryPriceQueryOptions());
-  } catch (error) {
-    return error;
-  }
+  const queryClient = getQueryClient();
+  return queryClient.fetchQuery(getCurrentMedianHistoryPriceQueryOptions());
 };
 
 /**
@@ -340,7 +332,10 @@ export const fetchGlobalProps = async () => {
       fundRewardBalance: dynamicProps.fundRewardBalance,
       hbdPrintRate: dynamicProps.hbdPrintRate,
     };
-  } catch (e) {}
+  } catch (e) {
+    console.error('fetchGlobalProps failed', e);
+    throw e;
+  }
 };
 
 /**
