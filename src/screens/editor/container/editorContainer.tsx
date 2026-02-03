@@ -21,7 +21,7 @@ import {
 } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
-import { getQueryClient, speakQueries } from '../../../providers/queries';
+import { speakQueries } from '../../../providers/queries';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
   postContent,
@@ -490,7 +490,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
         : '';
       const draftsQueryOptions = getDraftsQueryOptions(username, accessToken);
-      const queryClient = getQueryClient();
+      const { queryClient } = this.props;
       const result = await queryClient.fetchQuery(draftsQueryOptions);
       const remoteDrafts = Array.isArray(result) ? result : result?.data || [];
 
@@ -1373,6 +1373,19 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const accessToken = currentAccount?.local?.accessToken
       ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
       : '';
+
+    if (!accessToken) {
+      this.setState({ isPostSending: false });
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'alert.fail',
+            defaultMessage: 'Schedule failed.',
+          }),
+        ),
+      );
+      return;
+    }
 
     addSchedule(username, accessToken, {
       permlink: data.permlink,

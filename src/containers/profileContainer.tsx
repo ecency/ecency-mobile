@@ -360,7 +360,7 @@ class ProfileContainer extends Component {
           _isMuted = relationship.ignores;
         }
 
-        const isFavorite = favorite as any;
+        const isFavorite = Boolean(favorite);
         const follows = followsResult;
 
         if (isProfileAction && isFollowing === _isFollowing && isMuted === _isMuted) {
@@ -378,6 +378,7 @@ class ProfileContainer extends Component {
       }
     } catch (error) {
       console.warn('Failed to fetch complete profile data', error);
+      this.setState({ isProfileLoading: false, isReady: true });
       Alert.alert(
         intl.formatMessage({
           id: 'alert.fail',
@@ -468,6 +469,7 @@ class ProfileContainer extends Component {
       })
       .catch((error) => {
         console.warn('Failed to perform favorite action');
+        this.setState({ isProfileLoading: false });
         Alert.alert(
           intl.formatMessage({
             id: 'alert.fail',

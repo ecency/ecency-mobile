@@ -55,9 +55,17 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
 
     signUp(_username, email, refUsername)
       .then((result) => {
-        if (result?.status === 202) {
+        if (result?.status >= 200 && result?.status < 300) {
           setIsRegistered(true);
+        } else {
+          Alert.alert(
+            intl.formatMessage({ id: 'alert.fail' }),
+            intl.formatMessage({ id: 'alert.unknow_error' }),
+          );
+          setIsRegistered(false);
         }
+      })
+      .finally(() => {
         setIsRegistering(false);
       })
       .catch((err) => {

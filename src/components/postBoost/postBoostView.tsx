@@ -69,6 +69,10 @@ class BoostPostScreen extends PureComponent {
               this.setState({
                 permlinkSuggestions: res && res.length > 10 ? res.slice(0, 7) : res,
               });
+            })
+            .catch((err) => {
+              console.error('Failed to fetch search path', err);
+              this.setState({ permlinkSuggestions: [] });
             }),
         500,
       );

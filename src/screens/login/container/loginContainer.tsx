@@ -277,16 +277,20 @@ class LoginContainer extends PureComponent {
           allows_notify: Number(notificationSettings),
           notify_types: notifyTypes,
         };
-        saveNotificationSetting(
+        return saveNotificationSetting(
           accessToken,
           data.username,
           data.system,
           data.allows_notify,
           data.notify_types,
           data.token,
-        ).then(() => {
-          setPushTokenSaved(true);
-        });
+        );
+      })
+      .then(() => {
+        setPushTokenSaved(true);
+      })
+      .catch((err) => {
+        console.warn('Failed to register push token', err);
       });
   };
 

@@ -41,7 +41,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     }
     if (res.pages && Array.isArray(res.pages)) {
       const { pages } = res;
-      const results = pages.flatMap((page) => page?.results || []);
+      const results = pages.flatMap((page) => page?.results || page?.items || []);
       const lastPage = pages[pages.length - 1];
       return { results, scrollId: lastPage?.scroll_id || '' };
     }

@@ -18,6 +18,7 @@ const RedeemContainer = ({ children }) => {
 
   const claimMutation = useGameClaim(username, code, 'spin', claimKey);
   const claimMutationRef = useRef(claimMutation);
+  const pendingGameStatusRef = useRef<any>(null);
 
   useEffect(() => {
     claimMutationRef.current = claimMutation;
@@ -64,24 +65,38 @@ const RedeemContainer = ({ children }) => {
         Alert.alert('Game key missing');
         return;
       }
+      pendingGameStatusRef.current = gameStatus;
       setClaimKey(key);
-      await new Promise((resolve) => setTimeout(resolve, 0));
-
-      try {
-        const res = await claimMutationRef.current.mutateAsync();
-        setGameRight(get(gameStatus, 'status') !== 3 ? 0 : 5);
-        setScore(get(res, 'score'));
-        _statusCheck();
-      } catch (err) {
-        if (err) {
-          Alert.alert(get(err, 'message') || err.toString());
-        }
-      }
     } else {
       setNextDate(get(gameStatus, 'next_date'));
       setGameRight(0);
     }
   };
+
+  useEffect(() => {
+    if (!claimKey) {
+      return;
+    }
+
+    const runClaim = async () => {
+      try {
+        const res = await claimMutationRef.current.mutateAsync();
+        const gameStatus = pendingGameStatusRef.current;
+        pendingGameStatusRef.current = null;
+
+        setGameRight(get(gameStatus, 'status') !== 3 ? 0 : 5);
+        setScore(get(res, 'score'));
+        _statusCheck();
+      } catch (err) {
+        pendingGameStatusRef.current = null;
+        if (err) {
+          Alert.alert(get(err, 'message') || err.toString());
+        }
+      }
+    };
+
+    runClaim();
+  }, [claimKey, _statusCheck]);
 
   return (
     children &&

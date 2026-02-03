@@ -405,36 +405,47 @@ class SettingsContainer extends Component {
     }
   };
 
-  _setPushToken = (notifyTypes, enabled = true) => {
+  _setPushToken = async (notifyTypes, enabled = true) => {
     const { isLoggedIn, otherAccounts = [], pinCode } = this.props;
 
     if (isLoggedIn) {
-      otherAccounts.forEach(async (item) => {
-        const token = await getMessaging().getToken();
-        console.log('FCM Token:', token);
+      await Promise.all(
+        otherAccounts.map(async (item) => {
+          try {
+            const token = await getMessaging().getToken();
+            console.log('FCM Token:', token);
 
-        const data = {
-          username: item.username,
-          token,
-          system: `fcm-${Platform.OS}`,
-          allows_notify: enabled ? 1 : 0,
-          notify_types: notifyTypes,
-        };
+            const data = {
+              username: item.username,
+              token,
+              system: `fcm-${Platform.OS}`,
+              allows_notify: enabled ? 1 : 0,
+              notify_types: notifyTypes,
+            };
 
-        const accessToken =
-          item?.local?.accessToken && pinCode
-            ? decryptKey(item.local.accessToken, getDigitPinCode(pinCode))
-            : undefined;
+            const accessToken =
+              item?.local?.accessToken && pinCode
+                ? decryptKey(item.local.accessToken, getDigitPinCode(pinCode))
+                : undefined;
 
-        saveNotificationSetting(
-          accessToken,
-          data.username,
-          data.system,
-          data.allows_notify,
-          data.notify_types,
-          data.token,
-        );
-      });
+            if (!accessToken) {
+              console.warn('Missing access token for notifications:', data.username);
+              return;
+            }
+
+            await saveNotificationSetting(
+              accessToken,
+              data.username,
+              data.system,
+              data.allows_notify,
+              data.notify_types,
+              data.token,
+            );
+          } catch (err) {
+            console.warn('Failed to save notification setting for', item.username, err);
+          }
+        }),
+      );
     }
   };
 

@@ -51,7 +51,7 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
       return res;
     }
     if (res.pages && Array.isArray(res.pages)) {
-      return res.pages.flatMap((page) => page?.results || []);
+      return res.pages.flatMap((page) => page?.results || page?.items || []);
     }
     if (Array.isArray(res.results)) {
       return res.results;
@@ -183,7 +183,7 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
             .fetchQuery(getSearchApiInfiniteQueryOptions(text, 'newest', false))
             .then((res) => {
               const results = normalizeSearchResponse(res)
-                .filter((item) => item.title !== '')
+                .filter((item) => typeof item?.title === 'string' && item.title.trim().length > 0)
                 .map((item) => ({
                   image: item.img_url || getResizedAvatar(get(item, 'author')),
                   text: item.title,

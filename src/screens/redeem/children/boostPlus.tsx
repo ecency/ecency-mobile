@@ -54,7 +54,7 @@ const BoostPlus = ({
   const { code } = useAuth();
   const boostPricesQuery = useQuery({
     ...getBoostPlusPricesQueryOptions(code),
-    queryKey: [QUERIES.REDEEM.GET_BOOST_PLUS_PRICES],
+    queryKey: [QUERIES.REDEEM.GET_BOOST_PLUS_PRICES, code],
     initialData: [],
   });
 
@@ -72,7 +72,8 @@ const BoostPlus = ({
   }, [_balance]);
 
   useEffect(() => {
-    const pr = _boostPrices[_boostDays.indexOf(day)];
+    const index = _boostDays.indexOf(day);
+    const pr = index >= 0 ? _boostPrices[index] : 0;
 
     setIsValid(pr <= balance);
     setPrice(pr);

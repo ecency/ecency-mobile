@@ -82,9 +82,15 @@ const PromoteView = ({
     if (text && text.length > 0) {
       timer = setTimeout(
         () =>
-          queryClient.fetchQuery(getSearchPathQueryOptions(text)).then((res) => {
-            setPermlinkSuggestions(res && res.length > 10 ? res.slice(0, 7) : res);
-          }),
+          queryClient
+            .fetchQuery(getSearchPathQueryOptions(text))
+            .then((res) => {
+              setPermlinkSuggestions(res && res.length > 10 ? res.slice(0, 7) : res);
+            })
+            .catch((err) => {
+              console.error('Failed to fetch search path', err);
+              setPermlinkSuggestions([]);
+            }),
         500,
       );
     } else {

@@ -55,6 +55,9 @@ export const fetchCoinQuotes = () => async (dispatch, getState) => {
   try {
     console.log('fetching quotes for currency', currency);
     const rates = await getCurrencyRates();
+    if (!rates?.hive?.quotes?.usd || !rates?.hbd?.quotes?.usd || !rates?.estm?.quotes?.usd) {
+      throw new Error('Invalid currency rate payload');
+    }
     const quotes = convertLatestQuotes(rates, currency.currencyRate);
     console.log('Fetched quotes', quotes);
     dispatch({
