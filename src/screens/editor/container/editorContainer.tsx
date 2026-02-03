@@ -223,9 +223,15 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           const _replyDraft = replyCache && replyCache[draftId];
 
           if (_replyDraft && !!_replyDraft.body) {
-            const _mediaUrls = navigationParams.replyMediaUrls;
+            const cachedMediaUrls = _replyDraft.meta?.image;
+            const _mediaUrls =
+              navigationParams.replyMediaUrls?.length > 0
+                ? navigationParams.replyMediaUrls
+                : Array.isArray(cachedMediaUrls)
+                ? cachedMediaUrls
+                : [];
             _draftBody =
-              _mediaUrls?.length > 0
+              _mediaUrls.length > 0
                 ? `${_replyDraft.body}\n\n ![](${_mediaUrls[0]})`
                 : _replyDraft.body;
           }
@@ -321,9 +327,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       }
       const _draft = replyCache && replyCache[replyId];
       if (_draft && !!_draft.body) {
+        const cachedMedia = _draft.meta?.image;
+        const mediaUrls = Array.isArray(cachedMedia) ? cachedMedia : [];
+        const bodyWithMedia =
+          mediaUrls.length > 0 ? `${_draft.body}\n\n ![](${mediaUrls[0]})` : _draft.body;
         this.setState({
           draftPost: {
-            body: _draft.body,
+            body: bodyWithMedia,
           },
         });
       }
