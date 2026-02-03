@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getReblogsQueryOptions, useBroadcastMutation } from '@ecency/sdk';
+import { useBroadcastMutation, getRebloggedByQueryOptions } from '@ecency/sdk';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
@@ -17,8 +17,11 @@ import { mapAuthTypeToLoginType } from '../../../utils/authMapper';
 
 /** hook used to return post reblogs using SDK */
 export const useGetReblogsQuery = (author: string, permlink: string, enabled = true) => {
+  const sdkOptions = getRebloggedByQueryOptions(author, permlink);
   const query = useQuery<string[]>({
-    ...getReblogsQueryOptions(author, permlink),
+    ...sdkOptions,
+    // Override queryKey to keep local cache key stable
+    queryKey: [QUERIES.POST.GET_REBLOGS, author, permlink],
     initialData: [],
     gcTime: 30 * 60 * 1000, // keeps cache for 30 minutes
     enabled: enabled && !!author && !!permlink, // Only fetch when enabled and valid params

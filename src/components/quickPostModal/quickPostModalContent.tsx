@@ -152,6 +152,8 @@ export const QuickPostModalContent = forwardRef(
       const cachedMedia = currentDraft?.meta?.image;
       if (Array.isArray(cachedMedia)) {
         setMediaUrls(cachedMedia);
+      } else if (typeof cachedMedia === 'string') {
+        setMediaUrls([cachedMedia]);
       } else {
         setMediaUrls([]);
       }
