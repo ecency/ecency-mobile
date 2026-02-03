@@ -1,4 +1,5 @@
-import { getLatestQuotes } from '../../providers/ecency/ecency';
+import { getCurrencyRates } from '@ecency/sdk';
+import { convertLatestQuotes } from '../../providers/ecency/converters';
 import {
   SET_SELECTED_ASSETS,
   SET_PRICE_HISTORY,
@@ -53,7 +54,8 @@ export const fetchCoinQuotes = () => async (dispatch, getState) => {
 
   try {
     console.log('fetching quotes for currency', currency);
-    const quotes = await getLatestQuotes(currency.currencyRate);
+    const rates = await getCurrencyRates();
+    const quotes = convertLatestQuotes(rates, currency.currencyRate);
     console.log('Fetched quotes', quotes);
     dispatch({
       type: SET_COIN_QUOTES,

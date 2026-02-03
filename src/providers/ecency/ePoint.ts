@@ -1,5 +1,7 @@
 import * as Sentry from '@sentry/react-native';
+import { getPointsQueryOptions } from '@ecency/sdk';
 import ecencyApi from '../../config/ecencyApi';
+import { getQueryClient } from '../queries';
 import { EcencyUser, UserPoint } from './ecency.types';
 
 /**
@@ -31,10 +33,10 @@ export const userActivity = async (ty: number, tx = '', bl: string | number = ''
 
 export const getPointsSummary = async (username: string): Promise<EcencyUser> => {
   try {
-    const data = { username };
-    const response = await ecencyApi.post('/private-api/points', data);
-    console.log('returning user points data', response.data);
-    return response.data;
+    const queryClient = getQueryClient();
+    const response = await queryClient.fetchQuery(getPointsQueryOptions(username, 0));
+    console.log('returning user points data', response);
+    return response as EcencyUser;
   } catch (error) {
     console.warn('Failed to get points', error);
     Sentry.captureException(error);

@@ -13,6 +13,7 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 
 // Constants
+import { getSearchApiInfiniteQueryOptions } from '@ecency/sdk';
 import ROUTES from '../../../constants/routeNames';
 
 // Utilities
@@ -21,7 +22,7 @@ import postUrlParser from '../../../utils/postUrlParser';
 
 // Component
 import SearchModalView from '../view/searchModalView';
-import { postQueries, getSearchQueryOptions } from '../../../providers/queries';
+import { postQueries } from '../../../providers/queries';
 import { selectIsConnected, selectCurrentAccountName } from '../../../redux/selectors';
 
 /*
@@ -179,7 +180,7 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
           }
         } else {
           queryClient
-            .fetchQuery(getSearchQueryOptions(text, 'newest', false))
+            .fetchQuery(getSearchApiInfiniteQueryOptions(text, 'newest', false))
             .then((res) => {
               const results = normalizeSearchResponse(res)
                 .filter((item) => item.title !== '')

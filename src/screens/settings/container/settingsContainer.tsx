@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import DeviceInfo from 'react-native-device-info';
 import { SheetManager } from 'react-native-actions-sheet';
+import { saveNotificationSetting } from '@ecency/sdk';
 import { languageRestart } from '../../../utils/I18nUtils';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
@@ -42,13 +43,13 @@ import {
   setIsDarkTheme,
 } from '../../../redux/actions/applicationActions';
 import { logout, logoutDone, toastNotification } from '../../../redux/actions/uiAction';
-import { setPushToken, deleteAccount } from '../../../providers/ecency/ecency';
+import { deleteAccount } from '../../../providers/ecency/ecency';
 import {
   getMattermostDmPrivacy,
   updateMattermostDmPrivacy,
   type MattermostDmPrivacy,
 } from '../../../providers/chat/mattermost';
-import { checkClient } from '../../../providers/hive/dhive';
+import { checkClient, getDigitPinCode } from '../../../providers/hive/dhive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { useGetServersQuery } from '../../../providers/queries';
 import {
@@ -61,6 +62,7 @@ import {
   selectOtherAccounts,
   selectHidePostsThumbnails,
   selectNotificationDetails,
+  selectPin,
   selectEncUnlockPin,
   selectIsNotificationOpen,
   selectIsFCMAvailable,
@@ -404,7 +406,7 @@ class SettingsContainer extends Component {
   };
 
   _setPushToken = (notifyTypes, enabled = true) => {
-    const { isLoggedIn, otherAccounts = [] } = this.props;
+    const { isLoggedIn, otherAccounts = [], pinCode } = this.props;
 
     if (isLoggedIn) {
       otherAccounts.forEach(async (item) => {
@@ -419,7 +421,19 @@ class SettingsContainer extends Component {
           notify_types: notifyTypes,
         };
 
-        setPushToken(data);
+        const accessToken =
+          item?.local?.accessToken && pinCode
+            ? decryptKey(item.local.accessToken, getDigitPinCode(pinCode))
+            : undefined;
+
+        saveNotificationSetting(
+          accessToken,
+          data.username,
+          data.system,
+          data.allows_notify,
+          data.notify_types,
+          data.token,
+        );
       });
     }
   };
@@ -609,6 +623,7 @@ const mapStateToProps = (state) => {
     selectedLanguage: selectLanguage(state),
     username: selectCurrentAccount(state)?.name,
     currentAccount: selectCurrentAccount(state),
+    pinCode: selectPin(state),
     otherAccounts: selectOtherAccounts(state),
     isHideImages: selectHidePostsThumbnails(state),
   };

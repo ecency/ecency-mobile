@@ -17,6 +17,7 @@ import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
 import { getMutedUsersQueryOptions, getNotificationsUnreadCountQueryOptions } from '@ecency/sdk';
 
+import { saveNotificationSetting } from '@ecency/sdk';
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
 
@@ -40,7 +41,6 @@ import {
   refreshSCToken,
   switchAccount,
 } from '../../../providers/hive/auth';
-import { setPushToken } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
 import RootNavigation from '../../../navigation/rootNavigation';
 import {
@@ -1071,15 +1071,13 @@ class ApplicationContainer extends Component {
 
       const token = await getMessaging().getToken();
       console.log('FCM Token:', token);
-      setPushToken(
-        {
-          username,
-          token,
-          system: `fcm-${Platform.OS}`,
-          allows_notify: Number(isEnable),
-          notify_types,
-        },
+      saveNotificationSetting(
         accessToken,
+        username,
+        `fcm-${Platform.OS}`,
+        Number(isEnable),
+        notify_types,
+        token,
       );
     } catch (error) {
       // Handle platform-specific FCM errors gracefully

@@ -4,12 +4,12 @@ import { Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { WebView } from 'react-native-webview';
 import get from 'lodash/get';
 import Autocomplete from '@esteemapp/react-native-autocomplete-input';
+import { getPointsQueryOptions, getSearchPathQueryOptions } from '@ecency/sdk';
 import { Icon, TextInput } from '..';
 import { hsOptions } from '../../constants/hsOptions';
 
 // Services and Actions
-import { getPointsSummary } from '../../providers/ecency/ePoint';
-import { searchPath } from '../../providers/ecency/ecency';
+import { getQueryClient } from '../../providers/queries';
 
 // Components
 import { BasicHeader } from '../basicHeader';
@@ -63,9 +63,13 @@ class BoostPostScreen extends PureComponent {
     if (text && text.length > 0) {
       this.timer = setTimeout(
         () =>
-          searchPath(text).then((res) => {
-            this.setState({ permlinkSuggestions: res && res.length > 10 ? res.slice(0, 7) : res });
-          }),
+          getQueryClient()
+            .fetchQuery(getSearchPathQueryOptions(text))
+            .then((res) => {
+              this.setState({
+                permlinkSuggestions: res && res.length > 10 ? res.slice(0, 7) : res,
+              });
+            }),
         500,
       );
     } else {
@@ -94,14 +98,13 @@ class BoostPostScreen extends PureComponent {
   );
 
   _getUserBalance = async (username) => {
-    await getPointsSummary(username)
-      .then((userPoints) => {
-        const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
-        this.setState({ balance });
-      })
-      .catch((err) => {
-        Alert.alert(err.message || err.toString());
-      });
+    try {
+      const pointsData = await getQueryClient().fetchQuery(getPointsQueryOptions(username, 0));
+      const balance = Math.round(Number(get(pointsData, 'points', 0)) * 1000) / 1000;
+      this.setState({ balance });
+    } catch (err) {
+      Alert.alert(err.message || err.toString());
+    }
   };
 
   _handleOnSubmit = async () => {

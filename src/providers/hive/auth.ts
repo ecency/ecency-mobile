@@ -8,6 +8,7 @@ import {
   getAccountRcQueryOptions,
   getMutedUsersQueryOptions,
   getNotificationsUnreadCountQueryOptions,
+  hsTokenRenew,
 } from '@ecency/sdk';
 import { getDigitPinCode } from './dhive';
 import { getQueryClient } from '../queries';
@@ -24,7 +25,7 @@ import {
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
-import { getSCAccessToken } from '../ecency/ecency';
+import { delay } from '../../utils/editor';
 
 // Constants
 import AUTH_TYPE from '../../constants/authType';
@@ -73,6 +74,20 @@ const fetchAccount = async (username: string) => {
     max_rc: rcAccounts?.[0]?.max_rc,
     vp_manabar: account.voting_manabar,
   };
+};
+
+const getSCAccessToken = async (code: string, retriesCount = 3, delayMs = 200): Promise<any> => {
+  try {
+    return await hsTokenRenew(code);
+  } catch (error) {
+    if (retriesCount > 0) {
+      await delay(delayMs);
+      return getSCAccessToken(code, retriesCount - 1, delayMs * 2);
+    }
+    console.warn('failed to refresh token');
+    Sentry.captureException(error);
+    throw error;
+  }
 };
 
 export const login = async (username, password) => {

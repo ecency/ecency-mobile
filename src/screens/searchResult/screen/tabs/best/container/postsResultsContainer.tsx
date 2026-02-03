@@ -3,14 +3,15 @@ import get from 'lodash/get';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { getPostQueryOptions, getAccountPostsQueryOptions, search } from '@ecency/sdk';
+import {
+  getPostQueryOptions,
+  getAccountPostsQueryOptions,
+  getSearchApiInfiniteQueryOptions,
+  search,
+} from '@ecency/sdk';
 import ROUTES from '../../../../../../constants/routeNames';
 
-import {
-  getQueryClient,
-  postQueries,
-  getSearchQueryOptions,
-} from '../../../../../../providers/queries';
+import { getQueryClient, postQueries } from '../../../../../../providers/queries';
 import postUrlParser from '../../../../../../utils/postUrlParser';
 import { selectCurrentAccountUsername } from '../../../../../../redux/selectors';
 import { useAppSelector } from '../../../../../../hooks';
@@ -75,7 +76,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     else if (searchValue) {
       const queryClient = getQueryClient();
       const res = await queryClient.fetchQuery(
-        getSearchQueryOptions(`${searchValue} type:post`, sort, false),
+        getSearchApiInfiniteQueryOptions(`${searchValue} type:post`, sort, false),
       );
       const normalized = normalizeSearchResponse(res);
       _data = normalized.results;
@@ -124,7 +125,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     }
     try {
       setIsLoadingMore(true);
-      const res = await search(`${searchValue} type:post`, sort, '0', undefined, scrollId);
+      const res = await search(`${searchValue} type:post`, sort, 0, undefined, scrollId);
       const newResults = normalizeSearchResponse(res).results;
       const nextScrollId =
         res && typeof res === 'object' && 'scroll_id' in res ? res.scroll_id || '' : '';

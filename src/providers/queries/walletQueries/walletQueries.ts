@@ -14,6 +14,7 @@ import {
   getTransactionsInfiniteQueryOptions,
   getPointsQueryOptions,
   getPortfolioQueryOptions,
+  getHiveEngineTokenTransactions,
 } from '@ecency/sdk';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import POINTS from '../../../constants/options/points';
@@ -31,13 +32,13 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 import { updateClaimCache } from '../../../redux/actions/cacheActions';
 import { selectCurrentAccount, selectPin, selectGlobalProps } from '../../../redux/selectors';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
-import { fetchEngineAccountHistory } from '../../hive-engine/hiveEngine';
 import {
   groomingEngineHistory,
   groomingTransactionData,
   groomingPointsTransactionData,
   transferTypes,
 } from '../../../utils/wallet';
+import { convertEngineHistory } from '../../hive-engine/converters';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { ProfileToken } from '../../../redux/reducers/walletReducer';
 
@@ -341,13 +342,14 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
     gcTime: 5 * 60 * 1000, // Keep in cache for 5 minutes
     queryFn: async ({ pageParam }) => {
       if (!username) return [];
-      const engineHistory = await fetchEngineAccountHistory(
+      const offset = ACTIVITIES_FETCH_LIMIT * pageParam;
+      const engineHistory = await getHiveEngineTokenTransactions(
         username,
         symbol,
-        pageParam,
         ACTIVITIES_FETCH_LIMIT,
+        offset,
       );
-      return engineHistory.map(groomingEngineHistory);
+      return engineHistory.map(convertEngineHistory).map(groomingEngineHistory);
     },
     getNextPageParam: (lastPage, pages) => (lastPage?.length ? pages.length : undefined),
   });

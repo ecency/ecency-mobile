@@ -29,7 +29,11 @@ import { getQueryClient } from '../providers/queries';
 import { startMattermostDirectMessage } from '../providers/chat/mattermost';
 
 // Ecency providers
-import { addFavorite, deleteFavorite, addReport } from '../providers/ecency/ecency';
+import { addReport } from '../providers/ecency/ecency';
+import {
+  useAddFavouriteMutation,
+  useDeleteFavouriteMutation,
+} from '../providers/queries/bookmarkQueries';
 
 // Utilitites
 import { getRcPower, getVotingPower } from '../utils/manaBar';
@@ -319,37 +323,45 @@ class ProfileContainer extends Component {
         const { currentAccount, pinCode } = this.props;
         let _isFollowing;
         let _isMuted;
-        let isFavorite;
-        let follows;
 
         const queryClient = getQueryClient();
 
-        if (!isOwnProfile && currentAccount?.name) {
-          const res = await queryClient.fetchQuery(
-            getRelationshipBetweenAccountsQueryOptions(currentAccount.name, username),
-          );
-          _isFollowing = res && res.follows;
-          _isMuted = res && res.ignores;
+        const accessToken =
+          currentAccount?.local?.accessToken && pinCode
+            ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+            : undefined;
 
-          // Check if user is favorited using SDK query
-          const accessToken =
-            currentAccount?.local?.accessToken && pinCode
-              ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
-              : undefined;
+        const relationshipPromise =
+          !isOwnProfile && currentAccount?.name
+            ? queryClient.fetchQuery(
+                getRelationshipBetweenAccountsQueryOptions(currentAccount.name, username),
+              )
+            : Promise.resolve(null);
 
-          if (accessToken) {
-            isFavorite = await queryClient.fetchQuery(
-              checkFavouriteQueryOptions(currentAccount.name, accessToken, username),
-            );
-          }
+        const favoritePromise =
+          !isOwnProfile && currentAccount?.name && accessToken
+            ? queryClient.fetchQuery(
+                checkFavouriteQueryOptions(currentAccount.name, accessToken, username),
+              )
+            : Promise.resolve(undefined);
+
+        const followsPromise = queryClient
+          .fetchQuery(getFollowCountQueryOptions(username))
+          .catch(() => null);
+
+        const [relationship, favorite, followsResult] = await Promise.all([
+          relationshipPromise,
+          favoritePromise,
+          followsPromise,
+        ]);
+
+        if (relationship) {
+          _isFollowing = relationship.follows;
+          _isMuted = relationship.ignores;
         }
 
-        try {
-          // Fetch follow counts using SDK query
-          follows = await queryClient.fetchQuery(getFollowCountQueryOptions(username));
-        } catch (err) {
-          follows = null;
-        }
+        const isFavorite = favorite as any;
+        const follows = followsResult;
 
         if (isProfileAction && isFollowing === _isFollowing && isMuted === _isMuted) {
           this._fetchProfile(_username, true);
@@ -408,6 +420,8 @@ class ProfileContainer extends Component {
       rcAccount,
       user,
       username,
+      isReady: true,
+      isProfileLoading: false,
     }));
 
     this._getReplies({ author: username, permlink: undefined });
@@ -432,19 +446,16 @@ class ProfileContainer extends Component {
   _handleOnFavoritePress = (isFavorite = false) => {
     const { dispatch, intl } = this.props;
     const { username } = this.state;
-    let favoriteAction;
+    const { addFavouriteMutation, deleteFavouriteMutation } = this.props;
 
     this.setState({
       isProfileLoading: true,
     });
 
-    if (isFavorite) {
-      favoriteAction = deleteFavorite;
-    } else {
-      favoriteAction = addFavorite;
-    }
+    const mutation = isFavorite ? deleteFavouriteMutation : addFavouriteMutation;
 
-    favoriteAction(username)
+    mutation
+      .mutateAsync({ account: username })
       .then(() => {
         dispatch(
           toastNotification(
@@ -651,7 +662,16 @@ const mapStateToProps = (state) => ({
 
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <ProfileContainer {...props} navigation={navigation} />;
+  const addFavouriteMutation = useAddFavouriteMutation();
+  const deleteFavouriteMutation = useDeleteFavouriteMutation();
+  return (
+    <ProfileContainer
+      {...props}
+      navigation={navigation}
+      addFavouriteMutation={addFavouriteMutation}
+      deleteFavouriteMutation={deleteFavouriteMutation}
+    />
+  );
 };
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

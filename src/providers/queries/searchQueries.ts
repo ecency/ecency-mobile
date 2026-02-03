@@ -4,10 +4,16 @@ import {
   getSearchAccountQueryOptions,
   getSearchPathQueryOptions,
   getSearchTopicsQueryOptions,
+  searchQueryOptions,
 } from '@ecency/sdk';
 
 // Export as getSearchQueryOptions for backwards compatibility
-export const getSearchQueryOptions = getSearchApiInfiniteQueryOptions;
+// Fallback to searchQueryOptions if getSearchApiInfiniteQueryOptions isn't available at runtime.
+export const getSearchQueryOptions =
+  typeof getSearchApiInfiniteQueryOptions === 'function'
+    ? getSearchApiInfiniteQueryOptions
+    : (q: string, sort: string, hideLow: boolean) =>
+        searchQueryOptions(q, sort, hideLow ? '1' : '0');
 
 /**
  * Hook to search for posts/content

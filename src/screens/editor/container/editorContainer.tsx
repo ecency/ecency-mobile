@@ -179,7 +179,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           queryClient
             .fetchQuery(draftsQueryOptions)
             .then((result) => {
-              const drafts = result?.data || [];
+              const drafts = Array.isArray(result) ? result : result?.data || [];
               const fetchedDraft = drafts.find((d) => d._id === draftId);
               if (fetchedDraft) {
                 this._getStorageDraft(username, isReply, fetchedDraft);
@@ -492,7 +492,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const draftsQueryOptions = getDraftsQueryOptions(username, accessToken);
       const queryClient = getQueryClient();
       const result = await queryClient.fetchQuery(draftsQueryOptions);
-      const remoteDrafts = result?.data || [];
+      const remoteDrafts = Array.isArray(result) ? result : result?.data || [];
 
       const loadRecentDraft = () => {
         // if no draft available means local draft is recent
@@ -624,15 +624,26 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
           : '';
 
+        // If no access token, skip remote save (local cache already updated)
+        if (!accessToken) {
+          if (this._isMounted) {
+            this.setState({
+              isDraftSaving: false,
+            });
+          }
+          return;
+        }
+
         // update draft is draftId is present
         if (draftId && draftField && !saveAsNew) {
-          await updateDraft(username, accessToken, {
+          await updateDraft(
+            accessToken,
             draftId,
-            title: draftField.title || '',
-            body: draftField.body,
-            tags: draftField.tags,
-            meta: jsonMeta,
-          });
+            draftField.title || '',
+            draftField.body,
+            draftField.tags,
+            jsonMeta,
+          );
 
           if (this._isMounted) {
             this.setState({
@@ -645,13 +656,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         // create new darft otherwise
         else if (draftField) {
           const { title, body, tags } = draftField;
-          const response = await addDraft(username, accessToken, {
-            title,
-            body,
-            tags,
-            meta: jsonMeta,
-          });
-          const _resDraft = response;
+          const response = await addDraft(accessToken, title, body, tags, jsonMeta);
+          const _resDraft = response?.drafts?.[0] || null;
 
           if (!_resDraft) {
             throw new Error('newly saved draft not returned in response');

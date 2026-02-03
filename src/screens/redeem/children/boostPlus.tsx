@@ -1,16 +1,18 @@
 import React, { Fragment, useState, useEffect, useRef, useMemo } from 'react';
 import { injectIntl } from 'react-intl';
-import { Text, View, ScrollView, Alert } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import { WebView } from 'react-native-webview';
-import get from 'lodash/get';
 import { useQuery } from '@tanstack/react-query';
 import Animated, { BounceIn } from 'react-native-reanimated';
+import {
+  getBoostPlusAccountPricesQueryOptions,
+  getBoostPlusPricesQueryOptions,
+  getPointsQueryOptions,
+} from '@ecency/sdk';
 import { ScaleSlider } from '../../../components';
 import { hsOptions } from '../../../constants/hsOptions';
 
 // Services and Actions
-import { getPointsSummary } from '../../../providers/ecency/ePoint';
-import { getBoostPlusAccount, getBoostPlusPrice } from '../../../providers/ecency/ecency';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -25,6 +27,7 @@ import { OptionsModal } from '../../../components/atoms';
 import QUERIES from '../../../providers/queries/queryKeys';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
+import { useAuth } from '../../../hooks';
 
 const BoostPlus = ({
   intl,
@@ -48,9 +51,10 @@ const BoostPlus = ({
   const startActionSheet = useRef(null);
   const startActionSheetP = useRef(null);
 
+  const { code } = useAuth();
   const boostPricesQuery = useQuery({
+    ...getBoostPlusPricesQueryOptions(code),
     queryKey: [QUERIES.REDEEM.GET_BOOST_PLUS_PRICES],
-    queryFn: getBoostPlusPrice,
     initialData: [],
   });
 
@@ -74,30 +78,37 @@ const BoostPlus = ({
     setPrice(pr);
   }, [day, balance, boostPricesQuery.data]);
 
-  useEffect(() => {
-    if (selectedUser) {
-      _getUserBalance(selectedUser);
-    }
-
-    _checkBoostStatus();
-  }, [selectedUser]);
-
   const _selectedUser = selectedUser || currentAccountName;
 
-  // Component Functions
+  const pointsQuery = useQuery({
+    ...getPointsQueryOptions(_selectedUser, 0),
+    enabled: !!_selectedUser,
+  });
 
-  const _checkBoostStatus = async () => {
-    const response = await getBoostPlusAccount(_selectedUser);
+  const boostAccountQuery = useQuery({
+    ...getBoostPlusAccountPricesQueryOptions(_selectedUser, code),
+    enabled: !!_selectedUser && !!code,
+  });
+
+  useEffect(() => {
+    const points = Number(pointsQuery.data?.points || 0);
+    const balanceValue = Math.round(points * 1000) / 1000;
+    setBalance(Number.isNaN(balanceValue) ? _balance : balanceValue);
+  }, [pointsQuery.data?.points, _balance]);
+
+  useEffect(() => {
+    const response = boostAccountQuery.data;
     if (response?.account === _selectedUser) {
-      const expiryDate = new Date(response.expires);
-      if (expiryDate > new Date()) {
-        setExpiryDate(expiryDate);
+      const expiry = new Date(response.expires);
+      if (expiry > new Date()) {
+        setExpiryDate(expiry);
         return;
       }
     }
-
     setExpiryDate(null);
-  };
+  }, [boostAccountQuery.data, _selectedUser]);
+
+  // Component Functions
 
   const _renderExpiryDetails = () =>
     expiryDate && (
@@ -127,16 +138,7 @@ const BoostPlus = ({
     />
   );
 
-  const _getUserBalance = async (username) => {
-    await getPointsSummary(username)
-      .then((userPoints) => {
-        const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
-        setBalance(balance);
-      })
-      .catch((err) => {
-        Alert.alert(err.message || err.toString());
-      });
-  };
+  // balance is derived from pointsQuery; no manual fetch needed
 
   const _handleOnSubmit = async () => {
     // TODO: later add support to boost other accounts

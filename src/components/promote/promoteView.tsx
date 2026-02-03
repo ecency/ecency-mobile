@@ -4,12 +4,12 @@ import { Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { WebView } from 'react-native-webview';
 import get from 'lodash/get';
 import Autocomplete from '@esteemapp/react-native-autocomplete-input';
+import { useQueryClient } from '@tanstack/react-query';
+import { getPointsQueryOptions, getSearchPathQueryOptions } from '@ecency/sdk';
 import { ScaleSlider, TextInput } from '..';
 import { hsOptions } from '../../constants/hsOptions';
 
 // Services and Actions
-import { getPointsSummary } from '../../providers/ecency/ePoint';
-import { searchPath } from '../../providers/ecency/ecency';
 
 // Components
 import { BasicHeader } from '../basicHeader';
@@ -46,6 +46,7 @@ const PromoteView = ({
 
   const startActionSheet = useRef(null);
   let timer = null;
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const pr = get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price');
@@ -81,7 +82,7 @@ const PromoteView = ({
     if (text && text.length > 0) {
       timer = setTimeout(
         () =>
-          searchPath(text).then((res) => {
+          queryClient.fetchQuery(getSearchPathQueryOptions(text)).then((res) => {
             setPermlinkSuggestions(res && res.length > 10 ? res.slice(0, 7) : res);
           }),
         500,
@@ -109,14 +110,13 @@ const PromoteView = ({
   );
 
   const _getUserBalance = async (username) => {
-    await getPointsSummary(username)
-      .then((userPoints) => {
-        const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
-        setBalance(balance);
-      })
-      .catch((err) => {
-        Alert.alert(err.message || err.toString());
-      });
+    try {
+      const pointsData = await queryClient.fetchQuery(getPointsQueryOptions(username, 0));
+      const balanceValue = Math.round(Number(get(pointsData, 'points', 0)) * 1000) / 1000;
+      setBalance(balanceValue);
+    } catch (err) {
+      Alert.alert(err.message || err.toString());
+    }
   };
 
   const _handleOnSubmit = async () => {
