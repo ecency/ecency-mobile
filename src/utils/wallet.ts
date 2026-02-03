@@ -349,6 +349,7 @@ export const groomingWalletTabData = async ({
   walletData.estimatedHbdValue = totalHbd * ppHbd;
   walletData.estimatedHpValue =
     vestsToHp(walletData.vestingShares, walletData.hivePerMVests) * ppHive;
+  walletData.hasQuotes = hasQuotes;
 
   walletData.showPowerDown = userdata.next_vesting_withdrawal !== '1969-12-31T23:59:59';
   const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());

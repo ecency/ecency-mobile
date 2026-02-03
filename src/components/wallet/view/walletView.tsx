@@ -14,7 +14,12 @@ import { WalletContainer } from '../../../containers';
 // Styles
 import styles from './walletStyles';
 
-const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) => {
+const WalletView = ({
+  setEstimatedWalletValue,
+  selectedUser,
+  handleOnScroll,
+  forceUsdEstimate,
+}) => {
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const intl = useIntl();
 
@@ -37,6 +42,7 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
       setEstimatedWalletValue={setEstimatedWalletValue}
       selectedUser={selectedUser}
       handleOnScroll={handleOnScroll}
+      forceUsdEstimate={forceUsdEstimate}
     >
       {({
         isClaiming,
