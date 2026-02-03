@@ -49,8 +49,16 @@ class SearchModalView extends PureComponent {
   };
 
   render() {
-    const { handleOnChangeSearchInput, handleOnClose, isOpen, placeholder, searchResults } =
-      this.props;
+    const {
+      handleOnChangeSearchInput,
+      handleOnClose,
+      isOpen,
+      placeholder,
+      searchResults,
+      onLoadMore,
+      hasMore,
+      isLoadingMore,
+    } = this.props;
 
     return (
       <Modal isOpen={isOpen} handleOnModalClose={handleOnClose} isFullScreen swipeToClose>
@@ -79,8 +87,24 @@ class SearchModalView extends PureComponent {
               renderItem={this._renderItem}
               keyExtractor={(item, index) => get(item, 'id', index).toString()}
               removeClippedSubviews
-              onEndThreshold={0}
+              onEndReached={hasMore ? onLoadMore : undefined}
+              onEndReachedThreshold={0.6}
               initialNumToRender={20}
+              ListFooterComponent={
+                hasMore ? (
+                  <TouchableOpacity
+                    style={styles.searchItems}
+                    onPress={onLoadMore}
+                    disabled={isLoadingMore}
+                  >
+                    <View style={styles.searchItemTextWrapper}>
+                      <Text style={styles.searchItemText}>
+                        {isLoadingMore ? 'Loading more...' : 'Load more'}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                ) : null
+              }
             />
           </View>
         </View>

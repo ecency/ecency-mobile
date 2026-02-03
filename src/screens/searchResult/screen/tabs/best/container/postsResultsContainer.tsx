@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import {
   getPostQueryOptions,
   getAccountPostsQueryOptions,
-  getSearchApiInfiniteQueryOptions,
+  searchQueryOptions,
   search,
 } from '@ecency/sdk';
 import ROUTES from '../../../../../../constants/routeNames';
@@ -76,7 +76,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     else if (searchValue) {
       const queryClient = getQueryClient();
       const res = await queryClient.fetchQuery(
-        getSearchApiInfiniteQueryOptions(`${searchValue} type:post`, sort, false),
+        searchQueryOptions(`${searchValue} type:post`, sort, '0'),
       );
       const normalized = normalizeSearchResponse(res);
       _data = normalized.results;

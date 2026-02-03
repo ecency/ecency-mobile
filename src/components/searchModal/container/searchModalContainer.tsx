@@ -9,11 +9,11 @@ import {
   lookupAccountsQueryOptions,
   getTrendingTagsQueryOptions,
   getPostQueryOptions,
+  getSearchApiInfiniteQueryOptions,
 } from '@ecency/sdk';
-import { useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
 // Constants
-import { getSearchApiInfiniteQueryOptions } from '@ecency/sdk';
 import ROUTES from '../../../constants/routeNames';
 
 // Utilities
@@ -37,6 +37,10 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
   const queryClient = useQueryClient();
 
   const [searchResults, setSearchResults] = useState({});
+  const [searchMode, setSearchMode] = useState<'content' | 'user' | 'tag' | 'feedType' | 'none'>(
+    'none',
+  );
+  const [contentQuery, setContentQuery] = useState('');
 
   const _handleCloseButton = () => {
     navigation.goBack();
@@ -62,6 +66,30 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
     return [];
   };
 
+  const contentQueryEnabled =
+    searchMode === 'content' && isConnected && contentQuery && contentQuery.length >= 3;
+
+  const contentSearchQuery = useInfiniteQuery({
+    ...getSearchApiInfiniteQueryOptions(contentQuery, 'newest', false),
+    enabled: contentQueryEnabled,
+  });
+
+  useEffect(() => {
+    if (!contentQueryEnabled) {
+      return;
+    }
+
+    const results = normalizeSearchResponse(contentSearchQuery.data)
+      .filter((item) => typeof item?.title === 'string' && item.title.trim().length > 0)
+      .map((item) => ({
+        image: item.img_url || getResizedAvatar(get(item, 'author')),
+        text: item.title,
+        ...item,
+      }));
+
+    setSearchResults({ type: 'content', data: results });
+  }, [contentSearchQuery.data, contentQueryEnabled]);
+
   const performSearch = useCallback(
     (text) => {
       if (text && text.length < 3) {
@@ -72,6 +100,8 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
       }
       if (text && text !== '@' && text !== '#') {
         if (text[0] === '@') {
+          setSearchMode('user');
+          setContentQuery('');
           queryClient
             .fetchQuery(lookupAccountsQueryOptions(text.slice(1).trim()))
             .then((res) => {
@@ -86,6 +116,8 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
             })
             .catch((e) => console.log('lookupAccounts', e));
         } else if (text[0] === '#') {
+          setSearchMode('tag');
+          setContentQuery('');
           queryClient
             .fetchQuery(getTrendingTagsQueryOptions(text.substr(1).trim(), 20))
             .then((res) => {
@@ -104,6 +136,8 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
           text.includes('esteem://') ||
           text.includes('ecency://')
         ) {
+          setSearchMode('feedType');
+          setContentQuery('');
           const postUrl = postUrlParser(text.replace(/\s/g, ''));
 
           if (postUrl) {
@@ -179,19 +213,9 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
             }
           }
         } else {
-          queryClient
-            .fetchQuery(getSearchApiInfiniteQueryOptions(text, 'newest', false))
-            .then((res) => {
-              const results = normalizeSearchResponse(res)
-                .filter((item) => typeof item?.title === 'string' && item.title.trim().length > 0)
-                .map((item) => ({
-                  image: item.img_url || getResizedAvatar(get(item, 'author')),
-                  text: item.title,
-                  ...item,
-                }));
-              setSearchResults({ type: 'content', data: results });
-            })
-            .catch((e) => console.log('search', e));
+          setSearchMode('content');
+          setSearchResults({ type: 'content', data: [] });
+          setContentQuery(text);
         }
       }
     },
@@ -275,6 +299,20 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
     }
   };
 
+  const _handleLoadMore = useCallback(() => {
+    if (!contentQueryEnabled || !contentSearchQuery.hasNextPage) {
+      return;
+    }
+    if (!contentSearchQuery.isFetchingNextPage) {
+      contentSearchQuery.fetchNextPage().catch((err) => console.log('search load more', err));
+    }
+  }, [
+    contentQueryEnabled,
+    contentSearchQuery.hasNextPage,
+    contentSearchQuery.isFetchingNextPage,
+    contentSearchQuery.fetchNextPage,
+  ]);
+
   return (
     <SearchModalView
       handleCloseButton={_handleCloseButton}
@@ -284,6 +322,9 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
       isOpen={isOpen}
       placeholder={placeholder}
       searchResults={searchResults}
+      onLoadMore={_handleLoadMore}
+      hasMore={!!contentSearchQuery.hasNextPage}
+      isLoadingMore={contentSearchQuery.isFetchingNextPage}
     />
   );
 };

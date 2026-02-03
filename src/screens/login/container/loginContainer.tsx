@@ -267,6 +267,11 @@ class LoginContainer extends PureComponent {
       }
     });
 
+    if (!accessToken) {
+      console.warn('Missing access token for notifications:', username);
+      return;
+    }
+
     getMessaging()
       .getToken()
       .then((token) => {

@@ -44,7 +44,7 @@ const BoostPlus = ({
   const [selectedUser, setSelectedUser] = useState('');
   const [balance, setBalance] = useState(_balance);
   const [day, setDay] = useState(7);
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState<number | null>(null);
   const [expiryDate, setExpiryDate] = useState<Date | null>(null);
   const [isValid, setIsValid] = useState(false);
 
@@ -73,10 +73,10 @@ const BoostPlus = ({
 
   useEffect(() => {
     const index = _boostDays.indexOf(day);
-    const pr = index >= 0 ? _boostPrices[index] : 0;
+    const pr = index >= 0 ? _boostPrices[index] : undefined;
 
-    setIsValid(pr <= balance);
-    setPrice(pr);
+    setIsValid(pr != null && pr <= balance);
+    setPrice(pr ?? null);
   }, [day, balance, boostPricesQuery.data]);
 
   const _selectedUser = selectedUser || currentAccountName;
@@ -164,7 +164,7 @@ const BoostPlus = ({
                   id: 'promote.days',
                 })} `}
               </Text>
-              <Text style={styles.price}>{`${price} Points  `}</Text>
+              <Text style={styles.price}>{`${price ?? '--'} Points  `}</Text>
             </View>
 
             <ScaleSlider

@@ -45,7 +45,7 @@ const PromoteView = ({
   const [isValid, setIsValid] = useState(false);
 
   const startActionSheet = useRef(null);
-  let timer = null;
+  const timerRef = useRef<number | null>(null);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -70,8 +70,9 @@ const PromoteView = ({
     setPermlink(text);
     setIsValid(false);
 
-    if (timer) {
-      clearTimeout(timer);
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
     }
 
     if (text.trim().length < 3) {
@@ -80,7 +81,7 @@ const PromoteView = ({
     }
 
     if (text && text.length > 0) {
-      timer = setTimeout(
+      timerRef.current = setTimeout(
         () =>
           queryClient
             .fetchQuery(getSearchPathQueryOptions(text))
@@ -90,6 +91,9 @@ const PromoteView = ({
             .catch((err) => {
               console.error('Failed to fetch search path', err);
               setPermlinkSuggestions([]);
+            })
+            .finally(() => {
+              timerRef.current = null;
             }),
         500,
       );
@@ -98,6 +102,15 @@ const PromoteView = ({
       setIsValid(false);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, []);
 
   const _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton

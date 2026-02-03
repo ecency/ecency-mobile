@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert } from 'react-native';
 import get from 'lodash/get';
-import { injectIntl } from 'react-intl';
 import { useQueryClient } from '@tanstack/react-query';
 import { getGameStatusCheckQueryOptions, useGameClaim } from '@ecency/sdk';
 import { useAuth } from '../hooks';
@@ -111,4 +110,4 @@ const RedeemContainer = ({ children }) => {
   );
 };
 
-export default injectIntl(RedeemContainer);
+export default RedeemContainer;

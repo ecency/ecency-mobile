@@ -423,13 +423,18 @@ class SettingsContainer extends Component {
               notify_types: notifyTypes,
             };
 
+            if (item?.local?.accessToken && !pinCode) {
+              console.warn('PIN required to decrypt access token for', data.username);
+              return;
+            }
+
             const accessToken =
               item?.local?.accessToken && pinCode
                 ? decryptKey(item.local.accessToken, getDigitPinCode(pinCode))
                 : undefined;
 
             if (!accessToken) {
-              console.warn('Missing access token for notifications:', data.username);
+              console.warn('Failed to decrypt access token for', data.username);
               return;
             }
 
