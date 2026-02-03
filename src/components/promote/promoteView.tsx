@@ -39,7 +39,7 @@ const PromoteView = ({
 }) => {
   const [permlink, setPermlink] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
-  const [balance, setBalance] = useState('');
+  const [balance, setBalance] = useState<number>(_balance ?? 0);
   const [day, setDay] = useState(1);
   const [permlinkSuggestions, setPermlinkSuggestions] = useState([]);
   const [isValid, setIsValid] = useState(false);
@@ -77,7 +77,7 @@ const PromoteView = ({
     }
 
     if (lastQueryKeyRef.current) {
-      queryClient.cancelQueries({ queryKey: lastQueryKeyRef.current });
+      queryClient.cancelQueries({ queryKey: lastQueryKeyRef.current }, { silent: true });
       lastQueryKeyRef.current = null;
     }
 
@@ -162,7 +162,7 @@ const PromoteView = ({
               label={intl.formatMessage({ id: 'promote.user' })}
               rightComponent={() => _renderDropdown(accounts, selectedUser || currentAccountName)}
             />
-            <Text style={styles.balanceText}>{`${balance || _balance} Points`}</Text>
+            <Text style={styles.balanceText}>{`${balance ?? _balance} Points`}</Text>
             <Fragment>
               <View style={styles.autocomplateLineContainer}>
                 <View style={styles.autocomplateLabelContainer}>

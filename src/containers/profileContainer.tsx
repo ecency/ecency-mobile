@@ -45,6 +45,8 @@ import { default as ROUTES } from '../constants/routeNames';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 import { SheetNames } from '../navigation/sheets';
 
+const MAX_PROFILE_RETRIES = 2;
+
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
@@ -310,11 +312,11 @@ class ProfileContainer extends Component {
         );
       }
     } else if (shouldFetchProfile) {
-      this._fetchProfile(username, true);
+      this._fetchProfile(username, true, 0);
     }
   };
 
-  _fetchProfile = async (username = null, isProfileAction = false) => {
+  _fetchProfile = async (username = null, isProfileAction = false, retryCount = 0) => {
     const { intl } = this.props;
     try {
       const { username: _username, isFollowing, isMuted, isOwnProfile } = this.state;
@@ -364,7 +366,20 @@ class ProfileContainer extends Component {
         const follows = followsResult;
 
         if (isProfileAction && isFollowing === _isFollowing && isMuted === _isMuted) {
-          this._fetchProfile(_username, true);
+          if (retryCount < MAX_PROFILE_RETRIES && _username) {
+            setTimeout(() => {
+              this._fetchProfile(_username, true, retryCount + 1);
+            }, 0);
+          } else {
+            this.setState({
+              follows,
+              isFollowing: _isFollowing,
+              isMuted: _isMuted,
+              isFavorite,
+              isReady: true,
+              isProfileLoading: false,
+            });
+          }
         } else {
           this.setState({
             follows,
@@ -407,7 +422,7 @@ class ProfileContainer extends Component {
       } catch (error) {
         rcAccount = null;
       }
-      this._fetchProfile(username);
+      this._fetchProfile(username, false, 0);
     } catch (error) {
       this._profileActionDone({ error });
     }
