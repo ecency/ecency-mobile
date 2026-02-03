@@ -124,8 +124,10 @@ const NotificationLineView = ({
               {notification.description}
             </Text>
           )}
-          {notification.ts && (
-            <Text style={styles.timestamp}>{formatNotificationTimestamp(notification.ts)}</Text>
+          {(notification.timestamp || notification.ts) && (
+            <Text style={styles.timestamp}>
+              {formatNotificationTimestamp(notification.timestamp || notification.ts)}
+            </Text>
           )}
         </View>
 

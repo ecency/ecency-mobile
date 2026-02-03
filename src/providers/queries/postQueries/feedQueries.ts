@@ -147,6 +147,27 @@ export const useFeedQuery = ({
     }
   }, [feedQuery.isSuccess, feedQuery.data?.pages]);
 
+  // Clear or reduce latestPosts if those posts are now in the feed
+  useEffect(() => {
+    if (!latestPosts.length || !feedQuery.data?.pages) {
+      return;
+    }
+
+    const cachedKeys = new Set(
+      feedQuery.data.pages.flat().map((post) => `${post.author}/${post.permlink}`),
+    );
+    const remaining = latestPosts.filter(
+      (post) => !cachedKeys.has(`${post.author}/${post.permlink}`),
+    );
+
+    if (remaining.length !== latestPosts.length) {
+      setLatestPosts(remaining);
+      if (remaining.length === 0) {
+        _scheduleLatestPostsCheck();
+      }
+    }
+  }, [latestPosts, feedQuery.data?.pages]);
+
   const _cleanup = () => {
     if (postFetchTimerRef.current) {
       BackgroundTimer.clearTimeout(postFetchTimerRef.current);

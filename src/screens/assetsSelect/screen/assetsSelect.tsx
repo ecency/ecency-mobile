@@ -118,17 +118,24 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
       }
     });
 
-    // Add CHAIN tokens from profile that aren't in assetsQuery (external tokens)
+    // Add selected tokens from profile that aren't in assetsQuery (engine/spk/chain)
     selectionRef.current.forEach((selectedAsset) => {
-      if (selectedAsset.isChain && !addedSymbols.has(selectedAsset.symbol)) {
+      if (!addedSymbols.has(selectedAsset.symbol)) {
         const _symbol = selectedAsset.symbol.toLowerCase();
         const _query = query.toLowerCase();
 
         if (query === '' || _symbol.includes(_query)) {
+          const { isEngine } = selectedAsset;
+          const { isSpk } = selectedAsset;
+          const { isChain } = selectedAsset;
+          const layer = isEngine ? 'engine' : isSpk ? 'spk' : isChain ? 'chain' : undefined;
+
           data.push({
             symbol: selectedAsset.symbol,
-            layer: 'chain',
-            isChain: true,
+            layer,
+            isEngine,
+            isSpk,
+            isChain,
           } as SelectableAsset);
         }
       }
