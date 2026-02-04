@@ -97,7 +97,7 @@ export const useActiveKeyOperation = () => {
             }
 
             // Encode operation for HiveSigner hot signing
-            const encodedUri = hiveuri.encodeOp(operations[0]);
+            const encodedUri = hiveuri.encodeOps(operations);
 
             navigation.navigate(ROUTES.MODALS.HIVE_SIGNER, {
               hiveuri: encodedUri,
