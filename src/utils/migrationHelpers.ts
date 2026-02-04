@@ -4,9 +4,8 @@ import Config from 'react-native-config';
 // Constants
 import { SheetManager } from 'react-native-actions-sheet';
 import { isArray } from 'lodash';
-import { getMutedUsersQueryOptions } from '@ecency/sdk';
+import { getMutedUsersQueryOptions, getNotificationsUnreadCountQueryOptions } from '@ecency/sdk';
 import THEME_OPTIONS from '../constants/options/theme';
-import { getUnreadNotificationCount } from '../providers/ecency/ecency';
 import { getPointsSummary } from '../providers/ecency/ePoint';
 import {
   login,
@@ -156,11 +155,17 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
 
   // get unread notifications
   try {
-    _currentAccount.unread_activity_count = await getUnreadNotificationCount();
+    const queryClient = getQueryClient();
+    const accessToken =
+      (_currentAccount?.local?.accessToken
+        ? decryptKey(_currentAccount.local.accessToken, Config.DEFAULT_PIN)
+        : '') ?? '';
+    _currentAccount.unread_activity_count = await queryClient.fetchQuery(
+      getNotificationsUnreadCountQueryOptions(_currentAccount.name, accessToken),
+    );
     _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.name);
 
     // Fetch muted users using SDK query
-    const queryClient = getQueryClient();
     _currentAccount.mutes = await queryClient.fetchQuery(
       getMutedUsersQueryOptions(_currentAccount.name),
     );

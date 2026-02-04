@@ -1,5 +1,5 @@
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { getFiatHbdRate } from '../../providers/ecency/ecency';
+import { getCurrencyRate } from '@ecency/sdk';
 import {
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
@@ -179,9 +179,13 @@ export const setCurrency = (currency) => async (dispatch) => {
 
   let currencyRate = 1;
   if (currency !== 'usd') {
-    const _usdRate = await getFiatHbdRate('usd');
-    const _fiatRate = await getFiatHbdRate(currency);
-    currencyRate = _fiatRate / _usdRate;
+    try {
+      const _usdRate = await getCurrencyRate('usd');
+      const _fiatRate = await getCurrencyRate(currency);
+      currencyRate = _fiatRate / _usdRate;
+    } catch (err) {
+      currencyRate = 1;
+    }
   }
 
   dispatch({

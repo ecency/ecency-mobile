@@ -9,9 +9,9 @@ import {
   lookupAccountsQueryOptions,
   getTrendingTagsQueryOptions,
   getPostQueryOptions,
+  getSearchApiInfiniteQueryOptions,
 } from '@ecency/sdk';
-import { useQueryClient } from '@tanstack/react-query';
-import { search } from '../../../providers/ecency/ecency';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -37,15 +37,65 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
   const queryClient = useQueryClient();
 
   const [searchResults, setSearchResults] = useState({});
+  const [searchMode, setSearchMode] = useState<'content' | 'user' | 'tag' | 'feedType' | 'none'>(
+    'none',
+  );
+  const [contentQuery, setContentQuery] = useState('');
 
   const _handleCloseButton = () => {
     navigation.goBack();
   };
 
   // Core search logic (will be debounced)
+  const normalizeSearchResponse = (res) => {
+    if (!res) {
+      return [];
+    }
+    if (Array.isArray(res)) {
+      return res;
+    }
+    if (res.pages && Array.isArray(res.pages)) {
+      return res.pages.flatMap((page) => page?.results || page?.items || []);
+    }
+    if (Array.isArray(res.results)) {
+      return res.results;
+    }
+    if (Array.isArray(res.items)) {
+      return res.items;
+    }
+    return [];
+  };
+
+  const contentQueryEnabled =
+    searchMode === 'content' && isConnected && contentQuery && contentQuery.length >= 3;
+
+  const contentSearchQuery = useInfiniteQuery({
+    ...getSearchApiInfiniteQueryOptions(contentQuery, 'newest', false),
+    enabled: contentQueryEnabled,
+  });
+
+  useEffect(() => {
+    if (!contentQueryEnabled) {
+      return;
+    }
+
+    const results = normalizeSearchResponse(contentSearchQuery.data)
+      .filter((item) => typeof item?.title === 'string' && item.title.trim().length > 0)
+      .map((item) => ({
+        image: item.img_url || getResizedAvatar(get(item, 'author')),
+        text: item.title,
+        ...item,
+      }));
+
+    setSearchResults({ type: 'content', data: results });
+  }, [contentSearchQuery.data, contentQueryEnabled]);
+
   const performSearch = useCallback(
     (text) => {
       if (text && text.length < 3) {
+        setSearchMode('none');
+        setContentQuery('');
+        setSearchResults({});
         return;
       }
       if (!isConnected) {
@@ -53,6 +103,8 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
       }
       if (text && text !== '@' && text !== '#') {
         if (text[0] === '@') {
+          setSearchMode('user');
+          setContentQuery('');
           queryClient
             .fetchQuery(lookupAccountsQueryOptions(text.slice(1).trim()))
             .then((res) => {
@@ -67,6 +119,8 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
             })
             .catch((e) => console.log('lookupAccounts', e));
         } else if (text[0] === '#') {
+          setSearchMode('tag');
+          setContentQuery('');
           queryClient
             .fetchQuery(getTrendingTagsQueryOptions(text.substr(1).trim(), 20))
             .then((res) => {
@@ -85,6 +139,8 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
           text.includes('esteem://') ||
           text.includes('ecency://')
         ) {
+          setSearchMode('feedType');
+          setContentQuery('');
           const postUrl = postUrlParser(text.replace(/\s/g, ''));
 
           if (postUrl) {
@@ -160,18 +216,9 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
             }
           }
         } else {
-          search({ q: text, sort: 'trending', hideLow: '0' })
-            .then((res) => {
-              res.results = res.results
-                .filter((item) => item.title !== '')
-                .map((item) => ({
-                  image: item.img_url || getResizedAvatar(get(item, 'author')),
-                  text: item.title,
-                  ...item,
-                }));
-              setSearchResults({ type: 'content', data: get(res, 'results', []) });
-            })
-            .catch((e) => console.log('search', e));
+          setSearchMode('content');
+          setSearchResults({ type: 'content', data: [] });
+          setContentQuery(text);
         }
       }
     },
@@ -255,6 +302,25 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
     }
   };
 
+  const _handleLoadMore = useCallback(() => {
+    if (searchMode !== 'content') {
+      return;
+    }
+    if (!contentQueryEnabled || !contentSearchQuery.hasNextPage) {
+      return;
+    }
+    if (contentSearchQuery.isFetchingNextPage) {
+      return;
+    }
+    contentSearchQuery.fetchNextPage().catch((err) => console.log('search load more', err));
+  }, [
+    searchMode,
+    contentQueryEnabled,
+    contentSearchQuery.hasNextPage,
+    contentSearchQuery.isFetchingNextPage,
+    contentSearchQuery.fetchNextPage,
+  ]);
+
   return (
     <SearchModalView
       handleCloseButton={_handleCloseButton}
@@ -264,6 +330,9 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder,
       isOpen={isOpen}
       placeholder={placeholder}
       searchResults={searchResults}
+      onLoadMore={_handleLoadMore}
+      hasMore={searchMode === 'content' && !!contentSearchQuery.hasNextPage}
+      isLoadingMore={searchMode === 'content' && contentSearchQuery.isFetchingNextPage}
     />
   );
 };

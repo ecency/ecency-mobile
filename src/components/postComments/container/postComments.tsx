@@ -247,7 +247,11 @@ const PostComments = forwardRef(
     }, []);
 
     const _onContentSizeChange = useCallback((x: number, y: number) => {
-      if (y !== headerHeightRef.current) {
+      // Add tolerance for floating point differences to prevent infinite loops
+      const tolerance = 1;
+      const heightDiff = Math.abs(y - headerHeightRef.current);
+
+      if (heightDiff > tolerance) {
         headerHeightRef.current = y;
         setHeaderHeight(y);
       }

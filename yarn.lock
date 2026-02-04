@@ -1161,10 +1161,10 @@
   dependencies:
     long "~3"
 
-"@ecency/render-helper@^2.4.13":
-  version "2.4.13"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.4.13.tgz#7c2716d751d3ebbc155cbd4b3a592985661dce9b"
-  integrity sha512-deRYkiuS+6+49dx4elU5xTGZNHGFsxNtv3aOi6tus22Atg0cc2EbDRAhykG4YUMeFJ6pLLcJWRS1G0g6LkkXbQ==
+"@ecency/render-helper@^2.4.14":
+  version "2.4.14"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.4.14.tgz#720ad96327795a18a59aa38de52d4fbeb241c766"
+  integrity sha512-g4YsnHWngGCxDL6w258Qxh9X9sDEvD9dqKHpO2BkMZNLOFrs/rhyPJL7YYK0CLhrNCdhHp0X6oZZ3dJjSP7NhQ==
   dependencies:
     "@xmldom/xmldom" "^0.9.6"
     dom-serializer "^2.0.0"
@@ -1180,10 +1180,10 @@
     url "^0.11.0"
     xss "^1.0.9"
 
-"@ecency/sdk@^1.5.19":
-  version "1.5.19"
-  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-1.5.19.tgz#1cdd219d1fbe2215364c792fa1e9a8da2ebbd591"
-  integrity sha512-+4Jo3CroFxnK9SbL1//XUBhmKRMfcKpqYVaeNDQXU9+fB483TLPBrW4DWt52lLWc8/ht83JsaRjCZbTrAXoMTw==
+"@ecency/sdk@^1.5.27":
+  version "1.5.27"
+  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-1.5.27.tgz#c4e8e69227e84188e99e7015e80d209376f2b61f"
+  integrity sha512-uDHkfkHZGG3gVHSMHxSOKcjw87E1oTyUXbtwXGPciQDMd3v4iKGzRc5Mn83oZ84Dlf9re6lEKGcKfDMm/dRYLw==
 
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
@@ -7522,10 +7522,17 @@ highlight-words-core@^1.0.3:
     assert "^2.0.0"
     uuid "^8.3.2"
 
-hive-uri@^0.2.4, hive-uri@^0.2.5:
+hive-uri@^0.2.4:
   version "0.2.5"
   resolved "https://registry.npmjs.org/hive-uri/-/hive-uri-0.2.5.tgz"
   integrity sha512-oSFqa39/Frs8XaA6oAT1W/5KtkInfp8u0Yv58YGok1klu7M8rPYMg3v9m/0rdvrRLSheAYwip88l60at2kPtYA==
+
+hive-uri@^0.2.8:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/hive-uri/-/hive-uri-0.2.8.tgz#528b83764e7117f473136bb8e3cb2d3f52fe02aa"
+  integrity sha512-z04c+XiIxn8LmLyZD/26T5vBhR+EptIIxTnQYu5sODMskY1SjkpVZr6QaHb+6N4vWGVuOtLnK1A89NfyJ7OFfA==
+  dependencies:
+    url-parse "^1.5.10"
 
 hivesigner@^3.3.4:
   version "3.3.4"
@@ -13506,7 +13513,7 @@ urix@^0.1.0:
   resolved "https://registry.npmjs.org/urix/-/urix-0.1.0.tgz"
   integrity sha512-Am1ousAhSLBeB9cG/7k7r2R0zj50uDRlZHPGbazid5s9rlF1F/QKYObEKSIunSjIOkJZqwRRLpvewjEkM7pSqg==
 
-url-parse@^1.5.7:
+url-parse@^1.5.10, url-parse@^1.5.7:
   version "1.5.10"
   resolved "https://registry.npmjs.org/url-parse/-/url-parse-1.5.10.tgz"
   integrity sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==

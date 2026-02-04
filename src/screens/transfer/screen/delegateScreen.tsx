@@ -19,8 +19,9 @@ import { FlatList } from 'react-native-gesture-handler';
 import { debounce } from 'lodash';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
-import AUTH_TYPE from '../../../constants/authType';
+import { getReceivedVestingSharesQueryOptions } from '@ecency/sdk';
 import { hsOptions } from '../../../constants/hsOptions';
+import { useActiveKeyOperation } from '../../../hooks';
 
 // Components
 import {
@@ -32,20 +33,18 @@ import {
   UserAvatar,
   Icon,
   Modal,
-  HiveAuthModal,
 } from '../../../components';
 // Styles
 import styles from './transferStyles';
 
 // Utils
-import { getReceivedVestingShares } from '../../../providers/ecency/ecency';
+import { getQueryClient } from '../../../providers/queries';
 import parseToken from '../../../utils/parseToken';
 import { isEmptyDate } from '../../../utils/time';
 import { hpToVests, vestsToHp } from '../../../utils/conversions';
 import parseAsset from '../../../utils/parseAsset';
 import { delay } from '../../../utils/editor';
-import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
-import TransferTypes from '../../../constants/transferTypes';
+import { buildDelegateVestingSharesOpArr } from '../../../providers/hive/dhive';
 import { SheetNames } from '../../../navigation/sheets';
 
 class DelegateScreen extends Component {
@@ -64,7 +63,6 @@ class DelegateScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.hiveAuthModalRef = React.createRef();
 
     this.state = {
       amount: 0,
@@ -155,24 +153,42 @@ class DelegateScreen extends Component {
     }
   };
 
-  _handleTransferAction = () => {
-    const { transferToAccount, accountType } = this.props;
+  _handleTransferAction = async () => {
+    const { transferToAccount, executeOperation, handleOnModalClose, intl } = this.props;
     const { from, destination, amount } = this.state;
 
-    // TODO: check if this need to accomodate HIVE_AUTH;
-    if (accountType === AUTH_TYPE.STEEM_CONNECT) {
-      this.setState({ steemConnectTransfer: true });
-    } else if (accountType === AUTH_TYPE.HIVE_AUTH) {
-      const opArray = buildTransferOpsArray(TransferTypes.DELEGATE, {
-        from,
-        to: destination,
-        amount: amount.toFixed(6),
-        fundType: 'VESTS',
+    this.setState({ isTransfering: true });
+
+    // Build operation array
+    const vestingShares = `${amount.toFixed(6)} VESTS`;
+    const operations = buildDelegateVestingSharesOpArr(from, destination, vestingShares);
+
+    try {
+      await executeOperation({
+        operations,
+        privateKeyHandler: () => transferToAccount(from, destination, amount, ''),
+        callbacks: {
+          onSuccess: () => {
+            this.setState({ isTransfering: false });
+            if (handleOnModalClose) {
+              handleOnModalClose();
+            }
+          },
+          onError: (error) => {
+            this.setState({ isTransfering: false });
+            Alert.alert(
+              intl.formatMessage({ id: 'alert.error' }),
+              error.message || error.toString(),
+            );
+          },
+          onClose: () => {
+            this.setState({ isTransfering: false });
+          },
+        },
       });
-      this.hiveAuthModalRef.current?.broadcastActiveOps(opArray);
-    } else {
-      this.setState({ isTransfering: true });
-      transferToAccount(from, destination, amount, '');
+    } catch (error) {
+      // Error already handled in callbacks
+      this.setState({ isTransfering: false });
     }
   };
 
@@ -180,7 +196,10 @@ class DelegateScreen extends Component {
     try {
       const { hivePerMVests } = this.props;
       const delegateeUser = this.state.destination;
-      const vestingShares = await getReceivedVestingShares(delegateeUser);
+      const queryClient = getQueryClient();
+      const vestingShares = await queryClient.fetchQuery(
+        getReceivedVestingSharesQueryOptions(delegateeUser),
+      );
       if (vestingShares && vestingShares.length) {
         const curShare = vestingShares.find((item) => item.delegator === this.state.from);
         if (curShare) {
@@ -397,8 +416,10 @@ class DelegateScreen extends Component {
             <TextInput
               style={[styles.input, { width: '100%' }]}
               onChangeText={(value) => {
-                this.setState({ destination: value, step: 1 });
-                this._handleOnAmountChange(state, value);
+                // Force lowercase for usernames (Hive usernames are always lowercase)
+                const lowercaseValue = value.toLowerCase();
+                this.setState({ destination: lowercaseValue, step: 1 });
+                this._handleOnAmountChange(state, lowercaseValue);
               }}
               value={this.state[state]}
               placeholder={placeholder}
@@ -627,11 +648,14 @@ class DelegateScreen extends Component {
             <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
           </Modal>
         )}
-
-        <HiveAuthModal ref={this.hiveAuthModalRef} onClose={handleOnModalClose} />
       </SafeAreaView>
     );
   }
 }
 
-export default injectIntl(DelegateScreen);
+const DelegateScreenWithHooks = (props) => {
+  const { executeOperation } = useActiveKeyOperation();
+  return <DelegateScreen {...props} executeOperation={executeOperation} />;
+};
+
+export default injectIntl(DelegateScreenWithHooks);

@@ -149,6 +149,15 @@ export const QuickPostModalContent = forwardRef(
       commentValueRef.current = _value;
       setCommentValue(_value);
 
+      const cachedMedia = currentDraft?.meta?.image;
+      if (Array.isArray(cachedMedia)) {
+        setMediaUrls(cachedMedia);
+      } else if (typeof cachedMedia === 'string') {
+        setMediaUrls([cachedMedia]);
+      } else {
+        setMediaUrls([]);
+      }
+
       // check if user can comment to community
       setCommunityToCheck(selectedPost?.community ?? null);
     }, [currentDraft, currentAccount.name, selectedPost?.community]);
@@ -168,16 +177,24 @@ export const QuickPostModalContent = forwardRef(
 
     // add quick comment value into cache - memoized with useCallback
     const _addQuickCommentIntoCache = useCallback(
-      (value: string) => {
+      (value: string, media: string[] = mediaUrls) => {
+        const meta =
+          media && media.length > 0
+            ? {
+                image: media,
+              }
+            : undefined;
+
         const quickCommentDraftData: Draft = {
           author: currentAccount.name,
           body: value,
+          meta,
         };
 
         // add quick comment/wave cache entry to replyCache
         dispatch(updateReplyCache(draftId, quickCommentDraftData));
       },
-      [currentAccount.name, draftId, dispatch],
+      [currentAccount.name, draftId, dispatch, mediaUrls],
     );
 
     // Expose imperative handle for sheet close - must come after _addQuickCommentIntoCache
@@ -269,6 +286,7 @@ export const QuickPostModalContent = forwardRef(
       setMediaModalVisible(false);
       uploadsGalleryModalRef.current?.toggleModal(false);
       setMediaUrls(_insertUrls);
+      _addQuickCommentIntoCache(commentValueRef.current || '', _insertUrls);
     };
 
     const _handleExpandBtn = async () => {
@@ -358,6 +376,7 @@ export const QuickPostModalContent = forwardRef(
     const _renderMediaPanel = () => {
       const _onPress = () => {
         setMediaUrls([]);
+        _addQuickCommentIntoCache(commentValueRef.current || '', []);
       };
 
       const _minusIcon = !isUploading && (

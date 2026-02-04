@@ -13,6 +13,8 @@ import {
   getOpenOrdersQueryOptions,
   getTransactionsInfiniteQueryOptions,
   getPointsQueryOptions,
+  getPortfolioQueryOptions,
+  getHiveEngineTokenTransactions,
 } from '@ecency/sdk';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import POINTS from '../../../constants/options/points';
@@ -30,15 +32,14 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 import { updateClaimCache } from '../../../redux/actions/cacheActions';
 import { selectCurrentAccount, selectPin, selectGlobalProps } from '../../../redux/selectors';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
-import { fetchEngineAccountHistory } from '../../hive-engine/hiveEngine';
 import {
   groomingEngineHistory,
   groomingTransactionData,
   groomingPointsTransactionData,
   transferTypes,
 } from '../../../utils/wallet';
+import { convertEngineHistory } from '../../hive-engine/converters';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
-import { getPortfolio } from '../../ecency/ecency';
 import { ProfileToken } from '../../../redux/reducers/walletReducer';
 
 interface ClaimRewardsMutationVars {
@@ -59,42 +60,36 @@ export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean }
   // TODO: test assets update with currency and quote change
 
   const assetsQuery = useQuery({
+    ...getPortfolioQueryOptions(currentAccount?.name || '', currency.currency, onlyEnabled),
+    // Override queryKey to match legacy format for cache compatibility
     queryKey: [
       QUERIES.WALLET.GET,
       currentAccount?.name || '',
       currency.currency,
       onlyEnabled ? 'enabled' : 'all',
     ],
-    queryFn: async () => {
-      if (!currentAccount?.name) {
+    // Transform SDK response to match mobile app format
+    select: (data) => {
+      // Defensive check: ensure data and wallets exist and wallets is an array
+      if (!data || !data.wallets || !Array.isArray(data.wallets) || data.wallets.length === 0) {
         return [];
       }
-      try {
-        const response = await getPortfolio(currentAccount.name, currency.currency, onlyEnabled);
 
-        if (!response || response.length === 0) {
-          return [];
+      // Update response with redux claim cache if pendingRewards value and cache value is equal and cache is not expired
+      const updatedResponse = data.wallets.map((item) => {
+        const claimCache = claimsCollection[item.symbol];
+        const cachedRewardValue = Number(claimCache?.rewardValue) || 0;
+        if (
+          claimCache?.expiresAt &&
+          claimCache?.expiresAt > Date.now() &&
+          item.pendingRewards === cachedRewardValue
+        ) {
+          return { ...item, pendingRewards: 0 };
         }
+        return item;
+      });
 
-        // update response with redux claim cachce if pendingRewards value and cache valuye is equal and cache is not expired
-        const updatedResponse = response.map((item) => {
-          const claimCache = claimsCollection[item.symbol];
-          const cachedRewardValue = Number(claimCache?.rewardValue) || 0;
-          if (
-            claimCache?.expiresAt &&
-            claimCache?.expiresAt > Date.now() &&
-            item.pendingRewards === cachedRewardValue
-          ) {
-            return { ...item, pendingRewards: 0 };
-          }
-          return item;
-        });
-
-        return updatedResponse;
-      } catch (err) {
-        console.error('Failed to get portfolio data:', err);
-        throw err; // Re-throw to set error state instead of returning empty array
-      }
+      return updatedResponse;
     },
     initialData: [],
     enabled: !!currentAccount?.name, // Only fetch when logged in
@@ -187,13 +182,13 @@ export const useClaimRewardsMutation = () => {
     onMutate({ symbol }) {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: true }));
     },
-    onSuccess: (data, { symbol }) => {
+    onSuccess: async (data, { symbol }) => {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));
 
       // Update claim cache and set claimed asset to zero in portfolio data (loop only once)
       let claimedValue: number | undefined;
       const updatePortfolio = (data?: PortfolioItem[]) => {
-        if (!data) return data;
+        if (!data || !Array.isArray(data)) return data;
         return data.map((item) => {
           if (item.symbol === symbol) {
             if (claimedValue === undefined) {
@@ -229,6 +224,42 @@ export const useClaimRewardsMutation = () => {
           }),
         ),
       );
+
+      // Wait 2 seconds before invalidating to allow backend to process the claim
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Invalidate queries to fetch fresh data from backend
+      if (symbol === 'POINTS') {
+        // Invalidate both Points and portfolio queries
+        await Promise.all([
+          queryClient.invalidateQueries({
+            queryKey: ['points', currentAccount.name],
+          }),
+          queryClient.invalidateQueries({
+            queryKey: portfolioBaseKey,
+          }),
+        ]);
+      } else {
+        // Invalidate portfolio queries for HIVE/HBD/HP claims
+        await queryClient.invalidateQueries({
+          queryKey: portfolioBaseKey,
+        });
+      }
+
+      // Invalidate activities/transactions after claim so activity list updates
+      await Promise.all([
+        queryClient.invalidateQueries({
+          predicate: (query) =>
+            query.queryKey[0] === QUERIES.WALLET.GET_ACTIVITIES &&
+            query.queryKey[1] === currentAccount.name,
+        }),
+        queryClient.invalidateQueries({
+          predicate: (query) =>
+            query.queryKey[0] === 'accounts' &&
+            query.queryKey[1] === 'transactions' &&
+            query.queryKey[2] === currentAccount.name,
+        }),
+      ]);
     },
     onError: async (error, { symbol }) => {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));
@@ -269,13 +300,7 @@ export const useClaimRewardsMutation = () => {
       return isClaimingColl[symbol] || false;
     }
 
-    Object.keys(isClaimingColl).forEach((key) => {
-      if (isClaimingColl[key] === true) {
-        return true;
-      }
-    });
-
-    return false;
+    return Object.values(isClaimingColl).some((isClaiming) => isClaiming === true);
   };
 
   return {
@@ -298,26 +323,33 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   const pointsQuery = useQuery({
     ...getPointsQueryOptions(username, 0),
     enabled: !!username && isPoints,
+    staleTime: 0, // Always consider stale so pull-to-refresh works immediately
+    gcTime: 5 * 60 * 1000, // Keep in cache for 5 minutes
   });
 
   const chainQuery = useInfiniteQuery({
     ...getTransactionsInfiniteQueryOptions(username ?? '', ACTIVITIES_FETCH_LIMIT),
     enabled: !!username && !isEngine && !isPoints,
+    staleTime: 0, // Always consider stale so pull-to-refresh works immediately
+    gcTime: 5 * 60 * 1000, // Keep in cache for 5 minutes
   });
 
   const engineQuery = useInfiniteQuery({
     queryKey: [QUERIES.WALLET.GET_ACTIVITIES, username, symbol, 'engine'],
     enabled: !!username && isEngine,
     initialPageParam: 0,
+    staleTime: 0, // Always consider stale so pull-to-refresh works immediately
+    gcTime: 5 * 60 * 1000, // Keep in cache for 5 minutes
     queryFn: async ({ pageParam }) => {
       if (!username) return [];
-      const engineHistory = await fetchEngineAccountHistory(
+      const offset = ACTIVITIES_FETCH_LIMIT * pageParam;
+      const engineHistory = await getHiveEngineTokenTransactions(
         username,
         symbol,
-        pageParam,
         ACTIVITIES_FETCH_LIMIT,
+        offset,
       );
-      return engineHistory.map(groomingEngineHistory);
+      return engineHistory.map(convertEngineHistory).map(groomingEngineHistory);
     },
     getNextPageParam: (lastPage, pages) => (lastPage?.length ? pages.length : undefined),
   });
@@ -700,8 +732,9 @@ export const useUpdateProfileTokensMutation = () => {
 
   const mutation = useMutation<any, Error, ProfileToken[]>({
     mutationFn: async (tokens) => {
+      const baseProfile = currentAccount?.profile || {};
       const newProfileMeta = {
-        ...currentAccount.about.profile,
+        ...baseProfile,
         tokens: [...tokens],
       };
 
@@ -714,10 +747,7 @@ export const useUpdateProfileTokensMutation = () => {
       // update current account in redux
       const _currentAccount = {
         ...currentAccount,
-        about: {
-          ...currentAccount.about,
-          profile: newProfileMeta,
-        },
+        profile: newProfileMeta,
       };
       dispatch(updateCurrentAccount({ ..._currentAccount }));
     },

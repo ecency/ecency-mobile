@@ -17,7 +17,7 @@ import {
   profileUpdate,
   reblog,
 } from '../../../providers/hive/dhive';
-import { addBookmark, addReport } from '../../../providers/ecency/ecency';
+import { addReport } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 
 // Constants
@@ -33,6 +33,7 @@ import { getPostUrl } from '../../../utils/post';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
+import { useAddBookmarkMutation } from '../../../providers/queries/bookmarkQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import styles from '../styles/postOptionsModal.styles';
@@ -64,6 +65,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const userActivityMutation = useUserActivityMutation();
+  const addBookmarkMutation = useAddBookmarkMutation();
 
   const bottomSheetModalRef = useRef<ActionSheet | null>(null);
   const alertTimer = useRef<any>(null);
@@ -346,25 +348,11 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       showLoginAlert({ intl });
       return;
     }
-    addBookmark(get(content, 'author'), get(content, 'permlink'))
-      .then(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'bookmarks.added',
-            }),
-          ),
-        );
-      })
-      .catch(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-          ),
-        );
-      });
+    // Toast notifications are handled by the mutation hook
+    addBookmarkMutation.mutate({
+      author: get(content, 'author'),
+      permlink: get(content, 'permlink'),
+    });
   };
 
   const _reblog = (undo = false) => {
@@ -443,7 +431,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
   ) => {
     const params = {
-      ...(currentAccount.about?.profile || {}),
+      ...(currentAccount.profile || {}),
       pinned: unpinPost ? null : content.permlink,
     };
 
@@ -452,10 +440,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
       const nextAccount = {
         ...currentAccount,
-        about: {
-          ...(currentAccount.about || {}),
-          profile: { ...params },
-        },
+        profile: { ...params },
       };
 
       dispatch(updateCurrentAccount(nextAccount));

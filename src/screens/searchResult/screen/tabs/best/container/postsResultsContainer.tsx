@@ -3,10 +3,14 @@ import get from 'lodash/get';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { getPostQueryOptions, getAccountPostsQueryOptions } from '@ecency/sdk';
+import {
+  getPostQueryOptions,
+  getAccountPostsQueryOptions,
+  searchQueryOptions,
+  search,
+} from '@ecency/sdk';
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { search } from '../../../../../../providers/ecency/ecency';
 import { getQueryClient, postQueries } from '../../../../../../providers/queries';
 import postUrlParser from '../../../../../../utils/postUrlParser';
 import { selectCurrentAccountUsername } from '../../../../../../redux/selectors';
@@ -20,6 +24,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   const [sort] = useState('newest');
   const [scrollId, setScrollId] = useState('');
   const [noResult, setNoResult] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const currentAccountUsername = useAppSelector(selectCurrentAccountUsername);
 
@@ -27,11 +32,34 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     _fetchResults();
   }, [searchValue]);
 
+  const normalizeSearchResponse = (res) => {
+    if (!res) {
+      return { results: [], scrollId: '' };
+    }
+    if (Array.isArray(res)) {
+      return { results: res, scrollId: '' };
+    }
+    if (res.pages && Array.isArray(res.pages)) {
+      const { pages } = res;
+      const results = pages.flatMap((page) => page?.results || page?.items || []);
+      const lastPage = pages[pages.length - 1];
+      return { results, scrollId: lastPage?.scroll_id || '' };
+    }
+    if (Array.isArray(res.results)) {
+      return { results: res.results, scrollId: res.scroll_id || '' };
+    }
+    if (Array.isArray(res.items)) {
+      return { results: res.items, scrollId: res.scroll_id || '' };
+    }
+    return { results: [], scrollId: '' };
+  };
+
   const _fetchResults = async () => {
     let _data: any = [];
 
     setNoResult(false);
     setData(_data);
+    setScrollId('');
 
     // parse author and permlink if url
     const { author, permlink } = postUrlParser(searchValue) || {};
@@ -46,9 +74,13 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     }
     // search with query
     else if (searchValue) {
-      const res = await search({ q: `${searchValue} type:post`, sort });
-      _data = res.results || [];
-      setScrollId(res.scroll_id);
+      const queryClient = getQueryClient();
+      const res = await queryClient.fetchQuery(
+        searchQueryOptions(`${searchValue} type:post`, sort, '0'),
+      );
+      const normalized = normalizeSearchResponse(res);
+      _data = normalized.results;
+      setScrollId(normalized.scrollId);
     }
     // get initial posts if not search value
     else {
@@ -87,15 +119,30 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     });
   };
 
-  const _loadMore = () => {
-    if (scrollId && searchValue) {
-      search({ q: `${searchValue} type:post`, sort, scroll_id: scrollId })
-        .then((res) => {
-          setData([...data, ...res.results]);
-        })
-        .catch(() => {
-          console.warn('Search Failed');
-        });
+  const _loadMore = async () => {
+    if (!scrollId || !searchValue || isLoadingMore) {
+      return;
+    }
+    try {
+      setIsLoadingMore(true);
+      const res = await search(`${searchValue} type:post`, sort, 0, undefined, scrollId);
+      const newResults = normalizeSearchResponse(res).results;
+      const nextScrollId =
+        res && typeof res === 'object' && 'scroll_id' in res ? res.scroll_id || '' : '';
+
+      // Use functional updater to avoid stale closure reads
+      setData((prev) => {
+        const existingPermlinks = new Set(prev.map((item) => item.permlink));
+        const filteredNewResults = newResults.filter(
+          (item) => !existingPermlinks.has(item.permlink),
+        );
+        return [...prev, ...filteredNewResults];
+      });
+      setScrollId(nextScrollId);
+    } catch (error) {
+      console.warn('Search Failed', error);
+    } finally {
+      setIsLoadingMore(false);
     }
   };
 

@@ -4,12 +4,12 @@ import { Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { WebView } from 'react-native-webview';
 import get from 'lodash/get';
 import Autocomplete from '@esteemapp/react-native-autocomplete-input';
+import { useQueryClient } from '@tanstack/react-query';
+import { getPointsQueryOptions, getSearchPathQueryOptions } from '@ecency/sdk';
 import { ScaleSlider, TextInput } from '..';
 import { hsOptions } from '../../constants/hsOptions';
 
 // Services and Actions
-import { getPointsSummary } from '../../providers/ecency/ePoint';
-import { searchPath } from '../../providers/ecency/ecency';
 
 // Components
 import { BasicHeader } from '../basicHeader';
@@ -39,13 +39,15 @@ const PromoteView = ({
 }) => {
   const [permlink, setPermlink] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
-  const [balance, setBalance] = useState('');
+  const [balance, setBalance] = useState<number>(_balance ?? 0);
   const [day, setDay] = useState(1);
   const [permlinkSuggestions, setPermlinkSuggestions] = useState([]);
   const [isValid, setIsValid] = useState(false);
 
   const startActionSheet = useRef(null);
-  let timer = null;
+  const timerRef = useRef<number | null>(null);
+  const lastQueryKeyRef = useRef<unknown[] | null>(null);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const pr = get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price');
@@ -69,8 +71,14 @@ const PromoteView = ({
     setPermlink(text);
     setIsValid(false);
 
-    if (timer) {
-      clearTimeout(timer);
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+
+    if (lastQueryKeyRef.current) {
+      queryClient.cancelQueries({ queryKey: lastQueryKeyRef.current }, { silent: true });
+      lastQueryKeyRef.current = null;
     }
 
     if (text.trim().length < 3) {
@@ -79,11 +87,22 @@ const PromoteView = ({
     }
 
     if (text && text.length > 0) {
-      timer = setTimeout(
+      const nextQueryKey = getSearchPathQueryOptions(text).queryKey;
+      lastQueryKeyRef.current = nextQueryKey;
+      timerRef.current = setTimeout(
         () =>
-          searchPath(text).then((res) => {
-            setPermlinkSuggestions(res && res.length > 10 ? res.slice(0, 7) : res);
-          }),
+          queryClient
+            .fetchQuery(getSearchPathQueryOptions(text))
+            .then((res) => {
+              setPermlinkSuggestions(res && res.length > 10 ? res.slice(0, 7) : res);
+            })
+            .catch((err) => {
+              console.error('Failed to fetch search path', err);
+              setPermlinkSuggestions([]);
+            })
+            .finally(() => {
+              timerRef.current = null;
+            }),
         500,
       );
     } else {
@@ -91,6 +110,15 @@ const PromoteView = ({
       setIsValid(false);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, []);
 
   const _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton
@@ -109,14 +137,13 @@ const PromoteView = ({
   );
 
   const _getUserBalance = async (username) => {
-    await getPointsSummary(username)
-      .then((userPoints) => {
-        const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
-        setBalance(balance);
-      })
-      .catch((err) => {
-        Alert.alert(err.message || err.toString());
-      });
+    try {
+      const pointsData = await queryClient.fetchQuery(getPointsQueryOptions(username, 0));
+      const balanceValue = Math.round(Number(get(pointsData, 'points', 0)) * 1000) / 1000;
+      setBalance(balanceValue);
+    } catch (err) {
+      Alert.alert(err.message || err.toString());
+    }
   };
 
   const _handleOnSubmit = async () => {
@@ -135,7 +162,7 @@ const PromoteView = ({
               label={intl.formatMessage({ id: 'promote.user' })}
               rightComponent={() => _renderDropdown(accounts, selectedUser || currentAccountName)}
             />
-            <Text style={styles.balanceText}>{`${balance || _balance} Points`}</Text>
+            <Text style={styles.balanceText}>{`${balance ?? _balance} Points`}</Text>
             <Fragment>
               <View style={styles.autocomplateLineContainer}>
                 <View style={styles.autocomplateLabelContainer}>

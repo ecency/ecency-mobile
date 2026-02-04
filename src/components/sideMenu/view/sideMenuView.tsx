@@ -167,9 +167,9 @@ const SideMenuView = ({
               <UserAvatar username={currentAccount.name} size="xl" style={styles.userAvatar} />
 
               <View style={styles.userInfoWrapper}>
-                {currentAccount.display_name && (
+                {currentAccount.profile && currentAccount.profile.name && (
                   <Text numberOfLines={1} ellipsizeMode="tail" style={styles.username}>
-                    {currentAccount.display_name}
+                    {currentAccount.profile.name}
                   </Text>
                 )}
                 <Text numberOfLines={1} ellipsizeMode="tail" style={styles.usernick}>

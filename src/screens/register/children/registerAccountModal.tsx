@@ -7,11 +7,11 @@ import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { openInbox } from 'react-native-email-link';
+import { signUp } from '@ecency/sdk';
 import styles from '../styles/registerAccountModalStyles';
 import { InAppPurchaseContainer } from '../../../containers';
 import { Icon, MainButton, Modal, PostCardPlaceHolder, TextButton } from '../../../components';
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
-import { signUp } from '../../../providers/ecency/ecency';
 import ROUTES from '../../../constants/routeNames';
 
 type Props = {
@@ -55,9 +55,17 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
 
     signUp(_username, email, refUsername)
       .then((result) => {
-        if (result) {
+        if (result?.status >= 200 && result?.status < 300) {
           setIsRegistered(true);
+        } else {
+          Alert.alert(
+            intl.formatMessage({ id: 'alert.fail' }),
+            intl.formatMessage({ id: 'alert.unknow_error' }),
+          );
+          setIsRegistered(false);
         }
+      })
+      .finally(() => {
         setIsRegistering(false);
       })
       .catch((err) => {

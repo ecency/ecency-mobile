@@ -25,11 +25,14 @@ import { getTimeFromNow } from '../../../utils/time';
 import { repostQueries } from '../../../providers/queries';
 
 const renderUserListItem = (item, index, handleOnUserPress) => {
+  // Safely handle timestamp - getTimeFromNow can return null
+  const description = (item.timestamp ? getTimeFromNow(item.timestamp) : null) ?? '';
+
   return (
     <UserListItem
       index={index}
       username={item.account}
-      description={getTimeFromNow(item.timestamp)}
+      description={description}
       handleOnPress={() => handleOnUserPress(item.account)}
     />
   );
@@ -55,14 +58,43 @@ const ReblogScreen = ({ route }) => {
     let _reblogs: any[] = [];
     let _deleteEnabled = false;
     if (reblogsQuery.data instanceof Array) {
-      _reblogs = reblogsQuery.data.map((username) => ({ account: username }));
-      _deleteEnabled = currentAccount ? reblogsQuery.data.includes(currentAccount.name) : false;
+      // Safe extractor: ensures we always get a string username or null
+      const extractUsername = (item: any): string | null => {
+        if (typeof item === 'string') {
+          return item;
+        }
+        if (item && typeof item === 'object' && typeof item.account === 'string') {
+          return item.account;
+        }
+        // Unknown format - skip
+        return null;
+      };
+
+      _reblogs = reblogsQuery.data
+        .map((item) => {
+          const account = extractUsername(item);
+          if (!account) {
+            return null; // Skip invalid entries
+          }
+          return {
+            account,
+            timestamp: typeof item === 'object' ? item.timestamp || null : null,
+          };
+        })
+        .filter(Boolean); // Remove null entries
+
+      // Extract usernames as strings only for deleteEnabled check
+      const usernames = reblogsQuery.data
+        .map(extractUsername)
+        .filter((username): username is string => username !== null);
+
+      _deleteEnabled = currentAccount ? usernames.includes(currentAccount.name) : false;
     }
     return {
       reblogs: _reblogs,
       deleteEnabled: _deleteEnabled,
     };
-  }, [reblogsQuery.data?.length]);
+  }, [reblogsQuery.data, currentAccount?.name]);
 
   const headerTitle = intl.formatMessage({
     id: 'reblog.title',
@@ -81,8 +113,11 @@ const ReblogScreen = ({ route }) => {
 
     if (isLoggedIn) {
       setIsReblogging(true);
-      await reblogMutation.mutateAsync({ undo: deleteEnabled });
-      setIsReblogging(false);
+      try {
+        await reblogMutation.mutateAsync({ undo: deleteEnabled });
+      } finally {
+        setIsReblogging(false);
+      }
     }
   };
 

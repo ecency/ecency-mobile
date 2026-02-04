@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, memo } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
@@ -12,7 +12,7 @@ interface PostReadingMetadataProps {
   post: any;
 }
 
-export const PostReadingMetadata = ({ post }: PostReadingMetadataProps) => {
+const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
   const intl = useIntl();
 
   // Calculate word count and reading time
@@ -38,8 +38,8 @@ export const PostReadingMetadata = ({ post }: PostReadingMetadataProps) => {
     SheetManager.show(SheetNames.TTS_SETTINGS);
   };
 
-  // Don't show if post has no readable content
-  if (!hasReadableContent(post)) {
+  // Don't show if post has no readable content or less than 10 words
+  if (!hasReadableContent(post) || wordCount < 10) {
     return null;
   }
 
@@ -134,4 +134,13 @@ const styles = EStyleSheet.create({
   settingsButton: {
     padding: 4,
   },
+});
+
+// Memoize to prevent unnecessary re-renders that could cause infinite loops in FlashList
+export const PostReadingMetadata = memo(PostReadingMetadataComponent, (prevProps, nextProps) => {
+  // Only re-render if post.body actually changed
+  return (
+    prevProps.post?.body === nextProps.post?.body &&
+    prevProps.post?.permlink === nextProps.post?.permlink
+  );
 });

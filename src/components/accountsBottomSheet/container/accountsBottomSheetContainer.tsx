@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { Alert } from 'react-native';
 import { SheetManager } from 'react-native-actions-sheet';
-import { getMutedUsersQueryOptions } from '@ecency/sdk';
+import { getMutedUsersQueryOptions, getNotificationsUnreadCountQueryOptions } from '@ecency/sdk';
 import RootNavigation from '../../../navigation/rootNavigation';
 
 import { setPrevLoggedInUsers, updateCurrentAccount } from '../../../redux/actions/accountAction';
@@ -33,7 +33,6 @@ import {
   selectPrevLoggedInUsers,
 } from '../../../redux/selectors';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
-import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
 import { clearSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import { decryptKey } from '../../../utils/crypto';
@@ -168,12 +167,14 @@ const AccountsBottomSheetContainer = () => {
 
       _currentAccount.local.accessToken = encryptedAccessToken;
 
-      const accessToken = decryptKey(encryptedAccessToken, getDigitPinCode(pinHash));
-      _currentAccount.unread_activity_count = await getUnreadNotificationCount(accessToken);
+      const queryClient = getQueryClient();
+      const accessToken = decryptKey(encryptedAccessToken, getDigitPinCode(pinHash)) ?? '';
+      _currentAccount.unread_activity_count = await queryClient.fetchQuery(
+        getNotificationsUnreadCountQueryOptions(_currentAccount.name, accessToken),
+      );
       _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.name);
 
       // Fetch muted users using SDK query
-      const queryClient = getQueryClient();
       _currentAccount.mutes = await queryClient.fetchQuery(
         getMutedUsersQueryOptions(_currentAccount.name),
       );

@@ -7,6 +7,8 @@ import {
   getAccountFullQueryOptions,
   getAccountRcQueryOptions,
   getMutedUsersQueryOptions,
+  getNotificationsUnreadCountQueryOptions,
+  hsTokenRenew,
 } from '@ecency/sdk';
 import { getDigitPinCode } from './dhive';
 import { getQueryClient } from '../queries';
@@ -23,7 +25,7 @@ import {
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
-import { getSCAccessToken, getUnreadNotificationCount } from '../ecency/ecency';
+import { delay } from '../../utils/editor';
 
 // Constants
 import AUTH_TYPE from '../../constants/authType';
@@ -44,33 +46,48 @@ const fetchAccount = async (username: string) => {
     return null;
   }
 
-  let about: Record<string, any> = {};
-  try {
-    const raw = account.posting_json_metadata;
-    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
-    if (parsed && typeof parsed === 'object') {
-      about = parsed;
-    }
-  } catch (error) {
-    about = {};
-  }
+  // Parse profile from posting_json_metadata if not already provided by SDK
+  let profile: Record<string, any> = account.profile || {};
 
-  const profile = account.profile || about.profile;
-  const normalizedAbout = profile ? { ...about, profile } : about;
+  if (!profile || Object.keys(profile).length === 0) {
+    try {
+      const raw = account.posting_json_metadata;
+      const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+      if (parsed && typeof parsed === 'object') {
+        profile = parsed.profile || {};
+      }
+    } catch (error) {
+      profile = {};
+    }
+  }
 
   const resolvedName = account.name || account.username || username;
 
   return {
     ...account,
     name: resolvedName,
-    about: normalizedAbout,
-    avatar: getAvatar(normalizedAbout),
-    display_name: getName(normalizedAbout),
+    profile,
+    avatar: getAvatar(profile),
+    display_name: getName(profile),
     username: resolvedName,
     rc_manabar: rcAccounts?.[0]?.rc_manabar,
     max_rc: rcAccounts?.[0]?.max_rc,
     vp_manabar: account.voting_manabar,
   };
+};
+
+const getSCAccessToken = async (code: string, retriesCount = 3, delayMs = 200): Promise<any> => {
+  try {
+    return await hsTokenRenew(code);
+  } catch (error) {
+    if (retriesCount > 0) {
+      await delay(delayMs);
+      return getSCAccessToken(code, retriesCount - 1, delayMs * 2);
+    }
+    console.warn('failed to refresh token');
+    Sentry.captureException(error);
+    throw error;
+  }
 };
 
 export const login = async (username, password) => {
@@ -119,18 +136,20 @@ export const login = async (username, password) => {
 
   // fetch optional account data;
   try {
-    const accessToken = scTokens?.access_token;
-    account.unread_activity_count = await getUnreadNotificationCount(accessToken);
+    const queryClient = getQueryClient();
+    const accessToken = scTokens?.access_token || '';
+    account.unread_activity_count = await queryClient.fetchQuery(
+      getNotificationsUnreadCountQueryOptions(account.username, accessToken),
+    );
     account.pointsSummary = await getPointsSummary(account.username);
 
     // Fetch muted users using SDK query
-    const queryClient = getQueryClient();
     account.mutes = await queryClient.fetchQuery(getMutedUsersQueryOptions(account.username));
   } catch (err) {
     console.warn('Optional user data fetch failed, account can still function without them', err);
   }
 
-  const profile = account.about?.profile || account.profile;
+  const { profile } = account;
   avatar = profile?.profile_image || account.avatar || '';
 
   const userData = {
@@ -185,18 +204,20 @@ export const loginWithSC2 = async (code) => {
     let avatar = '';
 
     try {
+      const queryClient = getQueryClient();
       const accessToken = scTokens ? scTokens.access_token : '';
-      account.unread_activity_count = await getUnreadNotificationCount(accessToken);
+      account.unread_activity_count = await queryClient.fetchQuery(
+        getNotificationsUnreadCountQueryOptions(account.username, accessToken),
+      );
       account.pointsSummary = await getPointsSummary(account.username);
 
       // Fetch muted users using SDK query
-      const queryClient = getQueryClient();
       account.mutes = await queryClient.fetchQuery(getMutedUsersQueryOptions(account.username));
     } catch (err) {
       console.warn('Optional user data fetch failed, account can still function without them', err);
     }
 
-    const profile = account.about?.profile || account.profile;
+    const { profile } = account;
     avatar = profile?.profile_image || account.avatar || '';
 
     const userData = {
@@ -255,18 +276,20 @@ export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => 
     let avatar = '';
 
     try {
+      const queryClient = getQueryClient();
       const accessToken = scTokens ? scTokens.access_token : '';
-      account.unread_activity_count = await getUnreadNotificationCount(accessToken);
+      account.unread_activity_count = await queryClient.fetchQuery(
+        getNotificationsUnreadCountQueryOptions(account.username, accessToken),
+      );
       account.pointsSummary = await getPointsSummary(account.username);
 
       // Fetch muted users using SDK query
-      const queryClient = getQueryClient();
       account.mutes = await queryClient.fetchQuery(getMutedUsersQueryOptions(account.username));
     } catch (err) {
       console.warn('Optional user data fetch failed, account can still function without them', err);
     }
 
-    const profile = account.about?.profile || account.profile;
+    const { profile } = account;
     avatar = profile?.profile_image || account.avatar || '';
 
     const userData = {

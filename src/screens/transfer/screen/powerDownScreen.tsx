@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Text, View, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
@@ -7,7 +7,6 @@ import Animated, { BounceInRight } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getWithdrawRoutesQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
-import AUTH_TYPE from '../../../constants/authType';
 
 import {
   BasicHeader,
@@ -16,9 +15,12 @@ import {
   Modal,
   BeneficiarySelectionContent,
   TextInput,
-  HiveAuthModal,
 } from '../../../components';
 import WithdrawAccountModal from './withdrawAccountModal';
+import { useActiveKeyOperation } from '../../../hooks';
+import { useAppSelector } from '../../../hooks';
+import { selectCurrentAccount } from '../../../redux/selectors';
+import AUTH_TYPE from '../../../constants/authType';
 
 import parseToken from '../../../utils/parseToken';
 import parseDate from '../../../utils/parseDate';
@@ -27,8 +29,7 @@ import { isEmptyDate, daysTillDate } from '../../../utils/time';
 
 import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
-import TransferTypes from '../../../constants/transferTypes';
-import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
+import { buildWithdrawVestingOpArr } from '../../../providers/hive/dhive';
 
 const PowerDownScreen = ({
   currentAccountName,
@@ -38,11 +39,12 @@ const PowerDownScreen = ({
   hivePerMVests,
   handleOnModalClose,
   transferToAccount,
-  accountType,
   setWithdrawVestingRoute,
 }) => {
   const intl = useIntl();
   const queryClient = useQueryClient();
+  const { executeOperation } = useActiveKeyOperation();
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const [amount, setAmount] = useState(0);
   const [hp, setHp] = useState(0.0);
@@ -52,10 +54,9 @@ const PowerDownScreen = ({
   const [_disableDone, setDisableDone] = useState(false);
   const [isAmountValid, setIsAmountValid] = useState(false);
 
-  const hiveAuthModalRef = useRef(null);
-  const startActionSheet = useRef(null);
-  const stopActionSheet = useRef(null);
-  const amountTextInput = useRef(null);
+  const startActionSheet = React.useRef(null);
+  const stopActionSheet = React.useRef(null);
+  const amountTextInput = React.useRef(null);
 
   const fetchRoutes = useCallback(
     async (username) => {
@@ -75,50 +76,79 @@ const PowerDownScreen = ({
     [queryClient, intl],
   );
 
-  const handleHiveAuthModalClose = useCallback(() => {
-    setIsTransfering(false);
-    if (handleOnModalClose) {
-      handleOnModalClose();
-    }
-  }, [handleOnModalClose]);
-
   const handleTransferAction = useCallback(
-    (amountOverride?: number) => {
+    async (amountOverride?: number) => {
       setIsTransfering(true);
 
       // Use explicit amount override (for stop power down) or current amount state
       const amountToUse = amountOverride !== undefined ? amountOverride : amount;
 
-      if (accountType === AUTH_TYPE.STEEM_CONNECT) {
-        Alert.alert(
-          intl.formatMessage({ id: 'alert.warning' }),
-          intl.formatMessage({ id: 'transfer.sc_power_down_error' }),
-        );
-        setIsTransfering(false);
-      } else if (accountType === AUTH_TYPE.HIVE_AUTH) {
-        const opArray = buildTransferOpsArray(TransferTypes.WITHDRAW_VESTING, {
-          from: currentAccountName,
-          to: destinationAccounts,
-          amount: amountToUse.toFixed(6),
-          fundType: 'VESTS',
-        });
-        hiveAuthModalRef.current?.broadcastActiveOps(opArray);
-        // Loading state will be cleared by handleHiveAuthModalClose
-      } else {
-        transferToAccount(currentAccountName, destinationAccounts, amountToUse, '')
-          .then(() => {
+      // Build operation array
+      const vestingShares = `${amountToUse.toFixed(6)} VESTS`;
+      const operations = buildWithdrawVestingOpArr(currentAccountName, vestingShares);
+
+      try {
+        const authType = currentAccount?.local?.authType;
+        const isLocalKey =
+          !authType || (authType !== AUTH_TYPE.STEEM_CONNECT && authType !== AUTH_TYPE.HIVE_AUTH);
+
+        // For local-key auth, transferToAccount already calls executeOperation internally
+        // so call it directly to avoid double-wrapping
+        if (isLocalKey) {
+          try {
+            await transferToAccount(currentAccountName, destinationAccounts, amountToUse, '');
             setIsTransfering(false);
-          })
-          .catch((error) => {
+            if (handleOnModalClose) {
+              handleOnModalClose();
+            }
+          } catch (error) {
             setIsTransfering(false);
             Alert.alert(
               intl.formatMessage({ id: 'alert.error' }),
               error.message || error.toString(),
             );
+          }
+        } else {
+          // For HiveSigner/HiveAuth, use executeOperation wrapper
+          await executeOperation({
+            operations,
+            privateKeyHandler: () =>
+              transferToAccount(currentAccountName, destinationAccounts, amountToUse, ''),
+            callbacks: {
+              onSuccess: () => {
+                setIsTransfering(false);
+                if (handleOnModalClose) {
+                  handleOnModalClose();
+                }
+              },
+              onError: (error) => {
+                setIsTransfering(false);
+                Alert.alert(
+                  intl.formatMessage({ id: 'alert.error' }),
+                  error.message || error.toString(),
+                );
+              },
+              onClose: () => {
+                setIsTransfering(false);
+              },
+            },
           });
+        }
+      } catch (error) {
+        // Error already handled
+        setIsTransfering(false);
       }
     },
-    [accountType, intl, currentAccountName, destinationAccounts, amount, transferToAccount],
+    [
+      amount,
+      currentAccountName,
+      destinationAccounts,
+      executeOperation,
+      transferToAccount,
+      handleOnModalClose,
+      intl,
+      currentAccount,
+    ],
   );
 
   const validateHP = useCallback(
@@ -483,7 +513,6 @@ const PowerDownScreen = ({
           handleOnSubmit={handleOnSubmit}
         />
       </Modal>
-      <HiveAuthModal ref={hiveAuthModalRef} onClose={handleHiveAuthModalClose} />
     </SafeAreaView>
   );
 };

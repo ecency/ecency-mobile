@@ -15,10 +15,13 @@ import {
   getDraftsInfiniteQueryOptions,
   getDraftsQueryOptions,
   getPostQueryOptions,
+  addDraft,
+  updateDraft,
+  addSchedule,
 } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
-import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
+import { speakQueries } from '../../../providers/queries';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
   postContent,
@@ -66,7 +69,6 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
 import { PostTypes } from '../../../constants/postTypes';
 
-import { speakQueries } from '../../../providers/queries';
 import {
   BENEFICIARY_SRC_ENCODER,
   DEFAULT_SPEAK_BENEFICIARIES,
@@ -173,8 +175,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         // If not in cache, fetch from API to get the specific draft
         // This handles cases where the draft is on a page that hasn't been loaded yet
         else {
-          getDrafts()
-            .then((drafts) => {
+          const draftsQueryOptions = getDraftsQueryOptions(username, accessToken);
+          queryClient
+            .fetchQuery(draftsQueryOptions)
+            .then((result) => {
+              const drafts = Array.isArray(result) ? result : result?.data || [];
               const fetchedDraft = drafts.find((d) => d._id === draftId);
               if (fetchedDraft) {
                 this._getStorageDraft(username, isReply, fetchedDraft);
@@ -218,9 +223,15 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           const _replyDraft = replyCache && replyCache[draftId];
 
           if (_replyDraft && !!_replyDraft.body) {
-            const _mediaUrls = navigationParams.replyMediaUrls;
+            const cachedMediaUrls = _replyDraft.meta?.image;
+            const _mediaUrls =
+              navigationParams.replyMediaUrls?.length > 0
+                ? navigationParams.replyMediaUrls
+                : Array.isArray(cachedMediaUrls)
+                ? cachedMediaUrls
+                : [];
             _draftBody =
-              _mediaUrls?.length > 0
+              _mediaUrls.length > 0
                 ? `${_replyDraft.body}\n\n ![](${_mediaUrls[0]})`
                 : _replyDraft.body;
           }
@@ -316,9 +327,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       }
       const _draft = replyCache && replyCache[replyId];
       if (_draft && !!_draft.body) {
+        const cachedMedia = _draft.meta?.image;
+        const mediaUrls = Array.isArray(cachedMedia) ? cachedMedia : [];
+        const bodyWithMedia =
+          mediaUrls.length > 0 ? `${_draft.body}\n\n ![](${mediaUrls[0]})` : _draft.body;
         this.setState({
           draftPost: {
-            body: _draft.body,
+            body: bodyWithMedia,
           },
         });
       }
@@ -436,7 +451,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
    * @param isReply
    * */
   _fetchDraftsForComparison = async (isReply) => {
-    const { currentAccount, isLoggedIn, draftsCollection } = this.props;
+    const { currentAccount, isLoggedIn, draftsCollection, pinCode } = this.props;
     const username = get(currentAccount, 'name', '');
 
     // initilizes editor with reply or non remote id less draft
@@ -471,7 +486,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         return;
       }
 
-      const remoteDrafts = await getDrafts();
+      const accessToken = currentAccount?.local?.accessToken
+        ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+        : '';
+      const draftsQueryOptions = getDraftsQueryOptions(username, accessToken);
+      const { queryClient } = this.props;
+      const result = await queryClient.fetchQuery(draftsQueryOptions);
+      const remoteDrafts = Array.isArray(result) ? result : result?.data || [];
 
       const loadRecentDraft = () => {
         // if no draft available means local draft is recent
@@ -598,9 +619,25 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
 
+        const username = currentAccount.name;
+        const accessToken = currentAccount?.local?.accessToken
+          ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+          : '';
+
+        // If no access token, skip remote save (local cache already updated)
+        if (!accessToken) {
+          if (this._isMounted) {
+            this.setState({
+              isDraftSaving: false,
+            });
+          }
+          return;
+        }
+
         // update draft is draftId is present
         if (draftId && draftField && !saveAsNew) {
           await updateDraft(
+            accessToken,
             draftId,
             draftField.title || '',
             draftField.body,
@@ -619,9 +656,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         // create new darft otherwise
         else if (draftField) {
           const { title, body, tags } = draftField;
-          const draft = { title, body, tags, meta: jsonMeta };
-          const response = await addDraft(draft);
-          const _resDraft = response.pop();
+          const response = await addDraft(accessToken, title, body, tags, jsonMeta);
+          const _resDraft = response?.drafts?.[0] || null;
 
           if (!_resDraft) {
             throw new Error('newly saved draft not returned in response');
@@ -645,9 +681,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
           dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
 
-          // clear local copy if darft save is successful
-          const username = get(currentAccount, 'name', '');
-
+          // clear local copy if draft save is successful
           dispatch(deleteDraftCacheEntry(draftId || DEFAULT_USER_DRAFT_ID + username));
         }
 
@@ -1325,7 +1359,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _setScheduledPost = (data) => {
-    const { dispatch, intl, currentAccount, navigation } = this.props;
+    const { dispatch, intl, currentAccount, navigation, pinCode } = this.props;
     const { rewardType } = this.state;
 
     const options = makeOptions({
@@ -1335,14 +1369,33 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       beneficiaries: data.beneficiaries,
     });
 
-    addSchedule(
-      data.permlink,
-      data.fields.title || '',
-      data.fields.body,
-      data.jsonMeta,
+    const username = currentAccount.name;
+    const accessToken = currentAccount?.local?.accessToken
+      ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+      : '';
+
+    if (!accessToken) {
+      this.setState({ isPostSending: false });
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'alert.fail',
+            defaultMessage: 'Schedule failed.',
+          }),
+        ),
+      );
+      return;
+    }
+
+    addSchedule(username, accessToken, {
+      permlink: data.permlink,
+      title: data.fields.title || '',
+      body: data.fields.body,
+      meta: data.jsonMeta,
       options,
-      data.scheduleDate,
-    )
+      schedule: data.scheduleDate,
+      reblog: 0,
+    })
       .then(() => {
         this.setState({
           isPostSending: false,

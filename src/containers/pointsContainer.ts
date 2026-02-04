@@ -18,11 +18,12 @@ import {
   selectActiveBottomTab,
 } from '../redux/selectors';
 import { claimPoints } from '../providers/ecency/ePoint';
-import { boost } from '../providers/hive/dhive';
+import { boost, buildBoostOpArr } from '../providers/hive/dhive';
 import { getQueryClient } from '../providers/queries';
 import { getUserDataWithUsername } from '../realm/realm';
 import { toastNotification } from '../redux/actions/uiAction';
 import { useGetPointsQuery } from '../providers/queries/pointQueries';
+import { useActiveKeyOperation } from '../hooks';
 
 // Constant
 import POINTS from '../constants/options/points';
@@ -55,6 +56,7 @@ const PointsContainer = ({
   const navigation = useNavigation();
   const intl = useIntl();
   const dispatch = useDispatch();
+  const { executeOperation } = useActiveKeyOperation();
 
   // Use SDK query for points data
   const pointsQuery = useGetPointsQuery(username);
@@ -230,20 +232,36 @@ const PointsContainer = ({
   };
 
   const _boost = async (point, permlink, author, _user) => {
+    const account = _user || currentAccount;
+    const username = get(account, 'name');
+
     setIsLoading(true);
 
-    await boost(_user || currentAccount, pinCode, point, permlink, author)
-      .then(() => {
-        setIsLoading(false);
-        navigation.goBack();
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-      })
-      .catch((error) => {
-        if (error) {
-          setIsLoading(false);
-          dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
-        }
+    try {
+      const operations = buildBoostOpArr(username, point, author, permlink);
+
+      await executeOperation({
+        operations,
+        privateKeyHandler: () => boost(account, pinCode, point, author, permlink),
+        callbacks: {
+          onSuccess: () => {
+            setIsLoading(false);
+            navigation.goBack();
+            dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+          },
+          onError: (_error) => {
+            setIsLoading(false);
+            dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
+          },
+          onClose: () => {
+            setIsLoading(false);
+          },
+        },
       });
+    } catch (error) {
+      // Error already handled in callbacks
+      setIsLoading(false);
+    }
   };
 
   const _getESTMPrice = (points) => {

@@ -197,3 +197,79 @@ export const getHoursDifferntial = (date1: Date, date2: Date): number => {
 
   return 0;
 };
+
+/**
+ * Formats notification timestamp:
+ * - Less than 7 days: relative time (e.g., "5 minutes ago", "2 hours ago", "3 days ago")
+ * - 7 days or more: full date with time in locale format (e.g., "Jan 31, 2026 3:45 PM")
+ * @param unixTimestamp Unix timestamp in seconds
+ * @returns Formatted time string
+ */
+export const formatNotificationTimestamp = (unixTimestamp: number | string): string => {
+  if (!unixTimestamp) {
+    return '';
+  }
+
+  let tsSeconds: number | null = null;
+
+  if (typeof unixTimestamp === 'number') {
+    tsSeconds = unixTimestamp > 1e12 ? unixTimestamp / 1000 : unixTimestamp;
+  } else if (typeof unixTimestamp === 'string') {
+    const numeric = Number(unixTimestamp);
+    if (!Number.isNaN(numeric)) {
+      tsSeconds = numeric > 1e12 ? numeric / 1000 : numeric;
+    } else {
+      const iso = moment.utc(unixTimestamp, moment.ISO_8601, true);
+      if (iso.isValid()) {
+        tsSeconds = iso.valueOf() / 1000;
+      } else {
+        const legacy = moment.utc(unixTimestamp, 'YYYY-MM-DD HH:mm:ss', true);
+        if (legacy.isValid()) {
+          tsSeconds = legacy.valueOf() / 1000;
+        } else {
+          const parsed = Date.parse(unixTimestamp);
+          if (!Number.isNaN(parsed)) {
+            tsSeconds = parsed / 1000;
+          }
+        }
+      }
+    }
+  }
+
+  if (!tsSeconds) {
+    return '';
+  }
+
+  const now = Date.now() / 1000; // Current time in seconds
+  const diffSeconds = now - tsSeconds;
+  const diffDays = diffSeconds / DAY;
+
+  // If less than 7 days, show relative time
+  if (diffDays < 7) {
+    if (diffSeconds < MINUTE) {
+      const seconds = Math.floor(diffSeconds);
+      return `${seconds} ${seconds === 1 ? 'second' : 'seconds'} ago`;
+    }
+    if (diffSeconds < HOUR) {
+      const minutes = Math.floor(diffSeconds / MINUTE);
+      return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+    }
+    if (diffSeconds < DAY) {
+      const hours = Math.floor(diffSeconds / HOUR);
+      return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+    }
+    const days = Math.floor(diffDays);
+    return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+  }
+
+  // If 7 days or more, show full date with time
+  const date = new Date(tsSeconds * 1000);
+  return date.toLocaleString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
+};

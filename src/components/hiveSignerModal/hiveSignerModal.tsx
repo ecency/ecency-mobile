@@ -1,28 +1,67 @@
 import React, { useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import WebView from 'react-native-webview';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Operation } from '@hiveio/dhive';
 import { hsOptions } from '../../constants/hsOptions';
 import styles from './hiveSignerModal.styles';
 import { ModalHeader } from '../modalHeader';
+import { useHiveAuth, HiveAuthStatus } from '../hiveAuthModal/hooks/useHiveAuth';
+import { StatusContent } from '../hiveAuthModal/children/statusContent';
+import AUTH_TYPE from '../../constants/authType';
+import { useAppSelector } from '../../hooks';
+import { selectCurrentAccount } from '../../redux/selectors';
 
-// TODO: later handle other operations like opsArray and logging in
 export const HiveSignerModal = ({ route, navigation }) => {
   const intl = useIntl();
+  const hiveAuth = useHiveAuth();
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
-  const { hiveuri, onClose, onSuccess } = route.params || {};
+  const { hiveuri, opsArray, onClose, onSuccess } = route.params || {};
   const successHandledRef = useRef(false);
   const closedDueToMissingUriRef = useRef(false);
 
-  // Handle missing hiveuri by navigating back and calling onClose
+  // Determine if this is a HiveAuth operation
+  const isHiveAuthOperation =
+    currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH && Boolean(opsArray);
+
+  // Handle HiveAuth broadcast
   useEffect(() => {
-    if (!hiveuri && !closedDueToMissingUriRef.current) {
+    if (isHiveAuthOperation && hiveAuth.status === HiveAuthStatus.INPUT) {
+      // Automatically trigger HiveAuth broadcast
+      (async () => {
+        try {
+          const success = await hiveAuth.broadcast(opsArray as Operation[]);
+          if (success) {
+            successHandledRef.current = true;
+            onSuccess && onSuccess();
+            navigation.goBack();
+          } else {
+            // Error already handled by useHiveAuth
+            // Set flag to prevent duplicate onClose from beforeRemove listener
+            closedDueToMissingUriRef.current = true;
+            onClose && onClose();
+            navigation.goBack();
+          }
+        } catch (error) {
+          // Mirror failure branch behavior
+          closedDueToMissingUriRef.current = true;
+          onClose && onClose();
+          navigation.goBack();
+        }
+      })();
+    }
+  }, [isHiveAuthOperation, hiveAuth.status, opsArray, onSuccess, onClose, navigation]);
+
+  // Handle missing hiveuri for HiveSigner operations
+  useEffect(() => {
+    if (!isHiveAuthOperation && !hiveuri && !closedDueToMissingUriRef.current) {
       closedDueToMissingUriRef.current = true;
       navigation.goBack();
       onClose && onClose();
     }
-  }, [hiveuri, navigation, onClose]);
+  }, [isHiveAuthOperation, hiveuri, navigation, onClose]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', () => {
@@ -40,6 +79,7 @@ export const HiveSignerModal = ({ route, navigation }) => {
     if (successHandledRef.current) {
       return;
     }
+    hiveAuth.reset();
     navigation.goBack();
     onClose && onClose();
   };
@@ -81,15 +121,32 @@ export const HiveSignerModal = ({ route, navigation }) => {
     }
   };
 
-  // Return null if hiveuri is missing (side effects handled in useEffect above)
+  const _safeAreaEdges = Platform.select({ ios: [], default: ['top'] });
+
+  // Render HiveAuth status for HiveAuth operations
+  if (isHiveAuthOperation) {
+    return (
+      <SafeAreaView style={styles.container} edges={_safeAreaEdges}>
+        <ModalHeader
+          title={intl.formatMessage({ id: 'hiveauth.title' })}
+          isCloseButton={true}
+          onClosePress={_onClose}
+        />
+        <View style={{ flex: 1, padding: 16 }}>
+          <StatusContent status={hiveAuth.status} statusText={hiveAuth.statusText} />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  // Return null if hiveuri is missing for HiveSigner operations
   if (!hiveuri) {
     return null;
   }
 
   const _hsUri = `${hsOptions.base_url}${hiveuri.substring(7)}`;
 
-  const _safeAreaEdges = Platform.select({ ios: [], default: ['top'] });
-
+  // Render HiveSigner WebView for HiveSigner operations
   return (
     <SafeAreaView style={styles.container} edges={_safeAreaEdges}>
       <ModalHeader

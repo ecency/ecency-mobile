@@ -49,9 +49,11 @@ const WalletContainer = ({
   pinCode,
   selectedUser,
   setEstimatedWalletValue,
+  forceUsdEstimate = false,
   hivePerMVests,
   isPinCodeOpen,
   currency,
+  currencyRate,
 }) => {
   const [isClaiming, setIsClaiming] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -149,7 +151,17 @@ const WalletContainer = ({
           groomingTransactionData(item, hivePerMVests),
         ),
       );
-      setEstimatedWalletValue && setEstimatedWalletValue(_walletData.estimatedValue);
+      if (setEstimatedWalletValue) {
+        if (forceUsdEstimate) {
+          if (_walletData.hasQuotes && currencyRate) {
+            setEstimatedWalletValue(_walletData.estimatedValue);
+          } else {
+            setEstimatedWalletValue(0);
+          }
+        } else {
+          setEstimatedWalletValue(_walletData.estimatedValue);
+        }
+      }
       const getBalance = (val, cur) => (val ? Math.round(val * 1000) / 1000 + cur : '');
       setUnclaimedBalance(
         `${getBalance(get(_walletData, 'rewardHiveBalance', 0), ' HIVE')} ${getBalance(
@@ -158,7 +170,15 @@ const WalletContainer = ({
         )} ${getBalance(get(_walletData, 'rewardVestingHive', 0), ' HP')}`,
       );
     },
-    [globalProps, setEstimatedWalletValue, hivePerMVests],
+    [
+      globalProps,
+      currency,
+      quotes,
+      forceUsdEstimate,
+      currencyRate,
+      setEstimatedWalletValue,
+      hivePerMVests,
+    ],
   );
 
   const _isHasUnclaimedRewards = (account) => {
@@ -369,6 +389,7 @@ const mapStateToProps = (state) => ({
   globalProps: selectGlobalProps(state),
   quotes: state.wallet.quotes,
   currency: selectCurrency(state).currency,
+  currencyRate: selectCurrency(state).currencyRate,
   hivePerMVests: selectGlobalProps(state).hivePerMVests,
   isPinCodeOpen: selectIsPinCodeOpen(state),
 });

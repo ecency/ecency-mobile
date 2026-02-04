@@ -122,6 +122,70 @@ export const getSpkActionJSON = (amount: number, to?: string, memo?: string) => 
 };
 
 /**
+ * Builder functions for SPK operations - used by unified active key operation handler
+ */
+export const getSpkTransferOpArr = (
+  username: string,
+  destination: string,
+  amount: string,
+  memo: string,
+  isLarynx: boolean,
+): Operation[] => {
+  const json = {
+    to: destination,
+    amount: parseToken(amount) * 1000,
+    ...(memo ? { memo } : {}),
+  };
+
+  const id = isLarynx ? 'spkcc_send' : 'spkcc_spk_send';
+
+  const op = {
+    id,
+    json: JSON.stringify(json),
+    required_auths: [username],
+    required_posting_auths: [],
+  };
+  return [['custom_json', op]];
+};
+
+export const getSpkDelegateOpArr = (
+  username: string,
+  destination: string,
+  amount: string,
+): Operation[] => {
+  const json = {
+    to: destination,
+    amount: parseToken(amount) * 1000,
+  };
+
+  const op = {
+    id: 'spkcc_power_grant',
+    json: JSON.stringify(json),
+    required_auths: [username],
+    required_posting_auths: [],
+  };
+  return [['custom_json', op]];
+};
+
+export const getSpkPowerOpArr = (
+  username: string,
+  amount: string,
+  mode: SpkPowerMode,
+): Operation[] => {
+  const json = {
+    amount: parseToken(amount) * 1000,
+  };
+
+  const op = {
+    id: `spkcc_power_${mode}`,
+    json: JSON.stringify(json),
+    required_auths: [username],
+    required_posting_auths: [],
+  };
+  return [['custom_json', op]];
+};
+
+/**
  * SPK operations
  */
 

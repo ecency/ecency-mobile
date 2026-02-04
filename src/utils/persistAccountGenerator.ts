@@ -4,7 +4,7 @@ const persistAccountGenerator = (accountData: AccountData = {}): AccountData => 
   const persistData: AccountData = {};
 
   Object.assign(persistData, {
-    about: accountData.about,
+    profile: accountData.profile,
     active: accountData.active,
     avatar: accountData.avatar,
     balance: accountData.balance,

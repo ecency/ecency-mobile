@@ -15,7 +15,9 @@ import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 // Constants
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
-import { getMutedUsersQueryOptions, getAccountFullQueryOptions } from '@ecency/sdk';
+import { getMutedUsersQueryOptions, getNotificationsUnreadCountQueryOptions } from '@ecency/sdk';
+
+import { saveNotificationSetting } from '@ecency/sdk';
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
 
@@ -31,7 +33,7 @@ import {
   getLastUpdateCheck,
   setLastUpdateCheck,
 } from '../../../realm/realm';
-import { getDigitPinCode } from '../../../providers/hive/dhive';
+import { getDigitPinCode, getUser } from '../../../providers/hive/dhive';
 import { getQueryClient } from '../../../providers/queries';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import {
@@ -39,7 +41,6 @@ import {
   refreshSCToken,
   switchAccount,
 } from '../../../providers/hive/auth';
-import { setPushToken, getUnreadNotificationCount } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
 import RootNavigation from '../../../navigation/rootNavigation';
 import {
@@ -286,13 +287,17 @@ class ApplicationContainer extends Component {
   };
 
   _handleAppStateChange = (nextAppState) => {
-    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
+    const { isPinCodeOpen: _isPinCodeOpen, currentAccount } = this.props;
     const { appState } = this.state;
 
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this._refreshGlobalProps();
       this._refreshUnreadActivityCount();
       this._refreshUnreadChats();
+      // Refresh account data to get latest profile updates from blockchain
+      if (currentAccount?.local) {
+        this._fetchUserDataFromDsteem(currentAccount.local);
+      }
       if (_isPinCodeOpen && this._pinCodeTimer) {
         clearTimeout(this._pinCodeTimer);
       }
@@ -377,10 +382,23 @@ class ApplicationContainer extends Component {
   };
 
   _refreshUnreadActivityCount = async () => {
-    const { dispatch, isLoggedIn } = this.props;
-    if (isLoggedIn) {
-      const unreadActivityCount = await getUnreadNotificationCount();
-      dispatch(updateUnreadActivityCount(unreadActivityCount));
+    const { dispatch, isLoggedIn, currentAccount, pinCode } = this.props;
+    if (isLoggedIn && currentAccount) {
+      const username = currentAccount.name;
+      const accessToken =
+        (currentAccount?.local?.accessToken
+          ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+          : '') ?? '';
+      try {
+        const queryClient = getQueryClient();
+        const unreadActivityCount = await queryClient.fetchQuery(
+          getNotificationsUnreadCountQueryOptions(username, accessToken),
+        );
+        dispatch(updateUnreadActivityCount(unreadActivityCount));
+      } catch (error) {
+        console.warn('Failed to refresh unread activity count', error);
+        dispatch(updateUnreadActivityCount(0));
+      }
     }
   };
 
@@ -614,11 +632,8 @@ class ApplicationContainer extends Component {
     const { dispatch, intl, pinCode, isPinCodeOpen, encUnlockPin } = this.props;
 
     try {
-      const queryClient = getQueryClient();
-      const sdkAccountData = await queryClient.fetchQuery(
-        getAccountFullQueryOptions(realmObject.username),
-      );
-      let accountData = { ...sdkAccountData, local: realmObject };
+      let accountData = await getUser(realmObject.username);
+      accountData.local = realmObject;
 
       // cannot migrate or refresh token since pin would null while pin code modal is open
       if (!isPinCodeOpen || encUnlockPin) {
@@ -636,7 +651,14 @@ class ApplicationContainer extends Component {
       }
 
       try {
-        accountData.unread_activity_count = await getUnreadNotificationCount();
+        const queryClient = getQueryClient();
+        const accessToken =
+          (accountData?.local?.accessToken
+            ? decryptKey(accountData.local.accessToken, getDigitPinCode(pinCode))
+            : '') ?? '';
+        accountData.unread_activity_count = await queryClient.fetchQuery(
+          getNotificationsUnreadCountQueryOptions(realmObject.username, accessToken),
+        );
 
         // Fetch muted users using SDK query
         accountData.mutes = await queryClient.fetchQuery(
@@ -1049,15 +1071,13 @@ class ApplicationContainer extends Component {
 
       const token = await getMessaging().getToken();
       console.log('FCM Token:', token);
-      setPushToken(
-        {
-          username,
-          token,
-          system: `fcm-${Platform.OS}`,
-          allows_notify: Number(isEnable),
-          notify_types,
-        },
+      saveNotificationSetting(
         accessToken,
+        username,
+        `fcm-${Platform.OS}`,
+        Number(isEnable),
+        notify_types,
+        token,
       );
     } catch (error) {
       // Handle platform-specific FCM errors gracefully
@@ -1131,7 +1151,13 @@ class ApplicationContainer extends Component {
 
       try {
         const queryClient = getQueryClient();
-        _currentAccount.unread_activity_count = await getUnreadNotificationCount();
+        const accessToken =
+          (_currentAccount?.local?.accessToken
+            ? decryptKey(_currentAccount.local.accessToken, getDigitPinCode(pinCode))
+            : '') ?? '';
+        _currentAccount.unread_activity_count = await queryClient.fetchQuery(
+          getNotificationsUnreadCountQueryOptions(_currentAccount.name, accessToken),
+        );
         _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.name);
 
         // Fetch muted users using SDK query

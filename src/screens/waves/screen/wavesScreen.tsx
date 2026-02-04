@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   ActivityIndicator,
   NativeScrollEvent,
@@ -6,11 +6,9 @@ import {
   RefreshControl,
   View,
   FlatList,
-  AppState,
   Platform,
 } from 'react-native';
 import { debounce } from 'lodash';
-import { useNavigationState } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
 import {
@@ -25,64 +23,32 @@ import { wavesQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
 import WavesHeader from '../children/wavesHeader';
 import { PostTypes } from '../../../constants/postTypes';
-import { NewPostsPopup, ScrollTopPopup } from '../../../components/atoms';
+import { ScrollTopPopup } from '../../../components/atoms';
 import { SheetNames } from '../../../navigation/sheets';
 import { selectIsDarkTheme } from '../../../redux/selectors';
 
 const SCROLL_POPUP_THRESHOLD = 5000;
 
-const WavesScreen = ({ route }) => {
+const WavesScreen = () => {
   // refs
   const postOptionsModalRef = useRef<any>(null);
   const postsListRef = useRef<FlatList>();
   const blockPopupRef = useRef(false);
   const scrollOffsetRef = useRef(0);
-  const appState = useRef(AppState.currentState);
-  const isFirstRender = useRef(true);
 
   const wavesQuery = wavesQueries.useWavesQuery('ecency.waves');
 
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
-  const navState = useNavigationState((state) => state);
   const insets = useSafeAreaInsets();
 
   const [enableScrollTop, setEnableScrollTop] = useState(false);
-  const [popupAvatars, setPopupAvatars] = useState<any[]>([]);
 
   // Calculate FAB offset to account for bottom tab bar
   const fabBottomOffset = Platform.OS === 'android' ? 66 + (insets.bottom || 0) : 16;
 
-  useEffect(() => {
-    const _stateSub = AppState.addEventListener('change', _handleAppStateChange);
-    return () => {
-      _stateSub.remove();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (navState.routeNames[navState.index] === route.name && !isFirstRender.current) {
-      _latestWavesCheck();
-    }
-    isFirstRender.current = false;
-  }, [navState.index]);
-
-  // actions
-  const _handleAppStateChange = async (nextAppState) => {
-    if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-      _latestWavesCheck();
-    }
-
-    appState.current = nextAppState;
-  };
-
-  const _latestWavesCheck = async () => {
-    const latestWaves = await wavesQuery.latestWavesFetch();
-    if (latestWaves.length > 0) {
-      setPopupAvatars(latestWaves.map((item) => item.avatar));
-      setEnableScrollTop(true);
-    }
-  };
+  // Auto-refresh is now handled by the query itself (refetchInterval in wavesQueries.ts)
+  // No need for manual background checks or app state listeners
 
   const _fetchData = (fetchProps: any) => {
     if (fetchProps?.refresh) {
@@ -104,7 +70,6 @@ const WavesScreen = ({ route }) => {
     if (postsListRef.current) {
       postsListRef.current.scrollToOffset({ offset: 0 });
       setEnableScrollTop(false);
-      setPopupAvatars([]);
       scrollPopupDebouce.cancel();
       blockPopupRef.current = true;
       setTimeout(() => {
@@ -187,13 +152,6 @@ const WavesScreen = ({ route }) => {
           }}
         />
 
-        <NewPostsPopup
-          popupAvatars={popupAvatars}
-          onPress={_scrollTop}
-          onClose={() => {
-            setPopupAvatars([]);
-          }}
-        />
         <ScrollTopPopup enable={enableScrollTop} onPress={_scrollTop} />
       </View>
       <PostOptionsModal ref={postOptionsModalRef} isVisibleTranslateModal={true} isWave={true} />

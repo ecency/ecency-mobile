@@ -21,6 +21,7 @@ export const TTSControls = ({ post, style, showLabel = false }: TTSControlsProps
   const [isLoading, setIsLoading] = useState(false);
   const settingsRef = useRef<TTSSettings | null>(null);
   const isMountedRef = useRef(true);
+  const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -34,6 +35,11 @@ export const TTSControls = ({ post, style, showLabel = false }: TTSControlsProps
 
     return () => {
       isMountedRef.current = false;
+      // Clear loading timeout
+      if (loadingTimeoutRef.current) {
+        clearTimeout(loadingTimeoutRef.current);
+        loadingTimeoutRef.current = null;
+      }
       // Stop TTS when component unmounts
       Speech.stop();
     };
@@ -42,9 +48,15 @@ export const TTSControls = ({ post, style, showLabel = false }: TTSControlsProps
   // Stop TTS when post changes
   useEffect(() => {
     return () => {
+      // Clear loading timeout
+      if (loadingTimeoutRef.current) {
+        clearTimeout(loadingTimeoutRef.current);
+        loadingTimeoutRef.current = null;
+      }
       Speech.stop();
       setIsPlaying(false);
       setIsPaused(false);
+      setIsLoading(false);
     };
   }, [post?.permlink]);
 
@@ -81,14 +93,34 @@ export const TTSControls = ({ post, style, showLabel = false }: TTSControlsProps
       // Start playing
       setIsLoading(true);
 
+      // Set timeout to handle cases where onStart never fires (e.g., TTS not available on device)
+      // This prevents infinite loading state on some Android devices
+      loadingTimeoutRef.current = setTimeout(() => {
+        if (isMountedRef.current) {
+          console.warn('TTS onStart timeout - stopping loading state');
+          setIsLoading(false);
+          // If onStart didn't fire, likely TTS failed silently
+          setIsPlaying(false);
+          setIsPaused(false);
+        }
+      }, 5000); // 5 second timeout
+
       try {
         const text = extractPlainTextForTTS(post);
 
         if (!text || text.length < 10) {
           console.warn('No readable text found in post');
+          if (loadingTimeoutRef.current) {
+            clearTimeout(loadingTimeoutRef.current);
+            loadingTimeoutRef.current = null;
+          }
           setIsLoading(false);
           return;
         }
+
+        // Check if TTS is currently speaking
+        const isSpeaking = await Speech.isSpeakingAsync().catch(() => false);
+        console.log('TTS speaking status:', isSpeaking);
 
         // Reload settings in case they changed
         const settings = await loadTTSSettings();
@@ -99,18 +131,31 @@ export const TTSControls = ({ post, style, showLabel = false }: TTSControlsProps
           pitch: settings.pitch,
           rate: settings.rate,
           onStart: () => {
+            // Clear timeout since onStart fired successfully
+            if (loadingTimeoutRef.current) {
+              clearTimeout(loadingTimeoutRef.current);
+              loadingTimeoutRef.current = null;
+            }
             if (isMountedRef.current) {
               setIsPlaying(true);
               setIsLoading(false);
             }
           },
           onDone: () => {
+            if (loadingTimeoutRef.current) {
+              clearTimeout(loadingTimeoutRef.current);
+              loadingTimeoutRef.current = null;
+            }
             if (isMountedRef.current) {
               setIsPlaying(false);
               setIsPaused(false);
             }
           },
           onStopped: () => {
+            if (loadingTimeoutRef.current) {
+              clearTimeout(loadingTimeoutRef.current);
+              loadingTimeoutRef.current = null;
+            }
             if (isMountedRef.current) {
               setIsPlaying(false);
               setIsPaused(false);
@@ -118,6 +163,10 @@ export const TTSControls = ({ post, style, showLabel = false }: TTSControlsProps
           },
           onError: (error) => {
             console.error('TTS error:', error);
+            if (loadingTimeoutRef.current) {
+              clearTimeout(loadingTimeoutRef.current);
+              loadingTimeoutRef.current = null;
+            }
             if (isMountedRef.current) {
               setIsPlaying(false);
               setIsPaused(false);
@@ -134,6 +183,10 @@ export const TTSControls = ({ post, style, showLabel = false }: TTSControlsProps
         Speech.speak(text, speechOptions);
       } catch (error) {
         console.error('Failed to start TTS:', error);
+        if (loadingTimeoutRef.current) {
+          clearTimeout(loadingTimeoutRef.current);
+          loadingTimeoutRef.current = null;
+        }
         setIsLoading(false);
       }
     }

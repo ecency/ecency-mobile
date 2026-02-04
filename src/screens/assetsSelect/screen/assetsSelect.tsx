@@ -54,9 +54,6 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
 
   const assetsQuery = walletQueries.useAssetsQuery({ onlyEnabled: false });
 
-  // const coinsData = useAppSelector((state) => state.wallet.coinsData);
-
-  const selectedAssets: AssetBase[] = useAppSelector((state) => state.wallet.selectedAssets);
   const currentAccount = useAppSelector(selectCurrentAccount);
 
   const selectionRef = useRef<AssetBase[]>([]);
@@ -66,18 +63,49 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
   const [listData, setListData] = useState<SelectableAsset[]>([]);
   const [sortedList, setSortedList] = useState<SelectableAsset[]>([]);
   const [query, setQuery] = useState('');
+  const [selectionVersion, setSelectionVersion] = useState(0);
 
   useEffect(() => {
-    selectionRef.current = selectedAssets.filter(
-      (item) =>
-        (item.isEngine || item.isSpk || item.isChain) &&
-        assetsQuery.selectedableData?.some((asset) => asset.symbol === item.symbol),
-    );
-    _updateSortedList();
-  }, []);
+    // Initialize selectionRef from profile metadata
+    // Read directly from profile metadata as source of truth
+    const profileTokens = currentAccount?.profile?.tokens;
+
+    if (Array.isArray(profileTokens)) {
+      // Filter profile tokens to only include enabled ones (where meta.show is true or undefined)
+      // HIVE tokens are excluded (they're always enabled by default and shouldn't be in metadata)
+      const enabledTokens = profileTokens.filter(
+        (token: ProfileToken) =>
+          token.type !== TokenType.HIVE && (!token.meta || token.meta.show !== false),
+      );
+
+      // Convert to AssetBase format
+      // Note: We don't filter against assetsQuery.selectedableData because:
+      // - CHAIN tokens (BTC, ETH, etc.) may not be in the Hive portfolio query
+      // - Profile metadata is the source of truth for what's selected
+      const filtered = enabledTokens.map((token: ProfileToken) => ({
+        id: token.symbol,
+        symbol: token.symbol,
+        isEngine: token.type === TokenType.ENGINE,
+        isSpk: token.type === TokenType.SPK,
+        isChain: token.type === TokenType.CHAIN,
+        notCrypto: false,
+      }));
+
+      selectionRef.current = filtered;
+    } else {
+      // No profile tokens, initialize to empty
+      selectionRef.current = [];
+    }
+    // Don't call _updateSortedList() here - Effect 2 will handle it
+    // when it processes assetsQuery.selectedableData
+    setSelectionVersion((v) => v + 1);
+  }, [currentAccount]);
 
   useEffect(() => {
     const data: SelectableAsset[] = [];
+    const addedSymbols = new Set<string>();
+
+    // Add tokens from assetsQuery (Hive tokens)
     assetsQuery.selectedableData?.forEach((asset) => {
       const _name = asset.name?.toLowerCase() || '';
       const _symbol = asset.symbol.toLowerCase();
@@ -88,19 +116,41 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
 
       if (query === '' || _isSelected || _symbol.includes(_query) || _name.includes(_query)) {
         data.push(mapAssetLayer(asset));
+        addedSymbols.add(asset.symbol);
+      }
+    });
+
+    // Add selected tokens from profile that aren't in assetsQuery (engine/spk/chain)
+    // Always include selected tokens regardless of query so they can be deselected
+    selectionRef.current.forEach((selectedAsset) => {
+      if (!addedSymbols.has(selectedAsset.symbol)) {
+        const { isEngine } = selectedAsset;
+        const { isSpk } = selectedAsset;
+        const { isChain } = selectedAsset;
+        const layer = isEngine ? 'engine' : isSpk ? 'spk' : isChain ? 'chain' : undefined;
+
+        data.push({
+          symbol: selectedAsset.symbol,
+          layer,
+          isEngine,
+          isSpk,
+          isChain,
+        } as SelectableAsset);
       }
     });
 
     setListData(data);
     _updateSortedList({ data });
-  }, [query, assetsQuery.selectedableData]);
+  }, [query, assetsQuery.selectedableData, selectionVersion]);
 
   const _updateSortedList = ({ data }: { data?: SelectableAsset[] } = { data: listData }) => {
     const source = data || listData;
     const _data = source.map(mapAssetLayer);
+    const selection = selectionRef.current || [];
+
     _data.sort((a, b) => {
       const _getSortingIndex = (e: SelectableAsset) =>
-        selectionRef.current.findIndex((item) => item.symbol === e.symbol);
+        selection.findIndex((item) => item.symbol === e.symbol);
       const _aIndex = _getSortingIndex(a);
       const _bIndex = _getSortingIndex(b);
 
@@ -116,7 +166,11 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
       return 0;
     });
 
-    _data.splice(selectionRef.current.length, 0, {
+    // Count only visible selected items to fix separator placement when search filters are active
+    const selectedSymbols = new Set(selection.map((item) => item.symbol));
+    const visibleSelectedCount = _data.filter((item) => selectedSymbols.has(item.symbol)).length;
+    const insertIndex = Math.min(visibleSelectedCount, _data.length);
+    _data.splice(insertIndex, 0, {
       isSectionSeparator: true,
     } as SelectableAsset);
 
@@ -124,45 +178,49 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
   };
 
   const _updateUserProfile = async () => {
-    // extract a list of tokens preserved tokens
-    const fixedAssets = (currentAccount?.about?.profile?.tokens || []).filter(
-      (item: ProfileToken) => item.type === TokenType.HIVE,
+    const existingTokens = currentAccount?.profile?.tokens || [];
+
+    // 1. HIVE tokens should NEVER be in metadata (always enabled by default)
+    // Filter them out if they somehow got added
+
+    // 2. Update CHAIN tokens (external tokens) - only update visibility, never create new ones
+    const selectedChainSymbols = selectionRef.current
+      .filter((item) => item.isChain)
+      .map((item) => item.symbol);
+
+    const chainTokens = existingTokens
+      .filter((item: ProfileToken) => item.type === TokenType.CHAIN)
+      .map((item: ProfileToken) => ({
+        ...item,
+        meta: {
+          ...item.meta,
+          show: selectedChainSymbols.includes(item.symbol),
+        },
+      }));
+
+    // 3. Handle ENGINE and SPK tokens (user can add/remove)
+    const engineSpkTokens = selectionRef.current
+      .filter((item) => (item.isEngine || item.isSpk) && item.symbol)
+      .map((item) => ({
+        symbol: item.symbol,
+        type: item.isEngine ? TokenType.ENGINE : TokenType.SPK,
+        meta: {
+          show: true,
+        },
+      }));
+
+    // Final tokens array - HIVE tokens excluded (always enabled by default)
+    // Filter out any tokens with missing required fields
+    const tokens = [...chainTokens, ...engineSpkTokens].filter(
+      (token) => token.symbol && token.type,
     );
 
-    // get updated chain assets
-    let chainAssets = (currentAccount?.about?.profile?.tokens || []).filter(
-      (item: ProfileToken) => item.type === TokenType.CHAIN,
-    );
-
-    // construct profile tokens data from selectionRef
-    const selectedAssets = selectionRef.current
-      .filter((item) => item.isEngine || item.isSpk || item.isChain)
-      .map((item) => {
-        // remove matching chain asset from existing list and set show to true
-        if (item.isChain) {
-          const existingChainAsset = chainAssets.find(
-            (asset: ProfileToken) => asset.symbol === item.symbol,
-          );
-          chainAssets = chainAssets.filter((asset: ProfileToken) => asset.symbol !== item.symbol);
-
-          existingChainAsset.meta.show = true;
-          return existingChainAsset;
-        }
-
-        return {
-          symbol: item.symbol,
-          type: item.isEngine ? TokenType.ENGINE : TokenType.SPK, // we knwo chain tokens have already been filtered.
-          meta: {
-            show: true,
-          },
-        };
-      });
-
-    const tokens = [...fixedAssets, ...selectedAssets, ...chainAssets];
-    console.log('updating profile with tokens:', tokens);
-
-    updateProfileTokensMutation.mutateAsync(tokens);
-    _navigationGoBack();
+    try {
+      await updateProfileTokensMutation.mutateAsync(tokens);
+      _navigationGoBack();
+    } catch (error) {
+      console.warn('Failed to update profile tokens', error);
+    }
   };
 
   const _navigationGoBack = () => {
@@ -183,8 +241,16 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
     from: number;
     to: number;
   }) => {
-    const totalSel = selectionRef.current.length;
+    const separatorIndex = data.findIndex((i) => i.isSectionSeparator);
+    const totalSel = separatorIndex >= 0 ? separatorIndex : (selectionRef.current || []).length;
     const item = sortedList[from];
+
+    // Skip if item is section separator or invalid
+    if (!item || item.isSectionSeparator || !item.symbol) {
+      setSortedList(data);
+      return;
+    }
+
     const isEngine = item.isEngine ?? item.layer === 'engine';
     const isSpk = item.isSpk ?? item.layer === 'spk';
     const isChain = item.isChain ?? item.layer === 'chain';
@@ -197,8 +263,6 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
       isChain,
       notCrypto: false,
     } as AssetBase;
-
-    console.log('change order', item.symbol, from, to, 'total:', totalSel);
 
     if (from >= totalSel && to <= totalSel) {
       // insert in set at to
@@ -307,12 +371,19 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
         renderItem={_renderItem}
         onDragEnd={_onDragEnd}
         ListHeaderComponent={_renderHeader}
-        keyExtractor={(item, index) => `token_${item.symbol + index}`}
+        keyExtractor={(item, index) =>
+          item.isSectionSeparator ? `separator_${index}` : `token_${item.symbol}_${index}`
+        }
       />
     );
   };
 
   const _renderContent = () => {
+    // Don't render until data is loaded
+    if (assetsQuery.isLoading || !assetsQuery.selectedableData) {
+      return <View style={styles.modalContainer} />;
+    }
+
     return (
       <View style={styles.modalContainer}>
         {_renderOptions()}

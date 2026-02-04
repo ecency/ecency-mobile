@@ -83,7 +83,7 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
 
   // add hook that checks and migrate token based on current account change
   useEffect(() => {
-    const tokens = currentAccount?.about?.profile?.tokens;
+    const tokens = currentAccount?.profile?.tokens;
     if (tokens) {
       const _migratedTokens = migrateSelectedTokens(tokens);
       if (_migratedTokens) {
@@ -118,8 +118,8 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
       return !DEFAULT_ASSETS.some((defaultAsset) => defaultAsset.id === item.id);
     });
 
-    if (isArray(currentAccount.about?.profile?.tokens)) {
-      const _selectedAssets = populateSelectedAssets(currentAccount.about.profile.tokens);
+    if (isArray(currentAccount.profile?.tokens)) {
+      const _selectedAssets = populateSelectedAssets(currentAccount.profile.tokens);
       // check if current selected engine tokens differ from profile json meta
       if (JSON.stringify(_selectedAssets) !== JSON.stringify(currSelectedEngineTokens)) {
         dispatch(setSelectedAssets([...DEFAULT_ASSETS, ..._selectedAssets]));

@@ -1,17 +1,13 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ActivityIndicator, SectionList, Text, View, RefreshControl } from 'react-native';
+import { ActivityIndicator, FlatList, Text, View, RefreshControl } from 'react-native';
 // Constants
 
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { NotificationLine } from '../..';
 import { ListPlaceHolder } from '../../basicUIElements';
-import { ContainerHeader } from '../../containerHeader';
 import { FilterBar } from '../../filterBar';
-
-// Utils
-import { isLastWeek, isThisMonth, isThisWeek } from '../../../utils/time';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -35,7 +31,7 @@ interface Props {
   getActivities: () => void;
   changeSelectedFilter: () => void;
   navigateToNotificationRoute: () => void;
-  listRef?: React.RefObject<SectionList>;
+  listRef?: React.RefObject<FlatList>;
 }
 
 const NotificationView = ({
@@ -52,22 +48,35 @@ const NotificationView = ({
 }: Props) => {
   const intl = useIntl();
 
-  const internalListRef = useRef<SectionList>(null);
+  const internalListRef = useRef<FlatList>(null);
   const listRef = externalListRef || internalListRef;
 
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const _notifications = useMemo(
-    () => _getSectionedNotifications(notifications, intl),
-    [notifications],
-  );
+  // Prevent onEndReached from firing on mount before user scrolls
+  const onEndReachedCalledDuringMomentum = useRef(true);
 
   const _handleOnDropdownSelect = async (index) => {
     const _selectedFilter = FILTERS[index].key;
     setSelectedIndex(index);
     changeSelectedFilter(_selectedFilter, index);
-    listRef.current?.scrollToLocation({ itemIndex: 0, sectionIndex: 0, animated: false });
+    listRef.current?.scrollToOffset({ offset: 0, animated: false });
+    // Reset momentum flag when filter changes to prevent immediate fetch
+    onEndReachedCalledDuringMomentum.current = true;
+  };
+
+  const _handleOnEndReached = () => {
+    // Only trigger load more if user has actually scrolled (momentum began)
+    if (!onEndReachedCalledDuringMomentum.current) {
+      getActivities(true);
+      onEndReachedCalledDuringMomentum.current = true;
+    }
+  };
+
+  const _handleMomentumScrollBegin = () => {
+    // User started scrolling, allow next onEndReached to trigger
+    onEndReachedCalledDuringMomentum.current = false;
   };
 
   const _renderFooterLoading = () => {
@@ -80,10 +89,6 @@ const NotificationView = ({
     }
     return null;
   };
-
-  const _renderSectionHeader = ({ section: { title, index } }) => (
-    <ContainerHeader hasSeperator={index !== 0} isBoldTitle title={title} key={title} />
-  );
 
   const _renderItem = ({ item }) => (
     <NotificationLine
@@ -111,13 +116,13 @@ const NotificationView = ({
         onRightIconPress={readAllNotification}
       />
 
-      <SectionList
+      <FlatList
         ref={listRef}
-        sections={_notifications}
-        // data={_notifications}
+        data={notifications}
         keyExtractor={(item, index) => `${item.id}-${index}`}
-        onEndReached={() => getActivities(true)}
+        onEndReached={_handleOnEndReached}
         onEndReachedThreshold={0.3}
+        onMomentumScrollBegin={_handleMomentumScrollBegin}
         ListFooterComponent={_renderFooterLoading}
         ListEmptyComponent={
           isNotificationRefreshing ? (
@@ -140,92 +145,9 @@ const NotificationView = ({
           />
         }
         renderItem={_renderItem}
-        renderSectionHeader={_renderSectionHeader}
       />
     </View>
   );
 };
 
 export default NotificationView;
-
-const _getSectionedNotifications = (notifications: any[], intl: any) => {
-  if (!notifications && notifications.length < 1) {
-    return null;
-  }
-
-  const notificationArray = [
-    {
-      title: intl.formatMessage({
-        id: 'notification.recent',
-      }),
-      data: [],
-    },
-    {
-      title: intl.formatMessage({
-        id: 'notification.yesterday',
-      }),
-      data: [],
-    },
-    {
-      title: intl.formatMessage({
-        id: 'notification.this_week',
-      }),
-      data: [],
-    },
-    {
-      title: intl.formatMessage({
-        id: 'notification.last_week',
-      }),
-      data: [],
-    },
-    {
-      title: intl.formatMessage({
-        id: 'notification.this_month',
-      }),
-      data: [],
-    },
-    {
-      title: intl.formatMessage({
-        id: 'notification.older_then',
-      }),
-      data: [],
-    },
-  ];
-
-  // let sectionIndex = -1;
-  notifications.forEach((item) => {
-    const timeIndex = _getTimeListIndex(item.gk);
-    notificationArray[timeIndex].data.push(item);
-  });
-
-  return notificationArray
-    .filter((item) => item.data.length > 0)
-    .map((item, index) => {
-      item.index = index;
-      return item;
-    });
-};
-
-const _getTimeListIndex = (gk: string) => {
-  if (gk === 'Recent' || gk.match(/\d+\s*hours?/)) {
-    return 0;
-  }
-
-  if (gk === 'Yesterday') {
-    return 1;
-  }
-
-  if (isThisWeek(gk)) {
-    return 2;
-  }
-
-  if (isLastWeek(gk)) {
-    return 3;
-  }
-
-  if (isThisMonth(gk)) {
-    return 4;
-  }
-
-  return 5;
-};

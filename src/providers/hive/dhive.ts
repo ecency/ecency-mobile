@@ -19,6 +19,25 @@ import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import * as hiveuri from 'hive-uri';
 import * as Sentry from '@sentry/react-native';
+import {
+  getQueryClient,
+  getAccountFullQueryOptions,
+  getAccountsQueryOptions,
+  getPostQueryOptions,
+  parseProfileMetadata,
+  getCommunityQueryOptions,
+  getCommunitiesQueryOptions,
+  getAccountSubscriptionsQueryOptions,
+  getRelationshipBetweenAccountsQueryOptions,
+  getDynamicPropsQueryOptions,
+  getTrendingTagsQueryOptions,
+  getDiscussionsQueryOptions,
+  getRewardFundQueryOptions,
+  getMarketStatisticsQueryOptions,
+  getOrderBookQueryOptions,
+  getFeedHistoryQueryOptions,
+  getCurrentMedianHistoryPriceQueryOptions,
+} from '@ecency/sdk';
 import { getServer, getCache, setCache } from '../../realm/realm';
 
 // Utils
@@ -30,9 +49,6 @@ import {
   parseDiscussionCollection,
 } from '../../utils/postParser';
 import { getName, getAvatar, parseReputation } from '../../utils/user';
-import parseToken from '../../utils/parseToken';
-import parseAsset from '../../utils/parseAsset';
-import filterNsfwPost from '../../utils/filterNsfwPost';
 import { jsonStringify } from '../../utils/jsonUtils';
 import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 
@@ -140,7 +156,9 @@ export const sendHiveOperations = async (
   key: PrivateKey | PrivateKey[],
 ): Promise<TransactionConfirmation> => {
   try {
-    const { head_block_number, head_block_id, time } = await getDynamicGlobalProperties();
+    // Get dynamic props from SDK (cached up to 60s, which is fine for TAPOS)
+    const dynamicProps = await getDynamicGlobalProperties();
+    const { head_block_number, head_block_id, time } = dynamicProps.raw.globalDynamic;
     const ref_block_num = head_block_number & 0xffff;
     const ref_block_prefix = Buffer.from(head_block_id, 'hex').readUInt32LE(4);
     const expireTime = 60 * 1000;
@@ -169,7 +187,13 @@ export const sendHiveOperations = async (
   } catch (err) {
     captureExceptionWithRpcParams(err, { operations }, (scope) => {
       scope.setTag('context', 'send-hive-operations');
-      scope.setContext('operationsArray', { operations });
+      scope.setContext('operationsArray', {
+        operations: operations.map((op) =>
+          String(
+            Array.isArray(op) ? op[0] : (op as any)?.type ?? (op as any)?.operation ?? 'unknown',
+          ),
+        ),
+      });
     });
     throw err;
   }
@@ -242,69 +266,359 @@ export const buildActiveCustomJsonOpArr = (
   ];
 };
 
+/**
+ * Builds operation array for boosting a post
+ * @param username - User's account name
+ * @param point - Points to spend on boost
+ * @param author - Post author
+ * @param permlink - Post permlink
+ * @returns Operation array for broadcasting
+ */
+export const buildBoostOpArr = (
+  username: string,
+  point: number,
+  author: string,
+  permlink: string,
+): Operation[] => {
+  return buildActiveCustomJsonOpArr(username, 'ecency_boost', {
+    user: username,
+    author,
+    permlink,
+    amount: `${point.toFixed(3)} POINT`,
+  });
+};
+
+/**
+ * Builds operation array for Boost Plus subscription
+ * @param username - User's account name
+ * @param duration - Subscription duration
+ * @param account - Target account
+ * @returns Operation array for broadcasting
+ */
+export const buildBoostPlusOpArr = (
+  username: string,
+  duration: number,
+  account: string,
+): Operation[] => {
+  return buildActiveCustomJsonOpArr(username, 'ecency_boost_plus', {
+    user: username,
+    account,
+    duration,
+  });
+};
+
+/**
+ * Builds operation array for promoting a post
+ * @param username - User's account name
+ * @param author - Post author
+ * @param permlink - Post permlink
+ * @param duration - Promotion duration
+ * @returns Operation array for broadcasting
+ */
+export const buildPromoteOpArr = (
+  username: string,
+  author: string,
+  permlink: string,
+  duration: number,
+): Operation[] => {
+  return buildActiveCustomJsonOpArr(username, 'ecency_promote', {
+    user: username,
+    author,
+    permlink,
+    duration,
+  });
+};
+
+/**
+ * Builds operation array for token transfer
+ * @param from - Sender account name
+ * @param destination - Receiver account name(s) - can be comma or space separated
+ * @param amount - Amount with asset symbol (e.g., "1.000 HIVE")
+ * @param memo - Transfer memo
+ * @returns Operation array for broadcasting
+ */
+export const buildTransferTokenOpArr = (
+  from: string,
+  destination: string,
+  amount: string,
+  memo: string,
+): Operation[] => {
+  // Split the destination input into an array of usernames
+  // Handles both spaces and commas as separators
+  const destinations = destination
+    ? destination
+        .trim()
+        .split(/[\s,]+/)
+        .filter(Boolean)
+    : [];
+
+  // Create a transfer operation for each destination username
+  return destinations.map((dest) => [
+    'transfer',
+    {
+      from,
+      to: dest.trim(),
+      amount,
+      memo,
+    },
+  ]) as Operation[];
+};
+
+/**
+ * Builds operation array for recurrent transfer
+ */
+export const buildRecurrentTransferOpArr = (
+  from: string,
+  destination: string,
+  amount: string,
+  memo: string,
+  recurrence: number,
+  executions: number,
+): Operation[] => {
+  return [
+    [
+      'recurrent_transfer',
+      {
+        from,
+        to: destination,
+        amount,
+        memo,
+        recurrence,
+        executions,
+        extensions: [],
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for HBD conversion
+ */
+export const buildConvertOpArr = (
+  owner: string,
+  amount: string,
+  requestId: number,
+): Operation[] => {
+  return [
+    [
+      'convert',
+      {
+        owner,
+        amount,
+        requestid: requestId,
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for transfer to savings
+ */
+export const buildTransferToSavingsOpArr = (
+  from: string,
+  destination: string,
+  amount: string,
+  memo: string,
+): Operation[] => {
+  return [
+    [
+      'transfer_to_savings',
+      {
+        from,
+        to: destination,
+        amount,
+        memo,
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for transfer from savings
+ */
+export const buildTransferFromSavingsOpArr = (
+  from: string,
+  destination: string,
+  amount: string,
+  memo: string,
+  requestId: number,
+): Operation[] => {
+  return [
+    [
+      'transfer_from_savings',
+      {
+        from,
+        to: destination,
+        amount,
+        memo,
+        request_id: requestId,
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for transfer to vesting (power up)
+ */
+export const buildTransferToVestingOpArr = (
+  from: string,
+  destination: string,
+  amount: string,
+): Operation[] => {
+  return [
+    [
+      'transfer_to_vesting',
+      {
+        from,
+        to: destination,
+        amount,
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for withdraw vesting (power down)
+ */
+export const buildWithdrawVestingOpArr = (account: string, vestingShares: string): Operation[] => {
+  return [
+    [
+      'withdraw_vesting',
+      {
+        account,
+        vesting_shares: vestingShares,
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for delegate vesting shares (HP delegation)
+ */
+export const buildDelegateVestingSharesOpArr = (
+  delegator: string,
+  delegatee: string,
+  vestingShares: string,
+): Operation[] => {
+  return [
+    [
+      'delegate_vesting_shares',
+      {
+        delegator,
+        delegatee,
+        vesting_shares: vestingShares,
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for set withdraw vesting route
+ */
+export const buildSetWithdrawVestingRouteOpArr = (
+  fromAccount: string,
+  toAccount: string,
+  percent: number,
+  autoVest: boolean,
+): Operation[] => {
+  return [
+    [
+      'set_withdraw_vesting_route',
+      {
+        from_account: fromAccount,
+        to_account: toAccount,
+        percent,
+        auto_vest: autoVest,
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for Ecency point transfer
+ */
+export const buildTransferPointOpArr = (
+  sender: string,
+  destination: string,
+  amount: string,
+  memo: string,
+): Operation[] => {
+  // Split the destination input into an array of usernames
+  const destinations = destination ? destination.trim().split(/[\s,]+/) : [];
+
+  // Create a transfer operation for each destination username
+  return destinations.map((dest) => {
+    const json = JSON.stringify({
+      sender,
+      receiver: dest.trim(),
+      amount,
+      memo,
+    });
+    return [
+      'custom_json',
+      {
+        id: 'ecency_point_transfer',
+        json,
+        required_auths: [sender],
+        required_posting_auths: [],
+      },
+    ];
+  }) as Operation[];
+};
+
 export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
 
-export const getDynamicGlobalProperties = () => client.database.getDynamicGlobalProperties();
+export const getDynamicGlobalProperties = async () => {
+  const queryClient = getQueryClient();
+  return queryClient.fetchQuery(getDynamicPropsQueryOptions());
+};
 
-export const getRewardFund = () => client.database.call('get_reward_fund', ['post']);
+/**
+ * Get reward fund using SDK query
+ */
+export const getRewardFund = () => {
+  const queryClient = getQueryClient();
+  return queryClient.fetchQuery(getRewardFundQueryOptions());
+};
 
-export const getMarketStatistics = () => client.call('condenser_api', 'get_ticker', []);
+/**
+ * Get market statistics using SDK query
+ */
+export const getMarketStatistics = () => {
+  const queryClient = getQueryClient();
+  return queryClient.fetchQuery(getMarketStatisticsQueryOptions());
+};
 
-export const getOrderBook = (limit = 500) =>
-  client.call('condenser_api', 'get_order_book', [limit]);
+/**
+ * Get order book using SDK query
+ */
+export const getOrderBook = (limit = 500) => {
+  const queryClient = getQueryClient();
+  return queryClient.fetchQuery(getOrderBookQueryOptions(limit));
+};
 
+/**
+ * Get feed history using SDK query
+ */
 export const getFeedHistory = async () => {
-  try {
-    const feedHistory = await client.database.call('get_feed_history');
-    return feedHistory;
-  } catch (error) {
-    return error;
-  }
+  const queryClient = getQueryClient();
+  return queryClient.fetchQuery(getFeedHistoryQueryOptions());
 };
 
+/**
+ * Get current median history price using SDK query
+ */
 export const getCurrentMedianHistoryPrice = async () => {
-  try {
-    const feedHistory = await client.database.call('get_current_median_history_price');
-    return feedHistory;
-  } catch (error) {
-    return error;
-  }
+  const queryClient = getQueryClient();
+  return queryClient.fetchQuery(getCurrentMedianHistoryPriceQueryOptions());
 };
 
-export const fetchGlobalProps = async () => {
-  let globalDynamic;
-  let medianHistory;
-  let rewardFund;
-
-  try {
-    globalDynamic = await getDynamicGlobalProperties();
-    await setCache('globalDynamic', globalDynamic);
-    medianHistory = await getFeedHistory();
-    rewardFund = await getRewardFund();
-  } catch (e) {
-    return;
-  }
-
-  const hivePerMVests =
-    (parseToken(get(globalDynamic, 'total_vesting_fund_hive')) /
-      parseToken(get(globalDynamic, 'total_vesting_shares'))) *
-    1e6;
-  const hbdPrintRate = get(globalDynamic, 'hbd_print_rate');
-  const base = parseAsset(get(medianHistory, 'current_median_history.base')).amount;
-  const quote = parseAsset(get(medianHistory, 'current_median_history.quote')).amount;
-  const fundRecentClaims = get(rewardFund, 'recent_claims');
-  const fundRewardBalance = parseToken(get(rewardFund, 'reward_balance'));
-  const globalProps = {
-    hivePerMVests,
-    base,
-    quote,
-    fundRecentClaims,
-    fundRewardBalance,
-    hbdPrintRate,
-  };
-
-  return globalProps;
-};
+/**
+ * Fetch global properties using SDK query
+ * Returns a subset of properties from getDynamicPropsQueryOptions for backward compatibility
+ */
+// Removed: fetchGlobalProps - unused function that was doing unnecessary double-caching
+// (React Query + AsyncStorage). Use getDynamicGlobalProperties() directly instead.
 
 /**
  * fetches all tranding orders that are not full-filled yet
@@ -377,21 +691,17 @@ export const getSavingsWithdrawFrom = async (username) => {
 /**
  * @method getAccount fetch raw account data without post processings
  * @param username username
+ * Uses SDK internally for blockchain data fetching
  */
-export const getAccount = (username) =>
-  new Promise((resolve, reject) => {
-    client.database
-      .getAccounts([username])
-      .then((response) => {
-        if (response.length) {
-          resolve(response[0]);
-        }
-        throw new Error(`Account not found, ${JSON.stringify(response)}`);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+export const getAccount = async (username) => {
+  const queryClient = getQueryClient();
+  const accounts = await queryClient.fetchQuery(getAccountsQueryOptions([username]));
+
+  if (accounts && accounts.length > 0) {
+    return accounts[0];
+  }
+  throw new Error(`Account not found, ${username}`);
+};
 
 export const getAccountHistory = (user, operations, startIndex = -1, limit = 1000) =>
   new Promise((resolve, reject) => {
@@ -423,20 +733,24 @@ export const getState = async (path) => {
 };
 
 /**
- * @method getUser get account data
+ * @method getUser get account data with calculated fields
  * @param user username
+ * Uses SDK internally for blockchain data fetching
  */
 export const getUser = async (user) => {
   try {
-    const account = await client.database.getAccounts([user]);
-    const _account = {
-      ...account[0],
-    };
-    const unreadActivityCount = 0;
+    const queryClient = getQueryClient();
 
-    if (account && account.length < 1) {
+    // Fetch account data using SDK
+    const accountData = await queryClient.fetchQuery(getAccountFullQueryOptions(user));
+    if (!accountData) {
       return null;
     }
+
+    const _account = {
+      ...accountData,
+    };
+    const unreadActivityCount = 0;
 
     let globalProperties;
     try {
@@ -458,32 +772,46 @@ export const getUser = async (user) => {
     _account.unread_activity_count = unreadActivityCount;
     _account.vp_manabar = client.rc.calculateVPMana(_account);
     _account.rc_manabar = client.rc.calculateRCMana(rcPower.rc_accounts[0]);
+
+    // Use raw blockchain data for vesting calculations (snake_case fields)
+    const rawGlobalProps =
+      globalProperties?.raw?.globalDynamic ?? globalProperties?.globalDynamic ?? globalProperties;
+    if (!rawGlobalProps) {
+      throw new Error('Missing global properties');
+    }
     _account.steem_power = await vestToSteem(
       _account.vesting_shares,
-      globalProperties.total_vesting_shares,
-      globalProperties.total_vesting_fund_hive,
+      rawGlobalProps.total_vesting_shares,
+      rawGlobalProps.total_vesting_fund_hive,
     );
     _account.received_steem_power = await vestToSteem(
       get(_account, 'received_vesting_shares'),
-      get(globalProperties, 'total_vesting_shares'),
-      get(globalProperties, 'total_vesting_fund_hive'),
+      get(rawGlobalProps, 'total_vesting_shares'),
+      get(rawGlobalProps, 'total_vesting_fund_hive'),
     );
     _account.delegated_steem_power = await vestToSteem(
       get(_account, 'delegated_vesting_shares'),
-      get(globalProperties, 'total_vesting_shares'),
-      get(globalProperties, 'total_vesting_fund_hive'),
+      get(rawGlobalProps, 'total_vesting_shares'),
+      get(rawGlobalProps, 'total_vesting_fund_hive'),
     );
 
+    // Parse profile metadata using SDK
+    // parseProfileMetadata may return: { profile: {...} } or {...} directly
     if (has(_account, 'posting_json_metadata')) {
       try {
-        _account.about = JSON.parse(get(_account, 'posting_json_metadata'));
+        const parsed = parseProfileMetadata(get(_account, 'posting_json_metadata'));
+        // Handle both formats: extract profile field if wrapped, or use directly
+        _account.profile = parsed?.profile || parsed || {};
       } catch (e) {
-        _account.about = {};
+        _account.profile = {};
       }
+    } else {
+      _account.profile = {};
     }
 
-    _account.avatar = getAvatar(get(_account, 'about'));
-    _account.display_name = getName(get(_account, 'about'));
+    // getName/getAvatar now handle both formats (profile object or wrapped)
+    _account.avatar = getAvatar(_account.profile);
+    _account.display_name = getName(_account.profile);
 
     return _account;
   } catch (error) {
@@ -493,7 +821,8 @@ export const getUser = async (user) => {
 
 export const getAccounts = async (usernames: string[]) => {
   try {
-    const accounts = await client.database.call('get_accounts', [usernames]);
+    const queryClient = getQueryClient();
+    const accounts = await queryClient.fetchQuery(getAccountsQueryOptions(usernames));
     return accounts;
   } catch (error) {
     console.warn('Failed to get accounts', error);
@@ -524,10 +853,8 @@ const cache = {};
 const patt = /hive-\d\w+/g;
 export const getCommunity = async (tag, observer = '') => {
   try {
-    const community = await client.call('bridge', 'get_community', {
-      name: tag,
-      observer,
-    });
+    const queryClient = getQueryClient();
+    const community = await queryClient.fetchQuery(getCommunityQueryOptions(tag, observer));
     if (community) {
       return community;
     } else {
@@ -577,13 +904,10 @@ export const getCommunities = async (
 ) => {
   try {
     console.log('Getting communities', query);
-    const data = await client.call('bridge', 'list_communities', {
-      last,
-      limit,
-      query,
-      sort,
-      observer,
-    });
+    const queryClient = getQueryClient();
+    const data = await queryClient.fetchQuery(
+      getCommunitiesQueryOptions(sort, query, limit, observer, true),
+    );
     if (data) {
       return data;
     } else {
@@ -600,9 +924,8 @@ export const getCommunities = async (
 
 export const getSubscriptions = async (account = '') => {
   try {
-    const data = await client.call('bridge', 'list_all_subscriptions', {
-      account,
-    });
+    const queryClient = getQueryClient();
+    const data = await queryClient.fetchQuery(getAccountSubscriptionsQueryOptions(account));
     if (data) {
       return data;
     } else {
@@ -652,25 +975,17 @@ export const getMutes = async (currentUsername) => {
   }
 };
 
-export const getRelationship = (follower, following) =>
-  new Promise((resolve, reject) => {
-    if (follower) {
-      client
-        .call('bridge', 'get_relationship_between_accounts', [follower, following])
-        .then((result) => {
-          if (result) {
-            resolve(result);
-          } else {
-            resolve(false);
-          }
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    } else {
-      resolve(false);
-    }
-  });
+export const getRelationship = async (follower, following) => {
+  if (!follower) {
+    return false;
+  }
+
+  const queryClient = getQueryClient();
+  const result = await queryClient.fetchQuery(
+    getRelationshipBetweenAccountsQueryOptions(follower, following),
+  );
+  return result || false;
+};
 
 /** DEPRECATED - Do not use this method and it's an invalid use of get_following call
  *  almost always returns wrong data, espacially when user is not in following or follwers list */
@@ -829,66 +1144,7 @@ export const getActiveVotes = (author, permlink) =>
 // getPostReblogs removed - replaced by getReblogsQueryOptions from @ecency/sdk
 // See src/providers/queries/postQueries/repostQueries.ts for SDK-based implementation
 
-export const getRankedPosts = async (query: any, currentUserName: string, filterNsfw: string) => {
-  try {
-    console.log('[getRankedPosts] Query:', query);
-
-    let posts = await client.call('bridge', 'get_ranked_posts', query);
-
-    console.log('[getRankedPosts] Raw API response:', posts ? posts.length : 0, 'posts');
-
-    if (posts) {
-      const areComments = query.sort === 'comments' || query.sort === 'replies';
-
-      posts = areComments
-        ? parseComments(posts, currentUserName)
-        : await resolvePosts(posts, currentUserName);
-
-      if (filterNsfw !== '0') {
-        const updatedPosts = filterNsfwPost(posts, filterNsfw);
-        console.log(
-          '[getRankedPosts] After NSFW filter:',
-          updatedPosts ? updatedPosts.length : 0,
-          'posts',
-        );
-        return updatedPosts;
-      }
-    }
-    console.log('[getRankedPosts] Returning posts:', posts ? posts.length : 0);
-    return posts;
-  } catch (error) {
-    console.error('[getRankedPosts] Error:', error);
-    return error;
-  }
-};
-
-export const getAccountPosts = async (
-  query: any,
-  currentUserName?: string,
-  filterNsfw?: string,
-) => {
-  try {
-    console.log('Getting account posts: ', query);
-    let posts = await client.call('bridge', 'get_account_posts', query);
-
-    if (posts) {
-      const areComments = query.sort === 'comments' || query.sort === 'replies';
-
-      posts = areComments
-        ? parseComments(posts, currentUserName)
-        : await resolvePosts(posts, currentUserName);
-
-      if (filterNsfw !== '0') {
-        const updatedPosts = filterNsfwPost(posts, filterNsfw);
-        return updatedPosts;
-      }
-    }
-    console.log(`Returning fetched posts: ${posts}` ? posts.length : null);
-    return posts;
-  } catch (error) {
-    return error;
-  }
-};
+// getRankedPosts and getAccountPosts removed - components use SDK infinite query hooks directly
 
 export const getRepliesByLastUpdate = async (query, currentUsername) => {
   try {
@@ -910,7 +1166,10 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
   permlink = permlink && permlink.toLowerCase();
   try {
     console.log('Getting post: ', author, permlink);
-    const post = await client.call('bridge', 'get_post', { author, permlink });
+    const queryClient = getQueryClient();
+    const post = await queryClient.fetchQuery(
+      getPostQueryOptions(author, permlink, currentUserName),
+    );
     console.log('post fetched', post?.post_id);
 
     // check for cross post, resolve it
@@ -993,7 +1252,10 @@ export const getDiscussionCollection = async (
   currentUsername?: string,
 ) => {
   try {
-    const commentsMap = await client.call('bridge', 'get_discussion', { author, permlink });
+    const queryClient = getQueryClient();
+    const commentsMap = await queryClient.fetchQuery(
+      getDiscussionsQueryOptions(author, permlink, currentUsername),
+    );
 
     const _parsedCollection = await parseDiscussionCollection(commentsMap, currentUsername);
     return _parsedCollection;
@@ -1005,7 +1267,10 @@ export const getDiscussionCollection = async (
 
 export const getComments = async (author: string, permlink: string, currentUsername?: string) => {
   try {
-    const commentsMap = await client.call('bridge', 'get_discussion', { author, permlink });
+    const queryClient = getQueryClient();
+    const commentsMap = await queryClient.fetchQuery(
+      getDiscussionsQueryOptions(author, permlink, currentUsername),
+    );
 
     // it appear the get_discussion fetches the parent post as an intry in thread
     // may be later we can make use of this to save post fetch call in post display
@@ -1018,6 +1283,8 @@ export const getComments = async (author: string, permlink: string, currentUsern
     return error;
   }
 };
+
+// resolvePosts removed - was only used by getRankedPosts/getAccountPosts which were removed
 
 // resolve individual post based on simple or cross post
 const resolvePost = async (
@@ -1076,37 +1343,7 @@ const resolvePost = async (
   return null;
 };
 
-// resolves posts to be used in the feed,
-const resolvePosts = async (posts, currentUsername) => {
-  if (posts) {
-    console.log('[resolvePosts] Raw posts from API:', posts.length, 'posts');
-    console.log(
-      '[resolvePosts] First raw post sample:',
-      posts[0]
-        ? { author: posts[0].author, permlink: posts[0].permlink, title: posts[0].title }
-        : 'none',
-    );
-
-    const formattedPosts = posts.map(async (post) => resolvePost(post, currentUsername));
-    const _formattedPost = await Promise.all(formattedPosts);
-
-    console.log('[resolvePosts] Resolved posts:', _formattedPost.length, 'posts');
-    console.log(
-      '[resolvePosts] First resolved post sample:',
-      _formattedPost[0]
-        ? {
-            author: _formattedPost[0].author,
-            permlink: _formattedPost[0].permlink,
-            title: _formattedPost[0].title,
-            image: _formattedPost[0].image,
-          }
-        : 'none',
-    );
-
-    return _formattedPost;
-  }
-  return null;
-};
+// resolvePosts removed - was only used by getRankedPosts/getAccountPosts which were removed
 
 /**
  * @method getPostWithComments get user data
@@ -1331,7 +1568,10 @@ export const transferToken = (currentAccount, pin, data) => {
     // Split the destination input into an array of usernames
     // Handles both spaces and commas as separators
     const destinations = destinationInput
-      ? destinationInput.trim().split(/[\s,]+/) // Split by spaces or commas
+      ? destinationInput
+          .trim()
+          .split(/[\s,]+/)
+          .filter(Boolean) // Split by spaces or commas
       : [];
 
     // Prepare the base arguments for the transfer operation
@@ -1831,13 +2071,14 @@ export const lookupAccounts = async (username) => {
   }
 };
 
-export const getTrendingTags = async (tag, number = 20) => {
+export const getTrendingTags = async (number = 20) => {
   try {
-    const tags = await client.database.call('get_trending_tags', [tag, number]);
+    const queryClient = getQueryClient();
+    const result = await queryClient.fetchQuery(getTrendingTagsQueryOptions(number));
+    const tags = result || [];
     return tags;
   } catch (error) {
     return [];
-    // throw error;
   }
 };
 
@@ -2089,6 +2330,15 @@ export const claimRewardBalance = (account, pinCode, rewardHive, rewardHbd, rewa
       accessToken: token,
     });
 
+    // Verify the method exists before calling
+    if (typeof api.claimRewardBalance !== 'function') {
+      const errorMsg = `HiveSigner client error: claimRewardBalance is ${typeof api.claimRewardBalance}. API object: ${JSON.stringify(
+        Object.keys(api || {}),
+      )}`;
+      Sentry.captureMessage(errorMsg, 'error');
+      return Promise.reject(new Error(errorMsg));
+    }
+
     return api.claimRewardBalance(get(account, 'name'), rewardHive, rewardHbd, rewardVests);
   }
 
@@ -2128,7 +2378,10 @@ export const transferPoint = (currentAccount, pinCode, data) => {
     // Split the destination input into an array of usernames
     // Handles both spaces and commas as separators
     const destinations = destinationInput
-      ? destinationInput.trim().split(/[\s,]+/) // Split by spaces or commas
+      ? destinationInput
+          .trim()
+          .split(/[\s,]+/)
+          .filter(Boolean) // Split by spaces or commas
       : [];
 
     // Prepare the base arguments for the transfer operation
@@ -2351,6 +2604,24 @@ export const profileUpdate = async (params, pin, currentAccount) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getPostingKey(get(currentAccount, 'local'), digitPinCode);
 
+  // Parse existing posting_json_metadata to preserve all top-level fields
+  let existingMetadata = {};
+  try {
+    const raw = get(currentAccount, 'posting_json_metadata');
+    existingMetadata = typeof raw === 'string' ? JSON.parse(raw) : raw || {};
+  } catch (e) {
+    existingMetadata = {};
+  }
+
+  // Construct new metadata preserving all existing fields
+  const newMetadata = {
+    ...existingMetadata,
+    profile: {
+      ...(currentAccount.profile || {}),
+      ...params,
+    },
+  };
+
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
     const api = new hsClient({
@@ -2360,13 +2631,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     const _params = {
       account: get(currentAccount, 'name'),
       json_metadata: '',
-      posting_json_metadata: jsonStringify({
-        ...(currentAccount.about || {}),
-        profile: {
-          ...(currentAccount.about?.profile || {}),
-          ...params,
-        },
-      }),
+      posting_json_metadata: jsonStringify(newMetadata),
       extensions: [],
     };
 
@@ -2379,23 +2644,14 @@ export const profileUpdate = async (params, pin, currentAccount) => {
   }
 
   if (key) {
-    const opArray = [
-      [
-        'account_update2',
-        {
-          account: get(currentAccount, 'name'),
-          json_metadata: '',
-          posting_json_metadata: jsonStringify({
-            ...(currentAccount.about || {}),
-            profile: {
-              ...(currentAccount.about?.profile || {}),
-              ...params,
-            },
-          }),
-          extensions: [],
-        },
-      ],
-    ];
+    const _params = {
+      account: get(currentAccount, 'name'),
+      json_metadata: '',
+      posting_json_metadata: jsonStringify(newMetadata),
+      extensions: [],
+    };
+
+    const opArray = [['account_update2', _params]];
 
     const privateKey = PrivateKey.fromString(key);
 
@@ -2536,7 +2792,9 @@ export const isHsClientSupported = (authType) => {
 
 export const resolveTransaction = async (parsedTx, parsedParams, signer) => {
   const EXPIRE_TIME = 60 * 1000;
-  const props = await client.database.getDynamicGlobalProperties();
+  // Get dynamic props from SDK (cached up to 60s, which is fine for TAPOS)
+  const dynamicProps = await getDynamicGlobalProperties();
+  const props = dynamicProps.raw.globalDynamic;
 
   // resolve the decoded tx and params to a signable tx
   const { tx } = hiveuri.resolveTransaction(parsedTx, parsedParams, {

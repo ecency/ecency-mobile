@@ -13,6 +13,7 @@ import {
   getRelationshipBetweenAccountsQueryOptions,
   getAccountPostsQueryOptions,
   getAccountRcQueryOptions,
+  checkFavouriteQueryOptions,
 } from '@ecency/sdk';
 import {
   selectCurrentAccount,
@@ -23,21 +24,28 @@ import {
   selectIsConnected,
   selectHidePostsThumbnails,
 } from '../redux/selectors';
-import { followUser, unfollowUser, ignoreUser } from '../providers/hive/dhive';
+import { followUser, unfollowUser, ignoreUser, getDigitPinCode } from '../providers/hive/dhive';
 import { getQueryClient } from '../providers/queries';
 import { startMattermostDirectMessage } from '../providers/chat/mattermost';
 
 // Ecency providers
-import { checkFavorite, addFavorite, deleteFavorite, addReport } from '../providers/ecency/ecency';
+import { addReport } from '../providers/ecency/ecency';
+import {
+  useAddFavouriteMutation,
+  useDeleteFavouriteMutation,
+} from '../providers/queries/bookmarkQueries';
 
 // Utilitites
 import { getRcPower, getVotingPower } from '../utils/manaBar';
 import { toastNotification, setRcOffer } from '../redux/actions/uiAction';
+import { decryptKey } from '../utils/crypto';
 
 // Constants
 import { default as ROUTES } from '../constants/routeNames';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 import { SheetNames } from '../navigation/sheets';
+
+const MAX_PROFILE_RETRIES = 2;
 
 class ProfileContainer extends Component {
   constructor(props) {
@@ -304,42 +312,74 @@ class ProfileContainer extends Component {
         );
       }
     } else if (shouldFetchProfile) {
-      this._fetchProfile(username, true);
+      this._fetchProfile(username, true, 0);
     }
   };
 
-  _fetchProfile = async (username = null, isProfileAction = false) => {
+  _fetchProfile = async (username = null, isProfileAction = false, retryCount = 0) => {
     const { intl } = this.props;
     try {
       const { username: _username, isFollowing, isMuted, isOwnProfile } = this.state;
 
       if (username) {
-        const { currentAccount } = this.props;
+        const { currentAccount, pinCode } = this.props;
         let _isFollowing;
         let _isMuted;
-        let isFavorite;
-        let follows;
 
         const queryClient = getQueryClient();
 
-        if (!isOwnProfile && currentAccount?.name) {
-          const res = await queryClient.fetchQuery(
-            getRelationshipBetweenAccountsQueryOptions(currentAccount.name, username),
-          );
-          _isFollowing = res && res.follows;
-          _isMuted = res && res.ignores;
-          isFavorite = await checkFavorite(username);
+        const accessToken =
+          currentAccount?.local?.accessToken && pinCode
+            ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+            : undefined;
+
+        const relationshipPromise =
+          !isOwnProfile && currentAccount?.name
+            ? queryClient.fetchQuery(
+                getRelationshipBetweenAccountsQueryOptions(currentAccount.name, username),
+              )
+            : Promise.resolve(null);
+
+        const favoritePromise =
+          !isOwnProfile && currentAccount?.name && accessToken
+            ? queryClient
+                .fetchQuery(checkFavouriteQueryOptions(currentAccount.name, accessToken, username))
+                .catch(() => undefined)
+            : Promise.resolve(undefined);
+
+        const followsPromise = queryClient
+          .fetchQuery(getFollowCountQueryOptions(username))
+          .catch(() => null);
+
+        const [relationship, favorite, followsResult] = await Promise.all([
+          relationshipPromise,
+          favoritePromise,
+          followsPromise,
+        ]);
+
+        if (relationship) {
+          _isFollowing = relationship.follows;
+          _isMuted = relationship.ignores;
         }
 
-        try {
-          // Fetch follow counts using SDK query
-          follows = await queryClient.fetchQuery(getFollowCountQueryOptions(username));
-        } catch (err) {
-          follows = null;
-        }
+        const isFavorite = Boolean(favorite);
+        const follows = followsResult;
 
         if (isProfileAction && isFollowing === _isFollowing && isMuted === _isMuted) {
-          this._fetchProfile(_username, true);
+          if (retryCount < MAX_PROFILE_RETRIES && _username) {
+            setTimeout(() => {
+              this._fetchProfile(_username, true, retryCount + 1);
+            }, 0);
+          } else {
+            this.setState({
+              follows,
+              isFollowing: _isFollowing,
+              isMuted: _isMuted,
+              isFavorite,
+              isReady: true,
+              isProfileLoading: false,
+            });
+          }
         } else {
           this.setState({
             follows,
@@ -353,6 +393,7 @@ class ProfileContainer extends Component {
       }
     } catch (error) {
       console.warn('Failed to fetch complete profile data', error);
+      this.setState({ isProfileLoading: false, isReady: true });
       Alert.alert(
         intl.formatMessage({
           id: 'alert.fail',
@@ -369,14 +410,9 @@ class ProfileContainer extends Component {
       const queryClient = getQueryClient();
       const rawAccount = await queryClient.fetchQuery(getAccountFullQueryOptions(username));
 
-      // Normalize account data to match expected structure (SDK returns profile directly)
-      // App expects: { about: { profile: {...} } }
-      // SDK returns: { profile: {...} }
-      const profile = rawAccount?.profile || rawAccount?.about?.profile;
-      const normalizedAbout = profile ? { profile } : {};
+      // SDK returns profile directly as .profile field
       user = {
         ...rawAccount,
-        about: normalizedAbout,
       };
 
       try {
@@ -386,7 +422,7 @@ class ProfileContainer extends Component {
       } catch (error) {
         rcAccount = null;
       }
-      this._fetchProfile(username);
+      this._fetchProfile(username, false, 0);
     } catch (error) {
       this._profileActionDone({ error });
     }
@@ -400,6 +436,8 @@ class ProfileContainer extends Component {
       rcAccount,
       user,
       username,
+      isReady: true,
+      isProfileLoading: false,
     }));
 
     this._getReplies({ author: username, permlink: undefined });
@@ -422,33 +460,24 @@ class ProfileContainer extends Component {
   };
 
   _handleOnFavoritePress = (isFavorite = false) => {
-    const { dispatch, intl } = this.props;
+    const { intl } = this.props;
     const { username } = this.state;
-    let favoriteAction;
+    const { addFavouriteMutation, deleteFavouriteMutation } = this.props;
 
     this.setState({
       isProfileLoading: true,
     });
 
-    if (isFavorite) {
-      favoriteAction = deleteFavorite;
-    } else {
-      favoriteAction = addFavorite;
-    }
+    const mutation = isFavorite ? deleteFavouriteMutation : addFavouriteMutation;
 
-    favoriteAction(username)
+    mutation
+      .mutateAsync({ account: username })
       .then(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: isFavorite ? 'alert.success_unfavorite' : 'alert.success_favorite',
-            }),
-          ),
-        );
         this.setState({ isFavorite: !isFavorite, isProfileLoading: false });
       })
       .catch((error) => {
         console.warn('Failed to perform favorite action');
+        this.setState({ isProfileLoading: false });
         Alert.alert(
           intl.formatMessage({
             id: 'alert.fail',
@@ -588,7 +617,7 @@ class ProfileContainer extends Component {
     return (
       children &&
       children({
-        about: get(user, 'about.profile'),
+        about: get(user, 'profile', {}),
         activePage,
         avatar,
         setEstimatedWalletValue: this._setEstimatedWalletValue,
@@ -643,7 +672,16 @@ const mapStateToProps = (state) => ({
 
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <ProfileContainer {...props} navigation={navigation} />;
+  const addFavouriteMutation = useAddFavouriteMutation();
+  const deleteFavouriteMutation = useDeleteFavouriteMutation();
+  return (
+    <ProfileContainer
+      {...props}
+      navigation={navigation}
+      addFavouriteMutation={addFavouriteMutation}
+      deleteFavouriteMutation={deleteFavouriteMutation}
+    />
+  );
 };
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

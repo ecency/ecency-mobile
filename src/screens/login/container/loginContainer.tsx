@@ -11,6 +11,7 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
 import { getAccountsQueryOptions } from '@ecency/sdk';
+import { saveNotificationSetting } from '@ecency/sdk';
 import { getQueryClient } from '../../../providers/queries';
 import { login, loginWithSC2 } from '../../../providers/hive/auth';
 
@@ -23,7 +24,6 @@ import {
 import { login as loginAction, setPinCode } from '../../../redux/actions/applicationActions';
 import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 import { setPushTokenSaved, setExistUser } from '../../../realm/realm';
-import { setPushToken } from '../../../providers/ecency/ecency';
 import { decodeBase64, encryptKey } from '../../../utils/crypto';
 
 // Middleware
@@ -204,7 +204,7 @@ class LoginContainer extends PureComponent {
           // track user activity for login
           userActivityMutation.mutate({ pointsTy: PointActivityIds.LOGIN });
           setExistUser(true);
-          this._setPushToken(result.name);
+          this._setPushToken(result.name, result.accessToken);
           const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
           dispatch(setPinCode(encryptedPin));
 
@@ -245,7 +245,7 @@ class LoginContainer extends PureComponent {
       });
   };
 
-  _setPushToken = async (username) => {
+  _setPushToken = async (username, accessToken?: string) => {
     const { notificationSettings, notificationDetails } = this.props;
     const notifyTypesConst = {
       vote: 1,
@@ -267,6 +267,11 @@ class LoginContainer extends PureComponent {
       }
     });
 
+    if (!accessToken) {
+      console.warn('Missing access token for notifications:', username);
+      return;
+    }
+
     getMessaging()
       .getToken()
       .then((token) => {
@@ -277,9 +282,20 @@ class LoginContainer extends PureComponent {
           allows_notify: Number(notificationSettings),
           notify_types: notifyTypes,
         };
-        setPushToken(data).then(() => {
-          setPushTokenSaved(true);
-        });
+        return saveNotificationSetting(
+          accessToken,
+          data.username,
+          data.system,
+          data.allows_notify,
+          data.notify_types,
+          data.token,
+        );
+      })
+      .then(() => {
+        setPushTokenSaved(true);
+      })
+      .catch((err) => {
+        console.warn('Failed to register push token', err);
       });
   };
 

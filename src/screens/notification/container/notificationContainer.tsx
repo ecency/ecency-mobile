@@ -36,18 +36,13 @@ const NotificationContainer = ({ navigation }) => {
   const curUsername = useRef(currentAccount.name);
 
   const notificationReadMutation = useNotificationReadMutation();
-  const allNotificationsQuery = useNotificationsQuery(NotificationFilters.ACTIVITIES);
-  const repliesNotificationsQuery = useNotificationsQuery(NotificationFilters.REPLIES);
-  const mentiosnNotificationsQuery = useNotificationsQuery(NotificationFilters.MENTIONS);
 
   const [selectedFilter, setSelectedFilter] = useState(NotificationFilters.ACTIVITIES);
 
-  const selectedQuery =
-    selectedFilter === NotificationFilters.REPLIES
-      ? repliesNotificationsQuery
-      : selectedFilter === NotificationFilters.MENTIONS
-      ? mentiosnNotificationsQuery
-      : allNotificationsQuery;
+  // Only fetch the active filter - convert ACTIVITIES to undefined for "all"
+  const activeFilter =
+    selectedFilter === NotificationFilters.ACTIVITIES ? undefined : selectedFilter;
+  const selectedQuery = useNotificationsQuery(activeFilter);
 
   useEffect(() => {
     if (curUsername.current !== currentAccount.name) {
@@ -67,10 +62,11 @@ const NotificationContainer = ({ navigation }) => {
 
   const _getActivities = (loadMore = false) => {
     if (loadMore) {
-      console.log('load more notifications');
-      selectedQuery.fetchNextPage();
+      // Only fetch next page if not already fetching and has more pages
+      if (!selectedQuery.isFetchingNextPage && selectedQuery.hasNextPage) {
+        selectedQuery.fetchNextPage();
+      }
     } else {
-      console.log('refreshing');
       selectedQuery.refresh();
     }
   };
