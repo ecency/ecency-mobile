@@ -188,7 +188,11 @@ export const sendHiveOperations = async (
     captureExceptionWithRpcParams(err, { operations }, (scope) => {
       scope.setTag('context', 'send-hive-operations');
       scope.setContext('operationsArray', {
-        operations: operations.map((op) => (Array.isArray(op) ? [...op] : op)),
+        operations: operations.map((op) =>
+          String(
+            Array.isArray(op) ? op[0] : (op as any)?.type ?? (op as any)?.operation ?? 'unknown',
+          ),
+        ),
       });
     });
     throw err;
@@ -341,7 +345,12 @@ export const buildTransferTokenOpArr = (
 ): Operation[] => {
   // Split the destination input into an array of usernames
   // Handles both spaces and commas as separators
-  const destinations = destination ? destination.trim().split(/[\s,]+/) : [];
+  const destinations = destination
+    ? destination
+        .trim()
+        .split(/[\s,]+/)
+        .filter(Boolean)
+    : [];
 
   // Create a transfer operation for each destination username
   return destinations.map((dest) => [
@@ -1574,7 +1583,10 @@ export const transferToken = (currentAccount, pin, data) => {
     // Split the destination input into an array of usernames
     // Handles both spaces and commas as separators
     const destinations = destinationInput
-      ? destinationInput.trim().split(/[\s,]+/) // Split by spaces or commas
+      ? destinationInput
+          .trim()
+          .split(/[\s,]+/)
+          .filter(Boolean) // Split by spaces or commas
       : [];
 
     // Prepare the base arguments for the transfer operation
@@ -2381,7 +2393,10 @@ export const transferPoint = (currentAccount, pinCode, data) => {
     // Split the destination input into an array of usernames
     // Handles both spaces and commas as separators
     const destinations = destinationInput
-      ? destinationInput.trim().split(/[\s,]+/) // Split by spaces or commas
+      ? destinationInput
+          .trim()
+          .split(/[\s,]+/)
+          .filter(Boolean) // Split by spaces or commas
       : [];
 
     // Prepare the base arguments for the transfer operation

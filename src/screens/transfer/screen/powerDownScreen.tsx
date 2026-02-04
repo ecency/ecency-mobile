@@ -148,6 +148,7 @@ const PowerDownScreen = ({
       transferToAccount,
       handleOnModalClose,
       intl,
+      currentAccount,
     ],
   );
 

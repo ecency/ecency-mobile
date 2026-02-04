@@ -45,7 +45,7 @@ export const HiveSignerModal = ({ route, navigation }) => {
         }
       })();
     }
-  }, [isHiveAuthOperation, opsArray, onSuccess, onClose, navigation]);
+  }, [isHiveAuthOperation, hiveAuth.status, opsArray, onSuccess, onClose, navigation]);
 
   // Handle missing hiveuri for HiveSigner operations
   useEffect(() => {

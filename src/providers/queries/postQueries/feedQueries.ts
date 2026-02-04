@@ -122,8 +122,8 @@ export const useFeedQuery = ({
       if (
         appState.current.match(/inactive|background/) &&
         nextAppState === 'active' &&
-        feedQuery.data?.pages?.[0] &&
-        feedQuery.data.pages[0].length > 0
+        feedQuery.data?.pages &&
+        feedQuery.data.pages.length > 0
       ) {
         // Invalidate query to fetch fresh data when app comes to foreground
         queryClient.invalidateQueries({ queryKey: queryOptions.queryKey });
