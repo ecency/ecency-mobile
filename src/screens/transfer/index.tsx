@@ -66,7 +66,6 @@ const Transfer = ({ navigation, route }) => (
               getAccountsWithUsername={getAccountsWithUsername}
               transferToAccount={transferToAccount}
               handleOnModalClose={handleOnModalClose}
-              accountType={accountType}
               currentAccountName={currentAccountName}
               selectedAccount={selectedAccount}
               hivePerMVests={hivePerMVests}
