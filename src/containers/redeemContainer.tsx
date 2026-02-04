@@ -14,9 +14,17 @@ import {
   selectOtherAccounts,
   selectIsConnected,
 } from '../redux/selectors';
-import { promote, boost, boostPlus } from '../providers/hive/dhive';
+import {
+  promote,
+  boost,
+  boostPlus,
+  buildPromoteOpArr,
+  buildBoostOpArr,
+  buildBoostPlusOpArr,
+} from '../providers/hive/dhive';
 import { getQueryClient } from '../providers/queries';
 import { toastNotification } from '../redux/actions/uiAction';
+import { useActiveKeyOperation } from '../hooks';
 
 /*
  *            Props Name        Description                                     Value
@@ -39,70 +47,62 @@ class RedeemContainer extends Component {
   // Component Functions
 
   _redeemAction = async (user, redeemType = 'promote', actionSpecificParam, author, permlink) => {
-    this.setState({ isLoading: true });
+    const { currentAccount, pinCode, dispatch, intl, navigation, executeOperation } = this.props;
+    const account = user || currentAccount;
+    const username = get(account, 'name');
 
-    const { currentAccount, pinCode, dispatch, intl, navigation } = this.props;
     let action;
-    let specificParams;
-    let hiveActionId;
+    let operations;
 
+    // Build operations based on redeem type
     switch (redeemType) {
       case 'promote':
         action = promote;
-        specificParams = { author, permlink, duration: actionSpecificParam };
-        hiveActionId = 'ecency_promote';
+        operations = buildPromoteOpArr(username, author, permlink, actionSpecificParam);
         break;
 
       case 'boost':
         action = boost;
-        specificParams = { author, permlink, amount: `${actionSpecificParam.toFixed(3)} POINT` };
-        hiveActionId = 'ecency_boost';
+        operations = buildBoostOpArr(username, actionSpecificParam, author, permlink);
         break;
 
       case 'boost_plus':
         action = boostPlus;
-        specificParams = { account: author, duration: actionSpecificParam };
-        hiveActionId = 'ecency_boost_plus';
+        operations = buildBoostPlusOpArr(username, actionSpecificParam, author);
         break;
       default:
         break;
     }
 
-    if (get(user, 'local.authType') === 'steemConnect') {
-      const json = JSON.stringify({
-        user: get(user, 'name'),
-        ...specificParams,
+    this.setState({ isLoading: true });
+
+    try {
+      await executeOperation({
+        operations,
+        privateKeyHandler: () => action(account, pinCode, actionSpecificParam, author, permlink),
+        callbacks: {
+          onSuccess: () => {
+            this.setState({ isLoading: false });
+            navigation.goBack();
+            dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+          },
+          onError: (error) => {
+            this.setState({ isLoading: false });
+            dispatch(
+              toastNotification(
+                `${intl.formatMessage({ id: 'alert.key_warning' })}\n${error.message}`,
+              ),
+            );
+          },
+          onClose: () => {
+            this.setState({ isLoading: false });
+          },
+        },
       });
-
-      const uri = `sign/custom-json?authority=active&required_auths=%5B%22${get(
-        user,
-        'name',
-      )}%22%5D&required_posting_auths=%5B%5D&id=${hiveActionId}&json=${encodeURIComponent(json)}`;
-
-      this.setState({
-        isSCModalOpen: true,
-        SCPath: uri,
-      });
-
-      return;
+    } catch (error) {
+      // Error already handled in callbacks
+      this.setState({ isLoading: false });
     }
-
-    await action(user || currentAccount, pinCode, actionSpecificParam, author, permlink)
-      .then(() => {
-        navigation.goBack();
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-      })
-      .catch((error) => {
-        if (error) {
-          dispatch(
-            toastNotification(
-              `${intl.formatMessage({ id: 'alert.key_warning' })}\n${error.message}`,
-            ),
-          );
-        }
-      });
-
-    this.setState({ isLoading: false });
   };
 
   _handleOnSubmit = async (
@@ -181,7 +181,8 @@ const mapStateToProps = (state) => ({
 
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <RedeemContainer {...props} navigation={navigation} />;
+  const { executeOperation } = useActiveKeyOperation();
+  return <RedeemContainer {...props} navigation={navigation} executeOperation={executeOperation} />;
 };
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

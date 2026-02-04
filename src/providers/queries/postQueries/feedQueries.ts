@@ -1,7 +1,6 @@
 import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { unionBy, isArray } from 'lodash';
-import BackgroundTimer from 'react-native-background-timer';
 import { AppState, NativeEventSubscription } from 'react-native';
 import {
   getPostsRankedInfiniteQueryOptions,
@@ -34,12 +33,10 @@ export const useFeedQuery = ({
   enableFetchOnAppState,
   pinnedPermlink,
 }: FeedQueryParams) => {
-  const postFetchTimerRef = useRef(null);
   const appState = useRef(AppState.currentState);
   const appStateSubRef = useRef<NativeEventSubscription | null>(null);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [latestPosts, setLatestPosts] = useState([]);
 
   const cache = useAppSelector((state) => state.cache);
   const cacheRef = useRef(cache);
@@ -124,7 +121,11 @@ export const useFeedQuery = ({
     if (enableFetchOnAppState) {
       appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
     }
-    return _cleanup;
+    return () => {
+      if (enableFetchOnAppState && appStateSubRef.current) {
+        appStateSubRef.current.remove();
+      }
+    };
   }, []);
 
   // hook to update cache reference,
@@ -135,49 +136,6 @@ export const useFeedQuery = ({
     cacheRef.current = cache;
   }, [cache]);
 
-  // Schedule initial post check when feed data loads successfully
-  useEffect(() => {
-    if (
-      feedQuery.isSuccess &&
-      feedQuery.data?.pages?.[0] &&
-      feedQuery.data.pages[0].length > 0 &&
-      !postFetchTimerRef.current
-    ) {
-      _scheduleLatestPostsCheck();
-    }
-  }, [feedQuery.isSuccess, feedQuery.data?.pages]);
-
-  // Clear or reduce latestPosts if those posts are now in the feed
-  useEffect(() => {
-    if (!latestPosts.length || !feedQuery.data?.pages) {
-      return;
-    }
-
-    const cachedKeys = new Set(
-      feedQuery.data.pages.flat().map((post) => `${post.author}/${post.permlink}`),
-    );
-    const remaining = latestPosts.filter(
-      (post) => !cachedKeys.has(`${post.author}/${post.permlink}`),
-    );
-
-    if (remaining.length !== latestPosts.length) {
-      setLatestPosts(remaining);
-      if (remaining.length === 0) {
-        _scheduleLatestPostsCheck();
-      }
-    }
-  }, [latestPosts, feedQuery.data?.pages]);
-
-  const _cleanup = () => {
-    if (postFetchTimerRef.current) {
-      BackgroundTimer.clearTimeout(postFetchTimerRef.current);
-      postFetchTimerRef.current = null;
-    }
-    if (enableFetchOnAppState && appStateSubRef.current) {
-      appStateSubRef.current.remove();
-    }
-  };
-
   // actions
   const _handleAppStateChange = (nextAppState) => {
     if (
@@ -186,91 +144,11 @@ export const useFeedQuery = ({
       feedQuery.data?.pages?.[0] &&
       feedQuery.data.pages[0].length > 0
     ) {
-      _fetchLatestPosts();
+      // Invalidate query to fetch fresh data when app comes to foreground
+      queryClient.invalidateQueries({ queryKey: queryOptions.queryKey });
     }
 
     appState.current = nextAppState;
-  };
-
-  // schedules post fetch
-  const _scheduleLatestPostsCheck = (firstPost?: any) => {
-    let postToCheck = firstPost;
-    if (!postToCheck && Array.isArray(feedQuery.data?.pages?.[0])) {
-      // eslint-disable-next-line prefer-destructuring
-      [postToCheck] = feedQuery.data.pages[0];
-    }
-
-    if (postToCheck) {
-      if (postFetchTimerRef.current) {
-        BackgroundTimer.clearTimeout(postFetchTimerRef.current);
-        postFetchTimerRef.current = null;
-      }
-
-      const timeLeft = calculateTimeLeftForPostCheck(postToCheck);
-      postFetchTimerRef.current = BackgroundTimer.setTimeout(() => {
-        _fetchLatestPosts();
-      }, timeLeft);
-    }
-  };
-
-  // fetch and filter posts that are not present in currently loaded posts
-  const _fetchLatestPosts = async () => {
-    // Capture ALL current posts BEFORE refetch to detect new ones
-    // Check all pages, not just the first one, to avoid showing duplicates
-    const _cachedPosts: any[] = feedQuery.data?.pages ? feedQuery.data.pages.flat() : [];
-
-    let refetchResult;
-    try {
-      refetchResult = await feedQuery.refetch({ cancelRefetch: false });
-    } catch (error) {
-      console.warn('Error fetching latest posts:', error);
-      _scheduleLatestPostsCheck();
-      return;
-    }
-
-    // After refetch, the first page contains latest data
-    const _fetchedPosts: any[] = refetchResult.data?.pages?.[0] || [];
-
-    // Create Set of cached post keys for O(1) lookup across ALL pages
-    const cachedKeys = new Set(_cachedPosts.map((post) => `${post.author}/${post.permlink}`));
-
-    const _latestPosts = [] as any;
-
-    _fetchedPosts.forEach((post) => {
-      const postKey = `${post.author}/${post.permlink}`;
-      if (!cachedKeys.has(postKey)) {
-        _latestPosts.push(post);
-      }
-    });
-
-    if (_latestPosts.length > 0) {
-      setLatestPosts(_latestPosts.slice(0, 5));
-    } else {
-      _scheduleLatestPostsCheck();
-      setLatestPosts([]);
-    }
-  };
-
-  const _mergeLatestPosts = () => {
-    const _prevData = feedQuery.data?.pages?.[0] || [];
-    const updatedPages = [
-      [...latestPosts, ..._prevData],
-      ...(feedQuery.data?.pages?.slice(1) || []),
-    ];
-
-    queryClient.setQueryData(queryOptions.queryKey, {
-      ...feedQuery.data,
-      pages: updatedPages,
-    });
-
-    _scheduleLatestPostsCheck(latestPosts[0]);
-    setLatestPosts([]);
-  };
-
-  const _resetLatestPosts = () => {
-    setLatestPosts([]);
-    // Reschedule next check so user can see future new content
-    _scheduleLatestPostsCheck();
   };
 
   const _refresh = async () => {
@@ -305,10 +183,7 @@ export const useFeedQuery = ({
     data: _filteredData,
     isRefreshing,
     isLoading: feedQuery.isLoading || feedQuery.isFetching,
-    latestPosts,
     fetchNextPage: feedQuery.fetchNextPage,
-    mergetLatestPosts: _mergeLatestPosts,
-    resetLatestPosts: _resetLatestPosts,
     refresh: _refresh,
   };
 };

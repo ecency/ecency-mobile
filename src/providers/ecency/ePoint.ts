@@ -35,7 +35,6 @@ export const getPointsSummary = async (username: string): Promise<EcencyUser> =>
   try {
     const queryClient = getQueryClient();
     const response = await queryClient.fetchQuery(getPointsQueryOptions(username, 0));
-    console.log('returning user points data', response);
     return response as EcencyUser;
   } catch (error) {
     console.warn('Failed to get points', error);

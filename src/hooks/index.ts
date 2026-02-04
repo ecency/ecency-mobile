@@ -11,3 +11,4 @@ export * from './useLinkProcessor';
 export * from './useStateWithRef';
 export * from './useMattermostWebSocket';
 export * from './useTypingThrottle';
+export * from './useActiveKeyOperation';

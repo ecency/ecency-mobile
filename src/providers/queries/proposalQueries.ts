@@ -6,14 +6,11 @@ import {
 } from '@ecency/sdk';
 import { useIntl } from 'react-intl';
 import { ProposalVoteMeta } from 'redux/reducers/cacheReducer';
-import * as hiveuri from 'hive-uri';
-import { useNavigation } from '@react-navigation/native';
 import { PrivateKey } from '@hiveio/dhive';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector, useActiveKeyOperation } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { updateProposalVoteMeta } from '../../redux/actions/cacheActions';
 import authType from '../../constants/authType';
-import ROUTES from '../../constants/routeNames';
 import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 import { decryptKey } from '../../utils/crypto';
 import { getDigitPinCode, getClient } from '../hive/dhive';
@@ -76,8 +73,8 @@ export const useProposalVotedQuery = (proposalId?: number) => {
 
 export const useProposalVoteMutation = () => {
   const dispatch = useAppDispatch();
-  const navigation = useNavigation();
   const intl = useIntl();
+  const { executeOperation, authType: currentAuthType } = useActiveKeyOperation();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinHash = useAppSelector(selectPin);
@@ -164,49 +161,40 @@ export const useProposalVoteMutation = () => {
         throw new Error('ACCESS_TOKEN_REQUIRED');
       }
 
-      // For HiveSigner/HiveAuth, use navigation modal instead of direct API call
-      if (
-        currentAccount.local.authType === authType.STEEM_CONNECT ||
-        currentAccount.local.authType === authType.HIVE_AUTH
-      ) {
-        console.log('[ProposalVote] Using HiveSigner modal');
-        const _enHiveuri = hiveuri.encodeOp([
-          'update_proposal_votes',
-          {
-            voter: currentAccount.name,
-            proposal_ids: [proposalId],
-            approve: true,
-            extensions: [],
+      // Use unified active key operation handler
+      const operation = [
+        'update_proposal_votes',
+        {
+          voter: currentAccount.name,
+          proposal_ids: [proposalId],
+          approve: true,
+          extensions: [],
+        },
+      ];
+
+      console.log('[ProposalVote] Executing with auth type:', currentAuthType);
+
+      return executeOperation({
+        operations: [operation],
+        privateKeyHandler: async () => {
+          // For private keys, use SDK broadcast
+          console.log('[ProposalVote] Using SDK broadcast with active key');
+          const result = await broadcastMutation.mutateAsync({ proposalId });
+          console.log('[ProposalVote] Broadcast successful:', result);
+          return result;
+        },
+        callbacks: {
+          onSuccess: () => {
+            console.log('[ProposalVote] Transaction signed successfully');
           },
-        ]);
-
-        return new Promise((resolve, reject) => {
-          navigation.navigate(ROUTES.MODALS.HIVE_SIGNER, {
-            hiveuri: _enHiveuri,
-            onSuccess: () => {
-              // Transaction was successfully signed
-              console.log('[ProposalVote] HiveSigner success');
-              resolve(true);
-            },
-            onClose: () => {
-              // User closed modal without signing
-              console.log('[ProposalVote] HiveSigner modal closed');
-              reject(new Error('HiveSigner modal closed without signing transaction'));
-            },
-          });
-        });
-      }
-
-      // For other auth types, use SDK broadcast
-      console.log('[ProposalVote] Using SDK broadcast with active key');
-      try {
-        const result = await broadcastMutation.mutateAsync({ proposalId });
-        console.log('[ProposalVote] Broadcast successful:', result);
-        return result;
-      } catch (error) {
-        console.error('[ProposalVote] Broadcast failed:', error);
-        throw error;
-      }
+          onError: (error) => {
+            console.error('[ProposalVote] Broadcast failed:', error);
+          },
+          onClose: () => {
+            console.log('[ProposalVote] Modal closed without signing');
+          },
+        },
+      });
     },
 
     retry: (failureCount, error) => {

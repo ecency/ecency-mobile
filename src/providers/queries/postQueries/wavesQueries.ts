@@ -67,6 +67,10 @@ export const useWavesQuery = (host: string) => {
       queryKey: [QUERIES.WAVES.GET, host, pagePermlink, index],
       queryFn: () => _fetchWaves(pagePermlink),
       initialData: [],
+      // Auto-refresh every 60 seconds for first page only (to get new waves)
+      refetchInterval: index === 0 ? 60000 : false,
+      // Refetch when window gains focus
+      refetchOnWindowFocus: index === 0,
     })),
   });
 

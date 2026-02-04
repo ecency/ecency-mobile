@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { debounce } from 'lodash';
-import BackgroundTimer from 'react-native-background-timer';
 import { SheetManager } from 'react-native-actions-sheet';
 import PostsList from '../../postsList';
 import { PostsTabContentProps } from '../types/tabbedPosts.types';
@@ -11,7 +10,7 @@ import {
   useFeedQuery,
   usePromotedPostsQuery,
 } from '../../../providers/queries/postQueries/feedQueries';
-import { NewPostsPopup, ScrollTopPopup } from '../../atoms';
+import { ScrollTopPopup } from '../../atoms';
 import { SheetNames } from '../../../navigation/sheets';
 import {
   selectIsLoggedIn,
@@ -51,7 +50,6 @@ const PostsTabContent = ({
   const postsListRef = useRef<PostsListRef>();
 
   const sessionUserRef = useRef(sessionUser);
-  const postFetchTimerRef = useRef<any>(null);
   const blockPopupRef = useRef(false);
   const blockPopupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const scrollOffsetRef = useRef(0);
@@ -115,22 +113,11 @@ const PostsTabContent = ({
   const _initContent = (_sessionUsername: string) => {
     _scrollToTop();
     setSessionUser(_sessionUsername);
-
-    if (postFetchTimerRef.current) {
-      BackgroundTimer.clearTimeout(postFetchTimerRef.current);
-      postFetchTimerRef.current = null;
-    }
   };
 
   // view related routines
-  const _onPostsPopupPress = () => {
-    _scrollToTop();
-    feedQuery.mergetLatestPosts();
-  };
-
   const _onScrollToTopPress = () => {
     _scrollToTop();
-    // Don't merge posts - this is just a scroll convenience button
   };
 
   const _scrollToTop = () => {
@@ -237,13 +224,6 @@ const PostsTabContent = ({
         pageType={pageType}
         showQuickReplyModal={_showQuickReplyModal}
         ListHeaderComponent={_renderHeader}
-      />
-      <NewPostsPopup
-        popupAvatars={feedQuery.latestPosts.map((post) => post.avatar || '')}
-        onPress={_onPostsPopupPress}
-        onClose={() => {
-          feedQuery.resetLatestPosts();
-        }}
       />
       <ScrollTopPopup enable={enableScrollTop} onPress={_onScrollToTopPress} />
     </>

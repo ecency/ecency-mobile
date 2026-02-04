@@ -154,7 +154,7 @@ const WalletContainer = ({
       if (setEstimatedWalletValue) {
         if (forceUsdEstimate) {
           if (_walletData.hasQuotes && currencyRate) {
-            setEstimatedWalletValue(_walletData.estimatedValue / currencyRate);
+            setEstimatedWalletValue(_walletData.estimatedValue);
           } else {
             setEstimatedWalletValue(0);
           }

@@ -143,6 +143,7 @@ export const ImageViewer = forwardRef(({}, ref) => {
       visible={visible}
       animationType="slide"
       swipeToCloseEnabled
+      doubleTapScale={1.5}
       onRequestClose={_onCloseImageViewer}
       HeaderComponent={(data) => _renderImageViewerHeader(data.imageIndex)}
     />

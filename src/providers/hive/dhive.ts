@@ -262,6 +262,301 @@ export const buildActiveCustomJsonOpArr = (
   ];
 };
 
+/**
+ * Builds operation array for boosting a post
+ * @param username - User's account name
+ * @param point - Points to spend on boost
+ * @param author - Post author
+ * @param permlink - Post permlink
+ * @returns Operation array for broadcasting
+ */
+export const buildBoostOpArr = (
+  username: string,
+  point: number,
+  author: string,
+  permlink: string,
+): Operation[] => {
+  return buildActiveCustomJsonOpArr(username, 'ecency_boost', {
+    user: username,
+    author,
+    permlink,
+    amount: `${point.toFixed(3)} POINT`,
+  });
+};
+
+/**
+ * Builds operation array for Boost Plus subscription
+ * @param username - User's account name
+ * @param duration - Subscription duration
+ * @param account - Target account
+ * @returns Operation array for broadcasting
+ */
+export const buildBoostPlusOpArr = (
+  username: string,
+  duration: number,
+  account: string,
+): Operation[] => {
+  return buildActiveCustomJsonOpArr(username, 'ecency_boost_plus', {
+    user: username,
+    account,
+    duration,
+  });
+};
+
+/**
+ * Builds operation array for promoting a post
+ * @param username - User's account name
+ * @param author - Post author
+ * @param permlink - Post permlink
+ * @param duration - Promotion duration
+ * @returns Operation array for broadcasting
+ */
+export const buildPromoteOpArr = (
+  username: string,
+  author: string,
+  permlink: string,
+  duration: number,
+): Operation[] => {
+  return buildActiveCustomJsonOpArr(username, 'ecency_promote', {
+    user: username,
+    author,
+    permlink,
+    duration,
+  });
+};
+
+/**
+ * Builds operation array for token transfer
+ * @param from - Sender account name
+ * @param destination - Receiver account name(s) - can be comma or space separated
+ * @param amount - Amount with asset symbol (e.g., "1.000 HIVE")
+ * @param memo - Transfer memo
+ * @returns Operation array for broadcasting
+ */
+export const buildTransferTokenOpArr = (
+  from: string,
+  destination: string,
+  amount: string,
+  memo: string,
+): Operation[] => {
+  // Split the destination input into an array of usernames
+  // Handles both spaces and commas as separators
+  const destinations = destination ? destination.trim().split(/[\s,]+/) : [];
+
+  // Create a transfer operation for each destination username
+  return destinations.map((dest) => [
+    'transfer',
+    {
+      from,
+      to: dest.trim(),
+      amount,
+      memo,
+    },
+  ]) as Operation[];
+};
+
+/**
+ * Builds operation array for recurrent transfer
+ */
+export const buildRecurrentTransferOpArr = (
+  from: string,
+  destination: string,
+  amount: string,
+  memo: string,
+  recurrence: number,
+  executions: number,
+): Operation[] => {
+  return [
+    [
+      'recurrent_transfer',
+      {
+        from,
+        to: destination,
+        amount,
+        memo,
+        recurrence,
+        executions,
+        extensions: [],
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for HBD conversion
+ */
+export const buildConvertOpArr = (
+  owner: string,
+  amount: string,
+  requestId: number,
+): Operation[] => {
+  return [
+    [
+      'convert',
+      {
+        owner,
+        amount,
+        requestid: requestId,
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for transfer to savings
+ */
+export const buildTransferToSavingsOpArr = (
+  from: string,
+  destination: string,
+  amount: string,
+  memo: string,
+): Operation[] => {
+  return [
+    [
+      'transfer_to_savings',
+      {
+        from,
+        to: destination,
+        amount,
+        memo,
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for transfer from savings
+ */
+export const buildTransferFromSavingsOpArr = (
+  from: string,
+  destination: string,
+  amount: string,
+  memo: string,
+  requestId: number,
+): Operation[] => {
+  return [
+    [
+      'transfer_from_savings',
+      {
+        from,
+        to: destination,
+        amount,
+        memo,
+        request_id: requestId,
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for transfer to vesting (power up)
+ */
+export const buildTransferToVestingOpArr = (
+  from: string,
+  destination: string,
+  amount: string,
+): Operation[] => {
+  return [
+    [
+      'transfer_to_vesting',
+      {
+        from,
+        to: destination,
+        amount,
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for withdraw vesting (power down)
+ */
+export const buildWithdrawVestingOpArr = (account: string, vestingShares: string): Operation[] => {
+  return [
+    [
+      'withdraw_vesting',
+      {
+        account,
+        vesting_shares: vestingShares,
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for delegate vesting shares (HP delegation)
+ */
+export const buildDelegateVestingSharesOpArr = (
+  delegator: string,
+  delegatee: string,
+  vestingShares: string,
+): Operation[] => {
+  return [
+    [
+      'delegate_vesting_shares',
+      {
+        delegator,
+        delegatee,
+        vesting_shares: vestingShares,
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for set withdraw vesting route
+ */
+export const buildSetWithdrawVestingRouteOpArr = (
+  fromAccount: string,
+  toAccount: string,
+  percent: number,
+  autoVest: boolean,
+): Operation[] => {
+  return [
+    [
+      'set_withdraw_vesting_route',
+      {
+        from_account: fromAccount,
+        to_account: toAccount,
+        percent,
+        auto_vest: autoVest,
+      },
+    ],
+  ] as Operation[];
+};
+
+/**
+ * Builds operation array for Ecency point transfer
+ */
+export const buildTransferPointOpArr = (
+  sender: string,
+  destination: string,
+  amount: string,
+  memo: string,
+): Operation[] => {
+  // Split the destination input into an array of usernames
+  const destinations = destination ? destination.trim().split(/[\s,]+/) : [];
+
+  // Create a transfer operation for each destination username
+  return destinations.map((dest) => {
+    const json = JSON.stringify({
+      sender,
+      receiver: dest.trim(),
+      amount,
+      memo,
+    });
+    return [
+      'custom_json',
+      {
+        id: 'ecency_point_transfer',
+        json,
+        required_auths: [sender],
+        required_posting_auths: [],
+      },
+    ];
+  }) as Operation[];
+};
+
 export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
 
 export const getDynamicGlobalProperties = async () => {

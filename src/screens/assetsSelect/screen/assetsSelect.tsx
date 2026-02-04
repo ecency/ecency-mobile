@@ -245,7 +245,8 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
     from: number;
     to: number;
   }) => {
-    const totalSel = (selectionRef.current || []).length;
+    const separatorIndex = data.findIndex((i) => i.isSectionSeparator);
+    const totalSel = separatorIndex >= 0 ? separatorIndex : (selectionRef.current || []).length;
     const item = sortedList[from];
 
     // Skip if item is section separator or invalid
