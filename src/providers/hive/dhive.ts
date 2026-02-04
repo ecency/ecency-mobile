@@ -156,9 +156,9 @@ export const sendHiveOperations = async (
   key: PrivateKey | PrivateKey[],
 ): Promise<TransactionConfirmation> => {
   try {
-    // Get raw dynamic global properties from blockchain (not SDK transformed data)
-    const dynamicProps = await client.database.getDynamicGlobalProperties();
-    const { head_block_number, head_block_id, time } = dynamicProps;
+    // Get dynamic props from SDK (cached up to 60s, which is fine for TAPOS)
+    const dynamicProps = await getDynamicGlobalProperties();
+    const { head_block_number, head_block_id, time } = dynamicProps.raw.globalDynamic;
     const ref_block_num = head_block_number & 0xffff;
     const ref_block_prefix = Buffer.from(head_block_id, 'hex').readUInt32LE(4);
     const expireTime = 60 * 1000;
@@ -617,30 +617,8 @@ export const getCurrentMedianHistoryPrice = async () => {
  * Fetch global properties using SDK query
  * Returns a subset of properties from getDynamicPropsQueryOptions for backward compatibility
  */
-export const fetchGlobalProps = async () => {
-  try {
-    const queryClient = getQueryClient();
-    const dynamicProps = await queryClient.fetchQuery(getDynamicPropsQueryOptions());
-
-    // Cache raw blockchain data for backward compatibility
-    if (dynamicProps.raw?.globalDynamic) {
-      await setCache('globalDynamic', dynamicProps.raw.globalDynamic);
-    }
-
-    // Return subset of props for backward compatibility
-    return {
-      hivePerMVests: dynamicProps.hivePerMVests,
-      base: dynamicProps.base,
-      quote: dynamicProps.quote,
-      fundRecentClaims: dynamicProps.fundRecentClaims,
-      fundRewardBalance: dynamicProps.fundRewardBalance,
-      hbdPrintRate: dynamicProps.hbdPrintRate,
-    };
-  } catch (e) {
-    console.error('fetchGlobalProps failed', e);
-    throw e;
-  }
-};
+// Removed: fetchGlobalProps - unused function that was doing unnecessary double-caching
+// (React Query + AsyncStorage). Use getDynamicGlobalProperties() directly instead.
 
 /**
  * fetches all tranding orders that are not full-filled yet
@@ -794,20 +772,23 @@ export const getUser = async (user) => {
     _account.unread_activity_count = unreadActivityCount;
     _account.vp_manabar = client.rc.calculateVPMana(_account);
     _account.rc_manabar = client.rc.calculateRCMana(rcPower.rc_accounts[0]);
+
+    // Use raw blockchain data for vesting calculations (snake_case fields)
+    const rawGlobalProps = globalProperties.raw.globalDynamic;
     _account.steem_power = await vestToSteem(
       _account.vesting_shares,
-      globalProperties.total_vesting_shares,
-      globalProperties.total_vesting_fund_hive,
+      rawGlobalProps.total_vesting_shares,
+      rawGlobalProps.total_vesting_fund_hive,
     );
     _account.received_steem_power = await vestToSteem(
       get(_account, 'received_vesting_shares'),
-      get(globalProperties, 'total_vesting_shares'),
-      get(globalProperties, 'total_vesting_fund_hive'),
+      get(rawGlobalProps, 'total_vesting_shares'),
+      get(rawGlobalProps, 'total_vesting_fund_hive'),
     );
     _account.delegated_steem_power = await vestToSteem(
       get(_account, 'delegated_vesting_shares'),
-      get(globalProperties, 'total_vesting_shares'),
-      get(globalProperties, 'total_vesting_fund_hive'),
+      get(rawGlobalProps, 'total_vesting_shares'),
+      get(rawGlobalProps, 'total_vesting_fund_hive'),
     );
 
     // Parse profile metadata using SDK
@@ -2807,7 +2788,9 @@ export const isHsClientSupported = (authType) => {
 
 export const resolveTransaction = async (parsedTx, parsedParams, signer) => {
   const EXPIRE_TIME = 60 * 1000;
-  const props = await client.database.getDynamicGlobalProperties();
+  // Get dynamic props from SDK (cached up to 60s, which is fine for TAPOS)
+  const dynamicProps = await getDynamicGlobalProperties();
+  const props = dynamicProps.raw.globalDynamic;
 
   // resolve the decoded tx and params to a signable tx
   const { tx } = hiveuri.resolveTransaction(parsedTx, parsedParams, {

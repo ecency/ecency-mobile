@@ -87,15 +87,6 @@ export const useActiveKeyOperation = () => {
         // For HiveSigner and HiveAuth, navigate to signing modal
         return new Promise((resolve, reject) => {
           try {
-            // HiveSigner only supports single operations via encodeOp
-            if (authType === AUTH_TYPE.STEEM_CONNECT && operations.length > 1) {
-              const error = new Error(
-                'HiveSigner does not support multiple operations. Only the first operation will be processed.',
-              );
-              console.warn('[useActiveKeyOperation]', error.message);
-              // Continue with first operation only, but log the limitation
-            }
-
             // Encode operation for HiveSigner hot signing
             const encodedUri = hiveuri.encodeOps(operations);
 
