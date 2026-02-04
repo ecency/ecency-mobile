@@ -2074,7 +2074,7 @@ export const lookupAccounts = async (username) => {
   }
 };
 
-export const getTrendingTags = async (tag, number = 20) => {
+export const getTrendingTags = async (number = 20) => {
   try {
     const queryClient = getQueryClient();
     const result = await queryClient.fetchQuery(getTrendingTagsQueryOptions(number));

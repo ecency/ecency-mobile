@@ -150,13 +150,16 @@ const TransferAccountSelector = ({
       }
     }
     if (state === 'destination') {
+      // Force lowercase for usernames (Hive usernames are always lowercase)
+      const lowercaseVal = val.toLowerCase();
+
       // Step 1: Split the destination input into an array of usernames
-      const usernames = val
-        ? val.trim().split(/[\s,]+/) // Split by spaces or commas
+      const usernames = lowercaseVal
+        ? lowercaseVal.trim().split(/[\s,]+/) // Split by spaces or commas
         : [];
-      _debouncedValidateUsername(allowMultipleDest ? usernames : [val]);
-      destinationRef.current = allowMultipleDest ? usernames : [val];
-      setDestination(_amount);
+      _debouncedValidateUsername(allowMultipleDest ? usernames : [lowercaseVal]);
+      destinationRef.current = allowMultipleDest ? usernames : [lowercaseVal];
+      setDestination(lowercaseVal);
     }
     if (state === 'memo') {
       setMemo(_amount);

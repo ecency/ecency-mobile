@@ -18,6 +18,9 @@ import {
 } from '../../../components';
 import WithdrawAccountModal from './withdrawAccountModal';
 import { useActiveKeyOperation } from '../../../hooks';
+import { useAppSelector } from '../../../hooks';
+import { selectCurrentAccount } from '../../../redux/selectors';
+import AUTH_TYPE from '../../../constants/authType';
 
 import parseToken from '../../../utils/parseToken';
 import parseDate from '../../../utils/parseDate';
@@ -42,6 +45,7 @@ const PowerDownScreen = ({
   const intl = useIntl();
   const queryClient = useQueryClient();
   const { executeOperation } = useActiveKeyOperation();
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const [amount, setAmount] = useState(0);
   const [hp, setHp] = useState(0.0);
@@ -85,31 +89,54 @@ const PowerDownScreen = ({
       const operations = buildWithdrawVestingOpArr(currentAccountName, vestingShares);
 
       try {
-        await executeOperation({
-          operations,
-          privateKeyHandler: () =>
-            transferToAccount(currentAccountName, destinationAccounts, amountToUse, ''),
-          callbacks: {
-            onSuccess: () => {
-              setIsTransfering(false);
-              if (handleOnModalClose) {
-                handleOnModalClose();
-              }
+        const authType = currentAccount?.local?.authType;
+        const isLocalKey =
+          !authType || (authType !== AUTH_TYPE.STEEM_CONNECT && authType !== AUTH_TYPE.HIVE_AUTH);
+
+        // For local-key auth, transferToAccount already calls executeOperation internally
+        // so call it directly to avoid double-wrapping
+        if (isLocalKey) {
+          try {
+            await transferToAccount(currentAccountName, destinationAccounts, amountToUse, '');
+            setIsTransfering(false);
+            if (handleOnModalClose) {
+              handleOnModalClose();
+            }
+          } catch (error) {
+            setIsTransfering(false);
+            Alert.alert(
+              intl.formatMessage({ id: 'alert.error' }),
+              error.message || error.toString(),
+            );
+          }
+        } else {
+          // For HiveSigner/HiveAuth, use executeOperation wrapper
+          await executeOperation({
+            operations,
+            privateKeyHandler: () =>
+              transferToAccount(currentAccountName, destinationAccounts, amountToUse, ''),
+            callbacks: {
+              onSuccess: () => {
+                setIsTransfering(false);
+                if (handleOnModalClose) {
+                  handleOnModalClose();
+                }
+              },
+              onError: (error) => {
+                setIsTransfering(false);
+                Alert.alert(
+                  intl.formatMessage({ id: 'alert.error' }),
+                  error.message || error.toString(),
+                );
+              },
+              onClose: () => {
+                setIsTransfering(false);
+              },
             },
-            onError: (error) => {
-              setIsTransfering(false);
-              Alert.alert(
-                intl.formatMessage({ id: 'alert.error' }),
-                error.message || error.toString(),
-              );
-            },
-            onClose: () => {
-              setIsTransfering(false);
-            },
-          },
-        });
+          });
+        }
       } catch (error) {
-        // Error already handled in callbacks
+        // Error already handled
         setIsTransfering(false);
       }
     },

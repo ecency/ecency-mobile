@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { unionBy, isArray } from 'lodash';
 import { AppState, NativeEventSubscription } from 'react-native';
 import {
@@ -116,17 +116,30 @@ export const useFeedQuery = ({
     },
   });
 
+  // actions
+  const _handleAppStateChange = useCallback(
+    (nextAppState) => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active' &&
+        feedQuery.data?.pages?.[0] &&
+        feedQuery.data.pages[0].length > 0
+      ) {
+        // Invalidate query to fetch fresh data when app comes to foreground
+        queryClient.invalidateQueries({ queryKey: queryOptions.queryKey });
+      }
+
+      appState.current = nextAppState;
+    },
+    [feedQuery.data?.pages, queryOptions.queryKey, queryClient],
+  );
+
   // side effects
   useEffect(() => {
-    if (enableFetchOnAppState) {
-      appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
-    }
-    return () => {
-      if (enableFetchOnAppState && appStateSubRef.current) {
-        appStateSubRef.current.remove();
-      }
-    };
-  }, []);
+    if (!enableFetchOnAppState) return;
+    appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
+    return () => appStateSubRef.current?.remove();
+  }, [enableFetchOnAppState, _handleAppStateChange]);
 
   // hook to update cache reference,
   // workaround required since query function do get passed an
@@ -135,21 +148,6 @@ export const useFeedQuery = ({
   useEffect(() => {
     cacheRef.current = cache;
   }, [cache]);
-
-  // actions
-  const _handleAppStateChange = (nextAppState) => {
-    if (
-      appState.current.match(/inactive|background/) &&
-      nextAppState === 'active' &&
-      feedQuery.data?.pages?.[0] &&
-      feedQuery.data.pages[0].length > 0
-    ) {
-      // Invalidate query to fetch fresh data when app comes to foreground
-      queryClient.invalidateQueries({ queryKey: queryOptions.queryKey });
-    }
-
-    appState.current = nextAppState;
-  };
 
   const _refresh = async () => {
     setIsRefreshing(true);

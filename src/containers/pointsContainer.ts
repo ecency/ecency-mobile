@@ -242,7 +242,7 @@ const PointsContainer = ({
 
       await executeOperation({
         operations,
-        privateKeyHandler: () => boost(account, pinCode, point, permlink, author),
+        privateKeyHandler: () => boost(account, pinCode, point, author, permlink),
         callbacks: {
           onSuccess: () => {
             setIsLoading(false);

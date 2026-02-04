@@ -23,7 +23,8 @@ export const HiveSignerModal = ({ route, navigation }) => {
   const closedDueToMissingUriRef = useRef(false);
 
   // Determine if this is a HiveAuth operation
-  const isHiveAuthOperation = currentAccount.local.authType === AUTH_TYPE.HIVE_AUTH && opsArray;
+  const isHiveAuthOperation =
+    currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH && Boolean(opsArray);
 
   // Handle HiveAuth broadcast
   useEffect(() => {
@@ -37,6 +38,8 @@ export const HiveSignerModal = ({ route, navigation }) => {
           navigation.goBack();
         } else {
           // Error already handled by useHiveAuth
+          // Set flag to prevent duplicate onClose from beforeRemove listener
+          closedDueToMissingUriRef.current = true;
           onClose && onClose();
           navigation.goBack();
         }

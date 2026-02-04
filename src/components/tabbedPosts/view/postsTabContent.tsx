@@ -82,13 +82,13 @@ const PostsTabContent = ({
   // side effects
   useEffect(() => {
     _initContent(feedUsername);
-  }, [tag]);
+  }, [tag, feedUsername]);
 
   useEffect(() => {
     if (isConnected && (username !== sessionUser || forceLoadPosts)) {
       _initContent(username);
     }
-  }, [username, forceLoadPosts]);
+  }, [username, forceLoadPosts, isConnected, sessionUser]);
 
   useEffect(() => {
     if (filterScrollRequest && filterScrollRequest === filterKey) {

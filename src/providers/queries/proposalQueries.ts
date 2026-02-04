@@ -152,13 +152,11 @@ export const useProposalVoteMutation = () => {
       console.log('[ProposalVote] Is HiveSigner:', isHiveSigner);
 
       // Validate credentials before attempting broadcast
+      // Note: For HiveSigner/HiveAuth, validation happens in executeOperation
+      // Only check for private key users
       if (!isHiveSigner && !activeKey) {
         console.error('[ProposalVote] Missing active key');
         throw new Error('ACTIVE_KEY_REQUIRED');
-      }
-      if (isHiveSigner && !accessToken) {
-        console.error('[ProposalVote] Missing access token');
-        throw new Error('ACCESS_TOKEN_REQUIRED');
       }
 
       // Use unified active key operation handler
@@ -200,7 +198,11 @@ export const useProposalVoteMutation = () => {
     retry: (failureCount, error) => {
       const message = error?.message || '';
       // Don't retry auth errors
-      if (message === 'ACTIVE_KEY_REQUIRED' || message === 'ACCESS_TOKEN_REQUIRED') {
+      if (message === 'ACTIVE_KEY_REQUIRED') {
+        return false;
+      }
+      // Don't retry when user cancels
+      if (message === 'Operation cancelled by user') {
         return false;
       }
       if (

@@ -416,8 +416,10 @@ class DelegateScreen extends Component {
             <TextInput
               style={[styles.input, { width: '100%' }]}
               onChangeText={(value) => {
-                this.setState({ destination: value, step: 1 });
-                this._handleOnAmountChange(state, value);
+                // Force lowercase for usernames (Hive usernames are always lowercase)
+                const lowercaseValue = value.toLowerCase();
+                this.setState({ destination: lowercaseValue, step: 1 });
+                this._handleOnAmountChange(state, lowercaseValue);
               }}
               value={this.state[state]}
               placeholder={placeholder}

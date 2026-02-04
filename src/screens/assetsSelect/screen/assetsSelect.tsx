@@ -121,25 +121,21 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
     });
 
     // Add selected tokens from profile that aren't in assetsQuery (engine/spk/chain)
+    // Always include selected tokens regardless of query so they can be deselected
     selectionRef.current.forEach((selectedAsset) => {
       if (!addedSymbols.has(selectedAsset.symbol)) {
-        const _symbol = selectedAsset.symbol.toLowerCase();
-        const _query = query.toLowerCase();
+        const { isEngine } = selectedAsset;
+        const { isSpk } = selectedAsset;
+        const { isChain } = selectedAsset;
+        const layer = isEngine ? 'engine' : isSpk ? 'spk' : isChain ? 'chain' : undefined;
 
-        if (query === '' || _symbol.includes(_query)) {
-          const { isEngine } = selectedAsset;
-          const { isSpk } = selectedAsset;
-          const { isChain } = selectedAsset;
-          const layer = isEngine ? 'engine' : isSpk ? 'spk' : isChain ? 'chain' : undefined;
-
-          data.push({
-            symbol: selectedAsset.symbol,
-            layer,
-            isEngine,
-            isSpk,
-            isChain,
-          } as SelectableAsset);
-        }
+        data.push({
+          symbol: selectedAsset.symbol,
+          layer,
+          isEngine,
+          isSpk,
+          isChain,
+        } as SelectableAsset);
       }
     });
 
