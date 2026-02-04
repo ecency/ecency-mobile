@@ -774,7 +774,11 @@ export const getUser = async (user) => {
     _account.rc_manabar = client.rc.calculateRCMana(rcPower.rc_accounts[0]);
 
     // Use raw blockchain data for vesting calculations (snake_case fields)
-    const rawGlobalProps = globalProperties.raw.globalDynamic;
+    const rawGlobalProps =
+      globalProperties?.raw?.globalDynamic ?? globalProperties?.globalDynamic ?? globalProperties;
+    if (!rawGlobalProps) {
+      throw new Error('Missing global properties');
+    }
     _account.steem_power = await vestToSteem(
       _account.vesting_shares,
       rawGlobalProps.total_vesting_shares,

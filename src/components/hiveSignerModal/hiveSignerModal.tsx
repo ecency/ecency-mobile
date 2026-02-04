@@ -31,14 +31,21 @@ export const HiveSignerModal = ({ route, navigation }) => {
     if (isHiveAuthOperation && hiveAuth.status === HiveAuthStatus.INPUT) {
       // Automatically trigger HiveAuth broadcast
       (async () => {
-        const success = await hiveAuth.broadcast(opsArray as Operation[]);
-        if (success) {
-          successHandledRef.current = true;
-          onSuccess && onSuccess();
-          navigation.goBack();
-        } else {
-          // Error already handled by useHiveAuth
-          // Set flag to prevent duplicate onClose from beforeRemove listener
+        try {
+          const success = await hiveAuth.broadcast(opsArray as Operation[]);
+          if (success) {
+            successHandledRef.current = true;
+            onSuccess && onSuccess();
+            navigation.goBack();
+          } else {
+            // Error already handled by useHiveAuth
+            // Set flag to prevent duplicate onClose from beforeRemove listener
+            closedDueToMissingUriRef.current = true;
+            onClose && onClose();
+            navigation.goBack();
+          }
+        } catch (error) {
+          // Mirror failure branch behavior
           closedDueToMissingUriRef.current = true;
           onClose && onClose();
           navigation.goBack();

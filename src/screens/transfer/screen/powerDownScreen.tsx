@@ -39,7 +39,6 @@ const PowerDownScreen = ({
   hivePerMVests,
   handleOnModalClose,
   transferToAccount,
-  accountType: _accountType,
   setWithdrawVestingRoute,
 }) => {
   const intl = useIntl();
