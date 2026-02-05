@@ -58,24 +58,23 @@ const BoostPlus = ({
     enabled: !!code,
   });
 
-  const _boostDays = useMemo(() => {
-    // Guard: Ensure data exists and is an array
+  const { boostDays: _boostDays, boostPrices: _boostPrices } = useMemo(() => {
     if (!boostPricesQuery.data || !Array.isArray(boostPricesQuery.data)) {
-      return [];
+      return { boostDays: [], boostPrices: [] };
     }
-    return boostPricesQuery.data
-      .map((item) => Number(item.duration))
-      .filter((value) => Number.isFinite(value));
-  }, [boostPricesQuery.data]);
 
-  const _boostPrices = useMemo(() => {
-    // Guard: Ensure data exists and is an array
-    if (!boostPricesQuery.data || !Array.isArray(boostPricesQuery.data)) {
-      return [];
-    }
-    return boostPricesQuery.data
-      .map((item) => Number(item.price))
-      .filter((value) => Number.isFinite(value));
+    const normalized = boostPricesQuery.data
+      .map((item) => {
+        const duration = Number(item.duration);
+        const price = Number(item.price);
+        return { duration, price };
+      })
+      .filter((item) => Number.isFinite(item.duration) && Number.isFinite(item.price));
+
+    return {
+      boostDays: normalized.map((item) => item.duration),
+      boostPrices: normalized.map((item) => item.price),
+    };
   }, [boostPricesQuery.data]);
 
   useEffect(() => {

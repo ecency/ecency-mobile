@@ -167,7 +167,7 @@ const handleHiveAuthFallback = async (
         operations,
         onSuccess: (result) => {
           console.log(`[HiveAuth Fallback] ${operationName} broadcast successful`, result);
-          resolve({ id: 'hiveauth-broadcast', result: {} });
+          resolve(result);
         },
         onError: (error) => {
           console.error(`[HiveAuth Fallback] ${operationName} broadcast failed`, error);
