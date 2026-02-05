@@ -163,14 +163,25 @@ const handleHiveAuthFallback = async (
 
   return new Promise((resolve, reject) => {
     const timeoutMs = 60000;
-    const timeoutId = setTimeout(() => {
-      reject(new Error('HiveAuth broadcast timed out'));
-    }, timeoutMs);
+    let settled = false;
 
     const finish = (fn: () => void) => {
+      if (settled) {
+        return;
+      }
+      settled = true;
       clearTimeout(timeoutId);
       fn();
     };
+
+    const timeoutId = setTimeout(() => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      SheetManager.hide(SheetNames.HIVE_AUTH_BROADCAST);
+      reject(new Error('HiveAuth broadcast timed out'));
+    }, timeoutMs);
 
     SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
       payload: {

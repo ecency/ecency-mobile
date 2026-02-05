@@ -19,7 +19,7 @@
  * ```
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, Text } from 'react-native';
 import { SheetProps } from 'react-native-actions-sheet';
 import ActionSheet from 'react-native-actions-sheet';
@@ -47,6 +47,11 @@ export const HiveAuthBroadcastSheet = ({
   const intl = useIntl();
   const hiveAuth = useHiveAuth();
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const isCancelledRef = useRef(false);
+
+  useEffect(() => {
+    isCancelledRef.current = false;
+  }, [sheetId]);
 
   // Automatically start broadcast when sheet opens
   useEffect(() => {
@@ -60,8 +65,10 @@ export const HiveAuthBroadcastSheet = ({
 
     if (!operations || operations.length === 0) {
       const error = new Error('No operations provided');
-      onError?.(error);
-      ActionSheet.hide(sheetId);
+      if (!isCancelledRef.current) {
+        onError?.(error);
+        ActionSheet.hide(sheetId);
+      }
       return;
     }
 
@@ -69,8 +76,10 @@ export const HiveAuthBroadcastSheet = ({
     const isHiveAuth = currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH;
     if (!isHiveAuth) {
       const error = new Error('Current account is not authenticated with HiveAuth');
-      onError?.(error);
-      ActionSheet.hide(sheetId);
+      if (!isCancelledRef.current) {
+        onError?.(error);
+        ActionSheet.hide(sheetId);
+      }
       return;
     }
 
@@ -78,26 +87,33 @@ export const HiveAuthBroadcastSheet = ({
       const success = await hiveAuth.broadcast(operations);
 
       if (success) {
-        onSuccess?.({ broadcast: true, operations });
-        ActionSheet.hide(sheetId);
+        if (!isCancelledRef.current) {
+          onSuccess?.({ broadcast: true, operations });
+          ActionSheet.hide(sheetId);
+        }
       } else {
         const error = new Error(
           intl.formatMessage({ id: 'hiveauth.transaction_fail' }) || 'HiveAuth broadcast failed',
         );
-        onError?.(error);
-        // Close sheet on failure as well
-        ActionSheet.hide(sheetId);
+        if (!isCancelledRef.current) {
+          onError?.(error);
+          // Close sheet on failure as well
+          ActionSheet.hide(sheetId);
+        }
       }
     } catch (error) {
-      console.error('[HiveAuthBroadcastSheet] Broadcast failed', error);
-      onError?.(error as Error);
-      // Close sheet on error
-      ActionSheet.hide(sheetId);
+      if (!isCancelledRef.current) {
+        console.error('[HiveAuthBroadcastSheet] Broadcast failed', error);
+        onError?.(error as Error);
+        // Close sheet on error
+        ActionSheet.hide(sheetId);
+      }
     }
   };
 
   const handleClose = () => {
     const error = new Error('User cancelled HiveAuth broadcast');
+    isCancelledRef.current = true;
     payload?.onClose?.(error);
     payload?.onError?.(error);
     ActionSheet.hide(sheetId);
