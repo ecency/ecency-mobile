@@ -275,7 +275,7 @@ export const broadcastPostingJSON = async (
 
     try {
       return await api
-        .customJson([], [currentAccount.username], id, JSON.stringify(json))
+        .customJson([], [currentAccount.name], id, JSON.stringify(json))
         .then((r) => r.result as TransactionConfirmation);
     } catch (err) {
       // Check if this is a HiveAuth user with missing posting authority
@@ -2651,8 +2651,8 @@ export const transferPoint = (currentAccount, pinCode, data) => {
     return sendHiveOperations(opArray, privateKey);
   } else {
     const err = new Error('Check private key permission! Required private active key or above.');
-    captureExceptionWithRpcParams(err, { username: currentAccount.username, data }, (scope) => {
-      scope.setUser({ username: currentAccount.username });
+    captureExceptionWithRpcParams(err, { username: currentAccount.name, data }, (scope) => {
+      scope.setUser({ username: currentAccount.name });
       scope.setTag('context', 'transfer-points');
     });
     return Promise.reject(err);
@@ -2685,9 +2685,9 @@ export const promote = (currentAccount, pinCode, duration, author, permlink) => 
     const err = new Error('Check private key permission! Required private active key or above.');
     captureExceptionWithRpcParams(
       err,
-      { username: currentAccount.username, author, permlink, duration },
+      { username: currentAccount.name, author, permlink, duration },
       (scope) => {
-        scope.setUser({ username: currentAccount.username });
+        scope.setUser({ username: currentAccount.name });
         scope.setTag('context', 'promoting-content');
       },
     );
@@ -2720,9 +2720,9 @@ export const boostPlus = (currentAccount, pinCode, duration, account) => {
     const err = new Error('Check private key permission! Required private active key or above.');
     captureExceptionWithRpcParams(
       err,
-      { username: currentAccount.username, account, duration },
+      { username: currentAccount.name, account, duration },
       (scope) => {
-        scope.setUser({ username: currentAccount.username });
+        scope.setUser({ username: currentAccount.name });
         scope.setTag('context', 'boost-plus-content');
       },
     );
@@ -2756,9 +2756,9 @@ export const boost = (currentAccount, pinCode, point, author, permlink) => {
     const err = new Error('Check private key permission! Required private active key or above.');
     captureExceptionWithRpcParams(
       err,
-      { username: currentAccount.username, author, permlink, point },
+      { username: currentAccount.name, author, permlink, point },
       (scope) => {
-        scope.setUser({ username: currentAccount.username });
+        scope.setUser({ username: currentAccount.name });
         scope.setTag('context', 'boosting-content');
       },
     );

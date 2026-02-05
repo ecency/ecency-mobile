@@ -52,32 +52,11 @@ const BoostPlus = ({
 
   const { code } = useAuth();
 
-  // Debug: Check auth code
-  useEffect(() => {
-    console.log('[BoostPlus] Auth code status:', {
-      hasCode: !!code,
-      codeLength: code?.length,
-    });
-  }, [code]);
-
   // Use SDK query options directly without overriding
   const boostPricesQuery = useQuery({
     ...getBoostPlusPricesQueryOptions(code),
     enabled: !!code,
   });
-
-  // Debug: Log query state
-  useEffect(() => {
-    console.log('[BoostPlus] boostPricesQuery state:', {
-      isLoading: boostPricesQuery.isLoading,
-      isError: boostPricesQuery.isError,
-      error: boostPricesQuery.error,
-      data: boostPricesQuery.data,
-      dataType: typeof boostPricesQuery.data,
-      isArray: Array.isArray(boostPricesQuery.data),
-      code: code ? 'present' : 'missing',
-    });
-  }, [boostPricesQuery.isLoading, boostPricesQuery.data, boostPricesQuery.error, code]);
 
   const _boostDays = useMemo(() => {
     // Guard: Ensure data exists and is an array
