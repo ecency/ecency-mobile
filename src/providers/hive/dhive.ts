@@ -122,6 +122,63 @@ const captureExceptionWithRpcParams = (
 };
 
 /**
+ * Checks if error indicates missing posting authority for HiveAuth users
+ */
+const isMissingAuthorityError = (error: any): boolean => {
+  if (!error) return false;
+
+  const errorMessage = error.message || error.toString() || '';
+  const errorDescription = error.error_description || '';
+
+  return (
+    errorMessage.includes('missing required posting authority') ||
+    errorMessage.includes('Missing Posting Authority') ||
+    errorMessage.includes('Missing Authority') ||
+    errorDescription.includes('Missing Authority')
+  );
+};
+
+/**
+ * Handles HiveAuth fallback for operations when access token fails
+ * Returns a promise that resolves when HiveAuth broadcast completes
+ *
+ * IMPORTANT: This function can be called from non-UI contexts (Redux actions, utilities, etc.)
+ * The SheetManager is safe to use as long as the app is fully initialized and the sheet provider
+ * is mounted. If called very early during app initialization or from background tasks before UI
+ * is ready, it may fail silently. This is acceptable as operations requiring HiveAuth should only
+ * be triggered after successful login when UI is fully interactive.
+ */
+const handleHiveAuthFallback = async (
+  currentAccount: any,
+  operations: Operation[],
+  operationName: string,
+): Promise<any> => {
+  console.log(
+    `[HiveAuth Fallback] Access token failed for ${operationName}, falling back to HiveAuth broadcast`,
+  );
+
+  // Dynamically import to avoid circular deps
+  const { SheetManager } = await import('react-native-actions-sheet');
+  const { SheetNames } = await import('../../navigation/sheets');
+
+  return new Promise((resolve, reject) => {
+    SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
+      payload: {
+        operations,
+        onSuccess: (result) => {
+          console.log(`[HiveAuth Fallback] ${operationName} broadcast successful`, result);
+          resolve({ id: 'hiveauth-broadcast', result: {} });
+        },
+        onError: (error) => {
+          console.error(`[HiveAuth Fallback] ${operationName} broadcast failed`, error);
+          reject(error);
+        },
+      },
+    });
+  });
+};
+
+/**
  * Computes the SHA-256 hash of the input.
  *
  * @param {Buffer} input - The input data to hash (either a Buffer or a string).
@@ -216,9 +273,33 @@ export const broadcastPostingJSON = async (
       accessToken: token,
     });
 
-    return api
-      .customJson([], [currentAccount.username], id, JSON.stringify(json))
-      .then((r) => r.result as TransactionConfirmation);
+    try {
+      return await api
+        .customJson([], [currentAccount.username], id, JSON.stringify(json))
+        .then((r) => r.result as TransactionConfirmation);
+    } catch (err) {
+      // Check if this is a HiveAuth user with missing posting authority
+      const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
+
+      if (isHiveAuth && isMissingAuthorityError(err)) {
+        // Build custom_json operation
+        const custom_json = {
+          id,
+          json: JSON.stringify(json),
+          required_auths: [],
+          required_posting_auths: [currentAccount.name],
+        };
+        const customJsonOp: Operation = ['custom_json', custom_json];
+
+        return handleHiveAuthFallback(
+          currentAccount,
+          [customJsonOp],
+          `custom_json:${id}`,
+        ) as Promise<TransactionConfirmation>;
+      }
+
+      throw err;
+    }
   }
 
   if (key) {
@@ -1019,7 +1100,34 @@ export const ignoreUser = async (currentAccount, pin, data) => {
       accessToken: token,
     });
 
-    return api.ignore(data.follower, data.following);
+    try {
+      return await api.ignore(data.follower, data.following);
+    } catch (err) {
+      // Check if this is a HiveAuth user with missing posting authority
+      const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
+
+      if (isHiveAuth && isMissingAuthorityError(err)) {
+        // Build ignore operation
+        const json = {
+          id: 'follow',
+          json: jsonStringify([
+            'follow',
+            {
+              follower: `${data.follower}`,
+              following: `${data.following}`,
+              what: ['ignore'],
+            },
+          ]),
+          required_auths: [],
+          required_posting_auths: [`${data.follower}`],
+        };
+        const ignoreOp: Operation = ['custom_json', json];
+
+        return handleHiveAuthFallback(currentAccount, [ignoreOp], 'ignore');
+      }
+
+      throw err;
+    }
   }
 
   if (key) {
@@ -1208,7 +1316,7 @@ export const getPurePost = async (author, permlink) => {
   }
 };
 
-export const deleteComment = (currentAccount, pin, permlink) => {
+export const deleteComment = async (currentAccount, pin, permlink) => {
   const { name: author } = currentAccount;
   const digitPinCode = getDigitPinCode(pin);
   const key = getPostingKey(currentAccount.local, digitPinCode);
@@ -1226,7 +1334,27 @@ export const deleteComment = (currentAccount, pin, permlink) => {
 
     const opArray = [['delete_comment', params]];
 
-    return api.broadcast(opArray).then((resp) => resp.result);
+    try {
+      return await api.broadcast(opArray).then((resp) => resp.result);
+    } catch (err) {
+      // Check if this is a HiveAuth user with missing posting authority
+      const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
+
+      if (isHiveAuth && isMissingAuthorityError(err)) {
+        // Build delete_comment operation
+        const deleteOp: Operation = [
+          'delete_comment',
+          {
+            author,
+            permlink,
+          },
+        ];
+
+        return handleHiveAuthFallback(currentAccount, [deleteOp], 'delete_comment');
+      }
+
+      throw err;
+    }
   }
 
   if (key) {
@@ -1438,9 +1566,33 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
         .then((result) => {
           resolve(result.result);
         })
-        .catch((err) => {
+        .catch(async (err) => {
           captureExceptionWithRpcParams(err, { voter, author, permlink, weight });
-          reject(err);
+
+          // Check if this is a HiveAuth user with missing posting authority
+          const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
+
+          if (isHiveAuth && isMissingAuthorityError(err)) {
+            // Build vote operation
+            const voteOp: Operation = [
+              'vote',
+              {
+                voter,
+                author,
+                permlink,
+                weight,
+              },
+            ];
+
+            try {
+              const result = await handleHiveAuthFallback(currentAccount, [voteOp], 'vote');
+              resolve(result);
+            } catch (fallbackErr) {
+              reject(fallbackErr);
+            }
+          } else {
+            reject(err);
+          }
         });
     });
   }
@@ -1926,7 +2078,34 @@ export const followUser = async (currentAccount, pin, data) => {
       accessToken: token,
     });
 
-    return api.follow(data.follower, data.following);
+    try {
+      return await api.follow(data.follower, data.following);
+    } catch (err) {
+      // Check if this is a HiveAuth user with missing posting authority
+      const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
+
+      if (isHiveAuth && isMissingAuthorityError(err)) {
+        // Build follow operation
+        const json = {
+          id: 'follow',
+          json: jsonStringify([
+            'follow',
+            {
+              follower: `${data.follower}`,
+              following: `${data.following}`,
+              what: ['blog'],
+            },
+          ]),
+          required_auths: [],
+          required_posting_auths: [`${data.follower}`],
+        };
+        const followOp: Operation = ['custom_json', json];
+
+        return handleHiveAuthFallback(currentAccount, [followOp], 'follow');
+      }
+
+      throw err;
+    }
   }
 
   if (key) {
@@ -1972,7 +2151,34 @@ export const unfollowUser = async (currentAccount, pin, data) => {
       accessToken: token,
     });
 
-    return api.unfollow(data.follower, data.following);
+    try {
+      return await api.unfollow(data.follower, data.following);
+    } catch (err) {
+      // Check if this is a HiveAuth user with missing posting authority
+      const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
+
+      if (isHiveAuth && isMissingAuthorityError(err)) {
+        // Build unfollow operation
+        const json = {
+          id: 'follow',
+          json: jsonStringify([
+            'follow',
+            {
+              follower: `${data.follower}`,
+              following: `${data.following}`,
+              what: [],
+            },
+          ]),
+          required_auths: [],
+          required_posting_auths: [`${data.follower}`],
+        };
+        const unfollowOp: Operation = ['custom_json', json];
+
+        return handleHiveAuthFallback(currentAccount, [unfollowOp], 'unfollow');
+      }
+
+      throw err;
+    }
   }
 
   if (key) {
@@ -2241,7 +2447,22 @@ const _postContent = async (
       opArray.push(e);
     }
 
-    return api.broadcast(opArray).then((resp) => resp.result);
+    try {
+      return await api.broadcast(opArray).then((resp) => resp.result);
+    } catch (err) {
+      // Check if this is a HiveAuth user with missing posting authority
+      const isHiveAuth = account.local?.authType === AUTH_TYPE.HIVE_AUTH;
+
+      if (isHiveAuth && isMissingAuthorityError(err)) {
+        return handleHiveAuthFallback(
+          account,
+          opArray as Operation[],
+          'post_content',
+        ) as Promise<TransactionConfirmation>;
+      }
+
+      throw err;
+    }
   }
 
   if (key) {
@@ -2320,7 +2541,7 @@ const _reblog = async (account, pinCode, author, permlink, undo = false) => {
   return broadcastPostingJSON('follow', json, account, pinCode);
 };
 
-export const claimRewardBalance = (account, pinCode, rewardHive, rewardHbd, rewardVests) => {
+export const claimRewardBalance = async (account, pinCode, rewardHive, rewardHbd, rewardVests) => {
   const pin = getDigitPinCode(pinCode);
   const key = getPostingKey(get(account, 'local'), pin);
 
@@ -2339,7 +2560,29 @@ export const claimRewardBalance = (account, pinCode, rewardHive, rewardHbd, rewa
       return Promise.reject(new Error(errorMsg));
     }
 
-    return api.claimRewardBalance(get(account, 'name'), rewardHive, rewardHbd, rewardVests);
+    try {
+      return await api.claimRewardBalance(get(account, 'name'), rewardHive, rewardHbd, rewardVests);
+    } catch (err) {
+      // Check if this is a HiveAuth user with missing posting authority
+      const isHiveAuth = account.local?.authType === AUTH_TYPE.HIVE_AUTH;
+
+      if (isHiveAuth && isMissingAuthorityError(err)) {
+        // Build claim_reward_balance operation
+        const claimOp: Operation = [
+          'claim_reward_balance',
+          {
+            account: account.name,
+            reward_hive: rewardHive,
+            reward_hbd: rewardHbd,
+            reward_vests: rewardVests,
+          },
+        ];
+
+        return handleHiveAuthFallback(account, [claimOp], 'claim_reward_balance');
+      }
+
+      throw err;
+    }
   }
 
   if (key) {
@@ -2527,25 +2770,25 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
+  const existingAuths = get(currentAccount, 'posting.account_auths', []);
+  const updatedAuths = existingAuths.some((auth) => auth[0] === 'ecency.app')
+    ? [...existingAuths]
+    : [...existingAuths, ['ecency.app', get(currentAccount, 'posting.weight_threshold')]];
+  updatedAuths.sort((a, b) => String(a[0]).localeCompare(String(b[0])));
+
   const newPosting = Object.assign(
     {},
     {
       ...get(currentAccount, 'posting'),
     },
     {
-      account_auths: [
-        ...get(currentAccount, 'posting.account_auths'),
-        ['ecency.app', get(currentAccount, 'posting.weight_threshold')],
-      ],
+      account_auths: updatedAuths,
     },
   );
-  newPosting.account_auths.sort();
 
-  if (isHsClientSupported(currentAccount.local.authType)) {
-    const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = new hsClient({
-      accessToken: token,
-    });
+  // HiveAuth users: account_update requires ACTIVE authority
+  // Access tokens don't have active authority, so directly trigger HiveAuth broadcast
+  if (currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH) {
     const _params = {
       account: get(currentAccount, 'name'),
       posting: newPosting,
@@ -2553,16 +2796,13 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
       json_metadata: json,
     };
 
-    const opArray = [['account_update', _params]];
+    const opArray: Operation[] = [['account_update', _params]];
 
-    return api
-      .broadcast(opArray)
-      .then((resp) => resp.result)
-      .catch((error) => {
-        console.warn('Failed to update posting key');
-        captureExceptionWithRpcParams(error, { account: get(currentAccount, 'name') });
-        console.log(error);
-      });
+    return handleHiveAuthFallback(
+      currentAccount,
+      opArray,
+      'grant_posting_permission',
+    ) as Promise<TransactionConfirmation>;
   }
 
   if (key) {
@@ -2637,10 +2877,23 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 
     const opArray = [['account_update2', _params]];
 
-    return api
-      .broadcast(opArray)
-      .then((resp) => resp.result)
-      .catch((error) => console.log(error));
+    try {
+      return await api.broadcast(opArray).then((resp) => resp.result);
+    } catch (err) {
+      // Check if this is a HiveAuth user with missing posting authority
+      const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
+
+      if (isHiveAuth && isMissingAuthorityError(err)) {
+        return handleHiveAuthFallback(
+          currentAccount,
+          opArray as Operation[],
+          'profile_update',
+        ) as Promise<TransactionConfirmation>;
+      }
+
+      console.log(err);
+      throw err;
+    }
   }
 
   if (key) {

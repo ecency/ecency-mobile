@@ -1,4 +1,5 @@
 import { registerSheet, SheetDefinition } from 'react-native-actions-sheet';
+import { Operation } from '@hiveio/dhive';
 import {
   ActionModal,
   PostTranslationModal,
@@ -10,6 +11,7 @@ import {
   ChatOptionsSheet,
   ChatChannelOptionsSheet,
   PostingAuthoritySheet,
+  HiveAuthBroadcastSheet,
 } from '../components';
 import { TippingDialog } from '../components/tipping';
 import { TTSSettingsSheet } from '../components/textToSpeech/ttsSettingsSheet';
@@ -28,6 +30,7 @@ export enum SheetNames {
   TIPPING_DIALOG = 'tipping_dialog',
   TTS_SETTINGS = 'tts_settings',
   POSTING_AUTHORITY_PROMPT = 'posting_authority_prompt',
+  HIVE_AUTH_BROADCAST = 'hive_auth_broadcast',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -42,6 +45,7 @@ registerSheet(SheetNames.CHAT_CHANNEL_OPTIONS, ChatChannelOptionsSheet);
 registerSheet(SheetNames.TIPPING_DIALOG, TippingDialog);
 registerSheet(SheetNames.TTS_SETTINGS, TTSSettingsSheet);
 registerSheet(SheetNames.POSTING_AUTHORITY_PROMPT, PostingAuthoritySheet);
+registerSheet(SheetNames.HIVE_AUTH_BROADCAST, HiveAuthBroadcastSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -114,6 +118,13 @@ declare module 'react-native-actions-sheet' {
       };
     }>;
     [SheetNames.POSTING_AUTHORITY_PROMPT]: SheetDefinition;
+    [SheetNames.HIVE_AUTH_BROADCAST]: SheetDefinition<{
+      payload: {
+        operations: Operation[];
+        onSuccess?: (result: any) => void;
+        onError?: (error: Error) => void;
+      };
+    }>;
   }
 }
 

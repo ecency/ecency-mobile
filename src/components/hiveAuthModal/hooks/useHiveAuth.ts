@@ -128,6 +128,59 @@ const getHiveAuthUri = async (path: string, preferredScheme?: HiveAuthScheme | n
   return results.find((uri): uri is string => Boolean(uri)) ?? null;
 };
 
+/**
+ * Infers the required key type (posting or active) based on operation types
+ * Matches the logic from vision-next website for consistency
+ * @param opsArray Array of operations to analyze
+ * @returns 'posting' or 'active' key type
+ */
+const inferOperationKeyType = (opsArray: Operation[]): 'posting' | 'active' => {
+  // Find the first operation that determines authority type
+  const determinedAuthority = opsArray.reduce<'posting' | 'active' | null>(
+    (acc, [opName, opPayload]) => {
+      // Skip if already determined
+      if (acc !== null) {
+        return acc;
+      }
+
+      // For custom_json, check which authority is required
+      if (opName === 'custom_json') {
+        const payload = opPayload as any;
+        if (payload?.required_auths && payload.required_auths.length > 0) {
+          return 'active';
+        }
+        if (payload?.required_posting_auths && payload.required_posting_auths.length > 0) {
+          return 'posting';
+        }
+        // If neither specified, check next operation
+        return null;
+      }
+
+      // Operations that only require posting authority
+      const postingOnlyOps = [
+        'vote',
+        'comment',
+        'comment_options',
+        'delete_comment',
+        'claim_reward_balance',
+        'account_update2', // Profile metadata updates (avatar, cover, bio, etc.)
+      ];
+
+      if (postingOnlyOps.includes(opName)) {
+        return 'posting';
+      }
+
+      // All other operations require active authority
+      // Including: account_update (authority changes), transfer, etc.
+      return 'active';
+    },
+    null,
+  );
+
+  // Default to posting for safety (most common operations)
+  return determinedAuthority || 'posting';
+};
+
 export enum HiveAuthStatus {
   INPUT = 0,
   PROCESSING = 1,
@@ -312,13 +365,19 @@ export const useHiveAuth = () => {
         }
       };
 
-      const res = await HAS.broadcast(_hiveAuthObj, 'active', opsArray, _cdWait);
+      // Infer required key type based on operations (posting vs active)
+      const keyType = inferOperationKeyType(opsArray);
+      console.log(`[HiveAuth] Broadcasting with ${keyType} authority`, opsArray);
 
-      if (res && res.broadcast) {
-        console.log('broadcast response', res);
-        // TODO: hive modal
-        // respond back to transfer screen
+      const res = await HAS.broadcast(_hiveAuthObj, keyType, opsArray, _cdWait);
+
+      if (!res?.broadcast) {
+        throw new Error(intl.formatMessage({ id: 'hiveauth.transaction_fail' }));
       }
+
+      console.log('broadcast response', res);
+      // TODO: hive modal
+      // respond back to transfer screen
 
       setStatus(HiveAuthStatus.SUCCESS);
       setStatusText(intl.formatMessage({ id: 'hiveauth.transaction_success' }));

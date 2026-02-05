@@ -36,7 +36,7 @@ const AccountBoost = ({ route }) => {
 
   const delegateAmount = useMemo(
     () => vestsToHp(ACCOUNT_BOOST_VESTS, globalProps.hivePerMVests).toFixed(1),
-    [],
+    [globalProps.hivePerMVests],
   );
 
   return (

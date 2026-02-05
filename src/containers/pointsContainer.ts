@@ -101,7 +101,8 @@ const PointsContainer = ({
     }
 
     if (pointsQuery.data) {
-      const _balance = Math.round(parseFloat(pointsQuery.data.points) * 1000) / 1000;
+      const normalizedPoints = String(pointsQuery.data.points ?? '').replace(/,/g, '');
+      const _balance = Math.round(parseFloat(normalizedPoints) * 1000) / 1000;
       setBalance(_balance);
       setUserPoints({
         points: pointsQuery.data.points,

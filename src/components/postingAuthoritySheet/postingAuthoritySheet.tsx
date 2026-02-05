@@ -8,10 +8,11 @@ import { useAppSelector } from '../../hooks';
 import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 import { MainButton } from '../mainButton';
 import { ActivityIndicator, Icon } from '../basicUIElements';
-import { grantPostingPermission } from '../../providers/hive/dhive';
+import { getAccount, grantPostingPermission } from '../../providers/hive/dhive';
 import { toastNotification } from '../../redux/actions/uiAction';
 import AUTH_TYPE from '../../constants/authType';
 import { useHiveAuth } from '../hiveAuthModal/hooks/useHiveAuth';
+import { updateCurrentAccount } from '../../redux/actions/accountAction';
 
 const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = ({ sheetId }) => {
   const intl = useIntl();
@@ -36,17 +37,28 @@ const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = 
 
     setIsGranting(true);
     try {
+      const hasPostingAuth =
+        currentAccount.posting?.account_auths?.some((auth: any) => auth[0] === 'ecency.app') ||
+        false;
+      if (hasPostingAuth) {
+        ActionSheet.hide(sheetId);
+        return;
+      }
+
       const json = currentAccount.posting_json_metadata || '{}';
 
       // For HiveAuth users, we need to use broadcast method to sign with active key
       if (isHiveAuth) {
+        const existingAuths = currentAccount.posting?.account_auths || [];
+        const updatedAuths = existingAuths.some((auth) => auth[0] === 'ecency.app')
+          ? [...existingAuths]
+          : [...existingAuths, ['ecency.app', currentAccount.posting?.weight_threshold || 1]];
+        updatedAuths.sort((a, b) => String(a[0]).localeCompare(String(b[0])));
+
         // Build account_update operation
         const newPosting = {
           ...currentAccount.posting,
-          account_auths: [
-            ...(currentAccount.posting?.account_auths || []),
-            ['ecency.app', currentAccount.posting?.weight_threshold || 1],
-          ].sort(),
+          account_auths: updatedAuths,
         };
 
         const operation = [
@@ -70,6 +82,22 @@ const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = 
         if (!result) {
           throw new Error(intl.formatMessage({ id: 'posting_authority.error' }));
         }
+      }
+
+      try {
+        const refreshed = await getAccount(currentAccount.name || currentAccount.username);
+        if (refreshed) {
+          dispatch(
+            updateCurrentAccount({
+              ...currentAccount,
+              ...refreshed,
+              local: currentAccount.local,
+              accessToken: currentAccount.accessToken,
+            }),
+          );
+        }
+      } catch (refreshError) {
+        console.warn('Failed to refresh account after posting authority grant', refreshError);
       }
 
       dispatch(toastNotification(intl.formatMessage({ id: 'posting_authority.success' })));

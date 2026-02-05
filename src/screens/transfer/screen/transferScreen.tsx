@@ -337,6 +337,8 @@ const TransferView = ({
 
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="always"
+        enableOnAndroid={true}
+        extraScrollHeight={80}
         contentContainerStyle={[styles.grow, styles.keyboardAwareScrollContainer]}
       >
         <View style={styles.container}>
