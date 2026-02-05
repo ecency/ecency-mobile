@@ -63,7 +63,7 @@ const CommunitiesList = ({
       ref={listRef}
       data={data}
       keyExtractor={(item, index) => index.toString()}
-      renderItem={true && _renderItem}
+      renderItem={_renderItem}
       ListEmptyComponent={_renderEmptyContent}
       ListFooterComponent={isDiscoversLoading && <CommunitiesPlaceHolder />}
     />

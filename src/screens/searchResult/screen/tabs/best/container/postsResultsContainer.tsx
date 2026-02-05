@@ -25,6 +25,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   const [scrollId, setScrollId] = useState('');
   const [noResult, setNoResult] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const currentAccountUsername = useAppSelector(selectCurrentAccountUsername);
 
@@ -60,35 +61,44 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     setNoResult(false);
     setData(_data);
     setScrollId('');
+    setIsLoading(true);
 
-    // parse author and permlink if url
-    const { author, permlink } = postUrlParser(searchValue) || {};
+    try {
+      // parse author and permlink if url
+      const { author, permlink } = postUrlParser(searchValue) || {};
 
-    // fetch based on post url
-    if (author && permlink) {
-      const queryClient = getQueryClient();
-      const post = await queryClient.fetchQuery(
-        getPostQueryOptions(author, permlink, currentAccountUsername),
-      );
-      _data = post ? [post] : [];
-    }
-    // search with query
-    else if (searchValue) {
-      const queryClient = getQueryClient();
-      const res = await queryClient.fetchQuery(
-        searchQueryOptions(`${searchValue} type:post`, sort, '0'),
-      );
-      const normalized = normalizeSearchResponse(res);
-      _data = normalized.results;
-      setScrollId(normalized.scrollId);
-    }
-    // get initial posts if not search value
-    else {
-      _data = await getInitialPosts();
-    }
+      // fetch based on post url
+      if (author && permlink) {
+        const queryClient = getQueryClient();
+        const post = await queryClient.fetchQuery(
+          getPostQueryOptions(author, permlink, currentAccountUsername),
+        );
+        _data = post ? [post] : [];
+      }
+      // search with query
+      else if (searchValue) {
+        const queryClient = getQueryClient();
+        const res = await queryClient.fetchQuery(
+          searchQueryOptions(`${searchValue} type:post`, sort, '0'),
+        );
+        const normalized = normalizeSearchResponse(res);
+        _data = normalized.results;
+        setScrollId(normalized.scrollId);
+      }
+      // get initial posts if not search value
+      else {
+        _data = await getInitialPosts();
+      }
 
-    setData(_data);
-    setNoResult(_data.length === 0);
+      setData(_data);
+      setNoResult(_data.length === 0);
+    } catch (error) {
+      console.warn('[PostsSearch] Search failed:', error);
+      setData([]);
+      setNoResult(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getInitialPosts = async () => {
@@ -153,6 +163,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
       handleOnPress: _handleOnPress,
       loadMore: _loadMore,
       noResult,
+      isLoading,
     })
   );
 };

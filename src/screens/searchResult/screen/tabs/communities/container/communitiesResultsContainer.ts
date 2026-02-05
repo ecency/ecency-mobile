@@ -103,6 +103,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
         }
         setIsDiscoversLoading(false);
       } catch (error) {
+        console.warn('[CommunitiesSearch] Search failed:', error);
         setNoResult(true);
         setData([]);
         setIsDiscoversLoading(false);
