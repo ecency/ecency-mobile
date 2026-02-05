@@ -127,6 +127,7 @@ export const convertPortfolio = (rawData: any) => {
       layer: item.layer || '',
       balance: item.balance || 0,
       fiatRate: item.fiatRate || 0,
+      precision: item.precision ?? 3, // SDK guarantees precision, default to 3 as fallback
       address: item.address,
       pendingRewards: item.pendingRewards || 0,
       pendingRewardsFiat: item.pendingRewardsFiat || 0,

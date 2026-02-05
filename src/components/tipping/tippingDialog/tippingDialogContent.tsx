@@ -36,7 +36,8 @@ const TippingDialogContent = forwardRef<any, TippingDialogContentProps>(
     const [amount, setAmount] = useState('');
 
     const sendTipMutation = tipsQueries.useSendTipMutation();
-    const assetsQuery = walletQueries.useAssetsQuery();
+    // Fetch all assets including non-enabled engine tokens for tipping
+    const assetsQuery = walletQueries.useAssetsQuery({ onlyEnabled: false });
     const existingTipsQuery = tipsQueries.usePostTipsQuery({
       author: post?.author,
       permlink: post?.permlink,
@@ -63,18 +64,12 @@ const TippingDialogContent = forwardRef<any, TippingDialogContentProps>(
         // Add Engine tokens with positive balance
         const engineTokens = assetsQuery.data
           .filter((asset) => asset.layer === 'engine' && asset.balance > 0)
-          .map((asset) => {
-            // Try to extract precision from extraData
-            const precisionData = asset.extraData?.find((data) => data.dataKey === 'precision');
-            const precision = precisionData ? Number(precisionData.value) : 8;
-
-            return {
-              symbol: asset.symbol,
-              label: asset.symbol,
-              balance: asset.balance || 0,
-              precision,
-            };
-          })
+          .map((asset) => ({
+            symbol: asset.symbol,
+            label: asset.symbol,
+            balance: asset.balance || 0,
+            precision: asset.precision, // Guaranteed by SDK
+          }))
           .sort((a, b) => a.symbol.localeCompare(b.symbol));
 
         options.push(...engineTokens);

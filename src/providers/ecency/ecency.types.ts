@@ -110,7 +110,7 @@ export interface LatestQuotes {
 
 export interface CommentHistoryItem {
   body: string;
-  tags: [string];
+  tags: string[]; // Changed from [string] tuple to string[] array to match SDK
   title: string;
   timestamp: string;
   v: number;
@@ -160,6 +160,7 @@ export interface PortfolioItem {
   layer: PortfolioLayer;
   balance: number;
   fiatRate: number;
+  precision: number; // SDK guarantees this field (defaults to 3)
   address?: string;
   pendingRewards?: number;
   pendingRewardsFiat?: number;

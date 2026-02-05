@@ -102,11 +102,19 @@ const EditHistoryScreen = ({ route }) => {
       const responseData = await queryClient.fetchQuery(
         getCommentHistoryQueryOptions(author, permlink, false),
       );
-      if (!responseData || (Array.isArray(responseData) && responseData.length === 0)) {
+
+      // Guard: SDK returns { meta, list }, ensure list exists and is valid
+      if (!responseData || !responseData.list || !Array.isArray(responseData.list)) {
         Alert.alert('No History found!');
         return;
       }
-      setEditHistory(historyBuilder(responseData));
+
+      if (responseData.list.length === 0) {
+        Alert.alert('No edit history available for this content.');
+        return;
+      }
+
+      setEditHistory(historyBuilder(responseData.list));
     } catch (error) {
       Alert.alert('No History found!');
       console.warn('Failed to fetch comment history:', error);

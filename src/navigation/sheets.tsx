@@ -9,6 +9,7 @@ import {
   QRModal,
   ChatOptionsSheet,
   ChatChannelOptionsSheet,
+  PostingAuthoritySheet,
 } from '../components';
 import { TippingDialog } from '../components/tipping';
 import { TTSSettingsSheet } from '../components/textToSpeech/ttsSettingsSheet';
@@ -26,6 +27,7 @@ export enum SheetNames {
   CHAT_CHANNEL_OPTIONS = 'chat_channel_options',
   TIPPING_DIALOG = 'tipping_dialog',
   TTS_SETTINGS = 'tts_settings',
+  POSTING_AUTHORITY_PROMPT = 'posting_authority_prompt',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -39,6 +41,7 @@ registerSheet(SheetNames.CHAT_OPTIONS, ChatOptionsSheet);
 registerSheet(SheetNames.CHAT_CHANNEL_OPTIONS, ChatChannelOptionsSheet);
 registerSheet(SheetNames.TIPPING_DIALOG, TippingDialog);
 registerSheet(SheetNames.TTS_SETTINGS, TTSSettingsSheet);
+registerSheet(SheetNames.POSTING_AUTHORITY_PROMPT, PostingAuthoritySheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -110,6 +113,7 @@ declare module 'react-native-actions-sheet' {
         onSettingsChanged?: () => void;
       };
     }>;
+    [SheetNames.POSTING_AUTHORITY_PROMPT]: SheetDefinition;
   }
 }
 

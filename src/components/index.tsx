@@ -117,6 +117,7 @@ import { CrossPostModal } from './crossPostModal';
 import { ChatOptionsSheet } from './chatOptionsSheet';
 import { ChatChannelOptionsSheet } from './chatChannelOptionsSheet';
 import { TTSControls } from './textToSpeech/ttsControls';
+import { PostingAuthoritySheet } from './postingAuthoritySheet';
 
 // Basic UI Elements
 import {
@@ -289,4 +290,5 @@ export {
   ChatOptionsSheet,
   ChatChannelOptionsSheet,
   TTSControls,
+  PostingAuthoritySheet,
 };
