@@ -37,6 +37,7 @@ interface HiveAuthBroadcastSheetPayload {
   operations: Operation[];
   onSuccess?: (result: any) => void;
   onError?: (error: Error) => void;
+  onClose?: (error: Error) => void;
 }
 
 export const HiveAuthBroadcastSheet = ({
@@ -97,6 +98,7 @@ export const HiveAuthBroadcastSheet = ({
 
   const handleClose = () => {
     const error = new Error('User cancelled HiveAuth broadcast');
+    payload?.onClose?.(error);
     payload?.onError?.(error);
     ActionSheet.hide(sheetId);
   };

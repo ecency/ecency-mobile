@@ -162,16 +162,30 @@ const handleHiveAuthFallback = async (
   const { SheetNames } = await import('../../navigation/sheets');
 
   return new Promise((resolve, reject) => {
+    const timeoutMs = 60000;
+    const timeoutId = setTimeout(() => {
+      reject(new Error('HiveAuth broadcast timed out'));
+    }, timeoutMs);
+
+    const finish = (fn: () => void) => {
+      clearTimeout(timeoutId);
+      fn();
+    };
+
     SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
       payload: {
         operations,
         onSuccess: (result) => {
           console.log(`[HiveAuth Fallback] ${operationName} broadcast successful`, result);
-          resolve(result);
+          finish(() => resolve(result));
         },
         onError: (error) => {
           console.error(`[HiveAuth Fallback] ${operationName} broadcast failed`, error);
-          reject(error);
+          finish(() => reject(error));
+        },
+        onClose: (error) => {
+          console.warn(`[HiveAuth Fallback] ${operationName} dismissed`, error);
+          finish(() => reject(error));
         },
       },
     });

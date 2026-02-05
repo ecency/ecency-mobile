@@ -123,6 +123,7 @@ declare module 'react-native-actions-sheet' {
         operations: Operation[];
         onSuccess?: (result: any) => void;
         onError?: (error: Error) => void;
+        onClose?: (error: Error) => void;
       };
     }>;
   }
