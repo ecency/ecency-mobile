@@ -60,10 +60,16 @@ const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = 
         ];
 
         // This will open the keychain app for user to sign with active key
-        await hiveAuthBroadcast([operation]);
+        const broadcastOk = await hiveAuthBroadcast([operation]);
+        if (!broadcastOk) {
+          throw new Error(intl.formatMessage({ id: 'posting_authority.error' }));
+        }
       } else {
         // For key-based auth, use the standard flow
-        await grantPostingPermission(json, pinHash, currentAccount);
+        const result = await grantPostingPermission(json, pinHash, currentAccount);
+        if (!result) {
+          throw new Error(intl.formatMessage({ id: 'posting_authority.error' }));
+        }
       }
 
       dispatch(toastNotification(intl.formatMessage({ id: 'posting_authority.success' })));

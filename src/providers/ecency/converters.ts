@@ -94,9 +94,11 @@ export const convertLatestQuotes = (rawData: any, currencyRate: number) => {
 };
 
 export const convertCommentHistory = (rawData: any) => {
+  const rawTags = rawData?.tags;
+  const tags = Array.isArray(rawTags) ? rawTags : rawTags ? [rawTags] : [];
   return {
     body: rawData.body || '',
-    tags: rawData.tags || '',
+    tags,
     timestamp: rawData.timestamp || '',
     title: rawData.title || '',
     v: rawData.v || 1,
