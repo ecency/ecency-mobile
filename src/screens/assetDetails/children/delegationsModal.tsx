@@ -62,29 +62,56 @@ export const DelegationsModal = forwardRef(({}, ref) => {
     }
   }, [mode, showModal]);
 
-  const _getVestingDelegations = async (startUsername = '') => {
-    let resData: any = [];
+  const _getVestingDelegations = async () => {
+    let allDelegations: DelegationItem[] = [];
     const limit = 1000;
 
-    const response = await queryClient.fetchQuery(
-      getVestingDelegationsQueryOptions(currentAccount.name, startUsername, limit),
-    );
+    // Fetch all pages of vesting delegations using infinite query
+    const queryOptions = getVestingDelegationsQueryOptions(currentAccount.name, limit);
 
-    resData = response.map(
-      (item) =>
-        ({
-          username: item.delegatee,
-          vestingShares: item.vesting_shares,
-          timestamp: item.min_delegation_time,
-        } as DelegationItem),
-    );
+    // Fetch first page
+    let cursor: string | undefined = '';
+    let hasMore = true;
 
-    if (resData.length === limit) {
-      const data = await _getVestingDelegations(response[response.length - 1].delegatee);
-      resData = unionBy(resData, data, 'username');
+    while (hasMore) {
+      try {
+        // Fetch page with current cursor
+        // eslint-disable-next-line no-await-in-loop
+        const response = await queryClient.fetchQuery({
+          ...queryOptions,
+          queryKey: [...queryOptions.queryKey, cursor],
+          queryFn: () => queryOptions.queryFn({ pageParam: cursor || '' }),
+        });
+
+        // Map to DelegationItem format
+        const pageDelegations = response.map(
+          (item) =>
+            ({
+              username: item.delegatee,
+              vestingShares: item.vesting_shares,
+              timestamp: item.min_delegation_time,
+            } as DelegationItem),
+        );
+
+        allDelegations = unionBy(allDelegations, pageDelegations, 'username');
+
+        // Check if there are more pages
+        if (response.length < limit) {
+          hasMore = false;
+        } else {
+          // Get cursor for next page (last delegatee)
+          cursor = response[response.length - 1]?.delegatee;
+          if (!cursor) {
+            hasMore = false;
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch vesting delegations page:', error);
+        hasMore = false;
+      }
     }
 
-    return resData;
+    return allDelegations;
   };
 
   const _getReceivedDelegations = async () => {

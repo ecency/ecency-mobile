@@ -88,21 +88,11 @@ export const HiveAuthBroadcastSheet = ({
     }
 
     try {
-      const success = await hiveAuth.broadcast(operations);
+      const result = await hiveAuth.broadcast(operations);
 
-      if (success) {
-        if (!isCancelledRef.current) {
-          onSuccess?.({ broadcast: true, operations });
-          ActionSheet.hide(sheetId);
-        }
-      } else {
-        const error = new Error(
-          intl.formatMessage({ id: 'hiveauth.transaction_fail' }) || 'HiveAuth broadcast failed',
-        );
-        if (!isCancelledRef.current) {
-          onError?.(error);
-          ActionSheet.hide(sheetId);
-        }
+      if (!isCancelledRef.current) {
+        onSuccess?.(result);
+        ActionSheet.hide(sheetId);
       }
     } catch (error) {
       if (!isCancelledRef.current) {

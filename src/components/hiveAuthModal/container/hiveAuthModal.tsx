@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { View } from 'react-native';
 
 import { useIntl } from 'react-intl';
@@ -28,6 +28,8 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
   const isPinCodeOpen = useAppSelector(selectIsPinCodeOpen);
 
   const bottomSheetModalRef = useRef();
+  const isMountedRef = useRef(true);
+  const successNavTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [initUsername, setInitUsername] = useState<string>();
 
@@ -53,7 +55,10 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
       _closeModal();
 
       // Small delay to let modal close animation finish
-      setTimeout(() => {
+      successNavTimerRef.current = setTimeout(() => {
+        if (!isMountedRef.current) {
+          return;
+        }
         if (isPinCodeOpen) {
           navigation.navigate({
             name: ROUTES.SCREENS.PINCODE,
@@ -71,9 +76,13 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
   };
 
   const handleBroadcastRequst = async (opsArray: Operation[]) => {
-    const success = await hiveAuth.broadcast(opsArray);
-    if (success) {
-      _closeModal();
+    try {
+      const result = await hiveAuth.broadcast(opsArray);
+      if (result) {
+        _closeModal();
+      }
+    } catch {
+      // useHiveAuth handles status/error state
     }
   };
 
@@ -83,6 +92,16 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
       onClose();
     }
   };
+
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+      if (successNavTimerRef.current) {
+        clearTimeout(successNavTimerRef.current);
+        successNavTimerRef.current = null;
+      }
+    };
+  }, []);
 
   const _renderContent = () => {
     const _content =

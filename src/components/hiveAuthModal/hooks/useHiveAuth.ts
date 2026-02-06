@@ -134,50 +134,44 @@ const getHiveAuthUri = async (path: string, preferredScheme?: HiveAuthScheme | n
  * @returns 'posting' or 'active' key type
  */
 const inferOperationKeyType = (opsArray: Operation[]): 'posting' | 'active' => {
-  // Find the first operation that determines authority type
-  const determinedAuthority = opsArray.reduce<'posting' | 'active' | null>(
-    (acc, [opName, opPayload]) => {
-      // Skip if already determined
-      if (acc !== null) {
-        return acc;
-      }
+  const postingOnlyOps = new Set([
+    'vote',
+    'comment',
+    'comment_options',
+    'delete_comment',
+    'claim_reward_balance',
+    'account_update2', // Profile metadata updates (avatar, cover, bio, etc.)
+  ]);
 
-      // For custom_json, check which authority is required
+  const flags = opsArray.reduce(
+    (acc, [opName, opPayload]) => {
       if (opName === 'custom_json') {
         const payload = opPayload as any;
         if (payload?.required_auths && payload.required_auths.length > 0) {
-          return 'active';
+          acc.sawActive = true;
+        } else if (payload?.required_posting_auths && payload.required_posting_auths.length > 0) {
+          acc.sawPosting = true;
         }
-        if (payload?.required_posting_auths && payload.required_posting_auths.length > 0) {
-          return 'posting';
-        }
-        // If neither specified, check next operation
-        return null;
+        return acc;
       }
 
-      // Operations that only require posting authority
-      const postingOnlyOps = [
-        'vote',
-        'comment',
-        'comment_options',
-        'delete_comment',
-        'claim_reward_balance',
-        'account_update2', // Profile metadata updates (avatar, cover, bio, etc.)
-      ];
-
-      if (postingOnlyOps.includes(opName)) {
-        return 'posting';
+      if (postingOnlyOps.has(opName)) {
+        acc.sawPosting = true;
+      } else {
+        acc.sawActive = true;
       }
-
-      // All other operations require active authority
-      // Including: account_update (authority changes), transfer, etc.
-      return 'active';
+      return acc;
     },
-    null,
+    { sawActive: false, sawPosting: false },
   );
 
-  // Default to posting for safety (most common operations)
-  return determinedAuthority || 'posting';
+  if (flags.sawActive) {
+    return 'active';
+  }
+  if (flags.sawPosting) {
+    return 'posting';
+  }
+  return 'posting';
 };
 
 export enum HiveAuthStatus {
@@ -383,14 +377,14 @@ export const useHiveAuth = () => {
       setStatusText(intl.formatMessage({ id: 'hiveauth.transaction_success' }));
       await delay(2000);
 
-      return true;
+      return res;
     } catch (error) {
       setStatus(HiveAuthStatus.ERROR);
       setStatusText(intl.formatMessage({ id: error.message || 'hiveauth.transaction_fail' }));
 
       console.warn('Transaction failed', error);
       Sentry.captureException(error);
-      return false;
+      throw error;
     }
   };
 

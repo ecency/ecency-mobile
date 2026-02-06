@@ -143,6 +143,7 @@ const WalletHeaderView = ({
               }
               rightText={get(item, 'value')}
               hintIconName={get(item, 'subTextKey') && 'information-circle-outline'}
+              onPress={get(item, 'onPress')}
               isBlackText
               isThin
             />

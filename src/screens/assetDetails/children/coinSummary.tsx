@@ -81,7 +81,17 @@ export const CoinSummary = ({
 
   // Create a new array for extraDataPairs to avoid mutating the original reference
   const _extraDataPairs = useMemo<DataPair[]>(() => {
-    const pairs: DataPair[] = extraData ? extraData.map((item) => ({ ...item })) : [];
+    const pairs: DataPair[] = extraData
+      ? extraData.map((item) => {
+          // Mark delegation items as clickable
+          const isDelegation =
+            item.dataKey === 'delegated_hive_power' || item.dataKey === 'received_hive_power';
+          return {
+            ...item,
+            isClickable: isDelegation || item.isClickable,
+          };
+        })
+      : [];
     if (totalRecurrentAmount && totalRecurrentAmount > 0) {
       pairs.push({
         dataKey: 'total_recurrent_transfers',

@@ -45,14 +45,12 @@ export const HiveSignerModal = ({ route, navigation }) => {
       // Automatically trigger HiveAuth broadcast
       (async () => {
         try {
-          const success = await hiveAuth.broadcast(opsArray as Operation[]);
-          if (success) {
+          const result = await hiveAuth.broadcast(opsArray as Operation[]);
+          if (result) {
             successHandledRef.current = true;
             onSuccessRef.current?.();
             navigation.goBack();
           } else {
-            // Error already handled by useHiveAuth
-            // Set flag to prevent duplicate onClose from beforeRemove listener
             closedDueToMissingUriRef.current = true;
             onCloseRef.current?.();
             navigation.goBack();

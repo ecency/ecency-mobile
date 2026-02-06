@@ -129,13 +129,19 @@ const isMissingAuthorityError = (error: any): boolean => {
 
   const errorMessage = error.message || error.toString() || '';
   const errorDescription = error.error_description || '';
-  const errorString = JSON.stringify(error).toLowerCase();
+  let safeErrorString = '';
+  try {
+    safeErrorString = JSON.stringify(error);
+  } catch {
+    safeErrorString = error.toString ? error.toString() : '';
+  }
+  const safeLower = safeErrorString.toLowerCase();
 
   // Log error for debugging
   console.log('[HiveAuth Debug] Error check:', {
     message: errorMessage,
     description: errorDescription,
-    fullError: errorString.substring(0, 200),
+    fullError: safeLower.substring(0, 200),
   });
 
   return (
@@ -146,8 +152,9 @@ const isMissingAuthorityError = (error: any): boolean => {
     errorMessage.includes('posting authority') ||
     errorDescription.includes('Missing Authority') ||
     errorDescription.includes('posting authority') ||
-    (errorString.includes('posting') && errorString.includes('authority')) ||
-    (errorString.includes('missing') && errorString.includes('auth'))
+    safeLower.includes('missing_posting_auth') ||
+    safeLower.includes('missing required posting authority') ||
+    (safeLower.includes('posting') && safeLower.includes('authority'))
   );
 };
 
@@ -158,16 +165,37 @@ const isMissingAuthorityError = (error: any): boolean => {
 const shouldTriggerHiveAuthFallback = (error: any): boolean => {
   if (!error) return false;
 
-  const errorMessage = (error.message || error.toString() || '').toLowerCase();
+  if (isMissingAuthorityError(error)) {
+    return true;
+  }
 
-  return (
-    isMissingAuthorityError(error) ||
-    errorMessage.includes('401') ||
-    errorMessage.includes('unauthorized') ||
-    (errorMessage.includes('invalid') && errorMessage.includes('token')) ||
-    errorMessage.includes('expired') ||
-    errorMessage.includes('forbidden')
-  );
+  const status = error?.status ?? error?.response?.status;
+  if (status === 401 || status === 403) {
+    return true;
+  }
+
+  const code = error?.code ?? error?.error_code;
+  if (code === 'MISSING_AUTHORITY' || code === 'INSUFFICIENT_AUTHORITY') {
+    return true;
+  }
+  if (code === 'UNAUTHORIZED' || code === 'FORBIDDEN' || code === 'HS_UNAUTHORIZED') {
+    return true;
+  }
+  if (code === 'TOKEN_EXPIRED') {
+    return true;
+  }
+
+  const name = error?.name;
+  if (name === 'UnauthorizedError' || name === 'ForbiddenError') {
+    return true;
+  }
+
+  const errorMessage = (error?.message || error?.toString?.() || '').toLowerCase();
+  if (/\binvalid token\b/.test(errorMessage) || /\btoken expired\b/.test(errorMessage)) {
+    return true;
+  }
+
+  return false;
 };
 
 /**
