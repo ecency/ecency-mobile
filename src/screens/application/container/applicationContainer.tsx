@@ -15,9 +15,12 @@ import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 // Constants
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
-import { getMutedUsersQueryOptions, getNotificationsUnreadCountQueryOptions } from '@ecency/sdk';
+import {
+  getMutedUsersQueryOptions,
+  getNotificationsUnreadCountQueryOptions,
+  saveNotificationSetting,
+} from '@ecency/sdk';
 
-import { saveNotificationSetting } from '@ecency/sdk';
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
 

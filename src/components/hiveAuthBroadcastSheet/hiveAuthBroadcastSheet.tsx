@@ -21,8 +21,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { View, Text } from 'react-native';
-import { SheetProps } from 'react-native-actions-sheet';
-import ActionSheet from 'react-native-actions-sheet';
+import ActionSheet, { SheetProps } from 'react-native-actions-sheet';
 import { useIntl } from 'react-intl';
 import { Operation } from '@hiveio/dhive';
 import { useHiveAuth, HiveAuthStatus } from '../hiveAuthModal/hooks/useHiveAuth';

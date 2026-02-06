@@ -17,8 +17,7 @@ import {
   TextInput,
 } from '../../../components';
 import WithdrawAccountModal from './withdrawAccountModal';
-import { useActiveKeyOperation } from '../../../hooks';
-import { useAppSelector } from '../../../hooks';
+import { useActiveKeyOperation, useAppSelector } from '../../../hooks';
 import { selectCurrentAccount } from '../../../redux/selectors';
 import AUTH_TYPE from '../../../constants/authType';
 

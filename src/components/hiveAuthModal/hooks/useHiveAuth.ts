@@ -15,7 +15,6 @@ import AUTH_TYPE from '../../../constants/authType';
 import { decryptKey } from '../../../utils/crypto';
 import { delay } from '../../../utils/editor';
 import { selectPin, selectCurrentAccount } from '../../../redux/selectors';
-import { SheetNames } from '../../../navigation/sheets';
 
 const APP_META = {
   name: 'Ecency',
@@ -289,19 +288,9 @@ export const useHiveAuth = () => {
 
       await delay(2000);
 
-      // Check if posting authority prompt is needed
-      // Check if ecency.app is in the account's posting authority
-      const hasPostingAuth =
-        accountData.posting?.account_auths?.some((auth: any) => auth[0] === 'ecency.app') || false;
-
-      if (!hasPostingAuth) {
-        // Import SheetManager dynamically to avoid circular deps
-        const { SheetManager } = await import('react-native-actions-sheet');
-        // Show posting authority prompt sheet after successful login
-        setTimeout(() => {
-          SheetManager.show(SheetNames.POSTING_AUTHORITY_PROMPT);
-        }, 500);
-      }
+      // NOTE: Don't show posting authority prompt here - it causes crashes
+      // The prompt will show naturally when user tries to perform an action
+      // The fallback mechanism will handle operations without posting authority
 
       return true;
     } catch (error) {

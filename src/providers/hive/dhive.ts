@@ -129,12 +129,44 @@ const isMissingAuthorityError = (error: any): boolean => {
 
   const errorMessage = error.message || error.toString() || '';
   const errorDescription = error.error_description || '';
+  const errorString = JSON.stringify(error).toLowerCase();
+
+  // Log error for debugging
+  console.log('[HiveAuth Debug] Error check:', {
+    message: errorMessage,
+    description: errorDescription,
+    fullError: errorString.substring(0, 200),
+  });
 
   return (
     errorMessage.includes('missing required posting authority') ||
     errorMessage.includes('Missing Posting Authority') ||
     errorMessage.includes('Missing Authority') ||
-    errorDescription.includes('Missing Authority')
+    errorMessage.includes('missing_posting_auths') ||
+    errorMessage.includes('posting authority') ||
+    errorDescription.includes('Missing Authority') ||
+    errorDescription.includes('posting authority') ||
+    (errorString.includes('posting') && errorString.includes('authority')) ||
+    (errorString.includes('missing') && errorString.includes('auth'))
+  );
+};
+
+/**
+ * Determines if error should trigger HiveAuth fallback
+ * More permissive than isMissingAuthorityError - includes token issues
+ */
+const shouldTriggerHiveAuthFallback = (error: any): boolean => {
+  if (!error) return false;
+
+  const errorMessage = (error.message || error.toString() || '').toLowerCase();
+
+  return (
+    isMissingAuthorityError(error) ||
+    errorMessage.includes('401') ||
+    errorMessage.includes('unauthorized') ||
+    (errorMessage.includes('invalid') && errorMessage.includes('token')) ||
+    errorMessage.includes('expired') ||
+    errorMessage.includes('forbidden')
   );
 };
 
@@ -1583,7 +1615,7 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
       accessToken: token,
     });
 
-    const voter = currentAccount.name;
+    const voter = currentAccount.name || currentAccount.username;
 
     return new Promise((resolve, reject) => {
       api
@@ -1594,10 +1626,17 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
         .catch(async (err) => {
           captureExceptionWithRpcParams(err, { voter, author, permlink, weight });
 
-          // Check if this is a HiveAuth user with missing posting authority
+          // Check if this is a HiveAuth user
           const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
 
-          if (isHiveAuth && isMissingAuthorityError(err)) {
+          console.log('[Vote] Operation failed:', {
+            isHiveAuth,
+            errorMessage: err?.message,
+            errorType: err?.constructor?.name,
+          });
+
+          if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
+            console.log('[Vote] Triggering HiveAuth fallback');
             // Build vote operation
             const voteOp: Operation = [
               'vote',
@@ -1612,19 +1651,22 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
             try {
               const result = await handleHiveAuthFallback(currentAccount, [voteOp], 'vote');
               resolve(result);
+              return;
             } catch (fallbackErr) {
+              console.error('[Vote] HiveAuth fallback failed:', fallbackErr);
               reject(fallbackErr);
+              return;
             }
-          } else {
-            reject(err);
           }
+
+          reject(err);
         });
     });
   }
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
-    const voter = currentAccount.name;
+    const voter = currentAccount.name || currentAccount.username;
     const args = [
       [
         'vote',
