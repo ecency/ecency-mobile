@@ -41,7 +41,7 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
     broadcastActiveOps: (opsArray: any) => {
       if (opsArray) {
         bottomSheetModalRef.current?.show();
-        handleBroadcastRequst(opsArray);
+        handleBroadcastRequest(opsArray);
       }
     },
   }));
@@ -54,28 +54,36 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
       // Close the modal first to show the account switch
       _closeModal();
 
-      // Small delay to let modal close animation finish
+      // Small delay to let modal close animation finish and Redux updates to propagate
       successNavTimerRef.current = setTimeout(() => {
         if (!isMountedRef.current) {
           return;
         }
+
+        // Use navigation reset to force complete remount with new account
         if (isPinCodeOpen) {
-          navigation.navigate({
-            name: ROUTES.SCREENS.PINCODE,
-            params: {
-              navigateTo: ROUTES.DRAWER.MAIN,
-            },
+          navigation.reset({
+            index: 0,
+            routes: [
+              {
+                name: ROUTES.SCREENS.PINCODE,
+                params: {
+                  navigateTo: ROUTES.DRAWER.MAIN,
+                },
+              },
+            ],
           });
         } else {
-          navigation.navigate({
-            name: ROUTES.DRAWER.MAIN,
+          navigation.reset({
+            index: 0,
+            routes: [{ name: ROUTES.DRAWER.MAIN }],
           });
         }
-      }, 300);
+      }, 500); // Increased delay to ensure Redux updates complete
     }
   };
 
-  const handleBroadcastRequst = async (opsArray: Operation[]) => {
+  const handleBroadcastRequest = async (opsArray: Operation[]) => {
     try {
       const result = await hiveAuth.broadcast(opsArray);
       if (result) {

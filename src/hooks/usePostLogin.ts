@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { useQueryClient } from '@tanstack/react-query';
 import persistAccountGenerator from '../utils/persistAccountGenerator';
 import {
   addOtherAccount,
@@ -7,11 +8,13 @@ import {
 } from '../redux/actions/accountAction';
 import { fetchSubscribedCommunities } from '../redux/actions/communitiesAction';
 import { login as loginAction } from '../redux/actions/applicationActions';
+import { setFeedPosts, setInitPosts } from '../redux/actions/postsAction';
 import { useAppSelector } from './index';
 import { selectPrevLoggedInUsers } from '../redux/selectors';
 
 export const usePostLoginActions = () => {
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const prevLoggedInUsers = useAppSelector(selectPrevLoggedInUsers);
 
@@ -41,7 +44,25 @@ export const usePostLoginActions = () => {
       dispatch(fetchSubscribedCommunities(accountData.username));
       dispatch(addOtherAccount({ ...persistAccountData }));
       dispatch(loginAction(true));
+      // Clear cached posts to show new account's feed
+      dispatch(setInitPosts([]));
+      dispatch(setFeedPosts([]));
       _updatePrevLoggedInUsersList(accountData.username);
+
+      // Invalidate all queries that depend on the current user
+      // This forces fresh data for the new account
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          const { queryKey } = query;
+          // Invalidate queries that might have user-specific data
+          return (
+            queryKey.includes('wallet') ||
+            queryKey.includes('posts') ||
+            queryKey.includes('activities') ||
+            queryKey.includes('notifications')
+          );
+        },
+      });
     } else {
       throw new Error('alert.unknow_error');
     }

@@ -92,7 +92,7 @@ export const HiveSignerModal = ({ route, navigation }) => {
     }
     hiveAuth.reset();
     navigation.goBack();
-    onCloseRef.current?.();
+    // Note: onClose will be called by beforeRemove listener, no need to call it here
   };
 
   const _onNavigationStateChange = (navState: any) => {
