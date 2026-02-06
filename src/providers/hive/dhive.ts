@@ -180,6 +180,22 @@ const shouldTriggerHiveAuthFallback = (error: any): boolean => {
  * is ready, it may fail silently. This is acceptable as operations requiring HiveAuth should only
  * be triggered after successful login when UI is fully interactive.
  */
+// Cached dynamic imports to avoid re-resolving on every fallback call
+let _cachedSheetManager: typeof import('react-native-actions-sheet').SheetManager | null = null;
+let _cachedSheetNames: typeof import('../../navigation/sheets').SheetNames | null = null;
+
+const getSheetDeps = async () => {
+  if (!_cachedSheetManager || !_cachedSheetNames) {
+    const [actionSheetModule, sheetsModule] = await Promise.all([
+      import('react-native-actions-sheet'),
+      import('../../navigation/sheets'),
+    ]);
+    _cachedSheetManager = actionSheetModule.SheetManager;
+    _cachedSheetNames = sheetsModule.SheetNames;
+  }
+  return { SheetManager: _cachedSheetManager!, SheetNames: _cachedSheetNames! };
+};
+
 const handleHiveAuthFallback = async (
   currentAccount: any,
   operations: Operation[],
@@ -189,9 +205,7 @@ const handleHiveAuthFallback = async (
     `[HiveAuth Fallback] Access token failed for ${operationName}, falling back to HiveAuth broadcast`,
   );
 
-  // Dynamically import to avoid circular deps
-  const { SheetManager } = await import('react-native-actions-sheet');
-  const { SheetNames } = await import('../../navigation/sheets');
+  const { SheetManager, SheetNames } = await getSheetDeps();
 
   return new Promise((resolve, reject) => {
     const timeoutMs = 60000;
@@ -335,10 +349,10 @@ export const broadcastPostingJSON = async (
         .customJson([], [currentAccount.name], id, JSON.stringify(json))
         .then((r) => r.result as TransactionConfirmation);
     } catch (err) {
-      // Check if this is a HiveAuth user with missing posting authority
+      // Check if this is a HiveAuth user with auth error (missing authority, expired token, etc.)
       const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
 
-      if (isHiveAuth && isMissingAuthorityError(err)) {
+      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
         // Build custom_json operation
         const custom_json = {
           id,
@@ -1160,10 +1174,10 @@ export const ignoreUser = async (currentAccount, pin, data) => {
     try {
       return await api.ignore(data.follower, data.following);
     } catch (err) {
-      // Check if this is a HiveAuth user with missing posting authority
+      // Check if this is a HiveAuth user with auth error (missing authority, expired token, etc.)
       const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
 
-      if (isHiveAuth && isMissingAuthorityError(err)) {
+      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
         // Build ignore operation
         const json = {
           id: 'follow',
@@ -1394,10 +1408,10 @@ export const deleteComment = async (currentAccount, pin, permlink) => {
     try {
       return await api.broadcast(opArray).then((resp) => resp.result);
     } catch (err) {
-      // Check if this is a HiveAuth user with missing posting authority
+      // Check if this is a HiveAuth user with auth error (missing authority, expired token, etc.)
       const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
 
-      if (isHiveAuth && isMissingAuthorityError(err)) {
+      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
         // Build delete_comment operation
         const deleteOp: Operation = [
           'delete_comment',
@@ -1707,12 +1721,12 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
  * @param {*} proposalId
  * @returns
  */
-export const voteProposal = (currentAccount, pinHash, proposalId) => {
+export const voteProposal = async (currentAccount, pinHash, proposalId) => {
   const digitPinCode = getDigitPinCode(pinHash);
   const key = getActiveKey(currentAccount.local, digitPinCode);
 
   const voter = currentAccount.name;
-  const opArray = [
+  const opArray: Operation[] = [
     [
       'update_proposal_votes',
       {
@@ -1730,7 +1744,17 @@ export const voteProposal = (currentAccount, pinHash, proposalId) => {
       accessToken: token,
     });
 
-    return api.broadcast(opArray).then((resp) => resp.result);
+    try {
+      return await api.broadcast(opArray).then((resp) => resp.result);
+    } catch (err) {
+      const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
+
+      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
+        return handleHiveAuthFallback(currentAccount, opArray, 'vote_proposal');
+      }
+
+      throw err;
+    }
   }
 
   if (key) {
@@ -1753,7 +1777,7 @@ export const voteProposal = (currentAccount, pinHash, proposalId) => {
   }
 
   return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
+    new Error('Check private key permission! Required private active key or above.'),
   );
 };
 
@@ -2546,10 +2570,10 @@ const _postContent = async (
     try {
       return await api.broadcast(opArray).then((resp) => resp.result);
     } catch (err) {
-      // Check if this is a HiveAuth user with missing posting authority
+      // Check if this is a HiveAuth user with auth error (missing authority, expired token, etc.)
       const isHiveAuth = account.local?.authType === AUTH_TYPE.HIVE_AUTH;
 
-      if (isHiveAuth && isMissingAuthorityError(err)) {
+      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
         return handleHiveAuthFallback(
           account,
           opArray as Operation[],
@@ -2659,10 +2683,10 @@ export const claimRewardBalance = async (account, pinCode, rewardHive, rewardHbd
     try {
       return await api.claimRewardBalance(get(account, 'name'), rewardHive, rewardHbd, rewardVests);
     } catch (err) {
-      // Check if this is a HiveAuth user with missing posting authority
+      // Check if this is a HiveAuth user with auth error (missing authority, expired token, etc.)
       const isHiveAuth = account.local?.authType === AUTH_TYPE.HIVE_AUTH;
 
-      if (isHiveAuth && isMissingAuthorityError(err)) {
+      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
         // Build claim_reward_balance operation
         const claimOp: Operation = [
           'claim_reward_balance',
@@ -2976,10 +3000,10 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     try {
       return await api.broadcast(opArray).then((resp) => resp.result);
     } catch (err) {
-      // Check if this is a HiveAuth user with missing posting authority
+      // Check if this is a HiveAuth user with auth error (missing authority, expired token, etc.)
       const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
 
-      if (isHiveAuth && isMissingAuthorityError(err)) {
+      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
         return handleHiveAuthFallback(
           currentAccount,
           opArray as Operation[],

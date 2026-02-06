@@ -187,6 +187,22 @@ export enum HiveAuthStatus {
   ERROR = 3,
 }
 
+// Module-level singleton: connect to HAS relay once, shared across all useHiveAuth consumers
+let _hasConnectionPromise: Promise<void> | null = null;
+const ensureHasConnection = () => {
+  if (!_hasConnectionPromise) {
+    _hasConnectionPromise = HAS.connect()
+      .then(() => {
+        console.log('has status', HAS.status());
+      })
+      .catch((err) => {
+        console.warn('HAS connection failed, will retry on next use', err);
+        _hasConnectionPromise = null; // allow retry on failure
+      });
+  }
+  return _hasConnectionPromise;
+};
+
 export const useHiveAuth = () => {
   const intl = useIntl();
   const postLoginActions = usePostLoginActions();
@@ -197,13 +213,9 @@ export const useHiveAuth = () => {
   const [statusText, setStatusText] = useState('');
   const [status, setStatus] = useState(HiveAuthStatus.INPUT);
 
-  // initiate has web hook connection
+  // Ensure HAS relay connection is established (singleton, only connects once)
   useEffect(() => {
-    // Retrieving connection status
-    HAS.connect().then(() => {
-      const _status = HAS.status();
-      console.log('has status', _status);
-    });
+    ensureHasConnection();
   }, []);
 
   /**
@@ -319,7 +331,6 @@ export const useHiveAuth = () => {
 
       setStatus(HiveAuthStatus.PROCESSING);
       setStatusText(intl.formatMessage({ id: 'hiveauth.initiating' }));
-      await delay(1000);
 
       const username = currentAccount.name ?? currentAccount.username;
       if (!username) {

@@ -19,7 +19,7 @@
  * ```
  */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { View, Text } from 'react-native';
 import ActionSheet, { SheetProps } from 'react-native-actions-sheet';
 import { useIntl } from 'react-intl';
@@ -47,20 +47,25 @@ export const HiveAuthBroadcastSheet = ({
   const hiveAuth = useHiveAuth();
   const currentAccount = useAppSelector(selectCurrentAccount);
   const isCancelledRef = useRef(false);
+  const broadcastStartedRef = useRef(false);
+
+  // Keep a ref to payload so the broadcast callback always reads the latest value
+  const payloadRef = useRef(payload);
+  payloadRef.current = payload;
 
   useEffect(() => {
     isCancelledRef.current = false;
+    broadcastStartedRef.current = false;
   }, [sheetId]);
 
-  // Automatically start broadcast when sheet opens
-  useEffect(() => {
-    if (payload?.operations) {
-      handleBroadcast();
+  const handleBroadcast = useCallback(async () => {
+    // Guard against duplicate invocations (e.g. fast re-renders)
+    if (broadcastStartedRef.current) {
+      return;
     }
-  }, [payload?.operations]);
+    broadcastStartedRef.current = true;
 
-  const handleBroadcast = async () => {
-    const { operations, onSuccess, onError } = payload || {};
+    const { operations, onSuccess, onError } = payloadRef.current || {};
 
     if (!operations || operations.length === 0) {
       const error = new Error('No operations provided');
@@ -96,7 +101,6 @@ export const HiveAuthBroadcastSheet = ({
         );
         if (!isCancelledRef.current) {
           onError?.(error);
-          // Close sheet on failure as well
           ActionSheet.hide(sheetId);
         }
       }
@@ -104,17 +108,23 @@ export const HiveAuthBroadcastSheet = ({
       if (!isCancelledRef.current) {
         console.error('[HiveAuthBroadcastSheet] Broadcast failed', error);
         onError?.(error as Error);
-        // Close sheet on error
         ActionSheet.hide(sheetId);
       }
     }
-  };
+  }, [sheetId, currentAccount?.local?.authType, hiveAuth.broadcast, intl]);
+
+  // Automatically start broadcast when sheet opens with operations
+  useEffect(() => {
+    if (payload?.operations) {
+      handleBroadcast();
+    }
+  }, [payload?.operations, handleBroadcast]);
 
   const handleClose = () => {
     const error = new Error('User cancelled HiveAuth broadcast');
     isCancelledRef.current = true;
-    payload?.onClose?.(error);
-    payload?.onError?.(error);
+    payloadRef.current?.onClose?.(error);
+    payloadRef.current?.onError?.(error);
     ActionSheet.hide(sheetId);
   };
 
@@ -140,7 +150,7 @@ export const HiveAuthBroadcastSheet = ({
         <View style={styles.content}>
           {hiveAuth.status === HiveAuthStatus.INPUT ? (
             <View>
-              <Text>Preparing HiveAuth broadcast...</Text>
+              <Text>{intl.formatMessage({ id: 'hiveauth.initiating' })}</Text>
             </View>
           ) : (
             <StatusContent status={hiveAuth.status} statusText={hiveAuth.statusText} />
