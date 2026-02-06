@@ -47,20 +47,26 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
   const handleAuthRequest = async (username: string) => {
     const success = await hiveAuth.authenticate(username);
 
-    // isLoggedInt
+    // Close modal and navigate on success
     if (success) {
-      if (isPinCodeOpen) {
-        navigation.navigate({
-          name: ROUTES.SCREENS.PINCODE,
-          params: {
-            navigateTo: ROUTES.DRAWER.MAIN,
-          },
-        });
-      } else {
-        navigation.navigate({
-          name: ROUTES.DRAWER.MAIN,
-        });
-      }
+      // Close the modal first to show the account switch
+      _closeModal();
+
+      // Small delay to let modal close animation finish
+      setTimeout(() => {
+        if (isPinCodeOpen) {
+          navigation.navigate({
+            name: ROUTES.SCREENS.PINCODE,
+            params: {
+              navigateTo: ROUTES.DRAWER.MAIN,
+            },
+          });
+        } else {
+          navigation.navigate({
+            name: ROUTES.DRAWER.MAIN,
+          });
+        }
+      }, 300);
     }
   };
 

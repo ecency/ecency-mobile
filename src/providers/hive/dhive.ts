@@ -2151,7 +2151,14 @@ export const followUser = async (currentAccount, pin, data) => {
       // Check if this is a HiveAuth user with missing posting authority
       const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
 
-      if (isHiveAuth && isMissingAuthorityError(err)) {
+      console.log('[Follow] Operation failed:', {
+        isHiveAuth,
+        errorMessage: err?.message,
+        errorType: err?.constructor?.name,
+      });
+
+      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
+        console.log('[Follow] Triggering HiveAuth fallback');
         // Build follow operation
         const json = {
           id: 'follow',
@@ -2168,7 +2175,14 @@ export const followUser = async (currentAccount, pin, data) => {
         };
         const followOp: Operation = ['custom_json', json];
 
-        return handleHiveAuthFallback(currentAccount, [followOp], 'follow');
+        try {
+          const result = await handleHiveAuthFallback(currentAccount, [followOp], 'follow');
+          console.log('[Follow] HiveAuth fallback succeeded');
+          return result;
+        } catch (fallbackErr) {
+          console.error('[Follow] HiveAuth fallback failed:', fallbackErr);
+          throw fallbackErr;
+        }
       }
 
       throw err;
@@ -2221,10 +2235,18 @@ export const unfollowUser = async (currentAccount, pin, data) => {
     try {
       return await api.unfollow(data.follower, data.following);
     } catch (err) {
-      // Check if this is a HiveAuth user with missing posting authority
+      // Check if this is a HiveAuth user with missing posting authority or other auth errors
       const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
 
-      if (isHiveAuth && isMissingAuthorityError(err)) {
+      console.log('[Unfollow] Operation failed:', {
+        isHiveAuth,
+        errorMessage: err?.message,
+        errorType: err?.constructor?.name,
+      });
+
+      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
+        console.log('[Unfollow] Triggering HiveAuth fallback');
+
         // Build unfollow operation
         const json = {
           id: 'follow',
@@ -2241,7 +2263,14 @@ export const unfollowUser = async (currentAccount, pin, data) => {
         };
         const unfollowOp: Operation = ['custom_json', json];
 
-        return handleHiveAuthFallback(currentAccount, [unfollowOp], 'unfollow');
+        try {
+          const result = await handleHiveAuthFallback(currentAccount, [unfollowOp], 'unfollow');
+          console.log('[Unfollow] HiveAuth fallback succeeded');
+          return result;
+        } catch (fallbackErr) {
+          console.error('[Unfollow] HiveAuth fallback failed:', fallbackErr);
+          throw fallbackErr;
+        }
       }
 
       throw err;
