@@ -9,12 +9,14 @@ import assert from 'assert';
 import { useIntl } from 'react-intl';
 import * as Sentry from '@sentry/react-native';
 import { getDigitPinCode } from '../../../providers/hive/dhive';
-import { loginWithHiveAuth } from '../../../providers/hive/auth';
+import { loginWithHiveAuth, updateHiveAuthSession } from '../../../providers/hive/auth';
 import { useAppSelector, usePostLoginActions } from '../../../hooks';
 import AUTH_TYPE from '../../../constants/authType';
 import { decryptKey } from '../../../utils/crypto';
 import { delay } from '../../../utils/editor';
 import { selectPin, selectCurrentAccount } from '../../../redux/selectors';
+import RootNavigation from '../../../navigation/rootNavigation';
+import ROUTES from '../../../constants/routeNames';
 
 const APP_META = {
   name: 'Ecency',
@@ -299,7 +301,7 @@ export const useHiveAuth = () => {
       messageObj.signatures = [authRes.data.challenge.challenge];
       const hsCode = btoa(JSON.stringify(messageObj));
 
-      const accountData = await loginWithHiveAuth(hsCode, auth.key, auth.expire);
+      const accountData = await loginWithHiveAuth(hsCode, auth.key, auth.expire, auth.token);
 
       postLoginActions.updateAccountsData(accountData);
 
@@ -353,15 +355,29 @@ export const useHiveAuth = () => {
         );
       }
 
+      const pinCode = getDigitPinCode(pinHash);
       const _hiveAuthObj: any = {
         username,
         expiry: currentAccount.local.hiveAuthExpiry,
-        key: decryptKey(currentAccount.local.hiveAuthKey, getDigitPinCode(pinHash)),
+        key: decryptKey(currentAccount.local.hiveAuthKey, pinCode),
+        token: currentAccount.local.hiveAuthToken
+          ? decryptKey(currentAccount.local.hiveAuthToken, pinCode)
+          : undefined,
       };
 
       assert(_hiveAuthObj.key, intl.formatMessage({ id: 'hiveauth.decrypt_fail' }));
-      if (_hiveAuthObj.expiry && _hiveAuthObj.expiry <= new Date().getTime()) {
-        console.warn('[HiveAuth] Stored session expiry has passed, will re-authenticate if needed');
+
+      // Hard check: if session is expired, redirect to login instead of attempting broadcast
+      if (
+        _hiveAuthObj.expiry &&
+        _hiveAuthObj.expiry > 0 &&
+        _hiveAuthObj.expiry <= new Date().getTime()
+      ) {
+        RootNavigation.navigate({
+          name: ROUTES.SCREENS.LOGIN,
+          params: { username },
+        });
+        throw new Error(intl.formatMessage({ id: 'alert.auth_expired' }));
       }
 
       const _cdWait = async (evt: any) => {
@@ -398,9 +414,11 @@ export const useHiveAuth = () => {
         _hasConnectionPromise = null;
         await ensureHasConnection();
 
+        // Reuse stored token/expiry so the PKSA can recognise the existing session
         const auth: any = {
           username,
-          expire: undefined,
+          token: _hiveAuthObj.token,
+          expire: _hiveAuthObj.expiry,
           key: _hiveAuthObj.key,
         };
 
@@ -427,6 +445,13 @@ export const useHiveAuth = () => {
         }
         if (auth.expire) {
           _hiveAuthObj.expiry = auth.expire;
+        }
+
+        // Persist updated session data to realm so future broadcasts can reuse it
+        try {
+          await updateHiveAuthSession(username, pinCode, auth.token, auth.expire);
+        } catch (persistErr) {
+          console.warn('[HiveAuth] Failed to persist re-auth session data', persistErr);
         }
 
         // Retry broadcast after successful re-authentication
