@@ -326,6 +326,11 @@ export const useHiveAuth = () => {
       setStatus(HiveAuthStatus.PROCESSING);
       setStatusText(intl.formatMessage({ id: 'hiveauth.initiating' }));
 
+      // Ensure HAS connection is established before broadcasting
+      await HAS.connect();
+      const hasStatus = HAS.status();
+      console.log('[HiveAuth] Broadcast - HAS status:', hasStatus);
+
       const username = currentAccount.name ?? currentAccount.username;
       if (!username) {
         throw new Error(

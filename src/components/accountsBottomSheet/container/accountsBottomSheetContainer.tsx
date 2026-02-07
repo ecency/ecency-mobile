@@ -142,7 +142,7 @@ const AccountsBottomSheetContainer = () => {
 
       [_currentAccount.local] = realmData;
 
-      if (currentAccount.local.authType === AUTH_TYPE.HIVE_AUTH) {
+      if (_currentAccount.local.authType === AUTH_TYPE.HIVE_AUTH) {
         _checkHiveAuthExpiry(_currentAccount.local);
       }
 

@@ -51,18 +51,7 @@ export const usePostLoginActions = () => {
 
       // Invalidate all queries that depend on the current user
       // This forces fresh data for the new account
-      queryClient.invalidateQueries({
-        predicate: (query) => {
-          const { queryKey } = query;
-          // Invalidate queries that might have user-specific data
-          return (
-            queryKey.includes('wallet') ||
-            queryKey.includes('posts') ||
-            queryKey.includes('activities') ||
-            queryKey.includes('notifications')
-          );
-        },
-      });
+      queryClient.invalidateQueries();
     } else {
       throw new Error('alert.unknow_error');
     }

@@ -366,6 +366,22 @@ export const broadcastPostingJSON = async (
   const digitPinCode = getDigitPinCode(pinHash);
   const key = getPostingKey(currentAccount.local, digitPinCode);
 
+  // HiveAuth without posting authority: go directly to HiveAuth broadcast
+  if (shouldUseDirectHiveAuthBroadcast(currentAccount)) {
+    const custom_json = {
+      id,
+      json: JSON.stringify(json),
+      required_auths: [],
+      required_posting_auths: [currentAccount.name],
+    };
+    const customJsonOp: Operation = ['custom_json', custom_json];
+    return handleHiveAuthFallback(
+      currentAccount,
+      [customJsonOp],
+      `custom_json:${id}`,
+    ) as Promise<TransactionConfirmation>;
+  }
+
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = new hsClient({
@@ -1651,13 +1667,19 @@ export const vote = async (account, pin, author, permlink, weight) => {
 const _vote = (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getPostingKey(currentAccount.local, digitPinCode);
+  const voter = currentAccount.name || currentAccount.username;
+
+  // HiveAuth without posting authority: go directly to HiveAuth broadcast
+  if (shouldUseDirectHiveAuthBroadcast(currentAccount)) {
+    const voteOp: Operation = ['vote', { voter, author, permlink, weight }];
+    return handleHiveAuthFallback(currentAccount, [voteOp], 'vote');
+  }
+
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = new hsClient({
       accessToken: token,
     });
-
-    const voter = currentAccount.name || currentAccount.username;
 
     return new Promise((resolve, reject) => {
       api
@@ -1830,6 +1852,29 @@ export const upvoteAmount = async (input) => {
 export const transferToken = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+
+  // HiveAuth users: always use HiveAuth broadcast for active-key operations
+  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
+    const destinationInput = data.destination;
+    const destinations = destinationInput
+      ? destinationInput
+          .trim()
+          .split(/[\s,]+/)
+          .filter(Boolean)
+      : [];
+
+    const opArray: Operation[] = destinations.map((destination) => [
+      'transfer',
+      {
+        from: data.from,
+        to: destination.trim(),
+        amount: data.amount,
+        memo: data.memo,
+      },
+    ]);
+
+    return handleHiveAuthFallback(currentAccount, opArray, 'transfer');
+  }
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -2191,6 +2236,25 @@ export const followUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getPostingKey(currentAccount.local, digitPinCode);
 
+  // HiveAuth without posting authority: go directly to HiveAuth broadcast
+  if (shouldUseDirectHiveAuthBroadcast(currentAccount)) {
+    const json = {
+      id: 'follow',
+      json: jsonStringify([
+        'follow',
+        {
+          follower: `${data.follower}`,
+          following: `${data.following}`,
+          what: ['blog'],
+        },
+      ]),
+      required_auths: [],
+      required_posting_auths: [`${data.follower}`],
+    };
+    const followOp: Operation = ['custom_json', json];
+    return handleHiveAuthFallback(currentAccount, [followOp], 'follow');
+  }
+
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
     const api = new hsClient({
@@ -2277,6 +2341,25 @@ export const followUser = async (currentAccount, pin, data) => {
 export const unfollowUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getPostingKey(currentAccount.local, digitPinCode);
+
+  // HiveAuth without posting authority: go directly to HiveAuth broadcast
+  if (shouldUseDirectHiveAuthBroadcast(currentAccount)) {
+    const json = {
+      id: 'follow',
+      json: jsonStringify([
+        'follow',
+        {
+          follower: `${data.follower}`,
+          following: `${data.following}`,
+          what: [],
+        },
+      ]),
+      required_auths: [],
+      required_posting_auths: [`${data.follower}`],
+    };
+    const unfollowOp: Operation = ['custom_json', json];
+    return handleHiveAuthFallback(currentAccount, [unfollowOp], 'unfollow');
+  }
 
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
@@ -2393,7 +2476,15 @@ export const markHiveNotifications = async (currentAccount, pinHash) => {
       accessToken: token,
     });
 
-    return api.broadcast(opArray).then((resp) => resp.result);
+    try {
+      return await api.broadcast(opArray).then((resp) => resp.result);
+    } catch (err) {
+      const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
+      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
+        return handleHiveAuthFallback(currentAccount, opArray, 'mark_notifications');
+      }
+      throw err;
+    }
   }
 
   if (key) {
@@ -2558,6 +2649,35 @@ const _postContent = async (
   const { name: author } = account;
   const digitPinCode = getDigitPinCode(pin);
   const key = getPostingKey(account.local, digitPinCode);
+
+  // HiveAuth without posting authority: go directly to HiveAuth broadcast
+  if (shouldUseDirectHiveAuthBroadcast(account)) {
+    const opArray: Operation[] = [
+      [
+        'comment',
+        {
+          parent_author: parentAuthor,
+          parent_permlink: parentPermlink || '',
+          author,
+          permlink,
+          title,
+          body,
+          json_metadata: jsonStringify(jsonMetadata),
+        },
+      ],
+    ];
+    if (options) {
+      opArray.push(['comment_options', options] as Operation);
+    }
+    if (voteWeight) {
+      opArray.push(['vote', { voter: author, author, permlink, weight: voteWeight }] as Operation);
+    }
+    return handleHiveAuthFallback(
+      account,
+      opArray,
+      'post_content',
+    ) as Promise<TransactionConfirmation>;
+  }
 
   if (isHsClientSupported(account.local.authType)) {
     const token = decryptKey(account.local.accessToken, digitPinCode);
@@ -3178,6 +3298,27 @@ export const votingPower = (account) => {
   const { percentage } = calc;
 
   return percentage / 100;
+};
+
+/**
+ * Checks if the given account has granted posting authority to ecency.app.
+ * For HiveAuth users without this authority, operations should go directly
+ * to HiveAuth broadcast instead of trying HiveSigner access token first.
+ */
+export const hasEcencyPostingAuthority = (account: any): boolean => {
+  const postingAccountAuths = account?.posting?.account_auths;
+  if (!Array.isArray(postingAccountAuths)) {
+    return false;
+  }
+  return postingAccountAuths.some((auth: any) => auth[0] === 'ecency.app');
+};
+
+/**
+ * Determines if HiveAuth user should use direct HiveAuth broadcast (no posting authority)
+ * vs HiveSigner access token (has posting authority).
+ */
+const shouldUseDirectHiveAuthBroadcast = (account: any): boolean => {
+  return account?.local?.authType === AUTH_TYPE.HIVE_AUTH && !hasEcencyPostingAuthority(account);
 };
 
 export const isHsClientSupported = (authType) => {
