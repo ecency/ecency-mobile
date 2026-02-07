@@ -470,13 +470,14 @@ export const updateHiveAuthSession = async (
 ) => {
   const users = await getUserDataWithUsername(username);
   if (!users || !users[0]) {
+    console.warn('[HiveAuth] updateHiveAuthSession: no user data found for', username);
     return;
   }
   const userData = users[0];
   await updateUserData({
     ...userData,
     hiveAuthToken: token ? encryptKey(token, pinCode) : userData.hiveAuthToken,
-    hiveAuthExpiry: expiry || userData.hiveAuthExpiry,
+    hiveAuthExpiry: expiry ?? userData.hiveAuthExpiry,
   });
 };
 

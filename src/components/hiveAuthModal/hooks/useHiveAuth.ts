@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Linking, Keyboard } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import HAS from 'hive-auth-wrapper';
 import { v4 as uuidv4 } from 'uuid';
@@ -12,7 +13,8 @@ import { getDigitPinCode } from '../../../providers/hive/dhive';
 import { loginWithHiveAuth, updateHiveAuthSession } from '../../../providers/hive/auth';
 import { useAppSelector, usePostLoginActions } from '../../../hooks';
 import AUTH_TYPE from '../../../constants/authType';
-import { decryptKey } from '../../../utils/crypto';
+import { decryptKey, encryptKey } from '../../../utils/crypto';
+import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { delay } from '../../../utils/editor';
 import { selectPin, selectCurrentAccount } from '../../../redux/selectors';
 import RootNavigation from '../../../navigation/rootNavigation';
@@ -199,8 +201,9 @@ export enum HiveAuthStatus {
 
 // Module-level singleton: connect to HAS relay once, shared across all useHiveAuth consumers
 let _hasConnectionPromise: Promise<void> | null = null;
-const ensureHasConnection = () => {
-  if (!_hasConnectionPromise) {
+const ensureHasConnection = (forceReconnect = false) => {
+  if (!_hasConnectionPromise || forceReconnect) {
+    _hasConnectionPromise = null;
     _hasConnectionPromise = HAS.connect()
       .then(() => {
         console.log('has status', HAS.status());
@@ -208,7 +211,6 @@ const ensureHasConnection = () => {
       .catch((err) => {
         console.warn('HAS connection failed, will retry on next use:', err);
         _hasConnectionPromise = null; // allow retry on failure
-        throw err;
       });
   }
   return _hasConnectionPromise;
@@ -217,6 +219,7 @@ const ensureHasConnection = () => {
 export const useHiveAuth = () => {
   const intl = useIntl();
   const postLoginActions = usePostLoginActions();
+  const dispatch = useDispatch();
 
   const pinHash = useAppSelector(selectPin);
   const currentAccount = useAppSelector(selectCurrentAccount);
@@ -303,6 +306,12 @@ export const useHiveAuth = () => {
       const hsCode = btoa(JSON.stringify(messageObj));
 
       const accountData = await loginWithHiveAuth(hsCode, auth.key, auth.expire, auth.token);
+
+      if (!auth.token) {
+        console.warn(
+          '[HiveAuth] auth.token not set after authenticate; session reuse may not work',
+        );
+      }
 
       postLoginActions.updateAccountsData(accountData);
 
@@ -412,8 +421,7 @@ export const useHiveAuth = () => {
         setStatusText(intl.formatMessage({ id: 'hiveauth.initiating' }));
 
         // Force fresh WebSocket connection for re-authentication
-        _hasConnectionPromise = null;
-        await ensureHasConnection();
+        await ensureHasConnection(true);
 
         // Reuse stored token/expiry so the PKSA can recognise the existing session
         const auth: any = {
@@ -453,6 +461,25 @@ export const useHiveAuth = () => {
           await updateHiveAuthSession(username, pinCode, auth.token, auth.expire);
         } catch (persistErr) {
           console.warn('[HiveAuth] Failed to persist re-auth session data', persistErr);
+        }
+
+        // Update Redux so subsequent broadcasts use refreshed credentials
+        try {
+          const updatedLocal = { ...currentAccount.local };
+          if (auth.token) {
+            updatedLocal.hiveAuthToken = encryptKey(auth.token, pinCode);
+          }
+          if (auth.expire) {
+            updatedLocal.hiveAuthExpiry = auth.expire;
+          }
+          dispatch(
+            updateCurrentAccount({
+              ...currentAccount,
+              local: updatedLocal,
+            }),
+          );
+        } catch (reduxErr) {
+          console.warn('[HiveAuth] Failed to update Redux after re-auth', reduxErr);
         }
 
         // Retry broadcast after successful re-authentication
