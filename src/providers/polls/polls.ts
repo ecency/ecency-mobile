@@ -1,16 +1,8 @@
 import axios from 'axios';
-import { Operation, PrivateKey } from '@esteemapp/dhive';
-import { Client as hsClient } from 'hivesigner';
 import * as Sentry from '@sentry/react-native';
 import { Poll } from './polls.types';
 import { convertPoll } from './converters';
-import {
-  getActiveKey,
-  getDigitPinCode,
-  isHsClientSupported,
-  sendHiveOperations,
-} from '../hive/dhive';
-import { decryptKey } from '../../utils/crypto';
+import { broadcastPostingJSON } from '../hive/dhive';
 
 /**
  *
@@ -34,35 +26,7 @@ const pollsApi = axios.create({
 });
 
 const executePollAction = (id: string, json: any, currentAccount: any, pinHash: string) => {
-  const username = currentAccount.name;
-  const pin = getDigitPinCode(pinHash);
-  const key = getActiveKey(currentAccount.local, pin);
-
-  const op = {
-    id,
-    json: JSON.stringify(json),
-    required_auths: [],
-    required_posting_auths: [username],
-  };
-  const opArray: Operation[] = [['custom_json', op]];
-
-  if (isHsClientSupported(currentAccount.local.authType)) {
-    const token = decryptKey(currentAccount.local.accessToken, pin);
-    const api = new hsClient({
-      accessToken: token,
-    });
-
-    return api.broadcast(opArray).then((resp) => resp.result);
-  }
-
-  if (key) {
-    const privateKey = PrivateKey.fromString(key);
-    return sendHiveOperations(opArray, privateKey);
-  }
-
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  return broadcastPostingJSON(id, json, currentAccount, pinHash);
 };
 
 export const getPollData = async (author: string, permlink: string): Promise<Poll> => {

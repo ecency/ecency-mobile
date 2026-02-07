@@ -373,7 +373,8 @@ export const useHiveAuth = () => {
           setStatusText(intl.formatMessage({ id: 'hiveauth.requesting' }));
           Linking.openURL(uri);
         } else {
-          throw new Error(intl.formatMessage({ id: 'hiveauth.not_installed' }));
+          setStatusText(intl.formatMessage({ id: 'hiveauth.not_installed' }));
+          setStatus(HiveAuthStatus.ERROR);
         }
       };
 
@@ -415,7 +416,8 @@ export const useHiveAuth = () => {
             setStatusText(intl.formatMessage({ id: 'hiveauth.authenticating' }));
             Linking.openURL(uri);
           } else {
-            throw new Error(intl.formatMessage({ id: 'hiveauth.not_installed' }));
+            setStatusText(intl.formatMessage({ id: 'hiveauth.not_installed' }));
+            setStatus(HiveAuthStatus.ERROR);
           }
         });
 
