@@ -327,7 +327,7 @@ export const useHiveAuth = () => {
       setStatusText(intl.formatMessage({ id: 'hiveauth.initiating' }));
 
       // Ensure HAS connection is established before broadcasting
-      await HAS.connect();
+      await ensureHasConnection();
       const hasStatus = HAS.status();
       console.log('[HiveAuth] Broadcast - HAS status:', hasStatus);
 

@@ -270,7 +270,7 @@ const handleHiveAuthFallback = async (
         },
         onClose: (error) => {
           console.warn(`[HiveAuth Fallback] ${operationName} dismissed`, error);
-          finish(() => reject(error));
+          finish(() => reject(error || new Error('HiveAuth broadcast was dismissed')));
         },
       },
     });
@@ -1209,6 +1209,25 @@ export const ignoreUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getPostingKey(currentAccount.local, digitPinCode);
 
+  // HiveAuth without posting authority: go directly to HiveAuth broadcast
+  if (shouldUseDirectHiveAuthBroadcast(currentAccount)) {
+    const json = {
+      id: 'follow',
+      json: jsonStringify([
+        'follow',
+        {
+          follower: `${data.follower}`,
+          following: `${data.following}`,
+          what: ['ignore'],
+        },
+      ]),
+      required_auths: [],
+      required_posting_auths: [`${data.follower}`],
+    };
+    const ignoreOp: Operation = ['custom_json', json];
+    return handleHiveAuthFallback(currentAccount, [ignoreOp], 'ignore');
+  }
+
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = new hsClient({
@@ -1435,6 +1454,12 @@ export const deleteComment = async (currentAccount, pin, permlink) => {
   const { name: author } = currentAccount;
   const digitPinCode = getDigitPinCode(pin);
   const key = getPostingKey(currentAccount.local, digitPinCode);
+
+  // HiveAuth without posting authority: go directly to HiveAuth broadcast
+  if (shouldUseDirectHiveAuthBroadcast(currentAccount)) {
+    const deleteOp: Operation = ['delete_comment', { author, permlink }];
+    return handleHiveAuthFallback(currentAccount, [deleteOp], 'delete_comment');
+  }
 
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
@@ -1788,6 +1813,11 @@ export const voteProposal = async (currentAccount, pinHash, proposalId) => {
     ],
   ];
 
+  // HiveAuth: sign via HiveAuth app (active authority)
+  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
+    return handleHiveAuthFallback(currentAccount, opArray, 'vote_proposal');
+  }
+
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = new hsClient({
@@ -1927,6 +1957,21 @@ export const recurrentTransferToken = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
+  // HiveAuth: sign via HiveAuth app (active authority)
+  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
+    const args = {
+      from: get(data, 'from'),
+      to: get(data, 'destination'),
+      amount: get(data, 'amount'),
+      memo: get(data, 'memo'),
+      recurrence: get(data, 'recurrence'),
+      executions: get(data, 'executions'),
+      extensions: [],
+    };
+    const opArray: Operation[] = [[TransferTypes.RECURRENT_TRANSFER, args]];
+    return handleHiveAuthFallback(currentAccount, opArray, 'recurrent_transfer');
+  }
+
   if (key) {
     const privateKey = PrivateKey.fromString(key);
     const args = {
@@ -1967,6 +2012,21 @@ export const convert = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
+  // HiveAuth: sign via HiveAuth app (active authority)
+  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
+    const opArray: Operation[] = [
+      [
+        'convert',
+        {
+          owner: get(data, 'from'),
+          amount: get(data, 'amount'),
+          requestid: get(data, 'requestId'),
+        },
+      ],
+    ];
+    return handleHiveAuthFallback(currentAccount, opArray, 'convert');
+  }
+
   if (key) {
     const privateKey = PrivateKey.fromString(key);
 
@@ -2003,6 +2063,22 @@ export const transferToSavings = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
+  // HiveAuth: sign via HiveAuth app (active authority)
+  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
+    const opArray: Operation[] = [
+      [
+        'transfer_to_savings',
+        {
+          from: get(data, 'from'),
+          to: get(data, 'destination'),
+          amount: get(data, 'amount'),
+          memo: get(data, 'memo'),
+        },
+      ],
+    ];
+    return handleHiveAuthFallback(currentAccount, opArray, 'transfer_to_savings');
+  }
+
   if (key) {
     const privateKey = PrivateKey.fromString(key);
 
@@ -2037,6 +2113,23 @@ export const transferToSavings = (currentAccount, pin, data) => {
 export const transferFromSavings = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+
+  // HiveAuth: sign via HiveAuth app (active authority)
+  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
+    const opArray: Operation[] = [
+      [
+        'transfer_from_savings',
+        {
+          from: get(data, 'from'),
+          to: get(data, 'destination'),
+          amount: get(data, 'amount'),
+          memo: get(data, 'memo'),
+          request_id: get(data, 'requestId'),
+        },
+      ],
+    ];
+    return handleHiveAuthFallback(currentAccount, opArray, 'transfer_from_savings');
+  }
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -2073,6 +2166,21 @@ export const transferToVesting = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
+  // HiveAuth: sign via HiveAuth app (active authority)
+  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
+    const opArray: Operation[] = [
+      [
+        'transfer_to_vesting',
+        {
+          from: data.from,
+          to: data.destination,
+          amount: data.amount,
+        },
+      ],
+    ];
+    return handleHiveAuthFallback(currentAccount, opArray, 'transfer_to_vesting');
+  }
+
   if (key) {
     const privateKey = PrivateKey.fromString(key);
     const args = [
@@ -2106,6 +2214,20 @@ export const withdrawVesting = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
+  // HiveAuth: sign via HiveAuth app (active authority)
+  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
+    const opArray: Operation[] = [
+      [
+        'withdraw_vesting',
+        {
+          account: data.from,
+          vesting_shares: data.amount,
+        },
+      ],
+    ];
+    return handleHiveAuthFallback(currentAccount, opArray, 'withdraw_vesting');
+  }
+
   if (key) {
     const privateKey = PrivateKey.fromString(key);
     const args = [
@@ -2137,6 +2259,21 @@ export const withdrawVesting = (currentAccount, pin, data) => {
 export const delegateVestingShares = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+
+  // HiveAuth: sign via HiveAuth app (active authority)
+  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
+    const opArray: Operation[] = [
+      [
+        'delegate_vesting_shares',
+        {
+          delegator: data.from,
+          delegatee: data.destination,
+          vesting_shares: data.amount,
+        },
+      ],
+    ];
+    return handleHiveAuthFallback(currentAccount, opArray, 'delegate_vesting_shares');
+  }
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -2198,6 +2335,22 @@ export const getVestingDelegations = async (username, fromDelegatee = '', limit 
 export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+
+  // HiveAuth: sign via HiveAuth app (active authority)
+  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
+    const opArray: Operation[] = [
+      [
+        'set_withdraw_vesting_route',
+        {
+          from_account: data.from,
+          to_account: data.to,
+          percent: data.percentage,
+          auto_vest: data.autoVest,
+        },
+      ],
+    ];
+    return handleHiveAuthFallback(currentAccount, opArray, 'set_withdraw_vesting_route');
+  }
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -2813,6 +2966,20 @@ export const claimRewardBalance = async (account, pinCode, rewardHive, rewardHbd
   const pin = getDigitPinCode(pinCode);
   const key = getPostingKey(get(account, 'local'), pin);
 
+  // HiveAuth without posting authority: go directly to HiveAuth broadcast
+  if (shouldUseDirectHiveAuthBroadcast(account)) {
+    const claimOp: Operation = [
+      'claim_reward_balance',
+      {
+        account: account.name,
+        reward_hive: rewardHive,
+        reward_hbd: rewardHbd,
+        reward_vests: rewardVests,
+      },
+    ];
+    return handleHiveAuthFallback(account, [claimOp], 'claim_reward_balance');
+  }
+
   if (isHsClientSupported(account.local.authType)) {
     const token = decryptKey(get(account, 'local.accessToken'), pin);
     const api = new hsClient({
@@ -2881,6 +3048,36 @@ export const transferPoint = (currentAccount, pinCode, data) => {
   const key = getActiveKey(get(currentAccount, 'local'), pin);
   const username = get(currentAccount, 'name');
 
+  // HiveAuth: sign via HiveAuth app (active authority)
+  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
+    const destinationInput = data.destination;
+    const destinations = destinationInput
+      ? destinationInput
+          .trim()
+          .split(/[\s,]+/)
+          .filter(Boolean)
+      : [];
+
+    const opArray: Operation[] = destinations.map((destination) => {
+      const json = JSON.stringify({
+        sender: data.from,
+        amount: data.amount,
+        memo: data.memo,
+        receiver: destination.trim(),
+      });
+      return [
+        'custom_json',
+        {
+          id: 'ecency_point_transfer',
+          json,
+          required_auths: [username],
+          required_posting_auths: [],
+        },
+      ] as Operation;
+    });
+    return handleHiveAuthFallback(currentAccount, opArray, 'transfer_point');
+  }
+
   if (key) {
     const privateKey = PrivateKey.fromString(key);
 
@@ -2931,6 +3128,19 @@ export const promote = (currentAccount, pinCode, duration, author, permlink) => 
   const pin = getDigitPinCode(pinCode);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
+  // HiveAuth: sign via HiveAuth app (active authority)
+  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
+    const user = get(currentAccount, 'name');
+    const json = {
+      id: 'ecency_promote',
+      json: JSON.stringify({ user, author, permlink, duration }),
+      required_auths: [user],
+      required_posting_auths: [],
+    };
+    const opArray: Operation[] = [['custom_json', json]];
+    return handleHiveAuthFallback(currentAccount, opArray, 'promote');
+  }
+
   if (key) {
     const privateKey = PrivateKey.fromString(key);
     const user = get(currentAccount, 'name');
@@ -2967,6 +3177,19 @@ export const boostPlus = (currentAccount, pinCode, duration, account) => {
   const pin = getDigitPinCode(pinCode);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
+  // HiveAuth: sign via HiveAuth app (active authority)
+  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
+    const user = get(currentAccount, 'name');
+    const json = {
+      id: 'ecency_boost_plus',
+      json: JSON.stringify({ user, account, duration }),
+      required_auths: [user],
+      required_posting_auths: [],
+    };
+    const opArray: Operation[] = [['custom_json', json]];
+    return handleHiveAuthFallback(currentAccount, opArray, 'boost_plus');
+  }
+
   if (key) {
     const privateKey = PrivateKey.fromString(key);
     const user = get(currentAccount, 'name');
@@ -3001,6 +3224,27 @@ export const boostPlus = (currentAccount, pinCode, duration, account) => {
 export const boost = (currentAccount, pinCode, point, author, permlink) => {
   const pin = getDigitPinCode(pinCode);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
+
+  // HiveAuth: sign via HiveAuth app (active authority)
+  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
+    if (!point) {
+      return Promise.reject(new Error('Points amount is required'));
+    }
+    const user = get(currentAccount, 'name');
+    const json = {
+      id: 'ecency_boost',
+      json: JSON.stringify({
+        user,
+        author,
+        permlink,
+        amount: `${point.toFixed(3)} POINT`,
+      }),
+      required_auths: [user],
+      required_posting_auths: [],
+    };
+    const opArray: Operation[] = [['custom_json', json]];
+    return handleHiveAuthFallback(currentAccount, opArray, 'boost');
+  }
 
   if (key && point) {
     const privateKey = PrivateKey.fromString(key);
@@ -3130,6 +3374,22 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     },
   };
 
+  // HiveAuth without posting authority: go directly to HiveAuth broadcast
+  if (shouldUseDirectHiveAuthBroadcast(currentAccount)) {
+    const _params = {
+      account: get(currentAccount, 'name'),
+      json_metadata: '',
+      posting_json_metadata: jsonStringify(newMetadata),
+      extensions: [],
+    };
+    const opArray: Operation[] = [['account_update2', _params]];
+    return handleHiveAuthFallback(
+      currentAccount,
+      opArray,
+      'profile_update',
+    ) as Promise<TransactionConfirmation>;
+  }
+
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
     const api = new hsClient({
@@ -3210,7 +3470,7 @@ export const pinCommunityPost = (
   unpinPost = false,
 ) => {
   const digitPinCode = getDigitPinCode(pinCode);
-  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+  const key = getPostingKey(get(currentAccount, 'local'), digitPinCode);
   const username = get(currentAccount, 'name');
 
   const json = JSON.stringify([
@@ -3230,12 +3490,23 @@ export const pinCommunityPost = (
   };
   const opArray = [['custom_json', op]];
 
+  // HiveAuth without posting authority: go directly to HiveAuth broadcast
+  if (shouldUseDirectHiveAuthBroadcast(currentAccount)) {
+    return handleHiveAuthFallback(currentAccount, opArray as Operation[], 'pin_community_post');
+  }
+
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = new hsClient({
       accessToken: token,
     });
-    return api.broadcast(opArray);
+    return api.broadcast(opArray).catch((err) => {
+      const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
+      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
+        return handleHiveAuthFallback(currentAccount, opArray as Operation[], 'pin_community_post');
+      }
+      throw err;
+    });
   }
 
   if (key) {
@@ -3244,7 +3515,7 @@ export const pinCommunityPost = (
   }
 
   return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
+    new Error('Check private key permission! Required private posting key or above.'),
   );
 };
 
