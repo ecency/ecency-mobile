@@ -174,6 +174,20 @@ const inferOperationKeyType = (opsArray: Operation[]): 'posting' | 'active' => {
   return 'posting';
 };
 
+/**
+ * Checks if an error from HAS.broadcast() indicates the account session
+ * is not registered on the HAS relay (e.g. after WebSocket reconnect or session expiry).
+ */
+const isHasNotConnectedError = (error: any): boolean => {
+  const candidates = [
+    error?.message,
+    error?.error,
+    typeof error === 'string' ? error : null,
+  ].filter(Boolean);
+
+  return candidates.some((s) => /not been connected through HAS/i.test(String(s)));
+};
+
 export enum HiveAuthStatus {
   INPUT = 0,
   PROCESSING = 1,
@@ -339,17 +353,16 @@ export const useHiveAuth = () => {
         );
       }
 
-      const _hiveAuthObj = {
+      const _hiveAuthObj: any = {
         username,
         expiry: currentAccount.local.hiveAuthExpiry,
         key: decryptKey(currentAccount.local.hiveAuthKey, getDigitPinCode(pinHash)),
       };
 
       assert(_hiveAuthObj.key, intl.formatMessage({ id: 'hiveauth.decrypt_fail' }));
-      assert(
-        _hiveAuthObj.expiry > new Date().getTime(),
-        intl.formatMessage({ id: 'hiveauth.expired' }),
-      );
+      if (_hiveAuthObj.expiry && _hiveAuthObj.expiry <= new Date().getTime()) {
+        console.warn('[HiveAuth] Stored session expiry has passed, will re-authenticate if needed');
+      }
 
       const _cdWait = async (evt: any) => {
         console.log('sign wait', evt);
@@ -368,7 +381,57 @@ export const useHiveAuth = () => {
       const keyType = inferOperationKeyType(opsArray);
       console.log(`[HiveAuth] Broadcasting with ${keyType} authority`, opsArray);
 
-      const res = await HAS.broadcast(_hiveAuthObj, keyType, opsArray, _cdWait);
+      let res;
+      try {
+        res = await HAS.broadcast(_hiveAuthObj, keyType, opsArray, _cdWait);
+      } catch (broadcastError) {
+        if (!isHasNotConnectedError(broadcastError)) {
+          throw broadcastError;
+        }
+
+        // Account session not found on HAS relay - re-authenticate to re-establish it
+        console.log('[HiveAuth] Account not connected on relay, re-authenticating...');
+        setStatusText(intl.formatMessage({ id: 'hiveauth.initiating' }));
+
+        // Force fresh WebSocket connection for re-authentication
+        _hasConnectionPromise = null;
+        await ensureHasConnection();
+
+        const auth: any = {
+          username,
+          expire: undefined,
+          key: _hiveAuthObj.key,
+        };
+
+        await HAS.authenticate(auth, APP_META, undefined, async (evt: any) => {
+          const { host } = HAS.status();
+          const { uuid } = evt;
+          const payload = { account: username, uuid, key: auth.key, host };
+          const encodedData = btoa(JSON.stringify(payload));
+
+          const uri = await getHiveAuthUri(`auth_req/${encodedData}`, extractPreferredScheme(evt));
+
+          if (uri) {
+            setStatusText(intl.formatMessage({ id: 'hiveauth.authenticating' }));
+            Linking.openURL(uri);
+          } else {
+            throw new Error(intl.formatMessage({ id: 'hiveauth.not_installed' }));
+          }
+        });
+
+        // Update auth object with token/expiry from re-authentication
+        if (auth.token) {
+          _hiveAuthObj.token = auth.token;
+        }
+        if (auth.expire) {
+          _hiveAuthObj.expiry = auth.expire;
+        }
+
+        // Retry broadcast after successful re-authentication
+        console.log('[HiveAuth] Re-authenticated successfully, retrying broadcast...');
+        setStatusText(intl.formatMessage({ id: 'hiveauth.requesting' }));
+        res = await HAS.broadcast(_hiveAuthObj, keyType, opsArray, _cdWait);
+      }
 
       if (!res?.broadcast) {
         throw new Error(intl.formatMessage({ id: 'hiveauth.transaction_fail' }));
