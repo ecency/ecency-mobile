@@ -19,6 +19,7 @@ import {
   updateUserData,
   updateCurrentUsername,
   getUserData,
+  getUserDataWithUsername,
   setSCAccount,
   getSCAccount,
   setPinCode,

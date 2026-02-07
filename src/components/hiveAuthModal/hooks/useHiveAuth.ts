@@ -206,8 +206,9 @@ const ensureHasConnection = () => {
         console.log('has status', HAS.status());
       })
       .catch((err) => {
-        console.warn('HAS connection failed, will retry on next use', err);
+        console.warn('HAS connection failed, will retry on next use:', err);
         _hasConnectionPromise = null; // allow retry on failure
+        throw err;
       });
   }
   return _hasConnectionPromise;
