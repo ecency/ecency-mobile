@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { Image, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
@@ -34,21 +34,29 @@ export const ProposalVoteRequest = () => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
-  // assess if user should be prompted to vote proposal
-  // makes sure this logic is only calculated once on launch
-  const [skipOnLaunch] = useState(
-    !isLoggedIn || proposalVotedQuery.data || proposalVotedQuery.meta?.processed,
-  );
+  // reset mutation state when account changes so stale vote status
+  // from a previous account does not carry over
+  const prevUsernameRef = useRef(currentAccount?.name);
+  useEffect(() => {
+    if (prevUsernameRef.current !== currentAccount?.name) {
+      prevUsernameRef.current = currentAccount?.name;
+      proposalVoteMutation.reset();
+    }
+  }, [currentAccount?.name]);
 
-  // render or no render based on dismiss action performed
+  // reactively assess if widget should be skipped;
+  // recalculates when account data, vote status, or dismiss meta changes
   const skipRender = useMemo(() => {
-    if (!skipOnLaunch && proposalVotedQuery.meta) {
+    if (!isLoggedIn) return true;
+    if (proposalVotedQuery.data) return true;
+    if (proposalVotedQuery.meta?.processed) return true;
+    if (proposalVotedQuery.meta) {
       const curTime = new Date().getTime();
       const nextRequestTime = proposalVotedQuery.meta.dismissedAt + RE_REQUEST_INTERVAL;
-      return nextRequestTime > curTime;
+      if (nextRequestTime > curTime) return true;
     }
-    return skipOnLaunch;
-  }, [proposalVotedQuery.meta]);
+    return false;
+  }, [isLoggedIn, proposalVotedQuery.data, proposalVotedQuery.meta]);
 
   if (skipRender) {
     return null;
