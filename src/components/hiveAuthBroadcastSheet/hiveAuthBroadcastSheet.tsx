@@ -98,6 +98,12 @@ export const HiveAuthBroadcastSheet = ({
     }
 
     const { operations, onSuccess, onError } = payloadRef.current || {};
+    const clearAutoCloseTimer = () => {
+      if (autoCloseTimerRef.current) {
+        clearTimeout(autoCloseTimerRef.current);
+        autoCloseTimerRef.current = null;
+      }
+    };
 
     if (!operations || operations.length === 0) {
       // Signal failure to caller and close the sheet
@@ -136,6 +142,7 @@ export const HiveAuthBroadcastSheet = ({
           onSuccess?.(result);
 
           // Wait for user to see the success message (green checkmark) before closing
+          clearAutoCloseTimer();
           autoCloseTimerRef.current = setTimeout(() => {
             if (!isCancelledRef.current) {
               ActionSheet.hide(sheetIdRef.current);
@@ -147,9 +154,9 @@ export const HiveAuthBroadcastSheet = ({
           console.error('[HiveAuthBroadcastSheet] Broadcast failed', error);
 
           // Check if error is auth expiry - if so, navigate to login after hiding sheet
+          const errorMessage = String((error as Error)?.message || '').toLowerCase();
           const isAuthExpired =
-            (error as Error)?.message?.includes('auth_expired') ||
-            (error as Error)?.message?.includes('expired');
+            errorMessage.includes('auth_expired') || errorMessage.includes('auth expired');
 
           if (isAuthExpired) {
             console.log('[HiveAuthBroadcastSheet] Auth expired, navigating to login');
@@ -157,7 +164,8 @@ export const HiveAuthBroadcastSheet = ({
             ActionSheet.hide(sheetIdRef.current);
 
             // Navigate to login screen after a small delay to let sheet close
-            setTimeout(() => {
+            clearAutoCloseTimer();
+            autoCloseTimerRef.current = setTimeout(() => {
               RootNavigation.navigate({
                 name: ROUTES.SCREENS.LOGIN,
                 params: { username: currentAccountUsernameRef.current },
@@ -165,6 +173,7 @@ export const HiveAuthBroadcastSheet = ({
             }, 300);
           } else {
             // Wait for user to see the error message (red X) before closing
+            clearAutoCloseTimer();
             autoCloseTimerRef.current = setTimeout(() => {
               if (!isCancelledRef.current) {
                 ActionSheet.hide(sheetIdRef.current);
