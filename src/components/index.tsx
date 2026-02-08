@@ -117,6 +117,8 @@ import { CrossPostModal } from './crossPostModal';
 import { ChatOptionsSheet } from './chatOptionsSheet';
 import { ChatChannelOptionsSheet } from './chatChannelOptionsSheet';
 import { TTSControls } from './textToSpeech/ttsControls';
+import { PostingAuthoritySheet } from './postingAuthoritySheet';
+import { HiveAuthBroadcastSheet } from './hiveAuthBroadcastSheet';
 
 // Basic UI Elements
 import {
@@ -289,4 +291,6 @@ export {
   ChatOptionsSheet,
   ChatChannelOptionsSheet,
   TTSControls,
+  PostingAuthoritySheet,
+  HiveAuthBroadcastSheet,
 };

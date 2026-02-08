@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
@@ -13,7 +13,6 @@ import AUTH_TYPE from '../../../constants/authType';
 
 import {
   BasicHeader,
-  HiveAuthModal,
   MainButton,
   Modal,
   TransferAccountSelector,
@@ -73,8 +72,6 @@ const TransferView = ({
   recurrentTransfers,
   tokenLayer,
 }: TransferViewProps) => {
-  const hiveAuthModalRef = useRef();
-
   const [from, setFrom] = useState(currentAccountName);
   const [destination, setDestination] = useState(
     transferType === TransferTypes.TRANSFER_TO_SAVINGS ||
@@ -127,7 +124,21 @@ const TransferView = ({
           recurrence: isRecurrentTransfer ? +recurrence : null,
           executions: isRecurrentTransfer ? +executions : null,
         });
-        hiveAuthModalRef.current.broadcastActiveOps(opArray);
+        SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
+          payload: {
+            operations: opArray,
+            onSuccess: () => {
+              handleOnModalClose();
+            },
+            onError: (error) => {
+              console.error('[Transfer] HiveAuth broadcast failed:', error);
+              setIsTransfering(false);
+            },
+            onClose: () => {
+              setIsTransfering(false);
+            },
+          },
+        });
       } else {
         transferToAccount(
           from,
@@ -337,6 +348,8 @@ const TransferView = ({
 
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="always"
+        enableOnAndroid={true}
+        extraScrollHeight={80}
         contentContainerStyle={[styles.grow, styles.keyboardAwareScrollContainer]}
       >
         <View style={styles.container}>
@@ -407,8 +420,6 @@ const TransferView = ({
           <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
         </Modal>
       )}
-
-      <HiveAuthModal ref={hiveAuthModalRef} onClose={handleOnModalClose} />
     </SafeAreaView>
   );
 };

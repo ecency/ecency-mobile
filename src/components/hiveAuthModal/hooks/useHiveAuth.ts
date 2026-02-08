@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Linking, Keyboard } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import HAS from 'hive-auth-wrapper';
 import { v4 as uuidv4 } from 'uuid';
@@ -9,10 +10,11 @@ import assert from 'assert';
 import { useIntl } from 'react-intl';
 import * as Sentry from '@sentry/react-native';
 import { getDigitPinCode } from '../../../providers/hive/dhive';
-import { loginWithHiveAuth } from '../../../providers/hive/auth';
+import { loginWithHiveAuth, updateHiveAuthSession } from '../../../providers/hive/auth';
 import { useAppSelector, usePostLoginActions } from '../../../hooks';
 import AUTH_TYPE from '../../../constants/authType';
-import { decryptKey } from '../../../utils/crypto';
+import { decryptKey, encryptKey } from '../../../utils/crypto';
+import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { delay } from '../../../utils/editor';
 import { selectPin, selectCurrentAccount } from '../../../redux/selectors';
 
@@ -127,6 +129,67 @@ const getHiveAuthUri = async (path: string, preferredScheme?: HiveAuthScheme | n
   return results.find((uri): uri is string => Boolean(uri)) ?? null;
 };
 
+/**
+ * Infers the required key type (posting or active) based on operation types
+ * Matches the logic from vision-next website for consistency
+ * @param opsArray Array of operations to analyze
+ * @returns 'posting' or 'active' key type
+ */
+const inferOperationKeyType = (opsArray: Operation[]): 'posting' | 'active' => {
+  const postingOnlyOps = new Set([
+    'vote',
+    'comment',
+    'comment_options',
+    'delete_comment',
+    'claim_reward_balance',
+    'account_update2', // Profile metadata updates (avatar, cover, bio, etc.)
+  ]);
+
+  const flags = opsArray.reduce(
+    (acc, [opName, opPayload]) => {
+      if (opName === 'custom_json') {
+        const payload = opPayload as any;
+        if (payload?.required_auths && payload.required_auths.length > 0) {
+          acc.sawActive = true;
+        } else if (payload?.required_posting_auths && payload.required_posting_auths.length > 0) {
+          acc.sawPosting = true;
+        }
+        return acc;
+      }
+
+      if (postingOnlyOps.has(opName)) {
+        acc.sawPosting = true;
+      } else {
+        acc.sawActive = true;
+      }
+      return acc;
+    },
+    { sawActive: false, sawPosting: false },
+  );
+
+  if (flags.sawActive) {
+    return 'active';
+  }
+  if (flags.sawPosting) {
+    return 'posting';
+  }
+  return 'posting';
+};
+
+/**
+ * Checks if an error from HAS.broadcast() indicates the account session
+ * is not registered on the HAS relay (e.g. after WebSocket reconnect or session expiry).
+ */
+const isHasNotConnectedError = (error: any): boolean => {
+  const candidates = [
+    error?.message,
+    error?.error,
+    typeof error === 'string' ? error : null,
+  ].filter(Boolean);
+
+  return candidates.some((s) => /not been connected through HAS/i.test(String(s)));
+};
+
 export enum HiveAuthStatus {
   INPUT = 0,
   PROCESSING = 1,
@@ -134,9 +197,27 @@ export enum HiveAuthStatus {
   ERROR = 3,
 }
 
+// Module-level singleton: connect to HAS relay once, shared across all useHiveAuth consumers
+let _hasConnectionPromise: Promise<void> | null = null;
+const ensureHasConnection = (forceReconnect = false) => {
+  if (!_hasConnectionPromise || forceReconnect) {
+    _hasConnectionPromise = null;
+    _hasConnectionPromise = HAS.connect()
+      .then(() => {
+        console.log('has status', HAS.status());
+      })
+      .catch((err) => {
+        console.warn('HAS connection failed, will retry on next use:', err);
+        _hasConnectionPromise = null; // allow retry on failure
+      });
+  }
+  return _hasConnectionPromise;
+};
+
 export const useHiveAuth = () => {
   const intl = useIntl();
   const postLoginActions = usePostLoginActions();
+  const dispatch = useDispatch();
 
   const pinHash = useAppSelector(selectPin);
   const currentAccount = useAppSelector(selectCurrentAccount);
@@ -144,13 +225,9 @@ export const useHiveAuth = () => {
   const [statusText, setStatusText] = useState('');
   const [status, setStatus] = useState(HiveAuthStatus.INPUT);
 
-  // initiate has web hook connection
+  // Ensure HAS relay connection is established (singleton, only connects once)
   useEffect(() => {
-    // Retrieving connection status
-    HAS.connect().then(() => {
-      const _status = HAS.status();
-      console.log('has status', _status);
-    });
+    ensureHasConnection();
   }, []);
 
   /**
@@ -226,7 +303,13 @@ export const useHiveAuth = () => {
       messageObj.signatures = [authRes.data.challenge.challenge];
       const hsCode = btoa(JSON.stringify(messageObj));
 
-      const accountData = await loginWithHiveAuth(hsCode, auth.key, auth.expire);
+      const accountData = await loginWithHiveAuth(hsCode, auth.key, auth.expire, auth.token);
+
+      if (!auth.token) {
+        console.warn(
+          '[HiveAuth] auth.token not set after authenticate; session reuse may not work',
+        );
+      }
 
       postLoginActions.updateAccountsData(accountData);
 
@@ -234,6 +317,10 @@ export const useHiveAuth = () => {
       setStatus(HiveAuthStatus.SUCCESS);
 
       await delay(2000);
+
+      // NOTE: Don't show posting authority prompt here - it causes crashes
+      // The prompt will show naturally when user tries to perform an action
+      // The fallback mechanism will handle operations without posting authority
 
       return true;
     } catch (error) {
@@ -262,7 +349,11 @@ export const useHiveAuth = () => {
 
       setStatus(HiveAuthStatus.PROCESSING);
       setStatusText(intl.formatMessage({ id: 'hiveauth.initiating' }));
-      await delay(1000);
+
+      // Ensure HAS connection is established before broadcasting
+      await ensureHasConnection();
+      const hasStatus = HAS.status();
+      console.log('[HiveAuth] Broadcast - HAS status:', hasStatus);
 
       const username = currentAccount.name ?? currentAccount.username;
       if (!username) {
@@ -272,17 +363,65 @@ export const useHiveAuth = () => {
         );
       }
 
-      const _hiveAuthObj = {
+      const pinCode = getDigitPinCode(pinHash);
+
+      // Decrypt HiveAuth credentials with validation
+      const decryptedKey = decryptKey(currentAccount.local.hiveAuthKey, pinCode);
+      const decryptedToken = currentAccount.local.hiveAuthToken
+        ? decryptKey(currentAccount.local.hiveAuthToken, pinCode)
+        : undefined;
+
+      // Critical validation: ensure decryption succeeded
+      if (!decryptedKey) {
+        const errorMsg =
+          intl.formatMessage({ id: 'hiveauth.decrypt_fail' }) ||
+          'Failed to decrypt HiveAuth key. Please re-login.';
+        console.error('[HiveAuth] Key decryption failed - invalid PIN or corrupted data');
+        Sentry.captureMessage('HiveAuth key decryption failed', {
+          level: 'error',
+          extra: {
+            username,
+            hasKey: !!currentAccount.local.hiveAuthKey,
+            hasPinHash: !!pinHash,
+          },
+        });
+        throw new Error(errorMsg);
+      }
+
+      // Validate token decryption if token exists
+      if (currentAccount.local.hiveAuthToken && !decryptedToken) {
+        const errorMsg =
+          intl.formatMessage({ id: 'hiveauth.decrypt_fail' }) ||
+          'Failed to decrypt HiveAuth token. Please re-login.';
+        console.error('[HiveAuth] Token decryption failed - invalid PIN or corrupted data');
+        Sentry.captureMessage('HiveAuth token decryption failed', {
+          level: 'error',
+          extra: {
+            username,
+            hasToken: !!currentAccount.local.hiveAuthToken,
+            hasPinHash: !!pinHash,
+          },
+        });
+        throw new Error(errorMsg);
+      }
+
+      const _hiveAuthObj: any = {
         username,
         expiry: currentAccount.local.hiveAuthExpiry,
-        key: decryptKey(currentAccount.local.hiveAuthKey, getDigitPinCode(pinHash)),
+        key: decryptedKey,
+        token: decryptedToken,
       };
 
-      assert(_hiveAuthObj.key, intl.formatMessage({ id: 'hiveauth.decrypt_fail' }));
-      assert(
-        _hiveAuthObj.expiry > new Date().getTime(),
-        intl.formatMessage({ id: 'hiveauth.expired' }),
-      );
+      // Hard check: if session is expired, throw error to let caller handle navigation
+      if (
+        _hiveAuthObj.expiry &&
+        _hiveAuthObj.expiry > 0 &&
+        _hiveAuthObj.expiry <= new Date().getTime()
+      ) {
+        const error = new Error(intl.formatMessage({ id: 'alert.auth_expired' }));
+        console.log('[HiveAuth] Session expired, throwing error for caller to handle');
+        throw error;
+      }
 
       const _cdWait = async (evt: any) => {
         console.log('sign wait', evt);
@@ -293,30 +432,115 @@ export const useHiveAuth = () => {
           setStatusText(intl.formatMessage({ id: 'hiveauth.requesting' }));
           Linking.openURL(uri);
         } else {
-          throw new Error(intl.formatMessage({ id: 'hiveauth.not_installed' }));
+          setStatusText(intl.formatMessage({ id: 'hiveauth.not_installed' }));
+          setStatus(HiveAuthStatus.ERROR);
         }
       };
 
-      const res = await HAS.broadcast(_hiveAuthObj, 'active', opsArray, _cdWait);
+      // Infer required key type based on operations (posting vs active)
+      const keyType = inferOperationKeyType(opsArray);
+      console.log(`[HiveAuth] Broadcasting with ${keyType} authority`, opsArray);
 
-      if (res && res.broadcast) {
-        console.log('broadcast response', res);
-        // TODO: hive modal
-        // respond back to transfer screen
+      let res;
+      try {
+        res = await HAS.broadcast(_hiveAuthObj, keyType, opsArray, _cdWait);
+      } catch (broadcastError) {
+        if (!isHasNotConnectedError(broadcastError)) {
+          throw broadcastError;
+        }
+
+        // Account session not found on HAS relay - re-authenticate to re-establish it
+        console.log('[HiveAuth] Account not connected on relay, re-authenticating...');
+        setStatusText(intl.formatMessage({ id: 'hiveauth.initiating' }));
+
+        // Force fresh WebSocket connection for re-authentication
+        await ensureHasConnection(true);
+
+        // Reuse stored token/expiry so the PKSA can recognise the existing session
+        const auth: any = {
+          username,
+          token: _hiveAuthObj.token,
+          expire: _hiveAuthObj.expiry,
+          key: _hiveAuthObj.key,
+        };
+
+        await HAS.authenticate(auth, APP_META, undefined, async (evt: any) => {
+          const { host } = HAS.status();
+          const { uuid } = evt;
+          const payload = { account: username, uuid, key: auth.key, host };
+          const encodedData = btoa(JSON.stringify(payload));
+
+          const uri = await getHiveAuthUri(`auth_req/${encodedData}`, extractPreferredScheme(evt));
+
+          if (uri) {
+            setStatusText(intl.formatMessage({ id: 'hiveauth.authenticating' }));
+            Linking.openURL(uri);
+          } else {
+            setStatusText(intl.formatMessage({ id: 'hiveauth.not_installed' }));
+            setStatus(HiveAuthStatus.ERROR);
+          }
+        });
+
+        // Update auth object with token/expiry from re-authentication
+        if (auth.token) {
+          _hiveAuthObj.token = auth.token;
+        }
+        if (auth.expire) {
+          _hiveAuthObj.expiry = auth.expire;
+        }
+
+        // Persist updated session data to realm so future broadcasts can reuse it
+        try {
+          await updateHiveAuthSession(username, pinCode, auth.token, auth.expire);
+        } catch (persistErr) {
+          console.warn('[HiveAuth] Failed to persist re-auth session data', persistErr);
+        }
+
+        // Update Redux so subsequent broadcasts use refreshed credentials
+        try {
+          const updatedLocal = { ...currentAccount.local };
+          if (auth.token) {
+            updatedLocal.hiveAuthToken = encryptKey(auth.token, pinCode);
+          }
+          if (auth.expire) {
+            updatedLocal.hiveAuthExpiry = auth.expire;
+          }
+          dispatch(
+            updateCurrentAccount({
+              ...currentAccount,
+              local: updatedLocal,
+            }),
+          );
+        } catch (reduxErr) {
+          console.warn('[HiveAuth] Failed to update Redux after re-auth', reduxErr);
+        }
+
+        // Retry broadcast after successful re-authentication
+        console.log('[HiveAuth] Re-authenticated successfully, retrying broadcast...');
+        setStatusText(intl.formatMessage({ id: 'hiveauth.requesting' }));
+        res = await HAS.broadcast(_hiveAuthObj, keyType, opsArray, _cdWait);
       }
+
+      if (!res?.broadcast) {
+        throw new Error(intl.formatMessage({ id: 'hiveauth.transaction_fail' }));
+      }
+
+      console.log('broadcast response', res);
+      // TODO: hive modal
+      // respond back to transfer screen
 
       setStatus(HiveAuthStatus.SUCCESS);
       setStatusText(intl.formatMessage({ id: 'hiveauth.transaction_success' }));
       await delay(2000);
 
-      return true;
+      return res;
     } catch (error) {
       setStatus(HiveAuthStatus.ERROR);
       setStatusText(intl.formatMessage({ id: error.message || 'hiveauth.transaction_fail' }));
 
       console.warn('Transaction failed', error);
       Sentry.captureException(error);
-      return false;
+      throw error;
     }
   };
 

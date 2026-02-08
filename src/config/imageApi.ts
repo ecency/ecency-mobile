@@ -8,6 +8,7 @@ export function upload(
   uploadProgress?: (progressEvent: AxiosProgressEvent) => void,
 ): Promise<AxiosResponse> {
   const image = axios.create({
+    timeout: 60000,
     baseURL: `${Config.NEW_IMAGE_API}/hs/${signature}`,
     headers: {
       Authorization: Config.NEW_IMAGE_API,

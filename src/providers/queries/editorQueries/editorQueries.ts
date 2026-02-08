@@ -249,6 +249,15 @@ export const useMediaUploadMutation = () => {
       const sign = await signImage(media, currentAccount, pinCode);
       return uploadImage(media, currentAccount.name, sign);
     },
+    retry: (failureCount, error: any) => {
+      if (failureCount >= 2) return false;
+      const status = error?.response?.status;
+      if (status && [502, 503, 504].includes(status)) return true;
+      if (error?.code === 'ECONNABORTED') return true;
+      if (error?.message?.includes('Network Error')) return true;
+      return false;
+    },
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
 
     onSuccess: (response, { addToUploads }) => {
       if (addToUploads && response && response.url) {

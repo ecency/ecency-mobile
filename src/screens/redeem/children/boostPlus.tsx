@@ -24,7 +24,6 @@ import { Modal } from '../../../components/modal';
 // Styles
 import styles from '../styles/boostPlus.styles';
 import { OptionsModal } from '../../../components/atoms';
-import QUERIES from '../../../providers/queries/queryKeys';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { useAuth } from '../../../hooks';
@@ -52,27 +51,41 @@ const BoostPlus = ({
   const startActionSheetP = useRef(null);
 
   const { code } = useAuth();
+
+  // Use SDK query options directly without overriding
   const boostPricesQuery = useQuery({
     ...getBoostPlusPricesQueryOptions(code),
-    queryKey: [QUERIES.REDEEM.GET_BOOST_PLUS_PRICES, code],
-    initialData: [],
     enabled: !!code,
   });
 
-  const _boostDays = useMemo(
-    () => boostPricesQuery.data.map((item) => item.duration),
-    [boostPricesQuery.data],
-  );
-  const _boostPrices = useMemo(
-    () => boostPricesQuery.data.map((item) => item.price),
-    [boostPricesQuery.data],
-  );
+  const { boostDays: _boostDays, boostPrices: _boostPrices } = useMemo(() => {
+    if (!boostPricesQuery.data || !Array.isArray(boostPricesQuery.data)) {
+      return { boostDays: [], boostPrices: [] };
+    }
+
+    const normalized = boostPricesQuery.data
+      .map((item) => {
+        const duration = Number(item.duration);
+        const price = Number(item.price);
+        return { duration, price };
+      })
+      .filter((item) => Number.isFinite(item.duration) && Number.isFinite(item.price));
+
+    return {
+      boostDays: normalized.map((item) => item.duration),
+      boostPrices: normalized.map((item) => item.price),
+    };
+  }, [boostPricesQuery.data]);
 
   useEffect(() => {
     setBalance(_balance);
   }, [_balance]);
 
   useEffect(() => {
+    if (_boostDays.length > 0 && !_boostDays.includes(day)) {
+      setDay(_boostDays[0]);
+    }
+
     const index = _boostDays.indexOf(day);
     const pr = index >= 0 ? _boostPrices[index] : undefined;
 
@@ -96,7 +109,7 @@ const BoostPlus = ({
     if (!pointsQuery.data || pointsQuery.data.points === undefined) {
       return;
     }
-    const points = Number(pointsQuery.data?.points);
+    const points = Number(String(pointsQuery.data?.points ?? '').replace(/,/g, ''));
     const balanceValue = Math.round(points * 1000) / 1000;
     setBalance(Number.isNaN(balanceValue) ? _balance : balanceValue);
   }, [pointsQuery.data, _balance]);
@@ -164,20 +177,22 @@ const BoostPlus = ({
 
             <View style={styles.total}>
               <Text style={styles.day}>
-                {`${day} ${intl.formatMessage({
+                {`${_boostDays.length > 0 ? day : '--'} ${intl.formatMessage({
                   id: 'promote.days',
                 })} `}
               </Text>
               <Text style={styles.price}>{`${price ?? '--'} Points  `}</Text>
             </View>
 
-            <ScaleSlider
-              values={_boostDays}
-              LRpadding={50}
-              activeValue={day}
-              handleOnValueChange={(_day) => setDay(_day)}
-              single
-            />
+            {_boostDays.length > 0 && (
+              <ScaleSlider
+                values={_boostDays}
+                LRpadding={50}
+                activeValue={day}
+                handleOnValueChange={(_day) => setDay(_day)}
+                single
+              />
+            )}
           </View>
 
           <View style={styles.bottomContent}>

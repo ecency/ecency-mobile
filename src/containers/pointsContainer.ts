@@ -101,7 +101,8 @@ const PointsContainer = ({
     }
 
     if (pointsQuery.data) {
-      const _balance = Math.round(parseFloat(pointsQuery.data.points) * 1000) / 1000;
+      const normalizedPoints = String(pointsQuery.data.points ?? '').replace(/,/g, '');
+      const _balance = Math.round(parseFloat(normalizedPoints) * 1000) / 1000;
       setBalance(_balance);
       setUserPoints({
         points: pointsQuery.data.points,
@@ -204,8 +205,9 @@ const PointsContainer = ({
     // Refetch points data to get latest balance
     const result = await pointsQuery.refetch();
     if (result.data) {
-      const _balance = Math.round(parseFloat(result.data.points) * 1000) / 1000;
-      return _balance;
+      const normalizedPoints = String(result.data.points ?? '').replace(/,/g, '');
+      const _balance = Math.round(parseFloat(normalizedPoints) * 1000) / 1000;
+      return Number.isNaN(_balance) ? 0 : _balance;
     }
     return 0;
   };

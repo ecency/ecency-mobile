@@ -94,9 +94,11 @@ export const convertLatestQuotes = (rawData: any, currencyRate: number) => {
 };
 
 export const convertCommentHistory = (rawData: any) => {
+  const rawTags = rawData?.tags;
+  const tags = Array.isArray(rawTags) ? rawTags : rawTags ? [rawTags] : [];
   return {
     body: rawData.body || '',
-    tags: rawData.tags || '',
+    tags,
     timestamp: rawData.timestamp || '',
     title: rawData.title || '',
     v: rawData.v || 1,
@@ -127,6 +129,7 @@ export const convertPortfolio = (rawData: any) => {
       layer: item.layer || '',
       balance: item.balance || 0,
       fiatRate: item.fiatRate || 0,
+      precision: item.precision ?? 3, // SDK guarantees precision, default to 3 as fallback
       address: item.address,
       pendingRewards: item.pendingRewards || 0,
       pendingRewardsFiat: item.pendingRewardsFiat || 0,

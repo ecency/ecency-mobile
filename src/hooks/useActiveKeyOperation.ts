@@ -2,10 +2,12 @@ import { useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Operation } from '@hiveio/dhive';
 import * as hiveuri from 'hive-uri';
+import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector } from '.';
 import { selectCurrentAccount } from '../redux/selectors';
 import AUTH_TYPE from '../constants/authType';
 import ROUTES from '../constants/routeNames';
+import { SheetNames } from '../navigation/sheets';
 
 export interface ActiveKeyOperationCallbacks {
   onSuccess?: () => void;
@@ -25,8 +27,8 @@ export interface ActiveKeyOperationOptions {
 /**
  * Unified hook for handling active key operations across different auth types.
  * Automatically routes to appropriate signing method:
- * - HiveSigner: Opens WebView for hot signing
- * - HiveAuth: Opens HiveAuth/Keychain app
+ * - HiveSigner: Opens full-screen WebView modal for hot signing
+ * - HiveAuth: Opens bottom sheet with HiveAuth/Keychain integration
  * - Private Keys: Executes provided handler function
  *
  * @example
@@ -54,8 +56,8 @@ export const useActiveKeyOperation = () => {
   const authType = currentAccount?.local?.authType;
 
   /**
-   * Determines if the current auth type requires modal navigation
-   * (HiveSigner or HiveAuth)
+   * Determines if the current auth type requires modal/sheet navigation
+   * (HiveSigner uses full-screen modal, HiveAuth uses bottom sheet)
    */
   const requiresModal = authType === AUTH_TYPE.STEEM_CONNECT || authType === AUTH_TYPE.HIVE_AUTH;
 
@@ -83,8 +85,42 @@ export const useActiveKeyOperation = () => {
       }
 
       // Route based on auth type
-      if (authType === AUTH_TYPE.STEEM_CONNECT || authType === AUTH_TYPE.HIVE_AUTH) {
-        // For HiveSigner and HiveAuth, navigate to signing modal
+      if (authType === AUTH_TYPE.HIVE_AUTH) {
+        // For HiveAuth, use the bottom sheet for consistent UX
+        return new Promise((resolve, reject) => {
+          try {
+            SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
+              payload: {
+                operations,
+                onSuccess: (result) => {
+                  callbacks?.onSuccess?.();
+                  resolve(result);
+                },
+                onError: (error) => {
+                  callbacks?.onError?.(error);
+                  reject(error);
+                },
+                onClose: (error) => {
+                  // Normalize to concrete Error instance (sheet may pass undefined or string)
+                  const normalizedError =
+                    error instanceof Error
+                      ? error
+                      : new Error(
+                          typeof error === 'string' ? error : 'Operation cancelled by user',
+                        );
+                  callbacks?.onClose?.();
+                  callbacks?.onError?.(normalizedError);
+                  reject(normalizedError);
+                },
+              },
+            });
+          } catch (error) {
+            callbacks?.onError?.(error as Error);
+            reject(error);
+          }
+        });
+      } else if (authType === AUTH_TYPE.STEEM_CONNECT) {
+        // For HiveSigner, navigate to full-screen modal with WebView
         return new Promise((resolve, reject) => {
           try {
             // Encode operation for HiveSigner hot signing

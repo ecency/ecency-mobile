@@ -21,6 +21,13 @@ export const HiveSignerModal = ({ route, navigation }) => {
   const { hiveuri, opsArray, onClose, onSuccess } = route.params || {};
   const successHandledRef = useRef(false);
   const closedDueToMissingUriRef = useRef(false);
+  const broadcastStartedRef = useRef(false);
+
+  // Stabilize route.params callbacks via refs to avoid effect re-triggers
+  const onSuccessRef = useRef(onSuccess);
+  onSuccessRef.current = onSuccess;
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   // Determine if this is a HiveAuth operation
   const isHiveAuthOperation =
@@ -29,50 +36,54 @@ export const HiveSignerModal = ({ route, navigation }) => {
   // Handle HiveAuth broadcast
   useEffect(() => {
     if (isHiveAuthOperation && hiveAuth.status === HiveAuthStatus.INPUT) {
+      // Guard against duplicate broadcast (React strict mode, fast re-renders)
+      if (broadcastStartedRef.current) {
+        return;
+      }
+      broadcastStartedRef.current = true;
+
       // Automatically trigger HiveAuth broadcast
       (async () => {
         try {
-          const success = await hiveAuth.broadcast(opsArray as Operation[]);
-          if (success) {
+          const result = await hiveAuth.broadcast(opsArray as Operation[]);
+          if (result) {
             successHandledRef.current = true;
-            onSuccess && onSuccess();
+            onSuccessRef.current?.();
             navigation.goBack();
           } else {
-            // Error already handled by useHiveAuth
-            // Set flag to prevent duplicate onClose from beforeRemove listener
             closedDueToMissingUriRef.current = true;
-            onClose && onClose();
+            onCloseRef.current?.();
             navigation.goBack();
           }
         } catch (error) {
           // Mirror failure branch behavior
           closedDueToMissingUriRef.current = true;
-          onClose && onClose();
+          onCloseRef.current?.();
           navigation.goBack();
         }
       })();
     }
-  }, [isHiveAuthOperation, hiveAuth.status, opsArray, onSuccess, onClose, navigation]);
+  }, [isHiveAuthOperation, hiveAuth.status]);
 
   // Handle missing hiveuri for HiveSigner operations
   useEffect(() => {
     if (!isHiveAuthOperation && !hiveuri && !closedDueToMissingUriRef.current) {
       closedDueToMissingUriRef.current = true;
       navigation.goBack();
-      onClose && onClose();
+      onCloseRef.current?.();
     }
-  }, [isHiveAuthOperation, hiveuri, navigation, onClose]);
+  }, [isHiveAuthOperation, hiveuri, navigation]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', () => {
       // Don't call onClose if success was already handled or closed due to missing URI
       if (!successHandledRef.current && !closedDueToMissingUriRef.current) {
-        onClose && onClose();
+        onCloseRef.current?.();
       }
     });
 
     return unsubscribe;
-  }, [navigation, onClose]);
+  }, [navigation]);
 
   const _onClose = () => {
     // Don't call onClose if success was already handled
@@ -81,7 +92,7 @@ export const HiveSignerModal = ({ route, navigation }) => {
     }
     hiveAuth.reset();
     navigation.goBack();
-    onClose && onClose();
+    // Note: onClose will be called by beforeRemove listener, no need to call it here
   };
 
   const _onNavigationStateChange = (navState: any) => {
@@ -116,7 +127,7 @@ export const HiveSignerModal = ({ route, navigation }) => {
       // Mark success as handled to prevent duplicate calls
       successHandledRef.current = true;
       // Transaction was successfully signed
-      onSuccess && onSuccess();
+      onSuccessRef.current?.();
       navigation.goBack();
     }
   };

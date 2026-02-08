@@ -19,6 +19,7 @@ import {
   updateUserData,
   updateCurrentUsername,
   getUserData,
+  getUserDataWithUsername,
   setSCAccount,
   getSCAccount,
   setPinCode,
@@ -260,7 +261,7 @@ export const loginWithSC2 = async (code) => {
   }
 };
 
-export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => {
+export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry, hiveAuthToken?) => {
   try {
     const scTokens = await getSCAccessToken(hsCode);
 
@@ -303,6 +304,7 @@ export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => 
       accessToken: '',
       hiveAuthKey: '',
       hiveAuthExpiry: 0,
+      hiveAuthToken: '',
     };
 
     const resData = {
@@ -310,6 +312,7 @@ export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => 
       accessToken: get(scTokens, 'access_token', ''),
       hiveAuthKey,
       hiveAuthExpiry,
+      hiveAuthToken: hiveAuthToken || '',
     };
     const updatedUserData = getUpdatedUserData(userData, resData);
 
@@ -391,12 +394,20 @@ export const updatePinCode = (data) =>
                   get(data, 'oldPinCode', ''),
                   _onDecryptError,
                 );
+                const hiveAuthToken = get(userData, 'hiveAuthToken')
+                  ? decryptKey(
+                      get(userData, 'hiveAuthToken'),
+                      get(data, 'oldPinCode', ''),
+                      _onDecryptError,
+                    )
+                  : '';
 
                 if (accessToken === undefined || hiveAuthKey === undefined) {
                   return;
                 }
                 data.accessToken = accessToken;
                 data.hiveAuthKey = hiveAuthKey;
+                data.hiveAuthToken = hiveAuthToken || '';
               }
               const updatedUserData = getUpdatedUserData(userData, data);
               updateUserData(updatedUserData);
@@ -417,6 +428,12 @@ export const updatePinCode = (data) =>
 
 export const refreshSCToken = async (userData, pinCode) => {
   const scAccount = await getSCAccount(userData.username);
+
+  if (!scAccount || !scAccount.refreshToken) {
+    console.warn('No SC account or refresh token found, keeping existing access token');
+    return get(userData, 'accessToken', '');
+  }
+
   const now = new Date().getTime();
   const expireDate = new Date(scAccount.expireDate).getTime();
 
@@ -436,8 +453,32 @@ export const refreshSCToken = async (userData, pinCode) => {
       throw error;
     } else {
       console.warn('token failed to refresh but current token is still valid');
+      return get(userData, 'accessToken', '');
     }
   }
+};
+
+/**
+ * Persists updated HiveAuth session data (token and expiry) to realm storage.
+ * Called after re-authentication so subsequent broadcasts can reuse the session.
+ */
+export const updateHiveAuthSession = async (
+  username: string,
+  pinCode: string,
+  token: string,
+  expiry: number,
+) => {
+  const users = await getUserDataWithUsername(username);
+  if (!users || !users[0]) {
+    console.warn('[HiveAuth] updateHiveAuthSession: no user data found for', username);
+    return;
+  }
+  const userData = users[0];
+  await updateUserData({
+    ...userData,
+    hiveAuthToken: token ? encryptKey(token, pinCode) : userData.hiveAuthToken,
+    hiveAuthExpiry: expiry ?? userData.hiveAuthExpiry,
+  });
 };
 
 export const switchAccount = (username) =>
@@ -518,6 +559,10 @@ const getUpdatedUserData = (userData, data) => {
       get(userData, 'authType', '') === AUTH_TYPE.HIVE_AUTH
         ? encryptKey(data.hiveAuthKey, get(data, 'pinCode'))
         : get(userData, 'hiveAuthKey', ''),
+    hiveAuthToken:
+      get(userData, 'authType', '') === AUTH_TYPE.HIVE_AUTH && data.hiveAuthToken
+        ? encryptKey(data.hiveAuthToken, get(data, 'pinCode'))
+        : get(userData, 'hiveAuthToken', ''),
   };
 };
 

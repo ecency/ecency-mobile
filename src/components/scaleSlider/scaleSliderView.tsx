@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text } from 'react-native';
 import MultiSlider from '@esteemapp/react-native-multi-slider';
 
@@ -6,19 +6,36 @@ import styles from './scaleSliderStyles';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 
 const ScaleSliderView = ({ values, LRpadding, handleOnValueChange, activeValue }) => {
-  const [_activeValue, setActiveValue] = useState(activeValue || values[0]);
+  const hasValues = values && values.length > 0;
+  const [_activeValue, setActiveValue] = useState(hasValues ? activeValue ?? values[0] : undefined);
   const [activeIndex, setActiveIndex] = useState(
-    values?.length > 0 ? values.indexOf(_activeValue) : 0,
+    hasValues ? Math.max(0, values.indexOf(activeValue ?? values[0])) : 0,
   );
 
   const sliderKey = useMemo(() => JSON.stringify(values), [values]);
 
   const _renderMarker = () => <View style={styles.marker} />;
 
+  useEffect(() => {
+    if (!hasValues) {
+      setActiveValue(undefined);
+      setActiveIndex(0);
+      return;
+    }
+
+    const nextValue = values.includes(activeValue) ? activeValue : values[0];
+    setActiveValue(nextValue);
+    setActiveIndex(Math.max(0, values.indexOf(nextValue)));
+  }, [activeValue, hasValues, values]);
+
   const _valueChange = (_values) => {
     const index = _values[0] - 1;
 
-    setActiveValue(values && values[index]);
+    if (!values || index < 0 || index >= values.length) {
+      return;
+    }
+
+    setActiveValue(values[index]);
     setActiveIndex(index);
 
     if (handleOnValueChange) {
@@ -30,7 +47,7 @@ const ScaleSliderView = ({ values, LRpadding, handleOnValueChange, activeValue }
     const isActive = index <= activeIndex || index === 0;
 
     return (
-      <View>
+      <View key={`scale-item-${index}-${value}`}>
         <Text style={[isActive ? styles.active : styles.inactive]}>{value}</Text>
         <View style={[isActive ? styles.line : {}]} />
       </View>
@@ -46,6 +63,10 @@ const ScaleSliderView = ({ values, LRpadding, handleOnValueChange, activeValue }
 
     return items;
   };
+
+  if (!hasValues) {
+    return null;
+  }
 
   return (
     <View>

@@ -85,7 +85,13 @@ const AccountsBottomSheetContainer = () => {
   };
 
   const _checkHiveAuthExpiry = (authData: any) => {
-    if (authData?.username) {
+    if (
+      authData?.username &&
+      authData.authType === AUTH_TYPE.HIVE_AUTH &&
+      authData.hiveAuthExpiry &&
+      typeof authData.hiveAuthExpiry === 'number' &&
+      authData.hiveAuthExpiry > 0
+    ) {
       const curTime = new Date().getTime();
       if (curTime > authData.hiveAuthExpiry) {
         SheetManager.show(SheetNames.ACTION_MODAL, {
@@ -142,7 +148,7 @@ const AccountsBottomSheetContainer = () => {
 
       [_currentAccount.local] = realmData;
 
-      if (currentAccount.local.authType === AUTH_TYPE.HIVE_AUTH) {
+      if (_currentAccount.local.authType === AUTH_TYPE.HIVE_AUTH) {
         _checkHiveAuthExpiry(_currentAccount.local);
       }
 

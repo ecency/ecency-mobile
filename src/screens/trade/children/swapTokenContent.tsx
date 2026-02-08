@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text, Alert, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
 import styles from '../styles/tradeScreen.styles';
 import { AssetChangeBtn, ErrorSection, SwapAmountInput, SwapFeeSection } from '.';
-import { HiveAuthModal, Icon, MainButton } from '../../../components';
+import { Icon, MainButton } from '../../../components';
 import {
   fetchHiveMarketRate,
   generateHsSwapTokenPath,
@@ -37,8 +37,6 @@ interface Props {
 export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }: Props) => {
   const intl = useIntl();
   const navigation = useNavigation();
-
-  const hiveAuthModalRef = useRef();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const currency = useAppSelector(selectCurrency);
@@ -194,7 +192,31 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
     } else if (currentAccount.local.authType === AUTH_TYPE.HIVE_AUTH) {
       await delay(500); // NOTE: it's required to avoid modal mis fire
       const opsArray = buildTradeOpsArray(currentAccount.name, data);
-      hiveAuthModalRef.current?.broadcastActiveOps(opsArray);
+      SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
+        payload: {
+          operations: opsArray,
+          onSuccess: async () => {
+            await delay(1000);
+            const _existingPedingCount = pendingRequestsQuery.data?.length || 0;
+            const pendingRequests = await pendingRequestsQuery.refetch();
+            const _latestPendingCount =
+              pendingRequests?.length ?? pendingRequestsQuery.data?.length ?? 0;
+            const _hasPending = _latestPendingCount !== _existingPedingCount;
+
+            onSuccess();
+            setSwapping(false);
+            _onSwapSuccess(_hasPending);
+          },
+          onError: (error) => {
+            console.error('[Swap] HiveAuth broadcast failed:', error);
+            Alert.alert('fail', error.message);
+            setSwapping(false);
+          },
+          onClose: () => {
+            setSwapping(false);
+          },
+        },
+      });
     } else {
       try {
         setSwapping(true);
@@ -338,8 +360,6 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
       <ErrorSection message={_errorMessage} />
 
       {_renderMainBtn()}
-
-      <HiveAuthModal ref={hiveAuthModalRef} onClose={() => navigation.goBack()} />
     </KeyboardAwareScrollView>
   );
 };

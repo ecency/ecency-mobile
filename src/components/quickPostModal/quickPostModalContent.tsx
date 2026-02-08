@@ -77,6 +77,7 @@ export const QuickPostModalContent = forwardRef(
     const inputRef = useRef<RNTextInput | null>(null);
     const pollWizardModalRef = useRef(null);
     const commentValueRef = useRef('');
+    const isSubmittingRef = useRef(false);
 
     const currentAccount = useAppSelector(selectCurrentAccount);
     const pollDraftsMap = useAppSelector((state: RootState) => state.editor.pollDraftsMap);
@@ -230,38 +231,47 @@ export const QuickPostModalContent = forwardRef(
 
     // handle submit reply
     const _submitPost = async () => {
-      if (postSubmitter.isSubmitting) {
+      // Prevent double submission with synchronous ref check
+      if (isSubmittingRef.current || postSubmitter.isSubmitting) {
         return;
       }
 
-      let _isSuccess = false;
-      const _body =
-        mediaUrls.length > 0 ? `${commentValue}\n\n ![](${mediaUrls[0]})` : commentValue;
+      // Set ref immediately (synchronous) to prevent race condition
+      isSubmittingRef.current = true;
 
-      switch (mode) {
-        case 'comment':
-          _isSuccess = await postSubmitter.submitReply(_body, selectedPost);
-          break;
-        case 'wave':
-          _isSuccess = await postSubmitter.submitWave(_body, pollDraft);
-          break;
-        default:
-          throw new Error('mode needs implementing');
-      }
+      try {
+        let _isSuccess = false;
+        const _body =
+          mediaUrls.length > 0 ? `${commentValue}\n\n ![](${mediaUrls[0]})` : commentValue;
 
-      if (_isSuccess) {
-        // Cancel any pending debounced cache update
-        _deboucedCacheUpdate.cancel();
-        // delete quick comment/wave cache if it exists
-        if (currentDraft) {
-          dispatch(deleteReplyCacheEntry(draftId));
+        switch (mode) {
+          case 'comment':
+            _isSuccess = await postSubmitter.submitReply(_body, selectedPost);
+            break;
+          case 'wave':
+            _isSuccess = await postSubmitter.submitWave(_body, pollDraft);
+            break;
+          default:
+            throw new Error('mode needs implementing');
         }
-        dispatch(removePollDraft(draftId));
-        setCommentValue('');
-        commentValueRef.current = '';
-        onClose();
-      } else {
-        _addQuickCommentIntoCache(commentValue); // add comment value into cache if there is error while posting comment
+
+        if (_isSuccess) {
+          // Cancel any pending debounced cache update
+          _deboucedCacheUpdate.cancel();
+          // delete quick comment/wave cache if it exists
+          if (currentDraft) {
+            dispatch(deleteReplyCacheEntry(draftId));
+          }
+          dispatch(removePollDraft(draftId));
+          setCommentValue('');
+          commentValueRef.current = '';
+          onClose();
+        } else {
+          _addQuickCommentIntoCache(commentValue); // add comment value into cache if there is error while posting comment
+        }
+      } finally {
+        // Always reset ref when done
+        isSubmittingRef.current = false;
       }
     };
 

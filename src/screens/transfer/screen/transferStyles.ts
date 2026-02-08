@@ -8,6 +8,7 @@ export default EStyleSheet.create({
   keyboardAwareScrollContainer: {
     backgroundColor: '$primaryBackgroundColor',
     padding: 16,
+    paddingBottom: 96,
   },
   stepOneContainer: {
     zIndex: 2,

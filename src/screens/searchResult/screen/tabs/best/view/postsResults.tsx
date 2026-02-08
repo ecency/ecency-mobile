@@ -101,7 +101,7 @@ const PostsResults = ({ searchValue, listRef }) => {
 
   return (
     <PostsResultsContainer searchValue={searchValue}>
-      {({ data, handleOnPress, loadMore, noResult }) => (
+      {({ data, handleOnPress, loadMore, noResult, isLoading }) => (
         <>
           {noResult ? (
             <EmptyScreen />
@@ -116,8 +116,8 @@ const PostsResults = ({ searchValue, listRef }) => {
                 </TouchableOpacity>
               )}
               onEndReached={loadMore}
-              ListEmptyComponent={_renderEmptyContent}
-              ListFooterComponent={!data && <CommunitiesPlaceHolder />}
+              ListEmptyComponent={isLoading ? _renderEmptyContent : null}
+              ListFooterComponent={isLoading && <CommunitiesPlaceHolder />}
             />
           )}
         </>

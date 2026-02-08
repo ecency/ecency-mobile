@@ -278,23 +278,6 @@ export const UploadsGalleryModal = forwardRef(
           });
         }
 
-        for (let index = 0; index < media.length; index++) {
-          const element = media[index];
-          if (element) {
-            // eslint-disable-next-line no-await-in-loop
-            await _uploadImage(element, { shouldInsert });
-          }
-        }
-      } catch (error) {
-        console.log('Failed to upload image', error);
-
-        Sentry.captureException(error);
-      }
-    };
-
-    const _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
-      if (!isLoggedIn) return;
-      try {
         if (setIsUploading) {
           setIsUploading(true);
         }
@@ -302,6 +285,68 @@ export const UploadsGalleryModal = forwardRef(
           setIsAddingToUploads(true);
         }
 
+        const results = await Promise.allSettled(
+          media.map((element) =>
+            element ? _uploadImage(element, { shouldInsert }) : Promise.resolve(),
+          ),
+        );
+
+        // Collect all errors and show a single alert if any uploads failed
+        const failures = results.filter((result) => result.status === 'rejected');
+        if (failures.length > 0) {
+          const errorMessages = new Set<string>();
+          failures.forEach((failure: PromiseRejectedResult) => {
+            const error = failure.reason;
+            if (error.toString().includes('code 413')) {
+              errorMessages.add(
+                intl.formatMessage({
+                  id: 'alert.payloadTooLarge',
+                }),
+              );
+            } else if (error.toString().includes('code 429')) {
+              errorMessages.add(
+                intl.formatMessage({
+                  id: 'alert.quotaExceeded',
+                }),
+              );
+            } else if (error.toString().includes('code 400')) {
+              errorMessages.add(
+                intl.formatMessage({
+                  id: 'alert.invalidImage',
+                }),
+              );
+            } else {
+              errorMessages.add(error.message || error.toString());
+            }
+          });
+
+          const aggregatedMessage =
+            failures.length > 1
+              ? `${failures.length} uploads failed:\n\n${Array.from(errorMessages).join('\n')}`
+              : Array.from(errorMessages)[0];
+
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.fail',
+            }),
+            aggregatedMessage,
+          );
+        }
+      } catch (error) {
+        console.log('Failed to upload image', error);
+
+        Sentry.captureException(error);
+      } finally {
+        if (setIsUploading) {
+          setIsUploading(false);
+        }
+        setIsAddingToUploads(false);
+      }
+    };
+
+    const _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
+      if (!isLoggedIn) return;
+      try {
         await mediaUploadMutation.mutateAsync(
           {
             media,
@@ -319,55 +364,10 @@ export const UploadsGalleryModal = forwardRef(
                 });
               }
             },
-            onSettled: () => {
-              if (setIsUploading) {
-                setIsUploading(false);
-              }
-              setIsAddingToUploads(false);
-            },
-            onError: (err) => {
-              throw err;
-            },
           },
         );
       } catch (error) {
         console.log('error while uploading image : ', error);
-
-        if (error.toString().includes('code 413')) {
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-            intl.formatMessage({
-              id: 'alert.payloadTooLarge',
-            }),
-          );
-        } else if (error.toString().includes('code 429')) {
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-            intl.formatMessage({
-              id: 'alert.quotaExceeded',
-            }),
-          );
-        } else if (error.toString().includes('code 400')) {
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-            intl.formatMessage({
-              id: 'alert.invalidImage',
-            }),
-          );
-        } else {
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-            error.message || error.toString(),
-          );
-        }
 
         if (shouldInsert) {
           _handleMediaInsertion({
@@ -377,6 +377,9 @@ export const UploadsGalleryModal = forwardRef(
             status: MediaInsertStatus.FAILED,
           });
         }
+
+        // Re-throw error to be handled by Promise.allSettled in _handleMediaOnSelected
+        throw error;
       }
     };
 
