@@ -526,17 +526,29 @@ export const useHiveAuth = () => {
       }
 
       console.log('broadcast response', res);
-      // TODO: hive modal
-      // respond back to transfer screen
+
+      // Invalidate HAS connection singleton BEFORE setting success state.
+      // When the app returns from background (after being in HiveAuth/Keychain),
+      // the WebSocket may have disconnected. The HAS library's onclose handler
+      // can trigger reconnection (checkConnection → startWebsocket → new WebSocket),
+      // which can cause a native crash if it races with the old WebSocket closing.
+      // By nulling the promise, we prevent ensureHasConnection() from returning a
+      // stale resolved promise and force a fresh connection on the next broadcast.
+      _hasConnectionPromise = null;
 
       setStatus(HiveAuthStatus.SUCCESS);
       setStatusText(intl.formatMessage({ id: 'hiveauth.transaction_success' }));
-      await delay(2000);
+
+      // NOTE: No artificial delay here. The calling UI (HiveAuthBroadcastSheet)
+      // has its own AUTO_CLOSE_DELAY (1500ms) to display the success state before
+      // closing. The previous `await delay(2000)` kept the async context alive for
+      // 2 extra seconds, creating a window where stale WebSocket events (onclose
+      // from background disconnect) could trigger native reconnection crashes.
 
       return res;
     } catch (error) {
       setStatus(HiveAuthStatus.ERROR);
-      setStatusText(intl.formatMessage({ id: error.message || 'hiveauth.transaction_fail' }));
+      setStatusText(intl.formatMessage({ id: error?.message || 'hiveauth.transaction_fail' }));
 
       console.warn('Transaction failed', error);
       Sentry.captureException(error);

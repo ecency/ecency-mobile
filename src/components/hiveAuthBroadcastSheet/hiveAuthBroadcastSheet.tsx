@@ -138,8 +138,13 @@ export const HiveAuthBroadcastSheet = ({
         const result = await hiveAuthBroadcastRef.current(operations);
 
         if (!isCancelledRef.current) {
-          // Call success callback first
-          onSuccess?.(result);
+          // Call success callback first, wrapped in try-catch to prevent
+          // callback errors from leaving the sheet in an inconsistent state
+          try {
+            onSuccess?.(result);
+          } catch (callbackError) {
+            console.warn('[HiveAuthBroadcastSheet] onSuccess callback error', callbackError);
+          }
 
           // Wait for user to see the success message (green checkmark) before closing
           clearAutoCloseTimer();
