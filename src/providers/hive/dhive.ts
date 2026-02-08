@@ -224,13 +224,35 @@ const getSheetDeps = async () => {
   return { SheetManager: _cachedSheetManager!, SheetNames: _cachedSheetNames! };
 };
 
+/**
+ * Recursion guard for HiveAuth fallback
+ * Tracks active fallback operations to prevent infinite recursion
+ * Key format: `${accountName}:${operationName}`
+ */
+const _activeFallbacks = new Set<string>();
+
 const handleHiveAuthFallback = async (
   currentAccount: any,
   operations: Operation[],
   operationName: string,
 ): Promise<any> => {
+  // Prevent infinite recursion: block if this exact operation is already in fallback
+  const fallbackKey = `${currentAccount?.name || 'unknown'}:${operationName}`;
+
+  if (_activeFallbacks.has(fallbackKey)) {
+    const recursionError = new Error(
+      `[HiveAuth Fallback] Recursion detected for ${operationName}. Already in fallback state.`,
+    );
+    console.error(recursionError.message);
+    throw recursionError;
+  }
+
+  // Mark this fallback as active
+  _activeFallbacks.add(fallbackKey);
+
   console.log(
-    `[HiveAuth Fallback] Access token failed for ${operationName}, falling back to HiveAuth broadcast`,
+    `[HiveAuth Fallback] Access token failed for ${operationName}, ` +
+      'falling back to HiveAuth broadcast',
   );
 
   const { SheetManager, SheetNames } = await getSheetDeps();
@@ -245,6 +267,8 @@ const handleHiveAuthFallback = async (
       }
       settled = true;
       clearTimeout(timeoutId);
+      // Clean up recursion guard
+      _activeFallbacks.delete(fallbackKey);
       fn();
     };
 
@@ -254,26 +278,39 @@ const handleHiveAuthFallback = async (
       }
       settled = true;
       SheetManager.hide(SheetNames.HIVE_AUTH_BROADCAST);
+      // Clean up recursion guard on timeout
+      _activeFallbacks.delete(fallbackKey);
       reject(new Error('HiveAuth broadcast timed out'));
     }, timeoutMs);
 
-    SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
-      payload: {
-        operations,
-        onSuccess: (result) => {
-          console.log(`[HiveAuth Fallback] ${operationName} broadcast successful`, result);
-          finish(() => resolve(result));
+    // Wrap SheetManager.show in try-catch to prevent recursion if sheet display fails
+    try {
+      SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
+        payload: {
+          operations,
+          onSuccess: (result) => {
+            console.log(`[HiveAuth Fallback] ${operationName} broadcast successful`, result);
+            finish(() => resolve(result));
+          },
+          onError: (error) => {
+            console.error(`[HiveAuth Fallback] ${operationName} broadcast failed`, error);
+            finish(() => reject(error));
+          },
+          onClose: (error) => {
+            console.warn(`[HiveAuth Fallback] ${operationName} dismissed`, error);
+            finish(() => reject(error || new Error('HiveAuth broadcast was dismissed')));
+          },
         },
-        onError: (error) => {
-          console.error(`[HiveAuth Fallback] ${operationName} broadcast failed`, error);
-          finish(() => reject(error));
-        },
-        onClose: (error) => {
-          console.warn(`[HiveAuth Fallback] ${operationName} dismissed`, error);
-          finish(() => reject(error || new Error('HiveAuth broadcast was dismissed')));
-        },
-      },
-    });
+      });
+    } catch (sheetError) {
+      // If SheetManager.show fails immediately (e.g., UI not ready), clean up and reject
+      // This prevents recursion if the error bubbles back to the calling operation
+      settled = true;
+      clearTimeout(timeoutId);
+      _activeFallbacks.delete(fallbackKey);
+      console.error(`[HiveAuth Fallback] Failed to show sheet for ${operationName}:`, sheetError);
+      reject(new Error(`HiveAuth fallback UI failed: ${sheetError?.message || 'Unknown error'}`));
+    }
   });
 };
 

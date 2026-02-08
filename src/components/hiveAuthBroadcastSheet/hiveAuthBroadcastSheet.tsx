@@ -19,7 +19,7 @@
  * ```
  */
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, Text } from 'react-native';
 import ActionSheet, { SheetProps } from 'react-native-actions-sheet';
 import { useIntl } from 'react-intl';
@@ -53,62 +53,72 @@ export const HiveAuthBroadcastSheet = ({
   const payloadRef = useRef(payload);
   payloadRef.current = payload;
 
+  // Store stable refs for values needed in broadcast effect
+  const sheetIdRef = useRef(sheetId);
+  const currentAccountAuthTypeRef = useRef(currentAccount?.local?.authType);
+  const hiveAuthBroadcastRef = useRef(hiveAuth.broadcast);
+
+  sheetIdRef.current = sheetId;
+  currentAccountAuthTypeRef.current = currentAccount?.local?.authType;
+  hiveAuthBroadcastRef.current = hiveAuth.broadcast;
+
+  // Reset refs when new operations arrive (not just when sheetId changes)
+  // This ensures that if the sheet is reused with the same sheetId,
+  // the refs are still reset for the new broadcast operation
   useEffect(() => {
     isCancelledRef.current = false;
     broadcastStartedRef.current = false;
-  }, [sheetId]);
+  }, [payload?.operations]);
 
-  const handleBroadcast = useCallback(async () => {
-    // Guard against duplicate invocations (e.g. fast re-renders)
+  // Automatically start broadcast when sheet opens with operations
+  // This effect intentionally does NOT depend on handleBroadcast to prevent race conditions
+  // caused by the callback being recreated on every render when dependencies change
+  useEffect(() => {
+    const { operations, onSuccess, onError } = payloadRef.current || {};
+
+    if (!operations || operations.length === 0) {
+      return;
+    }
+
+    // Guard against duplicate invocations (e.g. fast re-renders or multiple effect runs)
     if (broadcastStartedRef.current) {
       return;
     }
     broadcastStartedRef.current = true;
 
-    const { operations, onSuccess, onError } = payloadRef.current || {};
-
-    if (!operations || operations.length === 0) {
-      const error = new Error('No operations provided');
-      if (!isCancelledRef.current) {
-        onError?.(error);
-        ActionSheet.hide(sheetId);
-      }
-      return;
-    }
-
     // Verify user is HiveAuth type
-    const isHiveAuth = currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH;
+    const isHiveAuth = currentAccountAuthTypeRef.current === AUTH_TYPE.HIVE_AUTH;
     if (!isHiveAuth) {
       const error = new Error('Current account is not authenticated with HiveAuth');
       if (!isCancelledRef.current) {
         onError?.(error);
-        ActionSheet.hide(sheetId);
+        ActionSheet.hide(sheetIdRef.current);
       }
       return;
     }
 
-    try {
-      const result = await hiveAuth.broadcast(operations);
+    const executeBroadcast = async () => {
+      try {
+        const result = await hiveAuthBroadcastRef.current(operations);
 
-      if (!isCancelledRef.current) {
-        onSuccess?.(result);
-        ActionSheet.hide(sheetId);
+        if (!isCancelledRef.current) {
+          onSuccess?.(result);
+          ActionSheet.hide(sheetIdRef.current);
+        }
+      } catch (error) {
+        if (!isCancelledRef.current) {
+          console.error('[HiveAuthBroadcastSheet] Broadcast failed', error);
+          onError?.(error as Error);
+          ActionSheet.hide(sheetIdRef.current);
+        }
       }
-    } catch (error) {
-      if (!isCancelledRef.current) {
-        console.error('[HiveAuthBroadcastSheet] Broadcast failed', error);
-        onError?.(error as Error);
-        ActionSheet.hide(sheetId);
-      }
-    }
-  }, [sheetId, currentAccount?.local?.authType, hiveAuth.broadcast, intl]);
+    };
 
-  // Automatically start broadcast when sheet opens with operations
-  useEffect(() => {
-    if (payload?.operations) {
-      handleBroadcast();
-    }
-  }, [payload?.operations, handleBroadcast]);
+    executeBroadcast();
+    // Only re-run when operations change (reference equality check)
+    // We intentionally omit hiveAuthBroadcastRef, sheetIdRef, and other refs from dependencies
+    // because they are kept up-to-date via ref assignments and don't need to trigger re-runs
+  }, [payload?.operations]);
 
   const handleClose = () => {
     const error = new Error('User cancelled HiveAuth broadcast');

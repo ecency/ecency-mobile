@@ -366,16 +366,53 @@ export const useHiveAuth = () => {
       }
 
       const pinCode = getDigitPinCode(pinHash);
+
+      // Decrypt HiveAuth credentials with validation
+      const decryptedKey = decryptKey(currentAccount.local.hiveAuthKey, pinCode);
+      const decryptedToken = currentAccount.local.hiveAuthToken
+        ? decryptKey(currentAccount.local.hiveAuthToken, pinCode)
+        : undefined;
+
+      // Critical validation: ensure decryption succeeded
+      if (!decryptedKey) {
+        const errorMsg =
+          intl.formatMessage({ id: 'hiveauth.decrypt_fail' }) ||
+          'Failed to decrypt HiveAuth key. Please re-login.';
+        console.error('[HiveAuth] Key decryption failed - invalid PIN or corrupted data');
+        Sentry.captureMessage('HiveAuth key decryption failed', {
+          level: 'error',
+          extra: {
+            username,
+            hasKey: !!currentAccount.local.hiveAuthKey,
+            hasPinHash: !!pinHash,
+          },
+        });
+        throw new Error(errorMsg);
+      }
+
+      // Validate token decryption if token exists
+      if (currentAccount.local.hiveAuthToken && !decryptedToken) {
+        const errorMsg =
+          intl.formatMessage({ id: 'hiveauth.decrypt_fail' }) ||
+          'Failed to decrypt HiveAuth token. Please re-login.';
+        console.error('[HiveAuth] Token decryption failed - invalid PIN or corrupted data');
+        Sentry.captureMessage('HiveAuth token decryption failed', {
+          level: 'error',
+          extra: {
+            username,
+            hasToken: !!currentAccount.local.hiveAuthToken,
+            hasPinHash: !!pinHash,
+          },
+        });
+        throw new Error(errorMsg);
+      }
+
       const _hiveAuthObj: any = {
         username,
         expiry: currentAccount.local.hiveAuthExpiry,
-        key: decryptKey(currentAccount.local.hiveAuthKey, pinCode),
-        token: currentAccount.local.hiveAuthToken
-          ? decryptKey(currentAccount.local.hiveAuthToken, pinCode)
-          : undefined,
+        key: decryptedKey,
+        token: decryptedToken,
       };
-
-      assert(_hiveAuthObj.key, intl.formatMessage({ id: 'hiveauth.decrypt_fail' }));
 
       // Hard check: if session is expired, redirect to login instead of attempting broadcast
       if (

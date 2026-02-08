@@ -2,13 +2,13 @@ import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } f
 import { View } from 'react-native';
 
 import { useIntl } from 'react-intl';
-import { useNavigation } from '@react-navigation/native';
 import ActionSheet from 'react-native-actions-sheet';
 import { Operation } from '@hiveio/dhive';
 import styles from '../styles/hiveAuthModal.styles';
 import { useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
 import { selectIsPinCodeOpen } from '../../../redux/selectors';
+import RootNavigation from '../../../navigation/rootNavigation';
 
 import { ModalHeader } from '../..';
 
@@ -22,7 +22,6 @@ interface HiveAuthModalProps {
 
 export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) => {
   const intl = useIntl();
-  const navigation = useNavigation();
   const hiveAuth = useHiveAuth();
 
   const isPinCodeOpen = useAppSelector(selectIsPinCodeOpen);
@@ -60,9 +59,11 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
           return;
         }
 
-        // Use navigation reset to force complete remount with new account
+        // Use RootNavigation to ensure we navigate from the root navigator
+        // This properly handles cases where HiveAuth is opened from Login screen
+        console.log('[HiveAuth] Navigating to main after successful login');
         if (isPinCodeOpen) {
-          navigation.reset({
+          RootNavigation.reset({
             index: 0,
             routes: [
               {
@@ -74,7 +75,7 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
             ],
           });
         } else {
-          navigation.reset({
+          RootNavigation.reset({
             index: 0,
             routes: [{ name: ROUTES.DRAWER.MAIN }],
           });
