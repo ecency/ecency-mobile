@@ -585,6 +585,7 @@
     "unknow_error": "Bilinmeyen hata, lütfen support@ecency.com ile iletişime geçiniz"
   },
   "alert": {
+    "pin_not_set": "PIN is not set",
     "connection_issues": "The server is unreachable, please check your connection and try again.",
     "success_mute": "Susturma başarılı!",
     "no_internet": "Bağlantı yok.",
@@ -1350,5 +1351,18 @@
     "settings_info": "These settings will be used when reading posts aloud",
     "play": "Play",
     "pause": "Pause"
+  },
+  "posting_authority": {
+    "title": "Enable Faster Posting",
+    "description": "Grant Ecency posting permission to post without opening Keychain each time",
+    "benefit_1": "Post, comment, and vote instantly without Keychain prompts",
+    "benefit_2": "Seamless experience across all posting operations",
+    "benefit_3": "Secure - only allows posting actions, not transfers",
+    "security_note": "Safe: Cannot transfer funds or change keys. You can revoke this anytime.",
+    "grant_button": "Grant Permission",
+    "skip_button": "Skip for Now",
+    "granting": "Granting permission...",
+    "success": "Posting permission granted successfully!",
+    "error": "Failed to grant posting permission. Please try again."
   }
 }
