@@ -585,6 +585,7 @@
     "unknow_error": "알 수 없는 오류가 발생하였습니다. support@ecency.com로 문의해주세요. "
   },
   "alert": {
+    "pin_not_set": "PIN is not set",
     "connection_issues": "The server is unreachable, please check your connection and try again.",
     "success_mute": "차단하였습니다.",
     "no_internet": "인터넷 연결을 확인하세요!",
@@ -1350,5 +1351,18 @@
     "settings_info": "These settings will be used when reading posts aloud",
     "play": "Play",
     "pause": "Pause"
+  },
+  "posting_authority": {
+    "title": "Enable Faster Posting",
+    "description": "Grant Ecency posting permission to post without opening Keychain each time",
+    "benefit_1": "Post, comment, and vote instantly without Keychain prompts",
+    "benefit_2": "Seamless experience across all posting operations",
+    "benefit_3": "Secure - only allows posting actions, not transfers",
+    "security_note": "Safe: Cannot transfer funds or change keys. You can revoke this anytime.",
+    "grant_button": "Grant Permission",
+    "skip_button": "Skip for Now",
+    "granting": "Granting permission...",
+    "success": "Posting permission granted successfully!",
+    "error": "Failed to grant posting permission. Please try again."
   }
 }
