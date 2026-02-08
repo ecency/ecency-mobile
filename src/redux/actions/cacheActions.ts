@@ -51,7 +51,6 @@ export const updateCommentCache = (
   comment: Comment,
   options: CommentCacheOptions = { isUpdate: false },
 ) => {
-  console.log('body received:', comment.markdownBody);
   const updated = new Date();
   updated.setSeconds(updated.getSeconds() - 5); // make cache delayed by 5 seconds to avoid same updated stamp in post data
   const updatedStamp = updated.toISOString().substring(0, 19); // server only return 19 character time string without timezone part
