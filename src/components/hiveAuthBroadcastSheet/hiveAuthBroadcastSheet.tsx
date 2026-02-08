@@ -34,6 +34,9 @@ import RootNavigation from '../../navigation/rootNavigation';
 import ROUTES from '../../constants/routeNames';
 import styles from '../hiveAuthModal/styles/hiveAuthModal.styles';
 
+// Delay in milliseconds to show success/error status before auto-closing
+const AUTO_CLOSE_DELAY = 1500;
+
 interface HiveAuthBroadcastSheetPayload {
   operations: Operation[];
   onSuccess?: (result: any) => void;
@@ -50,6 +53,7 @@ export const HiveAuthBroadcastSheet = ({
   const currentAccount = useAppSelector(selectCurrentAccount);
   const isCancelledRef = useRef(false);
   const broadcastStartedRef = useRef(false);
+  const autoCloseTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Keep a ref to payload so the broadcast callback always reads the latest value
   const payloadRef = useRef(payload);
@@ -74,15 +78,31 @@ export const HiveAuthBroadcastSheet = ({
     broadcastStartedRef.current = false;
   }, [payload?.operations]);
 
+  // Cleanup auto-close timer on unmount
+  useEffect(() => {
+    return () => {
+      if (autoCloseTimerRef.current) {
+        clearTimeout(autoCloseTimerRef.current);
+        autoCloseTimerRef.current = null;
+      }
+    };
+  }, []);
+
   // Automatically start broadcast when sheet opens with operations
   // This effect intentionally does NOT depend on handleBroadcast to prevent race conditions
   // caused by the callback being recreated on every render when dependencies change
   useEffect(() => {
+    // Early exit if already cancelled (e.g., user clicked X button)
+    if (isCancelledRef.current) {
+      return;
+    }
+
     const { operations, onSuccess, onError } = payloadRef.current || {};
 
     if (!operations || operations.length === 0) {
       // Signal failure to caller and close the sheet
       const error = new Error('No operations provided to HiveAuth broadcast sheet');
+      // Double-check cancellation before calling callbacks (prevent race with handleClose)
       if (!isCancelledRef.current) {
         onError?.(error);
         ActionSheet.hide(sheetIdRef.current);
@@ -112,8 +132,15 @@ export const HiveAuthBroadcastSheet = ({
         const result = await hiveAuthBroadcastRef.current(operations);
 
         if (!isCancelledRef.current) {
+          // Call success callback first
           onSuccess?.(result);
-          ActionSheet.hide(sheetIdRef.current);
+
+          // Wait for user to see the success message (green checkmark) before closing
+          autoCloseTimerRef.current = setTimeout(() => {
+            if (!isCancelledRef.current) {
+              ActionSheet.hide(sheetIdRef.current);
+            }
+          }, AUTO_CLOSE_DELAY);
         }
       } catch (error) {
         if (!isCancelledRef.current) {
@@ -126,7 +153,7 @@ export const HiveAuthBroadcastSheet = ({
 
           if (isAuthExpired) {
             console.log('[HiveAuthBroadcastSheet] Auth expired, navigating to login');
-            // Hide sheet first to avoid visual overlap
+            // Hide sheet first to avoid visual overlap (no delay for auth expiry)
             ActionSheet.hide(sheetIdRef.current);
 
             // Navigate to login screen after a small delay to let sheet close
@@ -137,9 +164,15 @@ export const HiveAuthBroadcastSheet = ({
               });
             }, 300);
           } else {
-            ActionSheet.hide(sheetIdRef.current);
+            // Wait for user to see the error message (red X) before closing
+            autoCloseTimerRef.current = setTimeout(() => {
+              if (!isCancelledRef.current) {
+                ActionSheet.hide(sheetIdRef.current);
+              }
+            }, AUTO_CLOSE_DELAY);
           }
 
+          // Call error callback after setting up the auto-close timer
           onError?.(error as Error);
         }
       }
@@ -152,10 +185,25 @@ export const HiveAuthBroadcastSheet = ({
   }, [payload?.operations]);
 
   const handleClose = () => {
-    const error = new Error('User cancelled HiveAuth broadcast');
+    // Prevent any further operations or callbacks
     isCancelledRef.current = true;
-    payloadRef.current?.onClose?.(error);
-    payloadRef.current?.onError?.(error);
+
+    // Clear any pending auto-close timer
+    if (autoCloseTimerRef.current) {
+      clearTimeout(autoCloseTimerRef.current);
+      autoCloseTimerRef.current = null;
+    }
+
+    const error = new Error('User cancelled HiveAuth broadcast');
+
+    // Only call onClose if it exists, otherwise call onError
+    // Don't call both to avoid duplicate error handling
+    if (payloadRef.current?.onClose) {
+      payloadRef.current.onClose(error);
+    } else {
+      payloadRef.current?.onError?.(error);
+    }
+
     ActionSheet.hide(sheetId);
   };
 

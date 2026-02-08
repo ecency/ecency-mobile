@@ -15,6 +15,7 @@ import {
   getDraftsInfiniteQueryOptions,
   getDraftsQueryOptions,
   getPostQueryOptions,
+  getDiscussionsQueryOptions,
   addDraft,
   updateDraft,
   addSchedule,
@@ -59,6 +60,7 @@ import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import {
   deleteDraftCacheEntry,
   deleteReplyCacheEntry,
+  deleteCommentCacheEntry,
   updateCommentCache,
   updateDraftCache,
   updateReplyCache,
@@ -1007,6 +1009,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       userActivityMutation,
       replyCache,
       speakContentBuilder,
+      queryClient,
     } = this.props;
     const { isPostSending } = this.state;
 
@@ -1039,6 +1042,36 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
       const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency']);
 
+      const author = currentAccount.name;
+
+      // ✅ OPTIMISTIC UPDATE: Add comment to cache BEFORE blockchain broadcast
+      // This makes the comment appear instantly in the UI
+      dispatch(
+        updateCommentCache(
+          `${author}/${permlink}`,
+          {
+            author,
+            permlink,
+            parent_author: parentAuthor,
+            parent_permlink: parentPermlink,
+            markdownBody: fields.body,
+          },
+          {
+            parentTags: parentTags || ['ecency'],
+          },
+        ),
+      );
+
+      // Invalidate discussion query to trigger UI update with optimistic comment
+      const { queryKey } = getDiscussionsQueryOptions(
+        { author: parentAuthor, permlink: parentPermlink } as any,
+        'created' as any,
+        true,
+        currentAccount.name,
+      );
+      queryClient.invalidateQueries({ queryKey });
+
+      // Broadcast to blockchain in background
       await postComment(
         currentAccount,
         pinCode,
@@ -1058,23 +1091,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
 
-          // create a cache entry
-          const author = currentAccount.name;
-          dispatch(
-            updateCommentCache(
-              `${author}/${permlink}`,
-              {
-                author,
-                permlink,
-                parent_author: parentAuthor,
-                parent_permlink: parentPermlink,
-                markdownBody: fields.body,
-              },
-              {
-                parentTags: parentTags || ['ecency'],
-              },
-            ),
-          );
+          // Comment already visible from optimistic update
+          // Cache entry persists after blockchain confirmation
 
           // delete quick comment draft cache if it exist (from replyCache)
           if (replyCache && replyCache[draftId]) {
@@ -1084,6 +1102,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           this._isSubmitting = false;
         })
         .catch((error) => {
+          // ❌ ROLLBACK: Remove optimistic comment on blockchain failure
+          dispatch(deleteCommentCacheEntry(`${author}/${permlink}`));
+
+          // Invalidate query again to remove failed comment from UI
+          queryClient.invalidateQueries({ queryKey });
+
           this._isSubmitting = false;
           this._handleSubmitFailure(error);
         });

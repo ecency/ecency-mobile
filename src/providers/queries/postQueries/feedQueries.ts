@@ -73,19 +73,23 @@ export const useFeedQuery = ({
   }
 
   // Get appropriate query options from SDK
+  // IMPORTANT: Pass undefined (not empty string) for observer when no account
+  // Empty string causes API to not return user's votes in active_votes array
+  const observer = currentAccount?.name || currentAccount?.username;
+
   const queryOptions = isAccountBasedFeed
     ? getAccountPostsInfiniteQueryOptions(
         sdkAccount || '',
         sdkSort,
         POSTS_FETCH_COUNT,
-        currentAccount?.name || '',
+        observer,
         Boolean(sdkAccount), // only enable when account is present
       )
     : getPostsRankedInfiniteQueryOptions(
         sdkSort,
         sdkTag || '',
         POSTS_FETCH_COUNT,
-        currentAccount?.name || '',
+        observer,
         true, // enabled
       );
 
