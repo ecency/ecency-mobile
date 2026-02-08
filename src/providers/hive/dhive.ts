@@ -3537,13 +3537,20 @@ export const pinCommunityPost = (
     const api = new hsClient({
       accessToken: token,
     });
-    return api.broadcast(opArray).catch((err) => {
-      const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
-      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
-        return handleHiveAuthFallback(currentAccount, opArray as Operation[], 'pin_community_post');
-      }
-      throw err;
-    });
+    return api
+      .broadcast(opArray)
+      .then((resp) => resp.result)
+      .catch((err) => {
+        const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
+        if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
+          return handleHiveAuthFallback(
+            currentAccount,
+            opArray as Operation[],
+            'pin_community_post',
+          );
+        }
+        throw err;
+      });
   }
 
   if (key) {

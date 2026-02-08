@@ -30,6 +30,8 @@ import { StatusContent } from '../hiveAuthModal/children/statusContent';
 import AUTH_TYPE from '../../constants/authType';
 import { useAppSelector } from '../../hooks';
 import { selectCurrentAccount } from '../../redux/selectors';
+import RootNavigation from '../../navigation/rootNavigation';
+import ROUTES from '../../constants/routeNames';
 import styles from '../hiveAuthModal/styles/hiveAuthModal.styles';
 
 interface HiveAuthBroadcastSheetPayload {
@@ -56,10 +58,12 @@ export const HiveAuthBroadcastSheet = ({
   // Store stable refs for values needed in broadcast effect
   const sheetIdRef = useRef(sheetId);
   const currentAccountAuthTypeRef = useRef(currentAccount?.local?.authType);
+  const currentAccountUsernameRef = useRef(currentAccount?.name ?? currentAccount?.username);
   const hiveAuthBroadcastRef = useRef(hiveAuth.broadcast);
 
   sheetIdRef.current = sheetId;
   currentAccountAuthTypeRef.current = currentAccount?.local?.authType;
+  currentAccountUsernameRef.current = currentAccount?.name ?? currentAccount?.username;
   hiveAuthBroadcastRef.current = hiveAuth.broadcast;
 
   // Reset refs when new operations arrive (not just when sheetId changes)
@@ -108,8 +112,29 @@ export const HiveAuthBroadcastSheet = ({
       } catch (error) {
         if (!isCancelledRef.current) {
           console.error('[HiveAuthBroadcastSheet] Broadcast failed', error);
+
+          // Check if error is auth expiry - if so, navigate to login after hiding sheet
+          const isAuthExpired =
+            (error as Error)?.message?.includes('auth_expired') ||
+            (error as Error)?.message?.includes('expired');
+
+          if (isAuthExpired) {
+            console.log('[HiveAuthBroadcastSheet] Auth expired, navigating to login');
+            // Hide sheet first to avoid visual overlap
+            ActionSheet.hide(sheetIdRef.current);
+
+            // Navigate to login screen after a small delay to let sheet close
+            setTimeout(() => {
+              RootNavigation.navigate({
+                name: ROUTES.SCREENS.LOGIN,
+                params: { username: currentAccountUsernameRef.current },
+              });
+            }, 300);
+          } else {
+            ActionSheet.hide(sheetIdRef.current);
+          }
+
           onError?.(error as Error);
-          ActionSheet.hide(sheetIdRef.current);
         }
       }
     };

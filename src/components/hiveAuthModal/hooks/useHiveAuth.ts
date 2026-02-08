@@ -17,8 +17,6 @@ import { decryptKey, encryptKey } from '../../../utils/crypto';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { delay } from '../../../utils/editor';
 import { selectPin, selectCurrentAccount } from '../../../redux/selectors';
-import RootNavigation from '../../../navigation/rootNavigation';
-import ROUTES from '../../../constants/routeNames';
 
 const APP_META = {
   name: 'Ecency',
@@ -414,17 +412,15 @@ export const useHiveAuth = () => {
         token: decryptedToken,
       };
 
-      // Hard check: if session is expired, redirect to login instead of attempting broadcast
+      // Hard check: if session is expired, throw error to let caller handle navigation
       if (
         _hiveAuthObj.expiry &&
         _hiveAuthObj.expiry > 0 &&
         _hiveAuthObj.expiry <= new Date().getTime()
       ) {
-        RootNavigation.navigate({
-          name: ROUTES.SCREENS.LOGIN,
-          params: { username },
-        });
-        throw new Error(intl.formatMessage({ id: 'alert.auth_expired' }));
+        const error = new Error(intl.formatMessage({ id: 'alert.auth_expired' }));
+        console.log('[HiveAuth] Session expired, throwing error for caller to handle');
+        throw error;
       }
 
       const _cdWait = async (evt: any) => {

@@ -101,9 +101,16 @@ export const useActiveKeyOperation = () => {
                   reject(error);
                 },
                 onClose: (error) => {
+                  // Normalize to concrete Error instance (sheet may pass undefined or string)
+                  const normalizedError =
+                    error instanceof Error
+                      ? error
+                      : new Error(
+                          typeof error === 'string' ? error : 'Operation cancelled by user',
+                        );
                   callbacks?.onClose?.();
-                  callbacks?.onError?.(error);
-                  reject(error);
+                  callbacks?.onError?.(normalizedError);
+                  reject(normalizedError);
                 },
               },
             });
