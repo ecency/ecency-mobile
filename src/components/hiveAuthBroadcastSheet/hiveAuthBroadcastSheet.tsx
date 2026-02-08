@@ -81,6 +81,12 @@ export const HiveAuthBroadcastSheet = ({
     const { operations, onSuccess, onError } = payloadRef.current || {};
 
     if (!operations || operations.length === 0) {
+      // Signal failure to caller and close the sheet
+      const error = new Error('No operations provided to HiveAuth broadcast sheet');
+      if (!isCancelledRef.current) {
+        onError?.(error);
+        ActionSheet.hide(sheetIdRef.current);
+      }
       return;
     }
 
