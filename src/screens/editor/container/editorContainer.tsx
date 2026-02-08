@@ -30,6 +30,7 @@ import {
   reblog,
   postComment,
   getDigitPinCode,
+  shouldPromptPostingAuthority,
 } from '../../../providers/hive/dhive';
 import { decryptKey } from '../../../utils/crypto';
 
@@ -100,6 +101,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   _appState = AppState.currentState;
 
   _isSubmitting = false;
+
+  _postingAuthorityPromptShown = false;
 
   constructor(props) {
     super(props);
@@ -861,6 +864,42 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         isPostSending: true,
       });
 
+      // Check if we should prompt for posting authority (HiveAuth users without authority)
+      if (shouldPromptPostingAuthority(currentAccount)) {
+        // Guard against infinite recursion
+        if (this._postingAuthorityPromptShown) {
+          console.warn('Posting authority prompt already shown, preventing recursion');
+          this.setState({ isPostSending: false });
+          return;
+        }
+
+        this._postingAuthorityPromptShown = true;
+        this.setState({ isPostSending: false }); // Reset state before showing prompt
+
+        try {
+          await new Promise<void>((resolve, reject) => {
+            SheetManager.show(SheetNames.POSTING_AUTHORITY_PROMPT, {
+              payload: {
+                onGranted: () => resolve(),
+                onSkipped: () => resolve(),
+                onError: (error) => reject(error),
+              },
+            });
+          });
+
+          // Recursive call after prompt is handled - use original fields parameter
+          return this._submitPost({ fields, scheduleDate });
+        } catch (error) {
+          // Error granting posting authority - don't retry
+          console.warn('Failed to grant posting authority:', error);
+          // Reset state and abort
+          this.setState({ isPostSending: false });
+          return;
+        } finally {
+          this._postingAuthorityPromptShown = false;
+        }
+      }
+
       // only require video meta for unpublished video, it will always be one
       const meta = await extractMetadata({
         body: fields.body,
@@ -1018,7 +1057,47 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
 
     if (currentAccount) {
+      // Set flag BEFORE the authority check to prevent race conditions
       this._isSubmitting = true;
+
+      // Check if we should prompt for posting authority (HiveAuth users without authority)
+      if (shouldPromptPostingAuthority(currentAccount)) {
+        // Guard against infinite recursion
+        if (this._postingAuthorityPromptShown) {
+          console.warn('Posting authority prompt already shown, preventing recursion');
+          this._isSubmitting = false;
+          this.setState({ isPostSending: false });
+          return;
+        }
+
+        this._postingAuthorityPromptShown = true;
+        this._isSubmitting = false; // Reset before showing prompt
+        this.setState({ isPostSending: false }); // Reset state before showing prompt
+
+        try {
+          await new Promise<void>((resolve, reject) => {
+            SheetManager.show(SheetNames.POSTING_AUTHORITY_PROMPT, {
+              payload: {
+                onGranted: () => resolve(),
+                onSkipped: () => resolve(),
+                onError: (error) => reject(error),
+              },
+            });
+          });
+
+          // Recursive call after prompt is handled - the recursive call will set _isSubmitting again
+          return this._submitReply(fields);
+        } catch (error) {
+          // Error granting posting authority - don't retry
+          console.warn('Failed to grant posting authority:', error);
+          // Reset state and abort
+          this.setState({ isPostSending: false });
+          return;
+        } finally {
+          this._postingAuthorityPromptShown = false;
+        }
+      }
+
       this.setState({
         isPostSending: true,
       });
@@ -1123,6 +1202,42 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
 
     if (currentAccount) {
+      // Check if we should prompt for posting authority (HiveAuth users without authority)
+      if (shouldPromptPostingAuthority(currentAccount)) {
+        // Guard against infinite recursion
+        if (this._postingAuthorityPromptShown) {
+          console.warn('Posting authority prompt already shown, preventing recursion');
+          this.setState({ isPostSending: false });
+          return;
+        }
+
+        this._postingAuthorityPromptShown = true;
+        this.setState({ isPostSending: false }); // Reset state before showing prompt
+
+        try {
+          await new Promise<void>((resolve, reject) => {
+            SheetManager.show(SheetNames.POSTING_AUTHORITY_PROMPT, {
+              payload: {
+                onGranted: () => resolve(),
+                onSkipped: () => resolve(),
+                onError: (error) => reject(error),
+              },
+            });
+          });
+
+          // Recursive call after prompt is handled
+          return this._submitEdit(fields);
+        } catch (error) {
+          // Error granting posting authority - don't retry
+          console.warn('Failed to grant posting authority:', error);
+          // Reset state and abort
+          this.setState({ isPostSending: false });
+          return;
+        } finally {
+          this._postingAuthorityPromptShown = false;
+        }
+      }
+
       this.setState({
         isPostSending: true,
       });

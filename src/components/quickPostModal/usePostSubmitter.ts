@@ -3,8 +3,9 @@ import { Alert } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useQueryClient } from '@tanstack/react-query';
 import { getDiscussionsQueryOptions } from '@ecency/sdk';
+import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector, useStateWithRef } from '../../hooks';
-import { postComment } from '../../providers/hive/dhive';
+import { postComment, shouldPromptPostingAuthority } from '../../providers/hive/dhive';
 import { extractMetadata, generateUniquePermlink, makeJsonMetadata } from '../../utils/editor';
 import { updateCommentCache } from '../../redux/actions/cacheActions';
 import { toastNotification } from '../../redux/actions/uiAction';
@@ -14,6 +15,7 @@ import { usePublishWaveMutation } from '../../providers/queries/postQueries/wave
 import { PostTypes } from '../../constants/postTypes';
 import extractHashTags from '../../utils/extractHashTags';
 import { selectCurrentAccount, selectPin } from '../../redux/selectors';
+import { SheetNames } from '../../navigation/sheets';
 
 export const usePostSubmitter = () => {
   const dispatch = useDispatch();
@@ -26,6 +28,7 @@ export const usePostSubmitter = () => {
   const pinCode = useAppSelector(selectPin);
   const userActivityMutation = useUserActivityMutation();
   const [isSubmitting, setIsSubmitting, getIsSubmittingCurrent] = useStateWithRef(false);
+  const [postingAuthorityPromptShown, setPostingAuthorityPromptShown] = useStateWithRef(false);
 
   // handle submit reply
   const _submitReply = async (
@@ -47,6 +50,48 @@ export const usePostSubmitter = () => {
     }
 
     if (currentAccount) {
+      // Check if we should prompt for posting authority (HiveAuth users without authority)
+      if (shouldPromptPostingAuthority(currentAccount)) {
+        // Guard against infinite recursion
+        if (postingAuthorityPromptShown) {
+          console.warn('Posting authority prompt already shown, preventing recursion');
+          if (manageSubmittingState) {
+            setIsSubmitting(false);
+          }
+          return false;
+        }
+
+        setPostingAuthorityPromptShown(true);
+        if (manageSubmittingState) {
+          setIsSubmitting(false);
+        }
+
+        try {
+          await new Promise<void>((resolve, reject) => {
+            SheetManager.show(SheetNames.POSTING_AUTHORITY_PROMPT, {
+              payload: {
+                onGranted: () => resolve(),
+                onSkipped: () => resolve(),
+                onError: (error) => reject(error),
+              },
+            });
+          });
+
+          // Recursive call after prompt is handled
+          return _submitReply(commentBody, parentPost, postType, pollDraft, manageSubmittingState);
+        } catch (error) {
+          // Error granting posting authority - don't retry
+          console.warn('Failed to grant posting authority:', error);
+          // Reset state and abort
+          if (manageSubmittingState) {
+            setIsSubmitting(false);
+          }
+          return false;
+        } finally {
+          setPostingAuthorityPromptShown(false);
+        }
+      }
+
       const _prefix =
         postType === PostTypes.WAVE ? postType : `re-${parentPost.author.replace(/\./g, '')}`;
       const permlink = generateUniquePermlink(_prefix);

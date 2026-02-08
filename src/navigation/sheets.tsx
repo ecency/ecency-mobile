@@ -120,7 +120,13 @@ declare module 'react-native-actions-sheet' {
         onSettingsChanged?: () => void;
       };
     }>;
-    [SheetNames.POSTING_AUTHORITY_PROMPT]: SheetDefinition;
+    [SheetNames.POSTING_AUTHORITY_PROMPT]: SheetDefinition<{
+      payload?: {
+        onGranted?: () => void | Promise<void>;
+        onSkipped?: () => void | Promise<void>;
+        onError?: (error: Error) => void;
+      };
+    }>;
     [SheetNames.HIVE_AUTH_BROADCAST]: SheetDefinition<{
       payload: {
         operations: Operation[];
