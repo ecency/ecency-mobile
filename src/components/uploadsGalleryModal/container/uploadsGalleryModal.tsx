@@ -278,23 +278,6 @@ export const UploadsGalleryModal = forwardRef(
           });
         }
 
-        for (let index = 0; index < media.length; index++) {
-          const element = media[index];
-          if (element) {
-            // eslint-disable-next-line no-await-in-loop
-            await _uploadImage(element, { shouldInsert });
-          }
-        }
-      } catch (error) {
-        console.log('Failed to upload image', error);
-
-        Sentry.captureException(error);
-      }
-    };
-
-    const _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
-      if (!isLoggedIn) return;
-      try {
         if (setIsUploading) {
           setIsUploading(true);
         }
@@ -302,6 +285,26 @@ export const UploadsGalleryModal = forwardRef(
           setIsAddingToUploads(true);
         }
 
+        await Promise.allSettled(
+          media.map((element) =>
+            element ? _uploadImage(element, { shouldInsert }) : Promise.resolve(),
+          ),
+        );
+      } catch (error) {
+        console.log('Failed to upload image', error);
+
+        Sentry.captureException(error);
+      } finally {
+        if (setIsUploading) {
+          setIsUploading(false);
+        }
+        setIsAddingToUploads(false);
+      }
+    };
+
+    const _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
+      if (!isLoggedIn) return;
+      try {
         await mediaUploadMutation.mutateAsync(
           {
             media,
@@ -318,12 +321,6 @@ export const UploadsGalleryModal = forwardRef(
                   status: MediaInsertStatus.READY,
                 });
               }
-            },
-            onSettled: () => {
-              if (setIsUploading) {
-                setIsUploading(false);
-              }
-              setIsAddingToUploads(false);
             },
             onError: (err) => {
               throw err;
