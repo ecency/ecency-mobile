@@ -119,6 +119,7 @@ import { ChatChannelOptionsSheet } from './chatChannelOptionsSheet';
 import { TTSControls } from './textToSpeech/ttsControls';
 import { PostingAuthoritySheet } from './postingAuthoritySheet';
 import { HiveAuthBroadcastSheet } from './hiveAuthBroadcastSheet';
+import EmojiPickerSheet from './emojiPickerSheet';
 
 // Basic UI Elements
 import {
@@ -293,4 +294,5 @@ export {
   TTSControls,
   PostingAuthoritySheet,
   HiveAuthBroadcastSheet,
+  EmojiPickerSheet,
 };

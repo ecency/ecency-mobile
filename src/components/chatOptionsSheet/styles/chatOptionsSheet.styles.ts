@@ -40,6 +40,14 @@ export default EStyleSheet.create({
     fontWeight: '600',
     color: '$primaryDarkText',
   },
+  moreButton: {
+    paddingHorizontal: 12,
+  },
+  moreButtonText: {
+    fontSize: 12,
+    color: '$primaryDarkText',
+    marginLeft: 4,
+  },
   optionsSection: {
     paddingTop: 8,
   },

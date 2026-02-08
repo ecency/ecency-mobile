@@ -8,6 +8,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { writeToClipboard } from '../../../utils/clipboard';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useAppDispatch } from '../../../hooks';
+import { SheetNames } from '../../../navigation/sheets';
 import styles from '../styles/chatOptionsSheet.styles';
 
 interface ChatReaction {
@@ -50,6 +51,7 @@ const REACTION_EMOJIS = [
   { name: 'tada', emoji: '🎉' },
   { name: 'rocket', emoji: '🚀' },
   { name: 'eyes', emoji: '👀' },
+  { name: 'more', emoji: '➕', label: 'More' },
 ];
 
 const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
@@ -143,8 +145,35 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
     }
   }, [onUnpin]);
 
+  const _handleMoreEmojis = useCallback(() => {
+    SheetManager.hide('chat_options');
+    setTimeout(() => {
+      SheetManager.show(SheetNames.EMOJI_PICKER, {
+        payload: {
+          onEmojiSelected: (emojiName: string) => {
+            if (onReaction) {
+              onReaction(emojiName);
+            }
+          },
+        },
+      });
+    }, 300);
+  }, [onReaction]);
+
   const _renderReactionItem = useCallback(
-    ({ item }: { item: { name: string; emoji: string } }) => {
+    ({ item }: { item: { name: string; emoji: string; label?: string } }) => {
+      if (item.name === 'more') {
+        return (
+          <TouchableOpacity
+            style={[styles.reactionButton, styles.moreButton]}
+            onPress={_handleMoreEmojis}
+          >
+            <Text style={styles.reactionEmoji}>{item.emoji}</Text>
+            {item.label && <Text style={styles.moreButtonText}>{item.label}</Text>}
+          </TouchableOpacity>
+        );
+      }
+
       return (
         <TouchableOpacity
           style={styles.reactionButton}
@@ -154,7 +183,7 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
         </TouchableOpacity>
       );
     },
-    [_handleReactionPress],
+    [_handleReactionPress, _handleMoreEmojis],
   );
 
   const _renderOptionItem = useCallback(
