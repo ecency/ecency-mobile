@@ -86,9 +86,8 @@ export const usePostSubmitter = () => {
           if (manageSubmittingState) {
             setIsSubmitting(false);
           }
-          return false;
-        } finally {
           setPostingAuthorityPromptShown(false);
+          return false;
         }
       }
 

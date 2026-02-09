@@ -887,16 +887,18 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             });
           });
 
+          // Reset the flag before recursive call to allow the submission to proceed
+          this._postingAuthorityPromptShown = false;
+
           // Recursive call after prompt is handled - use original fields parameter
           return this._submitPost({ fields, scheduleDate });
         } catch (error) {
           // Error granting posting authority - don't retry
           console.warn('Failed to grant posting authority:', error);
-          // Reset state and abort
+          // Reset state and flag, then abort
+          this._postingAuthorityPromptShown = false;
           this.setState({ isPostSending: false });
           return;
-        } finally {
-          this._postingAuthorityPromptShown = false;
         }
       }
 

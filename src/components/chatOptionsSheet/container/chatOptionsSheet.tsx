@@ -1,14 +1,14 @@
 import React, { useCallback, useMemo } from 'react';
 import { Share, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import { FlatList } from 'react-native-gesture-handler';
+import { EmojiPopup } from 'react-native-emoji-popup';
 
 import { writeToClipboard } from '../../../utils/clipboard';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useAppDispatch } from '../../../hooks';
-import { SheetNames } from '../../../navigation/sheets';
+import { unicodeToMattermost } from '../../../utils/emojiMapper';
 import styles from '../styles/chatOptionsSheet.styles';
 
 interface ChatReaction {
@@ -48,10 +48,7 @@ const REACTION_EMOJIS = [
   { name: '-1', emoji: '👎' },
   { name: 'smile', emoji: '😄' },
   { name: 'heart', emoji: '❤️' },
-  { name: 'tada', emoji: '🎉' },
-  { name: 'rocket', emoji: '🚀' },
-  { name: 'eyes', emoji: '👀' },
-  { name: 'more', emoji: '➕', label: 'More' },
+  { name: 'more', emoji: '⋯', label: 'More' },
 ];
 
 const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
@@ -145,32 +142,27 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
     }
   }, [onUnpin]);
 
-  const _handleMoreEmojis = useCallback(() => {
-    SheetManager.hide('chat_options');
-    setTimeout(() => {
-      SheetManager.show(SheetNames.EMOJI_PICKER, {
-        payload: {
-          onEmojiSelected: (emojiName: string) => {
-            if (onReaction) {
-              onReaction(emojiName);
-            }
-          },
-        },
-      });
-    }, 300);
-  }, [onReaction]);
+  const _handleEmojiSelected = useCallback(
+    (emojiUnicode: string) => {
+      SheetManager.hide('chat_options');
+      if (onReaction) {
+        const emojiName = unicodeToMattermost(emojiUnicode);
+        onReaction(emojiName);
+      }
+    },
+    [onReaction],
+  );
 
   const _renderReactionItem = useCallback(
     ({ item }: { item: { name: string; emoji: string; label?: string } }) => {
       if (item.name === 'more') {
         return (
-          <TouchableOpacity
-            style={[styles.reactionButton, styles.moreButton]}
-            onPress={_handleMoreEmojis}
-          >
-            <Text style={styles.reactionEmoji}>{item.emoji}</Text>
-            {item.label && <Text style={styles.moreButtonText}>{item.label}</Text>}
-          </TouchableOpacity>
+          <EmojiPopup onEmojiSelected={_handleEmojiSelected}>
+            <TouchableOpacity style={[styles.reactionButton, styles.moreButton]}>
+              <Text style={styles.reactionEmoji}>{item.emoji}</Text>
+              {item.label && <Text style={styles.moreButtonText}>{item.label}</Text>}
+            </TouchableOpacity>
+          </EmojiPopup>
         );
       }
 
@@ -183,7 +175,7 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
         </TouchableOpacity>
       );
     },
-    [_handleReactionPress, _handleMoreEmojis],
+    [_handleReactionPress, _handleEmojiSelected],
   );
 
   const _renderOptionItem = useCallback(
@@ -221,10 +213,7 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
       };
 
       return (
-        <TouchableHighlight
-          underlayColor={EStyleSheet.value('$primaryLightBackground')}
-          onPress={_onPress}
-        >
+        <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={_onPress}>
           <Text style={[styles.optionItem, item.destructive && styles.optionItemDestructive]}>
             {item.label}
           </Text>

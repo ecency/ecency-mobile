@@ -27,7 +27,11 @@ interface ThreadMessageItemProps {
     parentPreview: any,
     isOwnMessage: boolean,
   ) => JSX.Element | null;
-  renderReactions: (reactions: any[] | undefined, isOwnMessage: boolean) => JSX.Element | null;
+  renderReactions: (
+    reactions: any[] | undefined,
+    isOwnMessage: boolean,
+    post: any,
+  ) => JSX.Element | null;
   renderLinkPreview: (linkMeta: any) => JSX.Element | null;
   linkifyInstance: any;
   handleLink: (url: string) => void;
@@ -170,7 +174,7 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
             </View>
           </TouchableOpacity>
         </View>
-        {renderReactions(post.metadata?.reactions || post.props?.reactions, isOwnMessage)}
+        {renderReactions(post.metadata?.reactions || post.props?.reactions, isOwnMessage, post)}
         <ImageViewer ref={imageViewerRef} />
       </View>
     );

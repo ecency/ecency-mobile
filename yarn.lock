@@ -11188,6 +11188,11 @@ react-native-email-link@^1.16.1:
   resolved "https://registry.npmjs.org/react-native-email-link/-/react-native-email-link-1.16.1.tgz"
   integrity sha512-uTolJXOa6HKPEiRAQuLKN/OhVwUA4xS++yPV6YiCtRBWxl2q3FUlrJt1G6plfMAEU4qNhmwZnH3tCJ9WNYIDhg==
 
+react-native-emoji-popup@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/react-native-emoji-popup/-/react-native-emoji-popup-0.3.3.tgz#7f0db2a914719d0b294fc11a81fc4ae3c99d15a0"
+  integrity sha512-ppybIYqVOvX4sRP475gD3W+wimF0Du/7525PzKucZCnrLl1bsseh19NY2ZzG10/PeLfSBaS8V+s+19S30cJbjQ==
+
 react-native-extended-stylesheet@^0.10.0:
   version "0.10.0"
   resolved "https://registry.npmjs.org/react-native-extended-stylesheet/-/react-native-extended-stylesheet-0.10.0.tgz"
@@ -11990,11 +11995,6 @@ ripemd160@^2.0.0, ripemd160@^2.0.1, ripemd160@^2.0.2:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
-
-rn-emoji-keyboard@1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/rn-emoji-keyboard/-/rn-emoji-keyboard-1.7.0.tgz#c6d29ef7577004ee69c6a39361a0d8bcc07e1ca0"
-  integrity sha512-Yo5yJB+joYqSgvZx7WX/DMAC6rHUEJOQFYNjevd+jzhON23SSg/8kq2r9MH/kIdkNGdQWwIVBPowWqZwRQdfOA==
 
 rn-fetch-blob@0.13.0-beta.2:
   version "0.13.0-beta.2"

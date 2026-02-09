@@ -324,7 +324,7 @@ export const useHiveAuth = () => {
 
       return true;
     } catch (error) {
-      setStatusText(intl.formatMessage({ id: error.message || 'hiveauth.auth_fail' }));
+      setStatusText(intl.formatMessage({ id: error?.message || 'hiveauth.auth_fail' }));
       setStatus(HiveAuthStatus.ERROR);
 
       console.warn('Login failed', error);

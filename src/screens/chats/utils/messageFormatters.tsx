@@ -2,6 +2,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import moment from 'moment';
 import { emojifyMessage } from '../../../utils/emoji';
+import { mattermostToUnicode } from '../../../utils/emojiMapper';
 import { extractImageUrls } from '../../../utils/editor';
 import { getHiveUsernameFromMattermostUser } from '../../../providers/chat/mattermost';
 
@@ -147,16 +148,7 @@ export const parseMessageContent = (
  * Get emoji display character from name
  */
 export const getEmojiDisplay = (emojiName: string): string => {
-  const emojiMap: Record<string, string> = {
-    '+1': '👍',
-    '-1': '👎',
-    smile: '😄',
-    heart: '❤️',
-    tada: '🎉',
-    rocket: '🚀',
-    eyes: '👀',
-  };
-  return emojiMap[emojiName] || emojiName;
+  return mattermostToUnicode(emojiName);
 };
 
 /**

@@ -1860,16 +1860,19 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
 
   // Helper function for rendering reactions
   const _renderReactions = useCallback(
-    (reactions: ChatReaction[] | undefined, isOwnMessage: boolean) => {
+    (reactions: ChatReaction[] | undefined, isOwnMessage: boolean, post: ChatPost) => {
       return (
         <MessageReactions
           reactions={reactions}
           isOwnMessage={isOwnMessage}
           bootstrapUserId={bootstrapUserId}
+          onReactionPress={(emojiName: string) => {
+            _handleAddReaction(post, emojiName);
+          }}
         />
       );
     },
-    [bootstrapUserId],
+    [bootstrapUserId, _handleAddReaction],
   );
 
   const _renderMessageLinkPreview = useCallback(

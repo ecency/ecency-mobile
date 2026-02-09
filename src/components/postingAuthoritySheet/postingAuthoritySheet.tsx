@@ -105,18 +105,26 @@ const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = 
 
       dispatch(toastNotification(intl.formatMessage({ id: 'posting_authority.success' })));
 
-      // Call onGranted callback if provided
-      if (payload?.onGranted) {
-        await payload.onGranted();
+      // Call onGranted callback if provided (with error guard)
+      try {
+        if (payload?.onGranted) {
+          await payload.onGranted();
+        }
+      } catch (callbackError) {
+        console.error('onGranted callback threw error:', callbackError);
       }
 
       ActionSheet.hide(sheetId);
     } catch (error) {
       console.error('Failed to grant posting permission:', error);
 
-      // Call onError callback if provided
-      if (payload?.onError) {
-        payload.onError(error);
+      // Call onError callback if provided (with error guard)
+      try {
+        if (payload?.onError) {
+          payload.onError(error);
+        }
+      } catch (callbackError) {
+        console.error('onError callback threw error:', callbackError);
       }
 
       const errorMessage = error?.message || intl.formatMessage({ id: 'posting_authority.error' });
@@ -127,9 +135,13 @@ const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = 
   };
 
   const _handleSkip = () => {
-    // Call onSkipped callback if provided
-    if (payload?.onSkipped) {
-      payload.onSkipped();
+    // Call onSkipped callback if provided (with error guard)
+    try {
+      if (payload?.onSkipped) {
+        payload.onSkipped();
+      }
+    } catch (callbackError) {
+      console.error('onSkipped callback threw error:', callbackError);
     }
     ActionSheet.hide(sheetId);
   };

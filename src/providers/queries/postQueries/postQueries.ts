@@ -116,8 +116,9 @@ export const usePostsCachePrimer = () => {
       body: renderPostBody({ ...post, last_update: post.updated }, true, Platform.OS !== 'ios'),
     };
 
-    // Use SDK query key format with same account identifier as useGetPostQuery
-    const { queryKey } = getPostQueryOptions(post.author, post.permlink, currentAccount?.name);
+    // IMPORTANT: Use same observer derivation as useGetPostQuery to ensure cache key matches
+    const observer = currentAccount?.name || currentAccount?.username;
+    const { queryKey } = getPostQueryOptions(post.author, post.permlink, observer);
     queryClient.setQueryData(queryKey, processedPost);
   };
 
