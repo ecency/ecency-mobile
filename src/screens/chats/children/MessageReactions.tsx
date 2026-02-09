@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { getEmojiDisplay } from '../utils/messageFormatters';
 import { chatThreadStyles as styles } from '../styles/chatThread.styles';
 
@@ -13,10 +13,11 @@ interface MessageReactionsProps {
   reactions: ChatReaction[] | undefined;
   isOwnMessage: boolean;
   bootstrapUserId: string;
+  onReactionPress?: (emojiName: string) => void;
 }
 
 export const MessageReactions: React.FC<MessageReactionsProps> = React.memo(
-  ({ reactions, isOwnMessage, bootstrapUserId }) => {
+  ({ reactions, isOwnMessage, bootstrapUserId, onReactionPress }) => {
     if (!reactions || reactions.length === 0) {
       return null;
     }
@@ -43,9 +44,11 @@ export const MessageReactions: React.FC<MessageReactionsProps> = React.memo(
           const hasCurrentUserReaction = reactionList.some((r) => r.user_id === bootstrapUserId);
 
           return (
-            <View
+            <TouchableOpacity
               key={emojiName}
               style={[styles.reactionPill, hasCurrentUserReaction && styles.reactionPillActive]}
+              onPress={() => onReactionPress?.(emojiName)}
+              activeOpacity={0.7}
             >
               <Text style={styles.reactionEmoji}>{emojiDisplay}</Text>
               {count > 1 && (
@@ -58,7 +61,7 @@ export const MessageReactions: React.FC<MessageReactionsProps> = React.memo(
                   {count}
                 </Text>
               )}
-            </View>
+            </TouchableOpacity>
           );
         })}
       </View>

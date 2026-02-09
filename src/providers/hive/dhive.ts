@@ -3629,6 +3629,28 @@ export const hasEcencyPostingAuthority = (account: any): boolean => {
 };
 
 /**
+ * Determines if posting authority prompt should be shown before posting operations.
+ * Returns true only for HiveAuth users who haven't granted ecency.app posting authority.
+ *
+ * @param account - Current user account object
+ * @returns true if prompt should be shown, false otherwise
+ */
+export const shouldPromptPostingAuthority = (account: any): boolean => {
+  // Only prompt for HiveAuth authenticated users
+  if (account?.local?.authType !== AUTH_TYPE.HIVE_AUTH) {
+    return false;
+  }
+
+  // Don't prompt if posting authority already granted
+  if (hasEcencyPostingAuthority(account)) {
+    return false;
+  }
+
+  // Prompt should be shown
+  return true;
+};
+
+/**
  * Determines if HiveAuth user should use direct HiveAuth broadcast (no posting authority)
  * vs HiveSigner access token (has posting authority).
  */

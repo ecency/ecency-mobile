@@ -12,6 +12,7 @@ import {
   ChatChannelOptionsSheet,
   PostingAuthoritySheet,
   HiveAuthBroadcastSheet,
+  EmojiPickerSheet,
 } from '../components';
 import { TippingDialog } from '../components/tipping';
 import { TTSSettingsSheet } from '../components/textToSpeech/ttsSettingsSheet';
@@ -31,6 +32,7 @@ export enum SheetNames {
   TTS_SETTINGS = 'tts_settings',
   POSTING_AUTHORITY_PROMPT = 'posting_authority_prompt',
   HIVE_AUTH_BROADCAST = 'hive_auth_broadcast',
+  EMOJI_PICKER = 'emoji_picker',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -46,6 +48,7 @@ registerSheet(SheetNames.TIPPING_DIALOG, TippingDialog);
 registerSheet(SheetNames.TTS_SETTINGS, TTSSettingsSheet);
 registerSheet(SheetNames.POSTING_AUTHORITY_PROMPT, PostingAuthoritySheet);
 registerSheet(SheetNames.HIVE_AUTH_BROADCAST, HiveAuthBroadcastSheet);
+registerSheet(SheetNames.EMOJI_PICKER, EmojiPickerSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -117,13 +120,24 @@ declare module 'react-native-actions-sheet' {
         onSettingsChanged?: () => void;
       };
     }>;
-    [SheetNames.POSTING_AUTHORITY_PROMPT]: SheetDefinition;
+    [SheetNames.POSTING_AUTHORITY_PROMPT]: SheetDefinition<{
+      payload?: {
+        onGranted?: () => void | Promise<void>;
+        onSkipped?: () => void | Promise<void>;
+        onError?: (error: Error) => void;
+      };
+    }>;
     [SheetNames.HIVE_AUTH_BROADCAST]: SheetDefinition<{
       payload: {
         operations: Operation[];
         onSuccess?: (result: any) => void;
         onError?: (error: Error) => void;
         onClose?: (error: Error) => void;
+      };
+    }>;
+    [SheetNames.EMOJI_PICKER]: SheetDefinition<{
+      payload: {
+        onEmojiSelected: (emojiName: string) => void;
       };
     }>;
   }

@@ -14,7 +14,10 @@ import AUTH_TYPE from '../../constants/authType';
 import { useHiveAuth } from '../hiveAuthModal/hooks/useHiveAuth';
 import { updateCurrentAccount } from '../../redux/actions/accountAction';
 
-const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = ({ sheetId }) => {
+const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = ({
+  sheetId,
+  payload,
+}) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const currentAccount = useAppSelector(selectCurrentAccount);
@@ -102,9 +105,28 @@ const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = 
 
       dispatch(toastNotification(intl.formatMessage({ id: 'posting_authority.success' })));
 
+      // Call onGranted callback if provided (with error guard)
+      try {
+        if (payload?.onGranted) {
+          await payload.onGranted();
+        }
+      } catch (callbackError) {
+        console.error('onGranted callback threw error:', callbackError);
+      }
+
       ActionSheet.hide(sheetId);
     } catch (error) {
       console.error('Failed to grant posting permission:', error);
+
+      // Call onError callback if provided (with error guard)
+      try {
+        if (payload?.onError) {
+          payload.onError(error);
+        }
+      } catch (callbackError) {
+        console.error('onError callback threw error:', callbackError);
+      }
+
       const errorMessage = error?.message || intl.formatMessage({ id: 'posting_authority.error' });
       dispatch(toastNotification(errorMessage));
     } finally {
@@ -113,6 +135,14 @@ const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = 
   };
 
   const _handleSkip = () => {
+    // Call onSkipped callback if provided (with error guard)
+    try {
+      if (payload?.onSkipped) {
+        payload.onSkipped();
+      }
+    } catch (callbackError) {
+      console.error('onSkipped callback threw error:', callbackError);
+    }
     ActionSheet.hide(sheetId);
   };
 

@@ -491,9 +491,12 @@
     "search_users": "Users", 
     "unable_to_join_channel": "Unable to join channel. Please try again.", 
     "unable_to_start_dm": "Unable to start chat. Please try again.", 
-    "pinned_messages": "Pinned Messages", 
-    "message_placeholder": "Message", 
-    "refresh": "Refresh channels"
+    "pinned_messages": "Pinned Messages",
+    "message_placeholder": "Message",
+    "refresh": "Refresh channels",
+    "select_emoji": "Select Emoji",
+    "more_emojis": "More",
+    "search_emojis": "Search emojis..."
   }, 
   "free_estm": {
     "timer_text": "Next free spin in", 

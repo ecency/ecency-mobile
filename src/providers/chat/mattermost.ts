@@ -311,7 +311,12 @@ export const removeMattermostReaction = async (
   emojiName: string,
 ) => {
   const { data } = await chatApi.delete(
-    `/api/mattermost/channels/${channelId}/posts/${postId}/reactions/${emojiName}`,
+    `/api/mattermost/channels/${channelId}/posts/${postId}/reactions`,
+    {
+      data: {
+        emoji: emojiName,
+      },
+    },
   );
   return data.post || data;
 };

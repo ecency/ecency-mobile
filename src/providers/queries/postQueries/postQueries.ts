@@ -48,7 +48,9 @@ export const useGetPostQuery = ({
     };
   }, [initialPost]);
 
-  const sdkQueryOptions = getPostQueryOptions(author, permlink, currentAccount?.name);
+  // IMPORTANT: Pass undefined (not empty string) for observer when no account
+  const observer = currentAccount?.name || currentAccount?.username;
+  const sdkQueryOptions = getPostQueryOptions(author, permlink, observer);
 
   const query = useQuery({
     ...sdkQueryOptions,
@@ -84,7 +86,7 @@ export const useGetPostQuery = ({
     );
 
     return processed;
-  }, [query.data, currentAccount?.name, isPinned]);
+  }, [query.data, observer, currentAccount?.name, isPinned]);
 
   const data = useInjectVotesCache(processedPost);
 
@@ -114,8 +116,9 @@ export const usePostsCachePrimer = () => {
       body: renderPostBody({ ...post, last_update: post.updated }, true, Platform.OS !== 'ios'),
     };
 
-    // Use SDK query key format with same account identifier as useGetPostQuery
-    const { queryKey } = getPostQueryOptions(post.author, post.permlink, currentAccount?.name);
+    // IMPORTANT: Use same observer derivation as useGetPostQuery to ensure cache key matches
+    const observer = currentAccount?.name || currentAccount?.username;
+    const { queryKey } = getPostQueryOptions(post.author, post.permlink, observer);
     queryClient.setQueryData(queryKey, processedPost);
   };
 
@@ -155,12 +158,16 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
   const botAuthorsQuery = useBotAuthorsQuery();
 
+  // IMPORTANT: Pass undefined (not empty string) for observer when no account
+  // Empty string causes API to not return user's votes in active_votes array
+  const observer = currentAccount?.name || currentAccount?.username;
+
   const query = useQuery({
     ...getDiscussionsQueryOptions(
       { author, permlink } as any,
       'created' as any, // SDK accepts 'created' but TypeScript definitions are strict
       !!author && !!permlink,
-      currentAccount?.name,
+      observer,
     ),
     gcTime: 5 * 60 * 1000, // keeps comments cache for 5 minutes
   });
@@ -314,7 +321,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       console.log('[useDiscussionQuery] No changes detected, keeping prev');
       return prev;
     });
-  }, [query.data, cachedComments, cachedVotes, lastCacheUpdate, currentAccount?.name]);
+  }, [query.data, cachedComments, cachedVotes, lastCacheUpdate, observer, currentAccount?.name]);
 
   // Cache to store processed comments and avoid recreating objects
   const processedCommentsCache = useRef<Map<string, any>>(new Map());

@@ -70,8 +70,8 @@ const NotificationLineView = ({
   }
 
   const _title = [
-    titleExtra,
     intl.formatMessage({ id: `notification.${notification.type}` }, _messageValues),
+    titleExtra,
   ]
     .filter((part) => !!part)
     .join(' ');

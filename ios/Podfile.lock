@@ -2,6 +2,31 @@ PODS:
   - boost (1.84.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
+  - EmojiPopup (0.3.3):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - MCEmojiPicker (= 1.2.3)
+    - RCT-Folly (= 2024.11.18.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-hermes
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - EXConstants (17.1.7):
     - ExpoModulesCore
   - Expo (53.0.20):
@@ -199,6 +224,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - MCEmojiPicker (1.2.3)
   - nanopb (3.30910.0):
     - nanopb/decode (= 3.30910.0)
     - nanopb/encode (= 3.30910.0)
@@ -2624,6 +2650,7 @@ PODS:
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - EmojiPopup (from `../node_modules/react-native-emoji-popup`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - Expo (from `../node_modules/expo`)
   - ExpoAsset (from `../node_modules/expo-asset/ios`)
@@ -2764,6 +2791,7 @@ SPEC REPOS:
     - libdav1d
     - libwebp
     - lottie-ios
+    - MCEmojiPicker
     - nanopb
     - PromisesObjC
     - SDWebImage
@@ -2779,6 +2807,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  EmojiPopup:
+    :path: "../node_modules/react-native-emoji-popup"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
   Expo:
@@ -3025,6 +3055,7 @@ SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
+  EmojiPopup: 5b3df930842fbaf3d10f22b229cfddb92da35cfc
   EXConstants: 9d62a46a36eae6d28cb978efcbc68aef354d1704
   Expo: f36ead9aa4bf1f3d238ddf2a8e43c64510eae109
   ExpoAsset: 7bdbbacf4e6752ae6e3cf70555cee076f6229e6e
@@ -3055,6 +3086,7 @@ SPEC CHECKSUMS:
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
   lottie-ios: a881093fab623c467d3bce374367755c272bdd59
   lottie-react-native: ac85754c6409da43b0b37b58b7042bc050aad57c
+  MCEmojiPicker: 6650cfa8d79fc8d71bf77dbed6166f946cee9c96
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RCT-Folly: 36fe2295e44b10d831836cc0d1daec5f8abcf809
