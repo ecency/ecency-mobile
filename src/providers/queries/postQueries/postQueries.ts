@@ -86,7 +86,7 @@ export const useGetPostQuery = ({
     );
 
     return processed;
-  }, [query.data, observer, isPinned]);
+  }, [query.data, observer, currentAccount?.name, isPinned]);
 
   const data = useInjectVotesCache(processedPost);
 
@@ -321,7 +321,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       console.log('[useDiscussionQuery] No changes detected, keeping prev');
       return prev;
     });
-  }, [query.data, cachedComments, cachedVotes, lastCacheUpdate, observer]);
+  }, [query.data, cachedComments, cachedVotes, lastCacheUpdate, observer, currentAccount?.name]);
 
   // Cache to store processed comments and avoid recreating objects
   const processedCommentsCache = useRef<Map<string, any>>(new Map());

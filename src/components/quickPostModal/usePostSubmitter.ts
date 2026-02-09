@@ -28,7 +28,11 @@ export const usePostSubmitter = () => {
   const pinCode = useAppSelector(selectPin);
   const userActivityMutation = useUserActivityMutation();
   const [isSubmitting, setIsSubmitting, getIsSubmittingCurrent] = useStateWithRef(false);
-  const [postingAuthorityPromptShown, setPostingAuthorityPromptShown] = useStateWithRef(false);
+  const [
+    _postingAuthorityPromptShown,
+    setPostingAuthorityPromptShown,
+    getPostingAuthorityPromptShown,
+  ] = useStateWithRef(false);
 
   // handle submit reply
   const _submitReply = async (
@@ -52,8 +56,8 @@ export const usePostSubmitter = () => {
     if (currentAccount) {
       // Check if we should prompt for posting authority (HiveAuth users without authority)
       if (shouldPromptPostingAuthority(currentAccount)) {
-        // Guard against infinite recursion
-        if (postingAuthorityPromptShown) {
+        // Guard against infinite recursion - use ref getter to read latest value
+        if (getPostingAuthorityPromptShown()) {
           console.warn('Posting authority prompt already shown, preventing recursion');
           if (manageSubmittingState) {
             setIsSubmitting(false);
@@ -189,7 +193,7 @@ export const usePostSubmitter = () => {
           intl.formatMessage({
             id: 'alert.something_wrong',
           }),
-          error.message || JSON.stringify(error),
+          error?.message || JSON.stringify(error),
         );
 
         if (manageSubmittingState) {

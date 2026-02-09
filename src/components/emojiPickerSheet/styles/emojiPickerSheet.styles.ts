@@ -1,13 +1,13 @@
-import { StyleSheet } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-export default StyleSheet.create({
+export default EStyleSheet.create({
   sheetContent: {
     height: '90%',
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '$primaryBackgroundColor',
   },
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '$primaryBackgroundColor',
   },
   header: {
     flexDirection: 'row',
@@ -16,19 +16,19 @@ export default StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#2a2a2a',
+    borderBottomColor: '$primaryLightBackground',
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#ffffff',
+    color: '$primaryDarkText',
   },
   closeButton: {
     padding: 8,
   },
   closeButtonText: {
     fontSize: 24,
-    color: '#888888',
+    color: '$primaryDarkGray',
   },
   emojiList: {
     paddingHorizontal: 16,
