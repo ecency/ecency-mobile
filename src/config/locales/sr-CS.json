@@ -493,7 +493,10 @@
     "unable_to_start_dm": "Unable to start chat. Please try again.",
     "pinned_messages": "Pinned Messages",
     "message_placeholder": "Message",
-    "refresh": "Refresh channels"
+    "refresh": "Refresh channels",
+    "select_emoji": "Select Emoji",
+    "more_emojis": "More",
+    "search_emojis": "Search emojis..."
   },
   "free_estm": {
     "timer_text": "Novi besplatni obrtaj u",
