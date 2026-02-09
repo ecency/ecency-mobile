@@ -493,7 +493,10 @@
     "unable_to_start_dm": "No se puede iniciar el chat. Por favor, inténtalo de nuevo.",
     "pinned_messages": "Mensajes Anclados",
     "message_placeholder": "Mensaje",
-    "refresh": "Actualizar canales"
+    "refresh": "Actualizar canales",
+    "select_emoji": "Select Emoji",
+    "more_emojis": "More",
+    "search_emojis": "Search emojis..."
   },
   "free_estm": {
     "timer_text": "Siguiente giro gratuito en",
