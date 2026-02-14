@@ -46,6 +46,11 @@ export const useSendTipMutation = () => {
         queryKey: [QUERIES.POST.GET_TIPS, variables.author, variables.permlink],
       });
 
+      // Invalidate wallet/portfolio query so balances refresh after tip
+      queryClient.invalidateQueries({
+        queryKey: [QUERIES.WALLET.GET],
+      });
+
       // Show success toast
       dispatch(toastNotification(intl.formatMessage({ id: 'tipping.success' })));
     },

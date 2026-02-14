@@ -7,7 +7,7 @@ import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector, useStateWithRef } from '../../hooks';
 import { postComment, shouldPromptPostingAuthority } from '../../providers/hive/dhive';
 import { extractMetadata, generateUniquePermlink, makeJsonMetadata } from '../../utils/editor';
-import { updateCommentCache } from '../../redux/actions/cacheActions';
+import { updateCommentCache, deleteCommentCacheEntry } from '../../redux/actions/cacheActions';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { useUserActivityMutation, wavesQueries } from '../../providers/queries';
 import { PointActivityIds, PollDraft } from '../../providers/ecency/ecency.types';
@@ -128,6 +128,35 @@ export const usePostSubmitter = () => {
         jsonMetadata,
       );
 
+      // Build cache entry for optimistic update
+      const _cacheCommentData = {
+        author,
+        permlink,
+        url,
+        parent_author: parentAuthor,
+        parent_permlink: parentPermlink,
+        markdownBody: commentBody,
+        json_metadata: jsonMetadata,
+      };
+
+      // Optimistic: dispatch cache + invalidate query BEFORE blockchain call
+      dispatch(
+        updateCommentCache(`${author}/${permlink}`, _cacheCommentData, {
+          parentTags: parentTags || ['ecency'],
+        }),
+      );
+
+      if (postType !== PostTypes.WAVE) {
+        queryClient.invalidateQueries({
+          queryKey: getDiscussionsQueryOptions(
+            { author: parentAuthor, permlink: parentPermlink } as any,
+            'created' as any,
+            true,
+            currentAccount.name,
+          ).queryKey,
+        });
+      }
+
       try {
         const response = await postComment(
           currentAccount,
@@ -155,40 +184,23 @@ export const usePostSubmitter = () => {
           ),
         );
 
-        // add comment cache entry
-        const _cacheCommentData = {
-          author,
-          permlink,
-          url,
-          parent_author: parentAuthor,
-          parent_permlink: parentPermlink,
-          markdownBody: commentBody,
-          json_metadata: jsonMetadata,
-        };
+        return _cacheCommentData;
+      } catch (error) {
+        console.log(error);
 
-        dispatch(
-          updateCommentCache(`${author}/${permlink}`, _cacheCommentData, {
-            parentTags: parentTags || ['ecency'],
-          }),
-        );
-
-        // Invalidate discussion query cache to show new comment immediately
-        // For comments, invalidate parent post's discussion
-        // For waves, parentPost is the waves container
+        // Rollback: remove optimistic cache entry and re-invalidate
+        dispatch(deleteCommentCacheEntry(`${author}/${permlink}`));
         if (postType !== PostTypes.WAVE) {
           queryClient.invalidateQueries({
             queryKey: getDiscussionsQueryOptions(
               { author: parentAuthor, permlink: parentPermlink } as any,
               'created' as any,
               true,
-              currentAccount.name, // Pass observer to match the query key used in useDiscussionQuery
+              currentAccount.name,
             ).queryKey,
           });
         }
 
-        return _cacheCommentData;
-      } catch (error) {
-        console.log(error);
         Alert.alert(
           intl.formatMessage({
             id: 'alert.something_wrong',

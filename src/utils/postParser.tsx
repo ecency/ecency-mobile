@@ -304,6 +304,15 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
               shouldClone = true;
             }
             delete _comments[path];
+
+            // Update parent's children count and replies array
+            if (_comments[_parentPath]) {
+              _comments[_parentPath] = {
+                ..._comments[_parentPath],
+                children: Math.max(0, (_comments[_parentPath].children ?? 1) - 1),
+                replies: (_comments[_parentPath].replies || []).filter((r: string) => r !== path),
+              };
+            }
           }
           break;
         case CacheStatus.UPDATED:
