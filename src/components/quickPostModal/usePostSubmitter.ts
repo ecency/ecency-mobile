@@ -138,19 +138,14 @@ export const usePostSubmitter = () => {
         json_metadata: jsonMetadata,
       };
 
-      // Optimistic: dispatch cache + invalidate query BEFORE blockchain call
+      // Optimistic: dispatch cache BEFORE blockchain call
+      // useDiscussionQuery's useEffect depends on cachedComments and will
+      // re-run injectPostCache to show the comment immediately via Redux
       dispatch(
         updateCommentCache(`${author}/${permlink}`, _cacheCommentData, {
           parentTags: parentTags || ['ecency'],
         }),
       );
-
-      if (postType !== PostTypes.WAVE) {
-        // Invalidate all discussion queries to trigger UI update with optimistic comment
-        // Using broad key match since for sub-comments, parentAuthor/parentPermlink
-        // point to the parent comment, not the root post whose discussion query is active
-        queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });
-      }
 
       try {
         const response = await postComment(
@@ -167,6 +162,12 @@ export const usePostSubmitter = () => {
           pointsTy: PointActivityIds.COMMENT,
           transactionId: response.id,
         });
+
+        // Invalidate discussion queries to refetch with real blockchain data
+        if (postType !== PostTypes.WAVE) {
+          queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });
+        }
+
         if (manageSubmittingState) {
           setIsSubmitting(false);
         }
@@ -183,7 +184,7 @@ export const usePostSubmitter = () => {
       } catch (error) {
         console.log(error);
 
-        // Rollback: remove optimistic cache entry and re-invalidate
+        // Rollback: remove optimistic cache entry and invalidate to clean up
         dispatch(deleteCommentCacheEntry(`${author}/${permlink}`));
         if (postType !== PostTypes.WAVE) {
           queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });

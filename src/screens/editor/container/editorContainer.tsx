@@ -1125,7 +1125,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const author = currentAccount.name;
 
       // ✅ OPTIMISTIC UPDATE: Add comment to cache BEFORE blockchain broadcast
-      // This makes the comment appear instantly in the UI
+      // This makes the comment appear instantly in the UI via Redux cache injection
+      // (useDiscussionQuery's useEffect depends on cachedComments and will re-run injectPostCache)
       dispatch(
         updateCommentCache(
           `${author}/${permlink}`,
@@ -1142,12 +1143,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         ),
       );
 
-      // Invalidate all discussion queries to trigger UI update with optimistic comment
-      // Using broad key match since for sub-comments, parentAuthor/parentPermlink
-      // point to the parent comment, not the root post whose discussion query is active
-      queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });
-
-      // Broadcast to blockchain in background
+      // Broadcast to blockchain
       await postComment(
         currentAccount,
         pinCode,
@@ -1167,8 +1163,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
 
-          // Comment already visible from optimistic update
-          // Cache entry persists after blockchain confirmation
+          // Invalidate discussion queries to refetch with real blockchain data
+          queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });
 
           // delete quick comment draft cache if it exist (from replyCache)
           if (replyCache && replyCache[draftId]) {
@@ -1181,7 +1177,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           // ❌ ROLLBACK: Remove optimistic comment on blockchain failure
           dispatch(deleteCommentCacheEntry(`${author}/${permlink}`));
 
-          // Invalidate discussion queries to remove failed comment from UI
+          // Invalidate discussion queries to clean up
           queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });
 
           this._isSubmitting = false;
