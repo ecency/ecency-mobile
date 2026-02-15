@@ -261,21 +261,25 @@ export const UploadsGalleryModal = forwardRef(
         if (shouldInsert) {
           setShowModal(false);
           hideToolbarExtension();
+          // Batch all UPLOADING placeholders into a single insert call
+          // to avoid race conditions from multiple sequential handleMediaInsert calls
+          const uploadingInserts: MediaInsertData[] = [];
           media.forEach((element, index) => {
             if (element) {
               media[index].filename =
                 element.filename ||
                 extractFilenameFromPath({ path: element.path, mimeType: element.mime });
-              handleMediaInsert([
-                {
-                  filename: element.filename,
-                  url: '',
-                  text: '',
-                  status: MediaInsertStatus.UPLOADING,
-                },
-              ]);
+              uploadingInserts.push({
+                filename: element.filename,
+                url: '',
+                text: '',
+                status: MediaInsertStatus.UPLOADING,
+              });
             }
           });
+          if (uploadingInserts.length > 0) {
+            handleMediaInsert(uploadingInserts);
+          }
         }
 
         if (setIsUploading) {
