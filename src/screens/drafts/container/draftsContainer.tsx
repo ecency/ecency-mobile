@@ -128,6 +128,11 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   //   setSelectedTabIndex(i);
   // };
 
+  // Wrap SDK mutations to convert raw string id to expected object format
+  const _removeDraft = (id: string) => deleteDraft({ draftId: id });
+  const _removeSchedule = (id: string) => deleteSchedule({ id });
+  const _moveScheduleToDraft = (id: string) => moveScheduleToDrafts({ id });
+
   return (
     <DraftsScreen
       isLoading={_isLoading}
@@ -139,9 +144,9 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
       currentAccount={currentAccount}
       drafts={drafts}
       schedules={schedules}
-      removeDraft={deleteDraft}
-      moveScheduleToDraft={moveScheduleToDrafts}
-      removeSchedule={deleteSchedule}
+      removeDraft={_removeDraft}
+      moveScheduleToDraft={_moveScheduleToDraft}
+      removeSchedule={_removeSchedule}
       onRefresh={_onRefresh}
       initialTabIndex={initialTabIndex}
       cloneDraft={_cloneDraft}

@@ -15,7 +15,6 @@ import {
   getDraftsInfiniteQueryOptions,
   getDraftsQueryOptions,
   getPostQueryOptions,
-  getDiscussionsQueryOptions,
   addDraft,
   updateDraft,
   addSchedule,
@@ -1143,14 +1142,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         ),
       );
 
-      // Invalidate discussion query to trigger UI update with optimistic comment
-      const { queryKey } = getDiscussionsQueryOptions(
-        { author: parentAuthor, permlink: parentPermlink } as any,
-        'created' as any,
-        true,
-        currentAccount.name,
-      );
-      queryClient.invalidateQueries({ queryKey });
+      // Invalidate all discussion queries to trigger UI update with optimistic comment
+      // Using broad key match since for sub-comments, parentAuthor/parentPermlink
+      // point to the parent comment, not the root post whose discussion query is active
+      queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });
 
       // Broadcast to blockchain in background
       await postComment(
@@ -1186,8 +1181,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           // ❌ ROLLBACK: Remove optimistic comment on blockchain failure
           dispatch(deleteCommentCacheEntry(`${author}/${permlink}`));
 
-          // Invalidate query again to remove failed comment from UI
-          queryClient.invalidateQueries({ queryKey });
+          // Invalidate discussion queries to remove failed comment from UI
+          queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });
 
           this._isSubmitting = false;
           this._handleSubmitFailure(error);

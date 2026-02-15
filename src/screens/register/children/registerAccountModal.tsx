@@ -50,41 +50,36 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
     openInbox();
   };
 
-  const _handleOnPressRegister = () => {
+  const _handleOnPressRegister = async () => {
     setIsRegistering(true);
 
-    signUp(_username, email, refUsername)
-      .then((result) => {
-        if (result?.status >= 200 && result?.status < 300) {
-          setIsRegistered(true);
-        } else {
-          Alert.alert(
-            intl.formatMessage({ id: 'alert.fail' }),
-            intl.formatMessage({ id: 'alert.unknow_error' }),
-          );
-          setIsRegistered(false);
-        }
-      })
-      .finally(() => {
-        setIsRegistering(false);
-      })
-      .catch((err) => {
-        let title = intl.formatMessage({ id: 'alert.fail' });
-        let body = intl.formatMessage({ id: 'alert.unknow_error' });
+    try {
+      const result = await signUp(_username, email, refUsername);
+      if (result?.status >= 200 && result?.status < 300) {
+        setIsRegistered(true);
+      } else {
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.fail' }),
+          intl.formatMessage({ id: 'alert.unknow_error' }),
+        );
+        setIsRegistered(false);
+      }
+    } catch (err) {
+      const title = intl.formatMessage({ id: 'alert.fail' });
+      let body = intl.formatMessage({ id: 'alert.unknow_error' });
 
-        if (get(err, 'response.status') === 500) {
-          title = intl.formatMessage({ id: 'alert.fail' });
-          body = intl.formatMessage({ id: 'register.500_error' });
-        } else if (get(err, 'response.data.message')) {
-          title = intl.formatMessage({ id: 'alert.fail' });
-          body = intl.formatMessage(
-            { id: 'register.error_message' },
-            { message: err.response.data.message },
-          );
-        }
-        Alert.alert(title, body);
-        setIsRegistering(false);
-      });
+      const status = get(err, 'status') || get(err, 'response.status');
+      const message = get(err, 'data.message') || get(err, 'response.data.message');
+
+      if (status === 500) {
+        body = intl.formatMessage({ id: 'register.500_error' });
+      } else if (message) {
+        body = intl.formatMessage({ id: 'register.error_message' }, { message });
+      }
+      Alert.alert(title, body);
+    } finally {
+      setIsRegistering(false);
+    }
   };
 
   const _handleOnPurchaseSuccess = () => {

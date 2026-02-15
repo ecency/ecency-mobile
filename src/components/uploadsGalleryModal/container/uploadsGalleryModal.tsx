@@ -291,6 +291,28 @@ export const UploadsGalleryModal = forwardRef(
           ),
         );
 
+        // Batch insert all successful uploads in a single call to avoid race conditions
+        // where parallel onSuccess callbacks read stale body text from refs
+        if (shouldInsert && handleMediaInsert) {
+          const successfulInserts = results
+            .map((result, index) => {
+              if (result.status === 'fulfilled' && result.value?.url) {
+                return {
+                  filename: media[index]?.filename || '',
+                  url: result.value.url,
+                  text: '',
+                  status: MediaInsertStatus.READY,
+                };
+              }
+              return null;
+            })
+            .filter(Boolean);
+
+          if (successfulInserts.length > 0) {
+            _handleMediaInsertion(successfulInserts);
+          }
+        }
+
         // Collect all errors and show a single alert if any uploads failed
         const failures = results.filter((result) => result.status === 'rejected');
         if (failures.length > 0) {
@@ -347,35 +369,25 @@ export const UploadsGalleryModal = forwardRef(
     const _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
       if (!isLoggedIn) return;
       try {
-        await mediaUploadMutation.mutateAsync(
-          {
-            media,
-            addToUploads: !shouldInsert,
-          },
-          {
-            onSuccess: (data) => {
-              console.log('upload successfully', data, media, shouldInsert);
-              if (data && data.url && shouldInsert) {
-                _handleMediaInsertion({
-                  filename: media.filename,
-                  url: data.url,
-                  text: '',
-                  status: MediaInsertStatus.READY,
-                });
-              }
-            },
-          },
-        );
+        const data = await mediaUploadMutation.mutateAsync({
+          media,
+          addToUploads: !shouldInsert,
+        });
+        console.log('upload successfully', data, media, shouldInsert);
+        // Return upload result for batched insertion by caller
+        return data;
       } catch (error) {
         console.log('error while uploading image : ', error);
 
         if (shouldInsert) {
-          _handleMediaInsertion({
-            filename: media.filename,
-            url: '',
-            text: '',
-            status: MediaInsertStatus.FAILED,
-          });
+          _handleMediaInsertion([
+            {
+              filename: media.filename,
+              url: '',
+              text: '',
+              status: MediaInsertStatus.FAILED,
+            },
+          ]);
         }
 
         // Re-throw error to be handled by Promise.allSettled in _handleMediaOnSelected
@@ -437,11 +449,11 @@ export const UploadsGalleryModal = forwardRef(
       setIsAddingToUploads(flag);
     };
 
-    const _handleMediaInsertion = (data: MediaInsertData) => {
+    const _handleMediaInsertion = (data: MediaInsertData[]) => {
       if (isEditing) {
-        pendingInserts.current.push(data);
+        pendingInserts.current.push(...data);
       } else if (handleMediaInsert) {
-        handleMediaInsert([data]);
+        handleMediaInsert(data);
       }
     };
 

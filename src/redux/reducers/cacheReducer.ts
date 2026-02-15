@@ -196,9 +196,11 @@ const cacheReducer = (state = initialState, action) => {
 
     case DELETE_COMMENT_CACHE_ENTRY:
       if (state.commentsCollection && state.commentsCollection[payload]) {
-        delete state.commentsCollection[payload];
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { [payload]: _removed, ...remainingComments } = state.commentsCollection;
+        return { ...state, commentsCollection: remainingComments };
       }
-      return { ...state };
+      return state;
 
     case UPDATE_DRAFT_CACHE:
       if (!payload.id || !payload.draft) {

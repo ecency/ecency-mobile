@@ -2,7 +2,6 @@ import { useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useQueryClient } from '@tanstack/react-query';
-import { getDiscussionsQueryOptions } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector, useStateWithRef } from '../../hooks';
 import { postComment, shouldPromptPostingAuthority } from '../../providers/hive/dhive';
@@ -147,14 +146,10 @@ export const usePostSubmitter = () => {
       );
 
       if (postType !== PostTypes.WAVE) {
-        queryClient.invalidateQueries({
-          queryKey: getDiscussionsQueryOptions(
-            { author: parentAuthor, permlink: parentPermlink } as any,
-            'created' as any,
-            true,
-            currentAccount.name,
-          ).queryKey,
-        });
+        // Invalidate all discussion queries to trigger UI update with optimistic comment
+        // Using broad key match since for sub-comments, parentAuthor/parentPermlink
+        // point to the parent comment, not the root post whose discussion query is active
+        queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });
       }
 
       try {
@@ -191,14 +186,7 @@ export const usePostSubmitter = () => {
         // Rollback: remove optimistic cache entry and re-invalidate
         dispatch(deleteCommentCacheEntry(`${author}/${permlink}`));
         if (postType !== PostTypes.WAVE) {
-          queryClient.invalidateQueries({
-            queryKey: getDiscussionsQueryOptions(
-              { author: parentAuthor, permlink: parentPermlink } as any,
-              'created' as any,
-              true,
-              currentAccount.name,
-            ).queryKey,
-          });
+          queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });
         }
 
         Alert.alert(
