@@ -389,6 +389,8 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
               commentCopy.body !== comment.body ||
               commentCopy.updated !== comment.updated ||
               commentCopy.replies?.length !== comment.replies?.length ||
+              commentCopy.expandedReplies !== comment.expandedReplies ||
+              commentCopy.renderOnTop !== comment.renderOnTop ||
               hasVoteDiff(commentCopy, comment)
             ) {
               commentCopy = {
@@ -439,24 +441,34 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         const cacheKey = `${key}-root-1`;
         let commentCopy = processedCommentsCache.current.get(cacheKey);
 
-        // Only create new object if cache miss or comment data changed
-        // IMPORTANT: Also check if replies array length changed to detect new nested replies
+        // Always rebuild repliesThread to detect nested changes (e.g. new sub-replies)
+        // parseReplies uses its own per-comment cache, so unchanged comments are reused
+        const newRepliesThread = parseReplies(commentsMap, comment.replies, key, 2);
+
+        // Check if top-level comment data changed OR if any nested reply changed
+        const repliesChanged =
+          !commentCopy ||
+          commentCopy.repliesThread?.length !== newRepliesThread.length ||
+          commentCopy.repliesThread?.some((item, i) => item !== newRepliesThread[i]);
+
         if (
           !commentCopy ||
           commentCopy.body !== comment.body ||
           commentCopy.updated !== comment.updated ||
           commentCopy.replies?.length !== comment.replies?.length ||
-          hasVoteDiff(commentCopy, comment)
+          commentCopy.expandedReplies !== comment.expandedReplies ||
+          commentCopy.renderOnTop !== comment.renderOnTop ||
+          hasVoteDiff(commentCopy, comment) ||
+          repliesChanged
         ) {
           commentCopy = {
             ...comment,
             commentKey: key,
             level: 1,
-            repliesThread: parseReplies(commentsMap, comment.replies, key, 2),
+            repliesThread: newRepliesThread,
           };
           processedCommentsCache.current.set(cacheKey, commentCopy);
         }
-        // else: use cached commentCopy as-is since nothing changed
 
         comments.push(commentCopy);
       }

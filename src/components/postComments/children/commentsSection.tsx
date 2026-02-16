@@ -12,7 +12,15 @@ export const CommentsSection = ({ item, ...props }) => {
     if (item.expandedReplies && !toggle) {
       setToggle(true);
     }
-  }, [item.expandedReplies]);
+    // Also auto-expand when a new optimistic sub-reply is added
+    // (renderOnTop is set on freshly cached comments by injectPostCache)
+    if (
+      !toggle &&
+      item.repliesThread?.some((reply) => reply.renderOnTop || reply.expandedReplies)
+    ) {
+      setToggle(true);
+    }
+  }, [item.expandedReplies, item.repliesThread]);
 
   const _renderComment = (item, index = 0) => {
     return (

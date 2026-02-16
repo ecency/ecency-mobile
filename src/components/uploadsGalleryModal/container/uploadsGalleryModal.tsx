@@ -289,9 +289,13 @@ export const UploadsGalleryModal = forwardRef(
           setIsAddingToUploads(true);
         }
 
-        const results = await Promise.allSettled(
+        const results = await Promise.all(
           media.map((element) =>
-            element ? _uploadImage(element, { shouldInsert }) : Promise.resolve(),
+            element
+              ? _uploadImage(element, { shouldInsert })
+                  .then((value) => ({ status: 'fulfilled' as const, value }))
+                  .catch((reason) => ({ status: 'rejected' as const, reason }))
+              : Promise.resolve({ status: 'fulfilled' as const, value: undefined }),
           ),
         );
 
@@ -321,8 +325,8 @@ export const UploadsGalleryModal = forwardRef(
         const failures = results.filter((result) => result.status === 'rejected');
         if (failures.length > 0) {
           const errorMessages = new Set<string>();
-          failures.forEach((failure: PromiseRejectedResult) => {
-            const error = failure.reason;
+          failures.forEach((failure) => {
+            const error = failure.status === 'rejected' ? failure.reason : failure;
             if (error.toString().includes('code 413')) {
               errorMessages.add(
                 intl.formatMessage({
@@ -394,7 +398,7 @@ export const UploadsGalleryModal = forwardRef(
           ]);
         }
 
-        // Re-throw error to be handled by Promise.allSettled in _handleMediaOnSelected
+        // Re-throw error to be caught by .catch wrapper in _handleMediaOnSelected
         throw error;
       }
     };
