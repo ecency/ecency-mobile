@@ -1501,7 +1501,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       beneficiaries: data.beneficiaries,
     });
 
-    const username = currentAccount.name;
     const accessToken = currentAccount?.local?.accessToken
       ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
       : '';
@@ -1519,15 +1518,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       return;
     }
 
-    addSchedule(username, accessToken, {
-      permlink: data.permlink,
-      title: data.fields.title || '',
-      body: data.fields.body,
-      meta: data.jsonMeta,
+    addSchedule(
+      accessToken,
+      data.permlink,
+      data.fields.title || '',
+      data.fields.body,
+      data.jsonMeta,
       options,
-      schedule: data.scheduleDate,
-      reblog: 0,
-    })
+      data.scheduleDate,
+      false,
+    )
       .then(() => {
         this.setState({
           isPostSending: false,
@@ -1553,6 +1553,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         this.setState({
           isPostSending: false,
         });
+        dispatch(
+          toastNotification(
+            intl.formatMessage(
+              { id: 'alert.something_wrong_msg' },
+              { messsage: error?.message || '' },
+            ),
+          ),
+        );
       });
   };
 
