@@ -3,6 +3,7 @@ import { Platform, Text, TouchableWithoutFeedback, View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { useQuery } from '@tanstack/react-query';
 import DraggableFlatList, { ScaleDecorator } from 'react-native-draggable-flatlist';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Edges, SafeAreaView } from 'react-native-safe-area-context';
@@ -17,6 +18,7 @@ import { AssetIcon } from '../../../components/atoms';
 import { useUpdateProfileTokensMutation } from '../../../providers/queries/walletQueries/walletQueries';
 import { walletQueries } from '../../../providers/queries';
 import { selectCurrentAccount } from '../../../redux/selectors';
+import { fetchTokenBalances } from '../../../providers/hive-engine/hiveEngine';
 
 /**
  *  NOTE: using AssetsSelectModal as part of native-stack with modal presentation is important
@@ -52,9 +54,14 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
 
-  const assetsQuery = walletQueries.useAssetsQuery({ onlyEnabled: false });
-
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const assetsQuery = walletQueries.useAssetsQuery({ onlyEnabled: false });
+  const engineBalancesQuery = useQuery({
+    queryKey: ['assets-select', 'engine-balances', currentAccount?.name || ''],
+    queryFn: () => fetchTokenBalances(currentAccount?.name || ''),
+    enabled: !!currentAccount?.name,
+    staleTime: 60 * 1000,
+  });
 
   const selectionRef = useRef<AssetBase[]>([]);
 
@@ -104,12 +111,12 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
   useEffect(() => {
     const data: SelectableAsset[] = [];
     const addedSymbols = new Set<string>();
+    const _query = query.toLowerCase();
 
     // Add tokens from assetsQuery (Hive tokens)
     assetsQuery.selectedableData?.forEach((asset) => {
       const _name = asset.name?.toLowerCase() || '';
       const _symbol = asset.symbol.toLowerCase();
-      const _query = query.toLowerCase();
 
       const _isSelected =
         selectionRef.current.findIndex((item) => item.symbol === asset.symbol) > -1;
@@ -117,6 +124,30 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
       if (query === '' || _isSelected || _symbol.includes(_query) || _name.includes(_query)) {
         data.push(mapAssetLayer(asset));
         addedSymbols.add(asset.symbol);
+      }
+    });
+
+    // Fallback: include engine token symbols from raw engine balances.
+    // This keeps selectable engine assets visible even when portfolio engine metadata fails.
+    engineBalancesQuery.data?.forEach((balance) => {
+      const { symbol } = balance;
+
+      if (!symbol || addedSymbols.has(symbol)) {
+        return;
+      }
+
+      const _symbol = symbol.toLowerCase();
+      const _isSelected = selectionRef.current.findIndex((item) => item.symbol === symbol) > -1;
+
+      if (query === '' || _isSelected || _symbol.includes(_query)) {
+        data.push({
+          symbol,
+          layer: 'engine',
+          isEngine: true,
+          isSpk: false,
+          isChain: false,
+        } as SelectableAsset);
+        addedSymbols.add(symbol);
       }
     });
 
@@ -141,7 +172,7 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
 
     setListData(data);
     _updateSortedList({ data });
-  }, [query, assetsQuery.selectedableData, selectionVersion]);
+  }, [query, assetsQuery.selectedableData, engineBalancesQuery.data, selectionVersion]);
 
   const _updateSortedList = ({ data }: { data?: SelectableAsset[] } = { data: listData }) => {
     const source = data || listData;
