@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Waktu perangkat Anda;",
       "information": "Kami perhatikan bahwa perangkat Anda memiliki tanggal atau waktu yang salah. Harap perbaiki Tanggal & Waktu atau Setel Secara Otomatis dan coba lagi.",
-      "current_time": "Waktu saat ini;"
+      "current_time": "Waktu saat ini;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
