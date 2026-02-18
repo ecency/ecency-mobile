@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Vreme vašeg uređaja;",
       "information": "Primetili smo da vaš uređaj ima netačan datum i vreme. Molimo vas ispravite datum i vreme ili postavite automatsko i pokušajte ponovo.",
-      "current_time": "Trenutno vreme;"
+      "current_time": "Trenutno vreme;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
