@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Ang oras sa iyong device;",
       "information": "Napansin naming mali ang petsa at oras ng iyong device. Maaaring ayusin ito sa Petsa & Oras o i-set ng awtomatik.",
-      "current_time": "Kasalukuyang oras;"
+      "current_time": "Kasalukuyang oras;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
