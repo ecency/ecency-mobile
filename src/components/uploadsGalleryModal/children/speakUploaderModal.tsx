@@ -25,7 +25,7 @@ import { uploadFile, uploadVideoInfo } from '../../../providers/speak/speak';
 import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 import QUERIES from '../../../providers/queries/queryKeys';
-import { reportMediaPickerError } from '../../../utils/mediaPickerError';
+import { isMediaPickerCancellation, reportMediaPickerError } from '../../../utils/mediaPickerError';
 
 interface Props {
   setIsUploading: (flag: boolean) => void;
@@ -150,6 +150,9 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
         setSelectedThumb(items[0]);
       })
       .catch((e) => {
+        if (isMediaPickerCancellation(e)) {
+          return;
+        }
         reportMediaPickerError(e, {
           feature: 'speak-uploader',
           action: 'openPicker',

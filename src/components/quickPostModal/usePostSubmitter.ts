@@ -90,9 +90,9 @@ export const usePostSubmitter = () => {
             manageSubmittingState,
           );
         } catch (error) {
-          // Error granting posting authority - don't retry
+          // Error granting posting authority - surface through outer handler
           console.warn('Failed to grant posting authority:', error);
-          return false;
+          throw error;
         } finally {
           setPostingAuthorityPromptShown(false);
         }

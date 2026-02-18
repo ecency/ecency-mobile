@@ -8,7 +8,7 @@ interface MediaPickerErrorContext {
 
 export const isMediaPickerCancellation = (error: any): boolean => {
   const code = String(error?.code || '').toUpperCase();
-  const message = String(error?.message || '').toLowerCase();
+  const message = String(error?.message ?? error ?? '').toLowerCase();
 
   return (
     code === 'E_PICKER_CANCELLED' ||

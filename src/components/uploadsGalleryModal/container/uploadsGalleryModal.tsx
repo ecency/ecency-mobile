@@ -15,7 +15,7 @@ import {
   extractFilenameFromPath,
   extractImageUrls,
 } from '../../../utils/editor';
-import { reportMediaPickerError } from '../../../utils/mediaPickerError';
+import { isMediaPickerCancellation, reportMediaPickerError } from '../../../utils/mediaPickerError';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { editorQueries, speakQueries } from '../../../providers/queries';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
@@ -437,6 +437,10 @@ export const UploadsGalleryModal = forwardRef(
       action: 'openPicker' | 'openCamera' = 'openPicker',
       mediaType: 'photo' | 'video' | 'mixed' = 'photo',
     ) => {
+      if (isMediaPickerCancellation(error)) {
+        return;
+      }
+
       reportMediaPickerError(error, {
         feature: 'editor-uploads-modal',
         action,

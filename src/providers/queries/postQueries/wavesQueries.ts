@@ -125,14 +125,41 @@ export const useWavesQuery = (host: string) => {
 
   // Invalidate-only path for comment updates (no optimistic cache write here).
   const _invalidateWaveContainerForComment = (commentPath: string) => {
-    const _cachedComment = cache.commentsCollection?.[commentPath];
+    const commentsCollection = cache.commentsCollection || {};
+    const _cachedComment = commentsCollection[commentPath];
     if (!_cachedComment) {
       return;
     }
 
-    // find parent wave's container by checking if the parent is a known wave
-    const parentPath = `${_cachedComment.parent_author}/${_cachedComment.parent_permlink}`;
-    const _containerPermlink = wavesIndexCollection.current[parentPath];
+    const { parent_author: initialParentAuthor, parent_permlink: initialParentPermlink } =
+      _cachedComment;
+    if (!initialParentAuthor || !initialParentPermlink) {
+      return;
+    }
+
+    // Walk ancestry until we hit a top-level wave tracked in index collection.
+    let parentAuthor = initialParentAuthor;
+    let parentPermlink = initialParentPermlink;
+    let parentPath = `${parentAuthor}/${parentPermlink}`;
+    let _containerPermlink = wavesIndexCollection.current[parentPath];
+
+    const visited = new Set<string>();
+    while (!_containerPermlink && parentAuthor && parentPermlink) {
+      if (visited.has(parentPath)) {
+        break;
+      }
+      visited.add(parentPath);
+
+      const parentComment = commentsCollection[parentPath];
+      if (!parentComment?.parent_author || !parentComment?.parent_permlink) {
+        break;
+      }
+
+      parentAuthor = parentComment.parent_author;
+      parentPermlink = parentComment.parent_permlink;
+      parentPath = `${parentAuthor}/${parentPermlink}`;
+      _containerPermlink = wavesIndexCollection.current[parentPath];
+    }
 
     if (_containerPermlink) {
       const _containerIndex = activePermlinks.indexOf(_containerPermlink);
