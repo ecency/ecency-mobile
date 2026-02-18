@@ -69,35 +69,33 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       return decryptKey(local.accessToken, digitPin) || undefined;
     },
 
-    getLoginType: async (username: string) => {
+    getLoginType: async (username: string, authority?: string) => {
       const local = _getAccountLocal(username);
       if (!local?.authType) return null;
 
       const mapped = mapAuthTypeToLoginType(local.authType);
 
-      // For key-based logins, check if user actually has a posting key stored.
-      // Active-key-only users don't have posting key — they should use
-      // HiveSigner access token for posting operations instead.
-      if (mapped === 'key' && !local.postingKey && local.accessToken) {
-        return 'hivesigner';
+      if (mapped === 'key') {
+        // Active-key user doing an active operation → sign directly with active key
+        if (authority === 'active' && local.activeKey) {
+          return 'key';
+        }
+
+        // Key-based user without posting key but with access token →
+        // use HiveSigner for posting operations (active-key-only users)
+        if (!local.postingKey && local.accessToken) {
+          return 'hivesigner';
+        }
       }
 
       return mapped;
     },
 
     hasPostingAuthorization: async (_username: string) => {
-      // NOTE:
-      // The SDK token-first optimization for key/hiveauth users depends on
-      // hasPostingAuthorization() and then attempts HiveSigner first.
-      //
-      // In mobile, token-based responses can come back as generic 401/403 errors
-      // that are not always classified as "auth fallback" by the SDK parser yet.
-      // When that happens, fallback to key/HiveAuth is skipped and voting can
-      // get stuck after a successful initial vote.
-      //
-      // Until SDK fallback classification matches legacy mobile behavior for
-      // unauthorized responses, keep this optimization disabled on mobile so
-      // key-based users sign with keys and HiveAuth users use HiveAuth directly.
+      // Mobile has keys stored locally — getLoginType already routes to the
+      // correct signing method (key, hivesigner, hiveauth). The SDK's
+      // token-first optimization (try HiveSigner before key) is unnecessary
+      // on mobile since direct key signing is equally fast and more reliable.
       return false;
     },
 
