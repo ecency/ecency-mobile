@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "您的设备时间；",
       "information": "我们注意到您的设备的日期或时间不正确。请修复日期和时间，或者设为自动，然后重试。",
-      "current_time": "当前时间"
+      "current_time": "当前时间",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
