@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Seadme kellaaeg;",
       "information": "Märkasime, et teie seadme kellaaeg ja kuupäev on vale. Muuda kellaaeg ja kuupäev või säti automaatseks ning proovi siis uuesti.",
-      "current_time": "Praegune kellaaeg;"
+      "current_time": "Praegune kellaaeg;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
