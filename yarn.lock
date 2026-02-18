@@ -1161,10 +1161,10 @@
   dependencies:
     long "~3"
 
-"@ecency/render-helper@^2.4.14":
-  version "2.4.14"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.4.14.tgz#720ad96327795a18a59aa38de52d4fbeb241c766"
-  integrity sha512-g4YsnHWngGCxDL6w258Qxh9X9sDEvD9dqKHpO2BkMZNLOFrs/rhyPJL7YYK0CLhrNCdhHp0X6oZZ3dJjSP7NhQ==
+"@ecency/render-helper@^2.4.17":
+  version "2.4.17"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.4.17.tgz#fbaf22bb2dd3e1e8478987d884f1028db744e456"
+  integrity sha512-qetfM/XwN3TrbBXIMSYSPKNJFh55FfPguet7SQFi1OBw2+TAXeco0HDRA+/Jp4PXUfEGhpQ9haNmyKqIs1XQ2g==
   dependencies:
     "@xmldom/xmldom" "^0.9.6"
     dom-serializer "^2.0.0"
@@ -1180,10 +1180,10 @@
     url "^0.11.0"
     xss "^1.0.9"
 
-"@ecency/sdk@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.0.3.tgz#1dc02f8088214e473f297b0d8bdc83ebbe1350cd"
-  integrity sha512-H4cJTxlTOaumAtFJ8wJlKT67pK59duQhdXTIckOuvEoNCbATw5+v+OX4JKkK8mzX28RLMC3n4Sn2TCaIFRtyHg==
+"@ecency/sdk@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.0.4.tgz#e5b7d6c6efa987bb3e63268134c8f3fcc4f7baba"
+  integrity sha512-/wKVLYYLYFVfL7oimGS5/qmPih6i3rAbQ8S3byhhfWBthCtPeqtqtdbeGq3Gv6T2KvJWB+aE0gGT8FEba5S6pQ==
 
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"

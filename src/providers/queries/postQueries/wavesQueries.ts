@@ -113,11 +113,36 @@ export const useWavesQuery = (host: string) => {
     // check cache is recently updated and take post path
     if (lastCacheUpdate) {
       const _timeElapsed = new Date().getTime() - lastCacheUpdate.updatedAt;
-      if (lastCacheUpdate.type === 'vote' && _timeElapsed < 5000) {
-        _injectPostCache(lastCacheUpdate.postPath);
+      if (_timeElapsed < 5000) {
+        if (lastCacheUpdate.type === 'vote') {
+          _injectPostCache(lastCacheUpdate.postPath);
+        } else if (lastCacheUpdate.type === 'comment') {
+          _injectCommentCache(lastCacheUpdate.postPath);
+        }
       }
     }
   }, [lastCacheUpdate]);
+
+  const _injectCommentCache = (commentPath: string) => {
+    const _cachedComment = cache.commentsCollection?.[commentPath];
+    if (!_cachedComment) {
+      return;
+    }
+
+    // find parent wave's container by checking if the parent is a known wave
+    const parentPath = `${_cachedComment.parent_author}/${_cachedComment.parent_permlink}`;
+    const _containerPermlink = wavesIndexCollection.current[parentPath];
+
+    if (_containerPermlink) {
+      const _containerIndex = activePermlinks.indexOf(_containerPermlink);
+      if (_containerIndex >= 0) {
+        // invalidate the specific wave container query to re-fetch with new reply
+        queryClient.invalidateQueries({
+          queryKey: [QUERIES.WAVES.GET, host, _containerPermlink, _containerIndex],
+        });
+      }
+    }
+  };
 
   const _injectPostCache = async (postPath: string) => {
     // using post path get index of query key where that post exists
