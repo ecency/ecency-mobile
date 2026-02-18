@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "আপনার ডিভাইসের সময়;",
       "information": "আমরা লক্ষ্য করেছি যে আপনার ডিভাইসের সঠিক তারিখ বা সময় রয়েছে। দয়া করে তারিখ ও সময় ঠিক করুন বা স্বয়ংক্রিয়ভাবে সেট করুন এবং আবার চেষ্টা করুন।",
-      "current_time": "বর্তমান সময়:"
+      "current_time": "বর্তমান সময়:",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
