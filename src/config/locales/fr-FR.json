@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Heure de votre appareil;",
       "information": "Nous avons remarqué que votre appareil a une date ou une heure incorrectes. Veuillez corriger la date et l'heure ou définir automatiquement puis réessayer.",
-      "current_time": "Heure actuelle;"
+      "current_time": "Heure actuelle;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
