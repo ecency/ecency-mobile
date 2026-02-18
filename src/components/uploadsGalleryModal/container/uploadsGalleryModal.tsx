@@ -252,7 +252,7 @@ export const UploadsGalleryModal = forwardRef(
           throw new Error('New media items returned');
         }
 
-        // filter out oversized images (server limit is 8MB)
+        // filter out oversized images (server limit is 30MB)
         const oversized = media.filter((item) => item.size && item.size > MAX_IMAGE_UPLOAD_SIZE);
         if (oversized.length > 0) {
           media = media.filter((item) => !item.size || item.size <= MAX_IMAGE_UPLOAD_SIZE);
