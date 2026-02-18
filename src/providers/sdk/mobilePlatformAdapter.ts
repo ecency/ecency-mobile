@@ -72,7 +72,17 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
     getLoginType: async (username: string) => {
       const local = _getAccountLocal(username);
       if (!local?.authType) return null;
-      return mapAuthTypeToLoginType(local.authType);
+
+      const mapped = mapAuthTypeToLoginType(local.authType);
+
+      // For key-based logins, check if user actually has a posting key stored.
+      // Active-key-only users don't have posting key — they should use
+      // HiveSigner access token for posting operations instead.
+      if (mapped === 'key' && !local.postingKey && local.accessToken) {
+        return 'hivesigner';
+      }
+
+      return mapped;
     },
 
     hasPostingAuthorization: async (username: string) => {

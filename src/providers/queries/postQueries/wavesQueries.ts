@@ -436,7 +436,7 @@ export const useDeleteWaveMutation = (
       },
       get loginType() {
         const auth = getAuthCredentials();
-        return auth?.loginType || 'privateKey';
+        return auth?.loginType || 'key';
       },
     },
   );

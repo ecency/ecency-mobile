@@ -193,6 +193,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
       console.log(`casting up vote: ${weight}`);
       _updateVoteCache(_author, _permlink, amount, false, CacheStatus.PENDING);
 
+      voteMutation.reset();
       voteMutation
         .mutateAsync({
           author: _author,
@@ -266,6 +267,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
       console.log(`casting down vote: ${weight}`);
       _updateVoteCache(_author, _permlink, amount, true, CacheStatus.PENDING);
 
+      voteMutation.reset();
       voteMutation
         .mutateAsync({
           author: _author,

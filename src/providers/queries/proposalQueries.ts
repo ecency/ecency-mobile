@@ -123,7 +123,7 @@ export const useProposalVoteMutation = () => {
           const client = await getClient();
           return client.broadcast.sendOperations(operations, privateKey);
         },
-        loginType: 'privateKey' as const,
+        loginType: 'key' as const,
       };
 
   const broadcastMutation = useBroadcastMutation<{ proposalId: number }>(

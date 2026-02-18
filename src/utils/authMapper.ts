@@ -2,12 +2,10 @@ import AUTH_TYPE from '../constants/authType';
 
 /**
  * Maps mobile authType to SDK LoginType
- * SDK expects: "hivesigner" | "keychain" | "hiveauth" | "privateKey"
+ * SDK expects: "hivesigner" | "keychain" | "hiveauth" | "key"
  * Mobile uses: 'steemConnect', 'hiveAuth', 'masterKey', 'activeKey', 'postingKey', etc.
  */
-export const mapAuthTypeToLoginType = (
-  authType: string,
-): 'hivesigner' | 'hiveauth' | 'privateKey' => {
+export const mapAuthTypeToLoginType = (authType: string): 'hivesigner' | 'hiveauth' | 'key' => {
   switch (authType) {
     case AUTH_TYPE.STEEM_CONNECT:
       return 'hivesigner';
@@ -18,9 +16,9 @@ export const mapAuthTypeToLoginType = (
     case AUTH_TYPE.MEMO_KEY:
     case AUTH_TYPE.POSTING_KEY:
     case AUTH_TYPE.OWNER_KEY:
-      return 'privateKey';
+      return 'key';
     default:
-      console.warn(`[AuthMapper] Unknown authType: ${authType}, defaulting to privateKey`);
-      return 'privateKey';
+      console.warn(`[AuthMapper] Unknown authType: ${authType}, defaulting to key`);
+      return 'key';
   }
 };
