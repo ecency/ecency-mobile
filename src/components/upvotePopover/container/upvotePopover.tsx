@@ -179,69 +179,77 @@ const UpvotePopover = forwardRef(({}, ref) => {
     }
 
     if (!isDownVoted) {
-      isVotingRef.current = true;
       const _onVotingStart = onVotingStartRef.current;
-      _closePopover();
-      _onVotingStart ? _onVotingStart(sliderValue) : null;
+      isVotingRef.current = true;
 
-      _setUpvotePercent(sliderValue);
+      try {
+        _closePopover();
+        _onVotingStart ? _onVotingStart(sliderValue) : null;
 
-      const weight = sliderValue ? Math.trunc(sliderValue * 100) * 100 : 0;
-      const _author = content?.author;
-      const _permlink = content?.permlink;
+        _setUpvotePercent(sliderValue);
 
-      console.log(`casting up vote: ${weight}`);
-      _updateVoteCache(_author, _permlink, amount, false, CacheStatus.PENDING);
+        const weight = sliderValue ? Math.trunc(sliderValue * 100) * 100 : 0;
+        const _author = content?.author;
+        const _permlink = content?.permlink;
 
-      voteMutation.reset();
-      voteMutation
-        .mutateAsync({
+        console.log(`casting up vote: ${weight}`);
+        _updateVoteCache(_author, _permlink, amount, false, CacheStatus.PENDING);
+
+        voteMutation.reset();
+        await voteMutation.mutateAsync({
           author: _author,
           permlink: _permlink,
           weight,
           estimated: parseFloat(amount),
-        })
-        .then(() => {
-          setIsVoted(!!sliderValue);
-          _updateVoteCache(
-            _author,
-            _permlink,
-            amount,
-            false,
-            sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED,
-          );
-        })
-        .catch((err) => {
-          _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
-          _onVotingStart ? _onVotingStart(0) : null;
-          if (
-            err &&
-            err.response &&
-            err.response.jse_shortmsg &&
-            err.response.jse_shortmsg.includes('wait to transact')
-          ) {
-            setIsVoted(false);
-            dispatch(setRcOffer(true));
-          } else if (err && err.jse_shortmsg && err.jse_shortmsg.includes('wait to transact')) {
-            setIsVoted(false);
-            dispatch(setRcOffer(true));
-          } else {
-            let errMsg = '';
-            if (err.message && err.message.indexOf(':') > 0) {
-              [, errMsg] = err.message.split(': ');
-            } else {
-              errMsg = err.jse_shortmsg || err.error_description || err.message;
-            }
-            dispatch(
-              toastNotification(
-                intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: errMsg }),
-              ),
-            );
-          }
-        })
-        .finally(() => {
-          isVotingRef.current = false;
         });
+
+        setIsVoted(!!sliderValue);
+        _updateVoteCache(
+          _author,
+          _permlink,
+          amount,
+          false,
+          sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED,
+        );
+      } catch (err) {
+        const _author = content?.author;
+        const _permlink = content?.permlink;
+
+        const _error = err as any;
+
+        _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
+        _onVotingStart ? _onVotingStart(0) : null;
+        if (
+          _error &&
+          _error.response &&
+          _error.response.jse_shortmsg &&
+          _error.response.jse_shortmsg.includes('wait to transact')
+        ) {
+          setIsVoted(false);
+          dispatch(setRcOffer(true));
+        } else if (
+          _error &&
+          _error.jse_shortmsg &&
+          _error.jse_shortmsg.includes('wait to transact')
+        ) {
+          setIsVoted(false);
+          dispatch(setRcOffer(true));
+        } else {
+          let errMsg = '';
+          if (_error?.message && _error.message.indexOf(':') > 0) {
+            [, errMsg] = _error.message.split(': ');
+          } else {
+            errMsg = _error?.jse_shortmsg || _error?.error_description || _error?.message;
+          }
+          dispatch(
+            toastNotification(
+              intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: errMsg }),
+            ),
+          );
+        }
+      } finally {
+        isVotingRef.current = false;
+      }
     } else {
       setIsDownVoted(false);
     }
@@ -255,49 +263,52 @@ const UpvotePopover = forwardRef(({}, ref) => {
     const _onVotingStart = onVotingStartRef.current;
     if (isDownVoted) {
       isVotingRef.current = true;
-      _closePopover();
-      _onVotingStart ? _onVotingStart(-sliderValue) : null;
 
-      _setUpvotePercent(sliderValue);
+      try {
+        _closePopover();
+        _onVotingStart ? _onVotingStart(-sliderValue) : null;
 
-      const weight = sliderValue ? Math.trunc(sliderValue * 100) * -100 : 0;
-      const _author = content?.author;
-      const _permlink = content?.permlink;
+        _setUpvotePercent(sliderValue);
 
-      console.log(`casting down vote: ${weight}`);
-      _updateVoteCache(_author, _permlink, amount, true, CacheStatus.PENDING);
+        const weight = sliderValue ? Math.trunc(sliderValue * 100) * -100 : 0;
+        const _author = content?.author;
+        const _permlink = content?.permlink;
 
-      voteMutation.reset();
-      voteMutation
-        .mutateAsync({
+        console.log(`casting down vote: ${weight}`);
+        _updateVoteCache(_author, _permlink, amount, true, CacheStatus.PENDING);
+
+        voteMutation.reset();
+        await voteMutation.mutateAsync({
           author: _author,
           permlink: _permlink,
           weight,
           estimated: parseFloat(amount),
-        })
-        .then(() => {
-          setIsDownVoted(!!sliderValue);
-          _updateVoteCache(
-            _author,
-            _permlink,
-            amount,
-            true,
-            sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED,
-          );
-        })
-        .catch((err) => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: err.message }),
-            ),
-          );
-          _updateVoteCache(_author, _permlink, amount, true, CacheStatus.FAILED);
-          setIsDownVoted(false);
-          _onVotingStart ? _onVotingStart(0) : null;
-        })
-        .finally(() => {
-          isVotingRef.current = false;
         });
+
+        setIsDownVoted(!!sliderValue);
+        _updateVoteCache(
+          _author,
+          _permlink,
+          amount,
+          true,
+          sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED,
+        );
+      } catch (err) {
+        const _author = content?.author;
+        const _permlink = content?.permlink;
+        const _error = err as any;
+
+        dispatch(
+          toastNotification(
+            intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: _error?.message }),
+          ),
+        );
+        _updateVoteCache(_author, _permlink, amount, true, CacheStatus.FAILED);
+        setIsDownVoted(false);
+        _onVotingStart ? _onVotingStart(0) : null;
+      } finally {
+        isVotingRef.current = false;
+      }
     } else {
       setIsDownVoted(true);
     }
