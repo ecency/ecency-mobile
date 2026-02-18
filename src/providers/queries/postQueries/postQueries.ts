@@ -1,7 +1,6 @@
 import { renderPostBody } from '@ecency/render-helper';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-import { Platform } from 'react-native';
 import { isArray } from 'lodash';
 import { getPostQueryOptions, getDiscussionsQueryOptions, getBotsQueryOptions } from '@ecency/sdk';
 import { useAppSelector } from '../../../hooks';
@@ -40,11 +39,7 @@ export const useGetPostQuery = ({
 
     return {
       ...initialPost,
-      body: renderPostBody(
-        { ...initialPost, last_update: initialPost.updated },
-        true,
-        Platform.OS !== 'ios',
-      ),
+      body: renderPostBody({ ...initialPost, last_update: initialPost.updated }, true, false),
     };
   }, [initialPost]);
 
@@ -113,7 +108,7 @@ export const usePostsCachePrimer = () => {
     console.log('priming data', post.author, post.permlink, post);
     const processedPost = {
       ...post,
-      body: renderPostBody({ ...post, last_update: post.updated }, true, Platform.OS !== 'ios'),
+      body: renderPostBody({ ...post, last_update: post.updated }, true, false),
     };
 
     // IMPORTANT: Use same observer derivation as useGetPostQuery to ensure cache key matches

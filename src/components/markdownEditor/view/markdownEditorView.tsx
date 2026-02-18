@@ -91,8 +91,7 @@ const MarkdownEditorView = ({
   const headerText = post && (post.summary || postBodySummary(post, 150, Platform.OS));
 
   const _bodyHtmlForPreview = useMemo(
-    () =>
-      isPreviewActive && renderPostBody(bodyTextRef.current || '...', true, Platform.OS !== 'ios'),
+    () => isPreviewActive && renderPostBody(bodyTextRef.current || '...', true, false),
     [bodyTextRef.current, isPreviewActive],
   );
 

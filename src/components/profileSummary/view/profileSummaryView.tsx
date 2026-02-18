@@ -1,13 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
-  Linking,
-  Alert,
-  Platform,
-} from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, Linking, Alert } from 'react-native';
 import get from 'lodash/get';
 
 // Constants
@@ -139,12 +131,7 @@ class ProfileSummaryView extends PureComponent {
     const followButtonText = intl.formatMessage({
       id: !isFollowing ? 'user.follow' : 'user.unfollow',
     });
-    let coverImageUrl = proxifyImageSrc(
-      coverImage,
-      360,
-      240,
-      Platform.OS !== 'ios' ? 'webp' : 'match',
-    );
+    let coverImageUrl = proxifyImageSrc(coverImage, 360, 240, 'match');
 
     if (!coverImageUrl) {
       coverImageUrl = isDarkTheme
