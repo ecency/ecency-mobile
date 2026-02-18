@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "D time wey ur fone dey talk;",
       "information": "We observe say ur fone date and time no be confam. Biko make d date and time confam or make computer do am for u den try for once.",
-      "current_time": "D time for now;"
+      "current_time": "D time for now;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
