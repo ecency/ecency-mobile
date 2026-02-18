@@ -32,8 +32,6 @@ import {
   shouldPromptPostingAuthority,
 } from '../../../providers/hive/dhive';
 import { decryptKey } from '../../../utils/crypto';
-import { refreshSCToken } from '../../../providers/hive/auth';
-import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -628,30 +626,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
 
         const username = currentAccount.name;
-        const digitPin = getDigitPinCode(pinCode);
-
-        // Try to refresh HiveSigner token before draft save to avoid error 76
-        let accessToken = '';
-        try {
-          if (currentAccount?.local?.accessToken) {
-            const encryptedToken = await refreshSCToken(currentAccount.local, digitPin);
-            accessToken = decryptKey(encryptedToken, digitPin) || '';
-            // Update Redux so subsequent operations use the refreshed token
-            if (encryptedToken !== currentAccount.local.accessToken) {
-              dispatch(
-                updateCurrentAccount({
-                  ...currentAccount,
-                  local: { ...currentAccount.local, accessToken: encryptedToken },
-                }),
-              );
-            }
-          }
-        } catch (err) {
-          console.warn('Token refresh failed, using existing token', err);
-          accessToken = currentAccount?.local?.accessToken
-            ? decryptKey(currentAccount.local.accessToken, digitPin) || ''
-            : '';
-        }
+        const accessToken = currentAccount?.local?.accessToken
+          ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+          : '';
 
         // If no access token, skip remote save (local cache already updated)
         if (!accessToken) {
