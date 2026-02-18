@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Jūsų prietaiso laikas;",
       "information": "Mes pastebėjome, kad jūsų prietaisas blogai rodo datą arba laiką. Prašome sutvarkykite datą ir laiką arba nustaykite automatiškai ir bandykite vėl.",
-      "current_time": "Esamas laikas;"
+      "current_time": "Esamas laikas;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
