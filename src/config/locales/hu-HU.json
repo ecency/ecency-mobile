@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Készüléked ideje;",
       "information": "Észrevettük, hogy a készülékeden a dátum vagy az idő hibás. Javítsd ki a dátumot és az időt, vagy válaszd az automatikus beállítást és próbáld újra.",
-      "current_time": "Aktuális idő;"
+      "current_time": "Aktuális idő;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
