@@ -87,6 +87,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
 
   const onVotingStartRef = useRef<any>(null);
   const sourceRef = useRef<any>(null);
+  const isVotingRef = useRef(false);
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const postUpvotePercent = useAppSelector(selectPostUpvotePercent);
@@ -180,7 +181,12 @@ const UpvotePopover = forwardRef(({}, ref) => {
   };
 
   const _upvoteContent = async () => {
+    if (isVotingRef.current) {
+      return;
+    }
+
     if (!isDownVoted) {
+      isVotingRef.current = true;
       const _onVotingStart = onVotingStartRef.current; // keeping a reference of call to avoid mismatch in case back to back voting
       _closePopover();
       _onVotingStart ? _onVotingStart(sliderValue) : null;
@@ -273,6 +279,9 @@ const UpvotePopover = forwardRef(({}, ref) => {
               ),
             );
           }
+        })
+        .finally(() => {
+          isVotingRef.current = false;
         });
     } else {
       setIsDownVoted(false);
@@ -280,8 +289,13 @@ const UpvotePopover = forwardRef(({}, ref) => {
   };
 
   const _downvoteContent = async () => {
+    if (isVotingRef.current) {
+      return;
+    }
+
     const _onVotingStart = onVotingStartRef.current; // keeping a reference of call to avoid mismatch in case back to back voting
     if (isDownVoted) {
+      isVotingRef.current = true;
       _closePopover();
       _onVotingStart ? _onVotingStart(-sliderValue) : null;
 
@@ -332,8 +346,11 @@ const UpvotePopover = forwardRef(({}, ref) => {
             ),
           );
           _updateVoteCache(_author, _permlink, amount, true, CacheStatus.FAILED);
-          setIsVoted(false);
+          setIsDownVoted(false);
           _onVotingStart ? _onVotingStart(0) : null;
+        })
+        .finally(() => {
+          isVotingRef.current = false;
         });
     } else {
       setIsDownVoted(true);

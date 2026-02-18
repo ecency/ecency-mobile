@@ -31,6 +31,13 @@ export enum Modes {
   MODE_VIDEO = 1,
 }
 
+const MAX_IMAGE_UPLOAD_SIZE = 30000000; // 30MB server limit
+const IMAGE_COMPRESS_OPTIONS = {
+  compressImageMaxWidth: 1920,
+  compressImageMaxHeight: 1920,
+  compressImageQuality: 0.85,
+};
+
 export enum MediaInsertStatus {
   UPLOADING = 'UPLOADING',
   READY = 'READY',
@@ -189,6 +196,7 @@ export const UploadsGalleryModal = forwardRef(
             multiple: allowMultiple || true,
             mediaType: 'photo',
             smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
+            ...IMAGE_COMPRESS_OPTIONS,
           };
 
       ImagePicker.openPicker(_options)
@@ -222,6 +230,7 @@ export const UploadsGalleryModal = forwardRef(
         : {
             includeBase64: true,
             mediaType: 'photo',
+            ...IMAGE_COMPRESS_OPTIONS,
           };
 
       ImagePicker.openCamera(_options)
@@ -243,12 +252,25 @@ export const UploadsGalleryModal = forwardRef(
           throw new Error('New media items returned');
         }
 
+        // filter out oversized images (server limit is 8MB)
+        const oversized = media.filter((item) => item.size && item.size > MAX_IMAGE_UPLOAD_SIZE);
+        if (oversized.length > 0) {
+          media = media.filter((item) => !item.size || item.size <= MAX_IMAGE_UPLOAD_SIZE);
+          Alert.alert(
+            intl.formatMessage({ id: 'alert.fail' }),
+            intl.formatMessage({ id: 'alert.payloadTooLarge' }),
+          );
+          if (media.length === 0) {
+            return;
+          }
+        }
+
         // post process heic to jpg media items
         for (let i = 0; i < media.length; i++) {
           const element = media[i];
           if (element.mime === 'image/heic') {
             // eslint-disable-next-line no-await-in-loop
-            const res = await RNHeicConverter.convert({ path: element.sourceURL }); // default with quality = 1 & jpg extension
+            const res = await RNHeicConverter.convert({ path: element.sourceURL });
             if (res && res.path) {
               element.mime = 'image/jpeg';
               element.path = res.path;
