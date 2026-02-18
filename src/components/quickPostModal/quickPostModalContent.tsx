@@ -494,7 +494,12 @@ export const QuickPostModalContent = forwardRef(
             text={intl.formatMessage({
               id: _titleId,
             })}
-            isDisable={isUploading || bodyLengthExceeded || !canCommentToCommunity}
+            isDisable={
+              isUploading ||
+              bodyLengthExceeded ||
+              !canCommentToCommunity ||
+              postSubmitter.isSubmitting
+            }
             isLoading={postSubmitter.isSubmitting}
           />
         </View>
