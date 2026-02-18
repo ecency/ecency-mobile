@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "あなたのデバイス時刻;",
       "information": "あなたのデバイスは時刻が正しくありません。時刻の修正をするか、自動設定に変更してから再度お試し下さい。",
-      "current_time": "現在の時刻;"
+      "current_time": "現在の時刻;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
