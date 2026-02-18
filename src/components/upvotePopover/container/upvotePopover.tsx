@@ -61,7 +61,6 @@ import { useUserActivityMutation } from '../../../providers/queries';
 import { PayoutDetailsContent } from '../children/payoutDetailsContent';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import showLoginAlert from '../../../utils/showLoginAlert';
-import { delay } from '../../../utils/editor';
 
 interface PopoverOptions {
   sourceRef: Ref<any>;
@@ -186,8 +185,6 @@ const UpvotePopover = forwardRef(({}, ref) => {
       _closePopover();
       _onVotingStart ? _onVotingStart(sliderValue) : null;
 
-      await delay(300);
-
       _setUpvotePercent(sliderValue);
 
       const weight = sliderValue ? Math.trunc(sliderValue * 100) * 100 : 0;
@@ -288,8 +285,6 @@ const UpvotePopover = forwardRef(({}, ref) => {
       _closePopover();
       _onVotingStart ? _onVotingStart(-sliderValue) : null;
 
-      await delay(300);
-
       _setUpvotePercent(sliderValue);
 
       const weight = sliderValue ? Math.trunc(sliderValue * 100) * -100 : 0;
@@ -306,7 +301,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
             pointsTy: PointActivityIds.VOTE,
             transactionId: response.id,
           });
-          setIsVoted(!!sliderValue);
+          setIsDownVoted(!!sliderValue);
           _updateVoteCache(
             _author,
             _permlink,

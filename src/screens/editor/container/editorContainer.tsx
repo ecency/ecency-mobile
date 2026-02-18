@@ -605,12 +605,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         const videos: any = {};
         const videosCache: any = queryClient.getQueryData([QUERIES.MEDIA.GET_VIDEOS]);
 
-        speakIds.forEach((_id) => {
-          const videoItem = videosCache.find((item) => item._id === _id);
-          if (videoItem?.speakData) {
-            videos[_id] = videoItem.speakData;
-          }
-        });
+        if (videosCache) {
+          speakIds.forEach((_id) => {
+            const videoItem = videosCache.find((item) => item._id === _id);
+            if (videoItem?.speakData) {
+              videos[_id] = videoItem.speakData;
+            }
+          });
+        }
 
         const meta = Object.assign({}, _extractedMeta, {
           tags: draftField.tags,
@@ -635,6 +637,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
               isDraftSaving: false,
             });
           }
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'editor.draft_save_fail',
+              }),
+            ),
+          );
           return;
         }
 
@@ -1032,7 +1041,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
                   key: get(currentAccount, 'name'),
                 },
               );
-            }, 3000);
+            }, 500);
           })
           .catch((error) => {
             this._handleSubmitFailure(error);
