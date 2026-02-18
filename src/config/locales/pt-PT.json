@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Tempo do seu dispositivo;",
       "information": "Notamos que seu dispositivo tem data ou hora incorretas. Por favor, corrija a data e hora ou defina automaticamente e tente novamente.",
-      "current_time": "Tempo atual;"
+      "current_time": "Tempo atual;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
