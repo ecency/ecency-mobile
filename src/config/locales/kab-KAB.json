@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Your device time;",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.",
-      "current_time": "Akud amiran;"
+      "current_time": "Akud amiran;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
