@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Orario del tuo dispositivo;",
       "information": "Abbiamo notato che il tuo dispositivo ha la data o l'orario errati. Correggi data e ora o imposta la sincronizzazione automatica e riprova.",
-      "current_time": "Ora corrente;"
+      "current_time": "Ora corrente;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
