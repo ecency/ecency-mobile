@@ -670,7 +670,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         else if (draftField) {
           const { title, body, tags } = draftField;
           const response = await addDraft(accessToken, title, body, tags, jsonMeta);
-          const _resDraft = response?.drafts?.[0] || null;
+          const _resDraft =
+            response?.drafts?.[0] || // array wrapper format
+            response?.[0] || // direct array format
+            (response?._id ? response : null); // single object format
 
           if (!_resDraft) {
             throw new Error('newly saved draft not returned in response');
@@ -1067,8 +1070,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
 
     if (currentAccount) {
-      // Set flag BEFORE the authority check to prevent race conditions
+      // Set both flags immediately to prevent race conditions and show spinner
       this._isSubmitting = true;
+      this.setState({ isPostSending: true });
 
       // Check if we should prompt for posting authority (HiveAuth users without authority)
       if (shouldPromptPostingAuthority(currentAccount)) {

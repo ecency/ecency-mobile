@@ -231,7 +231,7 @@ const getSheetDeps = async () => {
  */
 const _activeFallbacks = new Set<string>();
 
-const handleHiveAuthFallback = async (
+export const handleHiveAuthFallback = async (
   currentAccount: any,
   operations: Operation[],
   operationName: string,
