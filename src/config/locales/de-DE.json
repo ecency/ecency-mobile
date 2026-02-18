@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Lokale Gerätezeit;",
       "information": "Wir haben festgestellt, dass Dein Gerät ein falsches Datum oder eine falsche Zeit hat. Bitte korrigiere Datum & Zeit oder setze sie auf \"automatisch ermitteln\" und versuche es erneut.",
-      "current_time": "Aktuelle Zeit;"
+      "current_time": "Aktuelle Zeit;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
