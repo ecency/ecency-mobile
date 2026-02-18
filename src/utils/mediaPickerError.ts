@@ -10,12 +10,16 @@ export const isMediaPickerCancellation = (error: any): boolean => {
   const code = String(error?.code || '').toUpperCase();
   const message = String(error?.message ?? error ?? '').toLowerCase();
 
-  return (
-    code === 'E_PICKER_CANCELLED' ||
-    code === 'E_PICKER_CANCELLED_KEY' ||
-    message.includes('cancelled') ||
-    message.includes('canceled')
-  );
+  if (code === 'E_PICKER_CANCELLED' || code === 'E_PICKER_CANCELLED_KEY') {
+    return true;
+  }
+
+  // Only use message fallback when no machine-readable error code is present.
+  if (code) {
+    return false;
+  }
+
+  return /\b(user\s+)?cancel(?:led|ed)\b/.test(message);
 };
 
 export const reportMediaPickerError = (error: any, context: MediaPickerErrorContext) => {

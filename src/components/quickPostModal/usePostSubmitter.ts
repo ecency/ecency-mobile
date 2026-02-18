@@ -240,7 +240,13 @@ export const usePostSubmitter = () => {
 
       return _cacheCommentData;
     } catch (err) {
-      Alert.alert('Fail', err.message);
+      const errorMessage =
+        typeof err === 'string'
+          ? err
+          : err && typeof err === 'object' && 'message' in err
+          ? String((err as any).message || 'Unknown error')
+          : String(err || 'Unknown error');
+      Alert.alert('Fail', errorMessage);
       return false;
     } finally {
       setIsSubmitting(false);
