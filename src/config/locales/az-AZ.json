@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Cihaz vaxtınız;",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.",
-      "current_time": "Hazırkı vaxt;"
+      "current_time": "Hazırkı vaxt;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
