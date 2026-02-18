@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Dema amûra te;",
       "information": "Me ferq kir ku dem û dîroka amûra te çewt e. Ji kerema xwe Dem û Dîrokê sererast bike an jî Sazkirina Otomatîkî dîsa biceribîne.",
-      "current_time": "Dema niha;"
+      "current_time": "Dema niha;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
