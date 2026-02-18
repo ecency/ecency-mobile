@@ -1,6 +1,5 @@
 import { Alert } from 'react-native';
 import { QueryClient } from '@tanstack/react-query';
-import { getAccountFullQueryOptions } from '@ecency/sdk';
 import type { PlatformAdapter } from '@ecency/sdk';
 import type { Operation, TransactionConfirmation } from '@hiveio/dhive';
 
@@ -10,7 +9,6 @@ import {
   getDigitPinCode,
   getPostingKey,
   getActiveKey,
-  hasEcencyPostingAuthority,
   handleHiveAuthFallback,
 } from '../hive/dhive';
 import { decryptKey } from '../../utils/crypto';
@@ -85,10 +83,20 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       return mapped;
     },
 
-    hasPostingAuthorization: async (username: string) => {
-      const { queryKey } = getAccountFullQueryOptions(username);
-      const accountData = queryClient.getQueryData(queryKey);
-      return hasEcencyPostingAuthority(accountData);
+    hasPostingAuthorization: async (_username: string) => {
+      // NOTE:
+      // The SDK token-first optimization for key/hiveauth users depends on
+      // hasPostingAuthorization() and then attempts HiveSigner first.
+      //
+      // In mobile, token-based responses can come back as generic 401/403 errors
+      // that are not always classified as "auth fallback" by the SDK parser yet.
+      // When that happens, fallback to key/HiveAuth is skipped and voting can
+      // get stuck after a successful initial vote.
+      //
+      // Until SDK fallback classification matches legacy mobile behavior for
+      // unauthorized responses, keep this optimization disabled on mobile so
+      // key-based users sign with keys and HiveAuth users use HiveAuth directly.
+      return false;
     },
 
     broadcastWithHiveAuth: async (
