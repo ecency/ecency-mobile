@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "사용자 기기 시간",
       "information": "사용자 기기의 날짜 또는 시간이 정확하지 않습니다. 날짜 및 시간을 수정하거나 자동으로 설정 후 다시 시도해보세요.",
-      "current_time": "현재 시간"
+      "current_time": "현재 시간",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
