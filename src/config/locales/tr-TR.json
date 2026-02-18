@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Cihazınızın zamanı;",
       "information": "Cihazınızın hatalı tarih ve saatini fark ettik. Lütfen Tarih & Saat'i düzeltin veya Otomatik Ayarlayın ve tekrar deneyin.",
-      "current_time": "Şu anki zaman;"
+      "current_time": "Şu anki zaman;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
