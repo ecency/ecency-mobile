@@ -100,8 +100,7 @@ const PostCardContentComponent = ({ content, isHideImage, nsfw, handleCardIntera
   const isGif = useMemo(() => /\.gif$/i.test(original), [original]);
   const imageUri = useMemo(() => {
     if (isGif) {
-      // use webp to preserve animation while still serving through proxy
-      return proxifyImageSrc(original, Math.round(imgWidth), 0, 'webp');
+      return proxifyImageSrc(original, Math.round(imgWidth), 0, 'match');
     }
     return images.image;
   }, [isGif, original, images.image, imgWidth]);

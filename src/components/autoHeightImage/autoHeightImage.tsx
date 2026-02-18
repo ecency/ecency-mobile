@@ -56,15 +56,7 @@ export const AutoHeightImage = ({
 
         // make sure ratio is of the target image proxified source
         if (url && Number.isFinite(_ratio) && _ratio !== 0) {
-          const poxifiedUrl = proxifyImageSrc(
-            url,
-            undefined,
-            undefined,
-            Platform.select({
-              ios: 'match',
-              android: 'webp',
-            }),
-          );
+          const poxifiedUrl = proxifyImageSrc(url, undefined, undefined, 'match');
 
           if (imgUrl === poxifiedUrl) {
             _height = contentWidth / _ratio;

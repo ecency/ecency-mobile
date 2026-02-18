@@ -44,8 +44,7 @@ export const MediaPreviewItem = ({
     }
   }, [isViewable]);
 
-  const thumbUrl =
-    item.thumbUrl || proxifyImageSrc(item.url, 200, 200, Platform.OS === 'ios' ? 'match' : 'webp');
+  const thumbUrl = item.thumbUrl || proxifyImageSrc(item.url, 200, 200, 'match');
 
   let isInsertedTimes = 0;
   insertedMediaUrls?.forEach((url) => {

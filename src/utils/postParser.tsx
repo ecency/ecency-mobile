@@ -10,8 +10,6 @@ import { parseReputation } from './user';
 import { CacheStatus } from '../redux/reducers/cacheReducer';
 import { calculateVoteReward } from './vote';
 
-const webp = Platform.OS !== 'ios';
-
 export const parsePost = (
   post,
   currentUserName,
@@ -40,8 +38,8 @@ export const parsePost = (
   post = parseTags(post);
 
   // extract cover image and thumbnail from post body
-  post.image = catchPostImage(post, 600, 500, webp ? 'webp' : 'match');
-  post.thumbnail = catchPostImage(post, 10, 7, webp ? 'webp' : 'match');
+  post.image = catchPostImage(post, 600, 500, 'match');
+  post.thumbnail = catchPostImage(post, 10, 7, 'match');
 
   // find and inject thumbnail ratio
   if (post.json_metadata.image_ratios) {
@@ -62,7 +60,7 @@ export const parsePost = (
   post.author_reputation = parseReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
   if (!isList) {
-    post.body = renderPostBody({ ...post, last_update: post.updated }, true, webp);
+    post.body = renderPostBody({ ...post, last_update: post.updated }, true, false);
   }
   // Use description from json_metadata if available, otherwise generate summary from body
   post.summary = post.json_metadata?.description || postBodySummary(post, 150, Platform.OS);
@@ -222,7 +220,7 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
   comment.author_reputation = parseReputation(get(comment, 'author_reputation'));
   comment.avatar = getResizedAvatar(get(comment, 'author'));
   comment.markdownBody = get(comment, 'body');
-  comment.body = renderPostBody({ ...comment, last_update: comment.updated }, true, webp);
+  comment.body = renderPostBody({ ...comment, last_update: comment.updated }, true, false);
 
   // parse json meta;
   if (typeof comment.json_metadata === 'string' || comment.json_metadata instanceof String) {

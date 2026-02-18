@@ -2,11 +2,8 @@ import CryptoJS from 'crypto-js';
 import * as dsteem from '@esteemapp/dhive';
 import { Buffer } from 'buffer';
 import { proxifyImageSrc } from '@ecency/render-helper';
-import { Platform } from 'react-native';
 
-const whatOs = Platform.OS;
-const BASE_IMAGE_URL =
-  whatOs === 'android' ? 'https://images.ecency.com/webp' : 'https://images.ecency.com';
+const BASE_IMAGE_URL = 'https://images.ecency.com';
 
 export const generateSignature = (media, privateKey) => {
   const STRING = 'ImageSigningChallenge';
@@ -27,7 +24,6 @@ export const generateSignature = (media, privateKey) => {
 export const catchEntryImage = (entry, width = 0, height = 0, format = 'match') => {
   // return from json metadata if exists
   let meta;
-  format = whatOs === 'android' ? 'webp' : 'match';
 
   try {
     meta = JSON.parse(entry.json_metadata);
@@ -67,7 +63,6 @@ export const catchEntryImage = (entry, width = 0, height = 0, format = 'match') 
 
 export const catchDraftImage = (body, format = 'match', thumbnail = false) => {
   const imgRegex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|heic|webp))/gim;
-  format = whatOs === 'android' ? 'webp' : 'match';
 
   if (body && imgRegex.test(body)) {
     const imageMatch = body.match(imgRegex);
@@ -81,8 +76,6 @@ export const catchDraftImage = (body, format = 'match', thumbnail = false) => {
 
 // get the image from meta data
 export const catchImageFromMetadata = (meta, format = 'match', thumbnail = false) => {
-  format = whatOs === 'android' ? 'webp' : 'match';
-
   if (meta && meta.image) {
     const images = meta.image;
     // console.log('images : ',images);
@@ -97,7 +90,6 @@ export const catchImageFromMetadata = (meta, format = 'match', thumbnail = false
 
 export const getResizedImage = (url, size = 600, format = 'match') => {
   // TODO: implement fallback onError, for imagehoster is down case
-  format = whatOs === 'android' ? 'webp' : 'match';
   if (!url) {
     return '';
   }
