@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Laitteen aika;",
       "information": "Ilmeisesti laitteessasi on väärä aika tai päivämäärä. Korjaa tai aseta automaattiseksi ja yritä uudelleen.",
-      "current_time": "Nykyinen aika;"
+      "current_time": "Nykyinen aika;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
