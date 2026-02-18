@@ -15,8 +15,7 @@ import Popover from 'react-native-popover-view';
 import Slider from '@esteemapp/react-native-slider';
 import { useIntl } from 'react-intl';
 import { Placement } from 'react-native-popover-view/dist/Types';
-import { useQueryClient } from '@tanstack/react-query';
-import { getDiscussionsQueryOptions } from '@ecency/sdk';
+import { useVote } from '@ecency/sdk';
 import {
   setCommentUpvotePercent,
   setPostUpvotePercent,
@@ -39,7 +38,6 @@ import {
   selectPostUpvotePercent,
   selectCommentUpvotePercent,
   selectWaveUpvotePercent,
-  selectPin,
   selectCurrentAccount,
   selectGlobalProps,
 } from '../../../redux/selectors';
@@ -49,15 +47,11 @@ import { Icon } from '../../icon';
 
 // Services
 import { setRcOffer, toastNotification } from '../../../redux/actions/uiAction';
-
-// STEEM
-import { vote } from '../../../providers/hive/dhive';
+import { useAuthContext } from '../../../providers/sdk';
 
 // Styles
 import styles from '../children/upvoteStyles';
 
-import { PointActivityIds } from '../../../providers/ecency/ecency.types';
-import { useUserActivityMutation } from '../../../providers/queries';
 import { PayoutDetailsContent } from '../children/payoutDetailsContent';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import showLoginAlert from '../../../utils/showLoginAlert';
@@ -82,9 +76,6 @@ const UpvotePopover = forwardRef(({}, ref) => {
   const dispatch = useAppDispatch();
   const deviceWidth = useWindowDimensions().width;
 
-  const queryClient = useQueryClient();
-  const userActivityMutation = useUserActivityMutation();
-
   const onVotingStartRef = useRef<any>(null);
   const sourceRef = useRef<any>(null);
   const isVotingRef = useRef(false);
@@ -93,10 +84,12 @@ const UpvotePopover = forwardRef(({}, ref) => {
   const postUpvotePercent = useAppSelector(selectPostUpvotePercent);
   const commentUpvotePercent = useAppSelector(selectCommentUpvotePercent);
   const waveUpvotePercent = useAppSelector(selectWaveUpvotePercent);
-  const pinCode = useAppSelector(selectPin);
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const globalProps = useAppSelector(selectGlobalProps);
+
+  const authContext = useAuthContext();
+  const voteMutation = useVote(currentAccount?.name, authContext);
 
   const [content, setContent] = useState<any>(null);
   const [postType, setPostType] = useState<PostTypes>(PostTypes.POST);
@@ -187,7 +180,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
 
     if (!isDownVoted) {
       isVotingRef.current = true;
-      const _onVotingStart = onVotingStartRef.current; // keeping a reference of call to avoid mismatch in case back to back voting
+      const _onVotingStart = onVotingStartRef.current;
       _closePopover();
       _onVotingStart ? _onVotingStart(sliderValue) : null;
 
@@ -200,31 +193,14 @@ const UpvotePopover = forwardRef(({}, ref) => {
       console.log(`casting up vote: ${weight}`);
       _updateVoteCache(_author, _permlink, amount, false, CacheStatus.PENDING);
 
-      vote(currentAccount, pinCode, _author, _permlink, weight)
-        .then((response) => {
-          console.log('Vote response: ', response);
-          // record user points
-          userActivityMutation.mutate({
-            pointsTy: PointActivityIds.VOTE,
-            transactionId: response.id,
-          });
-
-          if (!response || !response.id) {
-            dispatch(
-              toastNotification(
-                intl.formatMessage(
-                  { id: 'alert.something_wrong_msg' },
-                  {
-                    message: intl.formatMessage({
-                      id: 'alert.invalid_response',
-                    }),
-                  },
-                ),
-              ),
-            );
-
-            return;
-          }
+      voteMutation
+        .mutateAsync({
+          author: _author,
+          permlink: _permlink,
+          weight,
+          estimated: parseFloat(amount),
+        })
+        .then(() => {
           setIsVoted(!!sliderValue);
           _updateVoteCache(
             _author,
@@ -233,21 +209,6 @@ const UpvotePopover = forwardRef(({}, ref) => {
             false,
             sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED,
           );
-
-          // Invalidate post query cache to refetch updated stats
-          queryClient.invalidateQueries({
-            queryKey: ['posts', 'entry', `/@${_author}/${_permlink}`],
-          });
-
-          // If voting on a comment, also invalidate parent post's discussion query
-          if (content?.parent_author) {
-            queryClient.invalidateQueries({
-              queryKey: getDiscussionsQueryOptions(
-                { author: content.parent_author, permlink: content.parent_permlink } as any,
-                'created' as any,
-              ).queryKey,
-            });
-          }
         })
         .catch((err) => {
           _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
@@ -258,15 +219,12 @@ const UpvotePopover = forwardRef(({}, ref) => {
             err.response.jse_shortmsg &&
             err.response.jse_shortmsg.includes('wait to transact')
           ) {
-            // when RC is not enough, offer boosting account
             setIsVoted(false);
             dispatch(setRcOffer(true));
           } else if (err && err.jse_shortmsg && err.jse_shortmsg.includes('wait to transact')) {
-            // when RC is not enough, offer boosting account
             setIsVoted(false);
             dispatch(setRcOffer(true));
           } else {
-            // // when voting with same percent or other errors
             let errMsg = '';
             if (err.message && err.message.indexOf(':') > 0) {
               [, errMsg] = err.message.split(': ');
@@ -293,7 +251,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
       return;
     }
 
-    const _onVotingStart = onVotingStartRef.current; // keeping a reference of call to avoid mismatch in case back to back voting
+    const _onVotingStart = onVotingStartRef.current;
     if (isDownVoted) {
       isVotingRef.current = true;
       _closePopover();
@@ -308,13 +266,14 @@ const UpvotePopover = forwardRef(({}, ref) => {
       console.log(`casting down vote: ${weight}`);
       _updateVoteCache(_author, _permlink, amount, true, CacheStatus.PENDING);
 
-      vote(currentAccount, pinCode, _author, _permlink, weight)
-        .then((response) => {
-          // record usr points
-          userActivityMutation.mutate({
-            pointsTy: PointActivityIds.VOTE,
-            transactionId: response.id,
-          });
+      voteMutation
+        .mutateAsync({
+          author: _author,
+          permlink: _permlink,
+          weight,
+          estimated: parseFloat(amount),
+        })
+        .then(() => {
           setIsDownVoted(!!sliderValue);
           _updateVoteCache(
             _author,
@@ -323,21 +282,6 @@ const UpvotePopover = forwardRef(({}, ref) => {
             true,
             sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED,
           );
-
-          // Invalidate post query cache to refetch updated stats
-          queryClient.invalidateQueries({
-            queryKey: ['posts', 'entry', `/@${_author}/${_permlink}`],
-          });
-
-          // If voting on a comment, also invalidate parent post's discussion query
-          if (content?.parent_author) {
-            queryClient.invalidateQueries({
-              queryKey: getDiscussionsQueryOptions(
-                { author: content.parent_author, permlink: content.parent_permlink } as any,
-                'created' as any,
-              ).queryKey,
-            });
-          }
         })
         .catch((err) => {
           dispatch(
