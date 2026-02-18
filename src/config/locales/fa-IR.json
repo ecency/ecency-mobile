@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "زمان دستگاه شما;",
       "information": "متوجه شدیم که دستگاه شما تاریخ یا ساعت نادرستی دارد. لطفاً تاریخ و زمان را برطرف کنید یا به صورت خودکار تنظیم کنید و دوباره امتحان کنید.",
-      "current_time": "زمان کنونی;"
+      "current_time": "زمان کنونی;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
