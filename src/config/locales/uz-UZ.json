@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Qurilmangiz vaqti;",
       "information": "Qurilmangizda sana yoki vaqt noto‘g‘ri ekanligini payqadik. Iltimos, Sana va vaqtni tuzating yoki Avtomatik sozlang va qaytadan urining.",
-      "current_time": "Joriy vaqt;"
+      "current_time": "Joriy vaqt;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
