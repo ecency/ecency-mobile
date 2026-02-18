@@ -25,6 +25,7 @@ import { uploadFile, uploadVideoInfo } from '../../../providers/speak/speak';
 import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 import QUERIES from '../../../providers/queries/queryKeys';
+import { reportMediaPickerError } from '../../../utils/mediaPickerError';
 
 interface Props {
   setIsUploading: (flag: boolean) => void;
@@ -149,6 +150,11 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
         setSelectedThumb(items[0]);
       })
       .catch((e) => {
+        reportMediaPickerError(e, {
+          feature: 'speak-uploader',
+          action: 'openPicker',
+          mediaType: 'photo',
+        });
         Alert.alert('Fail', `Thumb selection failed, ${e.message}`);
       });
   };

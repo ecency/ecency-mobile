@@ -117,13 +117,14 @@ export const useWavesQuery = (host: string) => {
         if (lastCacheUpdate.type === 'vote') {
           _injectPostCache(lastCacheUpdate.postPath);
         } else if (lastCacheUpdate.type === 'comment') {
-          _injectCommentCache(lastCacheUpdate.postPath);
+          _invalidateWaveContainerForComment(lastCacheUpdate.postPath);
         }
       }
     }
   }, [lastCacheUpdate]);
 
-  const _injectCommentCache = (commentPath: string) => {
+  // Invalidate-only path for comment updates (no optimistic cache write here).
+  const _invalidateWaveContainerForComment = (commentPath: string) => {
     const _cachedComment = cache.commentsCollection?.[commentPath];
     if (!_cachedComment) {
       return;

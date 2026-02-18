@@ -28,7 +28,7 @@ export const getDsteemDateErrorMessage = (error: any): string => {
     parts.push(`${intl.formatMessage({ id: 'dsteem.date_error.current_time' })} ${now}`);
   }
   parts.push(intl.formatMessage({ id: 'dsteem.date_error.information' }));
-  parts.push(intl.formatMessage({ id: 'dsteem.date_error.server_suggestion' }));
+  parts.push(intl.formatMessage({ id: 'dsteem.date_error.server_hint' }));
 
   return parts.join(' \n ');
 };

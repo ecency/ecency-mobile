@@ -131,7 +131,6 @@ const isDsteemDateError = (error: unknown): boolean => {
   return (
     message.includes('trx.expiration') ||
     message.includes('transaction expiration') ||
-    message.includes('expiration') ||
     message.includes('trx_expiration')
   );
 };

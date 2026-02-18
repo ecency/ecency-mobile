@@ -52,6 +52,7 @@ import { emojifyMessage } from '../../../utils/emoji';
 import { extractImageUrls, extractUrls } from '../../../utils/editor';
 import postUrlParser from '../../../utils/postUrlParser';
 import { fetchLinkMetadata } from '../../../utils/linkMetadata';
+import { isMediaPickerCancellation, reportMediaPickerError } from '../../../utils/mediaPickerError';
 import { LinkPreview, HiveLinkPreview } from '../../../components';
 import { SheetNames } from '../../../navigation/sheets';
 
@@ -1371,9 +1372,14 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         setError('Unable to attach image.');
       }
     } catch (err: any) {
-      if (err?.message?.toLowerCase?.().includes('cancelled')) {
+      if (isMediaPickerCancellation(err)) {
         return;
       }
+      reportMediaPickerError(err, {
+        feature: 'chat-thread',
+        action: 'openPicker',
+        mediaType: 'photo',
+      });
       setError(err?.message || 'Unable to attach image.');
     } finally {
       setIsUploadingImage(false);

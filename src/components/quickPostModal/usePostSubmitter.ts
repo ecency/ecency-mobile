@@ -52,15 +52,16 @@ export const usePostSubmitter = () => {
       setIsSubmitting(true);
     }
 
-    if (currentAccount) {
+    try {
+      if (!currentAccount) {
+        return false;
+      }
+
       // Check if we should prompt for posting authority (HiveAuth users without authority)
       if (shouldPromptPostingAuthority(currentAccount)) {
         // Guard against infinite recursion - use ref getter to read latest value
         if (getPostingAuthorityPromptShown()) {
           console.warn('Posting authority prompt already shown, preventing recursion');
-          if (manageSubmittingState) {
-            setIsSubmitting(false);
-          }
           return false;
         }
 
@@ -81,16 +82,19 @@ export const usePostSubmitter = () => {
           });
 
           // Recursive call after prompt is handled
-          return _submitReply(commentBody, parentPost, postType, pollDraft, manageSubmittingState);
+          return await _submitReply(
+            commentBody,
+            parentPost,
+            postType,
+            pollDraft,
+            manageSubmittingState,
+          );
         } catch (error) {
           // Error granting posting authority - don't retry
           console.warn('Failed to grant posting authority:', error);
-          // Reset state and abort
-          if (manageSubmittingState) {
-            setIsSubmitting(false);
-          }
-          setPostingAuthorityPromptShown(false);
           return false;
+        } finally {
+          setPostingAuthorityPromptShown(false);
         }
       }
 
@@ -168,10 +172,6 @@ export const usePostSubmitter = () => {
           queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });
         }
 
-        if (manageSubmittingState) {
-          setIsSubmitting(false);
-        }
-
         dispatch(
           toastNotification(
             intl.formatMessage({
@@ -197,14 +197,21 @@ export const usePostSubmitter = () => {
           error?.message || JSON.stringify(error),
         );
 
-        if (manageSubmittingState) {
-          setIsSubmitting(false);
-        }
         return false;
       }
+    } catch (error: any) {
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.something_wrong',
+        }),
+        error?.message || JSON.stringify(error),
+      );
+      return false;
+    } finally {
+      if (manageSubmittingState) {
+        setIsSubmitting(false);
+      }
     }
-
-    return false;
   };
 
   // feteced lates wafves container and  wave to that container
