@@ -12,6 +12,7 @@ import { uploadImage } from '../providers/ecency/ecency';
 import { profileUpdate, signImage } from '../providers/hive/dhive';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 import { setAvatarCacheStamp } from '../redux/actions/uiAction';
+import { reportMediaPickerError } from '../utils/mediaPickerError';
 
 // import ROUTES from '../constants/routeNames';
 
@@ -129,7 +130,7 @@ class ProfileEditContainer extends Component {
         this._uploadImage(media, action);
       })
       .catch((e) => {
-        this._handleMediaOnSelectFailure(e);
+        this._handleMediaOnSelectFailure(e, 'openPicker');
       });
   };
 
@@ -141,12 +142,18 @@ class ProfileEditContainer extends Component {
         this._uploadImage(media, action);
       })
       .catch((e) => {
-        this._handleMediaOnSelectFailure(e);
+        this._handleMediaOnSelectFailure(e, 'openCamera');
       });
   };
 
-  _handleMediaOnSelectFailure = (error) => {
+  _handleMediaOnSelectFailure = (error, action = 'openPicker') => {
     const { intl } = this.props;
+
+    reportMediaPickerError(error, {
+      feature: 'profile-edit',
+      action,
+      mediaType: 'photo',
+    });
 
     if (get(error, 'code') === 'E_PERMISSION_MISSING') {
       Alert.alert(

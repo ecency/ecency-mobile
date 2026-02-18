@@ -113,11 +113,64 @@ export const useWavesQuery = (host: string) => {
     // check cache is recently updated and take post path
     if (lastCacheUpdate) {
       const _timeElapsed = new Date().getTime() - lastCacheUpdate.updatedAt;
-      if (lastCacheUpdate.type === 'vote' && _timeElapsed < 5000) {
-        _injectPostCache(lastCacheUpdate.postPath);
+      if (_timeElapsed < 5000) {
+        if (lastCacheUpdate.type === 'vote') {
+          _injectPostCache(lastCacheUpdate.postPath);
+        } else if (lastCacheUpdate.type === 'comment') {
+          _invalidateWaveContainerForComment(lastCacheUpdate.postPath);
+        }
       }
     }
   }, [lastCacheUpdate]);
+
+  // Invalidate-only path for comment updates (no optimistic cache write here).
+  const _invalidateWaveContainerForComment = (commentPath: string) => {
+    const commentsCollection = cache.commentsCollection || {};
+    const _cachedComment = commentsCollection[commentPath];
+    if (!_cachedComment) {
+      return;
+    }
+
+    const { parent_author: initialParentAuthor, parent_permlink: initialParentPermlink } =
+      _cachedComment;
+    if (!initialParentAuthor || !initialParentPermlink) {
+      return;
+    }
+
+    // Walk ancestry until we hit a top-level wave tracked in index collection.
+    let parentAuthor = initialParentAuthor;
+    let parentPermlink = initialParentPermlink;
+    let parentPath = `${parentAuthor}/${parentPermlink}`;
+    let _containerPermlink = wavesIndexCollection.current[parentPath];
+
+    const visited = new Set<string>();
+    while (!_containerPermlink && parentAuthor && parentPermlink) {
+      if (visited.has(parentPath)) {
+        break;
+      }
+      visited.add(parentPath);
+
+      const parentComment = commentsCollection[parentPath];
+      if (!parentComment?.parent_author || !parentComment?.parent_permlink) {
+        break;
+      }
+
+      parentAuthor = parentComment.parent_author;
+      parentPermlink = parentComment.parent_permlink;
+      parentPath = `${parentAuthor}/${parentPermlink}`;
+      _containerPermlink = wavesIndexCollection.current[parentPath];
+    }
+
+    if (_containerPermlink) {
+      const _containerIndex = activePermlinks.indexOf(_containerPermlink);
+      if (_containerIndex >= 0) {
+        // invalidate the specific wave container query to re-fetch with new reply
+        queryClient.invalidateQueries({
+          queryKey: [QUERIES.WAVES.GET, host, _containerPermlink, _containerIndex],
+        });
+      }
+    }
+  };
 
   const _injectPostCache = async (postPath: string) => {
     // using post path get index of query key where that post exists

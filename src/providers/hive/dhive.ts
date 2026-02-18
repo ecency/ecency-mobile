@@ -121,6 +121,61 @@ const captureExceptionWithRpcParams = (
   });
 };
 
+const isDsteemDateError = (error: unknown): boolean => {
+  const code = get(error, 'jse_info.code');
+  if (code === 4030100) {
+    return true;
+  }
+
+  const message = String(get(error, 'message') || error || '').toLowerCase();
+  return (
+    message.includes('trx.expiration') ||
+    message.includes('transaction expiration') ||
+    message.includes('trx_expiration')
+  );
+};
+
+const getDateErrorDiagnostics = async () => {
+  const diagnostics: Record<string, unknown> = {
+    localTimeIso: new Date().toISOString(),
+    localTimestampMs: Date.now(),
+    timezoneOffsetMin: new Date().getTimezoneOffset(),
+  };
+
+  try {
+    diagnostics.selectedServer = await getServer();
+  } catch {
+    diagnostics.selectedServer = null;
+  }
+
+  diagnostics.serverPool = [...SERVER_LIST];
+
+  try {
+    const props = await client.database.getDynamicGlobalProperties();
+    diagnostics.clientHeadTime = props?.time;
+    diagnostics.clientHeadBlock = props?.head_block_number;
+    if (props?.time) {
+      diagnostics.clientHeadSkewMs = Date.now() - new Date(`${props.time}Z`).getTime();
+    }
+  } catch (error) {
+    diagnostics.clientPropsError = String((error as Error)?.message || error);
+  }
+
+  try {
+    const sdkProps = await getDynamicGlobalProperties();
+    const sdkHead = sdkProps?.raw?.globalDynamic;
+    diagnostics.sdkHeadTime = sdkHead?.time;
+    diagnostics.sdkHeadBlock = sdkHead?.head_block_number;
+    if (sdkHead?.time) {
+      diagnostics.sdkHeadSkewMs = Date.now() - new Date(`${sdkHead.time}Z`).getTime();
+    }
+  } catch (error) {
+    diagnostics.sdkPropsError = String((error as Error)?.message || error);
+  }
+
+  return diagnostics;
+};
+
 /**
  * Checks if error indicates missing posting authority for HiveAuth users
  */
@@ -349,9 +404,11 @@ export const sendHiveOperations = async (
   key: PrivateKey | PrivateKey[],
 ): Promise<TransactionConfirmation> => {
   try {
-    // Get dynamic props from SDK (cached up to 60s, which is fine for TAPOS)
-    const dynamicProps = await getDynamicGlobalProperties();
-    const { head_block_number, head_block_id, time } = dynamicProps.raw.globalDynamic;
+    // IMPORTANT: use the same client for TAPOS props + broadcast.
+    // Mixing SDK query client/node pool with dhive broadcast node pool can produce
+    // expiration mismatches when one pool resolves a lagging RPC node.
+    const { head_block_number, head_block_id, time } =
+      await client.database.getDynamicGlobalProperties();
     const ref_block_num = head_block_number & 0xffff;
     const ref_block_prefix = Buffer.from(head_block_id, 'hex').readUInt32LE(4);
     const expireTime = 60 * 1000;
@@ -378,8 +435,14 @@ export const sendHiveOperations = async (
     const result = Object.assign({ id: trxId }, resultHive);
     return result;
   } catch (err) {
+    const isDateError = isDsteemDateError(err);
+    const dateDiagnostics = isDateError ? await getDateErrorDiagnostics().catch(() => null) : null;
+
     captureExceptionWithRpcParams(err, { operations }, (scope) => {
       scope.setTag('context', 'send-hive-operations');
+      if (isDateError) {
+        scope.setTag('error_type', 'dsteem_date_error');
+      }
       scope.setContext('operationsArray', {
         operations: operations.map((op) =>
           String(
@@ -387,6 +450,9 @@ export const sendHiveOperations = async (
           ),
         ),
       });
+      if (dateDiagnostics) {
+        scope.setContext('dateDiagnostics', dateDiagnostics);
+      }
     });
     throw err;
   }

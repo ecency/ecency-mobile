@@ -15,6 +15,7 @@ import {
   extractFilenameFromPath,
   extractImageUrls,
 } from '../../../utils/editor';
+import { isMediaPickerCancellation, reportMediaPickerError } from '../../../utils/mediaPickerError';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { editorQueries, speakQueries } from '../../../providers/queries';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
@@ -211,7 +212,7 @@ export const UploadsGalleryModal = forwardRef(
           }
         })
         .catch((e) => {
-          _handleMediaOnSelectFailure(e);
+          _handleMediaOnSelectFailure(e, 'openPicker', _vidMode ? 'video' : 'photo');
         });
     };
 
@@ -242,7 +243,7 @@ export const UploadsGalleryModal = forwardRef(
           }
         })
         .catch((e) => {
-          _handleMediaOnSelectFailure(e);
+          _handleMediaOnSelectFailure(e, 'openCamera', _vidMode ? 'video' : 'photo');
         });
     };
 
@@ -431,10 +432,24 @@ export const UploadsGalleryModal = forwardRef(
       speakUploaderRef.current.showUploader(video);
     };
 
-    const _handleMediaOnSelectFailure = (error) => {
+    const _handleMediaOnSelectFailure = (
+      error,
+      action: 'openPicker' | 'openCamera' = 'openPicker',
+      mediaType: 'photo' | 'video' | 'mixed' = 'photo',
+    ) => {
+      if (isMediaPickerCancellation(error)) {
+        return;
+      }
+
+      reportMediaPickerError(error, {
+        feature: 'editor-uploads-modal',
+        action,
+        mediaType,
+      });
+
       let title = intl.formatMessage({ id: 'alert.something_wrong' });
       let body = error.message || JSON.stringify(error);
-      let action: AlertButton = {
+      let dialogAction: AlertButton = {
         text: intl.formatMessage({ id: 'alert.okay' }),
         onPress: () => {
           console.log('cancel pressed');
@@ -450,7 +465,7 @@ export const UploadsGalleryModal = forwardRef(
           body = intl.formatMessage({
             id: 'alert.permission_text',
           });
-          action = {
+          dialogAction = {
             text: intl.formatMessage({ id: 'alert.open_settings' }),
             onPress: () => {
               openSettings();
@@ -464,7 +479,7 @@ export const UploadsGalleryModal = forwardRef(
           payload: {
             title,
             body,
-            buttons: [action],
+            buttons: [dialogAction],
           },
         }),
       );
