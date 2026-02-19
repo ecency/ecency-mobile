@@ -72,6 +72,7 @@ const PostComments = forwardRef(
 
     const commentsListRef = useRef<FlatList<any> | null>(null);
     const postOptionsModalRef = useRef<any>(null);
+    const viewabilityFrameRef = useRef<number | null>(null);
 
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
@@ -113,11 +114,14 @@ const PostComments = forwardRef(
       }
     }, [discussionQuery.isFetching, handleOnCommentsLoaded, refreshing, setRefreshing]);
 
-    const _onRefresh = () => {
+    const _onRefresh = useCallback(async () => {
       setRefreshing(true);
-      discussionQuery.refetch();
-      onRefresh();
-    };
+      try {
+        await Promise.all([discussionQuery.refetch(), onRefresh?.()]);
+      } finally {
+        setRefreshing(false);
+      }
+    }, [discussionQuery.refetch, onRefresh, setRefreshing]);
 
     const _handleOnDropdownSelect = useCallback((option, index) => {
       setSelectedFilter(option);
@@ -258,9 +262,24 @@ const PostComments = forwardRef(
     }, []);
 
     const _onScroll = useCallback((event) => {
+      if (viewabilityFrameRef.current !== null) {
+        return;
+      }
       const windowHeight = event.nativeEvent.layoutMeasurement.height;
-      checkViewability(windowHeight);
+      viewabilityFrameRef.current = requestAnimationFrame(() => {
+        viewabilityFrameRef.current = null;
+        checkViewability(windowHeight);
+      });
     }, []);
+
+    useEffect(
+      () => () => {
+        if (viewabilityFrameRef.current !== null) {
+          cancelAnimationFrame(viewabilityFrameRef.current);
+        }
+      },
+      [],
+    );
 
     const filterOptions = useMemo(
       () => VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` })),

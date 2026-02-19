@@ -15,6 +15,7 @@ import {
   getDraftsInfiniteQueryOptions,
   getDraftsQueryOptions,
   getPostQueryOptions,
+  getDiscussionsQueryOptions,
   addDraft,
   updateDraft,
   addSchedule,
@@ -1122,6 +1123,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
+      const observer = currentAccount.name || currentAccount.username;
       const parentTags = post.json_metadata.tags;
       const draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
 
@@ -1174,7 +1176,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           this._handleSubmitSuccess();
 
           // Invalidate discussion queries to refetch with real blockchain data
-          queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });
+          queryClient.invalidateQueries({
+            queryKey: getDiscussionsQueryOptions(
+              { author: parentAuthor, permlink: parentPermlink } as any,
+              'created' as any,
+              true,
+              observer,
+            ).queryKey,
+          });
 
           // delete quick comment draft cache if it exist (from replyCache)
           if (replyCache && replyCache[draftId]) {
@@ -1188,7 +1197,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           dispatch(deleteCommentCacheEntry(`${author}/${permlink}`));
 
           // Invalidate discussion queries to clean up
-          queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });
+          queryClient.invalidateQueries({
+            queryKey: getDiscussionsQueryOptions(
+              { author: parentAuthor, permlink: parentPermlink } as any,
+              'created' as any,
+              true,
+              observer,
+            ).queryKey,
+          });
 
           this._isSubmitting = false;
           this._handleSubmitFailure(error);

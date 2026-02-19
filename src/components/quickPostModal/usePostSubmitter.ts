@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useQueryClient } from '@tanstack/react-query';
+import { getDiscussionsQueryOptions } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector, useStateWithRef } from '../../hooks';
 import { postComment, shouldPromptPostingAuthority } from '../../providers/hive/dhive';
@@ -105,6 +106,7 @@ export const usePostSubmitter = () => {
       const author = currentAccount.name;
       const parentAuthor = parentPost.author;
       const parentPermlink = parentPost.permlink;
+      const observer = currentAccount.name || currentAccount.username;
       const parentTags = parentPost.json_metadata.tags || ['ecency'];
       const category = parentPost.category || '';
       const url = `/${category}/@${parentAuthor}/${parentPermlink}#@${author}/${permlink}`;
@@ -169,7 +171,14 @@ export const usePostSubmitter = () => {
 
         // Invalidate discussion queries to refetch with real blockchain data
         if (postType !== PostTypes.WAVE) {
-          queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });
+          queryClient.invalidateQueries({
+            queryKey: getDiscussionsQueryOptions(
+              { author: parentAuthor, permlink: parentPermlink } as any,
+              'created' as any,
+              true,
+              observer,
+            ).queryKey,
+          });
         }
 
         dispatch(
@@ -187,7 +196,14 @@ export const usePostSubmitter = () => {
         // Rollback: remove optimistic cache entry and invalidate to clean up
         dispatch(deleteCommentCacheEntry(`${author}/${permlink}`));
         if (postType !== PostTypes.WAVE) {
-          queryClient.invalidateQueries({ queryKey: ['posts', 'discussions'] });
+          queryClient.invalidateQueries({
+            queryKey: getDiscussionsQueryOptions(
+              { author: parentAuthor, permlink: parentPermlink } as any,
+              'created' as any,
+              true,
+              observer,
+            ).queryKey,
+          });
         }
 
         Alert.alert(

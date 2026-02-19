@@ -272,17 +272,20 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
   return comment;
 };
 
-export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCacheUpdate) => {
+export const injectPostCache = (
+  commentsMap,
+  cachedComments,
+  cachedVotes,
+  lastCacheUpdate,
+  discussionContext?: { author?: string; permlink?: string },
+) => {
   let shouldClone = false;
   let _comments = commentsMap || {};
-  console.log('updating with cache', _comments, cachedComments);
   if (!cachedComments && !cachedVotes) {
-    console.log('Skipping cache injection - no cache');
     return _comments;
   }
 
   if (!_comments || Object.keys(_comments).length === 0) {
-    console.log('Skipping cache injection - no comments');
     return _comments;
   }
 
@@ -360,7 +363,6 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
               lastCacheUpdate.postPath === path &&
               currentTime - lastCacheUpdate.updatedAt < 5000
             ) {
-              console.log('setting show replies flag');
               _comments[_parentPath] = {
                 ..._comments[_parentPath],
                 expandedReplies: true,
@@ -369,6 +371,32 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
                 ..._comments[path],
                 renderOnTop: true,
               };
+            }
+          }
+          // fallback: parent entry might be excluded from fetched discussion map
+          // keep root-level optimistic comments visible for the currently opened discussion
+          else if (
+            discussionContext?.author &&
+            discussionContext?.permlink &&
+            cachedComment.parent_author === discussionContext.author &&
+            cachedComment.parent_permlink === discussionContext.permlink
+          ) {
+            if (!shouldClone) {
+              _comments = { ..._comments };
+              shouldClone = true;
+            }
+
+            let updatedComment = cachedComment;
+            if (cachedVotes && cachedVotes[path]) {
+              updatedComment = injectVoteCache(updatedComment, cachedVotes[path]);
+            }
+            if (lastCacheUpdate && currentTime - lastCacheUpdate.updatedAt < 5000) {
+              _comments[path] = {
+                ...updatedComment,
+                renderOnTop: true,
+              };
+            } else {
+              _comments[path] = updatedComment;
             }
           }
           break;
@@ -383,7 +411,6 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
     commentPaths.forEach((path) => {
       const cachedVote = cachedVotes[path];
       if (cachedVote) {
-        console.log('injection vote cache');
         const updatedComment = injectVoteCache(_comments[path], cachedVote);
         // Only update if injectVoteCache returned a new reference (meaning cache was applied)
         if (updatedComment !== _comments[path]) {
