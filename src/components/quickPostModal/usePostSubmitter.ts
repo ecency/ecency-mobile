@@ -106,7 +106,7 @@ export const usePostSubmitter = () => {
       const author = currentAccount.name;
       const parentAuthor = parentPost.author;
       const parentPermlink = parentPost.permlink;
-      const observer = currentAccount?.name || currentAccount?.username;
+      const observer = currentAccount.name || currentAccount.username;
       const parentTags = parentPost.json_metadata.tags || ['ecency'];
       const category = parentPost.category || '';
       const url = `/${category}/@${parentAuthor}/${parentPermlink}#@${author}/${permlink}`;

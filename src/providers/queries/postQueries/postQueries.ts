@@ -304,7 +304,16 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       // No changes, return previous reference
       return prev;
     });
-  }, [query.data, cachedComments, cachedVotes, lastCacheUpdate, observer, currentAccount?.name]);
+  }, [
+    query.data,
+    cachedComments,
+    cachedVotes,
+    lastCacheUpdate,
+    observer,
+    currentAccount?.name,
+    author,
+    permlink,
+  ]);
 
   // Cache to store processed comments and avoid recreating objects
   const processedCommentsCache = useRef<Map<string, any>>(new Map());

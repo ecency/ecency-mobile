@@ -390,10 +390,14 @@ export const injectPostCache = (
             if (cachedVotes && cachedVotes[path]) {
               updatedComment = injectVoteCache(updatedComment, cachedVotes[path]);
             }
-            _comments[path] = {
-              ...updatedComment,
-              renderOnTop: true,
-            };
+            if (lastCacheUpdate && currentTime - lastCacheUpdate.updatedAt < 5000) {
+              _comments[path] = {
+                ...updatedComment,
+                renderOnTop: true,
+              };
+            } else {
+              _comments[path] = updatedComment;
+            }
           }
           break;
       }

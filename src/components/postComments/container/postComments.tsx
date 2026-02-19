@@ -114,14 +114,14 @@ const PostComments = forwardRef(
       }
     }, [discussionQuery.isFetching, handleOnCommentsLoaded, refreshing, setRefreshing]);
 
-    const _onRefresh = async () => {
+    const _onRefresh = useCallback(async () => {
       setRefreshing(true);
       try {
-        await Promise.all([discussionQuery.refetch(), onRefresh()]);
+        await Promise.all([discussionQuery.refetch(), onRefresh?.()]);
       } finally {
         setRefreshing(false);
       }
-    };
+    }, [discussionQuery.refetch, onRefresh, setRefreshing]);
 
     const _handleOnDropdownSelect = useCallback((option, index) => {
       setSelectedFilter(option);

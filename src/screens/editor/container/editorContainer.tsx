@@ -1123,7 +1123,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
-      const observer = currentAccount?.name || currentAccount?.username;
+      const observer = currentAccount.name || currentAccount.username;
       const parentTags = post.json_metadata.tags;
       const draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
 
