@@ -48,6 +48,7 @@ export const ProposalVoteRequest = () => {
   // recalculates when account data, vote status, or dismiss meta changes
   const skipRender = useMemo(() => {
     if (!isLoggedIn) return true;
+    if (!_ecencyProposalId) return true;
     if (proposalVotedQuery.data) return true;
     if (proposalVotedQuery.meta?.processed) return true;
     if (proposalVotedQuery.meta) {
@@ -56,7 +57,7 @@ export const ProposalVoteRequest = () => {
       if (nextRequestTime > curTime) return true;
     }
     return false;
-  }, [isLoggedIn, proposalVotedQuery.data, proposalVotedQuery.meta]);
+  }, [isLoggedIn, _ecencyProposalId, proposalVotedQuery.data, proposalVotedQuery.meta]);
 
   if (skipRender) {
     return null;
