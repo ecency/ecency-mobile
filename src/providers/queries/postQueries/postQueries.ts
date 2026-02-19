@@ -168,12 +168,6 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   });
 
   useEffect(() => {
-    console.log('[useDiscussionQuery] useEffect triggered', {
-      hasQueryData: !!query.data,
-      cachedCommentsKeys: Object.keys(cachedComments || {}).length,
-      cachedVotesKeys: Object.keys(cachedVotes || {}).length,
-    });
-
     // Even if query.data is empty, we should try to show cached comments
     // This handles the case where user posts a comment before discussion finishes loading
     const hasCache = cachedComments && Object.keys(cachedComments).length > 0;
@@ -183,7 +177,6 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         if (Object.keys(prev).length === 0) {
           return prev;
         }
-        console.log('[useDiscussionQuery] Clearing data - no query data and no cache');
         return {};
       });
       return;
@@ -193,7 +186,6 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
     // so that injectPostCache can properly inject the cached comments
     const initialData = {};
     if (!query.data && hasCache) {
-      console.log('[useDiscussionQuery] Creating synthetic parents for cached comments');
       // Create synthetic parent entries for cached comments
       Object.keys(cachedComments).forEach((path) => {
         const cachedComment = cachedComments[path];
@@ -282,12 +274,14 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       }
     });
 
-    const _data = injectPostCache(parsedComments, cachedComments, cachedVotes, lastCacheUpdate);
+    const _data = injectPostCache(parsedComments, cachedComments, cachedVotes, lastCacheUpdate, {
+      author,
+      permlink,
+    });
 
     // Deep check if data actually changed before setting state
     setData((prev) => {
       if (prev === _data) {
-        console.log('[useDiscussionQuery] Same reference, skipping update');
         return prev;
       }
 
@@ -296,10 +290,6 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       const newKeys = Object.keys(_data);
 
       if (prevKeys.length !== newKeys.length) {
-        console.log('[useDiscussionQuery] Different key count, updating', {
-          prev: prevKeys.length,
-          new: newKeys.length,
-        });
         return _data;
       }
 
@@ -308,12 +298,10 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         (key) => !Object.prototype.hasOwnProperty.call(_data, key) || prev[key] !== _data[key],
       );
       if (hasChanges) {
-        console.log('[useDiscussionQuery] Key mismatch or value changed, updating');
         return _data;
       }
 
       // No changes, return previous reference
-      console.log('[useDiscussionQuery] No changes detected, keeping prev');
       return prev;
     });
   }, [query.data, cachedComments, cachedVotes, lastCacheUpdate, observer, currentAccount?.name]);
