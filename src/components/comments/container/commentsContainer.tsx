@@ -224,13 +224,8 @@ const CommentsContainer = ({
       })
       .then(() => {
         // Remove from local state for immediate UI update
-        const _applyFilter = (item) => item.permlink !== _permlink;
-
-        if (lcomments.length > 0) {
-          setLComments(lcomments.filter(_applyFilter));
-        } else {
-          setPropComments(propComments.filter(_applyFilter));
-        }
+        setLComments((prev) => prev.filter((item) => item.permlink !== _permlink));
+        setPropComments((prev) => prev.filter((item) => item.permlink !== _permlink));
       })
       .catch((err) => {
         console.warn('Failed to delete comment', err);

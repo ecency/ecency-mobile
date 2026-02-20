@@ -164,7 +164,7 @@ const PostComments = forwardRef(
               parentAuthor: author,
               parentPermlink: _parentPermlink || permlink,
             });
-            console.log('deleted comment', `${currentAccount.name}/${_permlink}`);
+            console.log('deleted comment', `${currentAccount?.name}/${_permlink}`);
           } catch (err) {
             console.warn('Failed to delete comment');
           }

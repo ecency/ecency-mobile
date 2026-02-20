@@ -286,22 +286,20 @@ export const injectPostCache = (commentsMap, cachedVotes) => {
   const commentPaths = Object.keys(_comments);
 
   // process votes cache - only for comments in this discussion
-  if (cachedVotes) {
-    commentPaths.forEach((path) => {
-      const cachedVote = cachedVotes[path];
-      if (cachedVote) {
-        const updatedComment = injectVoteCache(_comments[path], cachedVote);
-        // Only update if injectVoteCache returned a new reference (meaning cache was applied)
-        if (updatedComment !== _comments[path]) {
-          if (!shouldClone) {
-            _comments = { ..._comments };
-            shouldClone = true;
-          }
-          _comments[path] = updatedComment;
+  commentPaths.forEach((path) => {
+    const cachedVote = cachedVotes[path];
+    if (cachedVote) {
+      const updatedComment = injectVoteCache(_comments[path], cachedVote);
+      // Only update if injectVoteCache returned a new reference (meaning cache was applied)
+      if (updatedComment !== _comments[path]) {
+        if (!shouldClone) {
+          _comments = { ..._comments };
+          shouldClone = true;
         }
+        _comments[path] = updatedComment;
       }
-    });
-  }
+    }
+  });
 
   return _comments;
 };
