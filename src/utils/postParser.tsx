@@ -272,13 +272,7 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
   return comment;
 };
 
-export const injectPostCache = (
-  commentsMap,
-  _cachedComments,
-  cachedVotes,
-  _lastCacheUpdate?,
-  _discussionContext?: { author?: string; permlink?: string },
-) => {
+export const injectPostCache = (commentsMap, cachedVotes) => {
   let shouldClone = false;
   let _comments = commentsMap || {};
   if (!cachedVotes) {

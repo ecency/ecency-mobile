@@ -1264,6 +1264,15 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             rootPermlink,
           });
 
+          // Update local cache for immediate UI feedback
+          postCachePrimer.cachePost({
+            ...post,
+            body,
+            json_metadata: jsonMeta,
+            markdownBody: body,
+            updated: new Date().toISOString(),
+          });
+
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
         } else {

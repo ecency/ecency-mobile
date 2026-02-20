@@ -217,10 +217,10 @@ const CommentsContainer = ({
     }
     deleteCommentMutation
       .mutateAsync({
-        author: currentAccount.name,
+        author: currentAccount?.name,
         permlink: _permlink,
         parentAuthor: author,
-        parentPermlink: permlink,
+        parentPermlink: _parent_permlink || permlink,
       })
       .then(() => {
         // Remove from local state for immediate UI update

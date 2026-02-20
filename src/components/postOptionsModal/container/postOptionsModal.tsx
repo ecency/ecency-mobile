@@ -312,18 +312,31 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
   const _deletePost = () => {
     const _onConfirm = async () => {
-      await deleteCommentMutation.mutateAsync({
-        author: currentAccount.name,
-        permlink: content.permlink,
-      });
-      navigation.goBack();
-      dispatch(
-        toastNotification(
-          intl.formatMessage({
-            id: 'alert.removed',
-          }),
-        ),
-      );
+      try {
+        await deleteCommentMutation.mutateAsync({
+          author: currentAccount?.name,
+          permlink: content.permlink,
+          parentAuthor: content.parent_author || '',
+          parentPermlink: content.parent_permlink || '',
+        });
+        navigation.goBack();
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.removed',
+            }),
+          ),
+        );
+      } catch (err) {
+        console.warn('Failed to delete post', err);
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.fail',
+            }),
+          ),
+        );
+      }
     };
 
     SheetManager.show(SheetNames.ACTION_MODAL, {

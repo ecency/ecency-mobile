@@ -195,8 +195,7 @@ export const useWavesQuery = (host: string) => {
 
     // inject vote cache here...
     const _cachedVotes = cacheRef.current.votesCollection;
-    const _lastCacheUpdate = cacheRef.current.lastCacheUpdate;
-    const _cResponse = injectPostCache(parsedResponse, null, _cachedVotes, _lastCacheUpdate);
+    const _cResponse = injectPostCache(parsedResponse, _cachedVotes);
 
     const _threadedComments = await mapDiscussionToThreads(_cResponse, host, pagePermlink, 1);
 
@@ -343,6 +342,10 @@ export const useDeleteWaveMutation = (
       _permlink: string;
       _parent_permlink: string;
     }) => {
+      if (!currentAccount?.name) {
+        throw new Error('No authenticated user');
+      }
+
       await sdkDeleteMutation.mutateAsync({
         author: currentAccount.name,
         permlink: _permlink,
