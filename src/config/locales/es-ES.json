@@ -222,7 +222,7 @@
       "device_time": "Fecha de tu dispositivo:",
       "information": "Notamos que tu dispositivo tiene una fecha o hora incorrectas. Por favor corrige la fecha y hora o establezca automáticamente dichas opciones e inténtelo de nuevo.",
       "current_time": "Fecha actual:",
-      "server_hint": "You can also try changing API Server in Settings > Server."
+      "server_hint": "También puedes intentar cambiar el servidor API en Ajustes > Servidor."
     }
   },
   "basic_header": {
@@ -495,9 +495,9 @@
     "pinned_messages": "Mensajes Anclados",
     "message_placeholder": "Mensaje",
     "refresh": "Actualizar canales",
-    "select_emoji": "Select Emoji",
-    "more_emojis": "More",
-    "search_emojis": "Search emojis..."
+    "select_emoji": "Escoger emoji",
+    "more_emojis": "Más",
+    "search_emojis": "Buscar emojis..."
   },
   "free_estm": {
     "timer_text": "Siguiente giro gratuito en",
@@ -589,7 +589,7 @@
     "unknow_error": "Error desconocido, ponte en contacto con nosotros en support@ecency.com"
   },
   "alert": {
-    "pin_not_set": "PIN is not set",
+    "pin_not_set": "PIN no establecido",
     "connection_issues": "El servidor no está disponible, por favor comprueba tu conexión e inténtalo de nuevo.",
     "success_mute": "¡Silenciado exitosamente!",
     "no_internet": "¡Sin conexión!",
@@ -1357,16 +1357,16 @@
     "pause": "Pausa"
   },
   "posting_authority": {
-    "title": "Enable Faster Posting",
-    "description": "Grant Ecency posting permission to post without opening Keychain each time",
-    "benefit_1": "Post, comment, and vote instantly without Keychain prompts",
-    "benefit_2": "Seamless experience across all posting operations",
-    "benefit_3": "Secure - only allows posting actions, not transfers",
-    "security_note": "Safe: Cannot transfer funds or change keys. You can revoke this anytime.",
-    "grant_button": "Grant Permission",
-    "skip_button": "Skip for Now",
-    "granting": "Granting permission...",
-    "success": "Posting permission granted successfully!",
-    "error": "Failed to grant posting permission. Please try again."
+    "title": "Habilitar publicación más rápida",
+    "description": "Otorgar permiso de publicación en Ecency sin abrir Keychain cada vez",
+    "benefit_1": "Publica, comenta y vota instantáneamente sin peticiones de Keychain",
+    "benefit_2": "Experiencia sin fisuras en todas las operaciones de publicación",
+    "benefit_3": "Seguro - sólo permite las acciones de publicación, no de transferencias",
+    "security_note": "Seguridad: No se pueden transferir fondos o cambiar claves. Puedes revocar esto en cualquier momento.",
+    "grant_button": "Permitir",
+    "skip_button": "Omitir por ahora",
+    "granting": "Permitiendo...",
+    "success": "¡Permiso de publicación otorgado con éxito!",
+    "error": "Error al conceder el permiso de publicación. Por favor, inténtalo de nuevo."
   }
 }
