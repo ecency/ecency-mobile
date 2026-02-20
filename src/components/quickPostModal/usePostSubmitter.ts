@@ -1,32 +1,30 @@
 import { useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
 import { useIntl } from 'react-intl';
-import { useQueryClient } from '@tanstack/react-query';
-import { getDiscussionsQueryOptions } from '@ecency/sdk';
+import { useComment } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector, useStateWithRef } from '../../hooks';
-import { postComment, shouldPromptPostingAuthority } from '../../providers/hive/dhive';
+import { shouldPromptPostingAuthority } from '../../providers/hive/dhive';
 import { extractMetadata, generateUniquePermlink, makeJsonMetadata } from '../../utils/editor';
-import { updateCommentCache, deleteCommentCacheEntry } from '../../redux/actions/cacheActions';
 import { toastNotification } from '../../redux/actions/uiAction';
-import { useUserActivityMutation, wavesQueries } from '../../providers/queries';
-import { PointActivityIds, PollDraft } from '../../providers/ecency/ecency.types';
+import { wavesQueries } from '../../providers/queries';
+import { PollDraft } from '../../providers/ecency/ecency.types';
 import { usePublishWaveMutation } from '../../providers/queries/postQueries/wavesQueries';
 import { PostTypes } from '../../constants/postTypes';
 import extractHashTags from '../../utils/extractHashTags';
-import { selectCurrentAccount, selectPin } from '../../redux/selectors';
+import { selectCurrentAccount } from '../../redux/selectors';
 import { SheetNames } from '../../navigation/sheets';
+import { useAuthContext } from '../../providers/sdk';
 
 export const usePostSubmitter = () => {
   const dispatch = useDispatch();
   const intl = useIntl();
-  const queryClient = useQueryClient();
 
   const pusblishWaveMutation = usePublishWaveMutation();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinCode = useAppSelector(selectPin);
-  const userActivityMutation = useUserActivityMutation();
+  const authContext = useAuthContext();
+  const commentMutation = useComment(currentAccount?.name, authContext);
   const [isSubmitting, setIsSubmitting, getIsSubmittingCurrent] = useStateWithRef(false);
   const [
     _postingAuthorityPromptShown,
@@ -106,7 +104,6 @@ export const usePostSubmitter = () => {
       const author = currentAccount.name;
       const parentAuthor = parentPost.author;
       const parentPermlink = parentPost.permlink;
-      const observer = currentAccount.name || currentAccount.username;
       const parentTags = parentPost.json_metadata.tags || ['ecency'];
       const category = parentPost.category || '';
       const url = `/${category}/@${parentAuthor}/${parentPermlink}#@${author}/${permlink}`;
@@ -123,17 +120,11 @@ export const usePostSubmitter = () => {
       });
       const jsonMetadata = makeJsonMetadata(meta, tags);
 
-      console.log(
-        currentAccount,
-        pinCode,
-        parentAuthor,
-        parentPermlink,
-        permlink,
-        commentBody,
-        jsonMetadata,
-      );
+      // Derive root author/permlink for proper cache invalidation
+      const rootAuthor = parentPost.root_author || parentAuthor;
+      const rootPermlink = parentPost.root_permlink || parentPermlink;
 
-      // Build cache entry for optimistic update
+      // Build cache entry for wave optimistic prepend
       const _cacheCommentData = {
         author,
         permlink,
@@ -144,42 +135,18 @@ export const usePostSubmitter = () => {
         json_metadata: jsonMetadata,
       };
 
-      // Optimistic: dispatch cache BEFORE blockchain call
-      // useDiscussionQuery's useEffect depends on cachedComments and will
-      // re-run injectPostCache to show the comment immediately via Redux
-      dispatch(
-        updateCommentCache(`${author}/${permlink}`, _cacheCommentData, {
-          parentTags: parentTags || ['ecency'],
-        }),
-      );
-
       try {
-        const response = await postComment(
-          currentAccount,
-          pinCode,
+        await commentMutation.mutateAsync({
+          author,
+          permlink,
           parentAuthor,
           parentPermlink,
-          permlink,
-          commentBody,
+          title: '',
+          body: commentBody,
           jsonMetadata,
-        );
-
-        userActivityMutation.mutate({
-          pointsTy: PointActivityIds.COMMENT,
-          transactionId: response.id,
+          rootAuthor,
+          rootPermlink,
         });
-
-        // Invalidate discussion queries to refetch with real blockchain data
-        if (postType !== PostTypes.WAVE) {
-          queryClient.invalidateQueries({
-            queryKey: getDiscussionsQueryOptions(
-              { author: parentAuthor, permlink: parentPermlink } as any,
-              'created' as any,
-              true,
-              observer,
-            ).queryKey,
-          });
-        }
 
         dispatch(
           toastNotification(
@@ -192,19 +159,6 @@ export const usePostSubmitter = () => {
         return _cacheCommentData;
       } catch (error) {
         console.log(error);
-
-        // Rollback: remove optimistic cache entry and invalidate to clean up
-        dispatch(deleteCommentCacheEntry(`${author}/${permlink}`));
-        if (postType !== PostTypes.WAVE) {
-          queryClient.invalidateQueries({
-            queryKey: getDiscussionsQueryOptions(
-              { author: parentAuthor, permlink: parentPermlink } as any,
-              'created' as any,
-              true,
-              observer,
-            ).queryKey,
-          });
-        }
 
         Alert.alert(
           intl.formatMessage({

@@ -10,7 +10,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { unionBy, isArray } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { getAccountPosts, getDiscussion, useBroadcastMutation } from '@ecency/sdk';
+import { getAccountPosts, getDiscussion, useDeleteComment } from '@ecency/sdk';
 
 import QUERIES from '../queryKeys';
 import { delay } from '../../../utils/editor';
@@ -23,15 +23,8 @@ import {
 import { useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useBotAuthorsQuery } from './postQueries';
-import {
-  selectCurrentAccount,
-  selectCurrentAccountMutes,
-  selectPin,
-} from '../../../redux/selectors';
-import authType from '../../../constants/authType';
-import { decryptKey } from '../../../utils/crypto';
-import { getDigitPinCode } from '../../hive/dhive';
-import { mapAuthTypeToLoginType } from '../../../utils/authMapper';
+import { selectCurrentAccount, selectCurrentAccountMutes } from '../../../redux/selectors';
+import { useAuthContext } from '../../sdk';
 
 export const useWavesQuery = (host: string) => {
   const queryClient = useQueryClient();
@@ -116,61 +109,10 @@ export const useWavesQuery = (host: string) => {
       if (_timeElapsed < 5000) {
         if (lastCacheUpdate.type === 'vote') {
           _injectPostCache(lastCacheUpdate.postPath);
-        } else if (lastCacheUpdate.type === 'comment') {
-          _invalidateWaveContainerForComment(lastCacheUpdate.postPath);
         }
       }
     }
   }, [lastCacheUpdate]);
-
-  // Invalidate-only path for comment updates (no optimistic cache write here).
-  const _invalidateWaveContainerForComment = (commentPath: string) => {
-    const commentsCollection = cache.commentsCollection || {};
-    const _cachedComment = commentsCollection[commentPath];
-    if (!_cachedComment) {
-      return;
-    }
-
-    const { parent_author: initialParentAuthor, parent_permlink: initialParentPermlink } =
-      _cachedComment;
-    if (!initialParentAuthor || !initialParentPermlink) {
-      return;
-    }
-
-    // Walk ancestry until we hit a top-level wave tracked in index collection.
-    let parentAuthor = initialParentAuthor;
-    let parentPermlink = initialParentPermlink;
-    let parentPath = `${parentAuthor}/${parentPermlink}`;
-    let _containerPermlink = wavesIndexCollection.current[parentPath];
-
-    const visited = new Set<string>();
-    while (!_containerPermlink && parentAuthor && parentPermlink) {
-      if (visited.has(parentPath)) {
-        break;
-      }
-      visited.add(parentPath);
-
-      const parentComment = commentsCollection[parentPath];
-      if (!parentComment?.parent_author || !parentComment?.parent_permlink) {
-        break;
-      }
-
-      parentAuthor = parentComment.parent_author;
-      parentPermlink = parentComment.parent_permlink;
-      parentPath = `${parentAuthor}/${parentPermlink}`;
-      _containerPermlink = wavesIndexCollection.current[parentPath];
-    }
-
-    if (_containerPermlink) {
-      const _containerIndex = activePermlinks.indexOf(_containerPermlink);
-      if (_containerIndex >= 0) {
-        // invalidate the specific wave container query to re-fetch with new reply
-        queryClient.invalidateQueries({
-          queryKey: [QUERIES.WAVES.GET, host, _containerPermlink, _containerIndex],
-        });
-      }
-    }
-  };
 
   const _injectPostCache = async (postPath: string) => {
     // using post path get index of query key where that post exists
@@ -251,16 +193,10 @@ export const useWavesQuery = (host: string) => {
       ? await parseDiscussionCollection(response, currentAccount?.username)
       : null;
 
-    // inject cache here...
-    const _cachedComments = cacheRef.current.commentsCollection;
+    // inject vote cache here...
     const _cachedVotes = cacheRef.current.votesCollection;
     const _lastCacheUpdate = cacheRef.current.lastCacheUpdate;
-    const _cResponse = injectPostCache(
-      parsedResponse,
-      _cachedComments,
-      _cachedVotes,
-      _lastCacheUpdate,
-    );
+    const _cResponse = injectPostCache(parsedResponse, null, _cachedVotes, _lastCacheUpdate);
 
     const _threadedComments = await mapDiscussionToThreads(_cResponse, host, pagePermlink, 1);
 
@@ -396,103 +332,8 @@ export const useDeleteWaveMutation = (
   const intl = useIntl();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinHash = useAppSelector(selectPin);
-
-  // Use refs to store latest values to avoid stale credentials
-  const currentAccountRef = useRef(currentAccount);
-  const pinHashRef = useRef(pinHash);
-
-  // Update refs whenever values change
-  useEffect(() => {
-    currentAccountRef.current = currentAccount;
-  }, [currentAccount]);
-
-  useEffect(() => {
-    pinHashRef.current = pinHash;
-  }, [pinHash]);
-
-  // Compute auth credentials using refs to get fresh values
-  const getAuthCredentials = () => {
-    const account = currentAccountRef.current;
-    const pin = pinHashRef.current;
-
-    // Defensive checks: verify account and required fields exist
-    if (!account || !account.local || !account.local.authType || !account.name) {
-      console.error('[WavesQueries] Missing account or auth credentials for wave deletion');
-      return null;
-    }
-
-    const digitPinCode = getDigitPinCode(pin);
-    if (!digitPinCode) {
-      console.error('[WavesQueries] Failed to get digit pin code');
-      return null;
-    }
-
-    const isHiveSigner =
-      account.local.authType === authType.STEEM_CONNECT ||
-      account.local.authType === authType.HIVE_AUTH;
-
-    const accessToken = isHiveSigner
-      ? decryptKey(account.local.accessToken, digitPinCode)
-      : undefined;
-    const postingKey =
-      !isHiveSigner && account.local.postingKey
-        ? decryptKey(account.local.postingKey, digitPinCode)
-        : undefined;
-
-    return {
-      accessToken,
-      postingKey,
-      loginType: mapAuthTypeToLoginType(account.local.authType),
-      username: account.name,
-    };
-  };
-
-  // Capture stable username for both mutation key and operation author
-  // to ensure they never diverge even if account changes
-  const usernameForKey = currentAccount.name;
-
-  const broadcastMutation = useBroadcastMutation<{ permlink: string; parentPermlink: string }>(
-    [QUERIES.WAVES.DELETE],
-    usernameForKey,
-    ({ permlink }) => {
-      // Verify credentials at mutation time
-      const latestAuth = getAuthCredentials();
-      if (!latestAuth) {
-        throw new Error('Cannot delete wave: authentication credentials are missing');
-      }
-      // Use the same stable username for author to match mutation key
-      return [
-        [
-          'delete_comment',
-          {
-            author: usernameForKey,
-            permlink,
-          },
-        ],
-      ];
-    },
-    () => {}, // onSuccess callback
-    // Auth object - SDK will use this at mutation time
-    // Note: Cannot use IIFE here as it would capture stale credentials
-    // Instead, relying on SDK's internal handling of accessToken/postingKey
-    {
-      // These are computed at init time but SDK should handle refresh
-      // Alternative: use custom broadcast function for truly fresh credentials
-      get accessToken() {
-        const auth = getAuthCredentials();
-        return auth?.accessToken;
-      },
-      get postingKey() {
-        const auth = getAuthCredentials();
-        return auth?.postingKey;
-      },
-      get loginType() {
-        const auth = getAuthCredentials();
-        return auth?.loginType || 'key';
-      },
-    },
-  );
+  const authContext = useAuthContext();
+  const sdkDeleteMutation = useDeleteComment(currentAccount?.name, authContext);
 
   return useMutation({
     mutationFn: async ({
@@ -502,14 +343,13 @@ export const useDeleteWaveMutation = (
       _permlink: string;
       _parent_permlink: string;
     }) => {
-      const response = await broadcastMutation.mutateAsync({
+      await sdkDeleteMutation.mutateAsync({
+        author: currentAccount.name,
         permlink: _permlink,
+        parentAuthor: host,
         parentPermlink: _parent_permlink,
       });
 
-      if (!response) {
-        throw new Error('Failed to delete the wave');
-      }
       return { _permlink, _parent_permlink };
     },
     onSuccess: ({ _permlink, _parent_permlink }) => {

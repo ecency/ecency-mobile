@@ -274,14 +274,14 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
 
 export const injectPostCache = (
   commentsMap,
-  cachedComments,
+  _cachedComments,
   cachedVotes,
-  lastCacheUpdate,
-  discussionContext?: { author?: string; permlink?: string },
+  _lastCacheUpdate?,
+  _discussionContext?: { author?: string; permlink?: string },
 ) => {
   let shouldClone = false;
   let _comments = commentsMap || {};
-  if (!cachedComments && !cachedVotes) {
+  if (!cachedVotes) {
     return _comments;
   }
 
@@ -289,124 +289,9 @@ export const injectPostCache = (
     return _comments;
   }
 
-  // process comments cache
-  if (cachedComments) {
-    Object.keys(cachedComments).forEach((path) => {
-      const currentTime = new Date().getTime();
-      const cachedComment = cachedComments[path];
-      const _parentPath = `${cachedComment.parent_author}/${cachedComment.parent_permlink}`;
-      const cacheUpdateTimestamp = new Date(cachedComment.updated || 0).getTime();
-
-      switch (cachedComment.status) {
-        case CacheStatus.DELETED:
-          if (_comments && _comments[path]) {
-            if (!shouldClone) {
-              _comments = { ..._comments };
-              shouldClone = true;
-            }
-            delete _comments[path];
-
-            // Update parent's children count and replies array
-            if (_comments[_parentPath]) {
-              _comments[_parentPath] = {
-                ..._comments[_parentPath],
-                children: Math.max(0, (_comments[_parentPath].children ?? 1) - 1),
-                replies: (_comments[_parentPath].replies || []).filter((r: string) => r !== path),
-              };
-            }
-          }
-          break;
-        case CacheStatus.UPDATED:
-        case CacheStatus.PENDING:
-          // check if commentKey already exist in comments map,
-          if (_comments[path]) {
-            // check if we should update comments map with cached map based on updat timestamp
-            const remoteUpdateTimestamp = new Date(_comments[path].updated).getTime();
-
-            if (cacheUpdateTimestamp > remoteUpdateTimestamp) {
-              if (!shouldClone) {
-                _comments = { ..._comments };
-                shouldClone = true;
-              }
-              // Don't mutate - create new object
-              _comments[path] = {
-                ..._comments[path],
-                body: cachedComment.body,
-              };
-            }
-          }
-
-          // if comment key do not exist, possibly comment is a new comment, in this case, check if parent of comment exist in map
-          else if (_comments[_parentPath]) {
-            if (!shouldClone) {
-              _comments = { ..._comments };
-              shouldClone = true;
-            }
-            // in this case add comment key in children and inject cachedComment in commentsMap
-            const parentComment = _comments[_parentPath];
-            let updatedComment = cachedComment;
-            if (cachedVotes && cachedVotes[path]) {
-              updatedComment = injectVoteCache(updatedComment, cachedVotes[path]);
-            }
-            _comments[path] = updatedComment;
-
-            // Don't mutate parent - create new object with updated replies and children
-            _comments[_parentPath] = {
-              ...parentComment,
-              replies: [...(parentComment.replies || []), path],
-              children: (parentComment.children ?? 0) + 1,
-            };
-
-            // if comment was created very recently enable auto reveal
-            if (
-              lastCacheUpdate &&
-              lastCacheUpdate.postPath === path &&
-              currentTime - lastCacheUpdate.updatedAt < 5000
-            ) {
-              _comments[_parentPath] = {
-                ..._comments[_parentPath],
-                expandedReplies: true,
-              };
-              _comments[path] = {
-                ..._comments[path],
-                renderOnTop: true,
-              };
-            }
-          }
-          // fallback: parent entry might be excluded from fetched discussion map
-          // keep root-level optimistic comments visible for the currently opened discussion
-          else if (
-            discussionContext?.author &&
-            discussionContext?.permlink &&
-            cachedComment.parent_author === discussionContext.author &&
-            cachedComment.parent_permlink === discussionContext.permlink
-          ) {
-            if (!shouldClone) {
-              _comments = { ..._comments };
-              shouldClone = true;
-            }
-
-            let updatedComment = cachedComment;
-            if (cachedVotes && cachedVotes[path]) {
-              updatedComment = injectVoteCache(updatedComment, cachedVotes[path]);
-            }
-            if (lastCacheUpdate && currentTime - lastCacheUpdate.updatedAt < 5000) {
-              _comments[path] = {
-                ...updatedComment,
-                renderOnTop: true,
-              };
-            } else {
-              _comments[path] = updatedComment;
-            }
-          }
-          break;
-      }
-    });
-  }
-
   const commentPaths = Object.keys(_comments);
 
-  // process votes cache - only for comments in this discussion (after cached inserts)
+  // process votes cache - only for comments in this discussion
   if (cachedVotes) {
     commentPaths.forEach((path) => {
       const cachedVote = cachedVotes[path];
