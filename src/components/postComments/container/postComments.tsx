@@ -58,10 +58,11 @@ const PostComments = forwardRef(
     const dispatch = useAppDispatch();
 
     const currentAccount = useAppSelector(selectCurrentAccount);
+    const currentAccountName = currentAccount?.name;
     const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
     const authContext = useAuthContext();
-    const deleteCommentMutation = useDeleteComment(currentAccount?.name, authContext);
+    const deleteCommentMutation = useDeleteComment(currentAccountName, authContext);
     const { mutateAsync: deleteComment } = deleteCommentMutation;
 
     const discussionQuery = postQueries.useDiscussionQuery(author, permlink);
@@ -162,12 +163,12 @@ const PostComments = forwardRef(
         const _onConfirmDelete = async () => {
           try {
             await deleteComment({
-              author: currentAccount?.name,
+              author: currentAccountName,
               permlink: _permlink,
               parentAuthor: _parentAuthor,
               parentPermlink: _parentPermlink || permlink,
             });
-            console.log('deleted comment', `${currentAccount?.name}/${_permlink}`);
+            console.log('deleted comment', `${currentAccountName}/${_permlink}`);
           } catch (err) {
             const errorDetail = err?.message ? String(err.message) : String(err);
             dispatch(toastNotification(`Failed to delete comment: ${errorDetail}`));
@@ -193,7 +194,7 @@ const PostComments = forwardRef(
           },
         });
       },
-      [currentAccount, deleteComment, dispatch, intl, permlink],
+      [currentAccountName, deleteComment, dispatch, intl, permlink],
     );
 
     const _openReplyThread = useCallback(

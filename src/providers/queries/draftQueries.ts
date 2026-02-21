@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import {
+  QueryKeys,
   getDraftsInfiniteQueryOptions,
   getSchedulesInfiniteQueryOptions,
   useAddDraft,
@@ -14,19 +15,17 @@ import { useIntl } from 'react-intl';
 import { useAppDispatch, useAuth } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
 
-const draftsInfiniteQueryKey = (username: string | undefined) => [
-  'posts',
-  'drafts',
-  'infinite',
-  username,
-];
+const DEFAULT_INFINITE_QUERY_LIMIT = 20;
 
-const schedulesInfiniteQueryKey = (username: string | undefined) => [
-  'posts',
-  'schedules',
-  'infinite',
-  username,
-];
+const draftsInfiniteQueryKey = (
+  username: string | undefined,
+  limit = DEFAULT_INFINITE_QUERY_LIMIT,
+) => QueryKeys.posts.draftsInfinite(username, limit).slice(0, 4);
+
+const schedulesInfiniteQueryKey = (
+  username: string | undefined,
+  limit = DEFAULT_INFINITE_QUERY_LIMIT,
+) => QueryKeys.posts.schedulesInfinite(username, limit).slice(0, 4);
 
 /**
  * Hook to return user drafts with infinite scroll pagination
@@ -180,12 +179,11 @@ export const useDraftsBatchDeleteMutation = () => {
           // eslint-disable-next-line no-await-in-loop
           await deleteDraftMutation.mutateAsync({ draftId: id });
         }
-        await queryClient.invalidateQueries({ queryKey: draftsInfiniteQueryKey(username) });
-        options?.onSettled?.();
       } catch (error) {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-        options?.onSettled?.();
       } finally {
+        await queryClient.invalidateQueries({ queryKey: draftsInfiniteQueryKey(username) });
+        options?.onSettled?.();
         setIsBatchDeleting(false);
       }
     },
@@ -264,12 +262,11 @@ export const useSchedulesBatchDeleteMutation = () => {
           // eslint-disable-next-line no-await-in-loop
           await deleteScheduleMutation.mutateAsync({ id });
         }
-        await queryClient.invalidateQueries({ queryKey: schedulesInfiniteQueryKey(username) });
-        options?.onSettled?.();
       } catch (error) {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-        options?.onSettled?.();
       } finally {
+        await queryClient.invalidateQueries({ queryKey: schedulesInfiniteQueryKey(username) });
+        options?.onSettled?.();
         setIsBatchDeleting(false);
       }
     },
