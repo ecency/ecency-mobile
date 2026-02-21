@@ -17,7 +17,8 @@ import {
   useAddFavouriteMutation,
   useDeleteFavouriteMutation,
 } from '../../../../providers/queries/bookmarkQueries';
-import { followUser, getDigitPinCode } from '../../../../providers/hive/dhive';
+import { getDigitPinCode } from '../../../../providers/hive/dhive';
+import { useFollowMutation } from '../../../../providers/sdk/mutations';
 import { decryptKey } from '../../../../utils/crypto';
 import { getRcPower, getVotingPower } from '../../../../utils/manaBar';
 import styles from './quickProfileStyles';
@@ -48,6 +49,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
 
   const addFavouriteMutation = useAddFavouriteMutation();
   const deleteFavouriteMutation = useDeleteFavouriteMutation();
+  const followMutation = useFollowMutation();
 
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
@@ -167,14 +169,8 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
 
   const _onFollowPress = async () => {
     try {
-      const follower = currentAccountName;
-      const following = username;
-
       setIsLoading(true);
-      await followUser(currentAccount, pinCode, {
-        follower,
-        following,
-      });
+      await followMutation.mutateAsync({ following: username });
 
       setIsLoading(false);
       setIsFollowing(true);

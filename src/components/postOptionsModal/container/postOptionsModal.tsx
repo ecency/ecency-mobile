@@ -9,10 +9,14 @@ import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import { useQueryClient } from '@tanstack/react-query';
-import { getPostQueryOptions, getAccountFullQueryOptions } from '@ecency/sdk';
-import { useDeleteComment } from '@ecency/sdk';
-import { ignoreUser, pinCommunityPost, profileUpdate, reblog } from '../../../providers/hive/dhive';
+import { getPostQueryOptions, getAccountFullQueryOptions, useDeleteComment } from '@ecency/sdk';
+import { ignoreUser } from '../../../providers/hive/dhive';
 import { useAuthContext } from '../../../providers/sdk';
+import {
+  useReblogMutation,
+  usePinPostMutation,
+  useAccountUpdateMutation,
+} from '../../../providers/sdk/mutations';
 import { addReport } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 
@@ -28,9 +32,7 @@ import { getPostUrl } from '../../../utils/post';
 
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
-import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { useAddBookmarkMutation } from '../../../providers/queries/bookmarkQueries';
-import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import styles from '../styles/postOptionsModal.styles';
 import { delay } from '../../../utils/editor';
@@ -60,7 +62,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
   const queryClient = useQueryClient();
-  const userActivityMutation = useUserActivityMutation();
   const addBookmarkMutation = useAddBookmarkMutation();
 
   const bottomSheetModalRef = useRef<ActionSheet | null>(null);
@@ -75,6 +76,9 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
   const authContext = useAuthContext();
   const deleteCommentMutation = useDeleteComment(currentAccount?.name, authContext);
+  const reblogMutation = useReblogMutation();
+  const pinPostMutation = usePinPostMutation();
+  const accountUpdateMutation = useAccountUpdateMutation();
   const isPinCodeOpen = useAppSelector(selectIsPinCodeOpen);
   const subscribedCommunities = useAppSelector((state) => state.communities.subscribedCommunities);
 
@@ -375,63 +379,50 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       showLoginAlert({ intl });
       return;
     }
-    if (isLoggedIn) {
-      reblog(currentAccount, pinCode, content.author, get(content, 'permlink', ''), undo)
-        .then((response) => {
-          // track user activity points ty=130 (only for reblog, not undo)
-          if (!undo) {
-            userActivityMutation.mutate({
-              pointsTy: PointActivityIds.REBLOG,
-              transactionId: response.id,
-            });
-          }
 
+    reblogMutation
+      .mutateAsync({
+        author: content.author,
+        permlink: get(content, 'permlink', ''),
+        deleteReblog: undo,
+      })
+      .then(() => {
+        // SDK handles activity tracking (ty=130) and blog/entry cache invalidation
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: undo ? 'alert.success_reblog_deleted' : 'alert.success_rebloged',
+            }),
+          ),
+        );
+
+        // Refetch reblogs to update the list
+        reblogsQuery.refetch();
+
+        // Also invalidate reblog filter (SDK only invalidates blog filter)
+        queryClient.invalidateQueries({
+          predicate: (query) =>
+            query.queryKey[0] === 'posts' &&
+            query.queryKey[1] === 'account-posts' &&
+            query.queryKey[2] === currentAccount.name &&
+            query.queryKey[3] === 'reblog',
+        });
+      })
+      .catch((error) => {
+        if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {
           dispatch(
             toastNotification(
               intl.formatMessage({
-                id: undo ? 'alert.success_reblog_deleted' : 'alert.success_rebloged',
+                id: 'alert.already_rebloged',
               }),
             ),
           );
-
-          // Refetch reblogs to update the list
-          reblogsQuery.refetch();
-
-          // Invalidate the specific post query to update reblog stats
-          queryClient.invalidateQueries({
-            queryKey: ['posts', 'entry', `/@${content.author}/${get(content, 'permlink', '')}`],
-          });
-
-          // Invalidate account posts query to show added/removed reblog in blog and reblog filters
-          // SDK query key structure: ['posts', 'account-posts', username, filter, ...]
-          queryClient.invalidateQueries({
-            predicate: (query) =>
-              query.queryKey[0] === 'posts' &&
-              query.queryKey[1] === 'account-posts' &&
-              query.queryKey[2] === currentAccount.name &&
-              ['blog', 'reblog'].includes(String(query.queryKey[3])),
-          });
-        })
-        .catch((error) => {
-          if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {
-            dispatch(
-              toastNotification(
-                intl.formatMessage({
-                  id: 'alert.already_rebloged',
-                }),
-              ),
-            );
-          } else {
-            if (error && error.jse_shortmsg?.split(': ')[1]?.includes('wait to transact')) {
-              // when RC is not enough, offer boosting account
-              dispatch(setRcOffer(true));
-            } else {
-              // when other errors
-              dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-            }
-          }
-        });
-    }
+        } else if (error && error.jse_shortmsg?.split(': ')[1]?.includes('wait to transact')) {
+          dispatch(setRcOffer(true));
+        } else {
+          dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+        }
+      });
   };
 
   const _crossPost = () => {
@@ -445,17 +436,17 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   const _updatePinnedPost = async (
     { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
   ) => {
-    const params = {
+    const profileParams = {
       ...(currentAccount.profile || {}),
       pinned: unpinPost ? null : content.permlink,
     };
 
     try {
-      await profileUpdate(params, pinCode, currentAccount);
+      await accountUpdateMutation.mutateAsync({ profile: profileParams });
 
       const nextAccount = {
         ...currentAccount,
-        profile: { ...params },
+        profile: { ...profileParams },
       };
 
       dispatch(updateCurrentAccount(nextAccount));
@@ -474,7 +465,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       queryClient.invalidateQueries({ queryKey: entryQueryKey });
 
       // Invalidate account feed queries to update profile feeds (blog, posts, reblog)
-      // Use SDK query key structure: ['posts', 'account-posts', username, filter, ...]
       queryClient.invalidateQueries({
         predicate: (query) =>
           query.queryKey[0] === 'posts' &&
@@ -496,14 +486,12 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
   ) => {
     try {
-      await pinCommunityPost(
-        currentAccount,
-        pinCode,
-        content.community,
-        content.author,
-        content.permlink,
-        unpinPost,
-      );
+      await pinPostMutation.mutateAsync({
+        community: content.community,
+        account: content.author,
+        permlink: content.permlink,
+        pin: !unpinPost,
+      });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
 
       // Invalidate post query to refetch with updated pin status
@@ -515,12 +503,11 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       queryClient.invalidateQueries({ queryKey: entryQueryKey });
 
       // Invalidate community feed queries to update community posts
-      // Use SDK query key structure: ['posts', 'posts-ranked', sort, tag, ...]
       queryClient.invalidateQueries({
         predicate: (query) =>
           query.queryKey[0] === 'posts' &&
           query.queryKey[1] === 'posts-ranked' &&
-          query.queryKey[3] === content.community, // tag/community is at index 3
+          query.queryKey[3] === content.community,
       });
     } catch (err) {
       console.warn('Failed to update pin status of community post', err);

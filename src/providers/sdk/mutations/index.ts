@@ -10,6 +10,7 @@
 export { useFollowMutation } from './useFollowMutation';
 export { useUnfollowMutation } from './useUnfollowMutation';
 export { useReblogMutation } from './useReblogMutation';
+export { useAccountRelationsUpdateMutation } from './useAccountRelationsUpdateMutation';
 
 // Content
 export { useCommentMutation } from './useCommentMutation';

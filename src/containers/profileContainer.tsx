@@ -24,7 +24,8 @@ import {
   selectIsConnected,
   selectHidePostsThumbnails,
 } from '../redux/selectors';
-import { followUser, unfollowUser, ignoreUser, getDigitPinCode } from '../providers/hive/dhive';
+import { ignoreUser, getDigitPinCode } from '../providers/hive/dhive';
+import { useFollowMutation, useUnfollowMutation } from '../providers/sdk/mutations';
 import { getQueryClient } from '../providers/queries';
 import { startMattermostDirectMessage } from '../providers/chat/mattermost';
 
@@ -148,26 +149,16 @@ class ProfileContainer extends Component {
 
   _handleFollowUnfollowUser = async (isFollowAction) => {
     const { isFollowing, username } = this.state;
-    const { currentAccount, pinCode, dispatch, intl } = this.props;
-    const follower = get(currentAccount, 'name', '');
-    const following = username;
-
-    let followAction;
+    const { currentAccount, dispatch, intl, followMutation, unfollowMutation } = this.props;
 
     this.setState({
       isProfileLoading: true,
     });
 
-    if (isFollowAction && !isFollowing) {
-      followAction = followUser;
-    } else {
-      followAction = unfollowUser;
-    }
+    const mutation = isFollowAction && !isFollowing ? followMutation : unfollowMutation;
 
-    followAction(currentAccount, pinCode, {
-      follower,
-      following,
-    })
+    mutation
+      .mutateAsync({ following: username })
       .then(() => {
         // means user is now being followed
         if (!isFollowing) {
@@ -674,12 +665,16 @@ const mapHooksToProps = (props) => {
   const navigation = useNavigation();
   const addFavouriteMutation = useAddFavouriteMutation();
   const deleteFavouriteMutation = useDeleteFavouriteMutation();
+  const followMutation = useFollowMutation();
+  const unfollowMutation = useUnfollowMutation();
   return (
     <ProfileContainer
       {...props}
       navigation={navigation}
       addFavouriteMutation={addFavouriteMutation}
       deleteFavouriteMutation={deleteFavouriteMutation}
+      followMutation={followMutation}
+      unfollowMutation={unfollowMutation}
     />
   );
 };

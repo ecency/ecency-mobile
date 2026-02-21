@@ -14,17 +14,11 @@ import {
   selectOtherAccounts,
   selectIsConnected,
 } from '../redux/selectors';
-import {
-  promote,
-  boost,
-  boostPlus,
-  buildPromoteOpArr,
-  buildBoostOpArr,
-  buildBoostPlusOpArr,
-} from '../providers/hive/dhive';
+import { boost, buildBoostOpArr } from '../providers/hive/dhive';
 import { getQueryClient } from '../providers/queries';
 import { toastNotification } from '../redux/actions/uiAction';
 import { useActiveKeyOperation } from '../hooks';
+import { usePromoteMutation, useBoostPlusMutation } from '../providers/sdk/mutations';
 
 /*
  *            Props Name        Description                                     Value
@@ -48,60 +42,58 @@ class RedeemContainer extends Component {
 
   _redeemAction = async (user, redeemType = 'promote', actionSpecificParam, author, permlink) => {
     const { currentAccount, pinCode, dispatch, intl, navigation, executeOperation } = this.props;
+    const { promoteMutation, boostPlusMutation } = this.props;
     const account = user || currentAccount;
     const username = get(account, 'name');
-
-    let action;
-    let operations;
-
-    // Build operations based on redeem type
-    switch (redeemType) {
-      case 'promote':
-        action = promote;
-        operations = buildPromoteOpArr(username, author, permlink, actionSpecificParam);
-        break;
-
-      case 'boost':
-        action = boost;
-        operations = buildBoostOpArr(username, actionSpecificParam, author, permlink);
-        break;
-
-      case 'boost_plus':
-        action = boostPlus;
-        operations = buildBoostPlusOpArr(username, actionSpecificParam, author);
-        break;
-      default:
-        break;
-    }
 
     this.setState({ isLoading: true });
 
     try {
-      await executeOperation({
-        operations,
-        privateKeyHandler: () => action(account, pinCode, actionSpecificParam, author, permlink),
-        callbacks: {
-          onSuccess: () => {
-            this.setState({ isLoading: false });
-            navigation.goBack();
-            dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-          },
-          onError: (error) => {
-            this.setState({ isLoading: false });
-            dispatch(
-              toastNotification(
-                `${intl.formatMessage({ id: 'alert.key_warning' })}\n${error.message}`,
-              ),
-            );
-          },
-          onClose: () => {
-            this.setState({ isLoading: false });
-          },
-        },
-      });
-    } catch (error) {
-      // Error already handled in callbacks
+      // Use SDK mutations for promote and boost_plus; legacy path for boost
+      switch (redeemType) {
+        case 'promote':
+          await promoteMutation.mutateAsync({
+            author,
+            permlink,
+            duration: actionSpecificParam,
+          });
+          break;
+
+        case 'boost_plus':
+          await boostPlusMutation.mutateAsync({
+            account: author,
+            duration: actionSpecificParam,
+          });
+          break;
+
+        case 'boost':
+          // Legacy path — no SDK mutation for boost yet
+          await executeOperation({
+            operations: buildBoostOpArr(username, actionSpecificParam, author, permlink),
+            privateKeyHandler: () => boost(account, pinCode, actionSpecificParam, author, permlink),
+            callbacks: {
+              onSuccess: () => {},
+              onError: (error) => {
+                throw error;
+              },
+              onClose: () => {},
+            },
+          });
+          break;
+
+        default:
+          break;
+      }
+
       this.setState({ isLoading: false });
+      navigation.goBack();
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+    } catch (error) {
+      this.setState({ isLoading: false });
+      if (error?.message) {
+        const msg = `${intl.formatMessage({ id: 'alert.key_warning' })}\n${error.message}`;
+        dispatch(toastNotification(msg));
+      }
     }
   };
 
@@ -182,7 +174,17 @@ const mapStateToProps = (state) => ({
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
   const { executeOperation } = useActiveKeyOperation();
-  return <RedeemContainer {...props} navigation={navigation} executeOperation={executeOperation} />;
+  const promoteMutation = usePromoteMutation();
+  const boostPlusMutation = useBoostPlusMutation();
+  return (
+    <RedeemContainer
+      {...props}
+      navigation={navigation}
+      executeOperation={executeOperation}
+      promoteMutation={promoteMutation}
+      boostPlusMutation={boostPlusMutation}
+    />
+  );
 };
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
