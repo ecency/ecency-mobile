@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Linking, Keyboard } from 'react-native';
+import { AppState, AppStateStatus, Linking, Keyboard } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import HAS from 'hive-auth-wrapper';
@@ -214,6 +214,31 @@ const ensureHasConnection = (forceReconnect = false) => {
   return _hasConnectionPromise;
 };
 
+let _appStateSubscription: { remove: () => void } | null = null;
+let _appStateListenerUsers = 0;
+let _lastAppState: AppStateStatus = AppState.currentState;
+
+const ensureAppStateListener = () => {
+  if (_appStateSubscription) {
+    return;
+  }
+
+  _appStateSubscription = AppState.addEventListener('change', (nextAppState) => {
+    if (/inactive|background/.test(_lastAppState) && nextAppState === 'active') {
+      console.log('[HiveAuth] App returned to foreground, forcing HAS reconnect');
+      ensureHasConnection(true);
+    }
+    _lastAppState = nextAppState;
+  });
+};
+
+const releaseAppStateListener = () => {
+  if (_appStateSubscription) {
+    _appStateSubscription.remove();
+    _appStateSubscription = null;
+  }
+};
+
 export const useHiveAuth = () => {
   const intl = useIntl();
   const postLoginActions = usePostLoginActions();
@@ -228,6 +253,22 @@ export const useHiveAuth = () => {
   // Ensure HAS relay connection is established (singleton, only connects once)
   useEffect(() => {
     ensureHasConnection();
+  }, []);
+
+  // Force fresh HAS connection when app returns from background.
+  // When the user is redirected to Keychain for signing, the app goes to background
+  // and the WebSocket may disconnect. On return, we need a fresh connection before
+  // the broadcast's internal polling tries to use the stale one.
+  useEffect(() => {
+    if (_appStateListenerUsers++ === 0) {
+      ensureAppStateListener();
+    }
+
+    return () => {
+      if (_appStateListenerUsers > 0 && --_appStateListenerUsers === 0) {
+        releaseAppStateListener();
+      }
+    };
   }, []);
 
   /**

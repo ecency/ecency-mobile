@@ -2,8 +2,6 @@ import { PointActivity } from '../../providers/ecency/ecency.types';
 import {
   PURGE_EXPIRED_CACHE,
   UPDATE_VOTE_CACHE,
-  UPDATE_COMMENT_CACHE,
-  DELETE_COMMENT_CACHE_ENTRY,
   DELETE_DRAFT_CACHE_ENTRY,
   UPDATE_DRAFT_CACHE,
   UPDATE_REPLY_CACHE,
@@ -47,30 +45,6 @@ export interface PollVoteCache {
   votedAt: number;
   expiresAt: number;
   status: CacheStatus;
-}
-
-export interface Comment {
-  author: string;
-  permlink: string;
-  parent_author: string;
-  parent_permlink: string;
-  body?: string;
-  markdownBody: string;
-  author_reputation?: number;
-  total_payout?: number;
-  net_rshares?: number;
-  active_votes?: Array<{ rshares: number; voter: string }>;
-  replies?: string[];
-  children?: number;
-  json_metadata?: any;
-  isDeletable?: boolean;
-  created?: string; // handle created and updated separatly
-  updated?: string;
-  expiresAt?: number;
-  expandedReplies?: boolean;
-  renderOnTop?: boolean;
-  status: CacheStatus;
-  url?: string;
 }
 
 export interface Draft {
@@ -117,7 +91,6 @@ export interface LastUpdateMeta {
 
 interface State {
   votesCollection: { [key: string]: VoteCache };
-  commentsCollection: { [key: string]: Comment };
   pollVotesCollection: { [key: string]: PollVoteCache };
   draftsCollection: { [key: string]: Draft };
   replyCache: { [key: string]: Draft }; // For waves and reply autosave
@@ -131,7 +104,6 @@ interface State {
 
 const initialState: State = {
   votesCollection: {},
-  commentsCollection: {},
   pollVotesCollection: {},
   draftsCollection: {},
   replyCache: {},
@@ -160,23 +132,6 @@ const cacheReducer = (state = initialState, action) => {
         },
       };
 
-    case UPDATE_COMMENT_CACHE:
-      if (!state.commentsCollection) {
-        state.commentsCollection = {};
-      }
-      state.commentsCollection = {
-        ...state.commentsCollection,
-        [payload.commentPath]: payload.comment,
-      };
-      return {
-        ...state, // spread operator in requried here, otherwise persist do not register change
-        lastUpdate: {
-          postPath: payload.commentPath,
-          updatedAt: new Date().getTime(),
-          type: 'comment',
-        },
-      };
-
     case UPDATE_POLL_VOTE_CACHE:
       if (!state.pollVotesCollection) {
         state.pollVotesCollection = {};
@@ -193,14 +148,6 @@ const cacheReducer = (state = initialState, action) => {
           type: 'poll-vote',
         },
       };
-
-    case DELETE_COMMENT_CACHE_ENTRY:
-      if (state.commentsCollection && state.commentsCollection[payload]) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { [payload]: _removed, ...remainingComments } = state.commentsCollection;
-        return { ...state, commentsCollection: remainingComments };
-      }
-      return state;
 
     case UPDATE_DRAFT_CACHE:
       if (!payload.id || !payload.draft) {
@@ -377,15 +324,6 @@ const cacheReducer = (state = initialState, action) => {
           const vote = state.votesCollection[key];
           if (vote && (vote?.expiresAt || 0) < currentTime) {
             delete state.votesCollection[key];
-          }
-        });
-      }
-
-      if (state.commentsCollection) {
-        Object.keys(state.commentsCollection).forEach((key) => {
-          const comment = state.commentsCollection[key];
-          if (comment && (comment?.expiresAt || 0) < currentTime) {
-            delete state.commentsCollection[key];
           }
         });
       }

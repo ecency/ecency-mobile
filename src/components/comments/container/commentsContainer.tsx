@@ -7,26 +7,22 @@ import get from 'lodash/get';
 import { postBodySummary } from '@ecency/render-helper';
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
-import { getDiscussionsQueryOptions } from '@ecency/sdk';
+import { getDiscussionsQueryOptions, useDeleteComment } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
-import { deleteComment } from '../../../providers/hive/dhive';
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';
 import { toastNotification } from '../../../redux/actions/uiAction';
-
-// Middleware
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
 
 // Component
 import CommentsView from '../view/commentsView';
-import { updateCommentCache } from '../../../redux/actions/cacheActions';
-import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import { postQueries } from '../../../providers/queries';
 import { PostTypes } from '../../../constants/postTypes';
 import { SheetNames } from '../../../navigation/sheets';
-import { selectCurrentAccount, selectIsLoggedIn, selectPin } from '../../../redux/selectors';
+import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
+import { useAuthContext } from '../../../providers/sdk';
 
 const CommentsContainer = ({
   author,
@@ -35,7 +31,6 @@ const CommentsContainer = ({
   isOwnProfile,
   fetchPost,
   currentAccount,
-  pinCode,
   comments,
   dispatch,
   intl,
@@ -63,6 +58,8 @@ const CommentsContainer = ({
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
   const queryClient = useQueryClient();
+  const authContext = useAuthContext();
+  const deleteCommentMutation = useDeleteComment(currentAccount?.name, authContext);
 
   const [lcomments, setLComments] = useState([]);
   const [propComments, setPropComments] = useState(comments);
@@ -210,8 +207,7 @@ const CommentsContainer = ({
     });
   };
 
-  const _handleDeleteComment = (_permlink, _parent_permlink) => {
-    let filteredComments;
+  const _handleDeleteComment = (_permlink, _parent_permlink, _parent_author) => {
     if (postType === PostTypes.WAVE && handleCommentDelete) {
       handleCommentDelete({
         _permlink,
@@ -219,33 +215,23 @@ const CommentsContainer = ({
       });
       return;
     }
-    deleteComment(currentAccount, pinCode, _permlink).then(() => {
-      let deletedItem = null;
-
-      const _applyFilter = (item) => {
-        if (item.permlink === _permlink) {
-          deletedItem = item;
-          return false;
-        }
-        return true;
-      };
-
-      if (lcomments.length > 0) {
-        filteredComments = lcomments.filter(_applyFilter);
-        setLComments(filteredComments);
-      } else {
-        filteredComments = propComments.filter(_applyFilter);
-        setPropComments(filteredComments);
-      }
-
-      // remove cached entry based on parent
-      if (deletedItem) {
-        const cachePath = `${deletedItem.author}/${deletedItem.permlink}`;
-        deletedItem.status = CacheStatus.DELETED;
-        delete deletedItem.updated;
-        dispatch(updateCommentCache(cachePath, deletedItem, { isUpdate: true }));
-      }
-    });
+    deleteCommentMutation
+      .mutateAsync({
+        author: currentAccount?.name,
+        permlink: _permlink,
+        parentAuthor: _parent_author,
+        parentPermlink: _parent_permlink || permlink,
+      })
+      .then(() => {
+        // Remove from local state for immediate UI update
+        setLComments((prev) => prev.filter((item) => item.permlink !== _permlink));
+        setPropComments((prev) => prev.filter((item) => item.permlink !== _permlink));
+      })
+      .catch((err) => {
+        const errorDetail = err?.message ? String(err.message) : String(err);
+        dispatch(toastNotification(`Failed to delete comment: ${errorDetail}`));
+        console.warn('Failed to delete comment', err);
+      });
   };
 
   const _handleOnUserPress = (username) => {
@@ -332,7 +318,6 @@ const CommentsContainer = ({
 const mapStateToProps = (state) => ({
   isLoggedIn: selectIsLoggedIn(state),
   currentAccount: selectCurrentAccount(state),
-  pinCode: selectPin(state),
 });
 
 export default connect(mapStateToProps)(injectIntl(CommentsContainer));

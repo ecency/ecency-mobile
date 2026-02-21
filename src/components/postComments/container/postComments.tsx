@@ -17,16 +17,12 @@ import { RefreshControl } from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SheetManager } from 'react-native-actions-sheet';
 import { FlashList } from '@shopify/flash-list';
-import { useQueryClient } from '@tanstack/react-query';
-import { getDiscussionsQueryOptions } from '@ecency/sdk';
+import { useDeleteComment } from '@ecency/sdk';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
-import { deleteComment } from '../../../providers/hive/dhive';
-import { updateCommentCache } from '../../../redux/actions/cacheActions';
-import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import { PostTypes } from '../../../constants/postTypes';
 import { CommentsSection } from '../children/commentsSection';
 import { sortComments } from '../children/sortComments';
@@ -36,7 +32,9 @@ import { PostOptionsModal } from '../../index';
 import { BotCommentsPreview } from '../children/botCommentsPreview';
 import { SheetNames } from '../../../navigation/sheets';
 import { checkViewability } from '../../../hooks/useViewabilityTracker';
-import { selectCurrentAccount, selectPin, selectIsDarkTheme } from '../../../redux/selectors';
+import { selectCurrentAccount, selectIsDarkTheme } from '../../../redux/selectors';
+import { useAuthContext } from '../../../providers/sdk';
+import { toastNotification } from '../../../redux/actions/uiAction';
 
 const PostComments = forwardRef(
   (
@@ -56,13 +54,16 @@ const PostComments = forwardRef(
     ref,
   ) => {
     const intl = useIntl();
-    const dispatch = useAppDispatch();
     const navigation = useNavigation();
-    const queryClient = useQueryClient();
+    const dispatch = useAppDispatch();
 
     const currentAccount = useAppSelector(selectCurrentAccount);
-    const pinHash = useAppSelector(selectPin);
+    const currentAccountName = currentAccount?.name;
     const isDarkTheme = useAppSelector(selectIsDarkTheme);
+
+    const authContext = useAuthContext();
+    const deleteCommentMutation = useDeleteComment(currentAccountName, authContext);
+    const { mutateAsync: deleteComment } = deleteCommentMutation;
 
     const discussionQuery = postQueries.useDiscussionQuery(author, permlink);
     const postsCachePrimer = postQueries.usePostsCachePrimer();
@@ -158,36 +159,20 @@ const PostComments = forwardRef(
     );
 
     const _handleDeleteComment = useCallback(
-      (_permlink) => {
+      (_permlink, _parentPermlink?, _parentAuthor?) => {
         const _onConfirmDelete = async () => {
           try {
-            await deleteComment(currentAccount, pinHash, _permlink);
-            // remove cached entry based on parent
-            const _commentPath = `${currentAccount.name}/${_permlink}`;
-            console.log('deleted comment', _commentPath);
-
-            const _deletedItem = discussionQuery.data?.[_commentPath];
-            if (_deletedItem) {
-              // Don't mutate - create new object
-              const updatedItem = {
-                ..._deletedItem,
-                status: CacheStatus.DELETED,
-              };
-              delete updatedItem.updated;
-              dispatch(updateCommentCache(_commentPath, updatedItem, { isUpdate: true }));
-            }
-
-            // Invalidate discussion query cache to refresh comment list
-            queryClient.invalidateQueries({
-              queryKey: getDiscussionsQueryOptions(
-                { author, permlink } as any,
-                'created' as any,
-                true,
-                currentAccount.name, // Pass observer to match the query key used in useDiscussionQuery
-              ).queryKey,
+            await deleteComment({
+              author: currentAccountName,
+              permlink: _permlink,
+              parentAuthor: _parentAuthor,
+              parentPermlink: _parentPermlink || permlink,
             });
+            console.log('deleted comment', `${currentAccountName}/${_permlink}`);
           } catch (err) {
-            console.warn('Failed to delete comment');
+            const errorDetail = err?.message ? String(err.message) : String(err);
+            dispatch(toastNotification(`Failed to delete comment: ${errorDetail}`));
+            console.warn('Failed to delete comment', err);
           }
         };
 
@@ -209,16 +194,7 @@ const PostComments = forwardRef(
           },
         });
       },
-      [
-        currentAccount,
-        pinHash,
-        discussionQuery.data,
-        dispatch,
-        intl,
-        author,
-        permlink,
-        queryClient,
-      ],
+      [currentAccountName, deleteComment, dispatch, intl, permlink],
     );
 
     const _openReplyThread = useCallback(

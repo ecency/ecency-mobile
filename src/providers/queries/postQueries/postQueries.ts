@@ -5,13 +5,7 @@ import { isArray } from 'lodash';
 import { getPostQueryOptions, getDiscussionsQueryOptions, getBotsQueryOptions } from '@ecency/sdk';
 import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount } from '../../../redux/selectors';
-import { Comment, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
-import {
-  injectPostCache,
-  injectVoteCache,
-  parsePost,
-  parseComment,
-} from '../../../utils/postParser';
+import { injectVoteCache, parsePost, parseComment } from '../../../utils/postParser';
 
 interface PostQueryProps {
   author?: string;
@@ -131,15 +125,11 @@ export const usePostsCachePrimer = () => {
  */
 export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const cachedComments: { [key: string]: Comment } = useAppSelector(
-    (state) => state.cache.commentsCollection,
-    (a, b) => a === b, // Use reference equality to prevent unnecessary rerenders
-  );
-  const cachedVotes: { [key: string]: Comment } = useAppSelector(
+  const cachedVotes = useAppSelector(
     (state) => state.cache.votesCollection,
     (a, b) => a === b, // Use reference equality to prevent unnecessary rerenders
   );
-  const lastCacheUpdate: LastUpdateMeta = useAppSelector(
+  const lastCacheUpdate = useAppSelector(
     (state) => state.cache.lastUpdate,
     (a, b) => a === b, // Use reference equality to prevent unnecessary rerenders
   );
@@ -168,11 +158,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   });
 
   useEffect(() => {
-    // Even if query.data is empty, we should try to show cached comments
-    // This handles the case where user posts a comment before discussion finishes loading
-    const hasCache = cachedComments && Object.keys(cachedComments).length > 0;
-
-    if (!query.data && !hasCache) {
+    if (!query.data) {
       setData((prev) => {
         if (Object.keys(prev).length === 0) {
           return prev;
@@ -180,29 +166,6 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         return {};
       });
       return;
-    }
-
-    // If we have cache but no query data yet, we need to create synthetic parent entries
-    // so that injectPostCache can properly inject the cached comments
-    const initialData = {};
-    if (!query.data && hasCache) {
-      // Create synthetic parent entries for cached comments
-      Object.keys(cachedComments).forEach((path) => {
-        const cachedComment = cachedComments[path];
-        const _parentPath = `${cachedComment.parent_author}/${cachedComment.parent_permlink}`;
-
-        // Create a minimal synthetic parent if it doesn't exist
-        if (!initialData[_parentPath]) {
-          initialData[_parentPath] = {
-            author: cachedComment.parent_author,
-            permlink: cachedComment.parent_permlink,
-            replies: [],
-            children: 0,
-            // Mark as synthetic so we know it's temporary
-            _synthetic: true,
-          };
-        }
-      });
     }
 
     // Normalize SDK response to a map keyed by "author/permlink"
@@ -257,15 +220,14 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       return normalized;
     };
 
-    // Use initialData if query.data is not available yet (e.g., still loading)
-    const normalizedData = normalizeDiscussionData(query.data || initialData);
+    const normalizedData = normalizeDiscussionData(query.data);
 
     // Parse SDK comments to convert markdown to HTML using render-helper
     // IMPORTANT: parseComment mutates its input, so we must create a shallow copy first
     const parsedComments = {};
     Object.keys(normalizedData).forEach((key) => {
       const comment = normalizedData[key];
-      if (comment && comment.body && !comment._synthetic) {
+      if (comment && comment.body) {
         // Create shallow copy to avoid mutating React Query cache
         const commentCopy = { ...comment };
         parsedComments[key] = parseComment(commentCopy, currentAccount?.name);
@@ -274,10 +236,24 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       }
     });
 
-    const _data = injectPostCache(parsedComments, cachedComments, cachedVotes, lastCacheUpdate, {
-      author,
-      permlink,
-    });
+    // Inject vote cache into parsed comments
+    let _data = parsedComments;
+    if (cachedVotes) {
+      let shouldClone = false;
+      Object.keys(_data).forEach((path) => {
+        const cachedVote = cachedVotes[path];
+        if (cachedVote) {
+          const updatedComment = injectVoteCache(_data[path], cachedVote);
+          if (updatedComment !== _data[path]) {
+            if (!shouldClone) {
+              _data = { ..._data };
+              shouldClone = true;
+            }
+            _data[path] = updatedComment;
+          }
+        }
+      });
+    }
 
     // Deep check if data actually changed before setting state
     setData((prev) => {
@@ -304,16 +280,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       // No changes, return previous reference
       return prev;
     });
-  }, [
-    query.data,
-    cachedComments,
-    cachedVotes,
-    lastCacheUpdate,
-    observer,
-    currentAccount?.name,
-    author,
-    permlink,
-  ]);
+  }, [query.data, cachedVotes, lastCacheUpdate, observer, currentAccount?.name, author, permlink]);
 
   // Cache to store processed comments and avoid recreating objects
   const processedCommentsCache = useRef<Map<string, any>>(new Map());

@@ -217,11 +217,6 @@ export const selectVotesCollection = createSelector(
 
 export const selectCacheLastUpdate = createSelector([getCacheState], (cache) => cache.lastUpdate);
 
-export const selectCommentsCollection = createSelector(
-  [getCacheState],
-  (cache) => cache.commentsCollection,
-);
-
 // Posts selectors
 export const selectFeedPosts = createSelector([getPostsState], (posts) => posts.feedPosts);
 

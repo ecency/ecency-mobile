@@ -1553,70 +1553,6 @@ export const getPurePost = async (author, permlink) => {
   }
 };
 
-export const deleteComment = async (currentAccount, pin, permlink) => {
-  const { name: author } = currentAccount;
-  const digitPinCode = getDigitPinCode(pin);
-  const key = getPostingKey(currentAccount.local, digitPinCode);
-
-  // HiveAuth without posting authority: go directly to HiveAuth broadcast
-  if (shouldUseDirectHiveAuthBroadcast(currentAccount)) {
-    const deleteOp: Operation = ['delete_comment', { author, permlink }];
-    return handleHiveAuthFallback(currentAccount, [deleteOp], 'delete_comment');
-  }
-
-  if (isHsClientSupported(currentAccount.local.authType)) {
-    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new hsClient({
-      accessToken: token,
-    });
-
-    const params = {
-      author,
-      permlink,
-    };
-
-    const opArray = [['delete_comment', params]];
-
-    try {
-      return await api.broadcast(opArray).then((resp) => resp.result);
-    } catch (err) {
-      // Check if this is a HiveAuth user with auth error (missing authority, expired token, etc.)
-      const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
-
-      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
-        // Build delete_comment operation
-        const deleteOp: Operation = [
-          'delete_comment',
-          {
-            author,
-            permlink,
-          },
-        ];
-
-        return handleHiveAuthFallback(currentAccount, [deleteOp], 'delete_comment');
-      }
-
-      throw err;
-    }
-  }
-
-  if (key) {
-    const opArray = [
-      [
-        'delete_comment',
-        {
-          author,
-          permlink,
-        },
-      ],
-    ];
-
-    const privateKey = PrivateKey.fromString(key);
-
-    return sendHiveOperations(opArray, privateKey);
-  }
-};
-
 export const getDiscussionCollection = async (
   author: string,
   permlink: string,
@@ -2840,54 +2776,7 @@ export const postContent = (
     });
 
 /**
- * Broadcasts a comment to post
- * @param account currentAccount object
- * @param pin encrypted pin taken from redux
- * @param {*} parentAuthor author of parent post or in case of reply to comment author of parent comment
- * @param {*} parentPermlink permlink of parent post or in case of reply to comment author of parent comment
- * @param {*} permlink perlink of comment to be make
- * @param {*} body body of comment
- * @param {*} parentTags tags of parent post or parent comment
- * @param {*} isEdit optional to avoid tracking activity in case of comment editing
- * @returns
- */
-export const postComment = (
-  account,
-  pin,
-  parentAuthor,
-  parentPermlink,
-  permlink,
-  body,
-  jsonMetadata,
-) =>
-  _postContent(
-    account,
-    pin,
-    parentAuthor,
-    parentPermlink,
-    permlink,
-    '',
-    body,
-    jsonMetadata,
-    null,
-    null,
-  )
-    .then((resp) => {
-      return resp;
-    })
-    .catch((err) => {
-      console.warn('Failed to post conent', err);
-      captureExceptionWithRpcParams(err, {
-        account: account?.name,
-        parentAuthor,
-        parentPermlink,
-        permlink,
-      });
-      throw err;
-    });
-
-/**
- * @method postComment post a comment/reply
+ * @method _postContent post content to blockchain (used for post creation/editing)
  * @param comment comment object { author, permlink, ... }
  */
 const _postContent = async (

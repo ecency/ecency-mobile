@@ -15,7 +15,6 @@ import {
   getDraftsInfiniteQueryOptions,
   getDraftsQueryOptions,
   getPostQueryOptions,
-  getDiscussionsQueryOptions,
   addDraft,
   updateDraft,
   addSchedule,
@@ -28,7 +27,6 @@ import {
   postContent,
   grantPostingPermission,
   reblog,
-  postComment,
   getDigitPinCode,
   shouldPromptPostingAuthority,
 } from '../../../providers/hive/dhive';
@@ -61,8 +59,6 @@ import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import {
   deleteDraftCacheEntry,
   deleteReplyCacheEntry,
-  deleteCommentCacheEntry,
-  updateCommentCache,
   updateDraftCache,
   updateReplyCache,
 } from '../../../redux/actions/cacheActions';
@@ -70,6 +66,7 @@ import QUERIES from '../../../providers/queries/queryKeys';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
+import { useCommentMutations } from '../../../providers/queries/postQueries/commentQueries';
 import { PostTypes } from '../../../constants/postTypes';
 
 import {
@@ -1052,15 +1049,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _submitReply = async (fields) => {
-    const {
-      currentAccount,
-      pinCode,
-      dispatch,
-      userActivityMutation,
-      replyCache,
-      speakContentBuilder,
-      queryClient,
-    } = this.props;
+    const { currentAccount, dispatch, replyCache, speakContentBuilder, commentMutation } =
+      this.props;
     const { isPostSending } = this.state;
 
     if (isPostSending || this._isSubmitting) {
@@ -1123,9 +1113,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
-      const observer = currentAccount.name || currentAccount.username;
       const parentTags = post.json_metadata.tags;
-      const draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
+      const draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`;
 
       const meta = await extractMetadata({
         body: fields.body,
@@ -1136,84 +1125,42 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       const author = currentAccount.name;
 
-      // ✅ OPTIMISTIC UPDATE: Add comment to cache BEFORE blockchain broadcast
-      // This makes the comment appear instantly in the UI via Redux cache injection
-      // (useDiscussionQuery's useEffect depends on cachedComments and will re-run injectPostCache)
-      dispatch(
-        updateCommentCache(
-          `${author}/${permlink}`,
-          {
-            author,
-            permlink,
-            parent_author: parentAuthor,
-            parent_permlink: parentPermlink,
-            markdownBody: fields.body,
-          },
-          {
-            parentTags: parentTags || ['ecency'],
-          },
-        ),
-      );
+      // Derive root author/permlink for proper cache invalidation
+      const rootAuthor = post.root_author || parentAuthor;
+      const rootPermlink = post.root_permlink || parentPermlink;
 
-      // Broadcast to blockchain
-      await postComment(
-        currentAccount,
-        pinCode,
-        parentAuthor,
-        parentPermlink,
-        permlink,
-        fields.body,
-        jsonMetadata,
-      )
-        .then((response) => {
-          // record user activity for points
-          userActivityMutation.mutate({
-            pointsTy: PointActivityIds.COMMENT,
-            transactionId: response.id,
-          });
-
-          AsyncStorage.setItem('temp-reply', '');
-          this._handleSubmitSuccess();
-
-          // Invalidate discussion queries to refetch with real blockchain data
-          queryClient.invalidateQueries({
-            queryKey: getDiscussionsQueryOptions(
-              { author: parentAuthor, permlink: parentPermlink } as any,
-              'created' as any,
-              true,
-              observer,
-            ).queryKey,
-          });
-
-          // delete quick comment draft cache if it exist (from replyCache)
-          if (replyCache && replyCache[draftId]) {
-            dispatch(deleteReplyCacheEntry(draftId));
-          }
-
-          this._isSubmitting = false;
-        })
-        .catch((error) => {
-          // ❌ ROLLBACK: Remove optimistic comment on blockchain failure
-          dispatch(deleteCommentCacheEntry(`${author}/${permlink}`));
-
-          // Invalidate discussion queries to clean up
-          queryClient.invalidateQueries({
-            queryKey: getDiscussionsQueryOptions(
-              { author: parentAuthor, permlink: parentPermlink } as any,
-              'created' as any,
-              true,
-              observer,
-            ).queryKey,
-          });
-
-          this._isSubmitting = false;
-          this._handleSubmitFailure(error);
+      try {
+        await commentMutation.mutateAsync({
+          author,
+          permlink,
+          parentAuthor,
+          parentPermlink,
+          title: '',
+          body: fields.body,
+          jsonMetadata,
+          rootAuthor,
+          rootPermlink,
         });
+
+        AsyncStorage.setItem('temp-reply', '');
+        this._handleSubmitSuccess();
+
+        // delete quick comment draft cache if it exist (from replyCache)
+        if (replyCache && replyCache[draftId]) {
+          dispatch(deleteReplyCacheEntry(draftId));
+        }
+
+        this._isSubmitting = false;
+      } catch (error) {
+        this._isSubmitting = false;
+        this._handleSubmitFailure(error);
+      }
     }
   };
 
   _submitEdit = async (fields) => {
-    const { currentAccount, pinCode, dispatch, postCachePrimer, speakContentBuilder } = this.props;
+    const { currentAccount, pinCode, postCachePrimer, speakContentBuilder, updateReplyMutation } =
+      this.props;
     const { post, isEdit, isPostSending, thumbUrl, isReply } = this.state;
 
     if (isPostSending) {
@@ -1298,60 +1245,66 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         jsonMeta = makeJsonMetadata(meta, tags);
       }
 
-      await postContent(
-        currentAccount,
-        pinCode,
-        parentAuthor || '',
-        parentPermlink || '',
-        permlink,
-        title || '',
-        newBody,
-        jsonMeta,
-        null,
-        null,
-        isEdit,
-      )
-        .then(() => {
+      try {
+        if (isReply) {
+          // Use SDK updateReplyMutation for reply edits
           const author = currentAccount.name;
+          const rootAuthor = post.root_author || parentAuthor;
+          const rootPermlink = post.root_permlink || parentPermlink;
+
+          await updateReplyMutation.mutateAsync({
+            author,
+            permlink,
+            parentAuthor: parentAuthor || '',
+            parentPermlink: parentPermlink || '',
+            title: '',
+            body: newBody,
+            jsonMetadata: jsonMeta,
+            rootAuthor,
+            rootPermlink,
+          });
+
+          // Update local cache for immediate UI feedback
+          postCachePrimer.cachePost({
+            ...post,
+            body,
+            json_metadata: jsonMeta,
+            markdownBody: body,
+            updated: new Date().toISOString(),
+          });
+
+          AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
-          if (isReply) {
-            AsyncStorage.setItem('temp-reply', '');
-            dispatch(
-              updateCommentCache(
-                `${author}/${permlink}`,
-                {
-                  author,
-                  permlink,
-                  parent_author: parentAuthor,
-                  parent_permlink: parentPermlink,
-                  markdownBody: body,
-                  active_votes: post.active_votes,
-                  net_rshares: post.net_rshares,
-                  author_reputation: post.author_reputation,
-                  total_payout: post.total_payout,
-                  created: post.created,
-                  json_metadata: jsonMeta,
-                },
-                {
-                  isUpdate: true,
-                },
-              ),
-            );
-          } else {
-            // update post query data
-            postCachePrimer.cachePost({
-              ...post,
-              title,
-              body,
-              json_metadata: jsonMeta,
-              markdownBody: body,
-              updated: new Date().toISOString(),
-            });
-          }
-        })
-        .catch((error) => {
-          this._handleSubmitFailure(error);
-        });
+        } else {
+          // Use postContent for post edits (non-reply)
+          await postContent(
+            currentAccount,
+            pinCode,
+            parentAuthor || '',
+            parentPermlink || '',
+            permlink,
+            title || '',
+            newBody,
+            jsonMeta,
+            null,
+            null,
+            isEdit,
+          );
+
+          this._handleSubmitSuccess();
+          // update post query data
+          postCachePrimer.cachePost({
+            ...post,
+            title,
+            body,
+            json_metadata: jsonMeta,
+            markdownBody: body,
+            updated: new Date().toISOString(),
+          });
+        }
+      } catch (error) {
+        this._handleSubmitFailure(error);
+      }
     }
   };
 
@@ -1723,6 +1676,7 @@ const mapQueriesToProps = () => ({
   speakMutations: speakQueries.useSpeakMutations(),
   userActivityMutation: useUserActivityMutation(),
   postCachePrimer: usePostsCachePrimer(),
+  ...useCommentMutations(),
 });
 
 export default gestureHandlerRootHOC(
