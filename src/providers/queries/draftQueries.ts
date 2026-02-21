@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getDraftsInfiniteQueryOptions,
   getSchedulesInfiniteQueryOptions,
@@ -80,11 +80,14 @@ export const useAddDraftMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const { username, code } = useAuth();
+  const queryClient = useQueryClient();
 
   return useAddDraft(
     username,
     code,
-    undefined, // onSuccess - handled by SDK query invalidation
+    () => {
+      queryClient.invalidateQueries({ queryKey: ['posts', 'drafts', 'infinite', username] });
+    },
     () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     },
@@ -99,24 +102,46 @@ export const useUpdateDraftMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const { username, code } = useAuth();
+  const queryClient = useQueryClient();
 
-  return useUpdateDraft(username, code, undefined, () => {
-    dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-  });
+  return useUpdateDraft(
+    username,
+    code,
+    () => {
+      queryClient.invalidateQueries({ queryKey: ['posts', 'drafts', 'infinite', username] });
+    },
+    () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  );
 };
 
 /**
  * Hook to delete a single draft
  * Uses SDK's useDeleteDraft hook with mobile-specific error handling
+ *
+ * NOTE: The SDK's useDeleteDraft only updates the non-infinite drafts cache key
+ * (["posts", "drafts", username]), but mobile uses getDraftsInfiniteQueryOptions
+ * which stores data under ["posts", "drafts", "infinite", username, limit].
+ * We invalidate the infinite query on success so the list updates.
  */
 export const useDraftDeleteMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const { username, code } = useAuth();
+  const queryClient = useQueryClient();
 
-  return useDeleteDraft(username, code, undefined, () => {
-    dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-  });
+  return useDeleteDraft(
+    username,
+    code,
+    () => {
+      // Invalidate infinite drafts query so the list re-fetches
+      queryClient.invalidateQueries({ queryKey: ['posts', 'drafts', 'infinite', username] });
+    },
+    () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  );
 };
 
 /**
@@ -160,12 +185,14 @@ export const useAddScheduleMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const { username, code } = useAuth();
+  const queryClient = useQueryClient();
 
   return useAddSchedule(
     username,
     code,
     () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
+      queryClient.invalidateQueries({ queryKey: ['posts', 'schedules', 'infinite', username] });
     },
     () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -176,15 +203,26 @@ export const useAddScheduleMutation = () => {
 /**
  * Hook to delete a single scheduled post
  * Uses SDK's useDeleteSchedule hook with mobile-specific error handling
+ *
+ * NOTE: Same infinite query cache mismatch as drafts - SDK updates non-infinite
+ * key but mobile uses getSchedulesInfiniteQueryOptions.
  */
 export const useScheduleDeleteMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const { username, code } = useAuth();
+  const queryClient = useQueryClient();
 
-  return useDeleteSchedule(username, code, undefined, () => {
-    dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-  });
+  return useDeleteSchedule(
+    username,
+    code,
+    () => {
+      queryClient.invalidateQueries({ queryKey: ['posts', 'schedules', 'infinite', username] });
+    },
+    () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  );
 };
 
 /**
@@ -228,12 +266,16 @@ export const useMoveScheduleToDraftsMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const { username, code } = useAuth();
+  const queryClient = useQueryClient();
 
   return useMoveSchedule(
     username,
     code,
     () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success_moved' })));
+      // Invalidate both infinite queries since move affects both lists
+      queryClient.invalidateQueries({ queryKey: ['posts', 'schedules', 'infinite', username] });
+      queryClient.invalidateQueries({ queryKey: ['posts', 'drafts', 'infinite', username] });
     },
     () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
