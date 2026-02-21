@@ -14,6 +14,20 @@ import { useIntl } from 'react-intl';
 import { useAppDispatch, useAuth } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
 
+const draftsInfiniteQueryKey = (username: string | undefined) => [
+  'posts',
+  'drafts',
+  'infinite',
+  username,
+];
+
+const schedulesInfiniteQueryKey = (username: string | undefined) => [
+  'posts',
+  'schedules',
+  'infinite',
+  username,
+];
+
 /**
  * Hook to return user drafts with infinite scroll pagination
  * Uses SDK's getDraftsInfiniteQueryOptions for efficient data loading
@@ -86,7 +100,7 @@ export const useAddDraftMutation = () => {
     username,
     code,
     () => {
-      queryClient.invalidateQueries({ queryKey: ['posts', 'drafts', 'infinite', username] });
+      queryClient.invalidateQueries({ queryKey: draftsInfiniteQueryKey(username) });
     },
     () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -108,7 +122,7 @@ export const useUpdateDraftMutation = () => {
     username,
     code,
     () => {
-      queryClient.invalidateQueries({ queryKey: ['posts', 'drafts', 'infinite', username] });
+      queryClient.invalidateQueries({ queryKey: draftsInfiniteQueryKey(username) });
     },
     () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -136,7 +150,7 @@ export const useDraftDeleteMutation = () => {
     code,
     () => {
       // Invalidate infinite drafts query so the list re-fetches
-      queryClient.invalidateQueries({ queryKey: ['posts', 'drafts', 'infinite', username] });
+      queryClient.invalidateQueries({ queryKey: draftsInfiniteQueryKey(username) });
     },
     () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -192,7 +206,7 @@ export const useAddScheduleMutation = () => {
     code,
     () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
-      queryClient.invalidateQueries({ queryKey: ['posts', 'schedules', 'infinite', username] });
+      queryClient.invalidateQueries({ queryKey: schedulesInfiniteQueryKey(username) });
     },
     () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -217,7 +231,7 @@ export const useScheduleDeleteMutation = () => {
     username,
     code,
     () => {
-      queryClient.invalidateQueries({ queryKey: ['posts', 'schedules', 'infinite', username] });
+      queryClient.invalidateQueries({ queryKey: schedulesInfiniteQueryKey(username) });
     },
     () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -274,8 +288,8 @@ export const useMoveScheduleToDraftsMutation = () => {
     () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success_moved' })));
       // Invalidate both infinite queries since move affects both lists
-      queryClient.invalidateQueries({ queryKey: ['posts', 'schedules', 'infinite', username] });
-      queryClient.invalidateQueries({ queryKey: ['posts', 'drafts', 'infinite', username] });
+      queryClient.invalidateQueries({ queryKey: schedulesInfiniteQueryKey(username) });
+      queryClient.invalidateQueries({ queryKey: draftsInfiniteQueryKey(username) });
     },
     () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));

@@ -22,7 +22,14 @@ index 01a65c9..a61206c 100644
 +    return
 +  }
 +  wsHAS_creating = true
-+  const ws = new WebSocket(HAS_options.host)
++  let ws
++  try {
++    ws = new WebSocket(HAS_options.host)
++  } catch (error) {
++    wsHAS_creating = false
++    if(trace) console.log("WebSocket creation failed", error)
++    return
++  }
 +  wsHAS = ws
    wsHAS.onopen = function() {
      // Web Socket is connected
@@ -54,7 +61,7 @@ index 01a65c9..a61206c 100644
  async function checkConnection(uuid=undefined) {
 -  if ("WebSocket" in window) {
 -    // The browser support Websocket
-+  if ("WebSocket" in window || typeof WebSocket !== "undefined") {
++  if (typeof WebSocket !== "undefined") {
      if(HAS_connected) {
        return true
      }

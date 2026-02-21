@@ -207,7 +207,7 @@ const CommentsContainer = ({
     });
   };
 
-  const _handleDeleteComment = (_permlink, _parent_permlink) => {
+  const _handleDeleteComment = (_permlink, _parent_permlink, _parent_author) => {
     if (postType === PostTypes.WAVE && handleCommentDelete) {
       handleCommentDelete({
         _permlink,
@@ -219,7 +219,7 @@ const CommentsContainer = ({
       .mutateAsync({
         author: currentAccount?.name,
         permlink: _permlink,
-        parentAuthor: author,
+        parentAuthor: _parent_author,
         parentPermlink: _parent_permlink || permlink,
       })
       .then(() => {

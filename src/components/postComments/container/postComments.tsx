@@ -155,13 +155,13 @@ const PostComments = forwardRef(
     );
 
     const _handleDeleteComment = useCallback(
-      (_permlink, _parentPermlink?) => {
+      (_permlink, _parentPermlink?, _parentAuthor?) => {
         const _onConfirmDelete = async () => {
           try {
             await deleteCommentMutation.mutateAsync({
               author: currentAccount?.name,
               permlink: _permlink,
-              parentAuthor: author,
+              parentAuthor: _parentAuthor,
               parentPermlink: _parentPermlink || permlink,
             });
             console.log('deleted comment', `${currentAccount?.name}/${_permlink}`);
@@ -188,7 +188,7 @@ const PostComments = forwardRef(
           },
         });
       },
-      [currentAccount, deleteCommentMutation, intl, author, permlink],
+      [currentAccount, deleteCommentMutation, intl, permlink],
     );
 
     const _openReplyThread = useCallback(
