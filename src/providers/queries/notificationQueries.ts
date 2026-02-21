@@ -26,11 +26,9 @@ export const useNotificationsQuery = (filter?: NotificationFilters) => {
   const infiniteQuery = useInfiniteQuery({
     ...sdkOptions,
     enabled: !!username && !!code, // Both are required for notifications
-    staleTime: 0, // Always consider data stale so first page refreshes on mount
-    gcTime: 30 * 60 * 1000, // 30 minutes - keep in cache for 30 minutes
+    staleTime: 30 * 1000, // 30 seconds — fresh enough for notifications
+    gcTime: 10 * 60 * 1000, // 10 minutes
     maxPages: 10, // Limit to 10 pages (200 items) maximum
-    refetchOnMount: true, // Refetch first page on mount to show fresh data
-    refetchOnWindowFocus: false, // Don't refetch when window regains focus
   });
 
   // Flatten pages into single array for backwards compatibility

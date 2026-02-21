@@ -12,10 +12,12 @@ export const initQueryClient = () => {
   });
 
   const client = new QueryClient({
-    // Query client configurations go here...
     defaultOptions: {
       queries: {
-        gcTime: 1000 * 60 * 60 * 24 * 6, // 7 days cache timer
+        staleTime: 60 * 1000, // 60 seconds — SDK overrides per-query where needed
+        gcTime: 10 * 60 * 1000, // 10 minutes garbage collection (was 6 days)
+        refetchOnWindowFocus: false,
+        refetchOnMount: false, // prevents refetch on every screen mount
       },
     },
   });

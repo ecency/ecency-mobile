@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import get from 'lodash/get';
 import { View } from 'react-native';
 
@@ -15,6 +15,7 @@ import { getTimeFromNow } from '../../../utils/time';
 import { PostCardActionIds } from '../container/postCard';
 import { ContentType } from '../../../providers/hive/hive.types';
 import CrossPostLabel from './crossPostLabel';
+import { useMinuteTicker } from '../../../hooks/useMinuteTicker';
 
 interface Props {
   intl: IntlShape;
@@ -33,19 +34,10 @@ const PostCardHeaderComponent = ({
 }: Props) => {
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
 
-  // Add state to trigger re-renders for time updates
-  const [updateTrigger, setUpdateTrigger] = useState(0);
+  // Single shared timer across all PostCards (no per-card interval)
+  const minuteTick = useMinuteTicker();
 
-  // Update time display every minute
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setUpdateTrigger((prev) => prev + 1);
-    }, 60000); // Update every 60 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const dateString = useMemo(() => getTimeFromNow(content?.created), [content, updateTrigger]);
+  const dateString = useMemo(() => getTimeFromNow(content?.created), [content, minuteTick]);
   const _isPollPost =
     content?.json_metadata?.content_type === ContentType.POLL && !!content?.json_metadata?.question;
 
