@@ -165,7 +165,9 @@ export const useDraftDeleteMutation = () => {
 export const useDraftsBatchDeleteMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
-  const deleteDraftMutation = useDraftDeleteMutation();
+  const { username, code } = useAuth();
+  const queryClient = useQueryClient();
+  const deleteDraftMutation = useDeleteDraft(username, code);
   const [isBatchDeleting, setIsBatchDeleting] = useState(false);
 
   return {
@@ -178,6 +180,7 @@ export const useDraftsBatchDeleteMutation = () => {
           // eslint-disable-next-line no-await-in-loop
           await deleteDraftMutation.mutateAsync({ draftId: id });
         }
+        await queryClient.invalidateQueries({ queryKey: draftsInfiniteQueryKey(username) });
         options?.onSettled?.();
       } catch (error) {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -246,7 +249,9 @@ export const useScheduleDeleteMutation = () => {
 export const useSchedulesBatchDeleteMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
-  const deleteScheduleMutation = useScheduleDeleteMutation();
+  const { username, code } = useAuth();
+  const queryClient = useQueryClient();
+  const deleteScheduleMutation = useDeleteSchedule(username, code);
   const [isBatchDeleting, setIsBatchDeleting] = useState(false);
 
   return {
@@ -259,6 +264,7 @@ export const useSchedulesBatchDeleteMutation = () => {
           // eslint-disable-next-line no-await-in-loop
           await deleteScheduleMutation.mutateAsync({ id });
         }
+        await queryClient.invalidateQueries({ queryKey: schedulesInfiniteQueryKey(username) });
         options?.onSettled?.();
       } catch (error) {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));

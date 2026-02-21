@@ -233,7 +233,7 @@ const ensureAppStateListener = () => {
 };
 
 const releaseAppStateListener = () => {
-  if (_appStateListenerUsers <= 0 && _appStateSubscription) {
+  if (_appStateSubscription) {
     _appStateSubscription.remove();
     _appStateSubscription = null;
   }
@@ -260,12 +260,14 @@ export const useHiveAuth = () => {
   // and the WebSocket may disconnect. On return, we need a fresh connection before
   // the broadcast's internal polling tries to use the stale one.
   useEffect(() => {
-    _appStateListenerUsers += 1;
-    ensureAppStateListener();
+    if (_appStateListenerUsers++ === 0) {
+      ensureAppStateListener();
+    }
 
     return () => {
-      _appStateListenerUsers = Math.max(0, _appStateListenerUsers - 1);
-      releaseAppStateListener();
+      if (_appStateListenerUsers > 0 && --_appStateListenerUsers === 0) {
+        releaseAppStateListener();
+      }
     };
   }, []);
 

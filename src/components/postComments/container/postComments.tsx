@@ -21,7 +21,7 @@ import { useDeleteComment } from '@ecency/sdk';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
 import { PostTypes } from '../../../constants/postTypes';
 import { CommentsSection } from '../children/commentsSection';
@@ -34,6 +34,7 @@ import { SheetNames } from '../../../navigation/sheets';
 import { checkViewability } from '../../../hooks/useViewabilityTracker';
 import { selectCurrentAccount, selectIsDarkTheme } from '../../../redux/selectors';
 import { useAuthContext } from '../../../providers/sdk';
+import { toastNotification } from '../../../redux/actions/uiAction';
 
 const PostComments = forwardRef(
   (
@@ -54,12 +55,14 @@ const PostComments = forwardRef(
   ) => {
     const intl = useIntl();
     const navigation = useNavigation();
+    const dispatch = useAppDispatch();
 
     const currentAccount = useAppSelector(selectCurrentAccount);
     const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
     const authContext = useAuthContext();
     const deleteCommentMutation = useDeleteComment(currentAccount?.name, authContext);
+    const { mutateAsync: deleteComment } = deleteCommentMutation;
 
     const discussionQuery = postQueries.useDiscussionQuery(author, permlink);
     const postsCachePrimer = postQueries.usePostsCachePrimer();
@@ -158,7 +161,7 @@ const PostComments = forwardRef(
       (_permlink, _parentPermlink?, _parentAuthor?) => {
         const _onConfirmDelete = async () => {
           try {
-            await deleteCommentMutation.mutateAsync({
+            await deleteComment({
               author: currentAccount?.name,
               permlink: _permlink,
               parentAuthor: _parentAuthor,
@@ -166,7 +169,9 @@ const PostComments = forwardRef(
             });
             console.log('deleted comment', `${currentAccount?.name}/${_permlink}`);
           } catch (err) {
-            console.warn('Failed to delete comment');
+            const errorDetail = err?.message ? String(err.message) : String(err);
+            dispatch(toastNotification(`Failed to delete comment: ${errorDetail}`));
+            console.warn('Failed to delete comment', err);
           }
         };
 
@@ -188,7 +193,7 @@ const PostComments = forwardRef(
           },
         });
       },
-      [currentAccount, deleteCommentMutation, intl, permlink],
+      [currentAccount, deleteComment, dispatch, intl, permlink],
     );
 
     const _openReplyThread = useCallback(

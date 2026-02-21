@@ -41,7 +41,7 @@ const CommentView = ({
   handleImagePress,
   handleYoutubePress,
   handleVideoPress,
-  mainAuthor = { mainAuthor },
+  mainAuthor = '',
   openReplyThread,
   repliesToggle,
   handleOnToggleReplies,

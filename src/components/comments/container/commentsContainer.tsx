@@ -228,6 +228,8 @@ const CommentsContainer = ({
         setPropComments((prev) => prev.filter((item) => item.permlink !== _permlink));
       })
       .catch((err) => {
+        const errorDetail = err?.message ? String(err.message) : String(err);
+        dispatch(toastNotification(`Failed to delete comment: ${errorDetail}`));
         console.warn('Failed to delete comment', err);
       });
   };

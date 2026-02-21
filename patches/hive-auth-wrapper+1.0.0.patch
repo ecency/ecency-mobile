@@ -1,5 +1,5 @@
 diff --git a/node_modules/hive-auth-wrapper/has-wrapper.js b/node_modules/hive-auth-wrapper/has-wrapper.js
-index 01a65c9..a61206c 100644
+index ff0b878778..7c7906f4d6 100644
 --- a/node_modules/hive-auth-wrapper/has-wrapper.js
 +++ b/node_modules/hive-auth-wrapper/has-wrapper.js
 @@ -40,6 +40,7 @@ let HAS_timeout = 60*1000 // default request expiration timeout (60 seconds)
@@ -10,7 +10,7 @@ index 01a65c9..a61206c 100644
  let trace = false
  
  function getMessage(type, uuid=undefined) {
-@@ -56,9 +57,18 @@ function getMessage(type, uuid=undefined) {
+@@ -56,9 +57,25 @@ function getMessage(type, uuid=undefined) {
  
  // HAS client
  function startWebsocket() {
@@ -37,7 +37,7 @@ index 01a65c9..a61206c 100644
      HAS_connected = true
      if(trace) console.log("WebSocket connected")
    }
-@@ -95,9 +105,14 @@ function startWebsocket() {
+@@ -95,9 +112,14 @@ function startWebsocket() {
      }
    }
    wsHAS.onclose = function(event) {
@@ -55,7 +55,7 @@ index 01a65c9..a61206c 100644
      if(trace) console.log("WebSocket disconnected", event)
    }
  }
-@@ -143,19 +158,23 @@ async function attach(uuid) {
+@@ -143,19 +165,23 @@ async function attach(uuid) {
  }
  
  async function checkConnection(uuid=undefined) {
@@ -74,7 +74,7 @@ index 01a65c9..a61206c 100644
 +      // Added null safety: after await sleep(), wsHAS could be undefined
 +      // if onclose fired during the sleep. Also limit iterations to
 +      // prevent infinite loops when WebSocket fails to connect.
-+      let maxWait = Math.ceil(HAS_timeout / DELAY_CHECK_WEBSOCKET)
++      let maxWait = Math.ceil(HAS_timeout / Math.max(1, DELAY_CHECK_WEBSOCKET))
        do {
          await sleep(DELAY_CHECK_WEBSOCKET)
 -      } while(wsHAS && wsHAS.readyState==0) // 0 = Connecting
