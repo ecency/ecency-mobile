@@ -19,7 +19,6 @@ import { Separator, UpvotePopover } from '../..';
 import { PostTypes } from '../../../constants/postTypes';
 import { PostOptionsModal } from '../../postOptionsModal';
 import { PostCardActionIds } from '../../postCard/container/postCard';
-import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
 import {
   selectHidePostsThumbnails,
   selectIsDarkTheme,
@@ -123,8 +122,6 @@ const postsListContainer = (
 
     return result;
   }, [posts, promotedPosts, cachedPosts, mutes]);
-
-  const cacheInjectedData = useInjectVotesCache(data);
 
   useImperativeHandle(ref, () => ({
     scrollToTop() {
@@ -258,7 +255,7 @@ const postsListContainer = (
     <Fragment>
       <FlashList
         ref={flatListRef}
-        data={cacheInjectedData}
+        data={data}
         showsVerticalScrollIndicator={false}
         renderItem={_renderItem}
         keyExtractor={(content) => `${content.author}/${content.permlink}`}

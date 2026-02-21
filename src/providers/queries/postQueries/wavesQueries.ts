@@ -14,12 +14,7 @@ import { getAccountPosts, getDiscussion, useDeleteComment } from '@ecency/sdk';
 
 import QUERIES from '../queryKeys';
 import { delay } from '../../../utils/editor';
-import {
-  injectPostCache,
-  injectVoteCache,
-  mapDiscussionToThreads,
-  parseDiscussionCollection,
-} from '../../../utils/postParser';
+import { mapDiscussionToThreads, parseDiscussionCollection } from '../../../utils/postParser';
 import { useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useBotAuthorsQuery } from './postQueries';
@@ -29,17 +24,11 @@ import { useAuthContext } from '../../sdk';
 export const useWavesQuery = (host: string) => {
   const queryClient = useQueryClient();
 
-  const cache = useAppSelector((state) => state.cache);
   const mutes = useAppSelector(selectCurrentAccountMutes);
   const currentAccount = useAppSelector(selectCurrentAccount);
 
   // TODO: import bot authors query here
   const botAuthorsQuery = useBotAuthorsQuery();
-
-  const cacheRef = useRef(cache);
-
-  const cachedVotes = cache.votesCollection;
-  const lastCacheUpdate = cache.lastUpdate;
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -69,14 +58,6 @@ export const useWavesQuery = (host: string) => {
 
   const _lastItem = wavesQueries[wavesQueries.length - 1];
 
-  // hook to update cache reference,
-  // workaround required since query fucntion do get passed an
-  // updated copy for states that are not part of query key and contexet while conext is not
-  // supported by useQueries
-  useEffect(() => {
-    cacheRef.current = cache;
-  }, [cache]);
-
   useEffect(() => {
     _fetchPermlinks('', true);
   }, []);
@@ -101,47 +82,6 @@ export const useWavesQuery = (host: string) => {
       _fetchNextPage();
     }
   }, [_lastItem?.data]);
-
-  useEffect(() => {
-    // check cache is recently updated and take post path
-    if (lastCacheUpdate) {
-      const _timeElapsed = new Date().getTime() - lastCacheUpdate.updatedAt;
-      if (_timeElapsed < 5000) {
-        if (lastCacheUpdate.type === 'vote') {
-          _injectPostCache(lastCacheUpdate.postPath);
-        }
-      }
-    }
-  }, [lastCacheUpdate]);
-
-  const _injectPostCache = async (postPath: string) => {
-    // using post path get index of query key where that post exists
-    const _containerPermlink = wavesIndexCollection.current[postPath];
-    const _containerIndex = activePermlinks.indexOf(_containerPermlink);
-    const _voteCache = cachedVotes[postPath];
-
-    if (_containerIndex >= 0 && _voteCache) {
-      // mean data exist, get query data, update query data by finding post and injecting cache
-      const _qData: any[] | undefined = wavesQueries[_containerIndex].data;
-
-      if (_qData) {
-        const _postIndex = _qData.findIndex(
-          (item) => lastCacheUpdate.postPath === `${item.author}/${item.permlink}`,
-        );
-        const _post = _qData[_postIndex];
-
-        if (_post) {
-          // inject cache and set query data
-          const _cPost = injectVoteCache(_post, _voteCache);
-          _qData.splice(_postIndex, 1, _cPost);
-          queryClient.setQueryData(
-            [QUERIES.WAVES.GET, host, _containerPermlink, _containerIndex],
-            [..._qData],
-          ); // TODO: use container permlink as well
-        }
-      }
-    }
-  };
 
   const _fetchPermlinks = async (startPermlink = '', refresh = false) => {
     setIsLoading(true);
@@ -193,11 +133,7 @@ export const useWavesQuery = (host: string) => {
       ? await parseDiscussionCollection(response, currentAccount?.username)
       : null;
 
-    // inject vote cache here...
-    const _cachedVotes = cacheRef.current.votesCollection;
-    const _cResponse = injectPostCache(parsedResponse, _cachedVotes);
-
-    const _threadedComments = await mapDiscussionToThreads(_cResponse, host, pagePermlink, 1);
+    const _threadedComments = await mapDiscussionToThreads(parsedResponse, host, pagePermlink, 1);
 
     if (!_threadedComments) {
       throw new Error('Failed to parse waves');

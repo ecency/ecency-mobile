@@ -1,11 +1,10 @@
 import { renderPostBody } from '@ecency/render-helper';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-import { isArray } from 'lodash';
 import { getPostQueryOptions, getDiscussionsQueryOptions, getBotsQueryOptions } from '@ecency/sdk';
 import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount } from '../../../redux/selectors';
-import { injectVoteCache, parsePost, parseComment } from '../../../utils/postParser';
+import { parsePost, parseComment } from '../../../utils/postParser';
 
 interface PostQueryProps {
   author?: string;
@@ -77,11 +76,9 @@ export const useGetPostQuery = ({
     return processed;
   }, [query.data, observer, currentAccount?.name, isPinned]);
 
-  const data = useInjectVotesCache(processedPost);
-
   return {
     ...query,
-    data,
+    data: processedPost,
   };
 };
 
@@ -125,15 +122,6 @@ export const usePostsCachePrimer = () => {
  */
 export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const cachedVotes = useAppSelector(
-    (state) => state.cache.votesCollection,
-    (a, b) => a === b, // Use reference equality to prevent unnecessary rerenders
-  );
-  const lastCacheUpdate = useAppSelector(
-    (state) => state.cache.lastUpdate,
-    (a, b) => a === b, // Use reference equality to prevent unnecessary rerenders
-  );
-
   const [author, setAuthor] = useState(_author);
   const [permlink, setPermlink] = useState(_permlink);
 
@@ -236,26 +224,8 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       }
     });
 
-    // Inject vote cache into parsed comments
-    let _data = parsedComments;
-    if (cachedVotes) {
-      let shouldClone = false;
-      Object.keys(_data).forEach((path) => {
-        const cachedVote = cachedVotes[path];
-        if (cachedVote) {
-          const updatedComment = injectVoteCache(_data[path], cachedVote);
-          if (updatedComment !== _data[path]) {
-            if (!shouldClone) {
-              _data = { ..._data };
-              shouldClone = true;
-            }
-            _data[path] = updatedComment;
-          }
-        }
-      });
-    }
-
     // Deep check if data actually changed before setting state
+    const _data = parsedComments;
     setData((prev) => {
       if (prev === _data) {
         return prev;
@@ -280,7 +250,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       // No changes, return previous reference
       return prev;
     });
-  }, [query.data, cachedVotes, lastCacheUpdate, observer, currentAccount?.name, author, permlink]);
+  }, [query.data, observer, currentAccount?.name, author, permlink]);
 
   // Cache to store processed comments and avoid recreating objects
   const processedCommentsCache = useRef<Map<string, any>>(new Map());
@@ -477,163 +447,3 @@ export const useBotAuthorsQuery = () =>
     gcTime: 1000 * 60 * 60 * 24 * 30, // 30 days cache timer
     initialData: [], // TODO: initialise authors with already known bots,
   });
-
-/**
- *
- * @param _data single post content or array of posts
- * @returns post data or array of data with votes cache injected
- */
-export const useInjectVotesCache = (_data: any | any[]) => {
-  const votesCollection = useAppSelector(
-    (state) => state.cache.votesCollection,
-    (a, b) => a === b,
-  );
-  const lastUpdate = useAppSelector(
-    (state) => state.cache.lastUpdate,
-    (a, b) => a === b,
-  );
-  const [retData, setRetData] = useState<any | any[] | null>(null);
-  const lastProcessedUpdateRef = useRef<string | null>(null);
-  const lastDataRef = useRef<any>(_data);
-  const lastVotesRef = useRef<any>(votesCollection);
-
-  useEffect(() => {
-    if (!lastUpdate || lastUpdate.type !== 'vote') {
-      return;
-    }
-
-    // Create a unique key for this update to prevent reprocessing
-    const updateKey = `${lastUpdate.postPath}-${lastUpdate.updatedAt}`;
-    if (lastProcessedUpdateRef.current === updateKey) {
-      return;
-    }
-    lastProcessedUpdateRef.current = updateKey;
-
-    const _postPath = lastUpdate.postPath;
-    const _voteCache = votesCollection[_postPath];
-
-    // Use functional setState to access current retData without adding it to dependencies
-    setRetData((currentRetData) => {
-      if (!currentRetData) {
-        return currentRetData;
-      }
-
-      let _postData: any = null;
-      let _postIndex = -1;
-
-      // get post data that need updating
-      const _comparePath = (item) => _postPath === `${item.author}/${item.permlink}`;
-      if (isArray(currentRetData)) {
-        _postIndex = currentRetData.findIndex(_comparePath);
-        _postData = currentRetData[_postIndex];
-      } else if (currentRetData && _comparePath(currentRetData)) {
-        _postData = currentRetData;
-      }
-
-      // if post available, inject cache and update state
-      if (_postData) {
-        const updatedPost = injectVoteCache(_postData, _voteCache);
-
-        // Only update if injectVoteCache returned a different reference
-        if (updatedPost === _postData) {
-          return currentRetData; // No changes
-        }
-
-        if (_postIndex < 0) {
-          console.log('updating data', updatedPost);
-          return updatedPost; // injectVoteCache already cloned if needed
-        } else {
-          // Create new array with updated post
-          const newRetData = [...currentRetData];
-          newRetData[_postIndex] = updatedPost;
-          return newRetData;
-        }
-      }
-
-      return currentRetData;
-    });
-
-    // Only trigger on lastUpdate changes to prevent infinite loops
-    // votesCollection is accessed but not a dependency - we read current value from closure
-  }, [lastUpdate]);
-
-  useEffect(() => {
-    const votesChanged = lastVotesRef.current !== votesCollection;
-    if (votesChanged) {
-      lastVotesRef.current = votesCollection;
-      lastDataRef.current = null;
-    }
-
-    // Only run if _data actually changed reference
-    if (_data === lastDataRef.current) {
-      return;
-    }
-    lastDataRef.current = _data;
-
-    if (!_data) {
-      setRetData((currentData) => {
-        if (currentData !== null) {
-          lastProcessedUpdateRef.current = null;
-        }
-        return null;
-      });
-      return;
-    }
-
-    const _itemFunc = (item) => {
-      if (item) {
-        const _path = `${item.author}/${item.permlink}`;
-        const voteCache = votesCollection[_path];
-
-        return injectVoteCache(item, voteCache);
-      }
-      return item;
-    };
-
-    // Don't create unnecessary new object for single posts
-    const _cData = isArray(_data) ? _data.map(_itemFunc) : _itemFunc(_data);
-
-    // Only update if data actually changed to prevent unnecessary re-renders
-    setRetData((currentData) => {
-      // If current data is null or empty, always update
-      if (!currentData) {
-        lastProcessedUpdateRef.current = null;
-        return _cData;
-      }
-
-      // If arrays, compare lengths first for quick check
-      if (isArray(currentData) && isArray(_cData)) {
-        if (currentData.length !== _cData.length) {
-          lastProcessedUpdateRef.current = null;
-          return _cData;
-        }
-        // Check if array references are actually different
-        // (simple reference check - if filter/map returned same items, don't update)
-        let hasChanges = false;
-        for (let i = 0; i < _cData.length; i++) {
-          if (currentData[i] !== _cData[i]) {
-            hasChanges = true;
-            break;
-          }
-        }
-        if (hasChanges) {
-          lastProcessedUpdateRef.current = null;
-          return _cData;
-        }
-        return currentData; // No changes, keep current data
-      }
-
-      // For single posts, check if reference changed
-      if (currentData !== _cData) {
-        lastProcessedUpdateRef.current = null;
-        return _cData;
-      }
-
-      return currentData;
-    });
-
-    // votesCollection is included as a dependency to trigger updates when votes change
-  }, [_data, votesCollection]);
-
-  return retData || _data;
-};

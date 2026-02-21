@@ -1,6 +1,5 @@
 import { PointActivity } from '../../providers/ecency/ecency.types';
 import {
-  UPDATE_VOTE_CACHE,
   PURGE_EXPIRED_CACHE,
   UPDATE_DRAFT_CACHE,
   DELETE_DRAFT_CACHE_ENTRY,
@@ -17,15 +16,7 @@ import {
   UPDATE_POLL_VOTE_CACHE,
   UPDATE_PROPOSALS_VOTE_META,
 } from '../constants/constants';
-import { Draft, SubscribedCommunity, VoteCache, PollVoteCache } from '../reducers/cacheReducer';
-
-export const updateVoteCache = (postPath: string, vote: VoteCache) => ({
-  payload: {
-    postPath,
-    vote,
-  },
-  type: UPDATE_VOTE_CACHE,
-});
+import { Draft, SubscribedCommunity, PollVoteCache } from '../reducers/cacheReducer';
 
 export const updatePollVoteCache = (postPath: string, pollVote: PollVoteCache) => ({
   payload: {

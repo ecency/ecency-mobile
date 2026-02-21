@@ -26,7 +26,6 @@ import {
 import { isVoted as isVotedFunc, isDownVoted as isDownVotedFunc } from '../../../utils/postParser';
 
 // Component
-import { updateVoteCache } from '../../../redux/actions/cacheActions';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { PostTypes } from '../../../constants/postTypes';
 
@@ -48,12 +47,15 @@ import { Icon } from '../../icon';
 // Services
 import { setRcOffer, toastNotification } from '../../../redux/actions/uiAction';
 import { useAuthContext } from '../../../providers/sdk';
+import {
+  updateVoteInQueryCaches,
+  VoteCacheEntry,
+} from '../../../providers/queries/postQueries/voteCacheUtils';
 
 // Styles
 import styles from '../children/upvoteStyles';
 
 import { PayoutDetailsContent } from '../children/payoutDetailsContent';
-import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import showLoginAlert from '../../../utils/showLoginAlert';
 
 interface PopoverOptions {
@@ -193,7 +195,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
         const _permlink = content?.permlink;
 
         console.log(`casting up vote: ${weight}`);
-        _updateVoteCache(_author, _permlink, amount, false, CacheStatus.PENDING);
+        _updateVoteCache(_author, _permlink, amount, false, 'PENDING');
 
         voteMutation.reset();
         await voteMutation.mutateAsync({
@@ -204,20 +206,14 @@ const UpvotePopover = forwardRef(({}, ref) => {
         });
 
         setIsVoted(!!sliderValue);
-        _updateVoteCache(
-          _author,
-          _permlink,
-          amount,
-          false,
-          sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED,
-        );
+        _updateVoteCache(_author, _permlink, amount, false, sliderValue ? 'PUBLISHED' : 'DELETED');
       } catch (err) {
         const _author = content?.author;
         const _permlink = content?.permlink;
 
         const _error = err as any;
 
-        _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
+        _updateVoteCache(_author, _permlink, amount, false, 'FAILED');
         _onVotingStart ? _onVotingStart(0) : null;
         if (
           _error &&
@@ -275,7 +271,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
         const _permlink = content?.permlink;
 
         console.log(`casting down vote: ${weight}`);
-        _updateVoteCache(_author, _permlink, amount, true, CacheStatus.PENDING);
+        _updateVoteCache(_author, _permlink, amount, true, 'PENDING');
 
         voteMutation.reset();
         await voteMutation.mutateAsync({
@@ -286,13 +282,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
         });
 
         setIsDownVoted(!!sliderValue);
-        _updateVoteCache(
-          _author,
-          _permlink,
-          amount,
-          true,
-          sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED,
-        );
+        _updateVoteCache(_author, _permlink, amount, true, sliderValue ? 'PUBLISHED' : 'DELETED');
       } catch (err) {
         const _author = content?.author;
         const _permlink = content?.permlink;
@@ -303,7 +293,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
             intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: _error?.message }),
           ),
         );
-        _updateVoteCache(_author, _permlink, amount, true, CacheStatus.FAILED);
+        _updateVoteCache(_author, _permlink, amount, true, 'FAILED');
         setIsDownVoted(false);
         _onVotingStart ? _onVotingStart(0) : null;
       } finally {
@@ -334,8 +324,13 @@ const UpvotePopover = forwardRef(({}, ref) => {
     }
   };
 
-  const _updateVoteCache = (author, permlink, amount, isDownvote, status) => {
-    // do all relevant processing here to show local upvote
+  const _updateVoteCache = (
+    author: string,
+    permlink: string,
+    amount: string,
+    isDownvote: boolean,
+    status: VoteCacheEntry['status'],
+  ) => {
     const amountNum = parseFloat(amount);
 
     let incrementStep = 0;
@@ -346,10 +341,8 @@ const UpvotePopover = forwardRef(({}, ref) => {
     const percent = Math.floor(sliderValue * 10000 * (isDownvote ? -1 : 1));
     const rshares = calculateEstimatedRShares(currentAccount, percent) * (isDownvote ? -1 : 1);
 
-    // update redux
-    const postPath = `${author || ''}/${permlink || ''}`;
     const curTime = new Date().getTime();
-    const vote = {
+    updateVoteInQueryCaches(author, permlink, {
       votedAt: curTime,
       amount: amountNum,
       isDownvote,
@@ -359,8 +352,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
       voter: currentAccount.name,
       expiresAt: curTime + 30000,
       status,
-    };
-    dispatch(updateVoteCache(postPath, vote));
+    });
   };
 
   const _closePopover = () => {

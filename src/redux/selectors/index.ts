@@ -210,11 +210,6 @@ export const selectOtherAccounts = createSelector(
 );
 
 // Cache selectors
-export const selectVotesCollection = createSelector(
-  [getCacheState],
-  (cache) => cache.votesCollection,
-);
-
 export const selectCacheLastUpdate = createSelector([getCacheState], (cache) => cache.lastUpdate);
 
 // Posts selectors
@@ -245,13 +240,6 @@ export const makeSelectScrollPositionForScreen = () =>
     (posts, isFeedScreen) => (isFeedScreen ? posts.feedScrollPosition : posts.otherScrollPosition),
   );
 
-// Vote cache selector for specific post
-export const makeSelectVoteForPost = () =>
-  createSelector(
-    [selectVotesCollection, (_state: any, postPath: string) => postPath],
-    (votesCollection, postPath) => votesCollection[postPath],
-  );
-
 // Selector for specific draft by ID (prevents reading entire draftsCollection)
 export const selectDraftById = (draftId: string) =>
   createSelector([getCacheState], (cache) => cache.draftsCollection?.[draftId]);
@@ -259,10 +247,6 @@ export const selectDraftById = (draftId: string) =>
 // Selector for specific reply/wave by ID (prevents reading entire replyCache)
 export const selectReplyById = (replyId: string) =>
   createSelector([getCacheState], (cache) => cache.replyCache?.[replyId]);
-
-// Selector for specific vote by post path (prevents reading entire votesCollection)
-export const selectVoteByPath = (postPath: string) =>
-  createSelector([getCacheState], (cache) => cache.votesCollection?.[postPath]);
 
 // Communities selectors
 export const selectTopCommunities = createSelector(
