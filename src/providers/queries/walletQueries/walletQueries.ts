@@ -156,7 +156,7 @@ export const useClaimRewardsMutation = () => {
 
   const sdkClaimRewards = useSdkClaimRewardsMutation();
   const authContext = useAuthContext();
-  const username = currentAccount?.name ?? '';
+  const username = currentAccount?.name;
 
   const engineClaimMutation = useBroadcastMutation(
     ['hive', 'scot-claim-token'],
@@ -167,7 +167,7 @@ export const useClaimRewardsMutation = () => {
         {
           id: 'scot_claim_token',
           required_auths: [],
-          required_posting_auths: [username],
+          required_posting_auths: [username!],
           json: JSON.stringify(symbols.map((r) => ({ symbol: r }))),
         },
       ],

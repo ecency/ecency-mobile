@@ -70,7 +70,7 @@ export function useVotePollMutation(poll: Poll | null) {
   const pollVotesCollection = useAppSelector((state) => state.cache.pollVotesCollection);
   const globalProps = useAppSelector(selectGlobalProps);
   const authContext = useAuthContext();
-  const username = currentAccount?.name ?? '';
+  const username = currentAccount?.name;
 
   const broadcastMutation = useBroadcastMutation(
     ['hive', 'poll-vote'],
@@ -81,7 +81,7 @@ export function useVotePollMutation(poll: Poll | null) {
         {
           id: 'polls',
           required_auths: [],
-          required_posting_auths: [username],
+          required_posting_auths: [username!],
           json: JSON.stringify({
             poll: pollTrxId,
             action: 'vote',
@@ -113,7 +113,7 @@ export function useVotePollMutation(poll: Poll | null) {
       await broadcastMutation.mutateAsync({ pollTrxId: poll.poll_trx_id, choices });
       return true;
     },
-    retry: 3,
+    retry: false,
     onMutate: ({ choices }) => {
       // update redux
       const userHp =

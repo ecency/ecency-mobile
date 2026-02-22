@@ -20,13 +20,8 @@ const VOTE_QUERY_TYPES = [
   'accountPosts',
   'discussions',
   'promoted',
-  'wavesByHost',
-  'wavesByTag',
-  'wavesFollowing',
+  'waves',
 ];
-
-// Non-SDK wave queries use a separate key prefix
-const WAVES_QUERY_KEY = 'QUERY_GET_WAVES';
 
 /**
  * Updates vote data directly in TanStack Query caches across all relevant queries.
@@ -47,12 +42,8 @@ export function updateVoteInQueryCaches(author: string, permlink: string, vote: 
     {
       predicate: (query) => {
         const key = query.queryKey;
-        // SDK post queries: ['posts', 'entry'|'postsRanked'|...]
+        // SDK post queries: ['posts', 'entry'|'postsRanked'|'waves'|...]
         if (key[0] === 'posts' && VOTE_QUERY_TYPES.includes(key[1] as string)) {
-          return true;
-        }
-        // Legacy wave queries: ['QUERY_GET_WAVES', host, permlink, index]
-        if (key[0] === WAVES_QUERY_KEY) {
           return true;
         }
         return false;

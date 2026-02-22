@@ -55,8 +55,8 @@ export const initQueryClient = () => {
             return false;
           }
 
-          // For feed queries (account-posts, posts-ranked), only persist first page
-          if (subType === 'account-posts' || subType === 'posts-ranked') {
+          // For feed queries (account-posts, posts-ranked, waves), only persist first page
+          if (subType === 'account-posts' || subType === 'posts-ranked' || subType === 'waves') {
             // These are infinite queries - only persist if it's the first page
             // Check if query has been fetched (has pages data)
             const queryData = query.state.data as any;
@@ -78,8 +78,6 @@ export const initQueryClient = () => {
 
       // Handle mobile-specific legacy queries
       switch (queryKeyType) {
-        case QUERIES.WAVES.GET:
-          return query.queryKey[3] === 0; // only dehydrate first page of waves
         case QUERIES.NOTIFICATIONS.GET:
           return query.queryKey[2] === ''; // only dehydrate first page of notifications
         case 'drafts':

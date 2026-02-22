@@ -6,6 +6,6 @@ import { useAuthContext } from '../useAuthContext';
 export function useMutationAuth() {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const authContext = useAuthContext();
-  const username = currentAccount?.name ?? '';
+  const username: string | undefined = currentAccount?.name;
   return { username, authContext };
 }

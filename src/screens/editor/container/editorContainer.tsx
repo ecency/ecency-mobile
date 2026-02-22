@@ -1462,7 +1462,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         } catch (error) {
           dispatch(
             toastNotification(
-              intl.formatMessage({ id: 'alert.something_wrong_msg' }, { messsage: error.message }),
+              intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: error.message }),
             ),
           );
         }
@@ -1537,7 +1537,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           toastNotification(
             intl.formatMessage(
               { id: 'alert.something_wrong_msg' },
-              { messsage: error?.message || '' },
+              { message: error?.message || '' },
             ),
           ),
         );

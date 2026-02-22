@@ -29,6 +29,7 @@ import { selectCurrentAccount } from '../redux/selectors';
 export function useTransferMutations() {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const authContext = useAuthContext();
+  const username = currentAccount?.name;
 
   // HIVE layer
   const transfer = useTransferMutation();
@@ -43,7 +44,7 @@ export function useTransferMutations() {
   // Recurrent transfer — no dedicated SDK hook, use generic broadcast
   const recurrentTransfer = useBroadcastMutation(
     ['hive', 'recurrent-transfer'],
-    currentAccount?.name,
+    username,
     ({
       from,
       to,
@@ -82,7 +83,7 @@ export function useTransferMutations() {
   // SPK delegate — no dedicated SDK hook, use generic broadcast
   const delegateLarynx = useBroadcastMutation(
     ['spk', 'delegate-larynx'],
-    currentAccount?.name,
+    username,
     ({ destination, amount }: { destination: string; amount: number }) => {
       const json = {
         to: destination,
@@ -94,7 +95,7 @@ export function useTransferMutations() {
           {
             id: 'spkcc_power_grant',
             json: JSON.stringify(json),
-            required_auths: [currentAccount?.name],
+            required_auths: [username!],
             required_posting_auths: [],
           },
         ],

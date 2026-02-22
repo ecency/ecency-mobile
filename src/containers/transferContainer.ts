@@ -323,6 +323,8 @@ class TransferContainer extends Component {
               quantity: amountNum,
             });
             break;
+          default:
+            throw new Error(`Unknown transferType for ENGINE: ${transferType}`);
         }
         _onSuccess();
         return;
@@ -358,6 +360,8 @@ class TransferContainer extends Component {
               amount: spkAmount,
             });
             break;
+          default:
+            throw new Error(`Unknown transferType for SPK: ${transferType}`);
         }
         _onSuccess();
         return;
@@ -410,17 +414,29 @@ class TransferContainer extends Component {
               amount: data.amount,
             });
             break;
-          case TransferTypes.WITHDRAW_VESTING:
+          case TransferTypes.WITHDRAW_VESTING: {
+            const vestsAmount = Number(amount);
+            if (Number.isNaN(vestsAmount)) {
+              throw new Error(`Invalid amount for WITHDRAW_VESTING: ${amount}`);
+            }
             await mutations.withdrawVesting.mutateAsync({
-              vestingShares: `${amount.toFixed(6)} VESTS`,
+              vestingShares: `${vestsAmount.toFixed(6)} VESTS`,
             });
             break;
-          case TransferTypes.DELEGATE_VESTING_SHARES:
+          }
+          case TransferTypes.DELEGATE_VESTING_SHARES: {
+            const vestsAmount = Number(amount);
+            if (Number.isNaN(vestsAmount)) {
+              throw new Error(`Invalid amount for DELEGATE_VESTING_SHARES: ${amount}`);
+            }
             await mutations.delegateVestingShares.mutateAsync({
               delegatee: data.destination,
-              vestingShares: `${amount.toFixed(6)} VESTS`,
+              vestingShares: `${vestsAmount.toFixed(6)} VESTS`,
             });
             break;
+          }
+          default:
+            throw new Error(`Unknown transferType for HIVE: ${transferType}`);
         }
         _onSuccess();
         return;
@@ -434,7 +450,10 @@ class TransferContainer extends Component {
           memo: data.memo,
         });
         _onSuccess();
+        return;
       }
+
+      throw new Error(`Unknown tokenLayer: ${tokenLayer}`);
     } catch (error) {
       _onError(error);
     }
