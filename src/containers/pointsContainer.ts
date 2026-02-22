@@ -6,24 +6,22 @@ import { useIntl } from 'react-intl';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
-import { getAccountsQueryOptions } from '@ecency/sdk';
+import { getAccountsQueryOptions, useBroadcastMutation, buildBoostOpWithPoints } from '@ecency/sdk';
 import {
   selectCurrentAccount,
   selectGlobalProps,
   selectCurrency,
-  selectPin,
   selectIsPinCodeOpen,
   selectOtherAccounts,
   selectIsConnected,
   selectActiveBottomTab,
 } from '../redux/selectors';
 import { claimPoints } from '../providers/ecency/ePoint';
-import { boost, buildBoostOpArr } from '../providers/hive/dhive';
 import { getQueryClient } from '../providers/queries';
 import { getUserDataWithUsername } from '../realm/realm';
 import { toastNotification } from '../redux/actions/uiAction';
 import { useGetPointsQuery } from '../providers/queries/pointQueries';
-import { useActiveKeyOperation } from '../hooks';
+import { useAuthContext } from '../providers/sdk';
 
 // Constant
 import POINTS from '../constants/options/points';
@@ -49,14 +47,24 @@ const PointsContainer = ({
   user,
   activeBottomTab,
   isPinCodeOpen,
-  pinCode,
   currency,
   route,
 }) => {
   const navigation = useNavigation();
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { executeOperation } = useActiveKeyOperation();
+  const authContext = useAuthContext();
+
+  const boostMutation = useBroadcastMutation(
+    ['ecency', 'boost'],
+    currentAccount?.name,
+    ({ author, permlink, points }: { author: string; permlink: string; points: number }) => [
+      buildBoostOpWithPoints(currentAccount?.name, author, permlink, points),
+    ],
+    undefined,
+    authContext,
+    'active',
+  );
 
   // Use SDK query for points data
   const pointsQuery = useGetPointsQuery(username);
@@ -233,36 +241,17 @@ const PointsContainer = ({
     setIsClaiming(false);
   };
 
-  const _boost = async (point, permlink, author, _user) => {
-    const account = _user || currentAccount;
-    const username = get(account, 'name');
-
+  const _boost = async (point, permlink, author) => {
     setIsLoading(true);
 
     try {
-      const operations = buildBoostOpArr(username, point, author, permlink);
-
-      await executeOperation({
-        operations,
-        privateKeyHandler: () => boost(account, pinCode, point, author, permlink),
-        callbacks: {
-          onSuccess: () => {
-            setIsLoading(false);
-            navigation.goBack();
-            dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-          },
-          onError: (_error) => {
-            setIsLoading(false);
-            dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
-          },
-          onClose: () => {
-            setIsLoading(false);
-          },
-        },
-      });
-    } catch (error) {
-      // Error already handled in callbacks
+      await boostMutation.mutateAsync({ author, permlink, points: point });
       setIsLoading(false);
+      navigation.goBack();
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+    } catch (error) {
+      setIsLoading(false);
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
     }
   };
 
@@ -312,7 +301,6 @@ const mapStateToProps = (state) => ({
   isConnected: selectIsConnected(state),
   accounts: selectOtherAccounts(state),
   currentAccount: selectCurrentAccount(state),
-  pinCode: selectPin(state),
   isPinCodeOpen: selectIsPinCodeOpen(state),
   globalProps: selectGlobalProps(state),
   currency: selectCurrency(state).currency,

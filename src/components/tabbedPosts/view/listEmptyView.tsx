@@ -7,23 +7,22 @@ import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
 import { getCommunityQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
-import { useAppSelector } from '../../../hooks';
+import {
+  useAppSelector,
+  useCommunitySubscriptionAction,
+  useFollowUserAction,
+} from '../../../hooks';
 import { NoPost, PostCardPlaceHolder, UserListItem } from '../..';
 import globalStyles from '../../../globalStyles';
 import { CommunityListItem, EmptyScreen } from '../../basicUIElements';
 import styles from '../styles/tabbedPosts.styles';
 import { default as ROUTES } from '../../../constants/routeNames';
-import {
-  fetchCommunities,
-  leaveCommunity,
-  subscribeCommunity,
-} from '../../../redux/actions/communitiesAction';
-import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
+import { fetchCommunities } from '../../../redux/actions/communitiesAction';
+import { fetchLeaderboard } from '../../../redux/actions/userAction';
 import { SheetNames } from '../../../navigation/sheets';
 import {
   selectIsLoggedIn,
   selectCurrentAccount,
-  selectPin,
   selectPrevLoggedInUsers,
 } from '../../../redux/selectors';
 
@@ -49,7 +48,8 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   const [recommendedUsers, setRecommendedUsers] = useState([]);
   const followingUsers = useAppSelector((state) => state.user.followingUsersInFeedScreen);
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinCode = useAppSelector(selectPin);
+  const handleCommunitySubscription = useCommunitySubscriptionAction();
+  const handleFollowUser = useFollowUserAction();
 
   const leaderboard = useAppSelector((state) => state.user.leaderboard);
   const communities = useAppSelector((state) => state.communities.communities);
@@ -171,63 +171,26 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
 
   // actions related routines
   const _handleSubscribeCommunityButtonPress = (data) => {
-    let subscribeAction;
-    let successToastText = '';
-    let failToastText = '';
+    const successToastText = intl.formatMessage({
+      id: data.isSubscribed ? 'alert.success_leave' : 'alert.success_subscribe',
+    });
+    const failToastText = intl.formatMessage({
+      id: data.isSubscribed ? 'alert.fail_leave' : 'alert.fail_subscribe',
+    });
 
-    if (!data.isSubscribed) {
-      subscribeAction = subscribeCommunity;
-
-      successToastText = intl.formatMessage({
-        id: 'alert.success_subscribe',
-      });
-      failToastText = intl.formatMessage({
-        id: 'alert.fail_subscribe',
-      });
-    } else {
-      subscribeAction = leaveCommunity;
-
-      successToastText = intl.formatMessage({
-        id: 'alert.success_leave',
-      });
-      failToastText = intl.formatMessage({
-        id: 'alert.fail_leave',
-      });
-    }
-
-    dispatch(
-      subscribeAction(currentAccount, pinCode, data, successToastText, failToastText, 'feedScreen'),
-    );
+    handleCommunitySubscription(data, successToastText, failToastText, 'feedScreen');
   };
 
   const _handleFollowUserButtonPress = (data, isFollowing) => {
-    let followAction;
-    let successToastText = '';
-    let failToastText = '';
+    const successToastText = intl.formatMessage({
+      id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
+    });
+    const failToastText = intl.formatMessage({
+      id: isFollowing ? 'alert.fail_unfollow' : 'alert.fail_follow',
+    });
 
-    if (!isFollowing) {
-      followAction = followUser;
-
-      successToastText = intl.formatMessage({
-        id: 'alert.success_follow',
-      });
-      failToastText = intl.formatMessage({
-        id: 'alert.fail_follow',
-      });
-    } else {
-      followAction = unfollowUser;
-
-      successToastText = intl.formatMessage({
-        id: 'alert.success_unfollow',
-      });
-      failToastText = intl.formatMessage({
-        id: 'alert.fail_unfollow',
-      });
-    }
-
-    data.follower = get(currentAccount, 'name', '');
-
-    dispatch(followAction(currentAccount, pinCode, data, successToastText, failToastText));
+    const followData = { ...data, following: data._id, follower: get(currentAccount, 'name', '') };
+    handleFollowUser(followData, isFollowing, successToastText, failToastText);
   };
 
   const _handleOnPressLogin = () => {

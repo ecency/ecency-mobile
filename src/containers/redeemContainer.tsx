@@ -5,20 +5,18 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
-import { getPostQueryOptions } from '@ecency/sdk';
+import { getPostQueryOptions, useBroadcastMutation, buildBoostOpWithPoints } from '@ecency/sdk';
 import {
   selectCurrentAccount,
   selectGlobalProps,
-  selectPin,
   selectIsPinCodeOpen,
   selectOtherAccounts,
   selectIsConnected,
 } from '../redux/selectors';
-import { boost, buildBoostOpArr } from '../providers/hive/dhive';
 import { getQueryClient } from '../providers/queries';
 import { toastNotification } from '../redux/actions/uiAction';
-import { useActiveKeyOperation } from '../hooks';
 import { usePromoteMutation, useBoostPlusMutation } from '../providers/sdk/mutations';
+import { useAuthContext } from '../providers/sdk';
 
 /*
  *            Props Name        Description                                     Value
@@ -41,15 +39,12 @@ class RedeemContainer extends Component {
   // Component Functions
 
   _redeemAction = async (user, redeemType = 'promote', actionSpecificParam, author, permlink) => {
-    const { currentAccount, pinCode, dispatch, intl, navigation, executeOperation } = this.props;
-    const { promoteMutation, boostPlusMutation } = this.props;
-    const account = user || currentAccount;
-    const username = get(account, 'name');
+    const { dispatch, intl, navigation } = this.props;
+    const { promoteMutation, boostPlusMutation, boostMutation } = this.props;
 
     this.setState({ isLoading: true });
 
     try {
-      // Use SDK mutations for promote and boost_plus; legacy path for boost
       switch (redeemType) {
         case 'promote':
           await promoteMutation.mutateAsync({
@@ -67,17 +62,10 @@ class RedeemContainer extends Component {
           break;
 
         case 'boost':
-          // Legacy path — no SDK mutation for boost yet
-          await executeOperation({
-            operations: buildBoostOpArr(username, actionSpecificParam, author, permlink),
-            privateKeyHandler: () => boost(account, pinCode, actionSpecificParam, author, permlink),
-            callbacks: {
-              onSuccess: () => {},
-              onError: (error) => {
-                throw error;
-              },
-              onClose: () => {},
-            },
+          await boostMutation.mutateAsync({
+            author,
+            permlink,
+            points: actionSpecificParam,
           });
           break;
 
@@ -166,23 +154,33 @@ const mapStateToProps = (state) => ({
   isConnected: selectIsConnected(state),
   accounts: selectOtherAccounts(state),
   currentAccount: selectCurrentAccount(state),
-  pinCode: selectPin(state),
   isPinCodeOpen: selectIsPinCodeOpen(state),
   globalProps: selectGlobalProps(state),
 });
 
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  const { executeOperation } = useActiveKeyOperation();
+  const authContext = useAuthContext();
+  const { currentAccount } = props;
   const promoteMutation = usePromoteMutation();
   const boostPlusMutation = useBoostPlusMutation();
+  const boostMutation = useBroadcastMutation(
+    ['ecency', 'boost'],
+    currentAccount?.name,
+    ({ author, permlink, points }: { author: string; permlink: string; points: number }) => [
+      buildBoostOpWithPoints(currentAccount?.name, author, permlink, points),
+    ],
+    undefined,
+    authContext,
+    'active',
+  );
   return (
     <RedeemContainer
       {...props}
       navigation={navigation}
-      executeOperation={executeOperation}
       promoteMutation={promoteMutation}
       boostPlusMutation={boostPlusMutation}
+      boostMutation={boostMutation}
     />
   );
 };

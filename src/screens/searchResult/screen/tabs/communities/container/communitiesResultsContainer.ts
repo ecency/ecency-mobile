@@ -6,20 +6,11 @@ import { shuffle } from 'lodash';
 import { useNavigation } from '@react-navigation/native';
 import { getCommunitiesQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
-import { useAppSelector } from '../../../../../../hooks';
+import { useAppSelector, useCommunitySubscriptionAction } from '../../../../../../hooks';
 import ROUTES from '../../../../../../constants/routeNames';
-
-import {
-  subscribeCommunity,
-  leaveCommunity,
-} from '../../../../../../redux/actions/communitiesAction';
 import { updateSubscribedCommunitiesCache } from '../../../../../../redux/actions/cacheActions';
 import { statusMessage } from '../../../../../../redux/constants/communitiesConstants';
-import {
-  selectIsLoggedIn,
-  selectCurrentAccount,
-  selectPin,
-} from '../../../../../../redux/selectors';
+import { selectIsLoggedIn, selectCurrentAccount } from '../../../../../../redux/selectors';
 
 const CommunitiesResultsContainer = ({ children, searchValue }) => {
   const intl = useIntl();
@@ -30,8 +21,8 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   const [data, setData] = useState([]);
   const [noResult, setNoResult] = useState(false);
   const [isDiscoversLoading, setIsDiscoversLoading] = useState(false);
-  const pinCode = useAppSelector(selectPin);
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const handleCommunitySubscription = useCommunitySubscriptionAction();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
   const subscribingCommunities = useAppSelector(
@@ -151,33 +142,15 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
 
   const _handleSubscribeButtonPress = (_data, screen) => {
     setSelectedCommunityItem(_data); // set selected item to handle its cache
-    let subscribeAction;
-    let successToastText = '';
-    let failToastText = '';
 
-    if (!_data.isSubscribed) {
-      subscribeAction = subscribeCommunity;
+    const successToastText = intl.formatMessage({
+      id: _data.isSubscribed ? 'alert.success_leave' : 'alert.success_subscribe',
+    });
+    const failToastText = intl.formatMessage({
+      id: _data.isSubscribed ? 'alert.fail_leave' : 'alert.fail_subscribe',
+    });
 
-      successToastText = intl.formatMessage({
-        id: 'alert.success_subscribe',
-      });
-      failToastText = intl.formatMessage({
-        id: 'alert.fail_subscribe',
-      });
-    } else {
-      subscribeAction = leaveCommunity;
-
-      successToastText = intl.formatMessage({
-        id: 'alert.success_leave',
-      });
-      failToastText = intl.formatMessage({
-        id: 'alert.fail_leave',
-      });
-    }
-
-    dispatch(
-      subscribeAction(currentAccount, pinCode, _data, successToastText, failToastText, screen),
-    );
+    handleCommunitySubscription(_data, successToastText, failToastText, screen);
   };
 
   return (

@@ -6,14 +6,10 @@ import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { getCommunitiesQueryOptions, getAccountSubscriptionsQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector, useCommunitySubscriptionAction } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
 
-import {
-  subscribeCommunity,
-  leaveCommunity,
-  fetchSubscribedCommunitiesSuccess,
-} from '../../../redux/actions/communitiesAction';
+import { fetchSubscribedCommunitiesSuccess } from '../../../redux/actions/communitiesAction';
 import { statusMessage } from '../../../redux/constants/communitiesConstants';
 import {
   deleteSubscribedCommunityCacheEntry,
@@ -23,7 +19,7 @@ import {
   mergeSubCommunitiesCacheInDiscoverList,
   mergeSubCommunitiesCacheInSubList,
 } from '../../../utils/communitiesUtils';
-import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
+import { selectCurrentAccount } from '../../../redux/selectors';
 
 const CommunitiesContainer = ({ children }) => {
   const navigation = useNavigation();
@@ -38,7 +34,7 @@ const CommunitiesContainer = ({ children }) => {
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
 
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinCode = useAppSelector(selectPin);
+  const handleCommunitySubscription = useCommunitySubscriptionAction();
   const subscribedCommunities = useAppSelector((state) => state.communities.subscribedCommunities);
   const subscribingCommunitiesInDiscoverTab = useAppSelector(
     (state) => state.communities.subscribingCommunitiesInCommunitiesScreenDiscoverTab,
@@ -218,33 +214,15 @@ const CommunitiesContainer = ({ children }) => {
 
   const _handleSubscribeButtonPress = (data, screen) => {
     setSelectedCommunityItem(data); // set selected item to handle its cache
-    let subscribeAction;
-    let successToastText = '';
-    let failToastText = '';
 
-    if (!data.isSubscribed) {
-      subscribeAction = subscribeCommunity;
+    const successToastText = intl.formatMessage({
+      id: data.isSubscribed ? 'alert.success_leave' : 'alert.success_subscribe',
+    });
+    const failToastText = intl.formatMessage({
+      id: data.isSubscribed ? 'alert.fail_leave' : 'alert.fail_subscribe',
+    });
 
-      successToastText = intl.formatMessage({
-        id: 'alert.success_subscribe',
-      });
-      failToastText = intl.formatMessage({
-        id: 'alert.fail_subscribe',
-      });
-    } else {
-      subscribeAction = leaveCommunity;
-
-      successToastText = intl.formatMessage({
-        id: 'alert.success_leave',
-      });
-      failToastText = intl.formatMessage({
-        id: 'alert.fail_leave',
-      });
-    }
-
-    dispatch(
-      subscribeAction(currentAccount, pinCode, data, successToastText, failToastText, screen),
-    );
+    handleCommunitySubscription(data, successToastText, failToastText, screen);
   };
 
   return (
