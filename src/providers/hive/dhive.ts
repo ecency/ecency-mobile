@@ -23,6 +23,7 @@ import {
   getAccountsQueryOptions,
   parseProfileMetadata,
   getDynamicPropsQueryOptions,
+  getMarketStatisticsQueryOptions,
 } from '@ecency/sdk';
 import { getServer, getCache, setCache } from '../../realm/realm';
 
@@ -381,6 +382,11 @@ export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
 const getDynamicGlobalProperties = async () => {
   const queryClient = getQueryClient();
   return queryClient.fetchQuery(getDynamicPropsQueryOptions());
+};
+
+export const getMarketStatistics = () => {
+  const queryClient = getQueryClient();
+  return queryClient.fetchQuery(getMarketStatisticsQueryOptions());
 };
 
 /**
