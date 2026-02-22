@@ -24,8 +24,12 @@ import {
   selectIsConnected,
   selectHidePostsThumbnails,
 } from '../redux/selectors';
-import { ignoreUser, getDigitPinCode } from '../providers/hive/dhive';
-import { useFollowMutation, useUnfollowMutation } from '../providers/sdk/mutations';
+import { getDigitPinCode } from '../providers/hive/dhive';
+import {
+  useFollowMutation,
+  useUnfollowMutation,
+  useIgnoreUserMutation,
+} from '../providers/sdk/mutations';
 import { getQueryClient } from '../providers/queries';
 import { startMattermostDirectMessage } from '../providers/chat/mattermost';
 
@@ -238,18 +242,14 @@ class ProfileContainer extends Component {
 
   _muteUser = () => {
     const { username } = this.state;
-    const { currentAccount, pinCode, dispatch, intl } = this.props;
-    const follower = currentAccount.name;
-    const following = username;
+    const { currentAccount, dispatch, intl, ignoreUserMutation } = this.props;
 
     this.setState({
       isProfileLoading: true,
     });
 
-    ignoreUser(currentAccount, pinCode, {
-      follower,
-      following,
-    })
+    ignoreUserMutation
+      .mutateAsync({ following: username })
       .then(() => {
         this.setState({
           isMuted: true,
@@ -258,7 +258,6 @@ class ProfileContainer extends Component {
 
         const curMutes = currentAccount.mutes || [];
         if (curMutes.indexOf(username) < 0) {
-          // check to avoid double entry corner case
           currentAccount.mutes = [username, ...curMutes];
         }
         dispatch(updateCurrentAccount(currentAccount));
@@ -667,6 +666,7 @@ const mapHooksToProps = (props) => {
   const deleteFavouriteMutation = useDeleteFavouriteMutation();
   const followMutation = useFollowMutation();
   const unfollowMutation = useUnfollowMutation();
+  const ignoreUserMutation = useIgnoreUserMutation();
   return (
     <ProfileContainer
       {...props}
@@ -675,6 +675,7 @@ const mapHooksToProps = (props) => {
       deleteFavouriteMutation={deleteFavouriteMutation}
       followMutation={followMutation}
       unfollowMutation={unfollowMutation}
+      ignoreUserMutation={ignoreUserMutation}
     />
   );
 };

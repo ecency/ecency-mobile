@@ -15,17 +15,19 @@ import {
   getPointsQueryOptions,
   getPortfolioQueryOptions,
   getHiveEngineTokenTransactions,
+  useBroadcastMutation,
+  buildRecurrentTransferOp,
 } from '@ecency/sdk';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import POINTS from '../../../constants/options/points';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { claimPoints } from '../../ecency/ePoint';
+import { getAccount } from '../../hive/dhive';
 import {
-  claimRewardBalance,
-  getAccount,
-  profileUpdate,
-  recurrentTransferToken,
-} from '../../hive/dhive';
+  useClaimRewardsMutation as useSdkClaimRewardsMutation,
+  useAccountUpdateMutation,
+} from '../../sdk/mutations';
+import { useAuthContext } from '../../sdk';
 import QUERIES from '../queryKeys';
 import { claimRewards } from '../../hive-engine/hiveEngineActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
@@ -154,6 +156,8 @@ export const useClaimRewardsMutation = () => {
   const portfolioKeyEnabled = [...portfolioBaseKey, 'enabled'] as const;
   const portfolioKeyAll = [...portfolioBaseKey, 'all'] as const;
 
+  const sdkClaimRewards = useSdkClaimRewardsMutation();
+
   const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
     const account = await getAccount(currentAccount.name);
     if (!account) {
@@ -163,13 +167,11 @@ export const useClaimRewardsMutation = () => {
     if (symbol === 'POINTS') {
       await claimPoints();
     } else if (['HP', 'HBD', 'HIVE'].includes(symbol)) {
-      await claimRewardBalance(
-        currentAccount,
-        pinHash,
-        symbol === 'HIVE' ? account.reward_hive_balance : '0.000 HIVE',
-        symbol === 'HBD' ? account.reward_hbd_balance : '0.000 HBD',
-        symbol === 'HP' ? account.reward_vesting_balance : '0.000000 VESTS',
-      );
+      await sdkClaimRewards.mutateAsync({
+        rewardHive: symbol === 'HIVE' ? account.reward_hive_balance : '0.000 HIVE',
+        rewardHbd: symbol === 'HBD' ? account.reward_hbd_balance : '0.000 HBD',
+        rewardVests: symbol === 'HP' ? account.reward_vesting_balance : '0.000000 VESTS',
+      });
     } else {
       await claimRewards([symbol], currentAccount, pinHash);
     }
@@ -663,21 +665,41 @@ export const useDeleteRecurrentTransferMutation = () => {
   const intl = useIntl();
   const queryClient = useQueryClient();
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinHash = useAppSelector(selectPin);
+  const authContext = useAuthContext();
+
+  const recurrentTransferBroadcast = useBroadcastMutation(
+    ['hive', 'delete-recurrent-transfer'],
+    currentAccount?.name,
+    ({
+      from,
+      to,
+      amount,
+      memo,
+      recurrence,
+      executions,
+    }: {
+      from: string;
+      to: string;
+      amount: string;
+      memo: string;
+      recurrence: number;
+      executions: number;
+    }) => [buildRecurrentTransferOp(from, to, amount, memo, recurrence, executions)],
+    undefined,
+    authContext,
+    'active',
+  );
 
   const mutation = useMutation<boolean, Error, { recurrentTransfer: RecurrentTransfer }>({
     mutationFn: async ({ recurrentTransfer }) => {
-      // form up rec transfer data for deletion
-      const data = {
+      await recurrentTransferBroadcast.mutateAsync({
         from: recurrentTransfer.from,
-        destination: recurrentTransfer.to,
+        to: recurrentTransfer.to,
         amount: '0.000 HIVE',
         memo: recurrentTransfer.memo || '',
         recurrence: recurrentTransfer.recurrence || 0,
         executions: recurrentTransfer.remaining_executions || 0,
-      };
-
-      await recurrentTransferToken(currentAccount, pinHash, data);
+      });
       return true;
     },
     retry: 2,
@@ -722,7 +744,7 @@ export const useUpdateProfileTokensMutation = () => {
   const intl = useIntl();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinHash = useAppSelector(selectPin);
+  const accountUpdateMutation = useAccountUpdateMutation();
 
   const mutation = useMutation<any, Error, ProfileToken[]>({
     mutationFn: async (tokens) => {
@@ -732,7 +754,10 @@ export const useUpdateProfileTokensMutation = () => {
         tokens: [...tokens],
       };
 
-      await profileUpdate(newProfileMeta, pinHash, currentAccount);
+      await accountUpdateMutation.mutateAsync({
+        profile: newProfileMeta,
+        tokens: [...tokens],
+      });
 
       return newProfileMeta;
     },

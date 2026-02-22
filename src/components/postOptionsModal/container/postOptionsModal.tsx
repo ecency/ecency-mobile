@@ -10,12 +10,12 @@ import { FlatList } from 'react-native-gesture-handler';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import { useQueryClient } from '@tanstack/react-query';
 import { getPostQueryOptions, getAccountFullQueryOptions, useDeleteComment } from '@ecency/sdk';
-import { ignoreUser } from '../../../providers/hive/dhive';
 import { useAuthContext } from '../../../providers/sdk';
 import {
   useReblogMutation,
   usePinPostMutation,
   useAccountUpdateMutation,
+  useIgnoreUserMutation,
 } from '../../../providers/sdk/mutations';
 import { addReport } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
@@ -41,7 +41,6 @@ import {
   selectCurrentAccount,
   selectIsLoggedIn,
   selectIsPinCodeOpen,
-  selectPin,
 } from '../../../redux/selectors';
 import { useGetReblogsQuery } from '../../../providers/queries/postQueries/repostQueries';
 
@@ -72,13 +71,12 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinCode = useAppSelector(selectPin);
-
   const authContext = useAuthContext();
   const deleteCommentMutation = useDeleteComment(currentAccount?.name, authContext);
   const reblogMutation = useReblogMutation();
   const pinPostMutation = usePinPostMutation();
   const accountUpdateMutation = useAccountUpdateMutation();
+  const ignoreUserMutation = useIgnoreUserMutation();
   const isPinCodeOpen = useAppSelector(selectIsPinCodeOpen);
   const subscribedCommunities = useAppSelector((state) => state.communities.subscribedCommunities);
 
@@ -215,21 +213,16 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
   const _muteUser = () => {
     const username = content.author;
-    const follower = currentAccount.name;
-    const following = username;
 
     if (!isLoggedIn) {
       showLoginAlert({ intl });
       return;
     }
-    ignoreUser(currentAccount, pinCode, {
-      follower,
-      following,
-    })
+    ignoreUserMutation
+      .mutateAsync({ following: username })
       .then(() => {
         const curMutes = currentAccount.mutes || [];
         if (curMutes.indexOf(username) < 0) {
-          // check to avoid double entry corner case
           currentAccount.mutes = [username, ...curMutes];
         }
         dispatch(updateCurrentAccount(currentAccount));

@@ -9,6 +9,7 @@
 // Social
 export { useFollowMutation } from './useFollowMutation';
 export { useUnfollowMutation } from './useUnfollowMutation';
+export { useIgnoreUserMutation } from './useIgnoreUserMutation';
 export { useReblogMutation } from './useReblogMutation';
 export { useAccountRelationsUpdateMutation } from './useAccountRelationsUpdateMutation';
 

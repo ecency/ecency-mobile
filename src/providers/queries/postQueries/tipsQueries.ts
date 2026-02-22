@@ -5,12 +5,26 @@ import { PostTipsResponse } from '../../ecency/ecency.types';
 import QUERIES from '../queryKeys';
 import { useAppDispatch } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
-import { sendTip, TipParams } from '../../../services/tippingService';
+import { formatTipAmount } from '../../../services/tippingService';
+import {
+  useTransferMutation,
+  useTransferPointMutation,
+  useTransferEngineTokenMutation,
+} from '../../sdk/mutations';
 
 interface UsePostTipsQueryProps {
   author?: string;
   permlink?: string;
   enabled?: boolean;
+}
+
+export interface TipParams {
+  currency: string;
+  amount: string;
+  recipient: string;
+  author: string;
+  permlink: string;
+  precision?: number;
 }
 
 /**
@@ -38,8 +52,40 @@ export const useSendTipMutation = () => {
   const queryClient = useQueryClient();
   const intl = useIntl();
 
+  const transferMutation = useTransferMutation();
+  const transferPointMutation = useTransferPointMutation();
+  const transferEngineMutation = useTransferEngineTokenMutation();
+
   return useMutation<any, Error, TipParams>({
-    mutationFn: sendTip,
+    mutationFn: async (params) => {
+      const { currency, amount, recipient, author, permlink, precision } = params;
+      const formattedAmount = formatTipAmount(amount, currency, precision);
+      const memo = `Tip for @${author}/${permlink}`;
+
+      if (currency === 'POINTS') {
+        return transferPointMutation.mutateAsync({
+          to: recipient,
+          amount: `${formattedAmount} POINT`,
+          memo,
+        });
+      }
+
+      if (currency === 'HIVE' || currency === 'HBD') {
+        return transferMutation.mutateAsync({
+          to: recipient,
+          amount: `${formattedAmount} ${currency}`,
+          memo,
+        });
+      }
+
+      // Engine tokens
+      return transferEngineMutation.mutateAsync({
+        to: recipient,
+        symbol: currency,
+        quantity: formattedAmount,
+        memo,
+      });
+    },
     onSuccess: (data, variables) => {
       // Invalidate tips query to refetch updated tips
       queryClient.invalidateQueries({
