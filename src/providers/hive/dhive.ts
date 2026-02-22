@@ -13,7 +13,6 @@ import { PrivateKey } from '@esteemapp/dhive';
 import bytebuffer from 'bytebuffer';
 import * as Crypto from 'expo-crypto';
 
-import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import * as hiveuri from 'hive-uri';
@@ -23,31 +22,18 @@ import {
   getAccountFullQueryOptions,
   getAccountsQueryOptions,
   parseProfileMetadata,
-  getCommunityQueryOptions,
   getDynamicPropsQueryOptions,
-  getMarketStatisticsQueryOptions,
 } from '@ecency/sdk';
 import { getServer, getCache, setCache } from '../../realm/realm';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
 import { getName, getAvatar, parseReputation } from '../../utils/user';
-import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 import { SERVER_LIST } from '../../constants/options/api';
 import { b64uEnc } from '../../utils/b64';
-
-interface LocalAccount {
-  authType: string;
-  accessToken: string;
-}
-
-interface CurrentAccount {
-  username: string;
-  local: LocalAccount;
-}
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 global.Buffer = global.Buffer || require('buffer').Buffer;
@@ -154,83 +140,6 @@ const getDateErrorDiagnostics = async () => {
   }
 
   return diagnostics;
-};
-
-/**
- * Checks if error indicates missing posting authority for HiveAuth users
- */
-const isMissingAuthorityError = (error: any): boolean => {
-  if (!error) return false;
-
-  const errorMessage = error.message || error.toString() || '';
-  const errorDescription = error.error_description || '';
-  let safeErrorString = '';
-  try {
-    safeErrorString = JSON.stringify(error);
-  } catch {
-    safeErrorString = error.toString ? error.toString() : '';
-  }
-  const safeLower = safeErrorString.toLowerCase();
-
-  // Log error for debugging
-  console.log('[HiveAuth Debug] Error check:', {
-    message: errorMessage,
-    description: errorDescription,
-    fullError: safeLower.substring(0, 200),
-  });
-
-  return (
-    errorMessage.includes('missing required posting authority') ||
-    errorMessage.includes('Missing Posting Authority') ||
-    errorMessage.includes('Missing Authority') ||
-    errorMessage.includes('missing_posting_auths') ||
-    errorMessage.includes('posting authority') ||
-    errorDescription.includes('Missing Authority') ||
-    errorDescription.includes('posting authority') ||
-    safeLower.includes('missing_posting_auth') ||
-    safeLower.includes('missing required posting authority') ||
-    (safeLower.includes('posting') && safeLower.includes('authority'))
-  );
-};
-
-/**
- * Determines if error should trigger HiveAuth fallback
- * More permissive than isMissingAuthorityError - includes token issues
- */
-const shouldTriggerHiveAuthFallback = (error: any): boolean => {
-  if (!error) return false;
-
-  if (isMissingAuthorityError(error)) {
-    return true;
-  }
-
-  const status = error?.status ?? error?.response?.status;
-  if (status === 401 || status === 403) {
-    return true;
-  }
-
-  const code = error?.code ?? error?.error_code;
-  if (code === 'MISSING_AUTHORITY' || code === 'INSUFFICIENT_AUTHORITY') {
-    return true;
-  }
-  if (code === 'UNAUTHORIZED' || code === 'FORBIDDEN' || code === 'HS_UNAUTHORIZED') {
-    return true;
-  }
-  if (code === 'TOKEN_EXPIRED') {
-    return true;
-  }
-
-  const name = error?.name;
-  if (name === 'UnauthorizedError' || name === 'ForbiddenError') {
-    return true;
-  }
-
-  const errorMessage = (error?.message || error?.toString?.() || '').toLowerCase();
-  if (/\binvalid token\b/.test(errorMessage) || /\btoken expired\b/.test(errorMessage)) {
-    return true;
-  }
-
-  return false;
 };
 
 /**
@@ -449,95 +358,6 @@ const isHsClientSupported = (authType) => {
   }
 };
 
-/** reuseable broadcast json method with posting auth */
-
-export const broadcastPostingJSON = async (
-  id: string,
-  json: unknown,
-  currentAccount: CurrentAccount,
-  pinHash: string,
-): Promise<TransactionConfirmation> => {
-  const digitPinCode = getDigitPinCode(pinHash);
-  const key = getPostingKey(currentAccount.local, digitPinCode);
-
-  // HiveAuth without posting authority: go directly to HiveAuth broadcast
-  if (shouldUseDirectHiveAuthBroadcast(currentAccount)) {
-    const custom_json = {
-      id,
-      json: JSON.stringify(json),
-      required_auths: [],
-      required_posting_auths: [currentAccount.name],
-    };
-    const customJsonOp: Operation = ['custom_json', custom_json];
-    return handleHiveAuthFallback(
-      currentAccount,
-      [customJsonOp],
-      `custom_json:${id}`,
-    ) as Promise<TransactionConfirmation>;
-  }
-
-  if (isHsClientSupported(currentAccount.local.authType)) {
-    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new hsClient({
-      accessToken: token,
-    });
-
-    try {
-      return await api
-        .customJson([], [currentAccount.name], id, JSON.stringify(json))
-        .then((r) => r.result as TransactionConfirmation);
-    } catch (err) {
-      // Check if this is a HiveAuth user with auth error (missing authority, expired token, etc.)
-      const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
-
-      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
-        // Build custom_json operation
-        const custom_json = {
-          id,
-          json: JSON.stringify(json),
-          required_auths: [],
-          required_posting_auths: [currentAccount.name],
-        };
-        const customJsonOp: Operation = ['custom_json', custom_json];
-
-        return handleHiveAuthFallback(
-          currentAccount,
-          [customJsonOp],
-          `custom_json:${id}`,
-        ) as Promise<TransactionConfirmation>;
-      }
-
-      throw err;
-    }
-  }
-
-  if (key) {
-    const privateKey = PrivateKey.fromString(key);
-
-    const custom_json = {
-      id,
-      json: JSON.stringify(json),
-      required_auths: [],
-      required_posting_auths: [currentAccount.name],
-    };
-    const opArray: Operation[] = [['custom_json', custom_json] as Operation];
-
-    return new Promise<TransactionConfirmation>((resolve, reject) => {
-      sendHiveOperations(opArray, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
-  );
-};
-
 export const buildActiveCustomJsonOpArr = (
   username: string,
   operationId: string,
@@ -558,17 +378,11 @@ export const buildActiveCustomJsonOpArr = (
 
 export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
 
-export const getDynamicGlobalProperties = async () => {
+const getDynamicGlobalProperties = async () => {
   const queryClient = getQueryClient();
   return queryClient.fetchQuery(getDynamicPropsQueryOptions());
 };
-/**
- * Get market statistics using SDK query
- */
-export const getMarketStatistics = () => {
-  const queryClient = getQueryClient();
-  return queryClient.fetchQuery(getMarketStatisticsQueryOptions());
-};
+
 /**
  * @method getAccount fetch raw account data without post processings
  * @param username username
@@ -700,23 +514,6 @@ export const getUser = async (user) => {
   }
 };
 
-export const getCommunity = async (tag, observer = '') => {
-  try {
-    const queryClient = getQueryClient();
-    const community = await queryClient.fetchQuery(getCommunityQueryOptions(tag, observer));
-    if (community) {
-      return community;
-    } else {
-      return {};
-    }
-  } catch (err) {
-    captureExceptionWithRpcParams(err, { tag, observer }, (scope) => {
-      scope.setContext('info', { message: 'failed to get community' });
-    });
-    throw err;
-  }
-};
-
 export const signImage = async (file, currentAccount, pin) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getPostingKey(currentAccount.local, digitPinCode);
@@ -737,201 +534,6 @@ export const signImage = async (file, currentAccount, pin) => {
     message.signatures = [signature];
     return b64uEnc(JSON.stringify(message));
   }
-};
-
-// /**
-//  * @method getBlockNum return block num based on transaction id
-//  * @param trx_id transactionId
-//  */
-// const getBlockNum = async (trx_id) => {
-//   try {
-//     console.log('Getting transaction data', trx_id);
-//     const transData = await client.call('condenser_api', 'get_transaction', [trx_id]);
-//     const blockNum = transData.block_num;
-//     console.log('Block number', blockNum);
-//     return blockNum;
-//   } catch (err) {
-//     console.warn('Failed to get transaction data: ', err);
-//     return undefined;
-//   }
-// };
-
-/**
- * @method upvote upvote a content
- * @param vote vote object(author, permlink, voter, weight)
- * @param postingKey private posting key
- */
-
-export const vote = async (account, pin, author, permlink, weight) => {
-  try {
-    const resp = await _vote(account, pin, author, permlink, weight);
-    console.log('Returning vote response', resp);
-
-    return resp;
-  } catch (err) {
-    console.warn('Failed to complete vote', err);
-    return Promise.reject(err);
-  }
-};
-
-const _vote = (currentAccount, pin, author, permlink, weight) => {
-  const digitPinCode = getDigitPinCode(pin);
-  const key = getPostingKey(currentAccount.local, digitPinCode);
-  const voter = currentAccount.name || currentAccount.username;
-
-  // HiveAuth without posting authority: go directly to HiveAuth broadcast
-  if (shouldUseDirectHiveAuthBroadcast(currentAccount)) {
-    const voteOp: Operation = ['vote', { voter, author, permlink, weight }];
-    return handleHiveAuthFallback(currentAccount, [voteOp], 'vote');
-  }
-
-  if (isHsClientSupported(currentAccount.local.authType)) {
-    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new hsClient({
-      accessToken: token,
-    });
-
-    return new Promise((resolve, reject) => {
-      api
-        .vote(voter, author, permlink, weight)
-        .then((result) => {
-          resolve(result.result);
-        })
-        .catch(async (err) => {
-          captureExceptionWithRpcParams(err, { voter, author, permlink, weight });
-
-          // Check if this is a HiveAuth user
-          const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
-
-          console.log('[Vote] Operation failed:', {
-            isHiveAuth,
-            errorMessage: err?.message,
-            errorType: err?.constructor?.name,
-          });
-
-          if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
-            console.log('[Vote] Triggering HiveAuth fallback');
-            // Build vote operation
-            const voteOp: Operation = [
-              'vote',
-              {
-                voter,
-                author,
-                permlink,
-                weight,
-              },
-            ];
-
-            try {
-              const result = await handleHiveAuthFallback(currentAccount, [voteOp], 'vote');
-              resolve(result);
-              return;
-            } catch (fallbackErr) {
-              console.error('[Vote] HiveAuth fallback failed:', fallbackErr);
-              reject(fallbackErr);
-              return;
-            }
-          }
-
-          reject(err);
-        });
-    });
-  }
-
-  if (key) {
-    const privateKey = PrivateKey.fromString(key);
-    const voter = currentAccount.name || currentAccount.username;
-    const args = [
-      [
-        'vote',
-        {
-          voter,
-          author,
-          permlink,
-          weight,
-        },
-      ],
-    ];
-
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(args, privateKey)
-        .then((result) => {
-          console.log('vote result', result);
-          resolve(result);
-        })
-        .catch((err) => {
-          if (err && get(err, 'jse_info.code') === 4030100) {
-            err.message = getDsteemDateErrorMessage(err);
-          }
-          captureExceptionWithRpcParams(err, { voter, author, permlink, weight });
-          reject(err);
-        });
-    });
-  }
-
-  return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
-  );
-};
-export const markHiveNotifications = async (currentAccount, pinHash) => {
-  const digitPinCode = getDigitPinCode(pinHash);
-  const key = getPostingKey(currentAccount.local, digitPinCode);
-
-  const now = new Date().toISOString();
-  const date = now.split('.')[0];
-
-  const params = {
-    id: 'notify',
-    required_auths: [],
-    required_posting_auths: [currentAccount.name],
-    json: JSON.stringify(['setLastRead', { date }]),
-  };
-  const params1 = {
-    id: 'ecency_notify',
-    required_auths: [],
-    required_posting_auths: [currentAccount.name],
-    json: JSON.stringify(['setLastRead', { date }]),
-  };
-
-  const opArray: Operation[] = [
-    ['custom_json', params],
-    ['custom_json', params1],
-  ];
-
-  if (isHsClientSupported(currentAccount.local.authType)) {
-    const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = new hsClient({
-      accessToken: token,
-    });
-
-    try {
-      return await api.broadcast(opArray).then((resp) => resp.result);
-    } catch (err) {
-      const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
-      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
-        return handleHiveAuthFallback(currentAccount, opArray, 'mark_notifications');
-      }
-      throw err;
-    }
-  }
-
-  if (key) {
-    const privateKey = PrivateKey.fromString(key);
-
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(opArray, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
-  );
 };
 
 // HELPERS
@@ -988,13 +590,6 @@ export const shouldPromptPostingAuthority = (account: any): boolean => {
   return true;
 };
 
-/**
- * Determines if HiveAuth user should use direct HiveAuth broadcast (no posting authority)
- * vs HiveSigner access token (has posting authority).
- */
-const shouldUseDirectHiveAuthBroadcast = (account: any): boolean => {
-  return account?.local?.authType === AUTH_TYPE.HIVE_AUTH && !hasEcencyPostingAuthority(account);
-};
 export const resolveTransaction = async (parsedTx, parsedParams, signer) => {
   const EXPIRE_TIME = 60 * 1000;
   // Get dynamic props from SDK (cached up to 60s, which is fine for TAPOS)

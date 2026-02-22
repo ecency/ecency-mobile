@@ -2,7 +2,6 @@ import axios from 'axios';
 import * as Sentry from '@sentry/react-native';
 import { Poll } from './polls.types';
 import { convertPoll } from './converters';
-import { broadcastPostingJSON } from '../hive/dhive';
 
 /**
  *
@@ -24,10 +23,6 @@ export const POLLS_PROTOCOL_VERSION = 1.1;
 const pollsApi = axios.create({
   baseURL: POLLS_BASE_URL,
 });
-
-const executePollAction = (id: string, json: any, currentAccount: any, pinHash: string) => {
-  return broadcastPostingJSON(id, json, currentAccount, pinHash);
-};
 
 export const getPollData = async (author: string, permlink: string): Promise<Poll> => {
   try {
@@ -55,39 +50,6 @@ export const getPollData = async (author: string, permlink: string): Promise<Pol
     }
 
     return data;
-  } catch (error) {
-    Sentry.captureException(error);
-    throw error;
-  }
-};
-
-export const castPollVote = async (
-  postId: string,
-  choices: number[],
-  currentAccount: any,
-  pinHash: string,
-) => {
-  try {
-    if (!postId || !currentAccount) {
-      throw new Error('Failed to register vote');
-    }
-
-    if (!choices || !choices.length) {
-      throw new Error('Invalid vote');
-    }
-
-    await executePollAction(
-      'polls',
-      {
-        poll: postId,
-        action: 'vote',
-        choices,
-      },
-      currentAccount,
-      pinHash,
-    );
-
-    return true;
   } catch (error) {
     Sentry.captureException(error);
     throw error;

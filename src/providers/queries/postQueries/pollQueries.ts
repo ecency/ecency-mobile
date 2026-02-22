@@ -2,8 +2,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
+import { useBroadcastMutation } from '@ecency/sdk';
 import QUERIES from '../queryKeys';
-import { castPollVote, getPollData } from '../../polls/polls';
+import { getPollData } from '../../polls/polls';
 import { PostMetadata } from '../../hive/hive.types';
 import { Poll, PollChoice } from '../../polls/polls.types';
 import { useAppSelector } from '../../../hooks';
@@ -12,7 +13,8 @@ import { vestsToHp } from '../../../utils/conversions';
 import { updatePollVoteCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus, PollVoteCache } from '../../../redux/reducers/cacheReducer';
 import { toastNotification } from '../../../redux/actions/uiAction';
-import { selectCurrentAccount, selectPin, selectGlobalProps } from '../../../redux/selectors';
+import { selectCurrentAccount, selectGlobalProps } from '../../../redux/selectors';
+import { useAuthContext } from '../../sdk/useAuthContext';
 
 /** hook used to return post poll */
 export const useGetPollQuery = (_author?: string, _permlink?: string, metadata?: PostMetadata) => {
@@ -61,14 +63,37 @@ export const useGetPollQuery = (_author?: string, _permlink?: string, metadata?:
 };
 
 export function useVotePollMutation(poll: Poll | null) {
-  // const { activeUser } = useMappedStore();
   const intl = useIntl();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pollVotesCollection = useAppSelector((state) => state.cache.pollVotesCollection);
-  const pinHash = useAppSelector(selectPin);
   const globalProps = useAppSelector(selectGlobalProps);
+  const authContext = useAuthContext();
+  const username = currentAccount?.name ?? '';
+
+  const broadcastMutation = useBroadcastMutation(
+    ['hive', 'poll-vote'],
+    username,
+    ({ pollTrxId, choices }: { pollTrxId: string; choices: number[] }) => [
+      [
+        'custom_json',
+        {
+          id: 'polls',
+          required_auths: [],
+          required_posting_auths: [username],
+          json: JSON.stringify({
+            poll: pollTrxId,
+            action: 'vote',
+            choices,
+          }),
+        },
+      ],
+    ],
+    undefined,
+    authContext,
+    'posting',
+  );
 
   return useMutation({
     mutationKey: [QUERIES.POST.SIGN_POLL_VOTE, poll?.author, poll?.permlink],
@@ -84,8 +109,9 @@ export function useVotePollMutation(poll: Poll | null) {
       if (!(choices instanceof Array)) {
         throw new Error('Invalid vote');
       }
-      // eslint-disable-next-line no-return-await
-      return await castPollVote(poll.poll_trx_id, choices, currentAccount, pinHash);
+
+      await broadcastMutation.mutateAsync({ pollTrxId: poll.poll_trx_id, choices });
+      return true;
     },
     retry: 3,
     onMutate: ({ choices }) => {

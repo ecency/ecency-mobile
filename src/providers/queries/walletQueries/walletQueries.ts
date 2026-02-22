@@ -29,10 +29,9 @@ import {
 } from '../../sdk/mutations';
 import { useAuthContext } from '../../sdk';
 import QUERIES from '../queryKeys';
-import { claimRewards } from '../../hive-engine/hiveEngineActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { updateClaimCache } from '../../../redux/actions/cacheActions';
-import { selectCurrentAccount, selectPin, selectGlobalProps } from '../../../redux/selectors';
+import { selectCurrentAccount, selectGlobalProps } from '../../../redux/selectors';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
 import {
   groomingEngineHistory,
@@ -145,7 +144,6 @@ export const useClaimRewardsMutation = () => {
   const queryClient = useQueryClient();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinHash = useAppSelector(selectPin);
   const currency = useAppSelector((state) => state.application.currency);
   const [isClaimingColl, setIsClaimingColl] = useState<{ [key: string]: boolean }>({});
   const portfolioBaseKey = [
@@ -157,6 +155,27 @@ export const useClaimRewardsMutation = () => {
   const portfolioKeyAll = [...portfolioBaseKey, 'all'] as const;
 
   const sdkClaimRewards = useSdkClaimRewardsMutation();
+  const authContext = useAuthContext();
+  const username = currentAccount?.name ?? '';
+
+  const engineClaimMutation = useBroadcastMutation(
+    ['hive', 'scot-claim-token'],
+    username,
+    ({ symbols }: { symbols: string[] }) => [
+      [
+        'custom_json',
+        {
+          id: 'scot_claim_token',
+          required_auths: [],
+          required_posting_auths: [username],
+          json: JSON.stringify(symbols.map((r) => ({ symbol: r }))),
+        },
+      ],
+    ],
+    undefined,
+    authContext,
+    'posting',
+  );
 
   const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
     const account = await getAccount(currentAccount.name);
@@ -173,7 +192,7 @@ export const useClaimRewardsMutation = () => {
         rewardVests: symbol === 'HP' ? account.reward_vesting_balance : '0.000000 VESTS',
       });
     } else {
-      await claimRewards([symbol], currentAccount, pinHash);
+      await engineClaimMutation.mutateAsync({ symbols: [symbol] });
     }
     return true;
   };

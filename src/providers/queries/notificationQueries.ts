@@ -2,14 +2,19 @@ import { useInfiniteQuery, useQueryClient, useMutation } from '@tanstack/react-q
 import { useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import * as Sentry from '@sentry/react-native';
-import { getNotificationsInfiniteQueryOptions, markNotifications } from '@ecency/sdk';
+import {
+  getNotificationsInfiniteQueryOptions,
+  markNotifications,
+  useBroadcastMutation,
+} from '@ecency/sdk';
 import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
 import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { NotificationFilters } from '../ecency/ecency.types';
-import { markHiveNotifications, getDigitPinCode } from '../hive/dhive';
+import { getDigitPinCode } from '../hive/dhive';
 import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 import { decryptKey } from '../../utils/crypto';
+import { useAuthContext } from '../sdk/useAuthContext';
 
 const FETCH_LIMIT = 20; // Fetch 20 notifications per page
 
@@ -65,13 +70,48 @@ export const useNotificationReadMutation = () => {
   const { username: authUsername, code: authCode } = useAuth();
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinHash = useAppSelector(selectPin);
-
-  // Track pending mutations to verify on error
-  const pendingMutationRef = useRef<{ id?: string; timestamp: number } | null>(null);
+  const authContext = useAuthContext();
 
   // Get auth credentials
   const digitPinCode = getDigitPinCode(pinHash);
   const username = currentAccount?.name || authUsername;
+
+  // SDK broadcast mutation for marking Hive on-chain notifications
+  const markHiveNotifMutation = useBroadcastMutation(
+    ['hive', 'mark-notifications'],
+    username,
+    () => {
+      const now = new Date().toISOString();
+      const date = now.split('.')[0];
+      const jsonPayload = JSON.stringify(['setLastRead', { date }]);
+      return [
+        [
+          'custom_json',
+          {
+            id: 'notify',
+            required_auths: [],
+            required_posting_auths: [username],
+            json: jsonPayload,
+          },
+        ],
+        [
+          'custom_json',
+          {
+            id: 'ecency_notify',
+            required_auths: [],
+            required_posting_auths: [username],
+            json: jsonPayload,
+          },
+        ],
+      ];
+    },
+    undefined,
+    authContext,
+    'posting',
+  );
+
+  // Track pending mutations to verify on error
+  const pendingMutationRef = useRef<{ id?: string; timestamp: number } | null>(null);
   const accessToken =
     currentAccount?.local?.accessToken && digitPinCode
       ? decryptKey(currentAccount.local.accessToken, digitPinCode)
@@ -168,7 +208,7 @@ export const useNotificationReadMutation = () => {
 
         // Mobile-specific: Also mark Hive notifications when marking all
         if (!notificationId) {
-          markHiveNotifications(currentAccount, pinHash).catch((err) => {
+          markHiveNotifMutation.mutateAsync({}).catch((err) => {
             Sentry.captureException(err);
           });
         }
