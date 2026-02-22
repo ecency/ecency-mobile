@@ -4,7 +4,6 @@
 import {
   Client,
   cryptoUtils,
-  utils,
   Types,
   Transaction,
   Operation,
@@ -23,31 +22,16 @@ import {
   getQueryClient,
   getAccountFullQueryOptions,
   getAccountsQueryOptions,
-  getPostQueryOptions,
   parseProfileMetadata,
   getCommunityQueryOptions,
-  getCommunitiesQueryOptions,
-  getAccountSubscriptionsQueryOptions,
-  getRelationshipBetweenAccountsQueryOptions,
   getDynamicPropsQueryOptions,
   getTrendingTagsQueryOptions,
-  getDiscussionsQueryOptions,
-  getRewardFundQueryOptions,
   getMarketStatisticsQueryOptions,
-  getOrderBookQueryOptions,
-  getFeedHistoryQueryOptions,
-  getCurrentMedianHistoryPriceQueryOptions,
 } from '@ecency/sdk';
 import { getServer, getCache, setCache } from '../../realm/realm';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
-import {
-  parsePost,
-  parseComments,
-  parseCommentThreads,
-  parseDiscussionCollection,
-} from '../../utils/postParser';
 import { getName, getAvatar, parseReputation } from '../../utils/user';
 import { jsonStringify } from '../../utils/jsonUtils';
 import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
@@ -57,7 +41,6 @@ import AUTH_TYPE from '../../constants/authType';
 import { SERVER_LIST } from '../../constants/options/api';
 import { b64uEnc } from '../../utils/b64';
 import TransferTypes from '../../constants/transferTypes';
-import { Vote } from './hive.types';
 
 interface LocalAccount {
   authType: string;
@@ -386,7 +369,7 @@ const sha256 = async (input: Buffer | Uint8Array): Promise<Buffer> => {
   return Buffer.from(hash, 'hex');
 };
 
-export const generateTrxId = async (transaction: Transaction): Promise<string> => {
+const generateTrxId = async (transaction: Transaction): Promise<string> => {
   const buffer = new bytebuffer(bytebuffer.DEFAULT_CAPACITY, bytebuffer.LITTLE_ENDIAN);
   try {
     Types.Transaction(buffer, transaction);
@@ -455,6 +438,17 @@ export const sendHiveOperations = async (
       }
     });
     throw err;
+  }
+};
+
+const isHsClientSupported = (authType) => {
+  switch (authType) {
+    case AUTH_TYPE.STEEM_CONNECT:
+    case AUTH_TYPE.HIVE_AUTH:
+    case AUTH_TYPE.ACTIVE_KEY:
+      return true;
+    default:
+      return false;
   }
 };
 
@@ -586,48 +580,6 @@ export const buildBoostOpArr = (
     amount: `${point.toFixed(3)} POINT`,
   });
 };
-
-/**
- * Builds operation array for Boost Plus subscription
- * @param username - User's account name
- * @param duration - Subscription duration
- * @param account - Target account
- * @returns Operation array for broadcasting
- */
-export const buildBoostPlusOpArr = (
-  username: string,
-  duration: number,
-  account: string,
-): Operation[] => {
-  return buildActiveCustomJsonOpArr(username, 'ecency_boost_plus', {
-    user: username,
-    account,
-    duration,
-  });
-};
-
-/**
- * Builds operation array for promoting a post
- * @param username - User's account name
- * @param author - Post author
- * @param permlink - Post permlink
- * @param duration - Promotion duration
- * @returns Operation array for broadcasting
- */
-export const buildPromoteOpArr = (
-  username: string,
-  author: string,
-  permlink: string,
-  duration: number,
-): Operation[] => {
-  return buildActiveCustomJsonOpArr(username, 'ecency_promote', {
-    user: username,
-    author,
-    permlink,
-    duration,
-  });
-};
-
 /**
  * Builds operation array for token transfer
  * @param from - Sender account name
@@ -871,15 +823,6 @@ export const getDynamicGlobalProperties = async () => {
   const queryClient = getQueryClient();
   return queryClient.fetchQuery(getDynamicPropsQueryOptions());
 };
-
-/**
- * Get reward fund using SDK query
- */
-export const getRewardFund = () => {
-  const queryClient = getQueryClient();
-  return queryClient.fetchQuery(getRewardFundQueryOptions());
-};
-
 /**
  * Get market statistics using SDK query
  */
@@ -887,106 +830,6 @@ export const getMarketStatistics = () => {
   const queryClient = getQueryClient();
   return queryClient.fetchQuery(getMarketStatisticsQueryOptions());
 };
-
-/**
- * Get order book using SDK query
- */
-export const getOrderBook = (limit = 500) => {
-  const queryClient = getQueryClient();
-  return queryClient.fetchQuery(getOrderBookQueryOptions(limit));
-};
-
-/**
- * Get feed history using SDK query
- */
-export const getFeedHistory = async () => {
-  const queryClient = getQueryClient();
-  return queryClient.fetchQuery(getFeedHistoryQueryOptions());
-};
-
-/**
- * Get current median history price using SDK query
- */
-export const getCurrentMedianHistoryPrice = async () => {
-  const queryClient = getQueryClient();
-  return queryClient.fetchQuery(getCurrentMedianHistoryPriceQueryOptions());
-};
-
-/**
- * Fetch global properties using SDK query
- * Returns a subset of properties from getDynamicPropsQueryOptions for backward compatibility
- */
-// Removed: fetchGlobalProps - unused function that was doing unnecessary double-caching
-// (React Query + AsyncStorage). Use getDynamicGlobalProperties() directly instead.
-
-/**
- * fetches all tranding orders that are not full-filled yet
- * @param {string} username
- * @returns {Promise<OpenOrderItem[]>} array of openorders both hive and hbd
- */
-/**
- * @deprecated Used in legacy code paths (utils/wallet.ts).
- * For new code, use getOpenOrdersQueryOptions from @ecency/sdk
- * @see src/providers/queries/walletQueries/walletQueries.ts (usePendingRequestsQuery) for SDK-based implementation
- */
-export const getOpenOrders = async (username) => {
-  try {
-    const rawData = await client.call('condenser_api', 'get_open_orders', [username]);
-    if (!rawData || !rawData.length) {
-      return [];
-    }
-    return rawData;
-  } catch (err) {
-    console.warn('Failed to get open orders', err);
-    return [];
-  }
-};
-
-/**
- * fetchs all pending converstion requests that are yet to be fullfilled
- * @param {string} account
- * @returns {Promise<ConversionRequest[]>}  array of conversion requests
- * @deprecated Used in legacy code paths (utils/wallet.ts).
- * For new code, use getConversionRequestsQueryOptions from @ecency/sdk
- * @see src/providers/queries/walletQueries/walletQueries.ts (usePendingRequestsQuery) for SDK-based implementation
- */
-export const getConversionRequests = async (username) => {
-  try {
-    const rawData = await client.database.call('get_conversion_requests', [username]);
-    if (!rawData || !rawData.length) {
-      return [];
-    }
-    return rawData;
-  } catch (err) {
-    console.warn('Failed to get open orders', err);
-    return [];
-  }
-};
-
-/**
- * fetchs all pending converstion requests that are yet to be fullfilled
- * @param {string} account
- * @returns {Promise<SavingsWithdrawRequest[]>}  array of requested savings withdraw
- */
-
-/**
- * @deprecated Used in legacy code paths (utils/wallet.ts).
- * For new code, use getSavingsWithdrawFromQueryOptions from @ecency/sdk
- * @see src/providers/queries/walletQueries/walletQueries.ts (usePendingRequestsQuery) for SDK-based implementation
- */
-export const getSavingsWithdrawFrom = async (username) => {
-  try {
-    const rawData = await client.database.call('get_savings_withdraw_from', [username]);
-    if (!rawData || !rawData.length) {
-      return [];
-    }
-    return rawData;
-  } catch (err) {
-    console.warn('Failed to get open orders', err);
-    return [];
-  }
-};
-
 /**
  * @method getAccount fetch raw account data without post processings
  * @param username username
@@ -1002,22 +845,6 @@ export const getAccount = async (username) => {
   throw new Error(`Account not found, ${username}`);
 };
 
-export const getAccountHistory = (user, operations, startIndex = -1, limit = 1000) =>
-  new Promise((resolve, reject) => {
-    const wallet_operations_bitmask = utils.makeBitMaskFilter(operations);
-    try {
-      const ah = client.call('condenser_api', 'get_account_history', [
-        user,
-        startIndex,
-        limit,
-        ...wallet_operations_bitmask,
-      ]);
-      resolve(ah);
-    } catch (error) {
-      reject(error);
-    }
-  });
-
 /**
  * @method getAccount get account data
  * @param user username
@@ -1030,6 +857,31 @@ export const getState = async (path) => {
     return error;
   }
 };
+
+const getUserReputation = async (author) => {
+  try {
+    const response = await client.call('condenser_api', 'get_account_reputations', [author, 1]);
+
+    if (response && response.length < 1) {
+      return 0;
+    }
+
+    const _account = {
+      ...response[0],
+    };
+
+    return parseReputation(_account.reputation);
+  } catch (error) {
+    captureExceptionWithRpcParams(error, { author });
+    return 0;
+  }
+};
+
+const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) =>
+  (
+    parseFloat(totalVestingFundSteem) *
+    (parseFloat(vestingShares) / parseFloat(totalVestingShares))
+  ).toFixed(0);
 
 /**
  * @method getUser get account data with calculated fields
@@ -1118,38 +970,6 @@ export const getUser = async (user) => {
   }
 };
 
-export const getAccounts = async (usernames: string[]) => {
-  try {
-    const queryClient = getQueryClient();
-    const accounts = await queryClient.fetchQuery(getAccountsQueryOptions(usernames));
-    return accounts;
-  } catch (error) {
-    console.warn('Failed to get accounts', error);
-    return null;
-  }
-};
-
-export const getUserReputation = async (author) => {
-  try {
-    const response = await client.call('condenser_api', 'get_account_reputations', [author, 1]);
-
-    if (response && response.length < 1) {
-      return 0;
-    }
-
-    const _account = {
-      ...response[0],
-    };
-
-    return parseReputation(_account.reputation);
-  } catch (error) {
-    captureExceptionWithRpcParams(error, { author });
-    return 0;
-  }
-};
-
-const cache = {};
-const patt = /hive-\d\w+/g;
 export const getCommunity = async (tag, observer = '') => {
   try {
     const queryClient = getQueryClient();
@@ -1166,147 +986,6 @@ export const getCommunity = async (tag, observer = '') => {
     throw err;
   }
 };
-
-export const getCommunityTitle = async (tag) => {
-  if (cache[tag] !== undefined) {
-    return cache[tag];
-  }
-  const mm = tag.match(patt);
-  if (mm && mm.length > 0) {
-    try {
-      const community = await client.call('bridge', 'get_community', {
-        name: tag,
-        observer: '',
-      });
-      if (community) {
-        const { title } = community;
-        cache[tag] = title;
-        return title;
-      } else {
-        return tag;
-      }
-    } catch (err) {
-      Sentry.captureMessage('failed to get community title');
-      throw err;
-    }
-  } else {
-    return tag;
-  }
-};
-
-export const getCommunities = async (
-  last = '',
-  limit = 100,
-  query = null,
-  sort = 'rank',
-  observer = '',
-) => {
-  try {
-    console.log('Getting communities', query);
-    const queryClient = getQueryClient();
-    const data = await queryClient.fetchQuery(
-      getCommunitiesQueryOptions(sort, query, limit, observer, true),
-    );
-    if (data) {
-      return data;
-    } else {
-      return {};
-    }
-  } catch (error) {
-    console.warn('failed to get communities', error);
-    captureExceptionWithRpcParams(error, { last, limit, query, sort, observer }, (scope) => {
-      scope.setContext('info', { message: 'failed to get communities' });
-    });
-    return {};
-  }
-};
-
-export const getSubscriptions = async (account = '') => {
-  try {
-    const queryClient = getQueryClient();
-    const data = await queryClient.fetchQuery(getAccountSubscriptionsQueryOptions(account));
-    if (data) {
-      return data;
-    } else {
-      return {};
-    }
-  } catch (error) {
-    captureExceptionWithRpcParams(error, { account }, (scope) => {
-      scope.setContext('info', { message: 'failed to get subscriptions' });
-    });
-    throw error;
-  }
-};
-
-// TODO: Move to utils folder
-export const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) =>
-  (
-    parseFloat(totalVestingFundSteem) *
-    (parseFloat(vestingShares) / parseFloat(totalVestingShares))
-  ).toFixed(0);
-
-export const getFollows = (username) => client.database.call('get_follow_count', [username]);
-
-export const getFollowing = (follower, startFollowing, followType = 'blog', limit = 100) =>
-  client.database.call('get_following', [follower, startFollowing, followType, limit]);
-
-export const getFollowers = (follower, startFollowing, followType = 'blog', limit = 100) =>
-  client.database.call('get_followers', [follower, startFollowing, followType, limit]);
-
-export const getMutes = async (currentUsername) => {
-  try {
-    const type = 'ignore';
-    const limit = 1000;
-    const response = await client.database.call('get_following', [
-      currentUsername,
-      '',
-      type,
-      limit,
-    ]);
-    if (!response) {
-      return [];
-    }
-    return response.map((item) => item.following);
-  } catch (err) {
-    console.warn('Failed to get muted accounts', err);
-    captureExceptionWithRpcParams(err, { currentUsername });
-    return [];
-  }
-};
-
-export const getRelationship = async (follower, following) => {
-  if (!follower) {
-    return false;
-  }
-
-  const queryClient = getQueryClient();
-  const result = await queryClient.fetchQuery(
-    getRelationshipBetweenAccountsQueryOptions(follower, following),
-  );
-  return result || false;
-};
-
-/** DEPRECATED - Do not use this method and it's an invalid use of get_following call
- *  almost always returns wrong data, espacially when user is not in following or follwers list */
-export const getFollowSearch = (user, targetUser) =>
-  new Promise((resolve, reject) => {
-    if (targetUser) {
-      client.database
-        .call('get_following', [targetUser, user, 'blog', 1])
-        .then((result) => {
-          if (result[0] && result[0].follower === targetUser && result[0].following === user) {
-            resolve(result);
-          } else {
-            resolve(null);
-          }
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    } else {
-      resolve(null);
-    }
-  });
 
 export const ignoreUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
@@ -1401,144 +1080,6 @@ export const ignoreUser = async (currentAccount, pin, data) => {
   );
 };
 
-export const getProposalsVoted = async (username) => {
-  try {
-    if (!username) {
-      throw new Error('invalid parameters');
-    }
-
-    console.log('Getting proposals voted:', username);
-
-    const votedProposals = await client.call('condenser_api', 'list_proposal_votes', [
-      [username],
-      100,
-      'by_voter_proposal',
-      'ascending',
-      'active',
-    ]);
-
-    if (!Array.isArray(votedProposals)) {
-      throw new Error('invalid data');
-    }
-
-    const filteredProposals = votedProposals.filter((item) => item.voter === username);
-
-    console.log('Returning filtered proposals', filteredProposals);
-    return filteredProposals;
-  } catch (error) {
-    captureExceptionWithRpcParams(error, { username });
-    return [];
-  }
-};
-
-/**
- * checks if post is voted by user
- * it usefull if voters count goes beyond 1000 limit of get_active_votes api
- * @param username
- * @param author
- * @param permlink
- * @returns  vote object or null
- */
-export const getUserPostVote = async (author: string, permlink: string, username: string) => {
-  try {
-    if (!username) {
-      throw new Error('invalid parameters');
-    }
-
-    console.log('Getting post vote status:', username);
-
-    const _limit = 1;
-    const _sort = 'by_voter_comment';
-
-    const rawResult = await client.call('database_api', 'list_votes', [
-      [username, author, permlink],
-      _limit,
-      _sort,
-    ]);
-
-    if (!Array.isArray(rawResult?.votes)) {
-      throw new Error('invalid data');
-    }
-
-    const _votes: Vote[] = rawResult.votes;
-    return _votes.length ? _votes[0] : null; // since we are fetching with limit 1
-  } catch (error) {
-    captureExceptionWithRpcParams(error, { author, permlink, username });
-    console.warn('Failed to get post vote status', error);
-    return null;
-  }
-};
-
-export const getActiveVotes = (author, permlink) =>
-  new Promise((resolve, reject) => {
-    try {
-      console.log('Getting active votes', author, permlink);
-      client
-        .call('condenser_api', 'get_active_votes', [author, permlink])
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    } catch (error) {
-      reject(error);
-    }
-  });
-
-// getPostReblogs removed - replaced by getReblogsQueryOptions from @ecency/sdk
-// See src/providers/queries/postQueries/repostQueries.ts for SDK-based implementation
-
-// getRankedPosts and getAccountPosts removed - components use SDK infinite query hooks directly
-
-export const getRepliesByLastUpdate = async (query, currentUsername) => {
-  try {
-    console.log('Getting replies: ', query);
-    const replies = await client.database.call('get_replies_by_last_update', [
-      query.start_author,
-      query.start_permlink,
-      query.limit,
-    ]);
-    const groomedComments = parseComments(replies, currentUsername);
-    return groomedComments;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const getPost = async (author, permlink, currentUserName = null, isPromoted = false) => {
-  author = author && author.toLowerCase();
-  permlink = permlink && permlink.toLowerCase();
-  try {
-    console.log('Getting post: ', author, permlink);
-    const queryClient = getQueryClient();
-    const post = await queryClient.fetchQuery(
-      getPostQueryOptions(author, permlink, currentUserName),
-    );
-    console.log('post fetched', post?.post_id);
-
-    // check for cross post, resolve it
-    return post ? await resolvePost(post, currentUserName, isPromoted) : null;
-  } catch (error) {
-    console.warn(error);
-    captureExceptionWithRpcParams(error, { author, permlink }, (scope) => {
-      scope.setContext('params', { author, permlink });
-    });
-    return error;
-  }
-};
-
-export const isPostAvailable = async (author, permlink) => {
-  author = author && author.toLowerCase();
-  permlink = permlink && permlink.toLowerCase();
-  try {
-    const post = await client.call('bridge', 'get_post', { author, permlink });
-    return get(post, 'post_id', 0) !== 0;
-  } catch (error) {
-    return false;
-  }
-};
-
 export const getPurePost = async (author, permlink) => {
   author = author && author.toLowerCase();
   permlink = permlink && permlink.toLowerCase();
@@ -1551,124 +1092,6 @@ export const getPurePost = async (author, permlink) => {
     });
     return error;
   }
-};
-
-export const getDiscussionCollection = async (
-  author: string,
-  permlink: string,
-  currentUsername?: string,
-) => {
-  try {
-    const queryClient = getQueryClient();
-    const commentsMap = await queryClient.fetchQuery(
-      getDiscussionsQueryOptions(author, permlink, currentUsername),
-    );
-
-    const _parsedCollection = await parseDiscussionCollection(commentsMap, currentUsername);
-    return _parsedCollection;
-  } catch (error) {
-    console.warn('failed to fetch discusssion', error, author, permlink);
-    return error;
-  }
-};
-
-export const getComments = async (author: string, permlink: string, currentUsername?: string) => {
-  try {
-    const queryClient = getQueryClient();
-    const commentsMap = await queryClient.fetchQuery(
-      getDiscussionsQueryOptions(author, permlink, currentUsername),
-    );
-
-    // it appear the get_discussion fetches the parent post as an intry in thread
-    // may be later we can make use of this to save post fetch call in post display
-    // for now, deleting to keep the change footprint small for PR
-    delete commentsMap[`${author}/${permlink}`];
-
-    const groomedComments = parseCommentThreads(commentsMap, author, permlink, currentUsername);
-    return groomedComments;
-  } catch (error) {
-    return error;
-  }
-};
-
-// resolvePosts removed - was only used by getRankedPosts/getAccountPosts which were removed
-
-// resolve individual post based on simple or cross post
-const resolvePost = async (
-  post,
-  currentUsername,
-  isPromoted = false,
-  isList = false,
-  discardBody = false,
-) => {
-  if (post) {
-    const json = post.json_metadata;
-    if (
-      json?.original_author &&
-      json?.original_permlink &&
-      json?.tags &&
-      json?.tags[0] === 'cross-post'
-    ) {
-      // fetch and replace cross post with original post with cross post meta
-      const originalPost = await getPost(json.original_author, json.original_permlink);
-
-      // inject cross poster usename and community id in origin post
-      originalPost.crosspostMeta = {
-        author: post.author,
-        community: post.category,
-        message: post.body,
-      };
-
-      return originalPost;
-    } else {
-      // check post vote count and vote status is needed
-      if (post.stats.total_votes > 1000) {
-        // get user vote index
-        const existingVoteIndex = post.active_votes.findIndex(
-          (vote) => vote.voter === currentUsername,
-        );
-
-        // no need to fetch vote status if it is already present
-        if (existingVoteIndex < 0) {
-          // fetch user vote status
-          const userVote = currentUsername
-            ? await getUserPostVote(post.author, post.permlink, currentUsername)
-            : null;
-          post.active_votes = post.active_votes || [];
-          if (userVote) {
-            post.active_votes.push({
-              voter: userVote.voter,
-              rshares: userVote.rshares,
-            });
-          }
-        }
-      }
-
-      return parsePost(post, currentUsername, isPromoted, isList, discardBody);
-    }
-  }
-  return null;
-};
-
-// resolvePosts removed - was only used by getRankedPosts/getAccountPosts which were removed
-
-/**
- * @method getPostWithComments get user data
- * @param user post author
- * @param permlink post permlink
- */
-export const getPostWithComments = async (user, permlink) => {
-  let post;
-  let comments;
-
-  await getPost(user, permlink).then((result) => {
-    post = result;
-  });
-  await getComments(user, permlink).then((result) => {
-    comments = result;
-  });
-
-  return [post, comments];
 };
 
 export const signImage = async (file, currentAccount, pin) => {
@@ -1827,97 +1250,6 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
     new Error('Check private key permission! Required private posting key or above.'),
   );
 };
-
-/**
- * Update Hive Proposal Vote with current account as voter
- * @param {*} currentAccount
- * @param {*} pin
- * @param {*} proposalId
- * @returns
- */
-export const voteProposal = async (currentAccount, pinHash, proposalId) => {
-  const digitPinCode = getDigitPinCode(pinHash);
-  const key = getActiveKey(currentAccount.local, digitPinCode);
-
-  const voter = currentAccount.name;
-  const opArray: Operation[] = [
-    [
-      'update_proposal_votes',
-      {
-        voter,
-        proposal_ids: [proposalId],
-        approve: true,
-        extensions: [],
-      },
-    ],
-  ];
-
-  // HiveAuth: sign via HiveAuth app (active authority)
-  if (currentAccount?.local?.authType === AUTH_TYPE.HIVE_AUTH) {
-    return handleHiveAuthFallback(currentAccount, opArray, 'vote_proposal');
-  }
-
-  if (isHsClientSupported(currentAccount.local.authType)) {
-    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new hsClient({
-      accessToken: token,
-    });
-
-    try {
-      return await api.broadcast(opArray).then((resp) => resp.result);
-    } catch (err) {
-      const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
-
-      if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
-        return handleHiveAuthFallback(currentAccount, opArray, 'vote_proposal');
-      }
-
-      throw err;
-    }
-  }
-
-  if (key) {
-    const privateKey = PrivateKey.fromString(key);
-
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(opArray, privateKey)
-        .then((result) => {
-          console.log('vote result', result);
-          resolve(result);
-        })
-        .catch((err) => {
-          if (err && get(err, 'jse_info.code') === 4030100) {
-            err.message = getDsteemDateErrorMessage(err);
-          }
-          captureExceptionWithRpcParams(err, { voter, proposalId });
-          reject(err);
-        });
-    });
-  }
-
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
-};
-
-/**
- * @method upvoteAmount estimate upvote amount
- */
-export const upvoteAmount = async (input) => {
-  let medianPrice;
-  const rewardFund = await getRewardFund();
-
-  await client.database.getCurrentMedianHistoryPrice().then((res) => {
-    medianPrice = res;
-  });
-
-  const estimated =
-    (input / parseFloat(rewardFund.recent_claims)) *
-    parseFloat(rewardFund.reward_balance) *
-    (parseFloat(medianPrice.base) / parseFloat(medianPrice.quote));
-  return estimated;
-};
-
 export const transferToken = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
@@ -2342,35 +1674,6 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
     new Error('Check private key permission! Required private active key or above.'),
   );
 };
-
-/**
- *
- * @param {string} username
- * @param {string} fromDelegatee
- * @param {number} limit
- * @returns {Array} Array of vesting delegation objects [{
- *  delegatee:string;
- *  delegator:string;
- *  id: number;
- *  min_delegation_time: string;
- *  vesting_shares": string'
- * }]
- */
-export const getVestingDelegations = async (username, fromDelegatee = '', limit = 1000) => {
-  try {
-    const response = await client.database.call('get_vesting_delegations', [
-      username,
-      fromDelegatee,
-      limit,
-    ]);
-    console.log('Vested delegatees response', response);
-    return response;
-  } catch (err) {
-    console.warn('Failed to get vested delegatees');
-    captureExceptionWithRpcParams(err, { username, fromDelegatee, limit });
-  }
-};
-
 export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
@@ -2420,9 +1723,6 @@ export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
     new Error('Check private key permission! Required private active key or above.'),
   );
 };
-
-export const getWithdrawRoutes = (account) =>
-  client.database.call('get_withdraw_routes', [account, 'outgoing']);
 
 export const followUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
@@ -2718,25 +2018,6 @@ export const getTrendingTags = async (number = 20) => {
     return [];
   }
 };
-
-/**
- * @deprecated Used in legacy code paths (transferContainer.ts).
- * For new code, use getRecurrentTransfersQueryOptions from @ecency/sdk
- * @see src/providers/queries/walletQueries/walletQueries.ts (useRecurringActivitesQuery) for SDK-based implementation
- */
-export const getRecurrentTransfers = async (username) => {
-  try {
-    const rawData = await client.call('condenser_api', 'find_recurrent_transfers', [username]);
-    if (!rawData || !rawData.length) {
-      return [];
-    }
-    return rawData;
-  } catch (err) {
-    console.warn('Failed to get recurrent transfers', err);
-    return [];
-  }
-};
-
 export const postContent = (
   account,
   pin,
@@ -3452,89 +2733,6 @@ export const subscribeCommunity = (currentAccount, pinCode, data) => {
 
   return broadcastPostingJSON('community', json, currentAccount, pinCode);
 };
-
-export const pinCommunityPost = (
-  currentAccount,
-  pinCode,
-  communityId,
-  author,
-  permlink,
-  unpinPost = false,
-) => {
-  const digitPinCode = getDigitPinCode(pinCode);
-  const key = getPostingKey(get(currentAccount, 'local'), digitPinCode);
-  const username = get(currentAccount, 'name');
-
-  const json = JSON.stringify([
-    unpinPost ? 'unpinPost' : 'pinPost',
-    {
-      community: communityId,
-      account: author,
-      permlink,
-    },
-  ]);
-
-  const op = {
-    id: 'community',
-    json,
-    required_auths: [],
-    required_posting_auths: [username],
-  };
-  const opArray = [['custom_json', op]];
-
-  // HiveAuth without posting authority: go directly to HiveAuth broadcast
-  if (shouldUseDirectHiveAuthBroadcast(currentAccount)) {
-    return handleHiveAuthFallback(currentAccount, opArray as Operation[], 'pin_community_post');
-  }
-
-  if (isHsClientSupported(currentAccount.local.authType)) {
-    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new hsClient({
-      accessToken: token,
-    });
-    return api
-      .broadcast(opArray)
-      .then((resp) => resp.result)
-      .catch((err) => {
-        const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
-        if (isHiveAuth && shouldTriggerHiveAuthFallback(err)) {
-          return handleHiveAuthFallback(
-            currentAccount,
-            opArray as Operation[],
-            'pin_community_post',
-          );
-        }
-        throw err;
-      });
-  }
-
-  if (key) {
-    const privateKey = PrivateKey.fromString(key);
-    return sendHiveOperations(opArray, privateKey);
-  }
-
-  return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
-  );
-};
-
-export const getBtcAddress = () => {
-  /* const digitPinCode = getDigitPinCode(pin);
-  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
-
-  if (key) {
-    const keyPair = bitcoin.ECPair.fromWIF(key);
-const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
-
-// console.log('btc address', address);
-return { address: address };
-}
-*/
-  return {
-    address: '',
-  };
-};
-
 // HELPERS
 
 export const getPostingKey = (local, pin) => {
@@ -3552,17 +2750,6 @@ export const getActiveKey = (local, pin) => {
 
   return false;
 };
-
-export const getAnyPrivateKey = (local, pin) => {
-  const postingKey = getPostingKey(local, pin);
-
-  if (postingKey) {
-    return postingKey;
-  }
-
-  return getActiveKey(local, pin);
-};
-
 export const votingPower = (account) => {
   const calc = client.rc.calculateVPMana(account);
   const { percentage } = calc;
@@ -3570,12 +2757,7 @@ export const votingPower = (account) => {
   return percentage / 100;
 };
 
-/**
- * Checks if the given account has granted posting authority to ecency.app.
- * For HiveAuth users without this authority, operations should go directly
- * to HiveAuth broadcast instead of trying HiveSigner access token first.
- */
-export const hasEcencyPostingAuthority = (account: any): boolean => {
+const hasEcencyPostingAuthority = (account: any): boolean => {
   const postingAccountAuths = account?.posting?.account_auths;
   if (!Array.isArray(postingAccountAuths)) {
     return false;
@@ -3612,18 +2794,6 @@ export const shouldPromptPostingAuthority = (account: any): boolean => {
 const shouldUseDirectHiveAuthBroadcast = (account: any): boolean => {
   return account?.local?.authType === AUTH_TYPE.HIVE_AUTH && !hasEcencyPostingAuthority(account);
 };
-
-export const isHsClientSupported = (authType) => {
-  switch (authType) {
-    case AUTH_TYPE.STEEM_CONNECT:
-    case AUTH_TYPE.HIVE_AUTH:
-    case AUTH_TYPE.ACTIVE_KEY:
-      return true;
-    default:
-      return false;
-  }
-};
-
 export const resolveTransaction = async (parsedTx, parsedParams, signer) => {
   const EXPIRE_TIME = 60 * 1000;
   // Get dynamic props from SDK (cached up to 60s, which is fine for TAPOS)
