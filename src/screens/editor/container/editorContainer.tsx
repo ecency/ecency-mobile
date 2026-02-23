@@ -890,18 +890,15 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             });
           });
 
-          // Reset the flag before recursive call to allow the submission to proceed
-          this._postingAuthorityPromptShown = false;
-
           // Recursive call after prompt is handled - use original fields parameter
           return this._submitPost({ fields, scheduleDate });
         } catch (error) {
           // Error granting posting authority - don't retry
           console.warn('Failed to grant posting authority:', error);
-          // Reset state and flag, then abort
-          this._postingAuthorityPromptShown = false;
           this.setState({ isPostSending: false });
           return;
+        } finally {
+          this._postingAuthorityPromptShown = false;
         }
       }
 
@@ -979,8 +976,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
                 }
               : undefined,
           });
-
-          console.log(response);
 
           // track user activity for points
           userActivityMutation.mutate({
@@ -1464,7 +1459,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         } catch (error) {
           dispatch(
             toastNotification(
-              intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: error.message }),
+              intl.formatMessage(
+                { id: 'alert.something_wrong_msg' },
+                { message: error?.message || '' },
+              ),
             ),
           );
         }

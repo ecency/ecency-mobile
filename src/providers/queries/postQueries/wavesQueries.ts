@@ -107,7 +107,7 @@ export const useWavesQuery = (host: string) => {
 
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
     } catch (error) {
-      console.log('Failed to delete wave:', error);
+      console.error('Failed to delete wave:', error);
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.error' })));
     }
   };
@@ -122,26 +122,30 @@ export const useWavesQuery = (host: string) => {
   };
 };
 
+interface PublishWaveContext {
+  previousData: InfiniteData<WaveEntry[]> | undefined;
+  queryKey: readonly string[];
+}
+
 export const usePublishWaveMutation = () => {
   const queryClient = useQueryClient();
 
   const _mutationFn = async (cachePostData: any) => {
     if (cachePostData) {
       const _host = cachePostData.parent_author;
-      console.log('returning waves host', _host);
       return _host;
     }
     throw new Error('invalid mutations data');
   };
 
-  const _options: UseMutationOptions<string, unknown, any, void> = {
+  const _options: UseMutationOptions<string, unknown, any, PublishWaveContext> = {
     onMutate: async (cacheCommentData: any) => {
-      console.log('on mutate data', cacheCommentData);
-
       const _host = cacheCommentData.parent_author;
       const sdkOptions = getWavesByHostQueryOptions(_host);
 
       await queryClient.cancelQueries({ queryKey: sdkOptions.queryKey });
+
+      const previousData = queryClient.getQueryData<InfiniteData<WaveEntry[]>>(sdkOptions.queryKey);
 
       queryClient.setQueryData<InfiniteData<WaveEntry[]>>(sdkOptions.queryKey, (oldData) => {
         if (!oldData) return oldData;
@@ -151,6 +155,14 @@ export const usePublishWaveMutation = () => {
           pages: [[cacheCommentData as WaveEntry, ...firstPage], ...oldData.pages.slice(1)],
         };
       });
+
+      return { previousData, queryKey: sdkOptions.queryKey };
+    },
+
+    onError: (_error, _variables, context) => {
+      if (context?.previousData) {
+        queryClient.setQueryData(context.queryKey, context.previousData);
+      }
     },
 
     onSuccess: async (host) => {

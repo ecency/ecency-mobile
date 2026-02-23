@@ -340,6 +340,9 @@ class TransferContainer extends Component {
       // Handle SPK layer
       if (tokenLayer === TokenLayers.SPK) {
         const spkAmount = parseFloat(data.amount);
+        if (Number.isNaN(spkAmount)) {
+          throw new Error(`Invalid SPK amount: ${data.amount}`);
+        }
         switch (transferType) {
           case TransferTypes.TRANSFER_SPK:
             await mutations.transferSpk.mutateAsync({
@@ -476,7 +479,8 @@ class TransferContainer extends Component {
         autoVest,
       });
     } catch (error) {
-      alert(error.message || error.toString());
+      const { dispatch, intl } = this.props;
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     }
   };
 

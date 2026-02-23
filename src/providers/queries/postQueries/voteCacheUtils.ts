@@ -43,7 +43,7 @@ export function updateVoteInQueryCaches(author: string, permlink: string, vote: 
     {
       predicate: (query) => {
         const key = query.queryKey;
-        // SDK post queries: ['posts', 'entry'|'postsRanked'|'waves'|...]
+        // SDK post queries: ['posts', 'entry'|'posts-ranked-page'|'account-posts-page'|'waves'|...]
         if (key[0] === 'posts' && VOTE_QUERY_TYPES.includes(key[1] as string)) {
           return true;
         }
@@ -168,6 +168,9 @@ function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
   }
 
   // Vote update (voter already exists — changing weight)
+  // Note: payout is not adjusted here because the old vote's $ value is unknown
+  // (active_votes only stores rshares/percent, not dollar amount). The payout
+  // will be corrected on the next query refetch from the API.
   const cloned = { ...post };
   const updatedVotes = [...activeVotes];
   updatedVotes[voteIdx] = {

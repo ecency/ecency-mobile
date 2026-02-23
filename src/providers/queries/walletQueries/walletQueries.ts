@@ -691,7 +691,7 @@ export const useDeleteRecurrentTransferMutation = () => {
 
   const recurrentTransferBroadcast = useBroadcastMutation(
     ['hive', 'delete-recurrent-transfer'],
-    currentAccount?.name,
+    currentAccount?.name || '',
     ({
       from,
       to,
@@ -724,8 +724,12 @@ export const useDeleteRecurrentTransferMutation = () => {
       });
       return true;
     },
-    retry: 2,
+    retry: 0,
     onSuccess: (_, { recurrentTransfer }) => {
+      if (!currentAccount?.name) {
+        return;
+      }
+
       // manually update previous query data
       const prevData = queryClient.getQueryData<RecurrentTransfer[]>([
         QUERIES.WALLET.GET_RECURRING_TRANSFERS,

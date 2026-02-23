@@ -45,7 +45,7 @@ export function useTransferMutations() {
   // Recurrent transfer — no dedicated SDK hook, use generic broadcast
   const recurrentTransfer = useBroadcastMutation(
     ['hive', 'recurrent-transfer'],
-    username,
+    username || '',
     ({
       from,
       to,
@@ -84,7 +84,7 @@ export function useTransferMutations() {
   // SPK delegate — no dedicated SDK hook, use generic broadcast
   const delegateLarynx = useBroadcastMutation(
     ['spk', 'delegate-larynx'],
-    username,
+    username || '',
     ({ destination, amount }: { destination: string; amount: number }) => {
       const json = {
         to: destination,
