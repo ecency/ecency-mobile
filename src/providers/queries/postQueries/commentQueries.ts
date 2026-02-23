@@ -37,6 +37,7 @@ export function addOptimisticComment(params: {
   rootPermlink: string;
   body: string;
   jsonMetadata: any;
+  authorReputation?: number;
 }) {
   const queryClient = getQueryClient();
   const now = new Date().toISOString();
@@ -59,7 +60,7 @@ export function addOptimisticComment(params: {
     author_payout_value: '0.000 HBD',
     curator_payout_value: '0.000 HBD',
     max_accepted_payout: '1000000.000 HBD',
-    author_reputation: 25,
+    author_reputation: params.authorReputation ?? 25,
     replies: [],
     is_optimistic: true,
   };

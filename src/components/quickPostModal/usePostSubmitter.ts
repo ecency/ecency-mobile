@@ -150,6 +150,7 @@ export const usePostSubmitter = () => {
           rootPermlink,
           body: commentBody,
           jsonMetadata,
+          authorReputation: currentAccount.reputation,
         });
 
         await commentMutation.mutateAsync({
@@ -179,11 +180,20 @@ export const usePostSubmitter = () => {
 
         console.log(error);
 
+        let errMsg = error?.message || '';
+        if (!errMsg) {
+          try {
+            errMsg = JSON.stringify(error);
+          } catch {
+            errMsg = String(error ?? '');
+          }
+        }
+
         Alert.alert(
           intl.formatMessage({
             id: 'alert.something_wrong',
           }),
-          error?.message || JSON.stringify(error),
+          errMsg,
         );
 
         return false;

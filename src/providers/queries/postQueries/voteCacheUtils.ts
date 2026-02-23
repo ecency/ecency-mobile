@@ -160,13 +160,15 @@ function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
       return post;
     }
     const cloned = { ...post };
-    // Use the EXISTING vote's stored amount for payout adjustment.
+    // Use the EXISTING vote's stored amount and direction for payout adjustment.
     // vote.amount is typically 0 on unvote since the slider is at 0.
     const existingAmount = activeVotes[voteIdx].amount || 0;
+    const existingPercent = activeVotes[voteIdx].percent || 0;
+    const wasDownvote = existingPercent < 0;
     cloned.active_votes = activeVotes.filter((_: any, i: number) => i !== voteIdx);
     cloned.isUpVoted = false;
     cloned.isDownVoted = false;
-    const removedAmount = existingAmount * (vote.isDownvote ? -1 : 1);
+    const removedAmount = existingAmount * (wasDownvote ? -1 : 1);
     adjustPayout(cloned, post, -removedAmount);
     if (post.stats) {
       cloned.stats = { ...post.stats, total_votes: cloned.active_votes.length };

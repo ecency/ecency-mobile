@@ -119,7 +119,8 @@ export const useWavesQuery = (host: string) => {
   return {
     data,
     isRefreshing,
-    isLoading: wavesQuery.isLoading || wavesQuery.isFetchingNextPage,
+    isLoading: wavesQuery.isLoading,
+    isFetchingNextPage: wavesQuery.isFetchingNextPage,
     hasNextPage: wavesQuery.hasNextPage,
     fetchNextPage: wavesQuery.fetchNextPage,
     refresh,
@@ -154,7 +155,7 @@ export const usePublishWaveMutation = () => {
 
       queryClient.setQueryData<InfiniteData<WaveEntry[]>>(sdkOptions.queryKey, (oldData) => {
         if (!oldData) {
-          return { pages: [[cacheCommentData as WaveEntry]], pageParams: [] };
+          return { pages: [[cacheCommentData as WaveEntry]], pageParams: [undefined] };
         }
         const firstPage = oldData.pages[0] ?? [];
         return {

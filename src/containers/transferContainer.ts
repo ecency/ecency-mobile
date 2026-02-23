@@ -112,7 +112,7 @@ class TransferContainer extends Component {
           }
         });
 
-        console.log('retrieved balance', balance);
+        console.log('balance retrieved');
       } else {
         if (
           (transferType === 'purchase_estm' || transferType === 'transfer_token') &&

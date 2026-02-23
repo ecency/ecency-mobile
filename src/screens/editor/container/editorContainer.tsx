@@ -1139,6 +1139,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           rootPermlink,
           body: fields.body,
           jsonMetadata,
+          authorReputation: currentAccount.reputation,
         });
 
         await commentMutation.mutateAsync({

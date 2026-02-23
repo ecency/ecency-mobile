@@ -290,7 +290,6 @@ const PostDisplayView = ({
       handlePayoutDetailsPress,
       handleVotersIconPress,
       activeVotesCount,
-      cacheVoteIcrement,
       _handleOnReblogsPress,
       isLoggedIn,
       _showQuickReplyModal,

@@ -26,16 +26,18 @@ export const UpvoteButton = ({
 
   const currentAccount = useAppSelector(selectCurrentAccount);
 
-  const [isVoted, setIsVoted] = useState(content.isUpVoted || false);
-  const [isDownVoted, setIsDownVoted] = useState(content.isDownVoted || false);
+  const [isVoted, setIsVoted] = useState(!!content.isUpVoted);
+  const [isDownVoted, setIsDownVoted] = useState(!!content.isDownVoted);
 
-  // update voted state if vote status changes changes
+  // update voted state if vote status changes
   useEffect(() => {
-    if (content.isUpVoted !== isVoted) {
-      setIsVoted(content.isUpVoted);
+    const upVoted = !!content.isUpVoted;
+    const downVoted = !!content.isDownVoted;
+    if (upVoted !== isVoted) {
+      setIsVoted(upVoted);
     }
-    if (content.isDownVoted !== isDownVoted) {
-      setIsDownVoted(content.isDownVoted);
+    if (downVoted !== isDownVoted) {
+      setIsDownVoted(downVoted);
     }
   }, [content.isUpVoted, content.isDownVoted]);
 

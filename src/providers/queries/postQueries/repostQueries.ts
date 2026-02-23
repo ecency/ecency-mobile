@@ -140,7 +140,7 @@ export function useReblogMutation(author: string, permlink: string) {
         },
       );
 
-      // Optimistically update the reblog count on the post entry
+      // Update cached reblog count after success
       const entryKey = ['posts', 'entry', `/@${author}/${permlink}`];
       queryClient.setQueryData<any>(entryKey, (oldData) => {
         if (!oldData) {

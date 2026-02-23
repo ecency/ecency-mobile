@@ -217,7 +217,7 @@ const ensureHasConnection = (forceReconnect = false) => {
 let _appStateSubscription: { remove: () => void } | null = null;
 let _appStateListenerUsers = 0;
 let _lastAppState: AppStateStatus = AppState.currentState;
-let _broadcastInProgress = false;
+let _broadcastInProgressCount = 0;
 
 const ensureAppStateListener = () => {
   if (_appStateSubscription) {
@@ -226,7 +226,7 @@ const ensureAppStateListener = () => {
 
   _appStateSubscription = AppState.addEventListener('change', (nextAppState) => {
     if (/inactive|background/.test(_lastAppState) && nextAppState === 'active') {
-      if (_broadcastInProgress) {
+      if (_broadcastInProgressCount > 0) {
         // Skip reconnect while a broadcast is in flight — forcing a new WebSocket
         // during HAS.broadcast() causes a native crash from racing connections
         console.log(
@@ -492,7 +492,7 @@ export const useHiveAuth = () => {
       console.log(`[HiveAuth] Broadcasting with ${keyType} authority`, opsArray);
 
       let res;
-      _broadcastInProgress = true;
+      _broadcastInProgressCount++;
       try {
         res = await HAS.broadcast(_hiveAuthObj, keyType, opsArray, _cdWait);
       } catch (broadcastError) {
@@ -605,7 +605,7 @@ export const useHiveAuth = () => {
       Sentry.captureException(error);
       throw error;
     } finally {
-      _broadcastInProgress = false;
+      _broadcastInProgressCount = Math.max(0, _broadcastInProgressCount - 1);
     }
   };
 

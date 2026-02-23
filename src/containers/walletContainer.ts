@@ -196,6 +196,10 @@ const WalletContainer = ({
     setIsClaiming(true);
 
     try {
+      if (!currentAccount?.name) {
+        return;
+      }
+
       const queryClient = getQueryClient();
       const accounts = await queryClient.fetchQuery(getAccountsQueryOptions([currentAccount.name]));
 

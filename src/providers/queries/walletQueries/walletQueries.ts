@@ -774,7 +774,11 @@ export const useUpdateProfileTokensMutation = () => {
 
   const mutation = useMutation<any, Error, ProfileToken[]>({
     mutationFn: async (tokens) => {
-      const baseProfile = currentAccount?.profile || {};
+      if (!currentAccount?.name) {
+        throw new Error('No active account');
+      }
+
+      const baseProfile = currentAccount.profile || {};
       const newProfileMeta = {
         ...baseProfile,
         tokens: [...tokens],
