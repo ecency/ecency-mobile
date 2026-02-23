@@ -65,7 +65,6 @@ const PostDisplayView = ({
   const upvotePopoverRef = useRef<UpvotePopover>(null);
   const postStatsModalRef = useRef<typeof PostStatsModal>(null);
 
-  const [cacheVoteIcrement] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [postBodyLoading, setPostBodyLoading] = useState(true);
@@ -127,10 +126,10 @@ const PostDisplayView = ({
   }, []);
 
   const _handleOnReblogsPress = useCallback(() => {
-    if (post?.reblogs > 0 && handleOnReblogsPress) {
+    if (handleOnReblogsPress) {
       handleOnReblogsPress();
     }
-  }, [post?.reblogs, handleOnReblogsPress]);
+  }, [handleOnReblogsPress]);
 
   const _onUpvotePress = useCallback(
     ({
@@ -234,7 +233,7 @@ const PostDisplayView = ({
             iconType="MaterialCommunityIcons"
             isClickable
             onPress={handleVotersIconPress}
-            text={activeVotesCount + cacheVoteIcrement}
+            text={activeVotesCount}
             textMarginLeft={20}
           />
           <TextWithIcon

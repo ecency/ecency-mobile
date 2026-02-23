@@ -217,6 +217,7 @@ const ensureHasConnection = (forceReconnect = false) => {
 let _appStateSubscription: { remove: () => void } | null = null;
 let _appStateListenerUsers = 0;
 let _lastAppState: AppStateStatus = AppState.currentState;
+let _broadcastInProgress = false;
 
 const ensureAppStateListener = () => {
   if (_appStateSubscription) {
@@ -225,8 +226,16 @@ const ensureAppStateListener = () => {
 
   _appStateSubscription = AppState.addEventListener('change', (nextAppState) => {
     if (/inactive|background/.test(_lastAppState) && nextAppState === 'active') {
-      console.log('[HiveAuth] App returned to foreground, forcing HAS reconnect');
-      ensureHasConnection(true);
+      if (_broadcastInProgress) {
+        // Skip reconnect while a broadcast is in flight — forcing a new WebSocket
+        // during HAS.broadcast() causes a native crash from racing connections
+        console.log(
+          '[HiveAuth] App returned to foreground, skipping reconnect (broadcast in progress)',
+        );
+      } else {
+        console.log('[HiveAuth] App returned to foreground, forcing HAS reconnect');
+        ensureHasConnection(true);
+      }
     }
     _lastAppState = nextAppState;
   });
@@ -483,6 +492,7 @@ export const useHiveAuth = () => {
       console.log(`[HiveAuth] Broadcasting with ${keyType} authority`, opsArray);
 
       let res;
+      _broadcastInProgress = true;
       try {
         res = await HAS.broadcast(_hiveAuthObj, keyType, opsArray, _cdWait);
       } catch (broadcastError) {
@@ -594,6 +604,8 @@ export const useHiveAuth = () => {
       console.warn('Transaction failed', error);
       Sentry.captureException(error);
       throw error;
+    } finally {
+      _broadcastInProgress = false;
     }
   };
 

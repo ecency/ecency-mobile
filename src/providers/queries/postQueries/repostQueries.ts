@@ -140,7 +140,20 @@ export function useReblogMutation(author: string, permlink: string) {
         },
       );
 
-      // Invalidate the specific post query to update reblog stats
+      // Optimistically update the reblog count on the post entry
+      const entryKey = ['posts', 'entry', `/@${author}/${permlink}`];
+      queryClient.setQueryData<any>(entryKey, (oldData) => {
+        if (!oldData) {
+          return oldData;
+        }
+        const delta = vars.undo ? -1 : 1;
+        return {
+          ...oldData,
+          reblogs: Math.max(0, (oldData.reblogs ?? 0) + delta),
+        };
+      });
+
+      // Also invalidate to fetch authoritative data
       queryClient.invalidateQueries({
         queryKey: ['posts', 'entry', `/@${author}/${permlink}`],
       });

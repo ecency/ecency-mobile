@@ -75,9 +75,9 @@ const PostDisplayContainer = ({
         author,
         permlink,
       },
-      key: post?.permlink + post?.reblogs?.length,
+      key: `${post?.permlink}-reblogs-${post?.reblogs ?? 0}`,
     } as never);
-  }, [navigation, author, permlink, post?.permlink, post?.reblogs?.length]);
+  }, [navigation, author, permlink, post?.permlink, post?.reblogs]);
 
   const _handleOnReplyPress = useCallback(() => {
     navigation.navigate({

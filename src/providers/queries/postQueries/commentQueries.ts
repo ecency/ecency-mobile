@@ -70,6 +70,17 @@ export function addOptimisticComment(params: {
     params.rootPermlink,
     queryClient,
   );
+
+  // Increment children count on the parent post entry cache
+  const parentPath = `/@${params.rootAuthor}/${params.rootPermlink}`;
+  const parentKey = ['posts', 'entry', parentPath];
+  const parentPost = queryClient.getQueryData<any>(parentKey);
+  if (parentPost) {
+    queryClient.setQueryData(parentKey, {
+      ...parentPost,
+      children: (parentPost.children ?? 0) + 1,
+    });
+  }
 }
 
 /**
@@ -84,4 +95,15 @@ export function removeOptimisticComment(
 ) {
   const queryClient = getQueryClient();
   removeOptimisticDiscussionEntry(author, permlink, rootAuthor, rootPermlink, queryClient);
+
+  // Decrement children count on the parent post entry cache
+  const parentPath = `/@${rootAuthor}/${rootPermlink}`;
+  const parentKey = ['posts', 'entry', parentPath];
+  const parentPost = queryClient.getQueryData<any>(parentKey);
+  if (parentPost && (parentPost.children ?? 0) > 0) {
+    queryClient.setQueryData(parentKey, {
+      ...parentPost,
+      children: parentPost.children - 1,
+    });
+  }
 }

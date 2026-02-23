@@ -17,7 +17,9 @@ export interface VoteCacheEntry {
 // SDK uses hyphenated keys: 'posts-ranked-page', 'account-posts-page', etc.
 const VOTE_QUERY_TYPES = [
   'entry',
+  'posts-ranked',
   'posts-ranked-page',
+  'account-posts',
   'account-posts-page',
   'discussions',
   'promoted',

@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { useLayoutState } from '@shopify/flash-list';
 import { useAppSelector } from '../../../hooks';
 import { FormattedCurrency } from '../../formatedElements';
 import Icon from '../../icon';
@@ -27,8 +26,8 @@ export const UpvoteButton = ({
 
   const currentAccount = useAppSelector(selectCurrentAccount);
 
-  const [isVoted, setIsVoted] = useLayoutState(content.isUpVoted || false);
-  const [isDownVoted, setIsDownVoted] = useLayoutState(content.isDownVoted || false);
+  const [isVoted, setIsVoted] = useState(content.isUpVoted || false);
+  const [isDownVoted, setIsDownVoted] = useState(content.isDownVoted || false);
 
   // update voted state if vote status changes changes
   useEffect(() => {
