@@ -60,7 +60,11 @@ import QUERIES from '../../../providers/queries/queryKeys';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
-import { useCommentMutations } from '../../../providers/queries/postQueries/commentQueries';
+import {
+  useCommentMutations,
+  addOptimisticComment,
+  removeOptimisticComment,
+} from '../../../providers/queries/postQueries/commentQueries';
 import {
   useReblogMutation,
   useGrantPostingPermissionMutation,
@@ -1125,6 +1129,18 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const rootPermlink = post.root_permlink || parentPermlink;
 
       try {
+        // Add optimistic entry to discussions cache for immediate UI feedback
+        addOptimisticComment({
+          author,
+          permlink,
+          parentAuthor,
+          parentPermlink,
+          rootAuthor,
+          rootPermlink,
+          body: fields.body,
+          jsonMetadata,
+        });
+
         await commentMutation.mutateAsync({
           author,
           permlink,
@@ -1147,6 +1163,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         this._isSubmitting = false;
       } catch (error) {
+        // Roll back optimistic entry on failure
+        removeOptimisticComment(author, permlink, rootAuthor, rootPermlink);
+
         this._isSubmitting = false;
         this._handleSubmitFailure(error);
       }

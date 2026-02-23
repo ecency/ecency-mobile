@@ -47,6 +47,15 @@ interface ClaimRewardsMutationVars {
   symbol: string;
 }
 
+interface RecurrentTransferPayload {
+  from: string;
+  to: string;
+  amount: string;
+  memo: string;
+  recurrence: number;
+  executions: number;
+}
+
 const ACTIVITIES_FETCH_LIMIT = 50;
 
 /** hook used to return user drafts */
@@ -692,21 +701,9 @@ export const useDeleteRecurrentTransferMutation = () => {
   const recurrentTransferBroadcast = useBroadcastMutation(
     ['hive', 'delete-recurrent-transfer'],
     currentAccount?.name || '',
-    ({
-      from,
-      to,
-      amount,
-      memo,
-      recurrence,
-      executions,
-    }: {
-      from: string;
-      to: string;
-      amount: string;
-      memo: string;
-      recurrence: number;
-      executions: number;
-    }) => [buildRecurrentTransferOp(from, to, amount, memo, recurrence, executions)],
+    ({ from, to, amount, memo, recurrence, executions }: RecurrentTransferPayload) => [
+      buildRecurrentTransferOp(from, to, amount, memo, recurrence, executions),
+    ],
     undefined,
     authContext,
     'active',
@@ -785,7 +782,6 @@ export const useUpdateProfileTokensMutation = () => {
 
       await accountUpdateMutation.mutateAsync({
         profile: newProfileMeta,
-        tokens: [...tokens],
       });
 
       return newProfileMeta;

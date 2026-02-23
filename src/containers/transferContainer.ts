@@ -58,7 +58,7 @@ class TransferContainer extends Component {
 
     this._fetchRecurrentTransfers(name);
 
-    if (this.state.transferType === TransferTypes.DELEGATE_SPK) {
+    if (this.state.transferType === TransferTypes.POWER_GRANT_SPK) {
       this._fetchSpkMarkets();
     }
   }
@@ -259,8 +259,10 @@ class TransferContainer extends Component {
 
     const data: any = { from, destination, amount, memo, fundType };
 
-    if (recurrence && executions) {
+    if (recurrence !== undefined && recurrence !== null) {
       data.recurrence = +recurrence;
+    }
+    if (executions !== undefined && executions !== null) {
       data.executions = +executions;
     }
 
@@ -292,13 +294,13 @@ class TransferContainer extends Component {
     try {
       // Handle ENGINE layer
       if (tokenLayer === TokenLayers.ENGINE) {
-        const amountNum = data.amount.split(' ')[0];
+        const amountStr = data.amount.split(' ')[0];
         switch (transferType) {
           case TransferTypes.TRANSFER:
             await mutations.transferEngine.mutateAsync({
               to: data.destination,
               symbol: fundType,
-              quantity: amountNum,
+              quantity: amountStr,
               memo: data.memo,
             });
             break;
@@ -306,28 +308,28 @@ class TransferContainer extends Component {
             await mutations.stakeEngine.mutateAsync({
               to: data.destination || from,
               symbol: fundType,
-              quantity: amountNum,
+              quantity: amountStr,
             });
             break;
           case TransferTypes.DELEGATE:
             await mutations.delegateEngine.mutateAsync({
               to: data.destination,
               symbol: fundType,
-              quantity: amountNum,
+              quantity: amountStr,
             });
             break;
           case TransferTypes.UNSTAKE:
             await mutations.unstakeEngine.mutateAsync({
               to: data.destination || from,
               symbol: fundType,
-              quantity: amountNum,
+              quantity: amountStr,
             });
             break;
           case TransferTypes.UNDELEGATE:
             await mutations.undelegateEngine.mutateAsync({
               from: data.destination,
               symbol: fundType,
-              quantity: amountNum,
+              quantity: amountStr,
             });
             break;
           default:

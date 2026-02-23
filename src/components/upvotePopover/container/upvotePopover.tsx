@@ -128,23 +128,12 @@ const UpvotePopover = forwardRef(({}, ref) => {
   }));
 
   useEffect(() => {
-    let _isMounted = true;
     const activeVotes = content?.active_votes || [];
+    const _isVoted = isVotedFunc(activeVotes, get(currentAccount, 'name'));
+    const _isDownVoted = isDownVotedFunc(activeVotes, get(currentAccount, 'name'));
 
-    const _calculateVoteStatus = async () => {
-      const _isVoted = await isVotedFunc(activeVotes, get(currentAccount, 'name'));
-      const _isDownVoted = await isDownVotedFunc(activeVotes, get(currentAccount, 'name'));
-
-      if (_isMounted) {
-        setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
-        setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
-      }
-    };
-
-    _calculateVoteStatus();
-    return () => {
-      _isMounted = false;
-    };
+    setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
+    setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
   }, [content]);
 
   useEffect(() => {
@@ -195,7 +184,6 @@ const UpvotePopover = forwardRef(({}, ref) => {
         const _permlink = content?.permlink;
 
         console.log(`casting up vote: ${weight}`);
-        _updateVoteCache(_author, _permlink, amount, false, 'PENDING');
 
         voteMutation.reset();
         await voteMutation.mutateAsync({
@@ -271,7 +259,6 @@ const UpvotePopover = forwardRef(({}, ref) => {
         const _permlink = content?.permlink;
 
         console.log(`casting down vote: ${weight}`);
-        _updateVoteCache(_author, _permlink, amount, true, 'PENDING');
 
         voteMutation.reset();
         await voteMutation.mutateAsync({

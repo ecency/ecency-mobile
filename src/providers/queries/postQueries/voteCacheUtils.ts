@@ -182,8 +182,9 @@ function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
     // Adjust payout for new votes (accurate since no old contribution to subtract)
     const voteAmount = (vote.amount || 0) * (vote.isDownvote ? -1 : 1);
     adjustPayout(cloned, post, voteAmount);
-    cloned.isUpVoted = !vote.isDownvote;
-    cloned.isDownVoted = !!vote.isDownvote;
+    // Use rshares to match postParser's vote direction logic
+    cloned.isUpVoted = vote.rshares > 0;
+    cloned.isDownVoted = vote.rshares < 0;
     if (post.stats) {
       cloned.stats = { ...post.stats, total_votes: cloned.active_votes.length };
     }
@@ -194,6 +195,8 @@ function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
   const cloned = { ...post };
   const updatedVotes = [...activeVotes];
   const oldAmount = activeVotes[voteIdx].amount || 0;
+  const oldPercent = activeVotes[voteIdx].percent || 0;
+  const wasDownvote = oldPercent < 0;
   updatedVotes[voteIdx] = {
     ...activeVotes[voteIdx],
     rshares: vote.rshares,
@@ -201,12 +204,13 @@ function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
     amount: vote.amount,
   };
   cloned.active_votes = updatedVotes;
-  // Adjust payout by delta between new and old vote amounts
-  const oldSigned = oldAmount * (vote.isDownvote ? -1 : 1);
+  // Adjust payout by delta — use existing vote's direction for old, incoming for new
+  const oldSigned = oldAmount * (wasDownvote ? -1 : 1);
   const newSigned = (vote.amount || 0) * (vote.isDownvote ? -1 : 1);
   adjustPayout(cloned, post, newSigned - oldSigned);
-  cloned.isUpVoted = !vote.isDownvote;
-  cloned.isDownVoted = !!vote.isDownvote;
+  // Use rshares to match postParser's vote direction logic
+  cloned.isUpVoted = vote.rshares > 0;
+  cloned.isDownVoted = vote.rshares < 0;
   if (post.stats) {
     cloned.stats = { ...post.stats };
   }

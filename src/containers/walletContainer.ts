@@ -198,10 +198,14 @@ const WalletContainer = ({
     try {
       const queryClient = getQueryClient();
       const accounts = await queryClient.fetchQuery(getAccountsQueryOptions([currentAccount.name]));
+
+      if (!Array.isArray(accounts) || accounts.length === 0) {
+        return;
+      }
+
       const account = accounts[0];
 
       if (!_isHasUnclaimedRewards(account)) {
-        setIsClaiming(false);
         return;
       }
 
@@ -213,7 +217,7 @@ const WalletContainer = ({
 
       await claimRewardsMutation.mutateAsync({ rewardHive, rewardHbd, rewardVests });
 
-      _getWalletData(selectedUser, true);
+      await _getWalletData(selectedUser, true);
 
       dispatch(
         toastNotification(
@@ -222,12 +226,13 @@ const WalletContainer = ({
           }),
         ),
       );
-    } catch {
+    } catch (err) {
       dispatch(
         toastNotification(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
+          intl.formatMessage(
+            { id: 'alert.fail' },
+            { message: err instanceof Error ? err.message : '' },
+          ),
         ),
       );
     } finally {

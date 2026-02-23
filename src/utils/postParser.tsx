@@ -271,7 +271,7 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
   return comment;
 };
 
-export const isVoted = async (activeVotes, currentUserName) => {
+export const isVoted = (activeVotes, currentUserName) => {
   if (!currentUserName) {
     return false;
   }
@@ -284,7 +284,7 @@ export const isVoted = async (activeVotes, currentUserName) => {
   return false;
 };
 
-export const isDownVoted = async (activeVotes, currentUserName) => {
+export const isDownVoted = (activeVotes, currentUserName) => {
   if (!currentUserName) {
     return false;
   }

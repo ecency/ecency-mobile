@@ -203,7 +203,7 @@ export const handleHiveAuthFallback = async (
   const { SheetManager, SheetNames } = await getSheetDeps();
 
   return new Promise((resolve, reject) => {
-    const timeoutMs = 60000;
+    const timeoutMs = 180000; // 3 minutes — HiveAuth requires switching to keychain app
     let settled = false;
 
     const finish = (fn: () => void) => {

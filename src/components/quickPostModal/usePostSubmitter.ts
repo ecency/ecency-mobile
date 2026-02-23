@@ -15,6 +15,10 @@ import extractHashTags from '../../utils/extractHashTags';
 import { selectCurrentAccount } from '../../redux/selectors';
 import { SheetNames } from '../../navigation/sheets';
 import { useAuthContext } from '../../providers/sdk';
+import {
+  addOptimisticComment,
+  removeOptimisticComment,
+} from '../../providers/queries/postQueries/commentQueries';
 
 export const usePostSubmitter = () => {
   const dispatch = useDispatch();
@@ -136,6 +140,18 @@ export const usePostSubmitter = () => {
       };
 
       try {
+        // Add optimistic entry to discussions cache for immediate UI feedback
+        addOptimisticComment({
+          author,
+          permlink,
+          parentAuthor,
+          parentPermlink,
+          rootAuthor,
+          rootPermlink,
+          body: commentBody,
+          jsonMetadata,
+        });
+
         await commentMutation.mutateAsync({
           author,
           permlink,
@@ -158,6 +174,9 @@ export const usePostSubmitter = () => {
 
         return _cacheCommentData;
       } catch (error) {
+        // Roll back optimistic entry on failure
+        removeOptimisticComment(author, permlink, rootAuthor, rootPermlink);
+
         console.log(error);
 
         Alert.alert(

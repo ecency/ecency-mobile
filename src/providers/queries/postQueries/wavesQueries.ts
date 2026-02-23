@@ -70,12 +70,15 @@ export const useWavesQuery = (host: string) => {
         }
         return true;
       });
-  }, [wavesQuery.data, mutes, botAuthorsQuery.data]);
+  }, [wavesQuery.data, mutes, botAuthorsQuery.data, currentAccount?.name]);
 
   const refresh = async () => {
     setIsRefreshing(true);
-    await wavesQuery.refetch();
-    setIsRefreshing(false);
+    try {
+      await wavesQuery.refetch();
+    } finally {
+      setIsRefreshing(false);
+    }
   };
 
   const deleteWave = async ({
@@ -150,7 +153,9 @@ export const usePublishWaveMutation = () => {
       const previousData = queryClient.getQueryData<InfiniteData<WaveEntry[]>>(sdkOptions.queryKey);
 
       queryClient.setQueryData<InfiniteData<WaveEntry[]>>(sdkOptions.queryKey, (oldData) => {
-        if (!oldData) return oldData;
+        if (!oldData) {
+          return { pages: [[cacheCommentData as WaveEntry]], pageParams: [] };
+        }
         const firstPage = oldData.pages[0] ?? [];
         return {
           ...oldData,
