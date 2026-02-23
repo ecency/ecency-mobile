@@ -73,9 +73,14 @@ function updateDataWithVote(data: any, postPath: string, vote: VoteCacheEntry): 
     return applyVoteToPost(data, vote);
   }
 
-  // Array of entries (discussions, promoted, waves)
+  // Array of entries (promoted, waves)
   if (Array.isArray(data)) {
     return updatePostArray(data, postPath, vote);
+  }
+
+  // Object map of discussions (keyed by "author/permlink")
+  if (typeof data === 'object') {
+    return updateDiscussionMap(data, postPath, vote);
   }
 
   return data;
@@ -123,6 +128,22 @@ function updatePostArray(data: any[], postPath: string, vote: VoteCacheEntry): a
   return changed ? result : data;
 }
 
+function updateDiscussionMap(
+  data: Record<string, any>,
+  postPath: string,
+  vote: VoteCacheEntry,
+): Record<string, any> {
+  const entry = data[postPath];
+  if (!entry) {
+    return data;
+  }
+  const updated = applyVoteToPost(entry, vote);
+  if (updated === entry) {
+    return data;
+  }
+  return { ...data, [postPath]: updated };
+}
+
 /**
  * Applies vote data to a post/comment object.
  * Works with both raw API data and parsed post data.
@@ -137,11 +158,13 @@ function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
       return post;
     }
     const cloned = { ...post };
+    // Use the EXISTING vote's stored amount for payout adjustment.
+    // vote.amount is typically 0 on unvote since the slider is at 0.
+    const existingAmount = activeVotes[voteIdx].amount || 0;
     cloned.active_votes = activeVotes.filter((_: any, i: number) => i !== voteIdx);
     cloned.isUpVoted = false;
     cloned.isDownVoted = false;
-    // Subtract the removed vote's payout contribution
-    const removedAmount = (vote.amount || 0) * (vote.isDownvote ? -1 : 1);
+    const removedAmount = existingAmount * (vote.isDownvote ? -1 : 1);
     adjustPayout(cloned, post, -removedAmount);
     if (post.stats) {
       cloned.stats = { ...post.stats, total_votes: cloned.active_votes.length };

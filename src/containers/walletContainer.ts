@@ -13,7 +13,7 @@ import {
 } from '../redux/selectors';
 
 // SDK
-import { useSdkClaimRewardsMutation } from '../providers/sdk/mutations';
+import { useClaimRewardsMutation as useSdkClaimRewardsMutation } from '../providers/sdk/mutations';
 import { getQueryClient } from '../providers/queries';
 
 // Utils
