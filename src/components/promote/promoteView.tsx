@@ -1,11 +1,11 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { injectIntl } from 'react-intl';
-import { Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import get from 'lodash/get';
 import Autocomplete from '@esteemapp/react-native-autocomplete-input';
 import { useQueryClient } from '@tanstack/react-query';
-import { getPointsQueryOptions, getSearchPathQueryOptions } from '@ecency/sdk';
+import { getSearchPathQueryOptions } from '@ecency/sdk';
 import { ScaleSlider, TextInput } from '..';
 import { hsOptions } from '../../constants/hsOptions';
 
@@ -15,7 +15,6 @@ import { hsOptions } from '../../constants/hsOptions';
 import { BasicHeader } from '../basicHeader';
 import { TransferFormItem } from '../transferFormItem';
 import { MainButton } from '../mainButton';
-import { DropdownButton } from '../dropdownButton';
 import { Modal } from '../modal';
 
 import { PROMOTE_PRICING, PROMOTE_DAYS } from '../../constants/options/points';
@@ -38,11 +37,10 @@ const PromoteView = ({
   handleOnSCModalClose,
 }) => {
   const [permlink, setPermlink] = useState('');
-  const [selectedUser, setSelectedUser] = useState('');
-  const [balance, setBalance] = useState<number>(_balance ?? 0);
   const [day, setDay] = useState(1);
   const [permlinkSuggestions, setPermlinkSuggestions] = useState([]);
   const [isValid, setIsValid] = useState(false);
+  const balance = _balance ?? 0;
 
   const startActionSheet = useRef(null);
   const timerRef = useRef<number | null>(null);
@@ -57,13 +55,7 @@ const PromoteView = ({
     if (permlink && (pr <= _balance || pr <= _balance)) {
       setIsValid(true);
     }
-  }, [day, balance, permlink]);
-
-  useEffect(() => {
-    if (selectedUser) {
-      _getUserBalance(selectedUser);
-    }
-  }, [selectedUser]);
+  }, [day, balance, permlink, _balance]);
 
   // Component Functions
 
@@ -120,36 +112,14 @@ const PromoteView = ({
     };
   }, []);
 
-  const _renderDropdown = (accounts, currentAccountName) => (
-    <DropdownButton
-      dropdownButtonStyle={styles.dropdownButtonStyle}
-      rowTextStyle={styles.rowTextStyle}
-      style={styles.dropdown}
-      dropdownStyle={styles.dropdownStyle}
-      textStyle={styles.dropdownText}
-      options={accounts.map((item) => item.username)}
-      defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
-      onSelect={(index, value) => {
-        setSelectedUser(value);
-      }}
-    />
+  const _renderDropdown = (_accounts, accountName) => (
+    <Text style={styles.dropdownText}>{accountName}</Text>
   );
-
-  const _getUserBalance = async (username) => {
-    try {
-      const pointsData = await queryClient.fetchQuery(getPointsQueryOptions(username, 0));
-      const balanceValue = Math.round(Number(get(pointsData, 'points', 0)) * 1000) / 1000;
-      setBalance(balanceValue);
-    } catch (err) {
-      Alert.alert(err.message || err.toString());
-    }
-  };
 
   const _handleOnSubmit = async () => {
     const fullPermlink = permlink || get(navigationParams, 'permlink');
 
-    handleOnSubmit(redeemType, day, fullPermlink, selectedUser);
+    handleOnSubmit(redeemType, day, fullPermlink, currentAccountName);
   };
 
   return (
@@ -160,9 +130,9 @@ const PromoteView = ({
           <View style={styles.middleContent}>
             <TransferFormItem
               label={intl.formatMessage({ id: 'promote.user' })}
-              rightComponent={() => _renderDropdown(accounts, selectedUser || currentAccountName)}
+              rightComponent={() => _renderDropdown(accounts, currentAccountName)}
             />
-            <Text style={styles.balanceText}>{`${balance ?? _balance} Points`}</Text>
+            <Text style={styles.balanceText}>{`${balance} Points`}</Text>
             <Fragment>
               <View style={styles.autocomplateLineContainer}>
                 <View style={styles.autocomplateLabelContainer}>

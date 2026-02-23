@@ -12,7 +12,6 @@ import {
   TextInput,
   TransferFormItem,
   MainButton,
-  DropdownButton,
   UserAvatar,
   Icon,
   Modal,
@@ -104,18 +103,8 @@ class TransferTokenView extends Component {
     />
   );
 
-  _renderDropdown = (accounts, currentAccountName) => (
-    <DropdownButton
-      dropdownButtonStyle={styles.dropdownButtonStyle}
-      rowTextStyle={styles.rowTextStyle}
-      style={styles.dropdown}
-      dropdownStyle={styles.dropdownStyle}
-      textStyle={styles.dropdownText}
-      options={accounts.map((item) => item.username)}
-      defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
-      onSelect={(index, value) => this._handleOnDropdownChange(value)}
-    />
+  _renderDropdown = (_accounts, currentAccountName) => (
+    <Text style={styles.dropdownText}>{currentAccountName}</Text>
   );
 
   _handleOnDropdownChange = (value) => {

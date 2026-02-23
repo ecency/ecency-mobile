@@ -26,7 +26,6 @@ import { hsOptions } from '../../../constants/hsOptions';
 import {
   BasicHeader,
   TransferFormItem,
-  DropdownButton,
   TextInput,
   MainButton,
   UserAvatar,
@@ -312,18 +311,8 @@ class DelegateScreen extends Component {
   };
 
   // Note: dropdown for user account selection. can be used in later implementaion
-  _renderDropdown = (accounts, currentAccountName) => (
-    <DropdownButton
-      dropdownButtonStyle={styles.dropdownButtonStyle}
-      rowTextStyle={styles.rowTextStyle}
-      style={styles.dropdown}
-      dropdownStyle={styles.dropdownStyle}
-      textStyle={styles.dropdownText}
-      options={accounts.map((item) => item.username)}
-      defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
-      onSelect={(index, value) => this._handleOnDropdownChange(value)}
-    />
+  _renderDropdown = (_accounts, currentAccountName) => (
+    <Text style={styles.dropdownText}>{currentAccountName}</Text>
   );
 
   _renderUsersDropdownItem = ({ item }) => {

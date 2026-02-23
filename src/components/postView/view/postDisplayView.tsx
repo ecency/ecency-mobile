@@ -301,7 +301,7 @@ const PostDisplayView = ({
     ],
   );
 
-  const { name } = currentAccount;
+  const name = currentAccount?.name;
 
   const formatedTime = post && getTimeFromNow(post.created);
 
