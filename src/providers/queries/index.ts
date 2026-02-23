@@ -15,9 +15,9 @@ export const initQueryClient = () => {
     defaultOptions: {
       queries: {
         staleTime: 60 * 1000, // 60 seconds — SDK overrides per-query where needed
-        gcTime: 10 * 60 * 1000, // 10 minutes garbage collection (was 6 days)
+        gcTime: 30 * 60 * 1000, // 30 minutes — longer retention for mobile navigation patterns
         refetchOnWindowFocus: false,
-        refetchOnMount: false, // prevents refetch on every screen mount
+        refetchOnMount: true, // refetch stale data on screen mount (respects staleTime)
       },
     },
   });
@@ -76,15 +76,19 @@ export const initQueryClient = () => {
         return true; // Persist other SDK queries
       }
 
-      // Handle mobile-specific legacy queries
+      // Handle mobile-specific legacy queries (explicit allowlist)
       switch (queryKeyType) {
         case QUERIES.NOTIFICATIONS.GET:
           return query.queryKey[2] === ''; // only dehydrate first page of notifications
         case 'drafts':
         case 'schedules':
           return query.queryKey[2] === 0; // First page only
-        default:
+        case 'bookmarks':
+        case 'favourites':
+        case 'points':
           return true;
+        default:
+          return false;
       }
     }
 

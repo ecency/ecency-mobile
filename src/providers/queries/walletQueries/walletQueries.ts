@@ -160,14 +160,14 @@ export const useClaimRewardsMutation = () => {
 
   const engineClaimMutation = useBroadcastMutation(
     ['hive', 'scot-claim-token'],
-    username,
+    username || '',
     ({ symbols }: { symbols: string[] }) => [
       [
         'custom_json',
         {
           id: 'scot_claim_token',
           required_auths: [],
-          required_posting_auths: [username!],
+          required_posting_auths: [username || ''],
           json: JSON.stringify(symbols.map((r) => ({ symbol: r }))),
         },
       ],
@@ -178,6 +178,9 @@ export const useClaimRewardsMutation = () => {
   );
 
   const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
+    if (!currentAccount?.name) {
+      throw new Error('No current account');
+    }
     const account = await getAccount(currentAccount.name);
     if (!account) {
       throw new Error('Account not found');
@@ -199,7 +202,7 @@ export const useClaimRewardsMutation = () => {
 
   const mutation = useMutation<boolean, Error, ClaimRewardsMutationVars>({
     mutationFn: _mutationFn,
-    retry: 2,
+    retry: 0,
     onMutate({ symbol }) {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: true }));
     },

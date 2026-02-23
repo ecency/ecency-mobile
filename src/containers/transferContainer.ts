@@ -279,7 +279,14 @@ class TransferContainer extends Component {
     const _onError = (error) => {
       navigation.goBack();
       Sentry.captureException(error);
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
+
+      let alertId = 'alert.fail';
+      const msg = error?.message?.toLowerCase?.() || '';
+      if (msg.includes('key') || msg.includes('authority') || msg.includes('missing')) {
+        alertId = 'alert.key_warning';
+      }
+
+      dispatch(toastNotification(intl.formatMessage({ id: alertId })));
     };
 
     try {

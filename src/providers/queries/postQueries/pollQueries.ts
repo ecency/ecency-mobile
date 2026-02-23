@@ -74,14 +74,14 @@ export function useVotePollMutation(poll: Poll | null) {
 
   const broadcastMutation = useBroadcastMutation(
     ['hive', 'poll-vote'],
-    username,
+    username || '',
     ({ pollTrxId, choices }: { pollTrxId: string; choices: number[] }) => [
       [
         'custom_json',
         {
           id: 'polls',
           required_auths: [],
-          required_posting_auths: [username!],
+          required_posting_auths: [username || ''],
           json: JSON.stringify({
             poll: pollTrxId,
             action: 'vote',

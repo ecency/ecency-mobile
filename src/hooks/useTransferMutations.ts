@@ -1,4 +1,5 @@
 import { useBroadcastMutation, buildRecurrentTransferOp } from '@ecency/sdk';
+import { useSelector } from 'react-redux';
 import {
   useTransferMutation,
   useConvertMutation,
@@ -19,15 +20,15 @@ import {
   usePowerLarynxMutation,
 } from '../providers/sdk/mutations';
 import { useAuthContext } from '../providers/sdk';
-import { useAppSelector } from './index';
 import { selectCurrentAccount } from '../redux/selectors';
+import type { RootState } from '../redux/store/store';
 
 /**
  * Bundles all transfer-related SDK mutation hooks into a single object.
  * Designed to be injected into class components via mapHooksToProps.
  */
 export function useTransferMutations() {
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useSelector((state: RootState) => selectCurrentAccount(state));
   const authContext = useAuthContext();
   const username = currentAccount?.name;
 
@@ -95,7 +96,7 @@ export function useTransferMutations() {
           {
             id: 'spkcc_power_grant',
             json: JSON.stringify(json),
-            required_auths: [username!],
+            required_auths: [username || ''],
             required_posting_auths: [],
           },
         ],

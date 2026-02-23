@@ -14,10 +14,11 @@ export interface VoteCacheEntry {
 }
 
 // Query key second segments under ['posts', ...] that contain voteable data
+// SDK uses hyphenated keys: 'posts-ranked-page', 'account-posts-page', etc.
 const VOTE_QUERY_TYPES = [
   'entry',
-  'postsRanked',
-  'accountPosts',
+  'posts-ranked-page',
+  'account-posts-page',
   'discussions',
   'promoted',
   'waves',
@@ -139,6 +140,9 @@ function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
     cloned.active_votes = activeVotes.filter((_: any, i: number) => i !== voteIdx);
     cloned.isUpVoted = false;
     cloned.isDownVoted = false;
+    // Subtract the removed vote's payout contribution
+    const removedAmount = (vote.amount || 0) * (vote.isDownvote ? -1 : 1);
+    adjustPayout(cloned, post, -removedAmount);
     if (post.stats) {
       cloned.stats = { ...post.stats, total_votes: cloned.active_votes.length };
     }

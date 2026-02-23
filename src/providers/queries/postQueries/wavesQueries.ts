@@ -50,10 +50,13 @@ export const useWavesQuery = (host: string) => {
     const botAuthors = botAuthorsQuery.data ?? [];
 
     return flatData
-      .map((item) => parsePost(item))
+      .map((item) => parsePost(item, currentAccount?.name))
       .filter((post) => {
+        if (!post) {
+          return false;
+        }
         // discard wave if author is muted
-        if (isArray(mutes) && mutes.indexOf(post?.author) > 0) {
+        if (isArray(mutes) && mutes.indexOf(post.author) >= 0) {
           return false;
         }
         // discard if wave is downvoted or marked gray

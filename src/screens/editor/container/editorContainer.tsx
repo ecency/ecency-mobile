@@ -973,7 +973,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
                   percentHbd: options.percent_hbd,
                   allowVotes: options.allow_votes,
                   allowCurationRewards: options.allow_curation_rewards,
-                  beneficiaries: options.extensions?.[0]?.[1]?.beneficiaries,
+                  beneficiaries: Array.isArray(options.extensions?.[0]?.[1]?.beneficiaries)
+                    ? options.extensions[0][1].beneficiaries
+                    : beneficiaries,
                 }
               : undefined,
           });
@@ -996,10 +998,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
                   pointsTy: PointActivityIds.REBLOG,
                   transactionId: resp.id,
                 });
-                console.log('Successfully reblogged post', resp);
               })
               .catch((err) => {
                 console.warn('Failed to reblog post', err);
+                dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
               });
           }
 
