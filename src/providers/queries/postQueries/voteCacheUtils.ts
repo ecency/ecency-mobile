@@ -154,7 +154,7 @@ function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
     const cloned = { ...post };
     cloned.active_votes = [
       ...activeVotes,
-      { voter: vote.voter, rshares: vote.rshares, percent: vote.percent },
+      { voter: vote.voter, rshares: vote.rshares, percent: vote.percent, amount: vote.amount },
     ];
     // Adjust payout for new votes (accurate since no old contribution to subtract)
     const voteAmount = (vote.amount || 0) * (vote.isDownvote ? -1 : 1);
@@ -168,17 +168,20 @@ function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
   }
 
   // Vote update (voter already exists — changing weight)
-  // Note: payout is not adjusted here because the old vote's $ value is unknown
-  // (active_votes only stores rshares/percent, not dollar amount). The payout
-  // will be corrected on the next query refetch from the API.
   const cloned = { ...post };
   const updatedVotes = [...activeVotes];
+  const oldAmount = activeVotes[voteIdx].amount || 0;
   updatedVotes[voteIdx] = {
     ...activeVotes[voteIdx],
     rshares: vote.rshares,
     percent: vote.percent,
+    amount: vote.amount,
   };
   cloned.active_votes = updatedVotes;
+  // Adjust payout by delta between new and old vote amounts
+  const oldSigned = oldAmount * (vote.isDownvote ? -1 : 1);
+  const newSigned = (vote.amount || 0) * (vote.isDownvote ? -1 : 1);
+  adjustPayout(cloned, post, newSigned - oldSigned);
   cloned.isUpVoted = !vote.isDownvote;
   cloned.isDownVoted = !!vote.isDownvote;
   if (post.stats) {

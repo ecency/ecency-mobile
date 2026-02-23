@@ -1,5 +1,6 @@
 import {
   InfiniteData,
+  QueryKey,
   UseMutationOptions,
   useInfiniteQuery,
   useMutation,
@@ -116,6 +117,7 @@ export const useWavesQuery = (host: string) => {
     data,
     isRefreshing,
     isLoading: wavesQuery.isLoading || wavesQuery.isFetchingNextPage,
+    hasNextPage: wavesQuery.hasNextPage,
     fetchNextPage: wavesQuery.fetchNextPage,
     refresh,
     deleteWave,
@@ -124,7 +126,7 @@ export const useWavesQuery = (host: string) => {
 
 interface PublishWaveContext {
   previousData: InfiniteData<WaveEntry[]> | undefined;
-  queryKey: readonly string[];
+  queryKey: QueryKey;
 }
 
 export const usePublishWaveMutation = () => {
@@ -195,7 +197,6 @@ export const fetchLatestWavesContainer = async (host) => {
     )) || [];
 
   const _latestPost = result[0];
-  console.log('latest waves post', host, _latestPost);
 
   if (!_latestPost) {
     throw new Error('Latest waves container could not be fetched');

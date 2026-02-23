@@ -714,6 +714,9 @@ export const useDeleteRecurrentTransferMutation = () => {
 
   const mutation = useMutation<boolean, Error, { recurrentTransfer: RecurrentTransfer }>({
     mutationFn: async ({ recurrentTransfer }) => {
+      if (!currentAccount?.name) {
+        throw new Error('No current account');
+      }
       await recurrentTransferBroadcast.mutateAsync({
         from: recurrentTransfer.from,
         to: recurrentTransfer.to,

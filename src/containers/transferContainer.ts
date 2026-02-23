@@ -470,7 +470,7 @@ class TransferContainer extends Component {
   };
 
   _setWithdrawVestingRoute = async (from, to, percentage, autoVest) => {
-    const { mutations } = this.props;
+    const { mutations, dispatch, intl } = this.props;
 
     try {
       await mutations.setWithdrawVestingRoute.mutateAsync({
@@ -478,9 +478,11 @@ class TransferContainer extends Component {
         percent: percentage,
         autoVest,
       });
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+      this._delayedRefreshCoinsData();
     } catch (error) {
-      const { dispatch, intl } = this.props;
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      throw error;
     }
   };
 

@@ -1031,15 +1031,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             this.setState({
               isPostSending: false,
             });
-            navigation.replace(
-              ROUTES.SCREENS.PROFILE,
-              {
-                username: get(currentAccount, 'name'),
-              },
-              {
-                key: get(currentAccount, 'name'),
-              },
-            );
+            navigation.replace(ROUTES.SCREENS.PROFILE, {
+              username: get(currentAccount, 'name'),
+              key: get(currentAccount, 'name'),
+            });
           }, 500);
         } catch (error) {
           this._handleSubmitFailure(error);
@@ -1306,7 +1301,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   _handleSubmitFailure = (error) => {
     const { intl, dispatch } = this.props;
-    console.log(error);
+
+    const msg =
+      error && typeof error === 'object' && 'message' in error
+        ? (error as any).message
+        : typeof error === 'string'
+        ? error
+        : '';
 
     this._isSubmitting = false;
     if (
@@ -1324,7 +1325,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       // when other errors
       dispatch(
         toastNotification(
-          intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: error.message }),
+          intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: msg || '' }),
         ),
       );
     }
