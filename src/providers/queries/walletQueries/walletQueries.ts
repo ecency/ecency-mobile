@@ -720,7 +720,7 @@ export const useDeleteRecurrentTransferMutation = () => {
         amount: '0.000 HIVE',
         memo: recurrentTransfer.memo || '',
         recurrence: recurrentTransfer.recurrence || 0,
-        executions: recurrentTransfer.remaining_executions || 0,
+        executions: 0,
       });
       return true;
     },
@@ -738,14 +738,7 @@ export const useDeleteRecurrentTransferMutation = () => {
       ]);
 
       if (prevData) {
-        const updatedData = prevData.filter(
-          (item) =>
-            !(
-              item.from === recurrentTransfer.from &&
-              item.to === recurrentTransfer.to &&
-              item.recurrence === recurrentTransfer.recurrence
-            ),
-        );
+        const updatedData = prevData.filter((item) => item.id !== recurrentTransfer.id);
         queryClient.setQueryData(
           [QUERIES.WALLET.GET_RECURRING_TRANSFERS, ASSET_IDS.HIVE, currentAccount.name],
           updatedData,

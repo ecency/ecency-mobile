@@ -103,19 +103,9 @@ class TransferTokenView extends Component {
     />
   );
 
-  _renderDropdown = (_accounts, currentAccountName) => (
+  _renderDropdown = (currentAccountName) => (
     <Text style={styles.dropdownText}>{currentAccountName}</Text>
   );
-
-  _handleOnDropdownChange = (value) => {
-    const { fetchBalance, transferType } = this.props;
-
-    fetchBalance(value);
-    this.setState({ from: value });
-    if (transferType === 'convert') {
-      this.setState({ destination: value });
-    }
-  };
 
   _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
 
@@ -175,7 +165,7 @@ class TransferTokenView extends Component {
             <View style={styles.middleContent}>
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.from' })}
-                rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
+                rightComponent={() => this._renderDropdown(currentAccountName)}
               />
               {transferType !== 'convert' && (
                 <TransferFormItem

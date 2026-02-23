@@ -10,6 +10,28 @@ import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount } from '../../../redux/selectors';
 import { getQueryClient } from '../index';
 
+type CommentJsonMetadata = Record<string, unknown>;
+
+const updateEntryChildrenCount = (
+  queryClient: ReturnType<typeof getQueryClient>,
+  author: string,
+  permlink: string,
+  delta: 1 | -1,
+) => {
+  const path = `/@${author}/${permlink}`;
+  const key = ['posts', 'entry', path];
+  const entry = queryClient.getQueryData<any>(key);
+  if (!entry) {
+    return;
+  }
+
+  const nextChildren = Math.max(0, (entry.children ?? 0) + delta);
+  queryClient.setQueryData(key, {
+    ...entry,
+    children: nextChildren,
+  });
+};
+
 export function useCommentMutations() {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const authContext = useAuthContext();
@@ -36,7 +58,7 @@ export function addOptimisticComment(params: {
   rootAuthor: string;
   rootPermlink: string;
   body: string;
-  jsonMetadata: any;
+  jsonMetadata: CommentJsonMetadata;
   authorReputation?: number;
 }) {
   const queryClient = getQueryClient();
@@ -72,15 +94,12 @@ export function addOptimisticComment(params: {
     queryClient,
   );
 
-  // Increment children count on the parent post entry cache
-  const parentPath = `/@${params.rootAuthor}/${params.rootPermlink}`;
-  const parentKey = ['posts', 'entry', parentPath];
-  const parentPost = queryClient.getQueryData<any>(parentKey);
-  if (parentPost) {
-    queryClient.setQueryData(parentKey, {
-      ...parentPost,
-      children: (parentPost.children ?? 0) + 1,
-    });
+  // Increment root post children count
+  updateEntryChildrenCount(queryClient, params.rootAuthor, params.rootPermlink, 1);
+
+  // Also increment the direct parent comment count when replying to a nested comment
+  if (params.parentAuthor !== params.rootAuthor || params.parentPermlink !== params.rootPermlink) {
+    updateEntryChildrenCount(queryClient, params.parentAuthor, params.parentPermlink, 1);
   }
 }
 
@@ -93,18 +112,21 @@ export function removeOptimisticComment(
   permlink: string,
   rootAuthor: string,
   rootPermlink: string,
+  parentAuthor?: string,
+  parentPermlink?: string,
 ) {
   const queryClient = getQueryClient();
   removeOptimisticDiscussionEntry(author, permlink, rootAuthor, rootPermlink, queryClient);
 
-  // Decrement children count on the parent post entry cache
-  const parentPath = `/@${rootAuthor}/${rootPermlink}`;
-  const parentKey = ['posts', 'entry', parentPath];
-  const parentPost = queryClient.getQueryData<any>(parentKey);
-  if (parentPost && (parentPost.children ?? 0) > 0) {
-    queryClient.setQueryData(parentKey, {
-      ...parentPost,
-      children: parentPost.children - 1,
-    });
+  // Decrement root post children count
+  updateEntryChildrenCount(queryClient, rootAuthor, rootPermlink, -1);
+
+  // Also decrement the direct parent comment count for nested replies
+  if (
+    parentAuthor &&
+    parentPermlink &&
+    (parentAuthor !== rootAuthor || parentPermlink !== rootPermlink)
+  ) {
+    updateEntryChildrenCount(queryClient, parentAuthor, parentPermlink, -1);
   }
 }

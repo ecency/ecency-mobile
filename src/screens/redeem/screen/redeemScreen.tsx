@@ -42,7 +42,6 @@ class RedeemScreen extends PureComponent {
                     _retView = (
                       <Promote
                         isLoading={isLoading}
-                        accounts={accounts}
                         currentAccountName={currentAccountName}
                         balance={balance}
                         navigationParams={navigationParams}
@@ -77,7 +76,6 @@ class RedeemScreen extends PureComponent {
                     _retView = (
                       <BoostPlus
                         isLoading={isLoading}
-                        accounts={accounts}
                         currentAccountName={currentAccountName}
                         balance={balance}
                         navigationParams={navigationParams}

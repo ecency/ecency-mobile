@@ -29,7 +29,6 @@ const PromoteView = ({
   redeemType,
   navigationParams,
   isLoading,
-  accounts,
   currentAccountName,
   balance: _balance,
   SCPath,
@@ -49,13 +48,13 @@ const PromoteView = ({
 
   useEffect(() => {
     const pr = get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price');
-    if (pr > _balance || pr > balance) {
+    if (pr > balance) {
       setIsValid(false);
     }
-    if (permlink && (pr <= _balance || pr <= _balance)) {
+    if (permlink && pr <= balance) {
       setIsValid(true);
     }
-  }, [day, balance, permlink, _balance]);
+  }, [day, permlink, _balance]);
 
   // Component Functions
 
@@ -112,9 +111,7 @@ const PromoteView = ({
     };
   }, []);
 
-  const _renderDropdown = (_accounts, accountName) => (
-    <Text style={styles.dropdownText}>{accountName}</Text>
-  );
+  const _renderDropdown = (accountName) => <Text style={styles.dropdownText}>{accountName}</Text>;
 
   const _handleOnSubmit = async () => {
     const fullPermlink = permlink || get(navigationParams, 'permlink');
@@ -130,7 +127,7 @@ const PromoteView = ({
           <View style={styles.middleContent}>
             <TransferFormItem
               label={intl.formatMessage({ id: 'promote.user' })}
-              rightComponent={() => _renderDropdown(accounts, currentAccountName)}
+              rightComponent={() => _renderDropdown(currentAccountName)}
             />
             <Text style={styles.balanceText}>{`${balance} Points`}</Text>
             <Fragment>

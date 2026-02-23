@@ -111,8 +111,6 @@ class TransferContainer extends Component {
             balance = '0';
           }
         });
-
-        console.log('balance retrieved');
       } else {
         if (
           (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
@@ -471,7 +469,7 @@ class TransferContainer extends Component {
     }
   };
 
-  _setWithdrawVestingRoute = async (from, to, percentage, autoVest) => {
+  _setWithdrawVestingRoute = async (_from, to, percentage, autoVest) => {
     const { mutations, dispatch, intl } = this.props;
 
     try {

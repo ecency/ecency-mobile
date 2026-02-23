@@ -168,7 +168,7 @@ export const usePublishWaveMutation = () => {
     },
 
     onError: (_error, _variables, context) => {
-      if (context?.previousData) {
+      if (context?.queryKey) {
         queryClient.setQueryData(context.queryKey, context.previousData);
       }
     },
@@ -182,25 +182,8 @@ export const usePublishWaveMutation = () => {
   return useMutation({ mutationFn: _mutationFn, ..._options });
 };
 
-export const fetchLatestWavesContainer = async (host) => {
-  const query: any = {
-    account: host,
-    start_author: '',
-    start_permlink: '',
-    limit: 1,
-    observer: '',
-    sort: 'posts',
-  };
-
-  const result =
-    (await getAccountPosts(
-      query.sort,
-      query.account,
-      query.start_author,
-      query.start_permlink,
-      query.limit,
-      query.observer,
-    )) || [];
+export const fetchLatestWavesContainer = async (host: string) => {
+  const result = (await getAccountPosts('posts', host, '', '', 1, '')) || [];
 
   const _latestPost = result[0];
 

@@ -176,7 +176,14 @@ export const usePostSubmitter = () => {
         return _cacheCommentData;
       } catch (error) {
         // Roll back optimistic entry on failure
-        removeOptimisticComment(author, permlink, rootAuthor, rootPermlink);
+        removeOptimisticComment(
+          author,
+          permlink,
+          rootAuthor,
+          rootPermlink,
+          parentAuthor,
+          parentPermlink,
+        );
 
         console.log(error);
 
@@ -199,11 +206,19 @@ export const usePostSubmitter = () => {
         return false;
       }
     } catch (error: any) {
+      let errMsg = error?.message || '';
+      if (!errMsg) {
+        try {
+          errMsg = JSON.stringify(error);
+        } catch {
+          errMsg = String(error ?? '');
+        }
+      }
       Alert.alert(
         intl.formatMessage({
           id: 'alert.something_wrong',
         }),
-        error?.message || JSON.stringify(error),
+        errMsg,
       );
       return false;
     } finally {

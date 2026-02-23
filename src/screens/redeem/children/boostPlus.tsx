@@ -32,7 +32,6 @@ const BoostPlus = ({
   handleOnSubmit,
   redeemType,
   isLoading,
-  accounts,
   currentAccountName,
   balance: _balance,
   SCPath,
@@ -136,9 +135,7 @@ const BoostPlus = ({
       </Animated.View>
     );
 
-  const _renderDropdown = (_accounts, accountName) => (
-    <Text style={styles.dropdownText}>{accountName}</Text>
-  );
+  const _renderDropdown = (accountName) => <Text style={styles.dropdownText}>{accountName}</Text>;
 
   // balance is derived from pointsQuery; no manual fetch needed
 
@@ -154,7 +151,7 @@ const BoostPlus = ({
           <View style={styles.middleContent}>
             <TransferFormItem
               label={intl.formatMessage({ id: 'promote.user' })}
-              rightComponent={() => _renderDropdown(accounts, currentAccountName)}
+              rightComponent={() => _renderDropdown(currentAccountName)}
             />
             <Text style={styles.balanceText}>{`${balance} Points`}</Text>
 

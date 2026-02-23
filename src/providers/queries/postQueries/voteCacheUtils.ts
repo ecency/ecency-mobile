@@ -215,9 +215,7 @@ function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
   // Use rshares to match postParser's vote direction logic
   cloned.isUpVoted = vote.rshares > 0;
   cloned.isDownVoted = vote.rshares < 0;
-  if (post.stats) {
-    cloned.stats = { ...post.stats };
-  }
+  // Vote updates do not change total_votes count, so keep stats reference as-is.
   return cloned;
 }
 

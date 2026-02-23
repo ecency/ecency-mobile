@@ -43,6 +43,7 @@ import {
   selectIsPinCodeOpen,
 } from '../../../redux/selectors';
 import { useGetReblogsQuery } from '../../../providers/queries/postQueries/repostQueries';
+import QUERIES from '../../../providers/queries/queryKeys';
 
 /*
  *            Props Name        Description                                     Value
@@ -389,7 +390,9 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
           ),
         );
 
-        // Refetch reblogs to update the list
+        // Refresh legacy reblogs list cache used by Reblogs screen/modal
+        const reblogsKey = [QUERIES.POST.GET_REBLOGS, content.author, get(content, 'permlink', '')];
+        queryClient.invalidateQueries({ queryKey: reblogsKey });
         reblogsQuery.refetch();
 
         // Also invalidate reblog filter (SDK only invalidates blog filter)

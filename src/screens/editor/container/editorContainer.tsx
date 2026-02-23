@@ -1165,7 +1165,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         this._isSubmitting = false;
       } catch (error) {
         // Roll back optimistic entry on failure
-        removeOptimisticComment(author, permlink, rootAuthor, rootPermlink);
+        removeOptimisticComment(
+          author,
+          permlink,
+          rootAuthor,
+          rootPermlink,
+          parentAuthor,
+          parentPermlink,
+        );
 
         this._isSubmitting = false;
         this._handleSubmitFailure(error);
@@ -1692,7 +1699,7 @@ const mapStateToProps = (state) => ({
   replyCache: state.cache.replyCache,
 });
 
-const mapQueriesToProps = () => ({
+const useEditorQueryProps = () => ({
   queryClient: useQueryClient(),
   speakContentBuilder: speakQueries.useSpeakContentBuilder(),
   speakMutations: speakQueries.useSpeakMutations(),
@@ -1705,6 +1712,6 @@ const mapQueriesToProps = () => ({
 
 export default gestureHandlerRootHOC(
   connect(mapStateToProps)(
-    injectIntl((props) => <EditorContainer {...props} {...mapQueriesToProps()} />),
+    injectIntl((props) => <EditorContainer {...props} {...useEditorQueryProps()} />),
   ),
 );
