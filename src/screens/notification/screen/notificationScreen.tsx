@@ -18,6 +18,7 @@ const NotificationScreen = ({
   readAllNotification,
   isNotificationRefreshing,
   isLoading,
+  isFetching,
   changeSelectedFilter,
   globalProps,
 }) => {
@@ -55,6 +56,7 @@ const NotificationScreen = ({
                   readAllNotification={readAllNotification}
                   isNotificationRefreshing={isNotificationRefreshing}
                   isLoading={isLoading}
+                  isFetching={isFetching}
                   changeSelectedFilter={changeSelectedFilter}
                   globalProps={globalProps}
                   listRef={notificationsListRef}

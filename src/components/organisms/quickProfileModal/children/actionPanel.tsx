@@ -11,6 +11,7 @@ interface ActionPanelProps {
   isLoading: boolean;
   onFollowPress: () => void;
   onFavouritePress: () => void;
+  onMessagePress: () => void;
 }
 
 export const ActionPanel = ({
@@ -20,6 +21,7 @@ export const ActionPanel = ({
   isLoading,
   onFavouritePress,
   onFollowPress,
+  onMessagePress,
 }: ActionPanelProps) => {
   const heartColor = isFavourite ? '$primaryRed' : '$iconColor';
   const followColor = isFollowing ? '$primaryBlue' : '$iconColor';
@@ -52,6 +54,16 @@ export const ActionPanel = ({
         size={26}
         color={EStyleSheet.value(heartColor)}
         onPress={onFavouritePress}
+      />
+
+      <IconButton
+        style={{ marginLeft: 8 }}
+        iconType="MaterialCommunityIcons"
+        name="message-text-outline"
+        size={26}
+        color={EStyleSheet.value('$iconColor')}
+        disabled={isLoading}
+        onPress={onMessagePress}
       />
     </View>
   );

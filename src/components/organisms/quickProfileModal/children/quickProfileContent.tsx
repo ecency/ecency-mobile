@@ -31,6 +31,7 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { selectCurrentAccount, selectPin, selectIsLoggedIn } from '../../../../redux/selectors';
 import { toastNotification } from '../../../../redux/actions/uiAction';
 import RootNavigation from '../../../../navigation/rootNavigation';
+import { startMattermostDirectMessage } from '../../../../providers/chat/mattermost';
 
 interface QuickProfileContentProps {
   username: string;
@@ -239,6 +240,39 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
     }
   };
 
+  const _handleMessage = async () => {
+    try {
+      if (!currentAccount?.name) {
+        return;
+      }
+
+      const dmChannel = await startMattermostDirectMessage(username);
+
+      if (!dmChannel.channelId) {
+        throw new Error('User has not joined chats');
+      }
+
+      if (onClose) {
+        onClose();
+      }
+
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.CHAT_THREAD,
+        params: {
+          channelId: dmChannel.channelId,
+          channelName: username,
+          bootstrapResult: null,
+        },
+      });
+    } catch (error) {
+      dispatch(
+        toastNotification(
+          intl.formatMessage({ id: 'chats.dm_error', defaultMessage: 'User has not joined chats' }),
+        ),
+      );
+    }
+  };
+
   // extract prop values
   let _votingPower = '';
   let _resourceCredits = '';
@@ -308,6 +342,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
           isLoading={isLoading}
           onFavouritePress={_onFavouritePress}
           onFollowPress={_onFollowPress}
+          onMessagePress={_handleMessage}
         />
       )}
     </View>

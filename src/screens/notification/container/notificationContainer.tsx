@@ -146,7 +146,8 @@ const NotificationContainer = ({ navigation }) => {
       isLoggedIn={isLoggedIn}
       changeSelectedFilter={setSelectedFilter}
       globalProps={globalProps}
-      isLoading={selectedQuery.isLoading}
+      isLoading={selectedQuery.isLoading || selectedQuery.isPending}
+      isFetching={selectedQuery.isFetching}
     />
   );
 };

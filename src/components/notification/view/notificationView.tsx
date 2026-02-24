@@ -24,6 +24,7 @@ const FILTERS = [
 interface Props {
   notifications: any[];
   isLoading: boolean;
+  isFetching: boolean;
   isNotificationRefreshing: boolean;
   globalProps: any;
   handleOnUserPress: () => void;
@@ -37,6 +38,7 @@ interface Props {
 const NotificationView = ({
   notifications,
   isLoading,
+  isFetching,
   isNotificationRefreshing,
   globalProps,
   handleOnUserPress,
@@ -125,7 +127,7 @@ const NotificationView = ({
         onMomentumScrollBegin={_handleMomentumScrollBegin}
         ListFooterComponent={_renderFooterLoading}
         ListEmptyComponent={
-          isLoading || isNotificationRefreshing ? (
+          isLoading || isFetching || isNotificationRefreshing ? (
             <ListPlaceHolder />
           ) : (
             <Text style={globalStyles.hintText}>

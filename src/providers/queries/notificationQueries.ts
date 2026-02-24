@@ -49,6 +49,8 @@ export const useNotificationsQuery = (filter?: NotificationFilters) => {
     data,
     isRefreshing: infiniteQuery.isRefetching && !infiniteQuery.isFetchingNextPage,
     isLoading: infiniteQuery.isLoading,
+    isFetching: infiniteQuery.isFetching,
+    isPending: infiniteQuery.isPending,
     isFetchingNextPage: infiniteQuery.isFetchingNextPage,
     fetchNextPage: infiniteQuery.fetchNextPage,
     refresh: infiniteQuery.refetch,
