@@ -113,8 +113,8 @@ export function removeOptimisticComment(
   permlink: string,
   rootAuthor: string,
   rootPermlink: string,
-  parentAuthor?: string,
-  parentPermlink?: string,
+  parentAuthor: string,
+  parentPermlink: string,
 ) {
   const queryClient = getQueryClient();
   removeOptimisticDiscussionEntry(author, permlink, rootAuthor, rootPermlink, queryClient);

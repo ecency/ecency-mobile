@@ -98,7 +98,7 @@ export const useNotificationReadMutation = () => {
     username,
     () => {
       const now = new Date().toISOString();
-      const date = now.split('.')[0];
+      const date = now.replace(/\.\d{3}Z$/, 'Z');
       const jsonPayload = JSON.stringify(['setLastRead', { date }]);
       return [
         [

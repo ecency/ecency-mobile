@@ -9,7 +9,6 @@ export default EStyleSheet.create({
   },
   isPin: {
     backgroundColor: '$primaryBlue',
-    borderRadius: 50,
   },
   isPostCardTag: {
     backgroundColor: '$tagColor',
@@ -28,7 +27,6 @@ export default EStyleSheet.create({
   },
   isFilter: {
     backgroundColor: 'transparent',
-    borderRadius: 50,
   },
   isFilterTextUnPin: {
     color: '$primaryDarkGray',

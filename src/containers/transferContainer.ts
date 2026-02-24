@@ -254,7 +254,7 @@ class TransferContainer extends Component {
 
     const transferType = route.params?.transferType ?? '';
     const fundType = route.params?.fundType ?? '';
-    const tokenLayer = route.params?.assetLayer ?? '';
+    const tokenLayer = route.params?.assetLayer ?? route.params?.tokenLayer ?? '';
 
     const data: any = { from, destination, amount, memo, fundType };
 
@@ -516,7 +516,7 @@ class TransferContainer extends Component {
     } = this.state;
 
     const transferType = route.params?.transferType ?? '';
-    const tokenLayer = route.params?.assetLayer ?? '';
+    const tokenLayer = route.params?.assetLayer ?? route.params?.tokenLayer ?? '';
 
     return (
       children &&

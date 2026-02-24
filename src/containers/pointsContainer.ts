@@ -228,8 +228,9 @@ const PointsContainer = ({
       await _fetchUserPointActivities(username);
     } catch (error) {
       if (error) {
+        const msg = (error && (error.message ?? String(error))) || 'unknown error';
         Alert.alert(
-          `PointsClaim - Connection issue, try again or write to support@ecency.com \n${error.message.substr(
+          `PointsClaim - Connection issue, try again or write to support@ecency.com \n${msg.slice(
             0,
             20,
           )}`,
@@ -242,6 +243,12 @@ const PointsContainer = ({
 
   const _boost = async (point, permlink, author) => {
     setIsLoading(true);
+
+    if (!currentAccount) {
+      setIsLoading(false);
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
+      return;
+    }
 
     try {
       await boostMutation.mutateAsync({ author, permlink, points: point });

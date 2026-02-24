@@ -19,7 +19,7 @@
  * ```
  */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text } from 'react-native';
 import ActionSheet, { SheetProps } from 'react-native-actions-sheet';
 import { useIntl } from 'react-intl';
@@ -54,6 +54,7 @@ export const HiveAuthBroadcastSheet = ({
   const isCancelledRef = useRef(false);
   const broadcastStartedRef = useRef(false);
   const autoCloseTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [broadcastSeq, setBroadcastSeq] = useState(0);
 
   // Keep a ref to payload so the broadcast callback always reads the latest value
   const payloadRef = useRef(payload);
@@ -73,13 +74,10 @@ export const HiveAuthBroadcastSheet = ({
   // Reset refs when new operations arrive (not just when sheetId changes)
   // This ensures that if the sheet is reused with the same sheetId,
   // the refs are still reset for the new broadcast operation
-  // We track a counter so even retries with the same operations array
-  // reference will trigger a reset.
-  const broadcastSeqRef = useRef(0);
   useEffect(() => {
     isCancelledRef.current = false;
     broadcastStartedRef.current = false;
-    broadcastSeqRef.current += 1;
+    setBroadcastSeq((seq) => seq + 1);
   }, [payload?.operations, payload]);
 
   // Cleanup auto-close timer on unmount
@@ -200,7 +198,7 @@ export const HiveAuthBroadcastSheet = ({
     // Only re-run when operations change (reference equality check)
     // We intentionally omit hiveAuthBroadcastRef, sheetIdRef, and other refs from dependencies
     // because they are kept up-to-date via ref assignments and don't need to trigger re-runs
-  }, [payload?.operations]);
+  }, [payload?.operations, broadcastSeq]);
 
   const handleClose = () => {
     // Prevent any further operations or callbacks

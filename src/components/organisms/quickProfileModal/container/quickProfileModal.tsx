@@ -7,6 +7,7 @@ export const QuickProfileModal = ({ payload }: SheetProps<'quick_profile'>) => {
   const username = payload?.username;
 
   if (!username) {
+    SheetManager.hide('quick_profile');
     return null;
   }
 

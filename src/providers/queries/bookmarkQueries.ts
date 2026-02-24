@@ -130,7 +130,7 @@ export const useAddFavouriteMutation = () => {
     username,
     code,
     () => {
-      queryClient.invalidateQueries({ queryKey: ['favourites'] });
+      queryClient.invalidateQueries({ queryKey: ['favorites'] });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
     },
     () => {
@@ -153,7 +153,7 @@ export const useDeleteFavouriteMutation = () => {
     username,
     code,
     () => {
-      queryClient.invalidateQueries({ queryKey: ['favourites'] });
+      queryClient.invalidateQueries({ queryKey: ['favorites'] });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
     },
     () => {

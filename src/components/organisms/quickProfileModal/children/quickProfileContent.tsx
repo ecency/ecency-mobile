@@ -18,7 +18,7 @@ import {
   useDeleteFavouriteMutation,
 } from '../../../../providers/queries/bookmarkQueries';
 import { getDigitPinCode } from '../../../../providers/hive/dhive';
-import { useFollowMutation } from '../../../../providers/sdk/mutations';
+import { useFollowMutation, useUnfollowMutation } from '../../../../providers/sdk/mutations';
 import { decryptKey } from '../../../../utils/crypto';
 import { getRcPower, getVotingPower } from '../../../../utils/manaBar';
 import styles from './quickProfileStyles';
@@ -50,6 +50,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
   const addFavouriteMutation = useAddFavouriteMutation();
   const deleteFavouriteMutation = useDeleteFavouriteMutation();
   const followMutation = useFollowMutation();
+  const unfollowMutation = useUnfollowMutation();
 
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
@@ -170,10 +171,14 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
   const _onFollowPress = async () => {
     try {
       setIsLoading(true);
-      await followMutation.mutateAsync({ following: username });
+      if (isFollowing) {
+        await unfollowMutation.mutateAsync({ following: username });
+      } else {
+        await followMutation.mutateAsync({ following: username });
+      }
 
       setIsLoading(false);
-      setIsFollowing(true);
+      setIsFollowing(!isFollowing);
       dispatch(
         toastNotification(
           intl.formatMessage({

@@ -104,7 +104,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
     };
 
     fetchCommunities();
-  }, [searchValue, queryClient, currentAccount, subscribedCommunities, subscribedCommunitiesCache]);
+  }, [searchValue, queryClient, currentAccount, subscribedCommunities]);
 
   useEffect(() => {
     const communitiesData = data.map((item) => ({ ...item }));

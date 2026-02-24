@@ -80,7 +80,7 @@ const NotificationView = ({
   };
 
   const _renderFooterLoading = () => {
-    if (isLoading) {
+    if (isLoading && notifications.length > 0) {
       return (
         <View style={styles.flatlistFooter}>
           <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} animating />

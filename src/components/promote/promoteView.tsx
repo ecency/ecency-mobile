@@ -198,12 +198,7 @@ const PromoteView = ({
           <View style={styles.bottomContent}>
             <MainButton
               style={styles.button}
-              isDisable={
-                ((!permlink ? !get(navigationParams, 'permlink') : permlink) &&
-                  (isLoading || !isValid)) ||
-                !effectivePermlink ||
-                !currentAccountName
-              }
+              isDisable={!effectivePermlink || isLoading || !isValid || !currentAccountName}
               onPress={() => startActionSheet.current.show()}
               isLoading={isLoading}
             >

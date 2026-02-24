@@ -59,10 +59,24 @@ export const useSendTipMutation = () => {
   return useMutation<unknown, Error, TipParams>({
     mutationFn: async (params) => {
       const { currency, amount, recipient, author, permlink, precision } = params;
-      const formattedAmount = formatTipAmount(amount, currency, precision);
+      const normalizedCurrency = typeof currency === 'string' ? currency.trim() : '';
+      if (!normalizedCurrency) {
+        throw new Error('Tip currency is required');
+      }
+
+      const isPoints = normalizedCurrency === 'POINTS';
+      const isHive = normalizedCurrency === 'HIVE';
+      const isHbd = normalizedCurrency === 'HBD';
+      const isEngineToken = !isPoints && !isHive && !isHbd;
+
+      if (isEngineToken && precision == null) {
+        throw new Error(`Missing precision for engine token tip currency: ${normalizedCurrency}`);
+      }
+
+      const formattedAmount = formatTipAmount(amount, normalizedCurrency, precision);
       const memo = `Tip for @${author}/${permlink}`;
 
-      if (currency === 'POINTS') {
+      if (isPoints) {
         return transferPointMutation.mutateAsync({
           to: recipient,
           amount: `${formattedAmount} POINT`,
@@ -70,10 +84,10 @@ export const useSendTipMutation = () => {
         });
       }
 
-      if (currency === 'HIVE' || currency === 'HBD') {
+      if (isHive || isHbd) {
         return transferMutation.mutateAsync({
           to: recipient,
-          amount: `${formattedAmount} ${currency}`,
+          amount: `${formattedAmount} ${normalizedCurrency}`,
           memo,
         });
       }
@@ -81,7 +95,7 @@ export const useSendTipMutation = () => {
       // Engine tokens
       return transferEngineMutation.mutateAsync({
         to: recipient,
-        symbol: currency,
+        symbol: normalizedCurrency,
         quantity: formattedAmount,
         memo,
       });
