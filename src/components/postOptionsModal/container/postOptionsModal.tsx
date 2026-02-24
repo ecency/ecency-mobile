@@ -223,10 +223,12 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       .mutateAsync({ following: username })
       .then(() => {
         const curMutes = currentAccount.mutes || [];
-        if (curMutes.indexOf(username) < 0) {
-          currentAccount.mutes = [username, ...curMutes];
-        }
-        dispatch(updateCurrentAccount(currentAccount));
+        const nextMutes = curMutes.indexOf(username) < 0 ? [username, ...curMutes] : [...curMutes];
+        const nextAccount = {
+          ...currentAccount,
+          mutes: nextMutes,
+        };
+        dispatch(updateCurrentAccount(nextAccount));
         dispatch(
           toastNotification(
             intl.formatMessage({
@@ -393,7 +395,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         // Refresh legacy reblogs list cache used by Reblogs screen/modal
         const reblogsKey = [QUERIES.POST.GET_REBLOGS, content.author, get(content, 'permlink', '')];
         queryClient.invalidateQueries({ queryKey: reblogsKey });
-        reblogsQuery.refetch();
 
         // Also invalidate reblog filter (SDK only invalidates blog filter)
         queryClient.invalidateQueries({

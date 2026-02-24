@@ -26,6 +26,8 @@ import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import { PostPoll } from '../../postPoll';
 import { ContentType } from '../../../providers/hive/hive.types';
 import { SheetNames } from '../../../navigation/sheets';
+import RootNavigation from '../../../navigation/rootNavigation';
+import ROUTES from '../../../constants/routeNames';
 
 const CommentView = ({
   avatarSize,
@@ -111,6 +113,17 @@ const CommentView = ({
       payload: {
         post: comment,
       },
+    });
+  };
+
+  const _openProfilePage = (username) => {
+    if (!username) {
+      return;
+    }
+    RootNavigation.navigate({
+      name: ROUTES.SCREENS.PROFILE,
+      params: { username },
+      key: username,
     });
   };
 
@@ -292,7 +305,8 @@ const CommentView = ({
           customStyle={{ alignItems: 'flex-start', paddingLeft: 12 }}
           showDotMenuButton={true}
           handleOnDotPress={() => handleOnMenuPress(comment)}
-          profileOnPress={handleOnUserPress}
+          avatarOnPress={handleOnUserPress}
+          profileOnPress={_openProfilePage}
           secondaryContentComponent={_renderComment()}
         />
       </View>

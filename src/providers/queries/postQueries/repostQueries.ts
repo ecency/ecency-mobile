@@ -23,6 +23,7 @@ export const useGetReblogsQuery = (author: string, permlink: string, enabled = t
     // Override queryKey to keep local cache key stable
     queryKey: [QUERIES.POST.GET_REBLOGS, author, permlink],
     initialData: [],
+    initialDataUpdatedAt: 0, // treat initialData as stale so it refetches immediately
     gcTime: 30 * 60 * 1000, // keeps cache for 30 minutes
     enabled: enabled && !!author && !!permlink, // Only fetch when enabled and valid params
   });

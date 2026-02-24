@@ -33,6 +33,8 @@ import { usePostStatsQuery, tipsQueries } from '../../../providers/queries';
 import { PostStatsModal } from '../../organisms';
 import { getAbbreviatedNumber } from '../../../utils/number';
 import { SheetNames } from '../../../navigation/sheets';
+import RootNavigation from '../../../navigation/rootNavigation';
+import ROUTES from '../../../constants/routeNames';
 
 const PostDisplayView = ({
   currentAccount,
@@ -322,6 +324,17 @@ const PostDisplayView = ({
     }
   }, []);
 
+  const _openProfilePage = useCallback((username) => {
+    if (!username) {
+      return;
+    }
+    RootNavigation.navigate({
+      name: ROUTES.SCREENS.PROFILE,
+      params: { username },
+      key: username,
+    });
+  }, []);
+
   const _handleOnCommentsLoaded = useCallback(() => {
     setIsLoadedComments((prev) => prev || true);
   }, []);
@@ -357,7 +370,8 @@ const PostDisplayView = ({
                   size={40}
                   inlineTime={true}
                   customStyle={styles.headerLine}
-                  profileOnPress={_showQuickProfileModal}
+                  avatarOnPress={_showQuickProfileModal}
+                  profileOnPress={_openProfilePage}
                 />
                 <View style={styles.viewStatsContainer}>
                   <TextWithIcon
@@ -420,6 +434,7 @@ const PostDisplayView = ({
       postStatsQuery.data?.pageviews,
       postStatsQuery.isLoading,
       _showQuickProfileModal,
+      _openProfilePage,
       _showStatsModal,
       _handleOnPostBodyLoad,
       _showQuickReplyModal,

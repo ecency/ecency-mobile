@@ -102,6 +102,7 @@ export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean }
       return updatedResponse;
     },
     initialData: [],
+    initialDataUpdatedAt: 0, // treat initialData as stale so it refetches immediately
     enabled: !!currentAccount?.name, // Only fetch when logged in
     retry: 2,
   });
@@ -714,10 +715,14 @@ export const useDeleteRecurrentTransferMutation = () => {
       if (!currentAccount?.name) {
         throw new Error('No current account');
       }
+      const amountParts = String(recurrentTransfer.amount || '')
+        .trim()
+        .split(/\s+/);
+      const amountSymbol = amountParts[1] || 'HIVE';
       await recurrentTransferBroadcast.mutateAsync({
         from: recurrentTransfer.from,
         to: recurrentTransfer.to,
-        amount: '0.000 HIVE',
+        amount: `0.000 ${amountSymbol}`,
         memo: recurrentTransfer.memo || '',
         recurrence: recurrentTransfer.recurrence || 0,
         executions: 0,

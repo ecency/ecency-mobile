@@ -232,9 +232,10 @@ const WalletContainer = ({
       );
     } catch (err) {
       console.warn('Failed to claim rewards', err);
+      const errMsg = err?.message ?? String(err);
       dispatch(
         toastNotification(
-          intl.formatMessage({ id: 'alert.fail' }, { message: err?.message ?? String(err) }),
+          `${intl.formatMessage({ id: 'alert.fail' })}${errMsg ? `\n${errMsg}` : ''}`,
         ),
       );
     } finally {

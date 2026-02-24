@@ -54,7 +54,7 @@ const PromoteView = ({
     if (permlink && pr <= balance) {
       setIsValid(true);
     }
-  }, [day, permlink, _balance]);
+  }, [day, permlink, balance]);
 
   // Component Functions
 
@@ -115,6 +115,9 @@ const PromoteView = ({
 
   const _handleOnSubmit = async () => {
     const fullPermlink = permlink || get(navigationParams, 'permlink');
+    if (!currentAccountName) {
+      return;
+    }
 
     handleOnSubmit(redeemType, day, fullPermlink, currentAccountName);
   };
@@ -195,8 +198,9 @@ const PromoteView = ({
             <MainButton
               style={styles.button}
               isDisable={
-                (!permlink ? !get(navigationParams, 'permlink') : permlink) &&
-                (isLoading || !isValid)
+                ((!permlink ? !get(navigationParams, 'permlink') : permlink) &&
+                  (isLoading || !isValid)) ||
+                !currentAccountName
               }
               onPress={() => startActionSheet.current.show()}
               isLoading={isLoading}

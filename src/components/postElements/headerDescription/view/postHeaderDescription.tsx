@@ -20,12 +20,50 @@ class PostHeaderDescription extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnUserPress = (username) => {
-    const { profileOnPress } = this.props;
+  _navigateToProfile = (username) => {
+    if (!username) {
+      return;
+    }
+    RootNavigation.navigate({
+      name: ROUTES.SCREENS.PROFILE,
+      params: { username },
+      key: username,
+    });
+  };
+
+  _handleOnAvatarPress = (username) => {
+    const { avatarOnPress, profileOnPress } = this.props;
+
+    if (!username) {
+      return;
+    }
+
+    if (avatarOnPress) {
+      avatarOnPress(username);
+      return;
+    }
 
     if (profileOnPress) {
       profileOnPress(username);
+      return;
     }
+
+    this._navigateToProfile(username);
+  };
+
+  _handleOnUserPress = (username) => {
+    const { profileOnPress } = this.props;
+
+    if (!username) {
+      return;
+    }
+
+    if (profileOnPress) {
+      profileOnPress(username);
+      return;
+    }
+
+    this._navigateToProfile(username);
   };
 
   _handleOnTagPress = (content) => {
@@ -95,7 +133,7 @@ class PostHeaderDescription extends PureComponent {
         <View style={[styles.container, customStyle]}>
           <TouchableOpacity
             style={styles.avatarNameWrapper}
-            onPress={() => this._handleOnUserPress(name)}
+            onPress={() => this._handleOnAvatarPress(name)}
           >
             {!isHideImage && (
               <UserAvatar
