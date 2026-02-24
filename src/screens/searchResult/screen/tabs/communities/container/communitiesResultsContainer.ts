@@ -45,6 +45,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
     }
   }, [subscribingCommunitiesInSearchResultsScreen]);
 
+  // Intentionally omit subscribedCommunitiesCache to avoid full refetches on cache updates.
   useEffect(() => {
     const fetchCommunities = async () => {
       setData([]);

@@ -169,28 +169,29 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
   };
 
   const _onFollowPress = async () => {
+    const shouldUnfollow = isFollowing;
     try {
       setIsLoading(true);
-      if (isFollowing) {
+      if (shouldUnfollow) {
         await unfollowMutation.mutateAsync({ following: username });
       } else {
         await followMutation.mutateAsync({ following: username });
       }
 
-      setIsLoading(false);
-      setIsFollowing(!isFollowing);
+      setIsFollowing((prev) => !prev);
       dispatch(
         toastNotification(
           intl.formatMessage({
-            id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
+            id: shouldUnfollow ? 'alert.success_unfollow' : 'alert.success_follow',
           }),
         ),
       );
     } catch (err) {
-      setIsLoading(false);
       console.warn('Failed to follow user', err);
       Sentry.captureException(err);
       Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 

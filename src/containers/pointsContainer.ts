@@ -227,37 +227,34 @@ const PointsContainer = ({
       await claimPointsMutation.mutateAsync();
       await _fetchUserPointActivities(username);
     } catch (error) {
-      if (error) {
-        const msg = (error && (error.message ?? String(error))) || 'unknown error';
-        Alert.alert(
-          `PointsClaim - Connection issue, try again or write to support@ecency.com \n${msg.slice(
-            0,
-            20,
-          )}`,
-        );
-      }
+      const msg = (error && (error.message ?? String(error))) || 'unknown error';
+      Alert.alert(
+        `PointsClaim - Connection issue, try again or write to support@ecency.com \n${msg.slice(
+          0,
+          20,
+        )}`,
+      );
     } finally {
       setIsClaiming(false);
     }
   };
 
   const _boost = async (point, permlink, author) => {
-    setIsLoading(true);
-
     if (!currentAccount) {
-      setIsLoading(false);
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
       return;
     }
 
+    setIsLoading(true);
+
     try {
       await boostMutation.mutateAsync({ author, permlink, points: point });
-      setIsLoading(false);
       navigation.goBack();
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
     } catch (error) {
-      setIsLoading(false);
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
+    } finally {
+      setIsLoading(false);
     }
   };
 

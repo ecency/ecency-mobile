@@ -35,12 +35,12 @@ const PromoteView = ({
   isSCModalOpen,
   handleOnSCModalClose,
 }) => {
-  const [permlink, setPermlink] = useState('');
+  const [permlink, setPermlink] = useState<string | undefined>(undefined);
   const [day, setDay] = useState(1);
   const [permlinkSuggestions, setPermlinkSuggestions] = useState([]);
   const [isValid, setIsValid] = useState(false);
   const balance = _balance ?? 0;
-  const effectivePermlink = permlink || get(navigationParams, 'permlink', '');
+  const effectivePermlink = permlink ?? get(navigationParams, 'permlink', '');
 
   const startActionSheet = useRef(null);
   const timerRef = useRef<number | null>(null);
@@ -49,12 +49,7 @@ const PromoteView = ({
 
   useEffect(() => {
     const pr = get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price');
-    if (pr > balance) {
-      setIsValid(false);
-    }
-    if (effectivePermlink && pr <= balance) {
-      setIsValid(true);
-    }
+    setIsValid(!!effectivePermlink && pr <= balance);
   }, [day, effectivePermlink, balance]);
 
   // Component Functions
@@ -115,12 +110,11 @@ const PromoteView = ({
   const _renderDropdown = (accountName) => <Text style={styles.dropdownText}>{accountName}</Text>;
 
   const _handleOnSubmit = async () => {
-    const fullPermlink = effectivePermlink;
     if (!currentAccountName) {
       return;
     }
 
-    handleOnSubmit(redeemType, day, fullPermlink, currentAccountName);
+    handleOnSubmit(redeemType, day, effectivePermlink, currentAccountName);
   };
 
   return (

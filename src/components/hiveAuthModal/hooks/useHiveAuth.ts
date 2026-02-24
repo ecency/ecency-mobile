@@ -397,6 +397,7 @@ export const useHiveAuth = () => {
    * @returns Promise<boolean> success status
    */
   const broadcast = async (opsArray: Operation[]) => {
+    let didIncrementBroadcastInProgress = false;
     try {
       assert(opsArray, intl.formatMessage({ id: 'hiveauth.missing_op_arr' }));
 
@@ -523,6 +524,7 @@ export const useHiveAuth = () => {
 
       let res;
       _broadcastInProgressCount++;
+      didIncrementBroadcastInProgress = true;
       try {
         res = await HAS.broadcast(_hiveAuthObj, keyType, opsArray, _cdWait);
       } catch (broadcastError) {
@@ -641,7 +643,9 @@ export const useHiveAuth = () => {
       Sentry.captureException(error);
       throw error;
     } finally {
-      _broadcastInProgressCount = Math.max(0, _broadcastInProgressCount - 1);
+      if (didIncrementBroadcastInProgress) {
+        _broadcastInProgressCount = Math.max(0, _broadcastInProgressCount - 1);
+      }
     }
   };
 

@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import * as Sentry from '@sentry/react-native';
 import {
@@ -35,22 +35,6 @@ export const useNotificationsQuery = (filter?: NotificationFilters) => {
     gcTime: 10 * 60 * 1000, // 10 minutes
     maxPages: 10, // Limit to 10 pages (200 items) maximum
   });
-
-  useEffect(() => {
-    if (!username || !code) {
-      return;
-    }
-    if (!infiniteQuery.isFetched && !infiniteQuery.isFetching) {
-      infiniteQuery.refetch();
-    }
-  }, [
-    username,
-    code,
-    filter,
-    infiniteQuery.isFetched,
-    infiniteQuery.isFetching,
-    infiniteQuery.refetch,
-  ]);
 
   // Flatten pages into single array for backwards compatibility
   const data = useMemo(() => {
@@ -142,24 +126,13 @@ export const useNotificationReadMutation = () => {
       }
       return markNotifications(accessToken, id);
     },
-    onSuccess: async (response, variables) => {
+    onSuccess: async (response) => {
       const unreadCount =
         typeof response === 'object' && response !== null ? response.unread : undefined;
       if (unreadCount !== undefined) {
         dispatch(updateUnreadActivityCount(unreadCount));
       }
       pendingMutationRef.current = null;
-
-      if (!variables?.id) {
-        const notificationsQueryKey = getNotificationsInfiniteQueryOptions(
-          username,
-          accessToken,
-        ).queryKey;
-        await queryClient.invalidateQueries({
-          queryKey: notificationsQueryKey,
-          exact: false,
-        });
-      }
     },
     onError: async (error) => {
       const pendingMutation = pendingMutationRef.current;
@@ -174,6 +147,7 @@ export const useNotificationReadMutation = () => {
             queryKey: notificationsQueryKey,
             exact: false,
           });
+          pendingMutationRef.current = null;
 
           Sentry.captureMessage(
             'Notification mark-as-read failed but mutation may have succeeded',

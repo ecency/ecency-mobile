@@ -59,9 +59,13 @@ export const useSendTipMutation = () => {
   return useMutation<unknown, Error, TipParams>({
     mutationFn: async (params) => {
       const { currency, amount, recipient, author, permlink, precision } = params;
-      const normalizedCurrency = typeof currency === 'string' ? currency.trim() : '';
+      const normalizedCurrency = typeof currency === 'string' ? currency.trim().toUpperCase() : '';
       if (!normalizedCurrency) {
         throw new Error('Tip currency is required');
+      }
+      const parsedAmount = Number(amount);
+      if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
+        throw new Error('Tip amount must be a valid number greater than 0');
       }
 
       const isPoints = normalizedCurrency === 'POINTS';
