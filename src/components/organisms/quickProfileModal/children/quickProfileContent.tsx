@@ -9,7 +9,7 @@ import {
   getAccountFullQueryOptions,
   getRelationshipBetweenAccountsQueryOptions,
   getAccountRcQueryOptions,
-  checkFavouriteQueryOptions,
+  checkFavoriteQueryOptions,
 } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import { MainButton, StatsPanel } from '../../..';
@@ -17,7 +17,8 @@ import {
   useAddFavouriteMutation,
   useDeleteFavouriteMutation,
 } from '../../../../providers/queries/bookmarkQueries';
-import { followUser, getDigitPinCode } from '../../../../providers/hive/dhive';
+import { getDigitPinCode } from '../../../../providers/hive/dhive';
+import { useFollowMutation, useUnfollowMutation } from '../../../../providers/sdk/mutations';
 import { decryptKey } from '../../../../utils/crypto';
 import { getRcPower, getVotingPower } from '../../../../utils/manaBar';
 import styles from './quickProfileStyles';
@@ -48,6 +49,8 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
 
   const addFavouriteMutation = useAddFavouriteMutation();
   const deleteFavouriteMutation = useDeleteFavouriteMutation();
+  const followMutation = useFollowMutation();
+  const unfollowMutation = useUnfollowMutation();
 
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
@@ -131,7 +134,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
             if (accessToken) {
               _isFavourite = Boolean(
                 await queryClient.fetchQuery(
-                  checkFavouriteQueryOptions(currentAccountName, accessToken, username),
+                  checkFavoriteQueryOptions(currentAccountName, accessToken, username),
                 ),
               );
             }
@@ -166,30 +169,29 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
   };
 
   const _onFollowPress = async () => {
+    const shouldUnfollow = isFollowing;
     try {
-      const follower = currentAccountName;
-      const following = username;
-
       setIsLoading(true);
-      await followUser(currentAccount, pinCode, {
-        follower,
-        following,
-      });
+      if (shouldUnfollow) {
+        await unfollowMutation.mutateAsync({ following: username });
+      } else {
+        await followMutation.mutateAsync({ following: username });
+      }
 
-      setIsLoading(false);
-      setIsFollowing(true);
+      setIsFollowing((prev) => !prev);
       dispatch(
         toastNotification(
           intl.formatMessage({
-            id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
+            id: shouldUnfollow ? 'alert.success_unfollow' : 'alert.success_follow',
           }),
         ),
       );
     } catch (err) {
-      setIsLoading(false);
       console.warn('Failed to follow user', err);
       Sentry.captureException(err);
       Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 

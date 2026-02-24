@@ -6,24 +6,22 @@ import { useIntl } from 'react-intl';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
-import { getAccountsQueryOptions } from '@ecency/sdk';
+import { getAccountsQueryOptions, useBroadcastMutation, buildBoostOpWithPoints } from '@ecency/sdk';
 import {
   selectCurrentAccount,
   selectGlobalProps,
   selectCurrency,
-  selectPin,
   selectIsPinCodeOpen,
   selectOtherAccounts,
   selectIsConnected,
   selectActiveBottomTab,
 } from '../redux/selectors';
-import { claimPoints } from '../providers/ecency/ePoint';
-import { boost, buildBoostOpArr } from '../providers/hive/dhive';
 import { getQueryClient } from '../providers/queries';
 import { getUserDataWithUsername } from '../realm/realm';
 import { toastNotification } from '../redux/actions/uiAction';
 import { useGetPointsQuery } from '../providers/queries/pointQueries';
-import { useActiveKeyOperation } from '../hooks';
+import { useAuthContext } from '../providers/sdk';
+import { useClaimPointsMutation } from '../providers/sdk/mutations';
 
 // Constant
 import POINTS from '../constants/options/points';
@@ -49,14 +47,25 @@ const PointsContainer = ({
   user,
   activeBottomTab,
   isPinCodeOpen,
-  pinCode,
   currency,
   route,
 }) => {
   const navigation = useNavigation();
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { executeOperation } = useActiveKeyOperation();
+  const authContext = useAuthContext();
+  const claimPointsMutation = useClaimPointsMutation();
+
+  const boostMutation = useBroadcastMutation(
+    ['ecency', 'boost'],
+    currentAccount?.name,
+    ({ author, permlink, points }: { author: string; permlink: string; points: number }) => [
+      buildBoostOpWithPoints(currentAccount?.name, author, permlink, points),
+    ],
+    undefined,
+    authContext,
+    'active',
+  );
 
   // Use SDK query for points data
   const pointsQuery = useGetPointsQuery(username);
@@ -214,54 +223,37 @@ const PointsContainer = ({
 
   const _claimPoints = async () => {
     setIsClaiming(true);
-
-    await claimPoints()
-      .then(() => {
-        _fetchUserPointActivities(username);
-      })
-      .catch((error) => {
-        if (error) {
-          Alert.alert(
-            `PointsClaim - Connection issue, try again or write to support@ecency.com \n${error.message.substr(
-              0,
-              20,
-            )}`,
-          );
-        }
-      });
-
-    setIsClaiming(false);
+    try {
+      await claimPointsMutation.mutateAsync();
+      await _fetchUserPointActivities(username);
+    } catch (error) {
+      const msg = (error && (error.message ?? String(error))) || 'unknown error';
+      Alert.alert(
+        `PointsClaim - Connection issue, try again or write to support@ecency.com \n${msg.slice(
+          0,
+          20,
+        )}`,
+      );
+    } finally {
+      setIsClaiming(false);
+    }
   };
 
-  const _boost = async (point, permlink, author, _user) => {
-    const account = _user || currentAccount;
-    const username = get(account, 'name');
+  const _boost = async (point, permlink, author) => {
+    if (!currentAccount) {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
+      return;
+    }
 
     setIsLoading(true);
 
     try {
-      const operations = buildBoostOpArr(username, point, author, permlink);
-
-      await executeOperation({
-        operations,
-        privateKeyHandler: () => boost(account, pinCode, point, author, permlink),
-        callbacks: {
-          onSuccess: () => {
-            setIsLoading(false);
-            navigation.goBack();
-            dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-          },
-          onError: (_error) => {
-            setIsLoading(false);
-            dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
-          },
-          onClose: () => {
-            setIsLoading(false);
-          },
-        },
-      });
+      await boostMutation.mutateAsync({ author, permlink, points: point });
+      navigation.goBack();
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
     } catch (error) {
-      // Error already handled in callbacks
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    } finally {
       setIsLoading(false);
     }
   };
@@ -312,7 +304,6 @@ const mapStateToProps = (state) => ({
   isConnected: selectIsConnected(state),
   accounts: selectOtherAccounts(state),
   currentAccount: selectCurrentAccount(state),
-  pinCode: selectPin(state),
   isPinCodeOpen: selectIsPinCodeOpen(state),
   globalProps: selectGlobalProps(state),
   currency: selectCurrency(state).currency,

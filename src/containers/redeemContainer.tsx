@@ -5,26 +5,18 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
-import { getPostQueryOptions } from '@ecency/sdk';
+import { getPostQueryOptions, useBroadcastMutation, buildBoostOpWithPoints } from '@ecency/sdk';
 import {
   selectCurrentAccount,
   selectGlobalProps,
-  selectPin,
   selectIsPinCodeOpen,
   selectOtherAccounts,
   selectIsConnected,
 } from '../redux/selectors';
-import {
-  promote,
-  boost,
-  boostPlus,
-  buildPromoteOpArr,
-  buildBoostOpArr,
-  buildBoostPlusOpArr,
-} from '../providers/hive/dhive';
 import { getQueryClient } from '../providers/queries';
 import { toastNotification } from '../redux/actions/uiAction';
-import { useActiveKeyOperation } from '../hooks';
+import { usePromoteMutation, useBoostPlusMutation } from '../providers/sdk/mutations';
+import { useAuthContext } from '../providers/sdk';
 
 /*
  *            Props Name        Description                                     Value
@@ -47,61 +39,49 @@ class RedeemContainer extends Component {
   // Component Functions
 
   _redeemAction = async (user, redeemType = 'promote', actionSpecificParam, author, permlink) => {
-    const { currentAccount, pinCode, dispatch, intl, navigation, executeOperation } = this.props;
-    const account = user || currentAccount;
-    const username = get(account, 'name');
-
-    let action;
-    let operations;
-
-    // Build operations based on redeem type
-    switch (redeemType) {
-      case 'promote':
-        action = promote;
-        operations = buildPromoteOpArr(username, author, permlink, actionSpecificParam);
-        break;
-
-      case 'boost':
-        action = boost;
-        operations = buildBoostOpArr(username, actionSpecificParam, author, permlink);
-        break;
-
-      case 'boost_plus':
-        action = boostPlus;
-        operations = buildBoostPlusOpArr(username, actionSpecificParam, author);
-        break;
-      default:
-        break;
-    }
+    const { dispatch, intl, navigation } = this.props;
+    const { promoteMutation, boostPlusMutation, boostMutation } = this.props;
 
     this.setState({ isLoading: true });
 
     try {
-      await executeOperation({
-        operations,
-        privateKeyHandler: () => action(account, pinCode, actionSpecificParam, author, permlink),
-        callbacks: {
-          onSuccess: () => {
-            this.setState({ isLoading: false });
-            navigation.goBack();
-            dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-          },
-          onError: (error) => {
-            this.setState({ isLoading: false });
-            dispatch(
-              toastNotification(
-                `${intl.formatMessage({ id: 'alert.key_warning' })}\n${error.message}`,
-              ),
-            );
-          },
-          onClose: () => {
-            this.setState({ isLoading: false });
-          },
-        },
-      });
-    } catch (error) {
-      // Error already handled in callbacks
+      switch (redeemType) {
+        case 'promote':
+          await promoteMutation.mutateAsync({
+            author,
+            permlink,
+            duration: actionSpecificParam,
+          });
+          break;
+
+        case 'boost_plus':
+          await boostPlusMutation.mutateAsync({
+            account: author,
+            duration: actionSpecificParam,
+          });
+          break;
+
+        case 'boost':
+          await boostMutation.mutateAsync({
+            author,
+            permlink,
+            points: actionSpecificParam,
+          });
+          break;
+
+        default:
+          break;
+      }
+
       this.setState({ isLoading: false });
+      navigation.goBack();
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+    } catch (error) {
+      this.setState({ isLoading: false });
+      if (error?.message) {
+        const msg = `${intl.formatMessage({ id: 'alert.key_warning' })}\n${error.message}`;
+        dispatch(toastNotification(msg));
+      }
     }
   };
 
@@ -174,15 +154,35 @@ const mapStateToProps = (state) => ({
   isConnected: selectIsConnected(state),
   accounts: selectOtherAccounts(state),
   currentAccount: selectCurrentAccount(state),
-  pinCode: selectPin(state),
   isPinCodeOpen: selectIsPinCodeOpen(state),
   globalProps: selectGlobalProps(state),
 });
 
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  const { executeOperation } = useActiveKeyOperation();
-  return <RedeemContainer {...props} navigation={navigation} executeOperation={executeOperation} />;
+  const authContext = useAuthContext();
+  const { currentAccount } = props;
+  const promoteMutation = usePromoteMutation();
+  const boostPlusMutation = useBoostPlusMutation();
+  const boostMutation = useBroadcastMutation(
+    ['ecency', 'boost'],
+    currentAccount?.name,
+    ({ author, permlink, points }: { author: string; permlink: string; points: number }) => [
+      buildBoostOpWithPoints(currentAccount?.name, author, permlink, points),
+    ],
+    undefined,
+    authContext,
+    'active',
+  );
+  return (
+    <RedeemContainer
+      {...props}
+      navigation={navigation}
+      promoteMutation={promoteMutation}
+      boostPlusMutation={boostPlusMutation}
+      boostMutation={boostMutation}
+    />
+  );
 };
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

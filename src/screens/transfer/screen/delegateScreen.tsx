@@ -21,13 +21,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
 import { getReceivedVestingSharesQueryOptions } from '@ecency/sdk';
 import { hsOptions } from '../../../constants/hsOptions';
-import { useActiveKeyOperation } from '../../../hooks';
 
 // Components
 import {
   BasicHeader,
   TransferFormItem,
-  DropdownButton,
   TextInput,
   MainButton,
   UserAvatar,
@@ -44,7 +42,6 @@ import { isEmptyDate } from '../../../utils/time';
 import { hpToVests, vestsToHp } from '../../../utils/conversions';
 import parseAsset from '../../../utils/parseAsset';
 import { delay } from '../../../utils/editor';
-import { buildDelegateVestingSharesOpArr } from '../../../providers/hive/dhive';
 import { SheetNames } from '../../../navigation/sheets';
 
 class DelegateScreen extends Component {
@@ -154,41 +151,20 @@ class DelegateScreen extends Component {
   };
 
   _handleTransferAction = async () => {
-    const { transferToAccount, executeOperation, handleOnModalClose, intl } = this.props;
+    const { transferToAccount, handleOnModalClose, intl } = this.props;
     const { from, destination, amount } = this.state;
 
     this.setState({ isTransfering: true });
 
-    // Build operation array
-    const vestingShares = `${amount.toFixed(6)} VESTS`;
-    const operations = buildDelegateVestingSharesOpArr(from, destination, vestingShares);
-
     try {
-      await executeOperation({
-        operations,
-        privateKeyHandler: () => transferToAccount(from, destination, amount, ''),
-        callbacks: {
-          onSuccess: () => {
-            this.setState({ isTransfering: false });
-            if (handleOnModalClose) {
-              handleOnModalClose();
-            }
-          },
-          onError: (error) => {
-            this.setState({ isTransfering: false });
-            Alert.alert(
-              intl.formatMessage({ id: 'alert.error' }),
-              error.message || error.toString(),
-            );
-          },
-          onClose: () => {
-            this.setState({ isTransfering: false });
-          },
-        },
-      });
-    } catch (error) {
-      // Error already handled in callbacks
+      await transferToAccount(from, destination, amount, '');
       this.setState({ isTransfering: false });
+      if (handleOnModalClose) {
+        handleOnModalClose();
+      }
+    } catch (error) {
+      this.setState({ isTransfering: false });
+      Alert.alert(intl.formatMessage({ id: 'alert.error' }), error.message || error.toString());
     }
   };
 
@@ -335,18 +311,8 @@ class DelegateScreen extends Component {
   };
 
   // Note: dropdown for user account selection. can be used in later implementaion
-  _renderDropdown = (accounts, currentAccountName) => (
-    <DropdownButton
-      dropdownButtonStyle={styles.dropdownButtonStyle}
-      rowTextStyle={styles.rowTextStyle}
-      style={styles.dropdown}
-      dropdownStyle={styles.dropdownStyle}
-      textStyle={styles.dropdownText}
-      options={accounts.map((item) => item.username)}
-      defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
-      onSelect={(index, value) => this._handleOnDropdownChange(value)}
-    />
+  _renderDropdown = (_accounts, currentAccountName) => (
+    <Text style={styles.dropdownText}>{currentAccountName}</Text>
   );
 
   _renderUsersDropdownItem = ({ item }) => {
@@ -653,9 +619,4 @@ class DelegateScreen extends Component {
   }
 }
 
-const DelegateScreenWithHooks = (props) => {
-  const { executeOperation } = useActiveKeyOperation();
-  return <DelegateScreen {...props} executeOperation={executeOperation} />;
-};
-
-export default injectIntl(DelegateScreenWithHooks);
+export default injectIntl(DelegateScreen);

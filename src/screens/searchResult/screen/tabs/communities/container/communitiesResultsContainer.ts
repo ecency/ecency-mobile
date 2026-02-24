@@ -6,20 +6,11 @@ import { shuffle } from 'lodash';
 import { useNavigation } from '@react-navigation/native';
 import { getCommunitiesQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
-import { useAppSelector } from '../../../../../../hooks';
+import { useAppSelector, useCommunitySubscriptionAction } from '../../../../../../hooks';
 import ROUTES from '../../../../../../constants/routeNames';
-
-import {
-  subscribeCommunity,
-  leaveCommunity,
-} from '../../../../../../redux/actions/communitiesAction';
 import { updateSubscribedCommunitiesCache } from '../../../../../../redux/actions/cacheActions';
 import { statusMessage } from '../../../../../../redux/constants/communitiesConstants';
-import {
-  selectIsLoggedIn,
-  selectCurrentAccount,
-  selectPin,
-} from '../../../../../../redux/selectors';
+import { selectIsLoggedIn, selectCurrentAccount } from '../../../../../../redux/selectors';
 
 const CommunitiesResultsContainer = ({ children, searchValue }) => {
   const intl = useIntl();
@@ -30,13 +21,10 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   const [data, setData] = useState([]);
   const [noResult, setNoResult] = useState(false);
   const [isDiscoversLoading, setIsDiscoversLoading] = useState(false);
-  const pinCode = useAppSelector(selectPin);
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const handleCommunitySubscription = useCommunitySubscriptionAction();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
-  const subscribingCommunities = useAppSelector(
-    (state) => state.communities.subscribingCommunitiesInSearchResultsScreen,
-  );
   const subscribingCommunitiesInSearchResultsScreen = useAppSelector(
     (state) => state.communities.subscribingCommunitiesInSearchResultsScreen,
   );
@@ -54,6 +42,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
     }
   }, [subscribingCommunitiesInSearchResultsScreen]);
 
+  // Intentionally omit subscribedCommunitiesCache to avoid full refetches on cache updates.
   useEffect(() => {
     const fetchCommunities = async () => {
       setData([]);
@@ -70,24 +59,26 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
         );
 
         if (currentAccount && currentAccount.name) {
-          if (subscribedCommunities.data && subscribedCommunities.data.length) {
-            communities.forEach((community) => {
-              // first check in cache and then in subscription list
-              const itemExistInCache = subscribedCommunitiesCache.get(community.name);
-              const _isSubscribed = itemExistInCache
-                ? itemExistInCache.data[4]
-                : subscribedCommunities.data.findIndex((item) => item[0] === community.name) !== -1;
-              return Object.assign(community, {
-                isSubscribed: _isSubscribed,
-              });
-            });
-          }
+          const nextCommunities = communities.map((community) => {
+            const itemExistInCache = subscribedCommunitiesCache.get(community.name);
+            const fromCache = itemExistInCache?.data?.[4];
+            const fromSubscriptions =
+              subscribedCommunities.data && subscribedCommunities.data.length
+                ? subscribedCommunities.data.findIndex((item) => item[0] === community.name) !== -1
+                : undefined;
+            const isSubscribed = fromCache ?? fromSubscriptions ?? false;
+
+            return {
+              ...community,
+              isSubscribed,
+            };
+          });
           if (searchValue) {
-            setData(communities);
+            setData(nextCommunities);
           } else {
-            setData(shuffle(communities));
+            setData(shuffle(nextCommunities));
           }
-          if (communities.length === 0) {
+          if (nextCommunities.length === 0) {
             setNoResult(true);
           }
         } else {
@@ -111,15 +102,15 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
     };
 
     fetchCommunities();
-  }, [searchValue, queryClient, currentAccount, subscribedCommunities, subscribedCommunitiesCache]);
+  }, [searchValue, queryClient, currentAccount, subscribedCommunities]);
 
   useEffect(() => {
-    const communitiesData = [...data];
+    const communitiesData = data.map((item) => ({ ...item }));
 
-    Object.keys(subscribingCommunities).forEach((communityId) => {
-      if (!subscribingCommunities[communityId].loading) {
-        if (!subscribingCommunities[communityId].error) {
-          if (subscribingCommunities[communityId].isSubscribed) {
+    Object.keys(subscribingCommunitiesInSearchResultsScreen).forEach((communityId) => {
+      if (!subscribingCommunitiesInSearchResultsScreen[communityId].loading) {
+        if (!subscribingCommunitiesInSearchResultsScreen[communityId].error) {
+          if (subscribingCommunitiesInSearchResultsScreen[communityId].isSubscribed) {
             communitiesData.forEach((item) => {
               if (item.name === communityId) {
                 item.isSubscribed = true;
@@ -137,7 +128,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
     });
 
     setData(communitiesData);
-  }, [subscribingCommunities]);
+  }, [subscribingCommunitiesInSearchResultsScreen]);
 
   // Component Functions
   const _handleOnPress = (name) => {
@@ -151,40 +142,22 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
 
   const _handleSubscribeButtonPress = (_data, screen) => {
     setSelectedCommunityItem(_data); // set selected item to handle its cache
-    let subscribeAction;
-    let successToastText = '';
-    let failToastText = '';
 
-    if (!_data.isSubscribed) {
-      subscribeAction = subscribeCommunity;
+    const successToastText = intl.formatMessage({
+      id: _data.isSubscribed ? 'alert.success_leave' : 'alert.success_subscribe',
+    });
+    const failToastText = intl.formatMessage({
+      id: _data.isSubscribed ? 'alert.fail_leave' : 'alert.fail_subscribe',
+    });
 
-      successToastText = intl.formatMessage({
-        id: 'alert.success_subscribe',
-      });
-      failToastText = intl.formatMessage({
-        id: 'alert.fail_subscribe',
-      });
-    } else {
-      subscribeAction = leaveCommunity;
-
-      successToastText = intl.formatMessage({
-        id: 'alert.success_leave',
-      });
-      failToastText = intl.formatMessage({
-        id: 'alert.fail_leave',
-      });
-    }
-
-    dispatch(
-      subscribeAction(currentAccount, pinCode, _data, successToastText, failToastText, screen),
-    );
+    handleCommunitySubscription(_data, successToastText, failToastText, screen);
   };
 
   return (
     children &&
     children({
       data,
-      subscribingCommunities,
+      subscribingCommunities: subscribingCommunitiesInSearchResultsScreen,
       handleOnPress: _handleOnPress,
       handleSubscribeButtonPress: _handleSubscribeButtonPress,
       isLoggedIn,

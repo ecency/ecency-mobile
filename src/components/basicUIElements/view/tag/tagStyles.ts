@@ -21,6 +21,7 @@ export default EStyleSheet.create({
     height: 22,
     backgroundColor: '$iconColor',
     borderRadius: 50,
+    overflow: 'hidden',
     flexDirection: 'row',
     alignItems: 'center',
   },

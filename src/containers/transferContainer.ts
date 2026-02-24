@@ -11,36 +11,8 @@ import {
   getAccountsQueryOptions,
   getRecurrentTransfersQueryOptions,
 } from '@ecency/sdk';
-import {
-  selectCurrentAccount,
-  selectGlobalProps,
-  selectPin,
-  selectOtherAccounts,
-} from '../redux/selectors';
-
-import {
-  transferToken,
-  convert,
-  transferFromSavings,
-  transferToSavings,
-  transferToVesting,
-  transferPoint,
-  withdrawVesting,
-  delegateVestingShares,
-  setWithdrawVestingRoute,
-  recurrentTransferToken,
-  buildTransferTokenOpArr,
-  buildRecurrentTransferOpArr,
-  buildConvertOpArr,
-  buildTransferToSavingsOpArr,
-  buildTransferFromSavingsOpArr,
-  buildTransferToVestingOpArr,
-  buildWithdrawVestingOpArr,
-  buildDelegateVestingSharesOpArr,
-  buildSetWithdrawVestingRouteOpArr,
-  buildTransferPointOpArr,
-} from '../providers/hive/dhive';
-import { useActiveKeyOperation } from '../hooks';
+import { selectCurrentAccount, selectGlobalProps, selectOtherAccounts } from '../redux/selectors';
+import { useTransferMutations } from '../hooks';
 import { getQueryClient } from '../providers/queries';
 import QUERIES from '../providers/queries/queryKeys';
 import { toastNotification } from '../redux/actions/uiAction';
@@ -49,28 +21,9 @@ import { getPointsSummary } from '../providers/ecency/ePoint';
 
 // Utils
 import { countDecimals } from '../utils/number';
-import {
-  delegateHiveEngine,
-  stakeHiveEngine,
-  transferHiveEngine,
-  undelegateHiveEngine,
-  unstakeHiveEngine,
-  getEngineActionOpArray,
-} from '../providers/hive-engine/hiveEngineActions';
 import { fetchTokenBalances } from '../providers/hive-engine/hiveEngine';
-import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
 import TransferTypes from '../constants/transferTypes';
-import {
-  delegateLarynx,
-  powerLarynx,
-  transferLarynx,
-  transferSpk,
-  fetchSpkMarkets,
-  getSpkTransferOpArr,
-  getSpkDelegateOpArr,
-  getSpkPowerOpArr,
-} from '../providers/hive-spk/hiveSpk';
-import { SpkPowerMode } from '../providers/hive-spk/hiveSpk.types';
+import { fetchSpkMarkets } from '../providers/hive-spk/hiveSpk';
 import TokenLayers from '../constants/tokenLayers';
 /*
  *            Props Name        Description                                     Value
@@ -105,7 +58,7 @@ class TransferContainer extends Component {
 
     this._fetchRecurrentTransfers(name);
 
-    if (this.state.transferType === TransferTypes.DELEGATE_SPK) {
+    if (this.state.transferType === TransferTypes.POWER_GRANT_SPK) {
       this._fetchSpkMarkets();
     }
   }
@@ -135,17 +88,18 @@ class TransferContainer extends Component {
       const account = accounts[0];
       let balance;
 
-      if (transferType.endsWith('_engine')) {
+      const assetLayer = this.props.route.params?.assetLayer ?? this.props.route.params?.tokenLayer;
+      if (assetLayer === TokenLayers.ENGINE) {
         const tokenBalances = await fetchTokenBalances(username);
 
         tokenBalances.forEach((tokenBalance) => {
           if (tokenBalance.symbol === fundType) {
             switch (transferType) {
-              case TransferTypes.UNDELEGATE_ENGINE:
+              case TransferTypes.UNDELEGATE:
                 balance = tokenBalance.delegationsOut;
                 break;
-              case TransferTypes.UNSTAKE_ENGINE:
-              case TransferTypes.DELEGATE_ENGINE:
+              case TransferTypes.UNSTAKE:
+              case TransferTypes.DELEGATE:
                 balance = tokenBalance.stake;
                 break;
               default:
@@ -158,8 +112,6 @@ class TransferContainer extends Component {
             balance = '0';
           }
         });
-
-        console.log('retrieved balance', balance);
       } else {
         if (
           (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
@@ -298,27 +250,18 @@ class TransferContainer extends Component {
     recurrence = null,
     executions = 0,
   ) => {
-    const { pinCode, navigation, dispatch, intl, route, executeOperation } = this.props;
-    let { currentAccount } = this.props;
-    const { selectedAccount } = this.state;
+    const { navigation, dispatch, intl, route, mutations } = this.props;
 
     const transferType = route.params?.transferType ?? '';
     const fundType = route.params?.fundType ?? '';
-    const tokenLayer = route.params?.assetLayer ?? '';
+    const tokenLayer = route.params?.assetLayer ?? route.params?.tokenLayer ?? '';
 
-    let func;
-    let operations;
+    const data: any = { from, destination, amount, memo, fundType };
 
-    const data = {
-      from,
-      destination,
-      amount,
-      memo,
-      fundType,
-    };
-
-    if (recurrence && executions) {
+    if (recurrence !== undefined && recurrence !== null) {
       data.recurrence = +recurrence;
+    }
+    if (executions !== undefined && executions !== null) {
       data.executions = +executions;
     }
 
@@ -328,287 +271,219 @@ class TransferContainer extends Component {
 
     data.amount = `${data.amount} ${fundType}`;
 
-    // Ensure currentAccount has local data
-    if (!currentAccount.local) {
-      const realmData = await getUserDataWithUsername(currentAccount.name);
-      [currentAccount.local] = realmData;
-    }
+    const _onSuccess = () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+      this._delayedRefreshCoinsData();
+      navigation.goBack();
+    };
 
-    // Handle ENGINE layer transfers with unified approach
-    if (tokenLayer === TokenLayers.ENGINE) {
-      let engineAction;
-      switch (transferType) {
-        case TransferTypes.TRANSFER:
-          engineAction = EngineActions.TRANSFER;
-          func = () => transferHiveEngine(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.STAKE:
-          engineAction = EngineActions.STAKE;
-          func = () => stakeHiveEngine(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.DELEGATE:
-          engineAction = EngineActions.DELEGATE;
-          func = () => delegateHiveEngine(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.UNSTAKE:
-          engineAction = EngineActions.UNSTAKE;
-          func = () => unstakeHiveEngine(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.UNDELEGATE:
-          engineAction = EngineActions.UNDELEGATE;
-          func = () => undelegateHiveEngine(currentAccount, pinCode, data);
-          break;
+    const _onError = (error) => {
+      navigation.goBack();
+      Sentry.captureException(error);
+
+      let alertId = 'alert.fail';
+      const msg = error?.message?.toLowerCase?.() || '';
+      if (msg.includes('key') || msg.includes('authority') || msg.includes('missing')) {
+        alertId = 'alert.key_warning';
       }
 
-      // Build operations for ENGINE tokens
-      operations = getEngineActionOpArray(
-        engineAction,
-        currentAccount.name,
-        data.destination,
-        data.amount,
-        fundType,
-        data.memo,
-      );
+      dispatch(toastNotification(intl.formatMessage({ id: alertId })));
+    };
 
-      try {
-        await executeOperation({
-          operations,
-          privateKeyHandler: func,
-          callbacks: {
-            onSuccess: () => {
-              dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-              this._delayedRefreshCoinsData();
-              navigation.goBack();
-            },
-            onError: (error) => {
-              navigation.goBack();
-              Sentry.captureException(error);
-              dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
-            },
-            onClose: () => {
-              navigation.goBack();
-            },
-          },
+    try {
+      // Handle ENGINE layer
+      if (tokenLayer === TokenLayers.ENGINE) {
+        const amountStr = data.amount.split(' ')[0];
+        switch (transferType) {
+          case TransferTypes.TRANSFER:
+            await mutations.transferEngine.mutateAsync({
+              to: data.destination,
+              symbol: fundType,
+              quantity: amountStr,
+              memo: data.memo,
+            });
+            break;
+          case TransferTypes.STAKE:
+            await mutations.stakeEngine.mutateAsync({
+              to: data.destination || from,
+              symbol: fundType,
+              quantity: amountStr,
+            });
+            break;
+          case TransferTypes.DELEGATE:
+            await mutations.delegateEngine.mutateAsync({
+              to: data.destination,
+              symbol: fundType,
+              quantity: amountStr,
+            });
+            break;
+          case TransferTypes.UNSTAKE:
+            await mutations.unstakeEngine.mutateAsync({
+              to: data.destination || from,
+              symbol: fundType,
+              quantity: amountStr,
+            });
+            break;
+          case TransferTypes.UNDELEGATE:
+            await mutations.undelegateEngine.mutateAsync({
+              from: data.destination,
+              symbol: fundType,
+              quantity: amountStr,
+            });
+            break;
+          default:
+            throw new Error(`Unknown transferType for ENGINE: ${transferType}`);
+        }
+        _onSuccess();
+        return;
+      }
+
+      // Handle SPK layer
+      if (tokenLayer === TokenLayers.SPK) {
+        const spkAmount = parseFloat(data.amount);
+        if (Number.isNaN(spkAmount)) {
+          throw new Error(`Invalid SPK amount: ${data.amount}`);
+        }
+        switch (transferType) {
+          case TransferTypes.TRANSFER_SPK:
+            await mutations.transferSpk.mutateAsync({
+              to: data.destination,
+              amount: spkAmount,
+              memo: data.memo,
+            });
+            break;
+          case TransferTypes.TRANSFER_LARYNX:
+            await mutations.transferLarynx.mutateAsync({
+              to: data.destination,
+              amount: spkAmount,
+              memo: data.memo,
+            });
+            break;
+          case TransferTypes.POWER_UP_SPK:
+            await mutations.powerLarynx.mutateAsync({ mode: 'up', amount: spkAmount });
+            break;
+          case TransferTypes.POWER_DOWN_SPK:
+            await mutations.powerLarynx.mutateAsync({ mode: 'down', amount: spkAmount });
+            break;
+          case TransferTypes.POWER_GRANT_SPK:
+            await mutations.delegateLarynx.mutateAsync({
+              destination: data.destination,
+              amount: spkAmount,
+            });
+            break;
+          default:
+            throw new Error(`Unknown transferType for SPK: ${transferType}`);
+        }
+        _onSuccess();
+        return;
+      }
+
+      // Handle HIVE layer
+      if (tokenLayer === TokenLayers.HIVE) {
+        switch (transferType) {
+          case TransferTypes.TRANSFER:
+            await mutations.transfer.mutateAsync({
+              to: data.destination,
+              amount: data.amount,
+              memo: data.memo,
+            });
+            break;
+          case TransferTypes.RECURRENT_TRANSFER:
+            await mutations.recurrentTransfer.mutateAsync({
+              from: data.from,
+              to: data.destination,
+              amount: data.amount,
+              memo: data.memo,
+              recurrence: data.recurrence,
+              executions: data.executions,
+            });
+            break;
+          case TransferTypes.CONVERT:
+            await mutations.convert.mutateAsync({
+              amount: data.amount,
+              requestId: new Date().getTime() >>> 0,
+            });
+            break;
+          case TransferTypes.TRANSFER_TO_SAVINGS:
+            await mutations.transferToSavings.mutateAsync({
+              to: data.destination,
+              amount: data.amount,
+              memo: data.memo,
+            });
+            break;
+          case TransferTypes.TRANSFER_FROM_SAVINGS:
+            await mutations.transferFromSavings.mutateAsync({
+              to: data.destination,
+              amount: data.amount,
+              memo: data.memo,
+              requestId: new Date().getTime() >>> 0,
+            });
+            break;
+          case TransferTypes.TRANSFER_TO_VESTING:
+            await mutations.transferToVesting.mutateAsync({
+              to: data.destination,
+              amount: data.amount,
+            });
+            break;
+          case TransferTypes.WITHDRAW_VESTING: {
+            const vestsAmount = Number(amount);
+            if (Number.isNaN(vestsAmount)) {
+              throw new Error(`Invalid amount for WITHDRAW_VESTING: ${amount}`);
+            }
+            await mutations.withdrawVesting.mutateAsync({
+              vestingShares: `${vestsAmount.toFixed(6)} VESTS`,
+            });
+            break;
+          }
+          case TransferTypes.DELEGATE_VESTING_SHARES: {
+            const vestsAmount = Number(amount);
+            if (Number.isNaN(vestsAmount)) {
+              throw new Error(`Invalid amount for DELEGATE_VESTING_SHARES: ${amount}`);
+            }
+            await mutations.delegateVestingShares.mutateAsync({
+              delegatee: data.destination,
+              vestingShares: `${vestsAmount.toFixed(6)} VESTS`,
+            });
+            break;
+          }
+          default:
+            throw new Error(`Unknown transferType for HIVE: ${transferType}`);
+        }
+        _onSuccess();
+        return;
+      }
+
+      // Handle POINTS layer
+      if (tokenLayer === TokenLayers.POINTS) {
+        await mutations.transferPoint.mutateAsync({
+          to: data.destination,
+          amount: data.amount,
+          memo: data.memo,
         });
-      } catch (error) {
-        // Error already handled in callbacks
-      }
-      return;
-    }
-
-    // Handle SPK layer transfers with unified approach
-    if (tokenLayer === TokenLayers.SPK) {
-      switch (transferType) {
-        case TransferTypes.TRANSFER_SPK:
-          operations = getSpkTransferOpArr(
-            currentAccount.name,
-            data.destination,
-            data.amount,
-            data.memo,
-            false, // isLarynx = false for SPK
-          );
-          func = () => transferSpk(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.TRANSFER_LARYNX:
-          operations = getSpkTransferOpArr(
-            currentAccount.name,
-            data.destination,
-            data.amount,
-            data.memo,
-            true, // isLarynx = true for LARYNX
-          );
-          func = () => transferLarynx(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.POWER_UP_SPK:
-          data.mode = SpkPowerMode.UP;
-          operations = getSpkPowerOpArr(currentAccount.name, data.amount, SpkPowerMode.UP);
-          func = () => powerLarynx(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.POWER_DOWN_SPK:
-          data.mode = SpkPowerMode.DOWN;
-          operations = getSpkPowerOpArr(currentAccount.name, data.amount, SpkPowerMode.DOWN);
-          func = () => powerLarynx(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.POWER_GRANT_SPK:
-          operations = getSpkDelegateOpArr(currentAccount.name, data.destination, data.amount);
-          func = () => delegateLarynx(currentAccount, pinCode, data);
-          break;
+        _onSuccess();
+        return;
       }
 
-      try {
-        await executeOperation({
-          operations,
-          privateKeyHandler: func,
-          callbacks: {
-            onSuccess: () => {
-              dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-              this._delayedRefreshCoinsData();
-              navigation.goBack();
-            },
-            onError: (error) => {
-              navigation.goBack();
-              Sentry.captureException(error);
-              dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
-            },
-            onClose: () => {
-              navigation.goBack();
-            },
-          },
-        });
-      } catch (error) {
-        // Error already handled in callbacks
-      }
-      return;
-    }
-
-    // Handle HIVE layer transfers with unified active key operation approach
-    if (tokenLayer === TokenLayers.HIVE) {
-      switch (transferType) {
-        case TransferTypes.TRANSFER:
-          operations = buildTransferTokenOpArr(data.from, data.destination, data.amount, data.memo);
-          func = () => transferToken(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.RECURRENT_TRANSFER:
-          operations = buildRecurrentTransferOpArr(
-            data.from,
-            data.destination,
-            data.amount,
-            data.memo,
-            data.recurrence,
-            data.executions,
-          );
-          func = () => recurrentTransferToken(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.CONVERT:
-          data.requestId = new Date().getTime() >>> 0;
-          operations = buildConvertOpArr(data.from, data.amount, data.requestId);
-          func = () => convert(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.TRANSFER_TO_SAVINGS:
-          operations = buildTransferToSavingsOpArr(
-            data.from,
-            data.destination,
-            data.amount,
-            data.memo,
-          );
-          func = () => transferToSavings(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.TRANSFER_FROM_SAVINGS:
-          data.requestId = new Date().getTime() >>> 0;
-          operations = buildTransferFromSavingsOpArr(
-            data.from,
-            data.destination,
-            data.amount,
-            data.memo,
-            data.requestId,
-          );
-          func = () => transferFromSavings(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.TRANSFER_TO_VESTING:
-          operations = buildTransferToVestingOpArr(data.from, data.destination, data.amount);
-          func = () => transferToVesting(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.WITHDRAW_VESTING:
-          currentAccount = selectedAccount;
-          data.amount = `${amount.toFixed(6)} VESTS`;
-          operations = buildWithdrawVestingOpArr(data.from, data.amount);
-          func = () => withdrawVesting(currentAccount, pinCode, data);
-          break;
-        case TransferTypes.DELEGATE_VESTING_SHARES:
-          currentAccount = selectedAccount;
-          data.amount = `${amount.toFixed(6)} VESTS`;
-          operations = buildDelegateVestingSharesOpArr(data.from, data.destination, data.amount);
-          func = () => delegateVestingShares(currentAccount, pinCode, data);
-          break;
-      }
-
-      try {
-        await executeOperation({
-          operations,
-          privateKeyHandler: func,
-          callbacks: {
-            onSuccess: () => {
-              dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-              this._delayedRefreshCoinsData();
-              navigation.goBack();
-            },
-            onError: (error) => {
-              navigation.goBack();
-              Sentry.captureException(error);
-              dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
-            },
-            onClose: () => {
-              navigation.goBack();
-            },
-          },
-        });
-      } catch (error) {
-        // Error already handled in callbacks
-      }
-      return;
-    }
-
-    // Handle POINTS layer with unified approach
-    if (tokenLayer === TokenLayers.POINTS) {
-      operations = buildTransferPointOpArr(data.from, data.destination, data.amount, data.memo);
-      func = () => transferPoint(currentAccount, pinCode, data);
-
-      try {
-        await executeOperation({
-          operations,
-          privateKeyHandler: func,
-          callbacks: {
-            onSuccess: () => {
-              dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-              this._delayedRefreshCoinsData();
-              navigation.goBack();
-            },
-            onError: (error) => {
-              navigation.goBack();
-              Sentry.captureException(error);
-              dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
-            },
-            onClose: () => {
-              navigation.goBack();
-            },
-          },
-        });
-      } catch (error) {
-        // Error already handled in callbacks
-      }
+      throw new Error(`Unknown tokenLayer: ${tokenLayer}`);
+    } catch (error) {
+      _onError(error);
     }
   };
 
-  _setWithdrawVestingRoute = async (from, to, percentage, autoVest) => {
-    const { currentAccount, pinCode, executeOperation } = this.props;
-
-    const data = {
-      from,
-      to,
-      percentage,
-      autoVest,
-    };
-
-    const operations = buildSetWithdrawVestingRouteOpArr(from, to, percentage, autoVest);
+  _setWithdrawVestingRoute = async (_from, to, percentage, autoVest) => {
+    const { mutations, dispatch, intl } = this.props;
 
     try {
-      await executeOperation({
-        operations,
-        privateKeyHandler: () => setWithdrawVestingRoute(currentAccount, pinCode, data),
-        callbacks: {
-          onSuccess: () => {
-            // Success - no toast needed for this operation
-          },
-          onError: (error) => {
-            alert(error.message || error.toString());
-          },
-          onClose: () => {
-            // User cancelled
-          },
-        },
+      await mutations.setWithdrawVestingRoute.mutateAsync({
+        toAccount: to,
+        percent: percentage,
+        autoVest,
       });
-    } catch (err) {
-      // Error already handled in callbacks
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+      this._delayedRefreshCoinsData();
+    } catch (error) {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      throw error;
     }
   };
 
@@ -641,7 +516,7 @@ class TransferContainer extends Component {
     } = this.state;
 
     const transferType = route.params?.transferType ?? '';
-    const tokenLayer = route.params?.assetLayer ?? '';
+    const tokenLayer = route.params?.assetLayer ?? route.params?.tokenLayer ?? '';
 
     return (
       children &&
@@ -677,18 +552,17 @@ class TransferContainer extends Component {
 const mapStateToProps = (state) => ({
   accounts: selectOtherAccounts(state),
   currentAccount: selectCurrentAccount(state),
-  pinCode: selectPin(state),
   hivePerMVests: selectGlobalProps(state).hivePerMVests,
   actionModalVisible: state.ui.actionModalVisible,
 });
 
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  const { executeOperation } = useActiveKeyOperation();
+  const mutations = useTransferMutations();
   return React.createElement(TransferContainer, {
     ...props,
     navigation,
-    executeOperation,
+    mutations,
   });
 };
 

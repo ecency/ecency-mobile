@@ -13,7 +13,7 @@ import {
   getRelationshipBetweenAccountsQueryOptions,
   getAccountPostsQueryOptions,
   getAccountRcQueryOptions,
-  checkFavouriteQueryOptions,
+  checkFavoriteQueryOptions,
 } from '@ecency/sdk';
 import {
   selectCurrentAccount,
@@ -24,7 +24,12 @@ import {
   selectIsConnected,
   selectHidePostsThumbnails,
 } from '../redux/selectors';
-import { followUser, unfollowUser, ignoreUser, getDigitPinCode } from '../providers/hive/dhive';
+import { getDigitPinCode } from '../providers/hive/dhive';
+import {
+  useFollowMutation,
+  useUnfollowMutation,
+  useIgnoreUserMutation,
+} from '../providers/sdk/mutations';
 import { getQueryClient } from '../providers/queries';
 import { startMattermostDirectMessage } from '../providers/chat/mattermost';
 
@@ -148,26 +153,16 @@ class ProfileContainer extends Component {
 
   _handleFollowUnfollowUser = async (isFollowAction) => {
     const { isFollowing, username } = this.state;
-    const { currentAccount, pinCode, dispatch, intl } = this.props;
-    const follower = get(currentAccount, 'name', '');
-    const following = username;
-
-    let followAction;
+    const { currentAccount, dispatch, intl, followMutation, unfollowMutation } = this.props;
 
     this.setState({
       isProfileLoading: true,
     });
 
-    if (isFollowAction && !isFollowing) {
-      followAction = followUser;
-    } else {
-      followAction = unfollowUser;
-    }
+    const mutation = isFollowAction && !isFollowing ? followMutation : unfollowMutation;
 
-    followAction(currentAccount, pinCode, {
-      follower,
-      following,
-    })
+    mutation
+      .mutateAsync({ following: username })
       .then(() => {
         // means user is now being followed
         if (!isFollowing) {
@@ -247,18 +242,14 @@ class ProfileContainer extends Component {
 
   _muteUser = () => {
     const { username } = this.state;
-    const { currentAccount, pinCode, dispatch, intl } = this.props;
-    const follower = currentAccount.name;
-    const following = username;
+    const { currentAccount, dispatch, intl, ignoreUserMutation } = this.props;
 
     this.setState({
       isProfileLoading: true,
     });
 
-    ignoreUser(currentAccount, pinCode, {
-      follower,
-      following,
-    })
+    ignoreUserMutation
+      .mutateAsync({ following: username })
       .then(() => {
         this.setState({
           isMuted: true,
@@ -267,7 +258,6 @@ class ProfileContainer extends Component {
 
         const curMutes = currentAccount.mutes || [];
         if (curMutes.indexOf(username) < 0) {
-          // check to avoid double entry corner case
           currentAccount.mutes = [username, ...curMutes];
         }
         dispatch(updateCurrentAccount(currentAccount));
@@ -343,7 +333,7 @@ class ProfileContainer extends Component {
         const favoritePromise =
           !isOwnProfile && currentAccount?.name && accessToken
             ? queryClient
-                .fetchQuery(checkFavouriteQueryOptions(currentAccount.name, accessToken, username))
+                .fetchQuery(checkFavoriteQueryOptions(currentAccount.name, accessToken, username))
                 .catch(() => undefined)
             : Promise.resolve(undefined);
 
@@ -425,12 +415,13 @@ class ProfileContainer extends Component {
       this._fetchProfile(username, false, 0);
     } catch (error) {
       this._profileActionDone({ error });
+      return;
     }
 
     this.setState((prevState) => ({
       quickProfile: {
         ...prevState.quickProfile,
-        display_name: get(user, 'display_name'),
+        display_name: get(user, 'profile.name'),
         reputation: get(user, 'reputation'),
       },
       rcAccount,
@@ -620,7 +611,6 @@ class ProfileContainer extends Component {
         about: get(user, 'profile', {}),
         activePage,
         avatar,
-        setEstimatedWalletValue: this._setEstimatedWalletValue,
         changeForceLoadPostState: this._changeForceLoadPostState,
         comments,
         currency,
@@ -674,12 +664,18 @@ const mapHooksToProps = (props) => {
   const navigation = useNavigation();
   const addFavouriteMutation = useAddFavouriteMutation();
   const deleteFavouriteMutation = useDeleteFavouriteMutation();
+  const followMutation = useFollowMutation();
+  const unfollowMutation = useUnfollowMutation();
+  const ignoreUserMutation = useIgnoreUserMutation();
   return (
     <ProfileContainer
       {...props}
       navigation={navigation}
       addFavouriteMutation={addFavouriteMutation}
       deleteFavouriteMutation={deleteFavouriteMutation}
+      followMutation={followMutation}
+      unfollowMutation={unfollowMutation}
+      ignoreUserMutation={ignoreUserMutation}
     />
   );
 };

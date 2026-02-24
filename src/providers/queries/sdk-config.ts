@@ -9,7 +9,7 @@ import { QueryClient } from '@tanstack/react-query';
 const fetchDmcaLists = async (): Promise<{
   accounts: string[];
   tags: string[];
-  patterns: string[];
+  posts: string[];
 }> => {
   try {
     const [accountsRes, postsRes, tagsRes] = await Promise.all([
@@ -19,13 +19,13 @@ const fetchDmcaLists = async (): Promise<{
     ]);
 
     const accounts = accountsRes.ok ? await accountsRes.json() : [];
-    const patterns = postsRes.ok ? await postsRes.json() : [];
+    const posts = postsRes.ok ? await postsRes.json() : [];
     const tags = tagsRes.ok ? await tagsRes.json() : [];
 
-    return { accounts, tags, patterns };
+    return { accounts, tags, posts };
   } catch (error) {
     console.warn('⚠️ Failed to fetch DMCA lists, continuing without filters:', error);
-    return { accounts: [], tags: [], patterns: [] };
+    return { accounts: [], tags: [], posts: [] };
   }
 };
 
@@ -45,7 +45,7 @@ export const initSdkConfig = async (queryClient: QueryClient) => {
 
   // Fetch and configure DMCA filters
   const dmcaLists = await fetchDmcaLists();
-  ConfigManager.setDmcaLists(dmcaLists.accounts, dmcaLists.tags, dmcaLists.patterns);
+  ConfigManager.setDmcaLists(dmcaLists);
 
   console.log('✅ Ecency SDK configured successfully');
 };

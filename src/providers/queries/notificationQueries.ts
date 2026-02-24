@@ -2,14 +2,19 @@ import { useInfiniteQuery, useQueryClient, useMutation } from '@tanstack/react-q
 import { useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import * as Sentry from '@sentry/react-native';
-import { getNotificationsInfiniteQueryOptions, markNotifications } from '@ecency/sdk';
+import {
+  getNotificationsInfiniteQueryOptions,
+  markNotifications,
+  useBroadcastMutation,
+} from '@ecency/sdk';
 import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
 import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { NotificationFilters } from '../ecency/ecency.types';
-import { markHiveNotifications, getDigitPinCode } from '../hive/dhive';
+import { getDigitPinCode } from '../hive/dhive';
 import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 import { decryptKey } from '../../utils/crypto';
+import { useAuthContext } from '../sdk/useAuthContext';
 
 const FETCH_LIMIT = 20; // Fetch 20 notifications per page
 
@@ -26,11 +31,9 @@ export const useNotificationsQuery = (filter?: NotificationFilters) => {
   const infiniteQuery = useInfiniteQuery({
     ...sdkOptions,
     enabled: !!username && !!code, // Both are required for notifications
-    staleTime: 0, // Always consider data stale so first page refreshes on mount
-    gcTime: 30 * 60 * 1000, // 30 minutes - keep in cache for 30 minutes
+    staleTime: 30 * 1000, // 30 seconds — fresh enough for notifications
+    gcTime: 10 * 60 * 1000, // 10 minutes
     maxPages: 10, // Limit to 10 pages (200 items) maximum
-    refetchOnMount: true, // Refetch first page on mount to show fresh data
-    refetchOnWindowFocus: false, // Don't refetch when window regains focus
   });
 
   // Flatten pages into single array for backwards compatibility
@@ -44,8 +47,8 @@ export const useNotificationsQuery = (filter?: NotificationFilters) => {
 
   return {
     data,
-    isRefreshing: infiniteQuery.isRefetching,
-    isLoading: infiniteQuery.isLoading || infiniteQuery.isFetching,
+    isRefreshing: infiniteQuery.isRefetching && !infiniteQuery.isFetchingNextPage,
+    isLoading: infiniteQuery.isLoading,
     isFetchingNextPage: infiniteQuery.isFetchingNextPage,
     fetchNextPage: infiniteQuery.fetchNextPage,
     refresh: infiniteQuery.refetch,
@@ -67,13 +70,55 @@ export const useNotificationReadMutation = () => {
   const { username: authUsername, code: authCode } = useAuth();
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinHash = useAppSelector(selectPin);
+  const authContext = useAuthContext();
+
+  // Get auth credentials
+  const digitPinCode = useMemo(() => (pinHash ? getDigitPinCode(pinHash) : undefined), [pinHash]);
+  const username = currentAccount?.name || authUsername;
+  const notificationsQueryKey = getNotificationsInfiniteQueryOptions(
+    username,
+    authCode,
+    undefined,
+    FETCH_LIMIT,
+  ).queryKey;
+  const notificationsBaseQueryKey = notificationsQueryKey.slice(0, 2);
+
+  // SDK broadcast mutation for marking Hive on-chain notifications
+  const markHiveNotifMutation = useBroadcastMutation(
+    ['hive', 'mark-notifications'],
+    username,
+    () => {
+      const now = new Date().toISOString();
+      const date = now.replace(/\.\d{3}Z$/, 'Z');
+      const jsonPayload = JSON.stringify(['setLastRead', { date }]);
+      return [
+        [
+          'custom_json',
+          {
+            id: 'notify',
+            required_auths: [],
+            required_posting_auths: [username],
+            json: jsonPayload,
+          },
+        ],
+        [
+          'custom_json',
+          {
+            id: 'ecency_notify',
+            required_auths: [],
+            required_posting_auths: [username],
+            json: jsonPayload,
+          },
+        ],
+      ];
+    },
+    undefined,
+    authContext,
+    'posting',
+  );
 
   // Track pending mutations to verify on error
   const pendingMutationRef = useRef<{ id?: string; timestamp: number } | null>(null);
-
-  // Get auth credentials
-  const digitPinCode = getDigitPinCode(pinHash);
-  const username = currentAccount?.name || authUsername;
   const accessToken =
     currentAccount?.local?.accessToken && digitPinCode
       ? decryptKey(currentAccount.local.accessToken, digitPinCode)
@@ -88,47 +133,24 @@ export const useNotificationReadMutation = () => {
       }
       return markNotifications(accessToken, id);
     },
-    onSuccess: async (response, variables) => {
+    onSuccess: async (response) => {
       const unreadCount =
         typeof response === 'object' && response !== null ? response.unread : undefined;
       if (unreadCount !== undefined) {
         dispatch(updateUnreadActivityCount(unreadCount));
       }
       pendingMutationRef.current = null;
-
-      if (!variables?.id) {
-        const notificationsQueryKey = getNotificationsInfiniteQueryOptions(
-          username,
-          accessToken,
-        ).queryKey;
-        await queryClient.invalidateQueries({
-          queryKey: notificationsQueryKey,
-          exact: false,
-        });
-      }
     },
     onError: async (error) => {
       const pendingMutation = pendingMutationRef.current;
 
       if (pendingMutation && Date.now() - pendingMutation.timestamp < 5000) {
-        try {
-          const notificationsQueryKey = getNotificationsInfiniteQueryOptions(
-            username,
-            accessToken,
-          ).queryKey;
-          await queryClient.invalidateQueries({
-            queryKey: notificationsQueryKey,
-            exact: false,
-          });
-
-          Sentry.captureMessage(
-            'Notification mark-as-read failed but mutation may have succeeded',
-            'warning',
-          );
-          return;
-        } catch (_refetchError) {
-          Sentry.captureException(error);
-        }
+        pendingMutationRef.current = null;
+        Sentry.captureMessage(
+          'Notification mark-as-read failed but mutation may have succeeded',
+          'warning',
+        );
+        return;
       } else {
         Sentry.captureException(error);
       }
@@ -137,12 +159,8 @@ export const useNotificationReadMutation = () => {
       pendingMutationRef.current = null;
     },
     onSettled: async () => {
-      const notificationsQueryKey = getNotificationsInfiniteQueryOptions(
-        username,
-        accessToken,
-      ).queryKey;
       await queryClient.invalidateQueries({
-        queryKey: notificationsQueryKey,
+        queryKey: notificationsBaseQueryKey,
         exact: false,
       });
     },
@@ -170,9 +188,14 @@ export const useNotificationReadMutation = () => {
 
         // Mobile-specific: Also mark Hive notifications when marking all
         if (!notificationId) {
-          markHiveNotifications(currentAccount, pinHash).catch((err) => {
-            Sentry.captureException(err);
-          });
+          markHiveNotifMutation.mutate(
+            {},
+            {
+              onError: (err) => {
+                Sentry.captureException(err);
+              },
+            },
+          );
         }
       } catch (error) {
         Sentry.captureException(error);

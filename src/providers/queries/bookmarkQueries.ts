@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getBookmarksInfiniteQueryOptions,
-  getFavouritesInfiniteQueryOptions,
+  getFavoritesInfiniteQueryOptions,
   useBookmarkAdd,
   useBookmarkDelete,
-  useAccountFavouriteAdd,
-  useAccountFavouriteDelete,
+  useAccountFavoriteAdd,
+  useAccountFavoriteDelete,
 } from '@ecency/sdk';
 import { useIntl } from 'react-intl';
 import { useAppDispatch, useAuth } from '../../hooks';
@@ -51,7 +51,7 @@ export const useGetBookmarksQuery = (limit = 20) => {
 export const useGetFavouritesQuery = (limit = 20) => {
   const { username, code } = useAuth();
 
-  const infiniteQuery = useInfiniteQuery(getFavouritesInfiniteQueryOptions(username, code, limit));
+  const infiniteQuery = useInfiniteQuery(getFavoritesInfiniteQueryOptions(username, code, limit));
 
   // Flatten pages into single array and sort by timestamp
   const data = useMemo(() => {
@@ -126,11 +126,11 @@ export const useAddFavouriteMutation = () => {
   const queryClient = useQueryClient();
   const { username, code } = useAuth();
 
-  return useAccountFavouriteAdd(
+  return useAccountFavoriteAdd(
     username,
     code,
     () => {
-      queryClient.invalidateQueries({ queryKey: ['favourites'] });
+      queryClient.invalidateQueries({ queryKey: ['favorites'] });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
     },
     () => {
@@ -149,11 +149,11 @@ export const useDeleteFavouriteMutation = () => {
   const queryClient = useQueryClient();
   const { username, code } = useAuth();
 
-  return useAccountFavouriteDelete(
+  return useAccountFavoriteDelete(
     username,
     code,
     () => {
-      queryClient.invalidateQueries({ queryKey: ['favourites'] });
+      queryClient.invalidateQueries({ queryKey: ['favorites'] });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
     },
     () => {

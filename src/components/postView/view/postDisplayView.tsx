@@ -33,6 +33,8 @@ import { usePostStatsQuery, tipsQueries } from '../../../providers/queries';
 import { PostStatsModal } from '../../organisms';
 import { getAbbreviatedNumber } from '../../../utils/number';
 import { SheetNames } from '../../../navigation/sheets';
+import RootNavigation from '../../../navigation/rootNavigation';
+import ROUTES from '../../../constants/routeNames';
 
 const PostDisplayView = ({
   currentAccount,
@@ -65,7 +67,6 @@ const PostDisplayView = ({
   const upvotePopoverRef = useRef<UpvotePopover>(null);
   const postStatsModalRef = useRef<typeof PostStatsModal>(null);
 
-  const [cacheVoteIcrement] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [postBodyLoading, setPostBodyLoading] = useState(true);
@@ -127,10 +128,10 @@ const PostDisplayView = ({
   }, []);
 
   const _handleOnReblogsPress = useCallback(() => {
-    if (post?.reblogs > 0 && handleOnReblogsPress) {
+    if (handleOnReblogsPress) {
       handleOnReblogsPress();
     }
-  }, [post?.reblogs, handleOnReblogsPress]);
+  }, [handleOnReblogsPress]);
 
   const _onUpvotePress = useCallback(
     ({
@@ -234,7 +235,7 @@ const PostDisplayView = ({
             iconType="MaterialCommunityIcons"
             isClickable
             onPress={handleVotersIconPress}
-            text={activeVotesCount + cacheVoteIcrement}
+            text={activeVotesCount}
             textMarginLeft={20}
           />
           <TextWithIcon
@@ -291,7 +292,6 @@ const PostDisplayView = ({
       handlePayoutDetailsPress,
       handleVotersIconPress,
       activeVotesCount,
-      cacheVoteIcrement,
       _handleOnReblogsPress,
       isLoggedIn,
       _showQuickReplyModal,
@@ -303,7 +303,7 @@ const PostDisplayView = ({
     ],
   );
 
-  const { name } = currentAccount;
+  const name = currentAccount?.name;
 
   const formatedTime = post && getTimeFromNow(post.created);
 
@@ -322,6 +322,17 @@ const PostDisplayView = ({
         },
       });
     }
+  }, []);
+
+  const _openProfilePage = useCallback((username) => {
+    if (!username) {
+      return;
+    }
+    RootNavigation.navigate({
+      name: ROUTES.SCREENS.PROFILE,
+      params: { username },
+      key: username,
+    });
   }, []);
 
   const _handleOnCommentsLoaded = useCallback(() => {
@@ -359,7 +370,8 @@ const PostDisplayView = ({
                   size={40}
                   inlineTime={true}
                   customStyle={styles.headerLine}
-                  profileOnPress={_showQuickProfileModal}
+                  avatarOnPress={_showQuickProfileModal}
+                  profileOnPress={_openProfilePage}
                 />
                 <View style={styles.viewStatsContainer}>
                   <TextWithIcon
@@ -422,6 +434,7 @@ const PostDisplayView = ({
       postStatsQuery.data?.pageviews,
       postStatsQuery.isLoading,
       _showQuickProfileModal,
+      _openProfilePage,
       _showStatsModal,
       _handleOnPostBodyLoad,
       _showQuickReplyModal,

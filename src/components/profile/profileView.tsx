@@ -238,13 +238,13 @@ class ProfileView extends PureComponent {
 
     // compile content overrides
     const tabContentOverrides = new Map();
-    if (tabs.indexOf('replies')) {
+    if (tabs.indexOf('replies') !== -1) {
       tabContentOverrides.set(tabs.indexOf('replies'), this._contentComentsTab('replies'));
     }
-    if (tabs.indexOf('comments')) {
+    if (tabs.indexOf('comments') !== -1) {
       tabContentOverrides.set(tabs.indexOf('comments'), this._contentComentsTab('comments'));
     }
-    if (tabs.indexOf('wallet')) {
+    if (tabs.indexOf('wallet') !== -1) {
       tabContentOverrides.set(tabs.indexOf('wallet'), this._contentWalletTab());
     }
 

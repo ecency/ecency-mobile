@@ -1,7 +1,6 @@
 import { PointActivity } from '../../providers/ecency/ecency.types';
 import {
   PURGE_EXPIRED_CACHE,
-  UPDATE_VOTE_CACHE,
   DELETE_DRAFT_CACHE_ENTRY,
   UPDATE_DRAFT_CACHE,
   UPDATE_REPLY_CACHE,
@@ -118,20 +117,6 @@ const initialState: State = {
 const cacheReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case UPDATE_VOTE_CACHE:
-      if (!state.votesCollection) {
-        state.votesCollection = {};
-      }
-      state.votesCollection = { ...state.votesCollection, [payload.postPath]: payload.vote };
-      return {
-        ...state, // spread operator in requried here, otherwise persist do not register change
-        lastUpdate: {
-          postPath: payload.postPath,
-          updatedAt: new Date().getTime(),
-          type: 'vote',
-        },
-      };
-
     case UPDATE_POLL_VOTE_CACHE:
       if (!state.pollVotesCollection) {
         state.pollVotesCollection = {};

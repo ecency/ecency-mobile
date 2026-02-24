@@ -80,7 +80,7 @@ const NotificationView = ({
   };
 
   const _renderFooterLoading = () => {
-    if (isLoading) {
+    if (isLoading && notifications.length > 0) {
       return (
         <View style={styles.flatlistFooter}>
           <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} animating />
@@ -125,7 +125,7 @@ const NotificationView = ({
         onMomentumScrollBegin={_handleMomentumScrollBegin}
         ListFooterComponent={_renderFooterLoading}
         ListEmptyComponent={
-          isNotificationRefreshing ? (
+          isLoading || isNotificationRefreshing ? (
             <ListPlaceHolder />
           ) : (
             <Text style={globalStyles.hintText}>

@@ -9,12 +9,11 @@ import {
   selectCurrentAccount,
   selectGlobalProps,
   selectCurrency,
-  selectPin,
   selectIsPinCodeOpen,
 } from '../redux/selectors';
 
-// dhive and SDK
-import { claimRewardBalance } from '../providers/hive/dhive';
+// SDK
+import { useClaimRewardsMutation as useSdkClaimRewardsMutation } from '../providers/sdk/mutations';
 import { getQueryClient } from '../providers/queries';
 
 // Utils
@@ -46,7 +45,6 @@ const WalletContainer = ({
   coinSymbol,
   quotes,
   globalProps,
-  pinCode,
   selectedUser,
   setEstimatedWalletValue,
   forceUsdEstimate = false,
@@ -78,6 +76,7 @@ const WalletContainer = ({
   const [transferHistory, setTransferHistory] = useState([]);
   const intl = useIntl();
   const dispatch = useDispatch();
+  const claimRewardsMutation = useSdkClaimRewardsMutation();
 
   useEffect(() => {
     setEstimatedAmount(getEstimatedAmount(currentAccount, globalProps));
@@ -190,65 +189,66 @@ const WalletContainer = ({
   };
 
   const _claimRewardBalance = async () => {
-    let isHasUnclaimedRewards;
-
     if (isClaiming) {
       return;
     }
 
-    await setIsClaiming(true);
+    setIsClaiming(true);
 
-    const queryClient = getQueryClient();
+    try {
+      if (!currentAccount?.name) {
+        return;
+      }
 
-    queryClient
-      .fetchQuery(getAccountsQueryOptions([currentAccount.name]))
-      .then((accounts) => {
-        const account = accounts[0];
-        isHasUnclaimedRewards = _isHasUnclaimedRewards(account);
-        if (isHasUnclaimedRewards) {
-          const {
-            reward_hive_balance: hiveBal,
-            reward_hbd_balance: hbdBal,
-            reward_vesting_balance: vestingBal,
-          } = account;
-          return claimRewardBalance(currentAccount, pinCode, hiveBal, hbdBal, vestingBal);
-        }
-        setIsClaiming(false);
-      })
-      .then(() => queryClient.fetchQuery(getAccountsQueryOptions([currentAccount.name])))
-      .then(() => {
-        const _isRefresh = true;
-        _getWalletData(selectedUser, _isRefresh);
-        if (isHasUnclaimedRewards) {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'alert.claim_reward_balance_ok',
-              }),
-            ),
-          );
-        }
-      })
-      .then(() => {
-        const _isRefresh = true;
-        _getWalletData(selectedUser, _isRefresh);
-        setIsClaiming(false);
-      })
-      .catch(() => {
-        setIsClaiming(false);
+      const queryClient = getQueryClient();
+      const accounts = await queryClient.fetchQuery(getAccountsQueryOptions([currentAccount.name]));
 
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-          ),
-        );
-      });
+      if (!Array.isArray(accounts) || accounts.length === 0) {
+        return;
+      }
+
+      const account = accounts[0];
+
+      if (!_isHasUnclaimedRewards(account)) {
+        return;
+      }
+
+      const {
+        reward_hive_balance: rewardHive,
+        reward_hbd_balance: rewardHbd,
+        reward_vesting_balance: rewardVests,
+      } = account;
+
+      await claimRewardsMutation.mutateAsync({ rewardHive, rewardHbd, rewardVests });
+
+      await _getWalletData(selectedUser, true);
+
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'alert.claim_reward_balance_ok',
+          }),
+        ),
+      );
+    } catch (err) {
+      console.warn('Failed to claim rewards', err);
+      const errMsg = err?.message ?? String(err);
+      dispatch(
+        toastNotification(
+          `${intl.formatMessage({ id: 'alert.fail' })}${errMsg ? `\n${errMsg}` : ''}`,
+        ),
+      );
+    } finally {
+      setIsClaiming(false);
+    }
   };
 
   const _handleOnWalletRefresh = () => {
     if (refreshing) return;
+    if (!selectedUser?.name) {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      return;
+    }
     setRefreshing(true);
 
     const queryClient = getQueryClient();
@@ -314,7 +314,7 @@ const WalletContainer = ({
 
   const getTokenAddress = (tokenType) => {
     if (tokenType === 'BTC') {
-      // console.log(getBtcAddress(pinCode, currentAccount));
+      // TODO: implement BTC address retrieval
     }
   };
 
@@ -385,7 +385,6 @@ const WalletContainer = ({
 
 const mapStateToProps = (state) => ({
   currentAccount: selectCurrentAccount(state),
-  pinCode: selectPin(state),
   globalProps: selectGlobalProps(state),
   quotes: state.wallet.quotes,
   currency: selectCurrency(state).currency,

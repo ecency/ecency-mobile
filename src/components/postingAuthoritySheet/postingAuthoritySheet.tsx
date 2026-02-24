@@ -5,13 +5,12 @@ import ActionSheet, { SheetProps } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../hooks';
-import { selectCurrentAccount, selectPin } from '../../redux/selectors';
+import { selectCurrentAccount } from '../../redux/selectors';
 import { MainButton } from '../mainButton';
 import { ActivityIndicator, Icon } from '../basicUIElements';
-import { getAccount, grantPostingPermission } from '../../providers/hive/dhive';
+import { getAccount } from '../../providers/hive/dhive';
 import { toastNotification } from '../../redux/actions/uiAction';
-import AUTH_TYPE from '../../constants/authType';
-import { useHiveAuth } from '../hiveAuthModal/hooks/useHiveAuth';
+import { useGrantPostingPermissionMutation } from '../../providers/sdk/mutations';
 import { updateCurrentAccount } from '../../redux/actions/accountAction';
 
 const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = ({
@@ -21,20 +20,11 @@ const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = 
   const intl = useIntl();
   const dispatch = useDispatch();
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinHash = useAppSelector(selectPin);
   const [isGranting, setIsGranting] = useState(false);
-  const { broadcast: hiveAuthBroadcast } = useHiveAuth();
+  const grantPostingPermissionMutation = useGrantPostingPermissionMutation();
 
   const _handleGrant = async () => {
     if (!currentAccount) {
-      return;
-    }
-
-    // Check if PIN is set (not needed for HiveAuth, but needed for key-based auth)
-    const isHiveAuth = currentAccount.local?.authType === AUTH_TYPE.HIVE_AUTH;
-    if (!isHiveAuth && (!pinHash || pinHash === '')) {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.pin_not_set' })));
-      ActionSheet.hide(sheetId);
       return;
     }
 
@@ -48,45 +38,16 @@ const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = 
         return;
       }
 
-      const json = currentAccount.posting_json_metadata || '{}';
+      // SDK mutation handles auth routing (key, HiveAuth, Keychain) through platform adapter
+      await grantPostingPermissionMutation.mutateAsync({
+        currentPosting: currentAccount.posting,
+        grantedAccount: 'ecency.app',
+        weightThreshold: currentAccount.posting?.weight_threshold || 1,
+        memoKey: currentAccount.memo_key,
+        jsonMetadata: currentAccount.posting_json_metadata || '{}',
+      });
 
-      // For HiveAuth users, we need to use broadcast method to sign with active key
-      if (isHiveAuth) {
-        const existingAuths = currentAccount.posting?.account_auths || [];
-        const updatedAuths = existingAuths.some((auth) => auth[0] === 'ecency.app')
-          ? [...existingAuths]
-          : [...existingAuths, ['ecency.app', currentAccount.posting?.weight_threshold || 1]];
-        updatedAuths.sort((a, b) => String(a[0]).localeCompare(String(b[0])));
-
-        // Build account_update operation
-        const newPosting = {
-          ...currentAccount.posting,
-          account_auths: updatedAuths,
-        };
-
-        const operation = [
-          'account_update',
-          {
-            account: currentAccount.name,
-            posting: newPosting,
-            memo_key: currentAccount.memo_key,
-            json_metadata: json,
-          },
-        ];
-
-        // This will open the keychain app for user to sign with active key
-        const broadcastOk = await hiveAuthBroadcast([operation]);
-        if (!broadcastOk) {
-          throw new Error(intl.formatMessage({ id: 'posting_authority.error' }));
-        }
-      } else {
-        // For key-based auth, use the standard flow
-        const result = await grantPostingPermission(json, pinHash, currentAccount);
-        if (!result) {
-          throw new Error(intl.formatMessage({ id: 'posting_authority.error' }));
-        }
-      }
-
+      // Refresh account to pick up the new posting authority in Redux
       try {
         const refreshed = await getAccount(currentAccount.name || currentAccount.username);
         if (refreshed) {

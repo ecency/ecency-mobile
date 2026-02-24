@@ -3,8 +3,6 @@ import { QueryClient } from '@tanstack/react-query';
 import { getAccountFullQueryOptions } from '@ecency/sdk';
 import type { PlatformAdapter } from '@ecency/sdk';
 import type { Operation, TransactionConfirmation } from '@hiveio/dhive';
-import QUERIES from '../queries/queryKeys';
-
 import { store } from '../../redux/store/store';
 import { toastNotification } from '../../redux/actions/uiAction';
 import {
@@ -126,37 +124,6 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
 
     invalidateQueries: async (keys: any[][]) => {
       await Promise.all(keys.map((key) => queryClient.invalidateQueries({ queryKey: key })));
-
-      // Legacy bridge: SDK post-entry invalidation does not automatically touch
-      // legacy waves query keys. Invalidate only matching wave containers.
-      await Promise.all(
-        keys.map(async (key) => {
-          if (!Array.isArray(key) || key[0] !== 'posts' || key[1] !== 'entry') {
-            return;
-          }
-
-          const entryPath = String(key[2] || '');
-          const match = entryPath.match(/^\/@([^/]+)\/(.+)$/);
-          if (!match) {
-            return;
-          }
-
-          const [, author, permlink] = match;
-          const wavesQueries = queryClient.getQueriesData<any[]>({
-            predicate: (query) => query.queryKey?.[0] === QUERIES.WAVES.GET,
-          });
-
-          const invalidateTasks = wavesQueries
-            .filter(([, data]) =>
-              Array.isArray(data)
-                ? data.some((item: any) => item?.author === author && item?.permlink === permlink)
-                : false,
-            )
-            .map(([queryKey]) => queryClient.invalidateQueries({ queryKey }));
-
-          await Promise.all(invalidateTasks);
-        }),
-      );
     },
 
     showAuthUpgradeUI: async (

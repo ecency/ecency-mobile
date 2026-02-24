@@ -12,10 +12,12 @@ export const initQueryClient = () => {
   });
 
   const client = new QueryClient({
-    // Query client configurations go here...
     defaultOptions: {
       queries: {
-        gcTime: 1000 * 60 * 60 * 24 * 6, // 7 days cache timer
+        staleTime: 60 * 1000, // 60 seconds — SDK overrides per-query where needed
+        gcTime: 30 * 60 * 1000, // 30 minutes — longer retention for mobile navigation patterns
+        refetchOnWindowFocus: false,
+        refetchOnMount: true, // refetch stale data on screen mount (respects staleTime)
       },
     },
   });
@@ -53,8 +55,8 @@ export const initQueryClient = () => {
             return false;
           }
 
-          // For feed queries (account-posts, posts-ranked), only persist first page
-          if (subType === 'account-posts' || subType === 'posts-ranked') {
+          // For feed queries (account-posts, posts-ranked, waves), only persist first page
+          if (subType === 'account-posts' || subType === 'posts-ranked' || subType === 'waves') {
             // These are infinite queries - only persist if it's the first page
             // Check if query has been fetched (has pages data)
             const queryData = query.state.data as any;
@@ -74,17 +76,19 @@ export const initQueryClient = () => {
         return true; // Persist other SDK queries
       }
 
-      // Handle mobile-specific legacy queries
+      // Handle mobile-specific legacy queries (explicit allowlist)
       switch (queryKeyType) {
-        case QUERIES.WAVES.GET:
-          return query.queryKey[3] === 0; // only dehydrate first page of waves
         case QUERIES.NOTIFICATIONS.GET:
           return query.queryKey[2] === ''; // only dehydrate first page of notifications
         case 'drafts':
         case 'schedules':
           return query.queryKey[2] === 0; // First page only
-        default:
+        case 'bookmarks':
+        case 'favourites':
+        case 'points':
           return true;
+        default:
+          return false;
       }
     }
 

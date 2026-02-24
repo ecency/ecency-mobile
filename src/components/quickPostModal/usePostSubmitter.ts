@@ -15,6 +15,10 @@ import extractHashTags from '../../utils/extractHashTags';
 import { selectCurrentAccount } from '../../redux/selectors';
 import { SheetNames } from '../../navigation/sheets';
 import { useAuthContext } from '../../providers/sdk';
+import {
+  addOptimisticComment,
+  removeOptimisticComment,
+} from '../../providers/queries/postQueries/commentQueries';
 
 export const usePostSubmitter = () => {
   const dispatch = useDispatch();
@@ -136,6 +140,19 @@ export const usePostSubmitter = () => {
       };
 
       try {
+        // Add optimistic entry to discussions cache for immediate UI feedback
+        addOptimisticComment({
+          author,
+          permlink,
+          parentAuthor,
+          parentPermlink,
+          rootAuthor,
+          rootPermlink,
+          body: commentBody,
+          jsonMetadata,
+          authorReputation: currentAccount.reputation,
+        });
+
         await commentMutation.mutateAsync({
           author,
           permlink,
@@ -158,23 +175,50 @@ export const usePostSubmitter = () => {
 
         return _cacheCommentData;
       } catch (error) {
+        // Roll back optimistic entry on failure
+        removeOptimisticComment(
+          author,
+          permlink,
+          rootAuthor,
+          rootPermlink,
+          parentAuthor,
+          parentPermlink,
+        );
+
         console.log(error);
+
+        let errMsg = error?.message || '';
+        if (!errMsg) {
+          try {
+            errMsg = JSON.stringify(error);
+          } catch {
+            errMsg = String(error ?? '');
+          }
+        }
 
         Alert.alert(
           intl.formatMessage({
             id: 'alert.something_wrong',
           }),
-          error?.message || JSON.stringify(error),
+          errMsg,
         );
 
         return false;
       }
     } catch (error: any) {
+      let errMsg = error?.message || '';
+      if (!errMsg) {
+        try {
+          errMsg = JSON.stringify(error);
+        } catch {
+          errMsg = String(error ?? '');
+        }
+      }
       Alert.alert(
         intl.formatMessage({
           id: 'alert.something_wrong',
         }),
-        error?.message || JSON.stringify(error),
+        errMsg,
       );
       return false;
     } finally {

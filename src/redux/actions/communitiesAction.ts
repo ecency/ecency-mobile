@@ -11,16 +11,7 @@ import {
   FETCH_SUBSCRIBED_COMMUNITIES,
   FETCH_SUBSCRIBED_COMMUNITIES_SUCCESS,
   FETCH_SUBSCRIBED_COMMUNITIES_FAIL,
-  SUBSCRIBE_COMMUNITY,
-  SUBSCRIBE_COMMUNITY_SUCCESS,
-  SUBSCRIBE_COMMUNITY_FAIL,
-  LEAVE_COMMUNITY,
-  LEAVE_COMMUNITY_SUCCESS,
-  LEAVE_COMMUNITY_FAIL,
-  TOAST_NOTIFICATION,
 } from '../constants/constants';
-
-import { subscribeCommunity as subscribeCommunityReq } from '../../providers/hive/dhive';
 
 // Fetch Communities
 export const fetchCommunities = (limit: any, query: any, sort: any, observer: any) => {
@@ -55,9 +46,9 @@ export const fetchSubscribedCommunities = (username: string) => {
     try {
       const queryClient = getQueryClient();
       const res: any = await queryClient.fetchQuery(getAccountSubscriptionsQueryOptions(username));
-      res.forEach((item) => item.push(true)); // add true value for subscribe status
-      res.sort((a, b) => a[1].localeCompare(b[1]));
-      dispatch(fetchSubscribedCommunitiesSuccess(res));
+      const nextRes = (res || []).map((item) => [...item, true]); // add subscribe status immutably
+      nextRes.sort((a, b) => a[1].localeCompare(b[1]));
+      dispatch(fetchSubscribedCommunitiesSuccess(nextRes));
     } catch (err) {
       dispatch(fetchSubscribedCommunitiesFail(err));
     }
@@ -73,99 +64,3 @@ export const fetchSubscribedCommunitiesFail = (payload: any) => ({
   payload,
   type: FETCH_SUBSCRIBED_COMMUNITIES_FAIL,
 });
-
-// Subscribe Community
-export const subscribeCommunity = (
-  currentAccount: any,
-  pin: any,
-  data: any,
-  successToastText: string,
-  failToastText: string,
-  screen: string,
-) => {
-  return (dispatch: Dispatch) => {
-    dispatch({ type: SUBSCRIBE_COMMUNITY, payload: { ...data, screen } });
-    subscribeCommunityReq(currentAccount, pin, data)
-      .then(() => dispatch(subscribeCommunitySuccess(data, successToastText, screen)))
-      .catch((err) => dispatch(subscribeCommunityFail(err, data, failToastText, screen)));
-  };
-};
-
-export const subscribeCommunitySuccess = (data: any, successToastText: string, screen: string) => {
-  return (dispatch: Dispatch) => [
-    dispatch({
-      payload: { ...data, screen },
-      type: SUBSCRIBE_COMMUNITY_SUCCESS,
-    }),
-    dispatch({
-      payload: successToastText,
-      type: TOAST_NOTIFICATION,
-    }),
-  ];
-};
-
-export const subscribeCommunityFail = (
-  error: any,
-  data: any,
-  failToastText: string,
-  screen: string,
-) => {
-  return (dispatch: Dispatch) => [
-    dispatch({
-      payload: { ...data, screen },
-      type: SUBSCRIBE_COMMUNITY_FAIL,
-    }),
-    dispatch({
-      payload: failToastText,
-      type: TOAST_NOTIFICATION,
-    }),
-  ];
-};
-
-// Leave Community
-export const leaveCommunity = (
-  currentAccount: any,
-  pin: any,
-  data: any,
-  successToastText: string,
-  failToastText: string,
-  screen: string,
-) => {
-  return (dispatch: Dispatch) => {
-    dispatch({ type: LEAVE_COMMUNITY, payload: { ...data, screen } });
-    subscribeCommunityReq(currentAccount, pin, data)
-      .then(() => dispatch(leaveCommunitySuccess(data, successToastText, screen)))
-      .catch((err) => dispatch(leaveCommunityFail(err, data, failToastText, screen)));
-  };
-};
-
-export const leaveCommunitySuccess = (data: any, successToastText: string, screen: string) => {
-  return (dispatch: Dispatch) => [
-    dispatch({
-      payload: { ...data, screen },
-      type: LEAVE_COMMUNITY_SUCCESS,
-    }),
-    dispatch({
-      payload: successToastText,
-      type: TOAST_NOTIFICATION,
-    }),
-  ];
-};
-
-export const leaveCommunityFail = (
-  error: any,
-  data: any,
-  failToastText: string,
-  screen: string,
-) => {
-  return (dispatch: Dispatch) => [
-    dispatch({
-      payload: { ...data, screen },
-      type: LEAVE_COMMUNITY_FAIL,
-    }),
-    dispatch({
-      payload: failToastText,
-      type: TOAST_NOTIFICATION,
-    }),
-  ];
-};

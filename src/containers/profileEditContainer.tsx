@@ -9,7 +9,8 @@ import { useNavigation } from '@react-navigation/native';
 import { selectCurrentAccount, selectIsDarkTheme, selectPin } from '../redux/selectors';
 import { uploadImage } from '../providers/ecency/ecency';
 
-import { profileUpdate, signImage } from '../providers/hive/dhive';
+import { signImage } from '../providers/hive/dhive';
+import { useAccountUpdateMutation } from '../providers/sdk/mutations';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 import { setAvatarCacheStamp } from '../redux/actions/uiAction';
 import { reportMediaPickerError } from '../utils/mediaPickerError';
@@ -168,7 +169,7 @@ class ProfileEditContainer extends Component {
   };
 
   _handleOnSubmit = async ({ goBack }) => {
-    const { currentAccount, pinCode, dispatch, navigation, intl, route } = this.props;
+    const { currentAccount, dispatch, navigation, intl, route } = this.props;
     const { name, location, website, about, coverUrl, avatarUrl, pinned } = this.state;
 
     this.setState({ isLoading: true });
@@ -187,7 +188,8 @@ class ProfileEditContainer extends Component {
     };
 
     try {
-      await profileUpdate(params, pinCode, currentAccount);
+      const { accountUpdateMutation } = this.props;
+      await accountUpdateMutation.mutateAsync({ profile: params });
 
       const _currentAccount = { ...currentAccount, display_name: name, avatar: avatarUrl };
       _currentAccount.profile = params;
@@ -256,7 +258,14 @@ const mapStateToProps = (state) => ({
 
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <ProfileEditContainer {...props} navigation={navigation} />;
+  const accountUpdateMutation = useAccountUpdateMutation();
+  return (
+    <ProfileEditContainer
+      {...props}
+      navigation={navigation}
+      accountUpdateMutation={accountUpdateMutation}
+    />
+  );
 };
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

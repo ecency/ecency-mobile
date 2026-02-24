@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { unionBy, isArray } from 'lodash';
 import { AppState, NativeEventSubscription } from 'react-native';
 import {
@@ -93,31 +93,31 @@ export const useFeedQuery = ({
         true, // enabled
       );
 
-  // Use SDK query options directly (no override) for consistency with vision-next
+  // Stable timestamp: only advances when query data changes (dataUpdatedAt).
+  // Avoids new Date() inside select which would defeat TanStack structural sharing.
   const feedQuery = useInfiniteQuery({
     ...queryOptions,
-    select: (data) => {
-      // Apply NSFW filtering and parsePost to each page
-      if (!data?.pages) return data;
+    select: useCallback(
+      (data) => {
+        if (!data?.pages) return data;
 
-      const currentTime = new Date().getTime();
-      const filteredPages = data.pages.map((page) => {
-        if (!Array.isArray(page)) return page;
+        const filteredPages = data.pages.map((page) => {
+          if (!Array.isArray(page)) return page;
 
-        // Apply NSFW filter
-        const nsfwFiltered = nsfw !== '0' ? filterNsfwPost(page, nsfw) : page;
+          const nsfwFiltered = nsfw !== '0' ? filterNsfwPost(page, nsfw) : page;
 
-        // Apply parsePost to add thumbnail, image, and summary fields
-        return nsfwFiltered.map((post) =>
-          parsePost(post, currentAccount?.name, false, true, false, currentTime),
-        );
-      });
+          return nsfwFiltered.map((post) =>
+            parsePost(post, currentAccount?.name, false, true, false),
+          );
+        });
 
-      return {
-        ...data,
-        pages: filteredPages,
-      };
-    },
+        return {
+          ...data,
+          pages: filteredPages,
+        };
+      },
+      [nsfw, currentAccount?.name],
+    ),
   });
 
   // actions
@@ -173,7 +173,10 @@ export const useFeedQuery = ({
   }, [feedQuery.data?.pages]);
 
   // Combine pinned post with feed data
-  const _data = unionBy(pinnedPostQuery.data ? [pinnedPostQuery.data] : [], _flatData, 'url');
+  const _data = useMemo(
+    () => unionBy(pinnedPostQuery.data ? [pinnedPostQuery.data] : [], _flatData, 'url'),
+    [pinnedPostQuery.data, _flatData],
+  );
 
   // Apply mute filtering
   const _filteredData = useMemo(
@@ -184,7 +187,7 @@ export const useFeedQuery = ({
   return {
     data: _filteredData,
     isRefreshing,
-    isLoading: feedQuery.isLoading || feedQuery.isFetching,
+    isLoading: feedQuery.isLoading,
     fetchNextPage: feedQuery.fetchNextPage,
     refresh: _refresh,
   };
@@ -203,18 +206,12 @@ export const usePromotedPostsQuery = (enabled: boolean = true) => {
     enabled,
     // Override queryKey to include username for cache invalidation (use empty string if no account)
     queryKey: [QUERIES.FEED.GET_PROMOTED, currentAccount?.name || ''],
-    // Apply NSFW filtering and parsePost to results
     select: (data) => {
       if (!Array.isArray(data)) return [];
 
-      // Apply NSFW filter
       const nsfwFiltered = nsfw !== '0' ? filterNsfwPost(data, nsfw) : data;
 
-      // Apply parsePost to add thumbnail, image, and summary fields
-      const currentTime = new Date().getTime();
-      return nsfwFiltered.map((post) =>
-        parsePost(post, currentAccount?.name, true, true, false, currentTime),
-      );
+      return nsfwFiltered.map((post) => parsePost(post, currentAccount?.name, true, true, false));
     },
     // Handle errors gracefully
     meta: {

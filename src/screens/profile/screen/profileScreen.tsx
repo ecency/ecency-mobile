@@ -40,7 +40,6 @@ const ProfileScreen = ({ route }) => (
       quickProfile,
       resourceCredits,
       selectedUser,
-      setEstimatedWalletValue,
       username,
       votingPower,
       reverseHeader,
@@ -79,7 +78,6 @@ const ProfileScreen = ({ route }) => (
         quickProfile={quickProfile}
         resourceCredits={resourceCredits || 0}
         selectedUser={selectedUser}
-        setEstimatedWalletValue={setEstimatedWalletValue}
         username={username}
         votingPower={votingPower || 0}
         isHideImage={isHideImage}

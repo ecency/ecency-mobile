@@ -12,7 +12,6 @@ import {
   TextInput,
   TransferFormItem,
   MainButton,
-  DropdownButton,
   UserAvatar,
   Icon,
   Modal,
@@ -67,7 +66,7 @@ class TransferTokenView extends Component {
     }
   };
 
-  _handleTransferAction = () => {
+  _handleTransferAction = async () => {
     const { transferToAccount, accountType } = this.props;
     const { from, destination, amount, memo } = this.state;
 
@@ -77,7 +76,11 @@ class TransferTokenView extends Component {
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
       this.setState({ steemConnectTransfer: true });
     } else {
-      transferToAccount(from, destination, amount, memo);
+      try {
+        await transferToAccount(from, destination, amount, memo);
+      } finally {
+        this.setState({ isTransfering: false });
+      }
     }
   };
 
@@ -104,29 +107,9 @@ class TransferTokenView extends Component {
     />
   );
 
-  _renderDropdown = (accounts, currentAccountName) => (
-    <DropdownButton
-      dropdownButtonStyle={styles.dropdownButtonStyle}
-      rowTextStyle={styles.rowTextStyle}
-      style={styles.dropdown}
-      dropdownStyle={styles.dropdownStyle}
-      textStyle={styles.dropdownText}
-      options={accounts.map((item) => item.username)}
-      defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
-      onSelect={(index, value) => this._handleOnDropdownChange(value)}
-    />
+  _renderDropdown = (currentAccountName) => (
+    <Text style={styles.dropdownText}>{currentAccountName}</Text>
   );
-
-  _handleOnDropdownChange = (value) => {
-    const { fetchBalance, transferType } = this.props;
-
-    fetchBalance(value);
-    this.setState({ from: value });
-    if (transferType === 'convert') {
-      this.setState({ destination: value });
-    }
-  };
 
   _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
 
@@ -186,7 +169,7 @@ class TransferTokenView extends Component {
             <View style={styles.middleContent}>
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.from' })}
-                rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
+                rightComponent={() => this._renderDropdown(currentAccountName)}
               />
               {transferType !== 'convert' && (
                 <TransferFormItem

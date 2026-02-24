@@ -7,7 +7,6 @@ import { Image as ExpoImage } from 'expo-image';
 import parseAsset from './parseAsset';
 import { getResizedAvatar } from './image';
 import { parseReputation } from './user';
-import { CacheStatus } from '../redux/reducers/cacheReducer';
 import { calculateVoteReward } from './vote';
 
 export const parsePost = (
@@ -272,149 +271,7 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
   return comment;
 };
 
-export const injectPostCache = (commentsMap, cachedVotes) => {
-  let shouldClone = false;
-  let _comments = commentsMap || {};
-  if (!cachedVotes) {
-    return _comments;
-  }
-
-  if (!_comments || Object.keys(_comments).length === 0) {
-    return _comments;
-  }
-
-  const commentPaths = Object.keys(_comments);
-
-  // process votes cache - only for comments in this discussion
-  commentPaths.forEach((path) => {
-    const cachedVote = cachedVotes[path];
-    if (cachedVote) {
-      const updatedComment = injectVoteCache(_comments[path], cachedVote);
-      // Only update if injectVoteCache returned a new reference (meaning cache was applied)
-      if (updatedComment !== _comments[path]) {
-        if (!shouldClone) {
-          _comments = { ..._comments };
-          shouldClone = true;
-        }
-        _comments[path] = updatedComment;
-      }
-    }
-  });
-
-  return _comments;
-};
-
-export const injectVoteCache = (post, voteCache) => {
-  // Defensive checks
-  if (!post || !voteCache || voteCache.status === CacheStatus.FAILED) {
-    return post;
-  }
-
-  const activeVotes = Array.isArray(post.active_votes) ? post.active_votes : [];
-
-  const _voteIndex = activeVotes.findIndex((i) => i.voter === voteCache.voter);
-
-  // handle unvote
-  if (_voteIndex >= 0 && voteCache.status === CacheStatus.DELETED) {
-    const _vote = activeVotes[_voteIndex];
-    const clonedPost = { ...post };
-
-    const _oldReward = calculateVoteReward(_vote.rshares, post);
-    clonedPost.total_payout = post.total_payout - _oldReward;
-
-    const updatedVotes = activeVotes.filter((_, index) => index !== _voteIndex);
-    clonedPost.active_votes = updatedVotes;
-
-    clonedPost.isUpVoted = false;
-    clonedPost.isDownVoted = false;
-
-    if (post.stats) {
-      clonedPost.stats = { ...post.stats, total_votes: updatedVotes.length };
-    }
-
-    return clonedPost;
-  }
-
-  // if vote do not already exist
-  if (_voteIndex < 0 && voteCache.status !== CacheStatus.DELETED) {
-    // Clone post to avoid mutations
-    const clonedPost = { ...post };
-    const voteAmount = (voteCache.amount ?? 0) * (voteCache.isDownvote ? -1 : 1);
-    clonedPost.total_payout = post.total_payout + voteAmount;
-
-    // calculate updated totalRShares and send to post
-    const _totalRShares = activeVotes.reduce(
-      (accumulator: number, item: any) => accumulator + parseFloat(item.rshares),
-      Number(voteCache.rshares) || 0,
-    );
-    const _newVote = parseVote(voteCache, post, _totalRShares);
-    clonedPost.active_votes = [...activeVotes, _newVote];
-
-    // update vote status here
-    clonedPost.isUpVoted = !voteCache.isDownvote;
-    clonedPost.isDownVoted = !!voteCache.isDownvote;
-
-    // Clone stats object and update total_votes count
-    if (post.stats) {
-      clonedPost.stats = { ...post.stats, total_votes: clonedPost.active_votes.length };
-    }
-
-    return clonedPost;
-  }
-
-  // if vote already exist
-  if (_voteIndex >= 0) {
-    const _vote = activeVotes[_voteIndex];
-
-    // Check if vote actually changed before cloning
-    const currentIsUpVoted = !voteCache.isDownvote;
-    const currentIsDownVoted = !!voteCache.isDownvote;
-
-    if (
-      _vote.rshares === voteCache.rshares &&
-      post.isUpVoted === currentIsUpVoted &&
-      post.isDownVoted === currentIsDownVoted
-    ) {
-      return post; // No changes, return original reference
-    }
-
-    // Clone post to avoid mutations
-    const clonedPost = { ...post };
-
-    // get older and new reward for the vote
-    const _oldReward = calculateVoteReward(_vote.rshares, post);
-
-    // update total payout
-    const _voteAmount = (voteCache.amount ?? 0) * (voteCache.isDownvote ? -1 : 1);
-    clonedPost.total_payout = post.total_payout + _voteAmount - _oldReward;
-
-    // update vote entry
-    const updatedVote = { ..._vote };
-    updatedVote.rshares = voteCache.rshares;
-    updatedVote.percent = voteCache.percent ?? updatedVote.percent;
-    updatedVote.percent100 = (voteCache.percent ?? updatedVote.percent) / 100;
-
-    const updatedVotes = [...activeVotes];
-    updatedVotes[_voteIndex] = updatedVote;
-    clonedPost.active_votes = updatedVotes;
-
-    // update vote status here
-    clonedPost.isUpVoted = !voteCache.isDownvote;
-    clonedPost.isDownVoted = !!voteCache.isDownvote;
-
-    // Clone stats object (vote count stays same for updates)
-    if (post.stats) {
-      clonedPost.stats = { ...post.stats };
-    }
-
-    return clonedPost;
-  }
-
-  // No changes needed
-  return post;
-};
-
-export const isVoted = async (activeVotes, currentUserName) => {
+export const isVoted = (activeVotes, currentUserName) => {
   if (!currentUserName) {
     return false;
   }
@@ -427,7 +284,7 @@ export const isVoted = async (activeVotes, currentUserName) => {
   return false;
 };
 
-export const isDownVoted = async (activeVotes, currentUserName) => {
+export const isDownVoted = (activeVotes, currentUserName) => {
   if (!currentUserName) {
     return false;
   }

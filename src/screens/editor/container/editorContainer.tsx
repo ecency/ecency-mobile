@@ -23,13 +23,7 @@ import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
 import { speakQueries } from '../../../providers/queries';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
-import {
-  postContent,
-  grantPostingPermission,
-  reblog,
-  getDigitPinCode,
-  shouldPromptPostingAuthority,
-} from '../../../providers/hive/dhive';
+import { getDigitPinCode, shouldPromptPostingAuthority } from '../../../providers/hive/dhive';
 import { decryptKey } from '../../../utils/crypto';
 
 // Constants
@@ -66,7 +60,15 @@ import QUERIES from '../../../providers/queries/queryKeys';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
-import { useCommentMutations } from '../../../providers/queries/postQueries/commentQueries';
+import {
+  useCommentMutations,
+  addOptimisticComment,
+  removeOptimisticComment,
+} from '../../../providers/queries/postQueries/commentQueries';
+import {
+  useReblogMutation,
+  useGrantPostingPermissionMutation,
+} from '../../../providers/sdk/mutations';
 import { PostTypes } from '../../../constants/postTypes';
 
 import {
@@ -818,7 +820,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       dispatch,
       intl,
       navigation,
-      pinCode,
       userActivityMutation,
       speakContentBuilder,
       speakMutations,
@@ -893,18 +894,15 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             });
           });
 
-          // Reset the flag before recursive call to allow the submission to proceed
-          this._postingAuthorityPromptShown = false;
-
           // Recursive call after prompt is handled - use original fields parameter
           return this._submitPost({ fields, scheduleDate });
         } catch (error) {
           // Error granting posting authority - don't retry
           console.warn('Failed to grant posting authority:', error);
-          // Reset state and flag, then abort
-          this._postingAuthorityPromptShown = false;
           this.setState({ isPostSending: false });
           return;
+        } finally {
+          this._postingAuthorityPromptShown = false;
         }
       }
 
@@ -946,7 +944,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         beneficiaries,
       });
       const parentPermlink = _tags[0] || 'hive-125125';
-      const voteWeight = null;
 
       if (scheduleDate) {
         if (fields.tags.length === 0) {
@@ -962,88 +959,90 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           beneficiaries,
         });
       } else {
-        await postContent(
-          currentAccount,
-          pinCode,
-          '',
-          parentPermlink,
-          permlink,
-          fields.title || '',
-          fields.body,
-          jsonMeta,
-          options,
-          voteWeight,
-        )
-          .then((response) => {
-            console.log(response);
-
-            // track user activity for points
-            userActivityMutation.mutate({
-              pointsTy: PointActivityIds.POST,
-              transactionId: response.id,
-            });
-
-            // reblog if flag is active
-            if (shouldReblog) {
-              reblog(currentAccount, pinCode, author, permlink)
-                .then((resp) => {
-                  // track user activity for points on reblog
-                  userActivityMutation.mutate({
-                    pointsTy: PointActivityIds.REBLOG,
-                    transactionId: resp.id,
-                  });
-                  console.log('Successfully reblogged post', resp);
-                })
-                .catch((err) => {
-                  console.warn('Failed to reblog post', err);
-                });
-            }
-
-            // mark unpublished video as published on 3speak if that is the case
-            if (videoPublishMeta) {
-              console.log('marking inserted video as published');
-              speakMutations.updateInfoMutation.mutate({
-                id: videoPublishMeta._id,
-                title: fields.title,
-                body: fields.body,
-                tags: fields.tags,
-              });
-              speakMutations.markAsPublishedMutation.mutate(videoPublishMeta._id);
-            }
-
-            // post publish updates
-            dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
-
-            dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
-            if (draftId) {
-              dispatch(removeEditorCache(draftId));
-            }
-
-            dispatch(
-              toastNotification(
-                intl.formatMessage({
-                  id: 'alert.success_shared',
-                }),
-              ),
-            );
-            setTimeout(() => {
-              this.setState({
-                isPostSending: false,
-              });
-              navigation.replace(
-                ROUTES.SCREENS.PROFILE,
-                {
-                  username: get(currentAccount, 'name'),
-                },
-                {
-                  key: get(currentAccount, 'name'),
-                },
-              );
-            }, 500);
-          })
-          .catch((error) => {
-            this._handleSubmitFailure(error);
+        try {
+          const response = await this.props.commentMutation.mutateAsync({
+            author,
+            permlink,
+            parentAuthor: '',
+            parentPermlink,
+            title: fields.title || '',
+            body: fields.body,
+            jsonMetadata: jsonMeta,
+            options: options
+              ? {
+                  maxAcceptedPayout: options.max_accepted_payout,
+                  percentHbd: options.percent_hbd,
+                  allowVotes: options.allow_votes,
+                  allowCurationRewards: options.allow_curation_rewards,
+                  beneficiaries: Array.isArray(options.extensions?.[0]?.[1]?.beneficiaries)
+                    ? options.extensions[0][1].beneficiaries
+                    : beneficiaries,
+                }
+              : undefined,
           });
+
+          // track user activity for points
+          userActivityMutation.mutate({
+            pointsTy: PointActivityIds.POST,
+            transactionId: response.id,
+          });
+
+          // reblog if flag is active
+          if (shouldReblog) {
+            this.props.reblogMutation
+              .mutateAsync({ author, permlink })
+              .then((resp) => {
+                // track user activity for points on reblog
+                userActivityMutation.mutate({
+                  pointsTy: PointActivityIds.REBLOG,
+                  transactionId: resp.id,
+                });
+              })
+              .catch((err) => {
+                console.warn('Failed to reblog post', err);
+                dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+              });
+          }
+
+          // mark unpublished video as published on 3speak if that is the case
+          if (videoPublishMeta) {
+            console.log('marking inserted video as published');
+            speakMutations.updateInfoMutation.mutate({
+              id: videoPublishMeta._id,
+              title: fields.title,
+              body: fields.body,
+              tags: fields.tags,
+            });
+            speakMutations.markAsPublishedMutation.mutate(videoPublishMeta._id);
+          }
+
+          // post publish updates
+          dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
+
+          dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
+          if (draftId) {
+            dispatch(removeEditorCache(draftId));
+          }
+
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'alert.success_shared',
+              }),
+            ),
+          );
+          setTimeout(() => {
+            this.setState({
+              isPostSending: false,
+            });
+            navigation.replace(ROUTES.SCREENS.PROFILE, {
+              username: get(currentAccount, 'name'),
+              key: get(currentAccount, 'name'),
+            });
+          }, 500);
+        } catch (error) {
+          this._handleSubmitFailure(error);
+        }
       }
     }
   };
@@ -1130,6 +1129,19 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const rootPermlink = post.root_permlink || parentPermlink;
 
       try {
+        // Add optimistic entry to discussions cache for immediate UI feedback
+        addOptimisticComment({
+          author,
+          permlink,
+          parentAuthor,
+          parentPermlink,
+          rootAuthor,
+          rootPermlink,
+          body: fields.body,
+          jsonMetadata,
+          authorReputation: currentAccount.reputation,
+        });
+
         await commentMutation.mutateAsync({
           author,
           permlink,
@@ -1152,6 +1164,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         this._isSubmitting = false;
       } catch (error) {
+        // Roll back optimistic entry on failure
+        removeOptimisticComment(
+          author,
+          permlink,
+          rootAuthor,
+          rootPermlink,
+          parentAuthor,
+          parentPermlink,
+        );
+
         this._isSubmitting = false;
         this._handleSubmitFailure(error);
       }
@@ -1159,9 +1181,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _submitEdit = async (fields) => {
-    const { currentAccount, pinCode, postCachePrimer, speakContentBuilder, updateReplyMutation } =
+    const { currentAccount, postCachePrimer, speakContentBuilder, updateReplyMutation } =
       this.props;
-    const { post, isEdit, isPostSending, thumbUrl, isReply } = this.state;
+    const { post, isPostSending, thumbUrl, isReply } = this.state;
 
     if (isPostSending) {
       return;
@@ -1276,20 +1298,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
         } else {
-          // Use postContent for post edits (non-reply)
-          await postContent(
-            currentAccount,
-            pinCode,
-            parentAuthor || '',
-            parentPermlink || '',
+          // Use SDK comment mutation for post edits (non-reply)
+          await this.props.commentMutation.mutateAsync({
+            author: currentAccount.name,
             permlink,
-            title || '',
-            newBody,
-            jsonMeta,
-            null,
-            null,
-            isEdit,
-          );
+            parentAuthor: parentAuthor || '',
+            parentPermlink: parentPermlink || '',
+            title: title || '',
+            body: newBody,
+            jsonMetadata: jsonMeta,
+          });
 
           this._handleSubmitSuccess();
           // update post query data
@@ -1310,7 +1328,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   _handleSubmitFailure = (error) => {
     const { intl, dispatch } = this.props;
-    console.log(error);
+
+    const msg =
+      error && typeof error === 'object' && 'message' in error
+        ? (error as any).message
+        : typeof error === 'string'
+        ? error
+        : '';
 
     this._isSubmitting = false;
     if (
@@ -1328,7 +1352,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       // when other errors
       dispatch(
         toastNotification(
-          intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: error.message }),
+          intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: msg || '' }),
         ),
       );
     }
@@ -1424,7 +1448,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _handleSchedulePress = async (datePickerValue, fields) => {
-    const { currentAccount, pinCode, intl, dispatch } = this.props;
+    const { currentAccount, intl, dispatch } = this.props;
 
     if (fields.title === '' || fields.body === '') {
       const timer = setTimeout(() => {
@@ -1451,20 +1475,25 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       if (hasPostingPerm) {
         this._submitPost({ fields, scheduleDate: datePickerValue });
       } else {
-        await grantPostingPermission(json, pinCode, currentAccount)
-          .then(() => {
-            this._submitPost({ fields, scheduleDate: datePickerValue });
-          })
-          .catch((error) => {
-            dispatch(
-              toastNotification(
-                intl.formatMessage(
-                  { id: 'alert.something_wrong_msg' },
-                  { messsage: error.message },
-                ),
-              ),
-            );
+        try {
+          await this.props.grantPostingPermissionMutation.mutateAsync({
+            currentPosting: currentAccount.posting,
+            grantedAccount: 'ecency.app',
+            weightThreshold: currentAccount.posting.weight_threshold,
+            memoKey: currentAccount.memo_key,
+            jsonMetadata: json,
           });
+          this._submitPost({ fields, scheduleDate: datePickerValue });
+        } catch (error) {
+          dispatch(
+            toastNotification(
+              intl.formatMessage(
+                { id: 'alert.something_wrong_msg' },
+                { message: error?.message || '' },
+              ),
+            ),
+          );
+        }
       }
     }
   };
@@ -1536,7 +1565,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           toastNotification(
             intl.formatMessage(
               { id: 'alert.something_wrong_msg' },
-              { messsage: error?.message || '' },
+              { message: error?.message || '' },
             ),
           ),
         );
@@ -1670,17 +1699,19 @@ const mapStateToProps = (state) => ({
   replyCache: state.cache.replyCache,
 });
 
-const mapQueriesToProps = () => ({
+const useEditorQueryProps = () => ({
   queryClient: useQueryClient(),
   speakContentBuilder: speakQueries.useSpeakContentBuilder(),
   speakMutations: speakQueries.useSpeakMutations(),
   userActivityMutation: useUserActivityMutation(),
   postCachePrimer: usePostsCachePrimer(),
   ...useCommentMutations(),
+  reblogMutation: useReblogMutation(),
+  grantPostingPermissionMutation: useGrantPostingPermissionMutation(),
 });
 
 export default gestureHandlerRootHOC(
   connect(mapStateToProps)(
-    injectIntl((props) => <EditorContainer {...props} {...mapQueriesToProps()} />),
+    injectIntl((props) => <EditorContainer {...props} {...useEditorQueryProps()} />),
   ),
 );

@@ -18,7 +18,6 @@ import { hsOptions } from '../../../constants/hsOptions';
 import { BasicHeader } from '../../../components/basicHeader';
 import { TransferFormItem } from '../../../components/transferFormItem';
 import { MainButton } from '../../../components/mainButton';
-import { DropdownButton } from '../../../components/dropdownButton';
 import { Modal } from '../../../components/modal';
 
 // Styles
@@ -33,14 +32,12 @@ const BoostPlus = ({
   handleOnSubmit,
   redeemType,
   isLoading,
-  accounts,
   currentAccountName,
   balance: _balance,
   SCPath,
   isSCModalOpen,
   handleOnSCModalClose,
 }) => {
-  const [selectedUser, setSelectedUser] = useState('');
   const [balance, setBalance] = useState(_balance);
   const [day, setDay] = useState(7);
   const [price, setPrice] = useState<number | null>(null);
@@ -93,16 +90,14 @@ const BoostPlus = ({
     setPrice(pr ?? null);
   }, [day, balance, boostPricesQuery.data]);
 
-  const _selectedUser = selectedUser || currentAccountName;
-
   const pointsQuery = useQuery({
-    ...getPointsQueryOptions(_selectedUser, 0),
-    enabled: !!_selectedUser,
+    ...getPointsQueryOptions(currentAccountName, 0),
+    enabled: !!currentAccountName,
   });
 
   const boostAccountQuery = useQuery({
-    ...getBoostPlusAccountPricesQueryOptions(_selectedUser, code),
-    enabled: !!_selectedUser && !!code,
+    ...getBoostPlusAccountPricesQueryOptions(currentAccountName, code),
+    enabled: !!currentAccountName && !!code,
   });
 
   useEffect(() => {
@@ -116,7 +111,7 @@ const BoostPlus = ({
 
   useEffect(() => {
     const response = boostAccountQuery.data;
-    if (response?.account === _selectedUser) {
+    if (response?.account === currentAccountName) {
       const expiry = new Date(response.expires);
       if (expiry > new Date()) {
         setExpiryDate(expiry);
@@ -124,7 +119,7 @@ const BoostPlus = ({
       }
     }
     setExpiryDate(null);
-  }, [boostAccountQuery.data, _selectedUser]);
+  }, [boostAccountQuery.data, currentAccountName]);
 
   // Component Functions
 
@@ -140,27 +135,12 @@ const BoostPlus = ({
       </Animated.View>
     );
 
-  const _renderDropdown = (accounts, currentAccountName) => (
-    <DropdownButton
-      dropdownButtonStyle={styles.dropdownButtonStyle}
-      rowTextStyle={styles.rowTextStyle}
-      style={styles.dropdown}
-      dropdownStyle={styles.dropdownStyle}
-      textStyle={styles.dropdownText}
-      options={accounts.map((item) => item.username)}
-      defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
-      onSelect={(index, value) => {
-        setSelectedUser(value);
-      }}
-    />
-  );
+  const _renderDropdown = (accountName) => <Text style={styles.dropdownText}>{accountName}</Text>;
 
   // balance is derived from pointsQuery; no manual fetch needed
 
   const _handleOnSubmit = async () => {
-    // TODO: later add support to boost other accounts
-    handleOnSubmit(redeemType, day, _selectedUser, selectedUser);
+    handleOnSubmit(redeemType, day, currentAccountName, currentAccountName);
   };
 
   return (
@@ -171,7 +151,7 @@ const BoostPlus = ({
           <View style={styles.middleContent}>
             <TransferFormItem
               label={intl.formatMessage({ id: 'promote.user' })}
-              rightComponent={() => _renderDropdown(accounts, _selectedUser)}
+              rightComponent={() => _renderDropdown(currentAccountName)}
             />
             <Text style={styles.balanceText}>{`${balance} Points`}</Text>
 

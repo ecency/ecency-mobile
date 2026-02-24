@@ -6,21 +6,20 @@ import { useNavigation } from '@react-navigation/native';
 import { getCommunityQueryOptions } from '@ecency/sdk';
 import { useQuery } from '@tanstack/react-query';
 
-import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
-
 import ROUTES from '../../../constants/routeNames';
 import { updateSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
 import { statusMessage } from '../../../redux/constants/communitiesConstants';
-import { selectCurrentAccount, selectIsLoggedIn, selectPin } from '../../../redux/selectors';
-import { useAppSelector } from '../../../hooks';
+import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
+import { useAppSelector, useCommunitySubscriptionAction } from '../../../hooks';
 
-const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn }) => {
+const CommunityContainer = ({ tag, children, currentAccount, isLoggedIn }) => {
   const navigation = useNavigation();
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
 
   const dispatch = useDispatch();
   const intl = useIntl();
+  const handleCommunitySubscription = useCommunitySubscriptionAction();
 
   // Use SDK query to fetch community data
   const { data } = useQuery(getCommunityQueryOptions(tag, currentAccount?.name));
@@ -66,33 +65,15 @@ const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn
     };
     setSelectedCommunityItem(_data); // set selected item to handle its cache
     const screen = 'communitiesScreenDiscoverTab';
-    let subscribeAction;
-    let successToastText = '';
-    let failToastText = '';
 
-    if (!_data.isSubscribed) {
-      subscribeAction = subscribeCommunity;
+    const successToastText = intl.formatMessage({
+      id: isSubscribed ? 'alert.success_leave' : 'alert.success_subscribe',
+    });
+    const failToastText = intl.formatMessage({
+      id: isSubscribed ? 'alert.fail_leave' : 'alert.fail_subscribe',
+    });
 
-      successToastText = intl.formatMessage({
-        id: 'alert.success_subscribe',
-      });
-      failToastText = intl.formatMessage({
-        id: 'alert.fail_subscribe',
-      });
-    } else {
-      subscribeAction = leaveCommunity;
-
-      successToastText = intl.formatMessage({
-        id: 'alert.success_leave',
-      });
-      failToastText = intl.formatMessage({
-        id: 'alert.fail_leave',
-      });
-    }
-
-    dispatch(
-      subscribeAction(currentAccount, pinCode, _data, successToastText, failToastText, screen),
-    );
+    handleCommunitySubscription(_data, successToastText, failToastText, screen);
     setIsSubscribed(!isSubscribed);
   };
 
@@ -120,7 +101,6 @@ const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn
 
 const mapStateToProps = (state) => ({
   currentAccount: selectCurrentAccount(state),
-  pinCode: selectPin(state),
   isLoggedIn: selectIsLoggedIn(state),
 });
 

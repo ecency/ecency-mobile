@@ -13,7 +13,6 @@ import AccountListContainer from '../../../containers/accountListContainer';
 
 // Utils
 import { parseActiveVotes } from '../../../utils/postParser';
-import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
 import globalStyles from '../../../globalStyles';
 
 const filterOptions = ['rewards', 'percent', 'time'];
@@ -22,7 +21,6 @@ const VotersScreen = ({ route }) => {
   const intl = useIntl();
 
   const [post, setPost] = useState(route.params?.content ?? null);
-  const _cPost = useInjectVotesCache(post);
 
   const headerTitle = intl.formatMessage({
     id: 'voters.voters_info',
@@ -56,7 +54,7 @@ const VotersScreen = ({ route }) => {
     }
   }, [activeVotes, route.params?.content]);
 
-  const _activeVotes = _cPost.active_votes.slice();
+  const _activeVotes = post?.active_votes?.slice() || [];
 
   return (
     <AccountListContainer data={_activeVotes}>

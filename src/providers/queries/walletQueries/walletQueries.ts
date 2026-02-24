@@ -15,22 +15,23 @@ import {
   getPointsQueryOptions,
   getPortfolioQueryOptions,
   getHiveEngineTokenTransactions,
+  useBroadcastMutation,
+  buildRecurrentTransferOp,
 } from '@ecency/sdk';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import POINTS from '../../../constants/options/points';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { claimPoints } from '../../ecency/ePoint';
+import { getAccount } from '../../hive/dhive';
 import {
-  claimRewardBalance,
-  getAccount,
-  profileUpdate,
-  recurrentTransferToken,
-} from '../../hive/dhive';
+  useClaimRewardsMutation as useSdkClaimRewardsMutation,
+  useAccountUpdateMutation,
+} from '../../sdk/mutations';
+import { useAuthContext } from '../../sdk';
 import QUERIES from '../queryKeys';
-import { claimRewards } from '../../hive-engine/hiveEngineActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { updateClaimCache } from '../../../redux/actions/cacheActions';
-import { selectCurrentAccount, selectPin, selectGlobalProps } from '../../../redux/selectors';
+import { selectCurrentAccount, selectGlobalProps } from '../../../redux/selectors';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
 import {
   groomingEngineHistory,
@@ -44,6 +45,15 @@ import { ProfileToken } from '../../../redux/reducers/walletReducer';
 
 interface ClaimRewardsMutationVars {
   symbol: string;
+}
+
+interface RecurrentTransferPayload {
+  from: string;
+  to: string;
+  amount: string;
+  memo: string;
+  recurrence: number;
+  executions: number;
 }
 
 const ACTIVITIES_FETCH_LIMIT = 50;
@@ -92,6 +102,7 @@ export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean }
       return updatedResponse;
     },
     initialData: [],
+    initialDataUpdatedAt: 0, // treat initialData as stale so it refetches immediately
     enabled: !!currentAccount?.name, // Only fetch when logged in
     retry: 2,
   });
@@ -143,7 +154,6 @@ export const useClaimRewardsMutation = () => {
   const queryClient = useQueryClient();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinHash = useAppSelector(selectPin);
   const currency = useAppSelector((state) => state.application.currency);
   const [isClaimingColl, setIsClaimingColl] = useState<{ [key: string]: boolean }>({});
   const portfolioBaseKey = [
@@ -154,7 +164,33 @@ export const useClaimRewardsMutation = () => {
   const portfolioKeyEnabled = [...portfolioBaseKey, 'enabled'] as const;
   const portfolioKeyAll = [...portfolioBaseKey, 'all'] as const;
 
+  const sdkClaimRewards = useSdkClaimRewardsMutation();
+  const authContext = useAuthContext();
+  const username = currentAccount?.name;
+
+  const engineClaimMutation = useBroadcastMutation(
+    ['hive', 'scot-claim-token'],
+    username || '',
+    ({ symbols }: { symbols: string[] }) => [
+      [
+        'custom_json',
+        {
+          id: 'scot_claim_token',
+          required_auths: [],
+          required_posting_auths: [username || ''],
+          json: JSON.stringify(symbols.map((r) => ({ symbol: r }))),
+        },
+      ],
+    ],
+    undefined,
+    authContext,
+    'posting',
+  );
+
   const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
+    if (!currentAccount?.name) {
+      throw new Error('No current account');
+    }
     const account = await getAccount(currentAccount.name);
     if (!account) {
       throw new Error('Account not found');
@@ -163,22 +199,20 @@ export const useClaimRewardsMutation = () => {
     if (symbol === 'POINTS') {
       await claimPoints();
     } else if (['HP', 'HBD', 'HIVE'].includes(symbol)) {
-      await claimRewardBalance(
-        currentAccount,
-        pinHash,
-        symbol === 'HIVE' ? account.reward_hive_balance : '0.000 HIVE',
-        symbol === 'HBD' ? account.reward_hbd_balance : '0.000 HBD',
-        symbol === 'HP' ? account.reward_vesting_balance : '0.000000 VESTS',
-      );
+      await sdkClaimRewards.mutateAsync({
+        rewardHive: symbol === 'HIVE' ? account.reward_hive_balance : '0.000 HIVE',
+        rewardHbd: symbol === 'HBD' ? account.reward_hbd_balance : '0.000 HBD',
+        rewardVests: symbol === 'HP' ? account.reward_vesting_balance : '0.000000 VESTS',
+      });
     } else {
-      await claimRewards([symbol], currentAccount, pinHash);
+      await engineClaimMutation.mutateAsync({ symbols: [symbol] });
     }
     return true;
   };
 
   const mutation = useMutation<boolean, Error, ClaimRewardsMutationVars>({
     mutationFn: _mutationFn,
-    retry: 2,
+    retry: 0,
     onMutate({ symbol }) {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: true }));
     },
@@ -323,23 +357,17 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   const pointsQuery = useQuery({
     ...getPointsQueryOptions(username, 0),
     enabled: !!username && isPoints,
-    staleTime: 0, // Always consider stale so pull-to-refresh works immediately
-    gcTime: 5 * 60 * 1000, // Keep in cache for 5 minutes
   });
 
   const chainQuery = useInfiniteQuery({
     ...getTransactionsInfiniteQueryOptions(username ?? '', ACTIVITIES_FETCH_LIMIT),
     enabled: !!username && !isEngine && !isPoints,
-    staleTime: 0, // Always consider stale so pull-to-refresh works immediately
-    gcTime: 5 * 60 * 1000, // Keep in cache for 5 minutes
   });
 
   const engineQuery = useInfiniteQuery({
     queryKey: [QUERIES.WALLET.GET_ACTIVITIES, username, symbol, 'engine'],
     enabled: !!username && isEngine,
     initialPageParam: 0,
-    staleTime: 0, // Always consider stale so pull-to-refresh works immediately
-    gcTime: 5 * 60 * 1000, // Keep in cache for 5 minutes
     queryFn: async ({ pageParam }) => {
       if (!username) return [];
       const offset = ACTIVITIES_FETCH_LIMIT * pageParam;
@@ -669,25 +697,44 @@ export const useDeleteRecurrentTransferMutation = () => {
   const intl = useIntl();
   const queryClient = useQueryClient();
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinHash = useAppSelector(selectPin);
+  const authContext = useAuthContext();
+
+  const recurrentTransferBroadcast = useBroadcastMutation(
+    ['hive', 'delete-recurrent-transfer'],
+    currentAccount?.name || '',
+    ({ from, to, amount, memo, recurrence, executions }: RecurrentTransferPayload) => [
+      buildRecurrentTransferOp(from, to, amount, memo, recurrence, executions),
+    ],
+    undefined,
+    authContext,
+    'active',
+  );
 
   const mutation = useMutation<boolean, Error, { recurrentTransfer: RecurrentTransfer }>({
     mutationFn: async ({ recurrentTransfer }) => {
-      // form up rec transfer data for deletion
-      const data = {
+      if (!currentAccount?.name) {
+        throw new Error('No current account');
+      }
+      const amountParts = String(recurrentTransfer.amount || '')
+        .trim()
+        .split(/\s+/);
+      const amountSymbol = amountParts[1] || 'HIVE';
+      await recurrentTransferBroadcast.mutateAsync({
         from: recurrentTransfer.from,
-        destination: recurrentTransfer.to,
-        amount: '0.000 HIVE',
+        to: recurrentTransfer.to,
+        amount: `0.000 ${amountSymbol}`,
         memo: recurrentTransfer.memo || '',
         recurrence: recurrentTransfer.recurrence || 0,
-        executions: recurrentTransfer.remaining_executions || 0,
-      };
-
-      await recurrentTransferToken(currentAccount, pinHash, data);
+        executions: 0,
+      });
       return true;
     },
-    retry: 2,
+    retry: 0,
     onSuccess: (_, { recurrentTransfer }) => {
+      if (!currentAccount?.name) {
+        return;
+      }
+
       // manually update previous query data
       const prevData = queryClient.getQueryData<RecurrentTransfer[]>([
         QUERIES.WALLET.GET_RECURRING_TRANSFERS,
@@ -696,14 +743,7 @@ export const useDeleteRecurrentTransferMutation = () => {
       ]);
 
       if (prevData) {
-        const updatedData = prevData.filter(
-          (item) =>
-            !(
-              item.from === recurrentTransfer.from &&
-              item.to === recurrentTransfer.to &&
-              item.recurrence === recurrentTransfer.recurrence
-            ),
-        );
+        const updatedData = prevData.filter((item) => item.id !== recurrentTransfer.id);
         queryClient.setQueryData(
           [QUERIES.WALLET.GET_RECURRING_TRANSFERS, ASSET_IDS.HIVE, currentAccount.name],
           updatedData,
@@ -728,17 +768,23 @@ export const useUpdateProfileTokensMutation = () => {
   const intl = useIntl();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinHash = useAppSelector(selectPin);
+  const accountUpdateMutation = useAccountUpdateMutation();
 
   const mutation = useMutation<any, Error, ProfileToken[]>({
     mutationFn: async (tokens) => {
-      const baseProfile = currentAccount?.profile || {};
+      if (!currentAccount?.name) {
+        throw new Error('No active account');
+      }
+
+      const baseProfile = currentAccount.profile || {};
       const newProfileMeta = {
         ...baseProfile,
         tokens: [...tokens],
       };
 
-      await profileUpdate(newProfileMeta, pinHash, currentAccount);
+      await accountUpdateMutation.mutateAsync({
+        profile: newProfileMeta,
+      });
 
       return newProfileMeta;
     },

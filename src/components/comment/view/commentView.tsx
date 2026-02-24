@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useMemo } from 'react';
+import React, { Fragment, useState, useMemo, useCallback } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useIntl } from 'react-intl';
 
@@ -26,6 +26,8 @@ import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import { PostPoll } from '../../postPoll';
 import { ContentType } from '../../../providers/hive/hive.types';
 import { SheetNames } from '../../../navigation/sheets';
+import RootNavigation from '../../../navigation/rootNavigation';
+import ROUTES from '../../../constants/routeNames';
 
 const CommentView = ({
   avatarSize,
@@ -113,6 +115,17 @@ const CommentView = ({
       },
     });
   };
+
+  const _openProfilePage = useCallback((username) => {
+    if (!username) {
+      return;
+    }
+    RootNavigation.navigate({
+      name: ROUTES.SCREENS.PROFILE,
+      params: { username },
+      key: username,
+    });
+  }, []);
 
   const _renderReadMoreButton = () => (
     <TextWithIcon
@@ -292,7 +305,8 @@ const CommentView = ({
           customStyle={{ alignItems: 'flex-start', paddingLeft: 12 }}
           showDotMenuButton={true}
           handleOnDotPress={() => handleOnMenuPress(comment)}
-          profileOnPress={handleOnUserPress}
+          avatarOnPress={handleOnUserPress}
+          profileOnPress={_openProfilePage}
           secondaryContentComponent={_renderComment()}
         />
       </View>

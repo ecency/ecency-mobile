@@ -17,9 +17,6 @@ import {
   TextInput,
 } from '../../../components';
 import WithdrawAccountModal from './withdrawAccountModal';
-import { useActiveKeyOperation, useAppSelector } from '../../../hooks';
-import { selectCurrentAccount } from '../../../redux/selectors';
-import AUTH_TYPE from '../../../constants/authType';
 
 import parseToken from '../../../utils/parseToken';
 import parseDate from '../../../utils/parseDate';
@@ -28,7 +25,6 @@ import { isEmptyDate, daysTillDate } from '../../../utils/time';
 
 import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
-import { buildWithdrawVestingOpArr } from '../../../providers/hive/dhive';
 
 const PowerDownScreen = ({
   currentAccountName,
@@ -42,8 +38,6 @@ const PowerDownScreen = ({
 }) => {
   const intl = useIntl();
   const queryClient = useQueryClient();
-  const { executeOperation } = useActiveKeyOperation();
-  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const [amount, setAmount] = useState(0);
   const [hp, setHp] = useState(0.0);
@@ -82,72 +76,18 @@ const PowerDownScreen = ({
       // Use explicit amount override (for stop power down) or current amount state
       const amountToUse = amountOverride !== undefined ? amountOverride : amount;
 
-      // Build operation array
-      const vestingShares = `${amountToUse.toFixed(6)} VESTS`;
-      const operations = buildWithdrawVestingOpArr(currentAccountName, vestingShares);
-
       try {
-        const authType = currentAccount?.local?.authType;
-        const isLocalKey =
-          !authType || (authType !== AUTH_TYPE.STEEM_CONNECT && authType !== AUTH_TYPE.HIVE_AUTH);
-
-        // For local-key auth, transferToAccount already calls executeOperation internally
-        // so call it directly to avoid double-wrapping
-        if (isLocalKey) {
-          try {
-            await transferToAccount(currentAccountName, destinationAccounts, amountToUse, '');
-            setIsTransfering(false);
-            if (handleOnModalClose) {
-              handleOnModalClose();
-            }
-          } catch (error) {
-            setIsTransfering(false);
-            Alert.alert(
-              intl.formatMessage({ id: 'alert.error' }),
-              error.message || error.toString(),
-            );
-          }
-        } else {
-          // For HiveSigner/HiveAuth, use executeOperation wrapper
-          await executeOperation({
-            operations,
-            privateKeyHandler: () =>
-              transferToAccount(currentAccountName, destinationAccounts, amountToUse, ''),
-            callbacks: {
-              onSuccess: () => {
-                setIsTransfering(false);
-                if (handleOnModalClose) {
-                  handleOnModalClose();
-                }
-              },
-              onError: (error) => {
-                setIsTransfering(false);
-                Alert.alert(
-                  intl.formatMessage({ id: 'alert.error' }),
-                  error.message || error.toString(),
-                );
-              },
-              onClose: () => {
-                setIsTransfering(false);
-              },
-            },
-          });
+        await transferToAccount(currentAccountName, destinationAccounts, amountToUse, '');
+        setIsTransfering(false);
+        if (handleOnModalClose) {
+          handleOnModalClose();
         }
       } catch (error) {
-        // Error already handled
         setIsTransfering(false);
+        Alert.alert(intl.formatMessage({ id: 'alert.error' }), error.message || error.toString());
       }
     },
-    [
-      amount,
-      currentAccountName,
-      destinationAccounts,
-      executeOperation,
-      transferToAccount,
-      handleOnModalClose,
-      intl,
-      currentAccount,
-    ],
+    [amount, currentAccountName, destinationAccounts, transferToAccount, handleOnModalClose, intl],
   );
 
   const validateHP = useCallback(

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useBroadcastMutation, getRebloggedByQueryOptions } from '@ecency/sdk';
+import { useBroadcastMutation, getRebloggedByQueryOptions, getPostQueryOptions } from '@ecency/sdk';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
@@ -23,6 +23,7 @@ export const useGetReblogsQuery = (author: string, permlink: string, enabled = t
     // Override queryKey to keep local cache key stable
     queryKey: [QUERIES.POST.GET_REBLOGS, author, permlink],
     initialData: [],
+    initialDataUpdatedAt: 0, // treat initialData as stale so it refetches immediately
     gcTime: 30 * 60 * 1000, // keeps cache for 30 minutes
     enabled: enabled && !!author && !!permlink, // Only fetch when enabled and valid params
   });
@@ -127,22 +128,36 @@ export function useReblogMutation(author: string, permlink: string) {
           if (!username) {
             return data;
           }
-          const _curIndex = data.indexOf(username);
+          const next = [...data];
+          const _curIndex = next.indexOf(username);
           if (vars.undo) {
             if (_curIndex >= 0) {
-              data.splice(_curIndex, 1);
+              next.splice(_curIndex, 1);
             }
           } else if (_curIndex < 0) {
-            data.splice(0, 0, username);
+            next.splice(0, 0, username);
           }
 
-          return [...data] as ReturnType<typeof useGetReblogsQuery>['data'];
+          return next as ReturnType<typeof useGetReblogsQuery>['data'];
         },
       );
 
-      // Invalidate the specific post query to update reblog stats
+      // Update cached reblog count after success
+      const entryKey = getPostQueryOptions(author, permlink).queryKey;
+      queryClient.setQueryData<any>(entryKey, (oldData) => {
+        if (!oldData) {
+          return oldData;
+        }
+        const delta = vars.undo ? -1 : 1;
+        return {
+          ...oldData,
+          reblogs: Math.max(0, (oldData.reblogs ?? 0) + delta),
+        };
+      });
+
+      // Also invalidate to fetch authoritative data
       queryClient.invalidateQueries({
-        queryKey: ['posts', 'entry', `/@${author}/${permlink}`],
+        queryKey: entryKey,
       });
 
       // Invalidate account posts query to show added/removed reblog in blog and reblog filters
