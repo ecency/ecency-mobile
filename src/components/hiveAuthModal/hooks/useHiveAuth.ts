@@ -438,6 +438,11 @@ export const useHiveAuth = () => {
         );
       }
       const pinCode = getDigitPinCode(pin);
+      if (!pinCode) {
+        throw new Error(
+          intl.formatMessage({ id: 'alert.auth_expired' }) || 'PIN not available. Please re-login.',
+        );
+      }
 
       // Decrypt HiveAuth credentials with validation
       const decryptedKey = decryptKey(account.local.hiveAuthKey, pinCode);

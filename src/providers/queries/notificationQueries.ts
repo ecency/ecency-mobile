@@ -73,8 +73,14 @@ export const useNotificationReadMutation = () => {
   const authContext = useAuthContext();
 
   // Get auth credentials
-  const digitPinCode = getDigitPinCode(pinHash);
+  const digitPinCode = useMemo(() => getDigitPinCode(pinHash), [pinHash]);
   const username = currentAccount?.name || authUsername;
+  const notificationsQueryKey = getNotificationsInfiniteQueryOptions(
+    username,
+    authCode,
+    undefined,
+    FETCH_LIMIT,
+  ).queryKey;
 
   // SDK broadcast mutation for marking Hive on-chain notifications
   const markHiveNotifMutation = useBroadcastMutation(
@@ -138,25 +144,12 @@ export const useNotificationReadMutation = () => {
       const pendingMutation = pendingMutationRef.current;
 
       if (pendingMutation && Date.now() - pendingMutation.timestamp < 5000) {
-        try {
-          const notificationsQueryKey = getNotificationsInfiniteQueryOptions(
-            username,
-            accessToken,
-          ).queryKey;
-          await queryClient.invalidateQueries({
-            queryKey: notificationsQueryKey,
-            exact: false,
-          });
-          pendingMutationRef.current = null;
-
-          Sentry.captureMessage(
-            'Notification mark-as-read failed but mutation may have succeeded',
-            'warning',
-          );
-          return;
-        } catch (_refetchError) {
-          Sentry.captureException(error);
-        }
+        pendingMutationRef.current = null;
+        Sentry.captureMessage(
+          'Notification mark-as-read failed but mutation may have succeeded',
+          'warning',
+        );
+        return;
       } else {
         Sentry.captureException(error);
       }
@@ -165,10 +158,6 @@ export const useNotificationReadMutation = () => {
       pendingMutationRef.current = null;
     },
     onSettled: async () => {
-      const notificationsQueryKey = getNotificationsInfiniteQueryOptions(
-        username,
-        accessToken,
-      ).queryKey;
       await queryClient.invalidateQueries({
         queryKey: notificationsQueryKey,
         exact: false,
@@ -198,9 +187,14 @@ export const useNotificationReadMutation = () => {
 
         // Mobile-specific: Also mark Hive notifications when marking all
         if (!notificationId) {
-          markHiveNotifMutation.mutateAsync({}).catch((err) => {
-            Sentry.captureException(err);
-          });
+          markHiveNotifMutation.mutate(
+            {},
+            {
+              onError: (err) => {
+                Sentry.captureException(err);
+              },
+            },
+          );
         }
       } catch (error) {
         Sentry.captureException(error);

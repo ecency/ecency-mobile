@@ -252,7 +252,7 @@ const PointsContainer = ({
       navigation.goBack();
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
     } catch (error) {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     } finally {
       setIsLoading(false);
     }

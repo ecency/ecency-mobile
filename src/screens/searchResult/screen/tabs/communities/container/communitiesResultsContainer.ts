@@ -25,9 +25,6 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   const handleCommunitySubscription = useCommunitySubscriptionAction();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
-  const subscribingCommunities = useAppSelector(
-    (state) => state.communities.subscribingCommunitiesInSearchResultsScreen,
-  );
   const subscribingCommunitiesInSearchResultsScreen = useAppSelector(
     (state) => state.communities.subscribingCommunitiesInSearchResultsScreen,
   );
@@ -110,10 +107,10 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   useEffect(() => {
     const communitiesData = data.map((item) => ({ ...item }));
 
-    Object.keys(subscribingCommunities).forEach((communityId) => {
-      if (!subscribingCommunities[communityId].loading) {
-        if (!subscribingCommunities[communityId].error) {
-          if (subscribingCommunities[communityId].isSubscribed) {
+    Object.keys(subscribingCommunitiesInSearchResultsScreen).forEach((communityId) => {
+      if (!subscribingCommunitiesInSearchResultsScreen[communityId].loading) {
+        if (!subscribingCommunitiesInSearchResultsScreen[communityId].error) {
+          if (subscribingCommunitiesInSearchResultsScreen[communityId].isSubscribed) {
             communitiesData.forEach((item) => {
               if (item.name === communityId) {
                 item.isSubscribed = true;
@@ -131,7 +128,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
     });
 
     setData(communitiesData);
-  }, [subscribingCommunities]);
+  }, [subscribingCommunitiesInSearchResultsScreen]);
 
   // Component Functions
   const _handleOnPress = (name) => {
@@ -160,7 +157,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
     children &&
     children({
       data,
-      subscribingCommunities,
+      subscribingCommunities: subscribingCommunitiesInSearchResultsScreen,
       handleOnPress: _handleOnPress,
       handleSubscribeButtonPress: _handleSubscribeButtonPress,
       isLoggedIn,

@@ -59,7 +59,7 @@ export const useSendTipMutation = () => {
   return useMutation<unknown, Error, TipParams>({
     mutationFn: async (params) => {
       const { currency, amount, recipient, author, permlink, precision } = params;
-      const normalizedCurrency = typeof currency === 'string' ? currency.trim().toUpperCase() : '';
+      const normalizedCurrency = currency.trim().toUpperCase();
       if (!normalizedCurrency) {
         throw new Error('Tip currency is required');
       }
@@ -78,6 +78,13 @@ export const useSendTipMutation = () => {
       }
 
       const formattedAmount = formatTipAmount(amount, normalizedCurrency, precision);
+      const formattedNumericAmount = Number(formattedAmount);
+      if (!Number.isFinite(formattedNumericAmount) || formattedNumericAmount <= 0) {
+        const precisionLabel = precision ?? 'default';
+        throw new Error(
+          `Tip amount rounds to zero with precision ${precisionLabel} for ${normalizedCurrency}`,
+        );
+      }
       const memo = `Tip for @${author}/${permlink}`;
 
       if (isPoints) {
