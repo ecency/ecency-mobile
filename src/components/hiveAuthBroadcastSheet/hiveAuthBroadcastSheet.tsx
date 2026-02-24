@@ -73,10 +73,14 @@ export const HiveAuthBroadcastSheet = ({
   // Reset refs when new operations arrive (not just when sheetId changes)
   // This ensures that if the sheet is reused with the same sheetId,
   // the refs are still reset for the new broadcast operation
+  // We track a counter so even retries with the same operations array
+  // reference will trigger a reset.
+  const broadcastSeqRef = useRef(0);
   useEffect(() => {
     isCancelledRef.current = false;
     broadcastStartedRef.current = false;
-  }, [payload?.operations]);
+    broadcastSeqRef.current += 1;
+  }, [payload?.operations, payload]);
 
   // Cleanup auto-close timer on unmount
   useEffect(() => {

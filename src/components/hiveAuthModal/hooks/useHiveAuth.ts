@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AppState, AppStateStatus, Linking, Keyboard } from 'react-native';
 import { useDispatch } from 'react-redux';
 
@@ -256,6 +256,13 @@ export const useHiveAuth = () => {
   const pinHash = useAppSelector(selectPin);
   const currentAccount = useAppSelector(selectCurrentAccount);
 
+  // Keep refs so the long-lived async broadcast() always reads the latest
+  // Redux values instead of a stale closure snapshot.
+  const currentAccountRef = useRef(currentAccount);
+  currentAccountRef.current = currentAccount;
+  const pinHashRef = useRef(pinHash);
+  pinHashRef.current = pinHash;
+
   const [statusText, setStatusText] = useState('');
   const [status, setStatus] = useState(HiveAuthStatus.INPUT);
 
@@ -340,7 +347,7 @@ export const useHiveAuth = () => {
           setStatusText(intl.formatMessage({ id: 'hiveauth.authenticating' }));
           Linking.openURL(uri);
         } else {
-          // TOOD: prompt to install valid keychain app
+          // TODO: prompt to install valid keychain app
           setStatusText(intl.formatMessage({ id: 'hiveauth.not_installed' }));
           setStatus(HiveAuthStatus.ERROR);
         }
@@ -392,8 +399,19 @@ export const useHiveAuth = () => {
   const broadcast = async (opsArray: Operation[]) => {
     try {
       assert(opsArray, intl.formatMessage({ id: 'hiveauth.missing_op_arr' }));
+
+      // Read fresh values from refs to avoid stale closure after long awaits
+      const account = currentAccountRef.current;
+      const pin = pinHashRef.current;
+
+      if (!account?.local) {
+        throw new Error(
+          intl.formatMessage({ id: 'alert.auth_expired' }) ||
+            'Account data not available. Please re-login.',
+        );
+      }
       assert(
-        currentAccount.local.authType === AUTH_TYPE.HIVE_AUTH,
+        account.local.authType === AUTH_TYPE.HIVE_AUTH,
         intl.formatMessage({ id: 'hiveauth.invalid_auth_type' }),
       );
 
@@ -405,7 +423,7 @@ export const useHiveAuth = () => {
       const hasStatus = HAS.status();
       console.log('[HiveAuth] Broadcast - HAS status:', hasStatus);
 
-      const username = currentAccount.name ?? currentAccount.username;
+      const username = account.name ?? account.username;
       if (!username) {
         throw new Error(
           intl.formatMessage({ id: 'alert.auth_expired' }) ||
@@ -413,12 +431,17 @@ export const useHiveAuth = () => {
         );
       }
 
-      const pinCode = getDigitPinCode(pinHash);
+      if (!pin) {
+        throw new Error(
+          intl.formatMessage({ id: 'alert.auth_expired' }) || 'PIN not available. Please re-login.',
+        );
+      }
+      const pinCode = getDigitPinCode(pin);
 
       // Decrypt HiveAuth credentials with validation
-      const decryptedKey = decryptKey(currentAccount.local.hiveAuthKey, pinCode);
-      const decryptedToken = currentAccount.local.hiveAuthToken
-        ? decryptKey(currentAccount.local.hiveAuthToken, pinCode)
+      const decryptedKey = decryptKey(account.local.hiveAuthKey, pinCode);
+      const decryptedToken = account.local.hiveAuthToken
+        ? decryptKey(account.local.hiveAuthToken, pinCode)
         : undefined;
 
       // Critical validation: ensure decryption succeeded
@@ -431,15 +454,15 @@ export const useHiveAuth = () => {
           level: 'error',
           extra: {
             username,
-            hasKey: !!currentAccount.local.hiveAuthKey,
-            hasPinHash: !!pinHash,
+            hasKey: !!account.local.hiveAuthKey,
+            hasPinHash: !!pin,
           },
         });
         throw new Error(errorMsg);
       }
 
       // Validate token decryption if token exists
-      if (currentAccount.local.hiveAuthToken && !decryptedToken) {
+      if (account.local.hiveAuthToken && !decryptedToken) {
         const errorMsg =
           intl.formatMessage({ id: 'hiveauth.decrypt_fail' }) ||
           'Failed to decrypt HiveAuth token. Please re-login.';
@@ -448,8 +471,7 @@ export const useHiveAuth = () => {
           level: 'error',
           extra: {
             username,
-            hasToken: !!currentAccount.local.hiveAuthToken,
-            hasPinHash: !!pinHash,
+            hasToken: !!account.local.hiveAuthToken,
           },
         });
         throw new Error(errorMsg);
@@ -457,7 +479,7 @@ export const useHiveAuth = () => {
 
       const _hiveAuthObj: any = {
         username,
-        expiry: currentAccount.local.hiveAuthExpiry,
+        expiry: account.local.hiveAuthExpiry,
         key: decryptedKey,
         token: decryptedToken,
       };
@@ -476,7 +498,15 @@ export const useHiveAuth = () => {
       const _cdWait = async (evt: any) => {
         console.log('sign wait', evt);
 
-        const uri = await getHiveAuthUri('sign_req', extractPreferredScheme(evt));
+        let uri: string | null = null;
+        try {
+          uri = await getHiveAuthUri('sign_req', extractPreferredScheme(evt));
+        } catch (err) {
+          console.warn('[HiveAuth] Failed to resolve sign URI', err);
+          setStatusText(intl.formatMessage({ id: 'hiveauth.not_installed' }));
+          setStatus(HiveAuthStatus.ERROR);
+          return;
+        }
 
         if (uri) {
           setStatusText(intl.formatMessage({ id: 'hiveauth.requesting' }));
@@ -549,19 +579,25 @@ export const useHiveAuth = () => {
 
         // Update Redux so subsequent broadcasts use refreshed credentials
         try {
-          const updatedLocal = { ...currentAccount.local };
-          if (auth.token) {
-            updatedLocal.hiveAuthToken = encryptKey(auth.token, pinCode);
+          // Re-read account from ref — it may have been updated during re-auth
+          const freshAccount = currentAccountRef.current;
+          if (!freshAccount?.local) {
+            console.warn('[HiveAuth] currentAccount gone after re-auth, skipping Redux update');
+          } else {
+            const updatedLocal = { ...freshAccount.local };
+            if (auth.token) {
+              updatedLocal.hiveAuthToken = encryptKey(auth.token, pinCode);
+            }
+            if (auth.expire) {
+              updatedLocal.hiveAuthExpiry = auth.expire;
+            }
+            dispatch(
+              updateCurrentAccount({
+                ...freshAccount,
+                local: updatedLocal,
+              }),
+            );
           }
-          if (auth.expire) {
-            updatedLocal.hiveAuthExpiry = auth.expire;
-          }
-          dispatch(
-            updateCurrentAccount({
-              ...currentAccount,
-              local: updatedLocal,
-            }),
-          );
         } catch (reduxErr) {
           console.warn('[HiveAuth] Failed to update Redux after re-auth', reduxErr);
         }
