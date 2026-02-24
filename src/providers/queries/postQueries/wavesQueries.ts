@@ -183,7 +183,7 @@ export const usePublishWaveMutation = () => {
 };
 
 export const fetchLatestWavesContainer = async (host: string) => {
-  const result = (await getAccountPosts('posts', host, '', '', 1, '')) || [];
+  const result = (await getAccountPosts('posts', host, '', '', 1, undefined)) || [];
 
   const _latestPost = result[0];
 

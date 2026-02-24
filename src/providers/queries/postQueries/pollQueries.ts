@@ -38,7 +38,7 @@ export const useGetPollQuery = (_author?: string, _permlink?: string, metadata?:
       try {
         const pollData = await getPollData(author, permlink);
         if (!pollData) {
-          new Error('Poll data unavailable');
+          throw new Error('Poll data unavailable');
         }
 
         return pollData;
@@ -139,8 +139,12 @@ export function useVotePollMutation(poll: Poll | null) {
       const postPath = `${poll?.author || ''}/${poll?.permlink || ''}`;
       const voteCache: PollVoteCache = pollVotesCollection[postPath];
       if (voteCache) {
-        voteCache.status = status ? CacheStatus.PUBLISHED : CacheStatus.FAILED;
-        dispatch(updatePollVoteCache(postPath, voteCache));
+        dispatch(
+          updatePollVoteCache(postPath, {
+            ...voteCache,
+            status: status ? CacheStatus.PUBLISHED : CacheStatus.FAILED,
+          }),
+        );
       }
     },
     onError: (err) => {
@@ -148,8 +152,12 @@ export function useVotePollMutation(poll: Poll | null) {
       const postPath = `${poll?.author || ''}/${poll?.permlink || ''}`;
       const voteCache: PollVoteCache = pollVotesCollection[postPath];
       if (voteCache) {
-        voteCache.status = CacheStatus.FAILED;
-        dispatch(updatePollVoteCache(postPath, voteCache));
+        dispatch(
+          updatePollVoteCache(postPath, {
+            ...voteCache,
+            status: CacheStatus.FAILED,
+          }),
+        );
       }
 
       dispatch(toastNotification(`${intl.formatMessage({ id: 'alert.fail' })}. ${err.message}`));
@@ -184,7 +192,7 @@ const useInjectPollVoteCache = (pollData: Poll | null) => {
         setRetData({ ...data });
       }
     }
-  }, [pollVotesCollection]);
+  }, [pollVotesCollection, pollData, lastUpdate]);
 
   useEffect(() => {
     if (!pollData) {
@@ -206,7 +214,7 @@ const useInjectPollVoteCache = (pollData: Poll | null) => {
     }
 
     setRetData(_cData);
-  }, [pollData]);
+  }, [pollData, pollVotesCollection]);
 
   return retData || pollData;
 };

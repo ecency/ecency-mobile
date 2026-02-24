@@ -88,8 +88,9 @@ export const useSendTipMutation = () => {
     },
     onSuccess: (data, variables) => {
       // Invalidate tips query to refetch updated tips
+      const tipsQueryKey = getPostTipsQueryOptions(variables.author, variables.permlink).queryKey;
       queryClient.invalidateQueries({
-        queryKey: [QUERIES.POST.GET_TIPS, variables.author, variables.permlink],
+        queryKey: tipsQueryKey,
       });
 
       // Invalidate wallet/portfolio query so balances refresh after tip

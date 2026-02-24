@@ -9,7 +9,6 @@ export interface VoteCacheEntry {
   incrementStep: number;
   voter: string;
   votedAt: number;
-  expiresAt: number;
   status: 'PENDING' | 'PUBLISHED' | 'DELETED' | 'FAILED';
 }
 

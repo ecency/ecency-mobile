@@ -88,17 +88,17 @@ class TransferContainer extends Component {
       const account = accounts[0];
       let balance;
 
-      if (transferType.endsWith('_engine')) {
+      if (this.props.route.params?.tokenLayer === TokenLayers.ENGINE) {
         const tokenBalances = await fetchTokenBalances(username);
 
         tokenBalances.forEach((tokenBalance) => {
           if (tokenBalance.symbol === fundType) {
             switch (transferType) {
-              case TransferTypes.UNDELEGATE_ENGINE:
+              case TransferTypes.UNDELEGATE:
                 balance = tokenBalance.delegationsOut;
                 break;
-              case TransferTypes.UNSTAKE_ENGINE:
-              case TransferTypes.DELEGATE_ENGINE:
+              case TransferTypes.UNSTAKE:
+              case TransferTypes.DELEGATE:
                 balance = tokenBalance.stake;
                 break;
               default:

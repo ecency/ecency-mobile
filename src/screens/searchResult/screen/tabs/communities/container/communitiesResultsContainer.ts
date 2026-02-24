@@ -61,24 +61,26 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
         );
 
         if (currentAccount && currentAccount.name) {
+          let nextCommunities = communities;
           if (subscribedCommunities.data && subscribedCommunities.data.length) {
-            communities.forEach((community) => {
+            nextCommunities = communities.map((community) => {
               // first check in cache and then in subscription list
               const itemExistInCache = subscribedCommunitiesCache.get(community.name);
               const _isSubscribed = itemExistInCache
                 ? itemExistInCache.data[4]
                 : subscribedCommunities.data.findIndex((item) => item[0] === community.name) !== -1;
-              return Object.assign(community, {
+              return {
+                ...community,
                 isSubscribed: _isSubscribed,
-              });
+              };
             });
           }
           if (searchValue) {
-            setData(communities);
+            setData(nextCommunities);
           } else {
-            setData(shuffle(communities));
+            setData(shuffle(nextCommunities));
           }
-          if (communities.length === 0) {
+          if (nextCommunities.length === 0) {
             setNoResult(true);
           }
         } else {
@@ -105,7 +107,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   }, [searchValue, queryClient, currentAccount, subscribedCommunities, subscribedCommunitiesCache]);
 
   useEffect(() => {
-    const communitiesData = [...data];
+    const communitiesData = data.map((item) => ({ ...item }));
 
     Object.keys(subscribingCommunities).forEach((communityId) => {
       if (!subscribingCommunities[communityId].loading) {

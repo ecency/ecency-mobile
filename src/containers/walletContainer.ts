@@ -245,6 +245,10 @@ const WalletContainer = ({
 
   const _handleOnWalletRefresh = () => {
     if (refreshing) return;
+    if (!selectedUser?.name) {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      return;
+    }
     setRefreshing(true);
 
     const queryClient = getQueryClient();

@@ -54,8 +54,6 @@ export const useGetPostQuery = ({
       return null;
     }
 
-    console.log('[useGetPostQuery] Processing post');
-
     // Always create shallow copy to avoid mutating cached data (parsePost mutates its input)
     const postCopy = {
       ...post,
@@ -96,7 +94,6 @@ export const usePostsCachePrimer = () => {
       return;
     }
 
-    console.log('priming data', post.author, post.permlink, post);
     const processedPost = {
       ...post,
       body: renderPostBody({ ...post, last_update: post.updated }, true, false),

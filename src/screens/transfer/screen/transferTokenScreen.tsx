@@ -66,7 +66,7 @@ class TransferTokenView extends Component {
     }
   };
 
-  _handleTransferAction = () => {
+  _handleTransferAction = async () => {
     const { transferToAccount, accountType } = this.props;
     const { from, destination, amount, memo } = this.state;
 
@@ -76,7 +76,11 @@ class TransferTokenView extends Component {
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
       this.setState({ steemConnectTransfer: true });
     } else {
-      transferToAccount(from, destination, amount, memo);
+      try {
+        await transferToAccount(from, destination, amount, memo);
+      } finally {
+        this.setState({ isTransfering: false });
+      }
     }
   };
 

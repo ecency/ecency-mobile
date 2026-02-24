@@ -32,6 +32,7 @@ export { useTransferToVestingMutation } from './useTransferToVestingMutation';
 export { useWithdrawVestingMutation } from './useWithdrawVestingMutation';
 export { useConvertMutation } from './useConvertMutation';
 export { useClaimInterestMutation } from './useClaimInterestMutation';
+export { useClaimPointsMutation } from './useClaimPointsMutation';
 export { useClaimRewardsMutation } from './useClaimRewardsMutation';
 
 // Wallet — delegation

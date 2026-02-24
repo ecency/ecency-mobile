@@ -16,12 +16,12 @@ import {
   selectIsConnected,
   selectActiveBottomTab,
 } from '../redux/selectors';
-import { claimPoints } from '../providers/ecency/ePoint';
 import { getQueryClient } from '../providers/queries';
 import { getUserDataWithUsername } from '../realm/realm';
 import { toastNotification } from '../redux/actions/uiAction';
 import { useGetPointsQuery } from '../providers/queries/pointQueries';
 import { useAuthContext } from '../providers/sdk';
+import { useClaimPointsMutation } from '../providers/sdk/mutations';
 
 // Constant
 import POINTS from '../constants/options/points';
@@ -54,6 +54,7 @@ const PointsContainer = ({
   const intl = useIntl();
   const dispatch = useDispatch();
   const authContext = useAuthContext();
+  const claimPointsMutation = useClaimPointsMutation();
 
   const boostMutation = useBroadcastMutation(
     ['ecency', 'boost'],
@@ -223,7 +224,8 @@ const PointsContainer = ({
   const _claimPoints = async () => {
     setIsClaiming(true);
 
-    await claimPoints()
+    await claimPointsMutation
+      .mutateAsync()
       .then(() => {
         _fetchUserPointActivities(username);
       })

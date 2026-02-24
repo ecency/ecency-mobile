@@ -46,9 +46,9 @@ export const fetchSubscribedCommunities = (username: string) => {
     try {
       const queryClient = getQueryClient();
       const res: any = await queryClient.fetchQuery(getAccountSubscriptionsQueryOptions(username));
-      res.forEach((item) => item.push(true)); // add true value for subscribe status
-      res.sort((a, b) => a[1].localeCompare(b[1]));
-      dispatch(fetchSubscribedCommunitiesSuccess(res));
+      const nextRes = (res || []).map((item) => [...item, true]); // add subscribe status immutably
+      nextRes.sort((a, b) => a[1].localeCompare(b[1]));
+      dispatch(fetchSubscribedCommunitiesSuccess(nextRes));
     } catch (err) {
       dispatch(fetchSubscribedCommunitiesFail(err));
     }

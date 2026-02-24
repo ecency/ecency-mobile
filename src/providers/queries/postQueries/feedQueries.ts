@@ -173,7 +173,10 @@ export const useFeedQuery = ({
   }, [feedQuery.data?.pages]);
 
   // Combine pinned post with feed data
-  const _data = unionBy(pinnedPostQuery.data ? [pinnedPostQuery.data] : [], _flatData, 'url');
+  const _data = useMemo(
+    () => unionBy(pinnedPostQuery.data ? [pinnedPostQuery.data] : [], _flatData, 'url'),
+    [pinnedPostQuery.data, _flatData],
+  );
 
   // Apply mute filtering
   const _filteredData = useMemo(
@@ -184,7 +187,7 @@ export const useFeedQuery = ({
   return {
     data: _filteredData,
     isRefreshing,
-    isLoading: feedQuery.isLoading || feedQuery.isFetching,
+    isLoading: feedQuery.isLoading,
     fetchNextPage: feedQuery.fetchNextPage,
     refresh: _refresh,
   };

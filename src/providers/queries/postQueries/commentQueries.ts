@@ -4,6 +4,7 @@ import {
   useDeleteComment,
   addOptimisticDiscussionEntry,
   removeOptimisticDiscussionEntry,
+  getPostQueryOptions,
 } from '@ecency/sdk';
 import { useAuthContext } from '../../sdk';
 import { useAppSelector } from '../../../hooks';
@@ -18,8 +19,7 @@ const updateEntryChildrenCount = (
   permlink: string,
   delta: 1 | -1,
 ) => {
-  const path = `/@${author}/${permlink}`;
-  const key = ['posts', 'entry', path];
+  const key = getPostQueryOptions(author, permlink).queryKey;
   const entry = queryClient.getQueryData<any>(key);
   if (!entry) {
     return;
