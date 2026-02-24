@@ -590,6 +590,14 @@ export const useHiveAuth = () => {
           const freshAccount = currentAccountRef.current;
           if (!freshAccount?.local) {
             console.warn('[HiveAuth] currentAccount gone after re-auth, skipping Redux update');
+          } else if ((freshAccount.name ?? freshAccount.username) !== username) {
+            console.warn(
+              '[HiveAuth] currentAccount changed during re-auth, skipping Redux update',
+              {
+                expectedUsername: username,
+                currentUsername: freshAccount.name ?? freshAccount.username,
+              },
+            );
           } else {
             const updatedLocal = { ...freshAccount.local };
             if (auth.token) {

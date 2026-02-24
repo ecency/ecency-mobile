@@ -73,7 +73,7 @@ export const useNotificationReadMutation = () => {
   const authContext = useAuthContext();
 
   // Get auth credentials
-  const digitPinCode = useMemo(() => getDigitPinCode(pinHash), [pinHash]);
+  const digitPinCode = useMemo(() => (pinHash ? getDigitPinCode(pinHash) : undefined), [pinHash]);
   const username = currentAccount?.name || authUsername;
   const notificationsQueryKey = getNotificationsInfiniteQueryOptions(
     username,
@@ -81,6 +81,7 @@ export const useNotificationReadMutation = () => {
     undefined,
     FETCH_LIMIT,
   ).queryKey;
+  const notificationsBaseQueryKey = notificationsQueryKey.slice(0, 2);
 
   // SDK broadcast mutation for marking Hive on-chain notifications
   const markHiveNotifMutation = useBroadcastMutation(
@@ -159,7 +160,7 @@ export const useNotificationReadMutation = () => {
     },
     onSettled: async () => {
       await queryClient.invalidateQueries({
-        queryKey: notificationsQueryKey,
+        queryKey: notificationsBaseQueryKey,
         exact: false,
       });
     },
