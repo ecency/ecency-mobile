@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useBroadcastMutation, getRebloggedByQueryOptions } from '@ecency/sdk';
+import { useBroadcastMutation, getRebloggedByQueryOptions, getPostQueryOptions } from '@ecency/sdk';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
@@ -128,21 +128,22 @@ export function useReblogMutation(author: string, permlink: string) {
           if (!username) {
             return data;
           }
-          const _curIndex = data.indexOf(username);
+          const next = [...data];
+          const _curIndex = next.indexOf(username);
           if (vars.undo) {
             if (_curIndex >= 0) {
-              data.splice(_curIndex, 1);
+              next.splice(_curIndex, 1);
             }
           } else if (_curIndex < 0) {
-            data.splice(0, 0, username);
+            next.splice(0, 0, username);
           }
 
-          return [...data] as ReturnType<typeof useGetReblogsQuery>['data'];
+          return next as ReturnType<typeof useGetReblogsQuery>['data'];
         },
       );
 
       // Update cached reblog count after success
-      const entryKey = ['posts', 'entry', `/@${author}/${permlink}`];
+      const entryKey = getPostQueryOptions(author, permlink).queryKey;
       queryClient.setQueryData<any>(entryKey, (oldData) => {
         if (!oldData) {
           return oldData;
@@ -156,7 +157,7 @@ export function useReblogMutation(author: string, permlink: string) {
 
       // Also invalidate to fetch authoritative data
       queryClient.invalidateQueries({
-        queryKey: ['posts', 'entry', `/@${author}/${permlink}`],
+        queryKey: entryKey,
       });
 
       // Invalidate account posts query to show added/removed reblog in blog and reblog filters

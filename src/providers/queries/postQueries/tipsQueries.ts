@@ -56,7 +56,7 @@ export const useSendTipMutation = () => {
   const transferPointMutation = useTransferPointMutation();
   const transferEngineMutation = useTransferEngineTokenMutation();
 
-  return useMutation<any, Error, TipParams>({
+  return useMutation<unknown, Error, TipParams>({
     mutationFn: async (params) => {
       const { currency, amount, recipient, author, permlink, precision } = params;
       const formattedAmount = formatTipAmount(amount, currency, precision);

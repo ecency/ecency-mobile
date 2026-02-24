@@ -134,7 +134,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
 
     setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
     setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
-  }, [content]);
+  }, [content, currentAccount?.name]);
 
   useEffect(() => {
     _calculateEstimatedAmount();
@@ -325,7 +325,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
       incrementStep = 1;
     }
 
-    const percent = Math.floor(sliderValue * 10000 * (isDownvote ? -1 : 1));
+    const percent = Math.trunc(sliderValue * 100) * 100 * (isDownvote ? -1 : 1);
     const rshares = calculateEstimatedRShares(currentAccount, percent) * (isDownvote ? -1 : 1);
 
     const curTime = new Date().getTime();
@@ -334,7 +334,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
       amount: amountNum,
       isDownvote,
       rshares,
-      percent: Math.round(sliderValue * 100) * 100 * (isDownvote ? -1 : 1),
+      percent,
       incrementStep,
       voter: currentAccount.name,
       status,

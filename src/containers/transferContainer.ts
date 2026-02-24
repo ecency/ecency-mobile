@@ -88,7 +88,8 @@ class TransferContainer extends Component {
       const account = accounts[0];
       let balance;
 
-      if (this.props.route.params?.tokenLayer === TokenLayers.ENGINE) {
+      const assetLayer = this.props.route.params?.assetLayer ?? this.props.route.params?.tokenLayer;
+      if (assetLayer === TokenLayers.ENGINE) {
         const tokenBalances = await fetchTokenBalances(username);
 
         tokenBalances.forEach((tokenBalance) => {

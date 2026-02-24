@@ -61,20 +61,20 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
         );
 
         if (currentAccount && currentAccount.name) {
-          let nextCommunities = communities;
-          if (subscribedCommunities.data && subscribedCommunities.data.length) {
-            nextCommunities = communities.map((community) => {
-              // first check in cache and then in subscription list
-              const itemExistInCache = subscribedCommunitiesCache.get(community.name);
-              const _isSubscribed = itemExistInCache
-                ? itemExistInCache.data[4]
-                : subscribedCommunities.data.findIndex((item) => item[0] === community.name) !== -1;
-              return {
-                ...community,
-                isSubscribed: _isSubscribed,
-              };
-            });
-          }
+          const nextCommunities = communities.map((community) => {
+            const itemExistInCache = subscribedCommunitiesCache.get(community.name);
+            const fromCache = itemExistInCache?.data?.[4];
+            const fromSubscriptions =
+              subscribedCommunities.data && subscribedCommunities.data.length
+                ? subscribedCommunities.data.findIndex((item) => item[0] === community.name) !== -1
+                : undefined;
+            const isSubscribed = fromCache ?? fromSubscriptions ?? false;
+
+            return {
+              ...community,
+              isSubscribed,
+            };
+          });
           if (searchValue) {
             setData(nextCommunities);
           } else {

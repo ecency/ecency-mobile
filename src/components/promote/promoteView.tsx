@@ -40,6 +40,7 @@ const PromoteView = ({
   const [permlinkSuggestions, setPermlinkSuggestions] = useState([]);
   const [isValid, setIsValid] = useState(false);
   const balance = _balance ?? 0;
+  const effectivePermlink = permlink || get(navigationParams, 'permlink', '');
 
   const startActionSheet = useRef(null);
   const timerRef = useRef<number | null>(null);
@@ -51,10 +52,10 @@ const PromoteView = ({
     if (pr > balance) {
       setIsValid(false);
     }
-    if (permlink && pr <= balance) {
+    if (effectivePermlink && pr <= balance) {
       setIsValid(true);
     }
-  }, [day, permlink, balance]);
+  }, [day, effectivePermlink, balance]);
 
   // Component Functions
 
@@ -114,7 +115,7 @@ const PromoteView = ({
   const _renderDropdown = (accountName) => <Text style={styles.dropdownText}>{accountName}</Text>;
 
   const _handleOnSubmit = async () => {
-    const fullPermlink = permlink || get(navigationParams, 'permlink');
+    const fullPermlink = effectivePermlink;
     if (!currentAccountName) {
       return;
     }
@@ -153,7 +154,7 @@ const PromoteView = ({
                     <TextInput
                       style={styles.input}
                       onChangeText={(text) => _handleOnPermlinkChange(text)}
-                      value={permlink || get(navigationParams, 'permlink', '')}
+                      value={effectivePermlink}
                       placeholder={intl.formatMessage({ id: 'promote.permlinkPlaceholder' })}
                       placeholderTextColor="#c1c5c7"
                       autoCapitalize="none"
@@ -200,6 +201,7 @@ const PromoteView = ({
               isDisable={
                 ((!permlink ? !get(navigationParams, 'permlink') : permlink) &&
                   (isLoading || !isValid)) ||
+                !effectivePermlink ||
                 !currentAccountName
               }
               onPress={() => startActionSheet.current.show()}

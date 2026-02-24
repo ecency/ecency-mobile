@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useMemo } from 'react';
+import React, { Fragment, useState, useMemo, useCallback } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useIntl } from 'react-intl';
 
@@ -116,7 +116,7 @@ const CommentView = ({
     });
   };
 
-  const _openProfilePage = (username) => {
+  const _openProfilePage = useCallback((username) => {
     if (!username) {
       return;
     }
@@ -125,7 +125,7 @@ const CommentView = ({
       params: { username },
       key: username,
     });
-  };
+  }, []);
 
   const _renderReadMoreButton = () => (
     <TextWithIcon

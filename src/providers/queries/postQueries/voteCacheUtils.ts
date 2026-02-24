@@ -14,6 +14,8 @@ export interface VoteCacheEntry {
 
 // Query key second segments under ['posts', ...] that contain voteable data
 // SDK uses hyphenated keys: 'posts-ranked-page', 'account-posts-page', etc.
+// Keep 'discussions'/'promoted' for SDK query variants, even though some app hooks
+// override query keys (e.g. promoted feed) and may not hit these segments.
 const VOTE_QUERY_TYPES = [
   'entry',
   'posts-ranked',
@@ -80,7 +82,12 @@ function updateDataWithVote(data: any, postPath: string, vote: VoteCacheEntry): 
   }
 
   // Object map of discussions (keyed by "author/permlink")
-  if (typeof data === 'object') {
+  if (
+    data &&
+    typeof data === 'object' &&
+    !Array.isArray(data) &&
+    Object.prototype.hasOwnProperty.call(data, postPath)
+  ) {
     return updateDiscussionMap(data, postPath, vote);
   }
 

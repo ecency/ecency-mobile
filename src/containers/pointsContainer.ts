@@ -223,24 +223,21 @@ const PointsContainer = ({
 
   const _claimPoints = async () => {
     setIsClaiming(true);
-
-    await claimPointsMutation
-      .mutateAsync()
-      .then(() => {
-        _fetchUserPointActivities(username);
-      })
-      .catch((error) => {
-        if (error) {
-          Alert.alert(
-            `PointsClaim - Connection issue, try again or write to support@ecency.com \n${error.message.substr(
-              0,
-              20,
-            )}`,
-          );
-        }
-      });
-
-    setIsClaiming(false);
+    try {
+      await claimPointsMutation.mutateAsync();
+      await _fetchUserPointActivities(username);
+    } catch (error) {
+      if (error) {
+        Alert.alert(
+          `PointsClaim - Connection issue, try again or write to support@ecency.com \n${error.message.substr(
+            0,
+            20,
+          )}`,
+        );
+      }
+    } finally {
+      setIsClaiming(false);
+    }
   };
 
   const _boost = async (point, permlink, author) => {

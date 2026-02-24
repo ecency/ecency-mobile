@@ -131,17 +131,15 @@ export function useVotePollMutation(poll: Poll | null) {
         status: CacheStatus.PENDING,
       } as PollVoteCache;
       dispatch(updatePollVoteCache(postPath, vote));
+      return { postPath, voteCache: vote };
     },
 
-    onSuccess: (status) => {
+    onSuccess: (status, _vars, context) => {
       console.log('vote response', status);
-      // update poll cache here
-      const postPath = `${poll?.author || ''}/${poll?.permlink || ''}`;
-      const voteCache: PollVoteCache = pollVotesCollection[postPath];
-      if (voteCache) {
+      if (context?.postPath && context?.voteCache) {
         dispatch(
-          updatePollVoteCache(postPath, {
-            ...voteCache,
+          updatePollVoteCache(context.postPath, {
+            ...context.voteCache,
             status: status ? CacheStatus.PUBLISHED : CacheStatus.FAILED,
           }),
         );
