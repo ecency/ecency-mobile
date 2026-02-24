@@ -9,7 +9,7 @@ import {
   getAccountFullQueryOptions,
   getRelationshipBetweenAccountsQueryOptions,
   getAccountRcQueryOptions,
-  checkFavouriteQueryOptions,
+  checkFavoriteQueryOptions,
 } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import { MainButton, StatsPanel } from '../../..';
@@ -133,7 +133,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
             if (accessToken) {
               _isFavourite = Boolean(
                 await queryClient.fetchQuery(
-                  checkFavouriteQueryOptions(currentAccountName, accessToken, username),
+                  checkFavoriteQueryOptions(currentAccountName, accessToken, username),
                 ),
               );
             }

@@ -1,6 +1,5 @@
 import React from 'react';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
-import assert from 'assert';
 import { QuickProfileContent } from '../children/quickProfileContent';
 import styles from '../children/quickProfileStyles';
 
@@ -8,7 +7,7 @@ export const QuickProfileModal = ({ payload }: SheetProps<'quick_profile'>) => {
   const username = payload?.username;
 
   if (!username) {
-    assert(!!username, 'QuickProfileModal requires a username in payload');
+    return null;
   }
 
   const _onClose = () => {

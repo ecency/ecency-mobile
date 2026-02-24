@@ -13,7 +13,7 @@ import {
   getRelationshipBetweenAccountsQueryOptions,
   getAccountPostsQueryOptions,
   getAccountRcQueryOptions,
-  checkFavouriteQueryOptions,
+  checkFavoriteQueryOptions,
 } from '@ecency/sdk';
 import {
   selectCurrentAccount,
@@ -333,7 +333,7 @@ class ProfileContainer extends Component {
         const favoritePromise =
           !isOwnProfile && currentAccount?.name && accessToken
             ? queryClient
-                .fetchQuery(checkFavouriteQueryOptions(currentAccount.name, accessToken, username))
+                .fetchQuery(checkFavoriteQueryOptions(currentAccount.name, accessToken, username))
                 .catch(() => undefined)
             : Promise.resolve(undefined);
 
@@ -415,12 +415,13 @@ class ProfileContainer extends Component {
       this._fetchProfile(username, false, 0);
     } catch (error) {
       this._profileActionDone({ error });
+      return;
     }
 
     this.setState((prevState) => ({
       quickProfile: {
         ...prevState.quickProfile,
-        display_name: get(user, 'display_name'),
+        display_name: get(user, 'profile.name'),
         reputation: get(user, 'reputation'),
       },
       rcAccount,
@@ -610,7 +611,6 @@ class ProfileContainer extends Component {
         about: get(user, 'profile', {}),
         activePage,
         avatar,
-        setEstimatedWalletValue: this._setEstimatedWalletValue,
         changeForceLoadPostState: this._changeForceLoadPostState,
         comments,
         currency,

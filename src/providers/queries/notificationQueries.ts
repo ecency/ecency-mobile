@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import * as Sentry from '@sentry/react-native';
 import {
@@ -36,6 +36,22 @@ export const useNotificationsQuery = (filter?: NotificationFilters) => {
     maxPages: 10, // Limit to 10 pages (200 items) maximum
   });
 
+  useEffect(() => {
+    if (!username || !code) {
+      return;
+    }
+    if (!infiniteQuery.isFetched && !infiniteQuery.isFetching) {
+      infiniteQuery.refetch();
+    }
+  }, [
+    username,
+    code,
+    filter,
+    infiniteQuery.isFetched,
+    infiniteQuery.isFetching,
+    infiniteQuery.refetch,
+  ]);
+
   // Flatten pages into single array for backwards compatibility
   const data = useMemo(() => {
     if (!infiniteQuery.data?.pages) return [];
@@ -47,8 +63,8 @@ export const useNotificationsQuery = (filter?: NotificationFilters) => {
 
   return {
     data,
-    isRefreshing: infiniteQuery.isRefetching,
-    isLoading: infiniteQuery.isLoading || infiniteQuery.isFetching,
+    isRefreshing: infiniteQuery.isRefetching && !infiniteQuery.isFetchingNextPage,
+    isLoading: infiniteQuery.isLoading,
     isFetchingNextPage: infiniteQuery.isFetchingNextPage,
     fetchNextPage: infiniteQuery.fetchNextPage,
     refresh: infiniteQuery.refetch,

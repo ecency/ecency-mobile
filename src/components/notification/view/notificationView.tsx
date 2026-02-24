@@ -125,7 +125,7 @@ const NotificationView = ({
         onMomentumScrollBegin={_handleMomentumScrollBegin}
         ListFooterComponent={_renderFooterLoading}
         ListEmptyComponent={
-          isNotificationRefreshing ? (
+          isLoading || isNotificationRefreshing ? (
             <ListPlaceHolder />
           ) : (
             <Text style={globalStyles.hintText}>
