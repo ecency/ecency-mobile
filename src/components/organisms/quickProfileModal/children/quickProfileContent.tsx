@@ -265,6 +265,9 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
         },
       });
     } catch (error) {
+      if (onClose) {
+        onClose();
+      }
       dispatch(
         toastNotification(
           intl.formatMessage({ id: 'chats.dm_error', defaultMessage: 'User has not joined chats' }),

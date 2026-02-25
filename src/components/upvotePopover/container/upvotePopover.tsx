@@ -1,12 +1,4 @@
-import React, {
-  Fragment,
-  useState,
-  useEffect,
-  forwardRef,
-  useImperativeHandle,
-  useRef,
-  Ref,
-} from 'react';
+import React, { Fragment, useState, forwardRef, useImperativeHandle, useRef, Ref } from 'react';
 import get from 'lodash/get';
 
 // Services and Actions
@@ -118,44 +110,43 @@ const UpvotePopover = forwardRef(({}, ref) => {
       }
 
       onVotingStartRef.current = onVotingStart;
-
       sourceRef.current = _sourceRef.current;
-      setPostType(_postType || PostTypes.POST);
+
+      // Compute all derived state synchronously before showing the popover
+      // to prevent effects from causing re-renders during the popover animation
+      const activeVotes = _content?.active_votes || [];
+      const _isVoted = isVotedFunc(activeVotes, get(currentAccount, 'name'));
+      const _isDownVoted = isDownVotedFunc(activeVotes, get(currentAccount, 'name'));
+
+      const resolvedPostType = _postType || PostTypes.POST;
+      let _upvotePercent = 1;
+      switch (resolvedPostType) {
+        case PostTypes.POST:
+          _upvotePercent = postUpvotePercent;
+          break;
+        case PostTypes.COMMENT:
+          _upvotePercent = commentUpvotePercent;
+          break;
+        case PostTypes.WAVE:
+          _upvotePercent = waveUpvotePercent;
+          break;
+      }
+
+      const _amount =
+        currentAccount && Object.entries(currentAccount).length !== 0
+          ? getEstimatedAmount(currentAccount, globalProps, _upvotePercent)
+          : '0.00000';
+
+      setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
+      setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
+      setSliderValue(_upvotePercent);
+      setAmount(_amount);
+      setPostType(resolvedPostType);
       setContent(_content);
       setShowPayoutDetails(_showPayoutDetails || false);
       setShowPopover(true);
     },
   }));
-
-  useEffect(() => {
-    const activeVotes = content?.active_votes || [];
-    const _isVoted = isVotedFunc(activeVotes, get(currentAccount, 'name'));
-    const _isDownVoted = isDownVotedFunc(activeVotes, get(currentAccount, 'name'));
-
-    setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
-    setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
-  }, [content, currentAccount?.name]);
-
-  useEffect(() => {
-    _calculateEstimatedAmount();
-  }, []);
-
-  useEffect(() => {
-    let _upvotePercent = 1;
-    switch (postType) {
-      case PostTypes.POST:
-        _upvotePercent = postUpvotePercent;
-        break;
-      case PostTypes.COMMENT:
-        _upvotePercent = commentUpvotePercent;
-        break;
-      case PostTypes.WAVE:
-        _upvotePercent = waveUpvotePercent;
-        break;
-    }
-    setSliderValue(_upvotePercent);
-    _calculateEstimatedAmount(_upvotePercent);
-  }, [content, postType]);
 
   // Component Functions
   const _calculateEstimatedAmount = async (value: number = sliderValue) => {
@@ -173,15 +164,20 @@ const UpvotePopover = forwardRef(({}, ref) => {
       const _onVotingStart = onVotingStartRef.current;
       isVotingRef.current = true;
 
+      const _author = content?.author;
+      const _permlink = content?.permlink;
+
       try {
         _closePopover();
         _onVotingStart ? _onVotingStart(sliderValue) : null;
 
         _setUpvotePercent(sliderValue);
 
+        // Update vote cache optimistically before awaiting mutation
+        // to prevent any window where button state and cache are inconsistent
+        _updateVoteCache(_author, _permlink, amount, false, sliderValue ? 'PUBLISHED' : 'DELETED');
+
         const weight = sliderValue ? Math.trunc(sliderValue * 100) * 100 : 0;
-        const _author = content?.author;
-        const _permlink = content?.permlink;
 
         console.log(`casting up vote: ${weight}`);
 
@@ -194,11 +190,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
         });
 
         setIsVoted(!!sliderValue);
-        _updateVoteCache(_author, _permlink, amount, false, sliderValue ? 'PUBLISHED' : 'DELETED');
       } catch (err) {
-        const _author = content?.author;
-        const _permlink = content?.permlink;
-
         const _error = err as any;
 
         _updateVoteCache(_author, _permlink, amount, false, 'FAILED');
@@ -248,15 +240,20 @@ const UpvotePopover = forwardRef(({}, ref) => {
     if (isDownVoted) {
       isVotingRef.current = true;
 
+      const _author = content?.author;
+      const _permlink = content?.permlink;
+
       try {
         _closePopover();
         _onVotingStart ? _onVotingStart(-sliderValue) : null;
 
         _setUpvotePercent(sliderValue);
 
+        // Update vote cache optimistically before awaiting mutation
+        // to prevent any window where button state and cache are inconsistent
+        _updateVoteCache(_author, _permlink, amount, true, sliderValue ? 'PUBLISHED' : 'DELETED');
+
         const weight = sliderValue ? Math.trunc(sliderValue * 100) * -100 : 0;
-        const _author = content?.author;
-        const _permlink = content?.permlink;
 
         console.log(`casting down vote: ${weight}`);
 
@@ -269,10 +266,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
         });
 
         setIsDownVoted(!!sliderValue);
-        _updateVoteCache(_author, _permlink, amount, true, sliderValue ? 'PUBLISHED' : 'DELETED');
       } catch (err) {
-        const _author = content?.author;
-        const _permlink = content?.permlink;
         const _error = err as any;
 
         dispatch(
