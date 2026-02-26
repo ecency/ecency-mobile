@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import DeviceInfo from 'react-native-device-info';
 import { SheetManager } from 'react-native-actions-sheet';
-import { saveNotificationSetting } from '@ecency/sdk';
+import { saveNotificationSetting, ConfigManager } from '@ecency/sdk';
 import { languageRestart } from '../../../utils/I18nUtils';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
@@ -213,6 +213,8 @@ class SettingsContainer extends Component {
       await setServer(server);
       dispatch(setApi(server));
       checkClient();
+      // Sync SDK's internal dhive client with the selected server
+      ConfigManager.setHiveNodes([server, ...serverList.filter((s) => s !== server)]);
     }
 
     this.setState({
