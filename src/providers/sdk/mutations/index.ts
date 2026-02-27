@@ -23,6 +23,9 @@ export { useMutePostMutation } from './useMutePostMutation';
 export { usePromoteMutation } from './usePromoteMutation';
 export { useBoostPlusMutation } from './useBoostPlusMutation';
 
+// AI
+export { useGenerateImageMutation } from './useGenerateImageMutation';
+
 // Wallet — transfers
 export { useTransferMutation } from './useTransferMutation';
 export { useTransferPointMutation } from './useTransferPointMutation';

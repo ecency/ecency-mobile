@@ -18,7 +18,11 @@ import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { IconButton, UploadsGalleryModal } from '../..';
 import { useAppSelector } from '../../../hooks';
-import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
+import {
+  MediaInsertData,
+  MediaInsertStatus,
+  Modes,
+} from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import styles from '../styles/editorToolbarStyles';
 import ROUTES from '../../../constants/routeNames';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
@@ -32,6 +36,7 @@ type Props = {
   isEditing: boolean;
   isPreviewActive: boolean;
   isEditMode: boolean;
+  suggestedPrompt?: string;
   setIsUploading: (isUploading: boolean) => void;
   handleMediaInsert: (data: MediaInsertData[]) => void;
   handleOnAddLinkPress: () => void;
@@ -47,6 +52,7 @@ export const EditorToolbar = ({
   isEditing,
   isPreviewActive,
   isEditMode,
+  suggestedPrompt,
   setIsUploading,
   handleMediaInsert,
   handleOnAddLinkPress,
@@ -127,6 +133,25 @@ export const EditorToolbar = ({
 
   const _showImageUploads = () => {
     _showUploadsExtension(Modes.MODE_IMAGE);
+  };
+
+  const _showAiImageGenerator = () => {
+    navigation.navigate({
+      name: ROUTES.SCREENS.AI_IMAGE_GENERATOR,
+      params: {
+        suggestedPrompt: suggestedPrompt || undefined,
+        onInsert: (url: string) => {
+          handleMediaInsert([
+            {
+              url,
+              text: '',
+              status: MediaInsertStatus.READY,
+              mode: Modes.MODE_IMAGE,
+            },
+          ]);
+        },
+      },
+    });
   };
 
   const _showVideoUploads = () => {
@@ -323,6 +348,14 @@ export const EditorToolbar = ({
               iconStyle={styles.icon}
               iconType="FontAwesome"
               name="image"
+            />
+            <IconButton
+              onPress={_showAiImageGenerator}
+              style={styles.rightIcons}
+              size={18}
+              iconStyle={styles.icon}
+              iconType="MaterialCommunityIcons"
+              name="creation"
             />
             <IconButton
               onPress={_showVideoUploads}

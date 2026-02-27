@@ -330,6 +330,25 @@ export const QuickPostModalContent = forwardRef(
       }
     };
 
+    const _handleAiImageBtn = () => {
+      Keyboard.dismiss();
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.AI_IMAGE_GENERATOR,
+        params: {
+          suggestedPrompt: commentValue?.trim() || undefined,
+          onInsert: (url: string) => {
+            _handleMediaInsert([
+              {
+                url,
+                text: '',
+                status: MediaInsertStatus.READY,
+              } as MediaInsertData,
+            ]);
+          },
+        },
+      });
+    };
+
     const _deboucedCacheUpdate = useMemo(
       () => debounce(_addQuickCommentIntoCache, 500),
       [_addQuickCommentIntoCache],
@@ -445,6 +464,13 @@ export const QuickPostModalContent = forwardRef(
             iconType="MaterialsIcons"
             name="image-outline"
             onPress={_handleMediaBtn}
+            size={24}
+            color={EStyleSheet.value('$primaryBlack')}
+          />
+          <IconButton
+            iconType="MaterialCommunityIcons"
+            name="creation"
+            onPress={_handleAiImageBtn}
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
           />

@@ -43,6 +43,7 @@ const ROUTES = {
     ACCOUNT_LIST: `AccountList${SCREEN_SUFFIX}`,
     BACKUP_KEYS: `BackupKeys${SCREEN_SUFFIX}`,
     TRADE: `Trade${SCREEN_SUFFIX}`,
+    AI_IMAGE_GENERATOR: `AiImageGenerator${SCREEN_SUFFIX}`,
   },
   MODALS: {
     ASSETS_SELECT: `AssetsSelect${MODAL_SUFFIX}`,

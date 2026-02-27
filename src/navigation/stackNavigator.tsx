@@ -40,6 +40,7 @@ import {
   PollWizardScreen,
   BotComments,
   ChatThread,
+  AiImageGenerator,
 } from '../screens';
 import { DrawerNavigator } from './drawerNavigator';
 import { HiveSignerModal } from '../components';
@@ -61,6 +62,7 @@ const MainStackNavigator = () => {
       <MainStack.Screen name={ROUTES.SCREENS.TAG_RESULT} component={TagResult} />
       <MainStack.Screen name={ROUTES.SCREENS.BOOST} component={Boost} />
       <MainStack.Screen name={ROUTES.SCREENS.REDEEM} component={Redeem} />
+      <MainStack.Screen name={ROUTES.SCREENS.AI_IMAGE_GENERATOR} component={AiImageGenerator} />
       <MainStack.Screen name={ROUTES.SCREENS.SPIN_GAME} component={SpinGame} />
       <MainStack.Screen name={ROUTES.SCREENS.ACCOUNT_BOOST} component={AccountBoost} />
       <MainStack.Screen name={ROUTES.SCREENS.COMMUNITY} component={Community} />
