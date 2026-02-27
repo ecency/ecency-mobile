@@ -52,6 +52,7 @@ import { usePostSubmitter } from './usePostSubmitter';
 import {
   MediaInsertData,
   MediaInsertStatus,
+  Modes,
 } from '../uploadsGalleryModal/container/uploadsGalleryModal';
 import { removePollDraft } from '../../redux/actions/editorActions';
 import { CommunityRole, CommunityTypeId } from '../../providers/hive/hive.types';
@@ -342,6 +343,7 @@ export const QuickPostModalContent = forwardRef(
                 url,
                 text: '',
                 status: MediaInsertStatus.READY,
+                mode: Modes.MODE_IMAGE,
               } as MediaInsertData,
             ]);
           },
@@ -468,11 +470,14 @@ export const QuickPostModalContent = forwardRef(
             color={EStyleSheet.value('$primaryBlack')}
           />
           <IconButton
-            iconType="MaterialCommunityIcons"
-            name="creation"
+            iconType="MaterialsIcons"
+            name="image-outline"
             onPress={_handleAiImageBtn}
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
+            badgeCount="AI"
+            badgeStyle={styles.aiBadge}
+            badgeTextStyle={styles.aiBadgeText}
           />
           {mode !== 'wave' && canCommentToCommunity && (
             <IconButton

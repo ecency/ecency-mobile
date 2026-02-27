@@ -115,7 +115,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
   },
   generateButtonText: {
-    color: 'white',
+    color: '$white',
   },
   loadingContainer: {
     alignItems: 'center',
@@ -150,7 +150,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   actionButtonText: {
-    color: 'white',
+    color: '$white',
   },
   generateAgainButton: {
     paddingHorizontal: 20,

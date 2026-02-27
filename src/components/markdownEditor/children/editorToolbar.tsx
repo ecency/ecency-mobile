@@ -354,8 +354,11 @@ export const EditorToolbar = ({
               style={styles.rightIcons}
               size={18}
               iconStyle={styles.icon}
-              iconType="MaterialCommunityIcons"
-              name="creation"
+              iconType="FontAwesome"
+              name="image"
+              badgeCount="AI"
+              badgeStyle={styles.aiBadge}
+              badgeTextStyle={styles.aiBadgeText}
             />
             <IconButton
               onPress={_showVideoUploads}

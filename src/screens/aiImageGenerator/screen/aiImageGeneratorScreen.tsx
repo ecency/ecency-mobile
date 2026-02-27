@@ -24,14 +24,18 @@ const ASPECT_RATIOS = ['1:1', '16:9', '9:16', '4:3', '3:4', '3:2', '2:3'];
 const DEFAULT_RATIO = '4:3';
 const MAX_PROMPT_LENGTH = 1000;
 
+interface AiImageGeneratorParams {
+  onInsert?: (url: string) => void;
+  suggestedPrompt?: string;
+}
+
 const AiImageGeneratorScreen = () => {
   const intl = useIntl();
   const navigation = useNavigation();
   const route = useRoute();
   const { username, code } = useAuth();
 
-  const onInsert = (route.params as any)?.onInsert;
-  const suggestedPrompt: string | undefined = (route.params as any)?.suggestedPrompt;
+  const { onInsert, suggestedPrompt } = (route.params ?? {}) as AiImageGeneratorParams;
 
   const [prompt, setPrompt] = useState('');
   const [aspectRatio, setAspectRatio] = useState(DEFAULT_RATIO);
@@ -121,7 +125,12 @@ const AiImageGeneratorScreen = () => {
   };
 
   const _getAspectRatioNumber = (ratio: string): number => {
-    const [w, h] = ratio.split(':').map(Number);
+    const parts = ratio.split(':').map(Number);
+    const w = parts[0];
+    const h = parts[1];
+    if (!Number.isFinite(w) || !Number.isFinite(h) || h === 0) {
+      return 4 / 3;
+    }
     return w / h;
   };
 
