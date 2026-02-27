@@ -225,17 +225,16 @@ const ensureAppStateListener = () => {
   }
 
   _appStateSubscription = AppState.addEventListener('change', (nextAppState) => {
-    if (/inactive|background/.test(_lastAppState) && nextAppState === 'active') {
-      if (_broadcastInProgressCount > 0) {
-        // Skip reconnect while a broadcast is in flight — forcing a new WebSocket
-        // during HAS.broadcast() causes a native crash from racing connections
-        console.log(
-          '[HiveAuth] App returned to foreground, skipping reconnect (broadcast in progress)',
-        );
-      } else {
-        console.log('[HiveAuth] App returned to foreground, forcing HAS reconnect');
-        ensureHasConnection(true);
-      }
+    if (/active/.test(_lastAppState) && /inactive|background/.test(nextAppState)) {
+      // App going to background — pause HAS WebSocket creation to prevent
+      // native crashes from the HAS polling loop creating WebSockets while backgrounded
+      HAS.pause();
+      console.log('[HiveAuth] App going to background, paused HAS WebSocket creation');
+    } else if (/inactive|background/.test(_lastAppState) && nextAppState === 'active') {
+      // App returning to foreground — resume HAS and reconnect
+      HAS.resume();
+      console.log('[HiveAuth] App returned to foreground, resumed HAS and forcing reconnect');
+      ensureHasConnection(true);
     }
     _lastAppState = nextAppState;
   });

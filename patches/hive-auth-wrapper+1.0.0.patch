@@ -1,20 +1,38 @@
+diff --git a/node_modules/hive-auth-wrapper/.gitignore b/node_modules/hive-auth-wrapper/.gitignore
+new file mode 100644
+index 0000000..31e18ee
+--- /dev/null
++++ b/node_modules/hive-auth-wrapper/.gitignore
+@@ -0,0 +1,5 @@
++# Folders
++/node_modules
++
++# Files
++package-lock.json
 diff --git a/node_modules/hive-auth-wrapper/has-wrapper.js b/node_modules/hive-auth-wrapper/has-wrapper.js
-index ff0b878778..7c7906f4d6 100644
+index 01a65c9..02b6453 100644
 --- a/node_modules/hive-auth-wrapper/has-wrapper.js
 +++ b/node_modules/hive-auth-wrapper/has-wrapper.js
-@@ -40,6 +40,7 @@ let HAS_timeout = 60*1000 // default request expiration timeout (60 seconds)
+@@ -40,6 +40,8 @@ let HAS_timeout = 60*1000 // default request expiration timeout (60 seconds)
  
  let messages = []
  let wsHAS = undefined
 +let wsHAS_creating = false // Guard against concurrent WebSocket creation
++let wsHAS_paused = false // When true, prevents WebSocket creation (e.g., app in background)
  let trace = false
  
  function getMessage(type, uuid=undefined) {
-@@ -56,9 +57,25 @@ function getMessage(type, uuid=undefined) {
+@@ -56,9 +58,31 @@ function getMessage(type, uuid=undefined) {
  
  // HAS client
  function startWebsocket() {
 -  wsHAS = new WebSocket(HAS_options.host)
++  // Prevent WebSocket creation when paused (e.g., app is in background on iOS).
++  // Creating a native WebSocket while backgrounded causes a native crash.
++  if(wsHAS_paused) {
++    if(trace) console.log("WebSocket creation paused (app backgrounded), skipping")
++    return
++  }
 +  // Guard against concurrent WebSocket creation (e.g., rapid checkConnection calls
 +  // when app returns from background after Keychain interaction)
 +  if(wsHAS_creating) {
@@ -37,7 +55,7 @@ index ff0b878778..7c7906f4d6 100644
      HAS_connected = true
      if(trace) console.log("WebSocket connected")
    }
-@@ -95,9 +112,14 @@ function startWebsocket() {
+@@ -95,9 +119,14 @@ function startWebsocket() {
      }
    }
    wsHAS.onclose = function(event) {
@@ -55,7 +73,7 @@ index ff0b878778..7c7906f4d6 100644
      if(trace) console.log("WebSocket disconnected", event)
    }
  }
-@@ -143,19 +165,23 @@ async function attach(uuid) {
+@@ -143,19 +172,23 @@ async function attach(uuid) {
  }
  
  async function checkConnection(uuid=undefined) {
@@ -83,3 +101,20 @@ index ff0b878778..7c7906f4d6 100644
      }
      if(HAS_connected && uuid) {
        // WebSocket reconnected, try to attach pending request if any
+@@ -200,6 +233,16 @@ export default {
+     trace = false
+   },
+ 
++  // Pause/resume WebSocket creation. Call pause() when app goes to background
++  // and resume() when it returns to foreground to prevent native crashes from
++  // creating WebSockets while the app is suspended.
++  pause: function() {
++    wsHAS_paused = true
++  },
++  resume: function() {
++    wsHAS_paused = false
++  },
++
+   status: function() {
+     return {host:HAS_options.host, connected:HAS_connected, timeout:HAS_timeout}
+   },
