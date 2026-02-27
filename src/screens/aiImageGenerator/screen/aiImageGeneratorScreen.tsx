@@ -19,6 +19,7 @@ import { BasicHeader } from '../../../components/basicHeader';
 import { MainButton } from '../../../components/mainButton';
 import { useGenerateImageMutation } from '../../../providers/sdk/mutations';
 import { useAuth } from '../../../hooks';
+import globalStyles from '../../../globalStyles';
 import styles from '../styles/aiImageGeneratorScreen.styles';
 
 const ASPECT_RATIOS = ['1:1', '16:9', '9:16', '4:3', '3:4', '3:2', '2:3'];
@@ -263,7 +264,7 @@ const AiImageGeneratorScreen = () => {
   );
 
   return (
-    <SafeAreaView edges={['top']} style={{ flex: 1 }}>
+    <SafeAreaView edges={['top']} style={globalStyles.defaultContainer}>
       <BasicHeader title={intl.formatMessage({ id: 'ai_image_generator.title' })} />
       <ScrollView
         style={styles.container}
