@@ -418,6 +418,7 @@ const MarkdownEditorView = ({
           isPreviewActive={isPreviewActive}
           paramFiles={paramFiles}
           isEditMode={isEdit}
+          suggestedPrompt={fields?.title?.trim() || undefined}
           setIsUploading={setIsUploading}
           handleMediaInsert={_handleMediaInsert}
           handleOnAddLinkPress={_handleOnAddLinkPress}

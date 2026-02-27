@@ -182,6 +182,10 @@ const PointsContainer = ({
         redeemType: 'boost_plus',
       };
     }
+    if (index === 'dropdown_ai_image') {
+      navigateTo = ROUTES.SCREENS.AI_IMAGE_GENERATOR;
+      navigateParams = { balance };
+    }
 
     if (isPinCodeOpen) {
       navigation.navigate({
@@ -292,7 +296,12 @@ const PointsContainer = ({
       estimatedEstm,
       redeemType: get(navigationParams, 'redeemType'),
       user,
-      dropdownOptions: ['dropdown_transfer', 'dropdown_promote', 'dropdown_boost'],
+      dropdownOptions: [
+        'dropdown_transfer',
+        'dropdown_promote',
+        'dropdown_boost',
+        'dropdown_ai_image',
+      ],
     })
   );
 };

@@ -37,6 +37,7 @@ import AssetsSelect from './assetsSelect';
 import BackupKeysScreen from './backupKeysScreen/backupKeysScreen';
 import PollWizardScreen from './pollWizard';
 import { BotComments } from './botComments';
+import { AiImageGenerator } from './aiImageGenerator';
 
 export {
   Bookmarks,
@@ -79,4 +80,5 @@ export {
   BackupKeysScreen,
   PollWizardScreen,
   BotComments,
+  AiImageGenerator,
 };

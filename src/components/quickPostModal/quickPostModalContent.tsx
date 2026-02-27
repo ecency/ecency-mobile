@@ -52,6 +52,7 @@ import { usePostSubmitter } from './usePostSubmitter';
 import {
   MediaInsertData,
   MediaInsertStatus,
+  Modes,
 } from '../uploadsGalleryModal/container/uploadsGalleryModal';
 import { removePollDraft } from '../../redux/actions/editorActions';
 import { CommunityRole, CommunityTypeId } from '../../providers/hive/hive.types';
@@ -330,6 +331,26 @@ export const QuickPostModalContent = forwardRef(
       }
     };
 
+    const _handleAiImageBtn = () => {
+      Keyboard.dismiss();
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.AI_IMAGE_GENERATOR,
+        params: {
+          suggestedPrompt: commentValue?.trim() || undefined,
+          onInsert: (url: string) => {
+            _handleMediaInsert([
+              {
+                url,
+                text: '',
+                status: MediaInsertStatus.READY,
+                mode: Modes.MODE_IMAGE,
+              } as MediaInsertData,
+            ]);
+          },
+        },
+      });
+    };
+
     const _deboucedCacheUpdate = useMemo(
       () => debounce(_addQuickCommentIntoCache, 500),
       [_addQuickCommentIntoCache],
@@ -447,6 +468,16 @@ export const QuickPostModalContent = forwardRef(
             onPress={_handleMediaBtn}
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
+          />
+          <IconButton
+            iconType="MaterialsIcons"
+            name="image-outline"
+            onPress={_handleAiImageBtn}
+            size={24}
+            color={EStyleSheet.value('$primaryBlack')}
+            badgeCount="AI"
+            badgeStyle={styles.aiBadge}
+            badgeTextStyle={styles.aiBadgeText}
           />
           {mode !== 'wave' && canCommentToCommunity && (
             <IconButton
