@@ -331,8 +331,10 @@ export const QuickPostModalContent = forwardRef(
       }
     };
 
-    const _handleAiImageBtn = () => {
+    const _handleAiImageBtn = async () => {
       Keyboard.dismiss();
+      onClose();
+      await delay(50);
       RootNavigation.navigate({
         name: ROUTES.SCREENS.AI_IMAGE_GENERATOR,
         params: {

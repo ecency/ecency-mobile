@@ -14,6 +14,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import { getAiGeneratePriceQueryOptions, getPointsQueryOptions } from '@ecency/sdk';
 import { Image as ExpoImage } from 'expo-image';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader } from '../../../components/basicHeader';
 import { MainButton } from '../../../components/mainButton';
 import { useGenerateImageMutation } from '../../../providers/sdk/mutations';
@@ -262,7 +263,7 @@ const AiImageGeneratorScreen = () => {
   );
 
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView edges={['top']} style={{ flex: 1 }}>
       <BasicHeader title={intl.formatMessage({ id: 'ai_image_generator.title' })} />
       <ScrollView
         style={styles.container}
@@ -291,7 +292,7 @@ const AiImageGeneratorScreen = () => {
 
         {generatedUrl && _renderResult()}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

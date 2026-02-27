@@ -168,7 +168,7 @@ const TransferAccountSelector = ({
       setDestination(trimmedLowercase);
     }
     if (state === 'memo') {
-      setMemo(_amount);
+      setMemo(val);
     }
   };
 

@@ -350,6 +350,9 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   const username = currentAccount?.name;
   const isEngine = layer === 'engine';
   const isPoints = layer === 'points';
+  const isChain = layer === 'chain';
+  const isSpk = layer === 'spk';
+  const isHive = !isEngine && !isPoints && !isChain && !isSpk;
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -359,9 +362,11 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
     enabled: !!username && isPoints,
   });
 
+  // Only fetch Hive transactions for native Hive tokens (HIVE, HBD, HP)
+  // External chain tokens (BNB, ETH, etc.) and SPK have no transaction history API
   const chainQuery = useInfiniteQuery({
     ...getTransactionsInfiniteQueryOptions(username ?? '', ACTIVITIES_FETCH_LIMIT),
-    enabled: !!username && !isEngine && !isPoints,
+    enabled: !!username && isHive,
   });
 
   const engineQuery = useInfiniteQuery({
@@ -458,7 +463,9 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
       ? pointsQuery.isLoading || pointsQuery.isFetching
       : isEngine
       ? engineQuery.isLoading || engineQuery.isFetching
-      : chainQuery.isLoading || chainQuery.isFetching,
+      : isHive
+      ? chainQuery.isLoading || chainQuery.isFetching
+      : false,
     fetchNextPage: _fetchNextPage,
     refresh: _refresh,
   };

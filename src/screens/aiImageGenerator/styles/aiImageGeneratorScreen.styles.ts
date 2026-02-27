@@ -9,11 +9,10 @@ export default EStyleSheet.create({
     padding: 16,
   },
   balanceContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: 'column',
     marginBottom: 20,
     paddingHorizontal: 4,
+    gap: 4,
   },
   balanceLabel: {
     fontSize: 14,

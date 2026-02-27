@@ -94,7 +94,7 @@ const TransferAmountInputSection = ({
       });
       setDestination(newValue);
     } else if (state === 'memo') {
-      setMemo(newValue);
+      setMemo(val);
     } else if (state === 'executions') {
       setExecutions(val);
     }
