@@ -60,6 +60,22 @@ const NotificationContainer = ({ navigation }) => {
     unreadCountRef.current = currentAccount.unread_activity_count;
   }, [currentAccount.unread_activity_count]);
 
+  // Refetch when filter changes — the single dynamic query hook doesn't auto-fetch
+  // for new filter keys since the component doesn't remount on filter change
+  const prevFilterRef = useRef(selectedFilter);
+  useEffect(() => {
+    if (prevFilterRef.current !== selectedFilter) {
+      prevFilterRef.current = selectedFilter;
+      selectedQuery.refresh();
+    }
+  }, [selectedFilter]);
+
+  // Refetch when filter changes — the dynamic query key means React Query
+  // may not auto-fetch for a new filter if the observer is reused
+  useEffect(() => {
+    selectedQuery.refresh();
+  }, [activeFilter]);
+
   const _getActivities = (loadMore = false) => {
     if (loadMore) {
       // Only fetch next page if not already fetching and has more pages

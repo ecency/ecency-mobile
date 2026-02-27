@@ -17,7 +17,6 @@ import {
   getPostQueryOptions,
   addDraft,
   updateDraft,
-  addSchedule,
 } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
@@ -69,6 +68,7 @@ import {
   useReblogMutation,
   useGrantPostingPermissionMutation,
 } from '../../../providers/sdk/mutations';
+import { useAddScheduleMutation } from '../../../providers/queries/draftQueries';
 import { PostTypes } from '../../../constants/postTypes';
 
 import {
@@ -1498,8 +1498,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
   };
 
-  _setScheduledPost = (data) => {
-    const { dispatch, intl, currentAccount, navigation, pinCode } = this.props;
+  _setScheduledPost = async (data) => {
+    const { dispatch, currentAccount, navigation, addScheduleMutation } = this.props;
     const { rewardType } = this.state;
 
     const options = makeOptions({
@@ -1509,67 +1509,29 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       beneficiaries: data.beneficiaries,
     });
 
-    const accessToken = currentAccount?.local?.accessToken
-      ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
-      : '';
-
-    if (!accessToken) {
-      this.setState({ isPostSending: false });
-      dispatch(
-        toastNotification(
-          intl.formatMessage({
-            id: 'alert.fail',
-            defaultMessage: 'Schedule failed.',
-          }),
-        ),
-      );
-      return;
-    }
-
-    addSchedule(
-      accessToken,
-      data.permlink,
-      data.fields.title || '',
-      data.fields.body,
-      data.jsonMeta,
-      options,
-      data.scheduleDate,
-      false,
-    )
-      .then(() => {
-        this.setState({
-          isPostSending: false,
-        });
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.success',
-            }),
-          ),
-        );
-
-        dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
-
-        setTimeout(() => {
-          navigation.replace(ROUTES.SCREENS.DRAFTS, {
-            showSchedules: true,
-          });
-        }, 3000);
-      })
-      .catch((error) => {
-        console.warn('Failed to schedule post', error);
-        this.setState({
-          isPostSending: false,
-        });
-        dispatch(
-          toastNotification(
-            intl.formatMessage(
-              { id: 'alert.something_wrong_msg' },
-              { message: error?.message || '' },
-            ),
-          ),
-        );
+    try {
+      await addScheduleMutation.mutateAsync({
+        permlink: data.permlink,
+        title: data.fields.title || '',
+        body: data.fields.body,
+        meta: data.jsonMeta,
+        options,
+        schedule: data.scheduleDate,
+        reblog: false,
       });
+
+      this.setState({ isPostSending: false });
+      dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
+
+      setTimeout(() => {
+        navigation.replace(ROUTES.SCREENS.DRAFTS, {
+          showSchedules: true,
+        });
+      }, 3000);
+    } catch (error) {
+      console.warn('Failed to schedule post', error);
+      this.setState({ isPostSending: false });
+    }
   };
 
   _initialEditor = () => {
@@ -1708,6 +1670,7 @@ const useEditorQueryProps = () => ({
   ...useCommentMutations(),
   reblogMutation: useReblogMutation(),
   grantPostingPermissionMutation: useGrantPostingPermissionMutation(),
+  addScheduleMutation: useAddScheduleMutation(),
 });
 
 export default gestureHandlerRootHOC(
