@@ -114,9 +114,13 @@ const AiImageGeneratorScreen = () => {
     }
   };
 
-  const _handleShare = () => {
+  const _handleShare = async () => {
     if (generatedUrl) {
-      Share.share({ message: generatedUrl });
+      try {
+        await Share.share({ message: generatedUrl });
+      } catch (e) {
+        console.error('Share failed:', e);
+      }
     }
   };
 
