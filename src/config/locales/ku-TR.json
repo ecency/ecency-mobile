@@ -221,7 +221,8 @@
     "date_error": {
       "device_time": "Dema amûra te;",
       "information": "Me ferq kir ku dem û dîroka amûra te çewt e. Ji kerema xwe Dem û Dîrokê sererast bike an jî Sazkirina Otomatîkî dîsa biceribîne.",
-      "current_time": "Dema niha;"
+      "current_time": "Dema niha;",
+      "server_hint": "You can also try changing API Server in Settings > Server."
     }
   },
   "basic_header": {
@@ -967,6 +968,10 @@
     "escrow_dispute": "Nerazîbûna Emanetê",
     "market_expire": "Order Expired",
     "boost": "Boost",
+    "dropdown_transfer": "Transfer",
+    "dropdown_promote": "Promote",
+    "dropdown_boost": "Boost",
+    "dropdown_ai_image": "AI Image",
     "tokens_undelegateStart": "Undelegation Started",
     "delegated_larynx_power": "Granted Power",
     "undelegate": "Undelegate",
@@ -1137,6 +1142,31 @@
     "already_boosted": "Account already boosted till {date}",
     "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
     "title": "Boost+"
+  },
+  "ai_image_generator": {
+    "title": "AI Image Generator",
+    "prompt_label": "Describe the image you want to create",
+    "prompt_placeholder": "A beautiful sunset over mountains...",
+    "chars_remaining": "{count} characters remaining",
+    "select_aspect_ratio": "Select aspect ratio",
+    "cost_label": "Cost",
+    "balance_label": "Balance",
+    "points_unit": "POINTS",
+    "generate_button": "Generate Image",
+    "generating": "Generating your image...",
+    "result_title": "Generated Image",
+    "insert_button": "Insert into post",
+    "download_button": "Download",
+    "share_button": "Share",
+    "generate_again": "Generate Again",
+    "success": "Image generated successfully!",
+    "error_insufficient_points": "Insufficient points. You need {required} but have {available}.",
+    "error_content_policy": "Your prompt was rejected by content policy. Points were not refunded.",
+    "error_rate_limit": "Too many requests. Please wait and try again.",
+    "error_generic": "Image generation failed. Please try again.",
+    "error_prompt_required": "Please enter a prompt",
+    "use_suggestion": "Use: \"{suggestion}\"",
+    "dropdown_label": "AI Image"
   },
   "transfer": {
     "powering_down_subheading": "You are currently unstaking.",
