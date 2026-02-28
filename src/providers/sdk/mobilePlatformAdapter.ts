@@ -138,8 +138,16 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       }
     },
 
-    invalidateQueries: async (keys: any[][]) => {
-      await Promise.all(keys.map((key) => queryClient.invalidateQueries({ queryKey: key })));
+    invalidateQueries: async (keys: any[]) => {
+      await Promise.all(
+        keys.map((key) => {
+          // SDK may pass predicate objects for pattern-based invalidation
+          if (key && typeof key === 'object' && !Array.isArray(key) && key.predicate) {
+            return queryClient.invalidateQueries(key);
+          }
+          return queryClient.invalidateQueries({ queryKey: key });
+        }),
+      );
     },
 
     showAuthUpgradeUI: async (

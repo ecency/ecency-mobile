@@ -247,6 +247,8 @@ const CommentView = ({
                     comment.permlink,
                     comment.parent_permlink,
                     comment.parent_author,
+                    comment.root_author,
+                    comment.root_permlink,
                   )
                 }
                 iconType="MaterialIcons"

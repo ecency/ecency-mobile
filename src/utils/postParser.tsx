@@ -247,8 +247,7 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
   comment.isDeletable = !(
     comment.active_votes?.length > 0 ||
     comment.children > 0 ||
-    comment.net_rshares > 0 ||
-    comment.is_paidout
+    comment.net_rshares > 0
   );
 
   // set mute status
