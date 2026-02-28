@@ -59,6 +59,7 @@ import QUERIES from '../../../providers/queries/queryKeys';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
+import { deriveDiscussionRoot } from '../../../utils/discussionRoot';
 import {
   useCommentMutations,
   addOptimisticComment,
@@ -1124,9 +1125,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       const author = currentAccount.name;
 
-      // Derive root author/permlink for proper cache invalidation
-      const rootAuthor = post.root_author || parentAuthor;
-      const rootPermlink = post.root_permlink || parentPermlink;
+      // Derive root author/permlink for proper cache invalidation and optimistic updates
+      const { rootAuthor, rootPermlink } = deriveDiscussionRoot(post, parentAuthor, parentPermlink);
 
       try {
         // Add optimistic entry to discussions cache for immediate UI feedback
@@ -1271,8 +1271,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         if (isReply) {
           // Use SDK updateReplyMutation for reply edits
           const author = currentAccount.name;
-          const rootAuthor = post.root_author || parentAuthor;
-          const rootPermlink = post.root_permlink || parentPermlink;
+          const { rootAuthor, rootPermlink } = deriveDiscussionRoot(
+            post,
+            parentAuthor,
+            parentPermlink,
+          );
 
           await updateReplyMutation.mutateAsync({
             author,

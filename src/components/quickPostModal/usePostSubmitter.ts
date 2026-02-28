@@ -12,6 +12,7 @@ import { PollDraft } from '../../providers/ecency/ecency.types';
 import { usePublishWaveMutation } from '../../providers/queries/postQueries/wavesQueries';
 import { PostTypes } from '../../constants/postTypes';
 import extractHashTags from '../../utils/extractHashTags';
+import { deriveDiscussionRoot } from '../../utils/discussionRoot';
 import { selectCurrentAccount } from '../../redux/selectors';
 import { SheetNames } from '../../navigation/sheets';
 import { useAuthContext } from '../../providers/sdk';
@@ -124,9 +125,12 @@ export const usePostSubmitter = () => {
       });
       const jsonMetadata = makeJsonMetadata(meta, tags);
 
-      // Derive root author/permlink for proper cache invalidation
-      const rootAuthor = parentPost.root_author || parentAuthor;
-      const rootPermlink = parentPost.root_permlink || parentPermlink;
+      // Derive root author/permlink for proper cache invalidation and optimistic updates
+      const { rootAuthor, rootPermlink } = deriveDiscussionRoot(
+        parentPost,
+        parentAuthor,
+        parentPermlink,
+      );
 
       // Build cache entry for wave optimistic prepend
       const _cacheCommentData = {
