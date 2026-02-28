@@ -12,6 +12,9 @@ export interface VoteCacheEntry {
   status: 'PENDING' | 'PUBLISHED' | 'DELETED' | 'FAILED';
 }
 
+const RECENT_VOTE_TTL_MS = 15 * 1000;
+const recentVotesByPostPath = new Map<string, VoteCacheEntry>();
+
 // Query key second segments under ['posts', ...] that contain voteable data
 // SDK uses hyphenated keys: 'posts-ranked-page', 'account-posts-page', etc.
 // Keep 'discussions'/'promoted' for SDK query variants, even though some app hooks
@@ -41,6 +44,7 @@ export function updateVoteInQueryCaches(author: string, permlink: string, vote: 
 
   const queryClient = getQueryClient();
   const postPath = `${author}/${permlink}`;
+  recentVotesByPostPath.set(postPath, vote);
 
   queryClient.setQueriesData(
     {
@@ -60,6 +64,22 @@ export function updateVoteInQueryCaches(author: string, permlink: string, vote: 
       return updateDataWithVote(oldData, postPath, vote);
     },
   );
+}
+
+export function applyRecentVoteOverrideToEntry(entry: any): any {
+  if (!entry?.author || !entry?.permlink) {
+    return entry;
+  }
+  const postPath = `${entry.author}/${entry.permlink}`;
+  const recentVote = recentVotesByPostPath.get(postPath);
+  if (!recentVote) {
+    return entry;
+  }
+  if (Date.now() - recentVote.votedAt > RECENT_VOTE_TTL_MS) {
+    recentVotesByPostPath.delete(postPath);
+    return entry;
+  }
+  return applyVoteToPost(entry, recentVote);
 }
 
 function updateDataWithVote(data: any, postPath: string, vote: VoteCacheEntry): any {

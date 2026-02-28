@@ -78,16 +78,28 @@ const PostComments = forwardRef(
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
     const [headerHeight, setHeaderHeight] = useState(0);
+    const [hiddenCommentKeys, setHiddenCommentKeys] = useState<Set<string>>(new Set());
     const headerHeightRef = useRef(0);
 
     const sortedSections = useMemo(
       () => sortComments(selectedFilter, discussionQuery.sectionedData),
       [discussionQuery.sectionedData, selectedFilter],
     );
-    const listData = useMemo(
-      () => (isPostLoading ? [] : sortedSections),
-      [isPostLoading, sortedSections],
-    );
+    const listData = useMemo(() => {
+      if (isPostLoading) {
+        return [];
+      }
+      if (!hiddenCommentKeys.size) {
+        return sortedSections;
+      }
+      return sortedSections.filter(
+        (item) => !hiddenCommentKeys.has(`${item.author}/${item.permlink}`),
+      );
+    }, [isPostLoading, sortedSections, hiddenCommentKeys]);
+
+    useEffect(() => {
+      setHiddenCommentKeys(new Set());
+    }, [author, permlink]);
 
     useImperativeHandle(ref, () => ({
       bounceCommentButton: () => {
@@ -161,6 +173,24 @@ const PostComments = forwardRef(
     const _handleDeleteComment = useCallback(
       (_permlink, _parentPermlink?, _parentAuthor?, _rootAuthor?, _rootPermlink?) => {
         const _onConfirmDelete = async () => {
+          const deletedKey = `${currentAccountName}/${_permlink}`;
+          const extractErrorDetail = (error: any) => {
+            const detail =
+              error?.message ||
+              error?.response?.message ||
+              error?.response?.data?.message ||
+              error?.data?.message ||
+              error?.error_description ||
+              error?.jse_shortmsg;
+            return typeof detail === 'string' ? detail : JSON.stringify(error);
+          };
+
+          setHiddenCommentKeys((prev) => {
+            const next = new Set(prev);
+            next.add(deletedKey);
+            return next;
+          });
+
           try {
             await deleteComment({
               author: currentAccountName,
@@ -172,8 +202,23 @@ const PostComments = forwardRef(
             });
             console.log('deleted comment', `${currentAccountName}/${_permlink}`);
           } catch (err) {
-            const errorDetail = err?.message ? String(err.message) : String(err);
-            dispatch(toastNotification(`Failed to delete comment: ${errorDetail}`));
+            const stillExists = !!discussionQuery.data?.[deletedKey];
+            if (stillExists) {
+              setHiddenCommentKeys((prev) => {
+                const next = new Set(prev);
+                next.delete(deletedKey);
+                return next;
+              });
+            }
+            const errorDetail = extractErrorDetail(err);
+            if (stillExists) {
+              dispatch(toastNotification(`Failed to delete comment: ${errorDetail}`));
+            } else {
+              console.log(
+                'delete returned error but comment is already absent in cache',
+                deletedKey,
+              );
+            }
             console.warn('Failed to delete comment', err);
           }
         };
@@ -196,7 +241,7 @@ const PostComments = forwardRef(
           },
         });
       },
-      [author, currentAccountName, deleteComment, dispatch, intl, permlink],
+      [author, currentAccountName, deleteComment, dispatch, discussionQuery.data, intl, permlink],
     );
 
     const _openReplyThread = useCallback(
@@ -349,6 +394,7 @@ const PostComments = forwardRef(
           <CommentsSection
             item={item}
             index={index}
+            hiddenCommentKeys={hiddenCommentKeys}
             mainAuthor={mainAuthor}
             handleDeleteComment={_handleDeleteComment}
             handleOnEditPress={_handleOnEditPress}
@@ -367,6 +413,7 @@ const PostComments = forwardRef(
       },
       [
         mainAuthor,
+        hiddenCommentKeys,
         _handleDeleteComment,
         _handleOnEditPress,
         _handleOnVotersPress,

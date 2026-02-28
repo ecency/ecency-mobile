@@ -5,6 +5,7 @@ import { getPostQueryOptions, getDiscussionsQueryOptions, getBotsQueryOptions } 
 import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount } from '../../../redux/selectors';
 import { parsePost, parseComment } from '../../../utils/postParser';
+import { applyRecentVoteOverrideToEntry } from './voteCacheUtils';
 
 interface PostQueryProps {
   author?: string;
@@ -71,7 +72,7 @@ export const useGetPostQuery = ({
       false, // don't discard body
     );
 
-    return processed;
+    return applyRecentVoteOverrideToEntry(processed);
   }, [query.data, observer, currentAccount?.name, isPinned]);
 
   return {
