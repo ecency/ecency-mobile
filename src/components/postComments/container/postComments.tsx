@@ -196,7 +196,7 @@ const PostComments = forwardRef(
           },
         });
       },
-      [currentAccountName, deleteComment, dispatch, intl, permlink],
+      [author, currentAccountName, deleteComment, dispatch, intl, permlink],
     );
 
     const _openReplyThread = useCallback(
