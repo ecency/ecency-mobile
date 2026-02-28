@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useMemo, useCallback } from 'react';
+import React, { Fragment, useState, useMemo, useCallback, memo } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useIntl } from 'react-intl';
 
@@ -87,11 +87,11 @@ const CommentView = ({
     }
   };
 
-  const _handleOnContentPress = () => {
+  const _handleOnContentPress = useCallback(() => {
     openReplyThread && openReplyThread(comment);
-  };
+  }, [openReplyThread, comment]);
 
-  const _handleOnReplyPress = () => {
+  const _handleOnReplyPress = useCallback(() => {
     if (isLoggedIn) {
       SheetManager.show(SheetNames.QUICK_POST, {
         payload: {
@@ -102,9 +102,9 @@ const CommentView = ({
     } else {
       console.log('Not LoggedIn');
     }
-  };
+  }, [isLoggedIn, comment]);
 
-  const _handleOnTipPress = () => {
+  const _handleOnTipPress = useCallback(() => {
     if (!isLoggedIn) {
       console.log('Login required to send tips');
       return;
@@ -114,7 +114,7 @@ const CommentView = ({
         post: comment,
       },
     });
-  };
+  }, [isLoggedIn, comment]);
 
   const _openProfilePage = useCallback((username) => {
     if (!username) {
@@ -144,7 +144,7 @@ const CommentView = ({
     const _hideContent = isMuted || comment?.isMuted;
 
     return (
-      <View style={[{ marginLeft: 2, marginTop: -6 }]}>
+      <View style={styles.commentBodyWrapper}>
         <CommentBody
           body={comment.body}
           metadata={comment.json_metadata}
@@ -261,7 +261,7 @@ const CommentView = ({
           <View style={styles.rightButtonWrapper}>
             {isOpeningReplies ? (
               <ActivityIndicator
-                style={{ paddingHorizontal: 24, paddingBottom: 8 }}
+                style={styles.activityIndicator}
                 size="small"
                 color={EStyleSheet.value('$iconColor')}
               />
@@ -284,13 +284,16 @@ const CommentView = ({
     );
   };
 
-  const customContainerStyle =
-    _depth > 1
-      ? {
-          paddingLeft: (_depth - 2) * 44,
-          backgroundColor: EStyleSheet.value('$primaryLightBackground'),
-        }
-      : null;
+  const customContainerStyle = useMemo(
+    () =>
+      _depth > 1
+        ? {
+            paddingLeft: (_depth - 2) * 44,
+            backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+          }
+        : null,
+    [_depth],
+  );
 
   return (
     <Fragment key={comment.permlink}>
@@ -316,4 +319,16 @@ const CommentView = ({
   );
 };
 
-export default CommentView;
+// NOTE: If new props are added that affect rendering, they must be included here.
+// Callback props (handleOnEditPress, onUpvotePress, etc.) are excluded because parents
+// should memoize them. The `comment` object is compared by reference — all upstream
+// producers (restructureData, optimistic updates) create new objects for changed comments.
+export default memo(CommentView, (prev, next) => {
+  return (
+    prev.comment === next.comment &&
+    prev.repliesToggle === next.repliesToggle &&
+    prev.commentNumber === next.commentNumber &&
+    prev.mainAuthor === next.mainAuthor &&
+    prev.currentAccountUsername === next.currentAccountUsername
+  );
+});

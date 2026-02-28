@@ -63,4 +63,12 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  commentBodyWrapper: {
+    marginLeft: 2,
+    marginTop: -6,
+  },
+  activityIndicator: {
+    paddingHorizontal: 24,
+    paddingBottom: 8,
+  },
 });

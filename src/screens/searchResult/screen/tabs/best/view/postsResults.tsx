@@ -109,7 +109,7 @@ const PostsResults = ({ searchValue, listRef }) => {
             <FlatList
               ref={listRef}
               data={data}
-              keyExtractor={(item, index) => index.toString()}
+              keyExtractor={(item) => `${item.author}/${item.permlink}`}
               renderItem={({ item, index }) => (
                 <TouchableOpacity onPress={() => handleOnPress(item)}>
                   {_renderItem(item, index)}

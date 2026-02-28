@@ -99,7 +99,7 @@ const SubscribedCommunitiesListView = ({
     <FlatList
       ref={listRef}
       data={data}
-      keyExtractor={(item, index) => index.toString()}
+      keyExtractor={(item) => item[0]}
       renderItem={_renderListItem}
       ListEmptyComponent={_renderEmptyContent}
       ListFooterComponent={isLoading && <ListPlaceHolder />}
