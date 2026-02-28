@@ -157,6 +157,7 @@ export function addOptimisticComment(params: {
     author_reputation: params.authorReputation ?? 25,
     replies: [],
     is_optimistic: true,
+    renderOnTop: true,
   };
 
   addOptimisticDiscussionEntry(
@@ -179,6 +180,46 @@ export function addOptimisticComment(params: {
     optimisticKey,
     'add',
   );
+
+  // Also inject into thread view caches (e.g., when a comment is opened as its own thread).
+  // Thread views use a discussion cache keyed by commentAuthor/commentPermlink, which is
+  // different from the root post cache above. We scan all discussion caches and inject into
+  // any that contain the parent comment.
+  if (params.parentAuthor !== params.rootAuthor || params.parentPermlink !== params.rootPermlink) {
+    const allQueries = queryClient.getQueriesData<any[]>({
+      predicate: (query) => {
+        const key = query.queryKey;
+        return (
+          Array.isArray(key) &&
+          key[0] === 'posts' &&
+          key[1] === 'discussions' &&
+          // Skip root post cache (already handled above)
+          !(key[2] === params.rootAuthor && key[3] === params.rootPermlink)
+        );
+      },
+    });
+
+    allQueries.forEach(([queryKey, data]) => {
+      if (!Array.isArray(data)) return;
+      const hasParent = data.some(
+        (e) => e?.author === params.parentAuthor && e?.permlink === params.parentPermlink,
+      );
+      if (!hasParent) return;
+
+      queryClient.setQueryData(queryKey, [optimisticEntry, ...data]);
+      const threadRootAuthor = queryKey[2] as string;
+      const threadRootPermlink = queryKey[3] as string;
+      updateParentRepliesInDiscussions(
+        queryClient,
+        threadRootAuthor,
+        threadRootPermlink,
+        params.parentAuthor,
+        params.parentPermlink,
+        optimisticKey,
+        'add',
+      );
+    });
+  }
 
   // Increment root post children count
   updateEntryChildrenCount(queryClient, params.rootAuthor, params.rootPermlink, 1);
@@ -215,6 +256,43 @@ export function removeOptimisticComment(
     optimisticKey,
     'remove',
   );
+
+  // Also remove from thread view caches (mirrors addOptimisticComment logic)
+  if (parentAuthor !== rootAuthor || parentPermlink !== rootPermlink) {
+    const allQueries = queryClient.getQueriesData<any[]>({
+      predicate: (query) => {
+        const key = query.queryKey;
+        return (
+          Array.isArray(key) &&
+          key[0] === 'posts' &&
+          key[1] === 'discussions' &&
+          !(key[2] === rootAuthor && key[3] === rootPermlink)
+        );
+      },
+    });
+
+    allQueries.forEach(([queryKey, data]) => {
+      if (!Array.isArray(data)) return;
+      const hasEntry = data.some((e) => e?.author === author && e?.permlink === permlink);
+      if (!hasEntry) return;
+
+      queryClient.setQueryData(
+        queryKey,
+        data.filter((e) => e.author !== author || e.permlink !== permlink),
+      );
+      const threadRootAuthor = queryKey[2] as string;
+      const threadRootPermlink = queryKey[3] as string;
+      updateParentRepliesInDiscussions(
+        queryClient,
+        threadRootAuthor,
+        threadRootPermlink,
+        parentAuthor,
+        parentPermlink,
+        `${author}/${permlink}`,
+        'remove',
+      );
+    });
+  }
 
   // Decrement root post children count
   updateEntryChildrenCount(queryClient, rootAuthor, rootPermlink, -1);

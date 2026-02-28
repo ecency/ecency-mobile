@@ -408,20 +408,20 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       (comment) => !botAuthorsQuery.data.includes(comment.author),
     );
 
-    const sameListByKey = (prevList: any[], nextList: any[]) => {
+    const sameList = (prevList: any[], nextList: any[]) => {
       if (prevList.length !== nextList.length) {
         return false;
       }
       for (let i = 0; i < nextList.length; i++) {
-        if (prevList[i]?.commentKey !== nextList[i]?.commentKey) {
+        if (prevList[i] !== nextList[i]) {
           return false;
         }
       }
       return true;
     };
 
-    setBotComments((prev) => (sameListByKey(prev, _botComments) ? prev : _botComments));
-    setSectionedData((prev) => (sameListByKey(prev, _userComments) ? prev : _userComments));
+    setBotComments((prev) => (sameList(prev, _botComments) ? prev : _botComments));
+    setSectionedData((prev) => (sameList(prev, _userComments) ? prev : _userComments));
   }, [data, author, permlink, botAuthorsQuery.data]);
 
   useEffect(() => {

@@ -231,10 +231,16 @@ const ensureAppStateListener = () => {
       HAS.pause();
       console.log('[HiveAuth] App going to background, paused HAS WebSocket creation');
     } else if (/inactive|background/.test(_lastAppState) && nextAppState === 'active') {
-      // App returning to foreground — resume HAS and reconnect
+      // App returning to foreground — resume HAS WebSocket creation
       HAS.resume();
-      console.log('[HiveAuth] App returned to foreground, resumed HAS and forcing reconnect');
-      ensureHasConnection(true);
+      // Invalidate stale connection promise so the next ensureHasConnection() call
+      // creates a fresh WebSocket. Do NOT call ensureHasConnection(true) here —
+      // creating a WebSocket synchronously in the AppState handler crashes on iOS
+      // because native networking isn't fully ready at the moment of foregrounding.
+      // The broadcast polling loop's checkConnection(uuid) handles reconnection
+      // naturally with a slight delay (250ms interval), which gives iOS time to settle.
+      _hasConnectionPromise = null;
+      console.log('[HiveAuth] App returned to foreground, resumed HAS');
     }
     _lastAppState = nextAppState;
   });
