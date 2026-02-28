@@ -159,7 +159,7 @@ export const useDraftDeleteMutation = () => {
 
 /**
  * Hook to batch delete multiple drafts
- * Calls SDK's deleteDraft hook multiple times sequentially
+ * Calls SDK's deleteDraft hook multiple times in parallel
  */
 export const useDraftsBatchDeleteMutation = () => {
   const intl = useIntl();
@@ -173,8 +173,27 @@ export const useDraftsBatchDeleteMutation = () => {
     mutate: async (deleteIds: string[], options?: { onSettled?: () => void }) => {
       setIsBatchDeleting(true);
       try {
-        await Promise.all(deleteIds.map((id) => deleteDraftMutation.mutateAsync({ draftId: id })));
-      } catch (error) {
+        const results = await Promise.allSettled(
+          deleteIds.map((id) => deleteDraftMutation.mutateAsync({ draftId: id })),
+        );
+        const successCount = results.filter((r) => r.status === 'fulfilled').length;
+        const failedCount = results.length - successCount;
+
+        if (failedCount === 0) {
+          dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
+        } else if (successCount === 0) {
+          dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+        } else {
+          dispatch(
+            toastNotification(
+              intl.formatMessage(
+                { id: 'alert.something_wrong_msg' },
+                { message: `${failedCount} of ${results.length} deletions failed` },
+              ),
+            ),
+          );
+        }
+      } catch {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       } finally {
         await queryClient.invalidateQueries({ queryKey: draftsInfiniteQueryKey(username) });
@@ -237,7 +256,7 @@ export const useScheduleDeleteMutation = () => {
 
 /**
  * Hook to batch delete multiple schedules
- * Calls SDK's deleteSchedule hook multiple times sequentially
+ * Calls SDK's deleteSchedule hook multiple times in parallel
  */
 export const useSchedulesBatchDeleteMutation = () => {
   const intl = useIntl();
@@ -251,8 +270,27 @@ export const useSchedulesBatchDeleteMutation = () => {
     mutate: async (deleteIds: string[], options?: { onSettled?: () => void }) => {
       setIsBatchDeleting(true);
       try {
-        await Promise.all(deleteIds.map((id) => deleteScheduleMutation.mutateAsync({ id })));
-      } catch (error) {
+        const results = await Promise.allSettled(
+          deleteIds.map((id) => deleteScheduleMutation.mutateAsync({ id })),
+        );
+        const successCount = results.filter((r) => r.status === 'fulfilled').length;
+        const failedCount = results.length - successCount;
+
+        if (failedCount === 0) {
+          dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
+        } else if (successCount === 0) {
+          dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+        } else {
+          dispatch(
+            toastNotification(
+              intl.formatMessage(
+                { id: 'alert.something_wrong_msg' },
+                { message: `${failedCount} of ${results.length} deletions failed` },
+              ),
+            ),
+          );
+        }
+      } catch {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       } finally {
         await queryClient.invalidateQueries({ queryKey: schedulesInfiniteQueryKey(username) });
