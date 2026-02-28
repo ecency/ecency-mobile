@@ -14,6 +14,30 @@ import { getQueryClient } from '../index';
 
 type CommentJsonMetadata = Record<string, unknown>;
 
+const getDiscussionRootFromQueryKey = (
+  queryKey: unknown,
+): { author: string; permlink: string } | null => {
+  if (!Array.isArray(queryKey) || queryKey[0] !== 'posts' || queryKey[1] !== 'discussions') {
+    return null;
+  }
+
+  const rootLike = queryKey[2];
+  if (rootLike && typeof rootLike === 'object') {
+    const { author, permlink } = rootLike as any;
+    if (typeof author === 'string' && typeof permlink === 'string') {
+      return { author, permlink };
+    }
+  }
+
+  const author = queryKey[2];
+  const permlink = queryKey[3];
+  if (typeof author === 'string' && typeof permlink === 'string') {
+    return { author, permlink };
+  }
+
+  return null;
+};
+
 /**
  * Updates a parent comment's `replies` array in all discussions caches for the given root post.
  * The tree builder in restructureData() traverses via `replies` arrays, so an optimistic entry
@@ -30,14 +54,8 @@ const updateParentRepliesInDiscussions = (
 ) => {
   const queries = queryClient.getQueriesData<any[]>({
     predicate: (query) => {
-      const key = query.queryKey;
-      return (
-        Array.isArray(key) &&
-        key[0] === 'posts' &&
-        key[1] === 'discussions' &&
-        key[2] === rootAuthor &&
-        key[3] === rootPermlink
-      );
+      const root = getDiscussionRootFromQueryKey(query.queryKey);
+      return !!root && root.author === rootAuthor && root.permlink === rootPermlink;
     },
   });
 
@@ -194,13 +212,11 @@ export function addOptimisticComment(params: {
   if (params.parentAuthor !== params.rootAuthor || params.parentPermlink !== params.rootPermlink) {
     const allQueries = queryClient.getQueriesData<any[]>({
       predicate: (query) => {
-        const key = query.queryKey;
+        const root = getDiscussionRootFromQueryKey(query.queryKey);
         return (
-          Array.isArray(key) &&
-          key[0] === 'posts' &&
-          key[1] === 'discussions' &&
+          !!root &&
           // Skip root post cache (already handled above)
-          !(key[2] === params.rootAuthor && key[3] === params.rootPermlink)
+          !(root.author === params.rootAuthor && root.permlink === params.rootPermlink)
         );
       },
     });
@@ -213,12 +229,12 @@ export function addOptimisticComment(params: {
       if (!hasParent) return;
 
       queryClient.setQueryData(queryKey, [optimisticEntry, ...data]);
-      const threadRootAuthor = queryKey[2] as string;
-      const threadRootPermlink = queryKey[3] as string;
+      const threadRoot = getDiscussionRootFromQueryKey(queryKey);
+      if (!threadRoot) return;
       updateParentRepliesInDiscussions(
         queryClient,
-        threadRootAuthor,
-        threadRootPermlink,
+        threadRoot.author,
+        threadRoot.permlink,
         params.parentAuthor,
         params.parentPermlink,
         optimisticKey,
@@ -267,13 +283,8 @@ export function removeOptimisticComment(
   if (parentAuthor !== rootAuthor || parentPermlink !== rootPermlink) {
     const allQueries = queryClient.getQueriesData<any[]>({
       predicate: (query) => {
-        const key = query.queryKey;
-        return (
-          Array.isArray(key) &&
-          key[0] === 'posts' &&
-          key[1] === 'discussions' &&
-          !(key[2] === rootAuthor && key[3] === rootPermlink)
-        );
+        const root = getDiscussionRootFromQueryKey(query.queryKey);
+        return !!root && !(root.author === rootAuthor && root.permlink === rootPermlink);
       },
     });
 
@@ -286,12 +297,12 @@ export function removeOptimisticComment(
         queryKey,
         data.filter((e) => e.author !== author || e.permlink !== permlink),
       );
-      const threadRootAuthor = queryKey[2] as string;
-      const threadRootPermlink = queryKey[3] as string;
+      const threadRoot = getDiscussionRootFromQueryKey(queryKey);
+      if (!threadRoot) return;
       updateParentRepliesInDiscussions(
         queryClient,
-        threadRootAuthor,
-        threadRootPermlink,
+        threadRoot.author,
+        threadRoot.permlink,
         parentAuthor,
         parentPermlink,
         `${author}/${permlink}`,
