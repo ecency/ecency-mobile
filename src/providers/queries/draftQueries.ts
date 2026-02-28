@@ -193,8 +193,6 @@ export const useDraftsBatchDeleteMutation = () => {
             ),
           );
         }
-      } catch {
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       } finally {
         await queryClient.invalidateQueries({ queryKey: draftsInfiniteQueryKey(username) });
         options?.onSettled?.();
@@ -290,8 +288,6 @@ export const useSchedulesBatchDeleteMutation = () => {
             ),
           );
         }
-      } catch {
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       } finally {
         await queryClient.invalidateQueries({ queryKey: schedulesInfiniteQueryKey(username) });
         options?.onSettled?.();
