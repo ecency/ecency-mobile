@@ -45,10 +45,12 @@ const PostDisplayContainer = ({
 
   // Component Functions
   const _fetchPost = useCallback(async () => {
-    if (post) {
-      fetchPost(post?.author, post?.permlink);
+    const targetAuthor = author || post?.author;
+    const targetPermlink = permlink || post?.permlink;
+    if (targetAuthor && targetPermlink) {
+      fetchPost(targetAuthor, targetPermlink);
     }
-  }, [post?.author, post?.permlink, fetchPost]);
+  }, [author, permlink, post?.author, post?.permlink, fetchPost]);
 
   useEffect(() => {
     if (isFetchPost || isFetchComments) {

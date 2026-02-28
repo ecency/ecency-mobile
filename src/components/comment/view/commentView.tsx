@@ -319,6 +319,10 @@ const CommentView = ({
   );
 };
 
+// NOTE: If new props are added that affect rendering, they must be included here.
+// Callback props (handleOnEditPress, onUpvotePress, etc.) are excluded because parents
+// should memoize them. The `comment` object is compared by reference — all upstream
+// producers (restructureData, optimistic updates) create new objects for changed comments.
 export default memo(CommentView, (prev, next) => {
   return (
     prev.comment === next.comment &&

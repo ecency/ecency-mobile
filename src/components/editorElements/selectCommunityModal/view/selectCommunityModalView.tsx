@@ -102,7 +102,7 @@ const SelectCommunityModalView = ({
       ListHeaderComponent={_listHeader}
       renderSectionHeader={_renderSectionHeader}
       renderItem={_renderItem}
-      keyExtractor={(item) => item.name || item.id}
+      keyExtractor={(item, index) => `${item.name || item.id}-${index}`}
       showsVerticalScrollIndicator={false}
     />
   );
