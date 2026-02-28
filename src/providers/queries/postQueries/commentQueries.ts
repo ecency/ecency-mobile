@@ -42,6 +42,7 @@ const updateParentRepliesInDiscussions = (
   });
 
   const parentKey = `${parentAuthor}/${parentPermlink}`;
+  const childrenDelta = action === 'add' ? 1 : -1;
 
   queries.forEach(([queryKey, data]) => {
     if (!Array.isArray(data)) return;
@@ -63,7 +64,11 @@ const updateParentRepliesInDiscussions = (
         });
         if (!alreadyExists) {
           changed = true;
-          return { ...entry, replies: [...currentReplies, childKey] };
+          return {
+            ...entry,
+            replies: [...currentReplies, childKey],
+            children: Math.max(0, (entry.children ?? 0) + childrenDelta),
+          };
         }
       } else {
         const filtered = currentReplies.filter((r) => {
@@ -73,7 +78,11 @@ const updateParentRepliesInDiscussions = (
         });
         if (filtered.length !== currentReplies.length) {
           changed = true;
-          return { ...entry, replies: filtered };
+          return {
+            ...entry,
+            replies: filtered,
+            children: Math.max(0, (entry.children ?? 0) + childrenDelta),
+          };
         }
       }
       return entry;

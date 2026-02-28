@@ -178,10 +178,11 @@ export const useFeedQuery = ({
     [pinnedPostQuery.data, _flatData],
   );
 
-  // Apply mute filtering
+  // Apply mute filtering — Set for O(1) lookup instead of O(n) indexOf
+  const mutesSet = useMemo(() => (isArray(mutes) ? new Set(mutes) : null), [mutes]);
   const _filteredData = useMemo(
-    () => _data.filter((post) => (isArray(mutes) ? mutes.indexOf(post?.author) < 0 : true)),
-    [mutes, _data],
+    () => _data.filter((post) => (mutesSet ? !mutesSet.has(post?.author) : true)),
+    [mutesSet, _data],
   );
 
   return {

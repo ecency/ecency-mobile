@@ -62,7 +62,7 @@ const CommunitiesList = ({
     <FlatList
       ref={listRef}
       data={data}
-      keyExtractor={(item, index) => index.toString()}
+      keyExtractor={(item) => item.name}
       renderItem={_renderItem}
       ListEmptyComponent={_renderEmptyContent}
       ListFooterComponent={isDiscoversLoading && <CommunitiesPlaceHolder />}

@@ -38,7 +38,7 @@ export const useVideoUploadsQuery = () => {
       );
 
       if (hasPendingItem) {
-        return 1000;
+        return 5000;
       }
     }
 

@@ -173,12 +173,7 @@ export const useDraftsBatchDeleteMutation = () => {
     mutate: async (deleteIds: string[], options?: { onSettled?: () => void }) => {
       setIsBatchDeleting(true);
       try {
-        // Delete drafts sequentially
-        // eslint-disable-next-line no-restricted-syntax
-        for (const id of deleteIds) {
-          // eslint-disable-next-line no-await-in-loop
-          await deleteDraftMutation.mutateAsync({ draftId: id });
-        }
+        await Promise.all(deleteIds.map((id) => deleteDraftMutation.mutateAsync({ draftId: id })));
       } catch (error) {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       } finally {
@@ -256,12 +251,7 @@ export const useSchedulesBatchDeleteMutation = () => {
     mutate: async (deleteIds: string[], options?: { onSettled?: () => void }) => {
       setIsBatchDeleting(true);
       try {
-        // Delete schedules sequentially
-        // eslint-disable-next-line no-restricted-syntax
-        for (const id of deleteIds) {
-          // eslint-disable-next-line no-await-in-loop
-          await deleteScheduleMutation.mutateAsync({ id });
-        }
+        await Promise.all(deleteIds.map((id) => deleteScheduleMutation.mutateAsync({ id })));
       } catch (error) {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       } finally {

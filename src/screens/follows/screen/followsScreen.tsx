@@ -65,7 +65,7 @@ class FollowsScreen extends PureComponent {
         />
         <FlatList
           data={data}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item) => item.name || item.following || item.follower}
           onEndReached={() => loadMore()}
           removeClippedSubviews={false}
           renderItem={this._renderItem}

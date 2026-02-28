@@ -83,6 +83,7 @@ export const useNotificationReadMutation = () => {
     undefined,
     FETCH_LIMIT,
   ).queryKey;
+  // Broad key (first 2 segments) to invalidate all filter tabs on mark-read
   const notificationsBaseQueryKey = notificationsQueryKey.slice(0, 2);
 
   // SDK broadcast mutation for marking Hive on-chain notifications
@@ -163,7 +164,6 @@ export const useNotificationReadMutation = () => {
     onSettled: async () => {
       await queryClient.invalidateQueries({
         queryKey: notificationsBaseQueryKey,
-        exact: false,
       });
     },
   });
