@@ -208,6 +208,38 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
     const normalizedData = normalizeDiscussionData(query.data);
 
+    // Keep optimistic nested replies visible across refetch churn.
+    // SDK structural sharing preserves optimistic entries, but parent `replies`
+    // from fresh API payload can temporarily miss the new child key.
+    Object.keys(normalizedData).forEach((childKey) => {
+      const child = normalizedData[childKey];
+      if (!child?.is_optimistic || !child?.parent_author || !child?.parent_permlink) {
+        return;
+      }
+
+      const parentKey = `${child.parent_author}/${child.parent_permlink}`;
+      const parent = normalizedData[parentKey];
+      if (!parent) {
+        return;
+      }
+
+      const currentReplies: any[] = Array.isArray(parent.replies) ? parent.replies : [];
+      const hasChild = currentReplies.some((reply) => {
+        if (typeof reply === 'string') {
+          return reply === childKey;
+        }
+        if (reply?.author && reply?.permlink) {
+          return `${reply.author}/${reply.permlink}` === childKey;
+        }
+        return false;
+      });
+
+      if (!hasChild) {
+        parent.replies = [...currentReplies, childKey];
+        parent.children = Math.max(0, (parent.children ?? 0) + 1);
+      }
+    });
+
     // Parse SDK comments to convert markdown to HTML using render-helper
     // IMPORTANT: parseComment mutates its input, so we must create a shallow copy first
     const parsedComments = {};
