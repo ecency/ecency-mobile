@@ -89,12 +89,28 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       return mapped;
     },
 
-    hasPostingAuthorization: async (_username: string) => {
-      // Mobile has keys stored locally — getLoginType already routes to the
-      // correct signing method (key, hivesigner, hiveauth). The SDK's
-      // token-first optimization (try HiveSigner before key) is unnecessary
-      // on mobile since direct key signing is equally fast and more reliable.
-      return false;
+    hasPostingAuthorization: async (username: string) => {
+      const local = _getAccountLocal(username);
+      if (!local?.authType) return false;
+
+      const loginType = mapAuthTypeToLoginType(local.authType);
+
+      // For key-based users, direct key signing is preferred over HiveSigner.
+      // No need for the SDK's token-first optimization on mobile.
+      if (loginType !== 'hiveauth') return false;
+
+      // For HiveAuth users, check if they have granted ecency.app posting authority.
+      // If yes, the SDK will try HiveSigner (access token) first, which avoids
+      // the Keychain interaction entirely — faster and prevents background crashes.
+      try {
+        const accountData: any = queryClient.getQueryData(
+          getAccountFullQueryOptions(username).queryKey,
+        );
+        if (!accountData?.posting?.account_auths) return false;
+        return accountData.posting.account_auths.some((auth: any) => auth[0] === 'ecency.app');
+      } catch {
+        return false;
+      }
     },
 
     broadcastWithHiveAuth: async (
@@ -122,8 +138,16 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       }
     },
 
-    invalidateQueries: async (keys: any[][]) => {
-      await Promise.all(keys.map((key) => queryClient.invalidateQueries({ queryKey: key })));
+    invalidateQueries: async (keys: any[]) => {
+      await Promise.all(
+        keys.map((key) => {
+          // SDK may pass predicate objects for pattern-based invalidation
+          if (key && typeof key === 'object' && !Array.isArray(key) && key.predicate) {
+            return queryClient.invalidateQueries(key);
+          }
+          return queryClient.invalidateQueries({ queryKey: key });
+        }),
+      );
     },
 
     showAuthUpgradeUI: async (

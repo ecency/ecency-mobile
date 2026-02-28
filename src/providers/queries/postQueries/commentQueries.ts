@@ -14,6 +14,77 @@ import { getQueryClient } from '../index';
 
 type CommentJsonMetadata = Record<string, unknown>;
 
+/**
+ * Updates a parent comment's `replies` array in all discussions caches for the given root post.
+ * The tree builder in restructureData() traverses via `replies` arrays, so an optimistic entry
+ * won't be visible unless it's referenced in its parent's `replies`.
+ */
+const updateParentRepliesInDiscussions = (
+  queryClient: ReturnType<typeof getQueryClient>,
+  rootAuthor: string,
+  rootPermlink: string,
+  parentAuthor: string,
+  parentPermlink: string,
+  childKey: string,
+  action: 'add' | 'remove',
+) => {
+  const queries = queryClient.getQueriesData<any[]>({
+    predicate: (query) => {
+      const key = query.queryKey;
+      return (
+        Array.isArray(key) &&
+        key[0] === 'posts' &&
+        key[1] === 'discussions' &&
+        key[2] === rootAuthor &&
+        key[3] === rootPermlink
+      );
+    },
+  });
+
+  const parentKey = `${parentAuthor}/${parentPermlink}`;
+
+  queries.forEach(([queryKey, data]) => {
+    if (!Array.isArray(data)) return;
+
+    let changed = false;
+    const updatedData = data.map((entry) => {
+      const entryKey =
+        entry?.author && entry?.permlink ? `${entry.author}/${entry.permlink}` : null;
+      if (entryKey !== parentKey) return entry;
+
+      const currentReplies: any[] = entry.replies || [];
+
+      if (action === 'add') {
+        // Replies may be strings ("author/permlink") or objects — normalize check
+        const alreadyExists = currentReplies.some((r) => {
+          if (typeof r === 'string') return r === childKey;
+          if (r?.author && r?.permlink) return `${r.author}/${r.permlink}` === childKey;
+          return false;
+        });
+        if (!alreadyExists) {
+          changed = true;
+          return { ...entry, replies: [...currentReplies, childKey] };
+        }
+      } else {
+        const filtered = currentReplies.filter((r) => {
+          if (typeof r === 'string') return r !== childKey;
+          if (r?.author && r?.permlink) return `${r.author}/${r.permlink}` !== childKey;
+          return true;
+        });
+        if (filtered.length !== currentReplies.length) {
+          changed = true;
+          return { ...entry, replies: filtered };
+        }
+      }
+      return entry;
+    });
+
+    if (changed) {
+      queryClient.setQueryData(queryKey, updatedData);
+    }
+  });
+};
+
 const updateEntryChildrenCount = (
   queryClient: ReturnType<typeof getQueryClient>,
   author: string,
@@ -95,6 +166,20 @@ export function addOptimisticComment(params: {
     queryClient,
   );
 
+  // Update parent's replies array so the tree builder can find the optimistic entry.
+  // The SDK adds the entry to the flat array, but restructureData() traverses via
+  // each comment's `replies` — without this, nested optimistic replies are invisible.
+  const optimisticKey = `${params.author}/${params.permlink}`;
+  updateParentRepliesInDiscussions(
+    queryClient,
+    params.rootAuthor,
+    params.rootPermlink,
+    params.parentAuthor,
+    params.parentPermlink,
+    optimisticKey,
+    'add',
+  );
+
   // Increment root post children count
   updateEntryChildrenCount(queryClient, params.rootAuthor, params.rootPermlink, 1);
 
@@ -118,6 +203,18 @@ export function removeOptimisticComment(
 ) {
   const queryClient = getQueryClient();
   removeOptimisticDiscussionEntry(author, permlink, rootAuthor, rootPermlink, queryClient);
+
+  // Remove from parent's replies array (reverse of addOptimisticComment)
+  const optimisticKey = `${author}/${permlink}`;
+  updateParentRepliesInDiscussions(
+    queryClient,
+    rootAuthor,
+    rootPermlink,
+    parentAuthor,
+    parentPermlink,
+    optimisticKey,
+    'remove',
+  );
 
   // Decrement root post children count
   updateEntryChildrenCount(queryClient, rootAuthor, rootPermlink, -1);

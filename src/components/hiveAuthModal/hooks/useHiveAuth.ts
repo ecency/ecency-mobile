@@ -242,9 +242,38 @@ const ensureAppStateListener = () => {
 
 const releaseAppStateListener = () => {
   if (_appStateSubscription) {
+    // Ensure HAS is resumed before removing listener. If the listener is removed
+    // while the app is backgrounded (e.g., sheet unmounts after broadcast success),
+    // wsHAS_paused would remain true, preventing future HAS connections.
+    HAS.resume();
     _appStateSubscription.remove();
     _appStateSubscription = null;
   }
+};
+
+/**
+ * Returns a promise that resolves when the app is in the active foreground state.
+ * If already active, resolves immediately. This prevents post-broadcast processing
+ * (React state updates, ActionSheet operations, query invalidation) from running
+ * while iOS has the app suspended — which can cause native crashes.
+ */
+const waitForForeground = (): Promise<void> => {
+  if (AppState.currentState === 'active') {
+    return Promise.resolve();
+  }
+  return new Promise<void>((resolve) => {
+    const sub = AppState.addEventListener('change', (state: AppStateStatus) => {
+      if (state === 'active') {
+        sub.remove();
+        resolve();
+      }
+    });
+    // Re-check: state may have changed between the outer if and listener registration
+    if (AppState.currentState === 'active') {
+      sub.remove();
+      resolve();
+    }
+  });
 };
 
 export const useHiveAuth = () => {
@@ -621,6 +650,12 @@ export const useHiveAuth = () => {
         setStatusText(intl.formatMessage({ id: 'hiveauth.requesting' }));
         res = await HAS.broadcast(_hiveAuthObj, keyType, opsArray, _cdWait);
       }
+
+      // Wait for app to return to foreground before processing the result.
+      // The broadcast resolves while the user is still in Keychain (app backgrounded).
+      // Processing React state updates, ActionSheet operations, and SDK callbacks
+      // while iOS has the app suspended can cause native crashes.
+      await waitForForeground();
 
       if (!res?.broadcast) {
         throw new Error(intl.formatMessage({ id: 'hiveauth.transaction_fail' }));

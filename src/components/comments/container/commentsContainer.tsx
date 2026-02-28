@@ -207,7 +207,13 @@ const CommentsContainer = ({
     });
   };
 
-  const _handleDeleteComment = (_permlink, _parent_permlink, _parent_author) => {
+  const _handleDeleteComment = (
+    _permlink,
+    _parent_permlink,
+    _parent_author,
+    _root_author?,
+    _root_permlink?,
+  ) => {
     if (postType === PostTypes.WAVE && handleCommentDelete) {
       handleCommentDelete({
         _permlink,
@@ -221,6 +227,8 @@ const CommentsContainer = ({
         permlink: _permlink,
         parentAuthor: _parent_author,
         parentPermlink: _parent_permlink || permlink,
+        rootAuthor: _root_author || author,
+        rootPermlink: _root_permlink || permlink,
       })
       .then(() => {
         // Remove from local state for immediate UI update
