@@ -4,9 +4,11 @@ import Animated, { LinearTransition, Easing } from 'react-native-reanimated';
 import { useLayoutState, useMappingHelper } from '@shopify/flash-list';
 import { Comment } from '../..';
 
-export const CommentsSection = ({ item, ...props }) => {
+export const CommentsSection = ({ item, hiddenCommentKeys, ...props }) => {
   const { getMappingKey } = useMappingHelper();
   const [toggle, setToggle] = useLayoutState(false);
+  const isHidden = (comment: any) =>
+    !!hiddenCommentKeys?.has(`${comment?.author}/${comment?.permlink}`);
 
   useEffect(() => {
     if (item.expandedReplies && !toggle) {
@@ -22,11 +24,14 @@ export const CommentsSection = ({ item, ...props }) => {
     }
   }, [item.expandedReplies, item.repliesThread]);
 
-  const _renderComment = (item, index = 0) => {
+  const _renderComment = (commentItem, index = 0) => {
+    if (isHidden(commentItem)) {
+      return null;
+    }
     return (
-      <View key={getMappingKey(item.commentKey, index)}>
+      <View key={getMappingKey(commentItem.commentKey, index)}>
         <Comment
-          comment={item}
+          comment={commentItem}
           repliesToggle={toggle}
           handleOnToggleReplies={() => {
             setToggle(!toggle);
@@ -44,7 +49,10 @@ export const CommentsSection = ({ item, ...props }) => {
 
     return (
       <Animated.View layout={_animation} style={{ overflow: 'hidden' }}>
-        {toggle && item.repliesThread.map((reply, index) => _renderComment(reply, index))}
+        {toggle &&
+          item.repliesThread
+            .filter((reply) => !isHidden(reply))
+            .map((reply, index) => _renderComment(reply, index))}
       </Animated.View>
     );
   };
