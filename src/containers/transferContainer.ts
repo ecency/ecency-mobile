@@ -365,6 +365,9 @@ class TransferContainer extends Component {
               .trim()
               .split(/[\s,]+/)
               .filter(Boolean);
+            if (destinations.length === 0) {
+              throw new Error('No valid transfer destinations provided');
+            }
             const results = await Promise.allSettled(
               destinations.map((dest) =>
                 mutations.transfer.mutateAsync({
@@ -459,6 +462,9 @@ class TransferContainer extends Component {
           .trim()
           .split(/[\s,]+/)
           .filter(Boolean);
+        if (destinations.length === 0) {
+          throw new Error('No valid transfer destinations provided');
+        }
         const results = await Promise.allSettled(
           destinations.map((dest) =>
             mutations.transferPoint.mutateAsync({

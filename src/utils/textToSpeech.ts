@@ -76,16 +76,17 @@ export const extractPlainTextForTTS = (post: any): string => {
 const TTS_CHUNK_LIMIT = 3500; // leave headroom below Android's 4000 char limit
 
 export const chunkTextForTTS = (text: string): string[] => {
-  if (!text || text.trim().length === 0) {
+  const normalized = text?.trim() || '';
+  if (normalized.length === 0) {
     return [];
   }
 
-  if (text.length <= TTS_CHUNK_LIMIT) {
-    return [text];
+  if (normalized.length <= TTS_CHUNK_LIMIT) {
+    return [normalized];
   }
 
   const chunks: string[] = [];
-  let remaining = text;
+  let remaining = normalized;
 
   while (remaining.length > 0) {
     if (remaining.length <= TTS_CHUNK_LIMIT) {

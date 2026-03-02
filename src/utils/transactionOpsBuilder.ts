@@ -61,6 +61,9 @@ export const buildTransferOpsArray = (
       .trim()
       .split(/[\s,]+/)
       .filter(Boolean);
+    if (destinations.length === 0) {
+      throw new Error(`No valid recipients in: ${to}`);
+    }
     return destinations.flatMap((receiver) =>
       buildActiveCustomJsonOpArr(from, transferType, {
         sender: from,
@@ -101,6 +104,9 @@ export const buildTransferOpsArray = (
         .trim()
         .split(/[\s,]+/)
         .filter(Boolean);
+      if (destinations.length === 0) {
+        throw new Error(`No valid recipients in: ${to}`);
+      }
       return destinations.map((dest) => [
         transferType,
         {
