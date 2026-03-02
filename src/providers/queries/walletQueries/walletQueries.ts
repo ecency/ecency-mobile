@@ -262,38 +262,24 @@ export const useClaimRewardsMutation = () => {
       // Wait 2 seconds before invalidating to allow backend to process the claim
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      // Invalidate queries to fetch fresh data from backend
+      // Invalidate portfolio to fetch fresh balances (prefix match, no predicate scan)
+      await queryClient.invalidateQueries({
+        queryKey: [QUERIES.WALLET.GET, currentAccount.name],
+      });
+
       if (symbol === 'POINTS') {
-        // Invalidate both Points and portfolio queries
-        await Promise.all([
-          queryClient.invalidateQueries({
-            queryKey: ['points', currentAccount.name],
-          }),
-          queryClient.invalidateQueries({
-            queryKey: portfolioBaseKey,
-          }),
-        ]);
-      } else {
-        // Invalidate portfolio queries for HIVE/HBD/HP claims
-        await queryClient.invalidateQueries({
-          queryKey: portfolioBaseKey,
+        queryClient.invalidateQueries({
+          queryKey: ['points', currentAccount.name],
         });
       }
 
-      // Invalidate activities/transactions after claim so activity list updates
-      await Promise.all([
-        queryClient.invalidateQueries({
-          predicate: (query) =>
-            query.queryKey[0] === QUERIES.WALLET.GET_ACTIVITIES &&
-            query.queryKey[1] === currentAccount.name,
-        }),
-        queryClient.invalidateQueries({
-          predicate: (query) =>
-            query.queryKey[0] === 'accounts' &&
-            query.queryKey[1] === 'transactions' &&
-            query.queryKey[2] === currentAccount.name,
-        }),
-      ]);
+      // Invalidate activities/transactions so activity list updates (lazy refetch on next view)
+      queryClient.invalidateQueries({
+        queryKey: [QUERIES.WALLET.GET_ACTIVITIES, currentAccount.name],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['accounts', 'transactions', currentAccount.name],
+      });
     },
     onError: async (error, { symbol }) => {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));

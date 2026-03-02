@@ -57,12 +57,18 @@ export const buildTransferOpsArray = (
     tokenLayer === TokenLayers.POINTS &&
     transferType === TransferTypes.ECENCY_POINT_TRANSFER
   ) {
-    return buildActiveCustomJsonOpArr(from, transferType, {
-      sender: from,
-      receiver: to,
-      amount,
-      memo,
-    });
+    const destinations = to
+      .trim()
+      .split(/[\s,]+/)
+      .filter(Boolean);
+    return destinations.flatMap((receiver) =>
+      buildActiveCustomJsonOpArr(from, transferType, {
+        sender: from,
+        receiver,
+        amount,
+        memo,
+      }),
+    );
   }
 
   switch (transferType) {
@@ -86,18 +92,21 @@ export const buildTransferOpsArray = (
         },
       ];
 
-    case TransferTypes.TRANSFER:
-      return [
-        [
-          transferType,
-          {
-            from,
-            to,
-            amount,
-            memo,
-          },
-        ],
-      ];
+    case TransferTypes.TRANSFER: {
+      const destinations = to
+        .trim()
+        .split(/[\s,]+/)
+        .filter(Boolean);
+      return destinations.map((dest) => [
+        transferType,
+        {
+          from,
+          to: dest,
+          amount,
+          memo,
+        },
+      ]);
+    }
 
     case TransferTypes.RECURRENT_TRANSFER:
       return [

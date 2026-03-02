@@ -187,57 +187,33 @@ class TransferContainer extends Component {
 
     if (!currentAccount?.name) return;
 
-    // Immediately invalidate to show loading state
+    // Immediately invalidate portfolio to show loading state (prefix match, no predicate scan)
     queryClient.invalidateQueries({
-      predicate: (query) =>
-        query.queryKey[0] === QUERIES.WALLET.GET && query.queryKey[1] === currentAccount.name,
-    });
-    queryClient.invalidateQueries({
-      predicate: (query) =>
-        query.queryKey[0] === 'accounts' &&
-        query.queryKey[1] === 'transactions' &&
-        query.queryKey[2] === currentAccount.name,
-    });
-    queryClient.invalidateQueries({
-      predicate: (query) =>
-        query.queryKey[0] === 'points' && query.queryKey[1] === currentAccount.name,
+      queryKey: [QUERIES.WALLET.GET, currentAccount.name],
     });
 
-    // Wait 3 seconds for blockchain to process, then force refetch all wallet queries
-    setTimeout(() => {
-      // Refetch portfolio/balance queries for all currencies (forces immediate update)
-      queryClient.refetchQueries({
-        predicate: (query) =>
-          query.queryKey[0] === QUERIES.WALLET.GET && query.queryKey[1] === currentAccount.name,
+    // Wait 3 seconds for blockchain to process, then refetch key wallet queries sequentially
+    setTimeout(async () => {
+      // Refetch portfolio first (most visible to user)
+      await queryClient.refetchQueries({
+        queryKey: [QUERIES.WALLET.GET, currentAccount.name],
       });
 
-      // Refetch activities/transactions queries for all assets
-      queryClient.refetchQueries({
-        predicate: (query) =>
-          query.queryKey[0] === QUERIES.WALLET.GET_ACTIVITIES &&
-          query.queryKey[1] === currentAccount.name,
+      // Then refetch secondary data without blocking each other
+      queryClient.invalidateQueries({
+        queryKey: [QUERIES.WALLET.GET_ACTIVITIES, currentAccount.name],
       });
-      queryClient.refetchQueries({
-        predicate: (query) =>
-          query.queryKey[0] === 'accounts' &&
-          query.queryKey[1] === 'transactions' &&
-          query.queryKey[2] === currentAccount.name,
+      queryClient.invalidateQueries({
+        queryKey: ['accounts', 'transactions', currentAccount.name],
       });
-      queryClient.refetchQueries({
-        predicate: (query) =>
-          query.queryKey[0] === 'points' && query.queryKey[1] === currentAccount.name,
+      queryClient.invalidateQueries({
+        queryKey: ['points', currentAccount.name],
       });
-
-      // Refetch pending requests (conversions, limit orders, savings withdrawals)
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS],
       });
-
-      // Refetch recurring transfers for current account only (any coinId)
-      queryClient.refetchQueries({
-        predicate: (query) =>
-          query.queryKey[0] === QUERIES.WALLET.GET_RECURRING_TRANSFERS &&
-          query.queryKey[2] === currentAccount.name,
+      queryClient.invalidateQueries({
+        queryKey: [QUERIES.WALLET.GET_RECURRING_TRANSFERS],
       });
     }, 3000); // 3 second delay for blockchain processing
   };
@@ -381,13 +357,22 @@ class TransferContainer extends Component {
       // Handle HIVE layer
       if (tokenLayer === TokenLayers.HIVE) {
         switch (transferType) {
-          case TransferTypes.TRANSFER:
-            await mutations.transfer.mutateAsync({
-              to: data.destination,
-              amount: data.amount,
-              memo: data.memo,
-            });
+          case TransferTypes.TRANSFER: {
+            const destinations = data.destination
+              .trim()
+              .split(/[\s,]+/)
+              .filter(Boolean);
+            await Promise.all(
+              destinations.map((dest) =>
+                mutations.transfer.mutateAsync({
+                  to: dest,
+                  amount: data.amount,
+                  memo: data.memo,
+                }),
+              ),
+            );
             break;
+          }
           case TransferTypes.RECURRENT_TRANSFER:
             await mutations.recurrentTransfer.mutateAsync({
               from: data.from,
@@ -455,11 +440,19 @@ class TransferContainer extends Component {
 
       // Handle POINTS layer
       if (tokenLayer === TokenLayers.POINTS) {
-        await mutations.transferPoint.mutateAsync({
-          to: data.destination,
-          amount: data.amount,
-          memo: data.memo,
-        });
+        const destinations = data.destination
+          .trim()
+          .split(/[\s,]+/)
+          .filter(Boolean);
+        await Promise.all(
+          destinations.map((dest) =>
+            mutations.transferPoint.mutateAsync({
+              to: dest,
+              amount: data.amount,
+              memo: data.memo,
+            }),
+          ),
+        );
         _onSuccess();
         return;
       }
