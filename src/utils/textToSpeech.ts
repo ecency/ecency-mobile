@@ -119,6 +119,55 @@ export const chunkTextForTTS = (text: string): string[] => {
 };
 
 /**
+ * CJK character regex range covering Chinese, Japanese (Kanji/Hiragana/Katakana), and Korean (Hangul)
+ */
+const CJK_REGEX =
+  /[\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\u30a0-\u30ff\uac00-\ud7af]/g;
+
+/**
+ * Count words in text, properly handling CJK (Chinese/Japanese/Korean) languages.
+ * CJK characters are logographic — each character carries word-level meaning,
+ * so they are counted individually. Non-CJK segments are split by whitespace.
+ */
+export const countWords = (text: string): number => {
+  if (!text || text.trim().length === 0) {
+    return 0;
+  }
+
+  // Count CJK characters
+  const cjkMatches = text.match(CJK_REGEX);
+  const cjkCount = cjkMatches ? cjkMatches.length : 0;
+
+  // Remove CJK characters, then count remaining words by whitespace
+  const nonCjkText = text.replace(CJK_REGEX, ' ').trim();
+  const nonCjkWords = nonCjkText.length > 0 ? nonCjkText.split(/\s+/).filter(Boolean).length : 0;
+
+  return cjkCount + nonCjkWords;
+};
+
+/**
+ * Estimate reading time considering CJK vs Latin text.
+ * CJK reading speed is ~500 characters/min; English is ~200 words/min.
+ */
+export const estimateReadingMinutes = (text: string): number => {
+  if (!text || text.trim().length === 0) {
+    return 0;
+  }
+
+  const cjkMatches = text.match(CJK_REGEX);
+  const cjkCount = cjkMatches ? cjkMatches.length : 0;
+
+  const nonCjkText = text.replace(CJK_REGEX, ' ').trim();
+  const nonCjkWords = nonCjkText.length > 0 ? nonCjkText.split(/\s+/).filter(Boolean).length : 0;
+
+  // CJK: ~500 chars/min, Non-CJK: ~200 words/min
+  const cjkMinutes = cjkCount / 500;
+  const nonCjkMinutes = nonCjkWords / 200;
+
+  return Math.max(1, Math.ceil(cjkMinutes + nonCjkMinutes));
+};
+
+/**
  * Check if post has readable text content
  */
 export const hasReadableContent = (post: any): boolean => {
@@ -130,16 +179,10 @@ export const hasReadableContent = (post: any): boolean => {
 /**
  * Get estimated reading time in seconds
  */
-export const getEstimatedReadingTime = (post: any, wordsPerMinute: number = 150): number => {
+export const getEstimatedReadingTime = (post: any): number => {
   const text = extractPlainTextForTTS(post);
-  const trimmedText = text.trim();
-
-  if (trimmedText.length === 0) {
-    return 0;
-  }
-
-  const wordCount = trimmedText.split(/\s+/).filter(Boolean).length;
-  return Math.ceil((wordCount / wordsPerMinute) * 60);
+  const minutes = estimateReadingMinutes(text);
+  return minutes * 60;
 };
 
 /**

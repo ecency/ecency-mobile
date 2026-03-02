@@ -5,7 +5,12 @@ import { useIntl } from 'react-intl';
 import { SheetManager } from 'react-native-actions-sheet';
 import { Icon } from '../../icon';
 import { TTSControls } from '../../textToSpeech/ttsControls';
-import { extractPlainTextForTTS, hasReadableContent } from '../../../utils/textToSpeech';
+import {
+  extractPlainTextForTTS,
+  hasReadableContent,
+  countWords,
+  estimateReadingMinutes,
+} from '../../../utils/textToSpeech';
 import { SheetNames } from '../../../navigation/sheets';
 
 interface PostReadingMetadataProps {
@@ -22,14 +27,13 @@ const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
     }
 
     const text = extractPlainTextForTTS(post);
-    const trimmedText = text.trim();
 
-    if (trimmedText.length === 0) {
+    if (text.trim().length === 0) {
       return { wordCount: 0, readingTime: 0 };
     }
 
-    const words = trimmedText.split(/\s+/).filter(Boolean).length;
-    const minutes = Math.ceil(words / 150); // 150 WPM average reading speed
+    const words = countWords(text);
+    const minutes = estimateReadingMinutes(text);
 
     return { wordCount: words, readingTime: minutes };
   }, [post?.body]);
