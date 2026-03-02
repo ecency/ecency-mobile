@@ -365,7 +365,7 @@ class TransferContainer extends Component {
               .trim()
               .split(/[\s,]+/)
               .filter(Boolean);
-            await Promise.all(
+            const results = await Promise.allSettled(
               destinations.map((dest) =>
                 mutations.transfer.mutateAsync({
                   to: dest,
@@ -374,6 +374,18 @@ class TransferContainer extends Component {
                 }),
               ),
             );
+            const failures = results.filter(
+              (r): r is PromiseRejectedResult => r.status === 'rejected',
+            );
+            if (failures.length > 0) {
+              if (failures.length < destinations.length) {
+                this._delayedRefreshCoinsData();
+              }
+              const msgs = failures.map((f) => f.reason?.message || 'Unknown error').join('; ');
+              throw new Error(
+                `${failures.length}/${destinations.length} transfers failed: ${msgs}`,
+              );
+            }
             break;
           }
           case TransferTypes.RECURRENT_TRANSFER:
@@ -447,7 +459,7 @@ class TransferContainer extends Component {
           .trim()
           .split(/[\s,]+/)
           .filter(Boolean);
-        await Promise.all(
+        const results = await Promise.allSettled(
           destinations.map((dest) =>
             mutations.transferPoint.mutateAsync({
               to: dest,
@@ -456,6 +468,14 @@ class TransferContainer extends Component {
             }),
           ),
         );
+        const failures = results.filter((r): r is PromiseRejectedResult => r.status === 'rejected');
+        if (failures.length > 0) {
+          if (failures.length < destinations.length) {
+            this._delayedRefreshCoinsData();
+          }
+          const msgs = failures.map((f) => f.reason?.message || 'Unknown error').join('; ');
+          throw new Error(`${failures.length}/${destinations.length} transfers failed: ${msgs}`);
+        }
         _onSuccess();
         return;
       }

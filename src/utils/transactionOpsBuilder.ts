@@ -74,22 +74,26 @@ export const buildTransferOpsArray = (
   switch (transferType) {
     case TransferTypes.CONVERT:
       return [
-        transferType,
-        {
-          owner: from,
-          amount,
-          requestid: new Date().getTime() >>> 0,
-        },
+        [
+          transferType,
+          {
+            owner: from,
+            amount,
+            requestid: new Date().getTime() >>> 0,
+          },
+        ],
       ];
 
     case TransferTypes.DELEGATE_VESTING_SHARES:
       return [
-        transferType,
-        {
-          delegator: from,
-          delegatee: to,
-          vesting_shares: amount,
-        },
+        [
+          transferType,
+          {
+            delegator: from,
+            delegatee: to,
+            vesting_shares: amount,
+          },
+        ],
       ];
 
     case TransferTypes.TRANSFER: {

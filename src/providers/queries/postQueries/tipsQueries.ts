@@ -2,7 +2,8 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { getPostTipsQueryOptions } from '@ecency/sdk';
 import { useIntl } from 'react-intl';
 import { PostTipsResponse } from '../../ecency/ecency.types';
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { selectCurrentAccount } from '../../../redux/selectors';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { formatTipAmount } from '../../../services/tippingService';
 import {
@@ -50,6 +51,7 @@ export const useSendTipMutation = () => {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
   const intl = useIntl();
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const transferMutation = useTransferMutation();
   const transferPointMutation = useTransferPointMutation();
@@ -131,7 +133,7 @@ export const useSendTipMutation = () => {
 
       // Invalidate wallet/portfolio query so balances refresh after tip
       queryClient.invalidateQueries({
-        queryKey: ['wallet', 'portfolio', 'v2'],
+        queryKey: ['wallet', 'portfolio', 'v2', currentAccount?.name],
       });
 
       // Show success toast

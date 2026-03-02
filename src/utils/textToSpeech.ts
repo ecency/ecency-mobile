@@ -76,6 +76,10 @@ export const extractPlainTextForTTS = (post: any): string => {
 const TTS_CHUNK_LIMIT = 3500; // leave headroom below Android's 4000 char limit
 
 export const chunkTextForTTS = (text: string): string[] => {
+  if (!text || text.trim().length === 0) {
+    return [];
+  }
+
   if (text.length <= TTS_CHUNK_LIMIT) {
     return [text];
   }
@@ -124,6 +128,20 @@ export const chunkTextForTTS = (text: string): string[] => {
 const CJK_REGEX =
   /[\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\u30a0-\u30ff\uac00-\ud7af]/g;
 
+/** Matches tokens that are entirely punctuation or symbols (no letters/digits) */
+const PUNCTUATION_ONLY_REGEX = /^[\p{P}\p{S}]+$/u;
+
+/** Split non-CJK text into words, excluding punctuation-only tokens */
+const countNonCjkWords = (text: string): number => {
+  const nonCjkText = text.replace(CJK_REGEX, ' ').trim();
+  if (nonCjkText.length === 0) {
+    return 0;
+  }
+  return nonCjkText
+    .split(/\s+/)
+    .filter((token) => token.length > 0 && !PUNCTUATION_ONLY_REGEX.test(token)).length;
+};
+
 /**
  * Count words in text, properly handling CJK (Chinese/Japanese/Korean) languages.
  * CJK characters are logographic — each character carries word-level meaning,
@@ -138,11 +156,7 @@ export const countWords = (text: string): number => {
   const cjkMatches = text.match(CJK_REGEX);
   const cjkCount = cjkMatches ? cjkMatches.length : 0;
 
-  // Remove CJK characters, then count remaining words by whitespace
-  const nonCjkText = text.replace(CJK_REGEX, ' ').trim();
-  const nonCjkWords = nonCjkText.length > 0 ? nonCjkText.split(/\s+/).filter(Boolean).length : 0;
-
-  return cjkCount + nonCjkWords;
+  return cjkCount + countNonCjkWords(text);
 };
 
 /**
@@ -157,8 +171,7 @@ export const estimateReadingMinutes = (text: string): number => {
   const cjkMatches = text.match(CJK_REGEX);
   const cjkCount = cjkMatches ? cjkMatches.length : 0;
 
-  const nonCjkText = text.replace(CJK_REGEX, ' ').trim();
-  const nonCjkWords = nonCjkText.length > 0 ? nonCjkText.split(/\s+/).filter(Boolean).length : 0;
+  const nonCjkWords = countNonCjkWords(text);
 
   // CJK: ~500 chars/min, Non-CJK: ~200 words/min
   const cjkMinutes = cjkCount / 500;
