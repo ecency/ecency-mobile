@@ -70,6 +70,55 @@ export const extractPlainTextForTTS = (post: any): string => {
 };
 
 /**
+ * Android TTS has a ~4000 character limit per speak() call.
+ * Split text into chunks at sentence boundaries to stay within the limit.
+ */
+const TTS_CHUNK_LIMIT = 3500; // leave headroom below Android's 4000 char limit
+
+export const chunkTextForTTS = (text: string): string[] => {
+  if (text.length <= TTS_CHUNK_LIMIT) {
+    return [text];
+  }
+
+  const chunks: string[] = [];
+  let remaining = text;
+
+  while (remaining.length > 0) {
+    if (remaining.length <= TTS_CHUNK_LIMIT) {
+      chunks.push(remaining);
+      break;
+    }
+
+    // Find the last sentence boundary within the limit
+    const slice = remaining.substring(0, TTS_CHUNK_LIMIT);
+    let splitIndex = -1;
+
+    // Prefer splitting at sentence endings (. ! ?)
+    for (let i = slice.length - 1; i >= slice.length / 2; i--) {
+      if (slice[i] === '.' || slice[i] === '!' || slice[i] === '?') {
+        splitIndex = i + 1;
+        break;
+      }
+    }
+
+    // Fallback to last space if no sentence boundary found
+    if (splitIndex === -1) {
+      splitIndex = slice.lastIndexOf(' ');
+    }
+
+    // Last resort: hard split at limit
+    if (splitIndex <= 0) {
+      splitIndex = TTS_CHUNK_LIMIT;
+    }
+
+    chunks.push(remaining.substring(0, splitIndex).trim());
+    remaining = remaining.substring(splitIndex).trim();
+  }
+
+  return chunks;
+};
+
+/**
  * Check if post has readable text content
  */
 export const hasReadableContent = (post: any): boolean => {
