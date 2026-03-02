@@ -187,19 +187,16 @@ class TransferContainer extends Component {
 
     if (!currentAccount?.name) return;
 
-    // Immediately invalidate portfolio to show loading state (prefix match, no predicate scan)
-    queryClient.invalidateQueries({
-      queryKey: [QUERIES.WALLET.GET, currentAccount.name],
-    });
-
-    // Wait 3 seconds for blockchain to process, then refetch key wallet queries sequentially
-    setTimeout(async () => {
-      // Refetch portfolio first (most visible to user)
-      await queryClient.refetchQueries({
-        queryKey: [QUERIES.WALLET.GET, currentAccount.name],
+    // SDK mutations already invalidate portfolio on success via the adapter.
+    // Wait 3 seconds for blockchain propagation, then invalidate secondary data
+    // that the SDK doesn't cover (activities, pending requests, etc.)
+    setTimeout(() => {
+      // Re-invalidate portfolio as safety net for blockchain propagation
+      queryClient.invalidateQueries({
+        queryKey: ['wallet', 'portfolio', 'v2', currentAccount.name],
       });
 
-      // Then refetch secondary data without blocking each other
+      // Invalidate secondary data (lazy refetch on next view)
       queryClient.invalidateQueries({
         queryKey: [QUERIES.WALLET.GET_ACTIVITIES, currentAccount.name],
       });
@@ -210,10 +207,16 @@ class TransferContainer extends Component {
         queryKey: ['points', currentAccount.name],
       });
       queryClient.invalidateQueries({
-        queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS],
+        queryKey: ['wallet', 'savings-withdraw'],
       });
       queryClient.invalidateQueries({
-        queryKey: [QUERIES.WALLET.GET_RECURRING_TRANSFERS],
+        queryKey: ['wallet', 'conversion-requests'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['wallet', 'open-orders'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['wallet', 'recurrent-transfers'],
       });
     }, 3000); // 3 second delay for blockchain processing
   };

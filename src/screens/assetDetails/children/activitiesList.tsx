@@ -9,7 +9,6 @@ import { selectIsDarkTheme, selectCurrentAccount, selectPin } from '../../../red
 import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 import { limitOrderCancel } from '../../../providers/hive-trade/hiveTrade';
-import QUERIES from '../../../providers/queries/queryKeys';
 import TransferTypes from '../../../constants/transferTypes';
 
 interface ActivitiesListProps {
@@ -49,7 +48,7 @@ export const ActivitiesList = ({
       if (trxId) {
         setCancellingTrxIndex(trxId);
         await limitOrderCancel(currentAccount, pinHash, trxId);
-        queryClient.invalidateQueries({ queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS] });
+        queryClient.invalidateQueries({ queryKey: ['wallet', 'open-orders'] });
         setCancellingTrxIndex(-1);
       }
     } catch (err) {

@@ -71,14 +71,6 @@ export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean }
 
   const assetsQuery = useQuery({
     ...getPortfolioQueryOptions(currentAccount?.name || '', currency.currency, onlyEnabled),
-    // Override queryKey to match legacy format for cache compatibility
-    queryKey: [
-      QUERIES.WALLET.GET,
-      currentAccount?.name || '',
-      currency.currency,
-      onlyEnabled ? 'enabled' : 'all',
-    ],
-    // Transform SDK response to match mobile app format
     select: (data) => {
       // Defensive check: ensure data and wallets exist and wallets is an array
       if (!data || !data.wallets || !Array.isArray(data.wallets) || data.wallets.length === 0) {
@@ -156,13 +148,9 @@ export const useClaimRewardsMutation = () => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const currency = useAppSelector((state) => state.application.currency);
   const [isClaimingColl, setIsClaimingColl] = useState<{ [key: string]: boolean }>({});
-  const portfolioBaseKey = [
-    QUERIES.WALLET.GET,
-    currentAccount?.name || '',
-    currency.currency,
-  ] as const;
-  const portfolioKeyEnabled = [...portfolioBaseKey, 'enabled'] as const;
-  const portfolioKeyAll = [...portfolioBaseKey, 'all'] as const;
+  const portfolioBaseKey = ['wallet', 'portfolio', 'v2', currentAccount?.name || ''] as const;
+  const portfolioKeyEnabled = [...portfolioBaseKey, 'only-enabled', currency.currency] as const;
+  const portfolioKeyAll = [...portfolioBaseKey, 'all', currency.currency] as const;
 
   const sdkClaimRewards = useSdkClaimRewardsMutation();
   const authContext = useAuthContext();
@@ -264,7 +252,7 @@ export const useClaimRewardsMutation = () => {
 
       // Invalidate portfolio to fetch fresh balances (prefix match, no predicate scan)
       await queryClient.invalidateQueries({
-        queryKey: [QUERIES.WALLET.GET, currentAccount.name],
+        queryKey: portfolioBaseKey,
       });
 
       if (symbol === 'POINTS') {
@@ -465,7 +453,6 @@ export const useRecurringActivitesQuery = (coinId: string) => {
   // Always call useQuery (Rules of Hooks) - use enabled to control execution
   const query = useQuery({
     ...getRecurrentTransfersQueryOptions(username || ''),
-    queryKey: [QUERIES.WALLET.GET_RECURRING_TRANSFERS, coinId, username],
     enabled: coinId === ASSET_IDS.HIVE && !!username, // Only fetch for HIVE and when username exists
   });
 
@@ -729,18 +716,12 @@ export const useDeleteRecurrentTransferMutation = () => {
       }
 
       // manually update previous query data
-      const prevData = queryClient.getQueryData<RecurrentTransfer[]>([
-        QUERIES.WALLET.GET_RECURRING_TRANSFERS,
-        ASSET_IDS.HIVE,
-        currentAccount.name,
-      ]);
+      const recurrentKey = getRecurrentTransfersQueryOptions(currentAccount.name).queryKey;
+      const prevData = queryClient.getQueryData<RecurrentTransfer[]>(recurrentKey);
 
       if (prevData) {
         const updatedData = prevData.filter((item) => item.id !== recurrentTransfer.id);
-        queryClient.setQueryData(
-          [QUERIES.WALLET.GET_RECURRING_TRANSFERS, ASSET_IDS.HIVE, currentAccount.name],
-          updatedData,
-        );
+        queryClient.setQueryData(recurrentKey, updatedData);
       }
       dispatch(toastNotification(intl.formatMessage({ id: 'recurrent.delete_success' })));
     },

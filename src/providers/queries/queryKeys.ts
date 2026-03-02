@@ -23,11 +23,9 @@ const QUERIES = {
     GET_VIDEOS: 'QUERY_GET_VIDEO_UPLOADS',
   },
   WALLET: {
-    GET: 'QUERY_GET_PORTFOLIO',
-    UNCLAIMED_GET: 'QUERY_GET_UNCLAIMED',
+    // Portfolio, recurring transfers, and pending requests now use SDK query keys directly.
+    // Only engine activities remain mobile-specific.
     GET_ACTIVITIES: 'QUERY_GET_ACTIVITIES',
-    GET_PENDING_REQUESTS: 'GET_PENDING_REQUESTS',
-    GET_RECURRING_TRANSFERS: 'GET_RECURRING_TRANSFERS',
   },
   POST: {
     GET: 'QUERY_GET_POST',
