@@ -276,18 +276,23 @@ export const useClaimRewardsMutation = () => {
         // In some cases claim request may succeed on backend but fail locally due to
         // long-running response or connectivity hiccups. Re-fetch the portfolio to
         // verify whether pending rewards were actually claimed before surfacing an error.
-        const cachedPortfolio =
-          queryClient.getQueryData<PortfolioItem[]>(portfolioKeyEnabled) ||
-          queryClient.getQueryData<PortfolioItem[]>(portfolioKeyAll);
-        let refreshedPortfolio = cachedPortfolio;
-        if (!refreshedPortfolio) {
-          // fetchQuery returns the raw SDK response { wallets: PortfolioItem[] },
-          // not the select-transformed array that useQuery provides.
-          const raw = await queryClient.fetchQuery<any>(portfolioKeyEnabled);
-          refreshedPortfolio = Array.isArray(raw) ? raw : raw?.wallets;
+        // Always fetch fresh data to verify whether the claim actually succeeded.
+        // fetchQuery returns the raw SDK response { wallets: PortfolioItem[] },
+        // not the select-transformed array that useQuery provides.
+        let portfolio: PortfolioItem[] | undefined;
+        try {
+          const raw = await queryClient.fetchQuery<any>(
+            getPortfolioQueryOptions(currentAccount?.name || '', currency.currency, true),
+          );
+          portfolio = Array.isArray(raw) ? raw : raw?.wallets;
+        } catch {
+          // Fetch failed — fall back to whatever is in the cache
+          portfolio =
+            queryClient.getQueryData<PortfolioItem[]>(portfolioKeyEnabled) ||
+            queryClient.getQueryData<PortfolioItem[]>(portfolioKeyAll);
         }
 
-        const pointsAsset = refreshedPortfolio?.find((item: any) => item.symbol === symbol);
+        const pointsAsset = portfolio?.find((item) => item.symbol === symbol);
         if (pointsAsset && pointsAsset.pendingRewards === 0) {
           dispatch(
             toastNotification(
