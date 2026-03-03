@@ -1383,7 +1383,10 @@
     "test_voice": "Test Voice",
     "settings_info": "These settings will be used when reading posts aloud",
     "play": "Play",
-    "pause": "Pause"
+    "pause": "Pause",
+    "language": "Language",
+    "language_auto": "Auto-detect",
+    "language_hint": "Auto-detect chooses the language based on post content"
   },
   "posting_authority": {
     "title": "Enable Faster Posting",
