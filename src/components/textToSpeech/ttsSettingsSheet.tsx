@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import ActionSheet, { SheetProps, SheetManager } from 'react-native-actions-sheet';
 import * as Speech from 'expo-speech';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -7,6 +7,24 @@ import { useIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import { MainButton, ModalHeader } from '../index';
 import { loadTTSSettings, saveTTSSettings, TTSSettings } from '../../utils/ttsSettings';
+import { detectTextLanguage } from '../../utils/textToSpeech';
+import { Icon } from '../icon';
+
+const LANGUAGE_OPTIONS: { label: string; code: string }[] = [
+  { label: 'Auto-detect', code: 'auto' },
+  { label: 'English', code: 'en-US' },
+  { label: 'Chinese (Simplified)', code: 'zh-CN' },
+  { label: 'Chinese (Traditional)', code: 'zh-TW' },
+  { label: 'Japanese', code: 'ja-JP' },
+  { label: 'Korean', code: 'ko-KR' },
+  { label: 'Spanish', code: 'es-ES' },
+  { label: 'French', code: 'fr-FR' },
+  { label: 'German', code: 'de-DE' },
+  { label: 'Russian', code: 'ru-RU' },
+  { label: 'Portuguese', code: 'pt-BR' },
+  { label: 'Hindi', code: 'hi-IN' },
+  { label: 'Arabic', code: 'ar-SA' },
+];
 
 interface TTSSettingsSheetProps extends SheetProps<'tts_settings'> {}
 
@@ -16,7 +34,7 @@ export const TTSSettingsSheet = ({ sheetId, payload }: TTSSettingsSheetProps) =>
     voice: null,
     rate: 1.0,
     pitch: 1.0,
-    language: 'en-US',
+    language: 'auto',
   });
   const [availableVoices, setAvailableVoices] = useState<Speech.Voice[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -66,8 +84,10 @@ export const TTSSettingsSheet = ({ sheetId, payload }: TTSSettingsSheetProps) =>
 
   const handleTestVoice = () => {
     const testText = 'This is how the voice will sound when reading posts.';
+    const language =
+      settings.language === 'auto' ? detectTextLanguage(testText) : settings.language;
     Speech.speak(testText, {
-      language: settings.language,
+      language,
       pitch: settings.pitch,
       rate: settings.rate,
       voice: settings.voice || undefined,
@@ -96,6 +116,38 @@ export const TTSSettingsSheet = ({ sheetId, payload }: TTSSettingsSheetProps) =>
           <Text style={styles.sectionTitle}>{intl.formatMessage({ id: 'tts.voice' })}</Text>
           <Text style={styles.currentValue}>{currentVoiceName}</Text>
           <Text style={styles.hint}>{intl.formatMessage({ id: 'tts.voice_hint' })}</Text>
+        </View>
+
+        {/* Language Selection */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>{intl.formatMessage({ id: 'tts.language' })}</Text>
+          <View style={styles.languageList}>
+            {LANGUAGE_OPTIONS.map((lang) => {
+              const isSelected = settings.language === lang.code;
+              return (
+                <TouchableOpacity
+                  key={lang.code}
+                  style={[styles.languageItem, isSelected && styles.languageItemSelected]}
+                  onPress={() => setSettings({ ...settings, language: lang.code })}
+                >
+                  <Text style={[styles.languageLabel, isSelected && styles.languageLabelSelected]}>
+                    {lang.code === 'auto'
+                      ? intl.formatMessage({ id: 'tts.language_auto' })
+                      : lang.label}
+                  </Text>
+                  {isSelected && (
+                    <Icon
+                      iconType="MaterialCommunityIcons"
+                      name="check"
+                      size={18}
+                      color={EStyleSheet.value('$primaryBlue')}
+                    />
+                  )}
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+          <Text style={styles.hint}>{intl.formatMessage({ id: 'tts.language_hint' })}</Text>
         </View>
 
         {/* Speech Rate */}
@@ -214,6 +266,33 @@ const styles = EStyleSheet.create({
   sliderLabel: {
     fontSize: 12,
     color: '$iconColor',
+  },
+  languageList: {
+    borderRadius: 8,
+    borderWidth: EStyleSheet.hairlineWidth,
+    borderColor: '$darkGrayBackground',
+    overflow: 'hidden',
+    marginBottom: 8,
+  },
+  languageItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderBottomWidth: EStyleSheet.hairlineWidth,
+    borderBottomColor: '$darkGrayBackground',
+  },
+  languageItemSelected: {
+    backgroundColor: '$primaryLightBackground',
+  },
+  languageLabel: {
+    fontSize: 14,
+    color: '$primaryDarkText',
+  },
+  languageLabelSelected: {
+    fontWeight: '600',
+    color: '$primaryBlue',
   },
   testButton: {
     marginTop: 8,

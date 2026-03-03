@@ -9,6 +9,7 @@ import {
   extractPlainTextForTTS,
   hasReadableContent,
   chunkTextForTTS,
+  detectTextLanguage,
 } from '../../utils/textToSpeech';
 import { loadTTSSettings, TTSSettings } from '../../utils/ttsSettings';
 
@@ -131,6 +132,10 @@ export const TTSControls = ({ post, style, showLabel = false }: TTSControlsProps
         const settings = await loadTTSSettings();
         settingsRef.current = settings;
 
+        // Resolve language: auto-detect from post text or use explicit setting
+        const language =
+          settings.language === 'auto' ? detectTextLanguage(text) : settings.language;
+
         // Chunk text to avoid Android's ~4000 char TTS limit
         const chunks = chunkTextForTTS(text);
         chunksRef.current = chunks;
@@ -147,7 +152,7 @@ export const TTSControls = ({ post, style, showLabel = false }: TTSControlsProps
           }
 
           const speechOptions: Speech.SpeechOptions = {
-            language: settings.language,
+            language,
             pitch: settings.pitch,
             rate: settings.rate,
             onStart: () => {
