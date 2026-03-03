@@ -1383,7 +1383,10 @@
     "test_voice": "Probar Voz",
     "settings_info": "Estos ajustes se utilizarán al leer mensajes en voz alta",
     "play": "Reproducir",
-    "pause": "Pausa"
+    "pause": "Pausa",
+    "language": "Language",
+    "language_auto": "Auto-detect",
+    "language_hint": "Auto-detect chooses the language based on post content"
   },
   "posting_authority": {
     "title": "Habilitar publicación más rápida",
