@@ -265,7 +265,13 @@ const TransferView = ({
   }
 
   const _onNextPress = (deleteTransfer = false) => {
-    if (balance < amount) {
+    const recipientCount = allowMultipleDest
+      ? destination
+          .trim()
+          .split(/[\s,]+/)
+          .filter(Boolean).length || 1
+      : 1;
+    if (balance < amount * recipientCount) {
       Alert.alert(intl.formatMessage({ id: 'wallet.low_liquidity' }));
 
       return false;

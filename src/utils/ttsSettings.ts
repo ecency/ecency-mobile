@@ -36,7 +36,7 @@ export const loadTTSSettings = async (): Promise<TTSSettings> => {
         voice: settings.voice || null,
         rate: typeof settings.rate === 'number' ? settings.rate : 1.0,
         pitch: typeof settings.pitch === 'number' ? settings.pitch : 1.0,
-        language: settings.language || 'auto',
+        language: typeof settings.language === 'string' ? settings.language : 'auto',
       };
     }
     return getDefaultSettings();

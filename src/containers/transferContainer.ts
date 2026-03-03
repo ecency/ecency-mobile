@@ -368,6 +368,9 @@ class TransferContainer extends Component {
             if (destinations.length === 0) {
               throw new Error('No valid transfer destinations provided');
             }
+            if (destinations.length > 50) {
+              throw new Error(`Too many recipients (${destinations.length}), max is 50`);
+            }
             const results = await Promise.allSettled(
               destinations.map((dest) =>
                 mutations.transfer.mutateAsync({
@@ -476,6 +479,9 @@ class TransferContainer extends Component {
           .filter(Boolean);
         if (destinations.length === 0) {
           throw new Error('No valid transfer destinations provided');
+        }
+        if (destinations.length > 50) {
+          throw new Error(`Too many recipients (${destinations.length}), max is 50`);
         }
         const results = await Promise.allSettled(
           destinations.map((dest) =>

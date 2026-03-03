@@ -138,10 +138,10 @@ const CJK_REGEX =
   /[\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\u30a0-\u30ff\uac00-\ud7af]/g;
 
 /**
- * Matches tokens that are entirely (ASCII) punctuation or symbols (no letters/digits).
- * NOTE: Avoids `\p{}` Unicode property escapes, which Hermes does not support.
+ * Matches tokens that are entirely punctuation or symbols (no letters/digits).
+ * Uses Unicode property escape to cover non-ASCII punctuation (e.g. em-dashes, quotes).
  */
-const ASCII_PUNCTUATION_ONLY_REGEX = /^[!-/:-@[-`{-~]+$/;
+const PUNCTUATION_ONLY_REGEX = /^\p{P}+$/u;
 
 /** Split non-CJK text into words, excluding punctuation-only tokens */
 const countNonCjkWords = (text: string): number => {
@@ -151,7 +151,7 @@ const countNonCjkWords = (text: string): number => {
   }
   return nonCjkText
     .split(/\s+/)
-    .filter((token) => token.length > 0 && !ASCII_PUNCTUATION_ONLY_REGEX.test(token)).length;
+    .filter((token) => token.length > 0 && !PUNCTUATION_ONLY_REGEX.test(token)).length;
 };
 
 /**

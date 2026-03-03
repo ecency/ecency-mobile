@@ -279,10 +279,15 @@ export const useClaimRewardsMutation = () => {
         const cachedPortfolio =
           queryClient.getQueryData<PortfolioItem[]>(portfolioKeyEnabled) ||
           queryClient.getQueryData<PortfolioItem[]>(portfolioKeyAll);
-        const refreshedPortfolio =
-          cachedPortfolio || (await queryClient.fetchQuery<PortfolioItem[]>(portfolioKeyEnabled));
+        let refreshedPortfolio = cachedPortfolio;
+        if (!refreshedPortfolio) {
+          // fetchQuery returns the raw SDK response { wallets: PortfolioItem[] },
+          // not the select-transformed array that useQuery provides.
+          const raw = await queryClient.fetchQuery<any>(portfolioKeyEnabled);
+          refreshedPortfolio = Array.isArray(raw) ? raw : raw?.wallets;
+        }
 
-        const pointsAsset = refreshedPortfolio?.find((item) => item.symbol === symbol);
+        const pointsAsset = refreshedPortfolio?.find((item: any) => item.symbol === symbol);
         if (pointsAsset && pointsAsset.pendingRewards === 0) {
           dispatch(
             toastNotification(

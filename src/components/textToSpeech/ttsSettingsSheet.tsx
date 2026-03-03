@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import ActionSheet, { SheetProps, SheetManager } from 'react-native-actions-sheet';
 import * as Speech from 'expo-speech';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
-import { MainButton, ModalHeader } from '../index';
+import { DropdownButton, MainButton, ModalHeader } from '../index';
 import { loadTTSSettings, saveTTSSettings, TTSSettings } from '../../utils/ttsSettings';
 import { detectTextLanguage } from '../../utils/textToSpeech';
-import { Icon } from '../icon';
 
 const LANGUAGE_OPTIONS: { label: string; code: string }[] = [
   { label: 'Auto-detect', code: 'auto' },
@@ -98,6 +97,13 @@ export const TTSSettingsSheet = ({ sheetId, payload }: TTSSettingsSheetProps) =>
     ? availableVoices.find((v) => v.identifier === settings.voice)?.name || 'System Default'
     : 'System Default';
 
+  const selectedLang = LANGUAGE_OPTIONS.find((l) => l.code === settings.language);
+  const selectedLanguageLabel = selectedLang
+    ? selectedLang.code === 'auto'
+      ? intl.formatMessage({ id: 'tts.language_auto' })
+      : selectedLang.label
+    : intl.formatMessage({ id: 'tts.language_auto' });
+
   return (
     <ActionSheet
       id={sheetId}
@@ -121,32 +127,24 @@ export const TTSSettingsSheet = ({ sheetId, payload }: TTSSettingsSheetProps) =>
         {/* Language Selection */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>{intl.formatMessage({ id: 'tts.language' })}</Text>
-          <View style={styles.languageList}>
-            {LANGUAGE_OPTIONS.map((lang) => {
-              const isSelected = settings.language === lang.code;
-              return (
-                <TouchableOpacity
-                  key={lang.code}
-                  style={[styles.languageItem, isSelected && styles.languageItemSelected]}
-                  onPress={() => setSettings({ ...settings, language: lang.code })}
-                >
-                  <Text style={[styles.languageLabel, isSelected && styles.languageLabelSelected]}>
-                    {lang.code === 'auto'
-                      ? intl.formatMessage({ id: 'tts.language_auto' })
-                      : lang.label}
-                  </Text>
-                  {isSelected && (
-                    <Icon
-                      iconType="MaterialCommunityIcons"
-                      name="check"
-                      size={18}
-                      color={EStyleSheet.value('$primaryBlue')}
-                    />
-                  )}
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+          <DropdownButton
+            isHasChildIcon
+            options={LANGUAGE_OPTIONS.map((lang) =>
+              lang.code === 'auto' ? intl.formatMessage({ id: 'tts.language_auto' }) : lang.label,
+            )}
+            defaultText={selectedLanguageLabel}
+            selectedOptionIndex={LANGUAGE_OPTIONS.findIndex(
+              (lang) => lang.code === settings.language,
+            )}
+            onSelect={(index: number) =>
+              setSettings({ ...settings, language: LANGUAGE_OPTIONS[index].code })
+            }
+            dropdownButtonStyle={styles.languageDropdownButton}
+            textStyle={styles.languageDropdownText}
+            rowTextStyle={styles.languageDropdownRowText}
+            dropdownStyle={styles.languageDropdown}
+            dropdownRowWrapper={styles.languageDropdownRow}
+          />
           <Text style={styles.hint}>{intl.formatMessage({ id: 'tts.language_hint' })}</Text>
         </View>
 
@@ -267,32 +265,28 @@ const styles = EStyleSheet.create({
     fontSize: 12,
     color: '$iconColor',
   },
-  languageList: {
-    borderRadius: 8,
+  languageDropdownButton: {
     borderWidth: EStyleSheet.hairlineWidth,
     borderColor: '$darkGrayBackground',
-    overflow: 'hidden',
-    marginBottom: 8,
-  },
-  languageItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    borderRadius: 8,
     paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderBottomWidth: EStyleSheet.hairlineWidth,
-    borderBottomColor: '$darkGrayBackground',
+    paddingVertical: 8,
+    marginBottom: 8,
+    alignSelf: 'stretch',
   },
-  languageItemSelected: {
-    backgroundColor: '$primaryLightBackground',
-  },
-  languageLabel: {
+  languageDropdownText: {
     fontSize: 14,
     color: '$primaryDarkText',
   },
-  languageLabelSelected: {
-    fontWeight: '600',
-    color: '$primaryBlue',
+  languageDropdownRowText: {
+    fontSize: 14,
+    color: '$primaryDarkText',
+  },
+  languageDropdown: {
+    width: '$deviceWidth - 60',
+  },
+  languageDropdownRow: {
+    marginLeft: 10,
   },
   testButton: {
     marginTop: 8,
