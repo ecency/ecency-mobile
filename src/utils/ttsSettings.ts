@@ -20,7 +20,7 @@ const getDefaultSettings = (): TTSSettings => ({
   voice: null, // Use system default
   rate: 1.0,
   pitch: 1.0,
-  language: 'en-US',
+  language: 'auto',
 });
 
 /**
@@ -36,7 +36,7 @@ export const loadTTSSettings = async (): Promise<TTSSettings> => {
         voice: settings.voice || null,
         rate: typeof settings.rate === 'number' ? settings.rate : 1.0,
         pitch: typeof settings.pitch === 'number' ? settings.pitch : 1.0,
-        language: settings.language || 'en-US',
+        language: typeof settings.language === 'string' ? settings.language : 'auto',
       };
     }
     return getDefaultSettings();

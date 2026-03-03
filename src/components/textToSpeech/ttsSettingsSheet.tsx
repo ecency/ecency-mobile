@@ -5,8 +5,25 @@ import * as Speech from 'expo-speech';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
-import { MainButton, ModalHeader } from '../index';
+import { DropdownButton, MainButton, ModalHeader } from '../index';
 import { loadTTSSettings, saveTTSSettings, TTSSettings } from '../../utils/ttsSettings';
+import { detectTextLanguage } from '../../utils/textToSpeech';
+
+const LANGUAGE_OPTIONS: { label: string; code: string }[] = [
+  { label: 'Auto-detect', code: 'auto' },
+  { label: 'English', code: 'en-US' },
+  { label: 'Chinese (Simplified)', code: 'zh-CN' },
+  { label: 'Chinese (Traditional)', code: 'zh-TW' },
+  { label: 'Japanese', code: 'ja-JP' },
+  { label: 'Korean', code: 'ko-KR' },
+  { label: 'Spanish', code: 'es-ES' },
+  { label: 'French', code: 'fr-FR' },
+  { label: 'German', code: 'de-DE' },
+  { label: 'Russian', code: 'ru-RU' },
+  { label: 'Portuguese', code: 'pt-BR' },
+  { label: 'Hindi', code: 'hi-IN' },
+  { label: 'Arabic', code: 'ar-SA' },
+];
 
 interface TTSSettingsSheetProps extends SheetProps<'tts_settings'> {}
 
@@ -16,7 +33,7 @@ export const TTSSettingsSheet = ({ sheetId, payload }: TTSSettingsSheetProps) =>
     voice: null,
     rate: 1.0,
     pitch: 1.0,
-    language: 'en-US',
+    language: 'auto',
   });
   const [availableVoices, setAvailableVoices] = useState<Speech.Voice[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -66,8 +83,10 @@ export const TTSSettingsSheet = ({ sheetId, payload }: TTSSettingsSheetProps) =>
 
   const handleTestVoice = () => {
     const testText = 'This is how the voice will sound when reading posts.';
+    const language =
+      settings.language === 'auto' ? detectTextLanguage(testText) : settings.language;
     Speech.speak(testText, {
-      language: settings.language,
+      language,
       pitch: settings.pitch,
       rate: settings.rate,
       voice: settings.voice || undefined,
@@ -77,6 +96,13 @@ export const TTSSettingsSheet = ({ sheetId, payload }: TTSSettingsSheetProps) =>
   const currentVoiceName = settings.voice
     ? availableVoices.find((v) => v.identifier === settings.voice)?.name || 'System Default'
     : 'System Default';
+
+  const selectedLang = LANGUAGE_OPTIONS.find((l) => l.code === settings.language);
+  const selectedLanguageLabel = selectedLang
+    ? selectedLang.code === 'auto'
+      ? intl.formatMessage({ id: 'tts.language_auto' })
+      : selectedLang.label
+    : intl.formatMessage({ id: 'tts.language_auto' });
 
   return (
     <ActionSheet
@@ -96,6 +122,30 @@ export const TTSSettingsSheet = ({ sheetId, payload }: TTSSettingsSheetProps) =>
           <Text style={styles.sectionTitle}>{intl.formatMessage({ id: 'tts.voice' })}</Text>
           <Text style={styles.currentValue}>{currentVoiceName}</Text>
           <Text style={styles.hint}>{intl.formatMessage({ id: 'tts.voice_hint' })}</Text>
+        </View>
+
+        {/* Language Selection */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>{intl.formatMessage({ id: 'tts.language' })}</Text>
+          <DropdownButton
+            isHasChildIcon
+            options={LANGUAGE_OPTIONS.map((lang) =>
+              lang.code === 'auto' ? intl.formatMessage({ id: 'tts.language_auto' }) : lang.label,
+            )}
+            defaultText={selectedLanguageLabel}
+            selectedOptionIndex={LANGUAGE_OPTIONS.findIndex(
+              (lang) => lang.code === settings.language,
+            )}
+            onSelect={(index: number) =>
+              setSettings({ ...settings, language: LANGUAGE_OPTIONS[index].code })
+            }
+            dropdownButtonStyle={styles.languageDropdownButton}
+            textStyle={styles.languageDropdownText}
+            rowTextStyle={styles.languageDropdownRowText}
+            dropdownStyle={styles.languageDropdown}
+            dropdownRowWrapper={styles.languageDropdownRow}
+          />
+          <Text style={styles.hint}>{intl.formatMessage({ id: 'tts.language_hint' })}</Text>
         </View>
 
         {/* Speech Rate */}
@@ -214,6 +264,29 @@ const styles = EStyleSheet.create({
   sliderLabel: {
     fontSize: 12,
     color: '$iconColor',
+  },
+  languageDropdownButton: {
+    borderWidth: EStyleSheet.hairlineWidth,
+    borderColor: '$darkGrayBackground',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginBottom: 8,
+    alignSelf: 'stretch',
+  },
+  languageDropdownText: {
+    fontSize: 14,
+    color: '$primaryDarkText',
+  },
+  languageDropdownRowText: {
+    fontSize: 14,
+    color: '$primaryDarkText',
+  },
+  languageDropdown: {
+    width: '$deviceWidth - 60',
+  },
+  languageDropdownRow: {
+    marginLeft: 10,
   },
   testButton: {
     marginTop: 8,

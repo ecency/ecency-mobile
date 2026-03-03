@@ -10,6 +10,8 @@ import { getLimitOrderCreateOpData } from '../providers/hive-trade/hiveTrade';
 import parseToken from './parseToken';
 import TokenLayers from '../constants/tokenLayers';
 
+const MAX_RECIPIENTS = 50;
+
 interface TansferData {
   from: string;
   to: string;
@@ -57,47 +59,72 @@ export const buildTransferOpsArray = (
     tokenLayer === TokenLayers.POINTS &&
     transferType === TransferTypes.ECENCY_POINT_TRANSFER
   ) {
-    return buildActiveCustomJsonOpArr(from, transferType, {
-      sender: from,
-      receiver: to,
-      amount,
-      memo,
-    });
+    const destinations = to
+      .trim()
+      .split(/[\s,]+/)
+      .filter(Boolean);
+    if (destinations.length === 0) {
+      throw new Error(`No valid recipients in: ${to}`);
+    }
+    if (destinations.length > MAX_RECIPIENTS) {
+      throw new Error(`Too many recipients (${destinations.length}), max is ${MAX_RECIPIENTS}`);
+    }
+    return destinations.flatMap((receiver) =>
+      buildActiveCustomJsonOpArr(from, transferType, {
+        sender: from,
+        receiver,
+        amount,
+        memo,
+      }),
+    );
   }
 
   switch (transferType) {
     case TransferTypes.CONVERT:
       return [
-        transferType,
-        {
-          owner: from,
-          amount,
-          requestid: new Date().getTime() >>> 0,
-        },
+        [
+          transferType,
+          {
+            owner: from,
+            amount,
+            requestid: new Date().getTime() >>> 0,
+          },
+        ],
       ];
 
     case TransferTypes.DELEGATE_VESTING_SHARES:
       return [
-        transferType,
-        {
-          delegator: from,
-          delegatee: to,
-          vesting_shares: amount,
-        },
-      ];
-
-    case TransferTypes.TRANSFER:
-      return [
         [
           transferType,
           {
-            from,
-            to,
-            amount,
-            memo,
+            delegator: from,
+            delegatee: to,
+            vesting_shares: amount,
           },
         ],
       ];
+
+    case TransferTypes.TRANSFER: {
+      const destinations = to
+        .trim()
+        .split(/[\s,]+/)
+        .filter(Boolean);
+      if (destinations.length === 0) {
+        throw new Error(`No valid recipients in: ${to}`);
+      }
+      if (destinations.length > MAX_RECIPIENTS) {
+        throw new Error(`Too many recipients (${destinations.length}), max is ${MAX_RECIPIENTS}`);
+      }
+      return destinations.map((dest) => [
+        transferType,
+        {
+          from,
+          to: dest,
+          amount,
+          memo,
+        },
+      ]);
+    }
 
     case TransferTypes.RECURRENT_TRANSFER:
       return [

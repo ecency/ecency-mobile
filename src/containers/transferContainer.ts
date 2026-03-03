@@ -187,57 +187,36 @@ class TransferContainer extends Component {
 
     if (!currentAccount?.name) return;
 
-    // Immediately invalidate to show loading state
-    queryClient.invalidateQueries({
-      predicate: (query) =>
-        query.queryKey[0] === QUERIES.WALLET.GET && query.queryKey[1] === currentAccount.name,
-    });
-    queryClient.invalidateQueries({
-      predicate: (query) =>
-        query.queryKey[0] === 'accounts' &&
-        query.queryKey[1] === 'transactions' &&
-        query.queryKey[2] === currentAccount.name,
-    });
-    queryClient.invalidateQueries({
-      predicate: (query) =>
-        query.queryKey[0] === 'points' && query.queryKey[1] === currentAccount.name,
-    });
-
-    // Wait 3 seconds for blockchain to process, then force refetch all wallet queries
+    // SDK mutations already invalidate portfolio on success via the adapter.
+    // Wait 3 seconds for blockchain propagation, then invalidate secondary data
+    // that the SDK doesn't cover (activities, pending requests, etc.)
     setTimeout(() => {
-      // Refetch portfolio/balance queries for all currencies (forces immediate update)
-      queryClient.refetchQueries({
-        predicate: (query) =>
-          query.queryKey[0] === QUERIES.WALLET.GET && query.queryKey[1] === currentAccount.name,
+      // Re-invalidate portfolio as safety net for blockchain propagation
+      queryClient.invalidateQueries({
+        queryKey: ['wallet', 'portfolio', 'v2', currentAccount.name],
       });
 
-      // Refetch activities/transactions queries for all assets
-      queryClient.refetchQueries({
-        predicate: (query) =>
-          query.queryKey[0] === QUERIES.WALLET.GET_ACTIVITIES &&
-          query.queryKey[1] === currentAccount.name,
+      // Invalidate secondary data (lazy refetch on next view)
+      queryClient.invalidateQueries({
+        queryKey: [QUERIES.WALLET.GET_ACTIVITIES, currentAccount.name],
       });
-      queryClient.refetchQueries({
-        predicate: (query) =>
-          query.queryKey[0] === 'accounts' &&
-          query.queryKey[1] === 'transactions' &&
-          query.queryKey[2] === currentAccount.name,
+      queryClient.invalidateQueries({
+        queryKey: ['accounts', 'transactions', currentAccount.name],
       });
-      queryClient.refetchQueries({
-        predicate: (query) =>
-          query.queryKey[0] === 'points' && query.queryKey[1] === currentAccount.name,
+      queryClient.invalidateQueries({
+        queryKey: ['points', currentAccount.name],
       });
-
-      // Refetch pending requests (conversions, limit orders, savings withdrawals)
-      queryClient.refetchQueries({
-        queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS],
+      queryClient.invalidateQueries({
+        queryKey: ['wallet', 'savings-withdraw'],
       });
-
-      // Refetch recurring transfers for current account only (any coinId)
-      queryClient.refetchQueries({
-        predicate: (query) =>
-          query.queryKey[0] === QUERIES.WALLET.GET_RECURRING_TRANSFERS &&
-          query.queryKey[2] === currentAccount.name,
+      queryClient.invalidateQueries({
+        queryKey: ['wallet', 'conversion-requests'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['wallet', 'open-orders'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['wallet', 'recurrent-transfers'],
       });
     }, 3000); // 3 second delay for blockchain processing
   };
@@ -381,13 +360,52 @@ class TransferContainer extends Component {
       // Handle HIVE layer
       if (tokenLayer === TokenLayers.HIVE) {
         switch (transferType) {
-          case TransferTypes.TRANSFER:
-            await mutations.transfer.mutateAsync({
-              to: data.destination,
-              amount: data.amount,
-              memo: data.memo,
-            });
+          case TransferTypes.TRANSFER: {
+            const destinations = data.destination
+              .trim()
+              .split(/[\s,]+/)
+              .filter(Boolean);
+            if (destinations.length === 0) {
+              throw new Error('No valid transfer destinations provided');
+            }
+            if (destinations.length > 50) {
+              throw new Error(`Too many recipients (${destinations.length}), max is 50`);
+            }
+            const results = await Promise.allSettled(
+              destinations.map((dest) =>
+                mutations.transfer.mutateAsync({
+                  to: dest,
+                  amount: data.amount,
+                  memo: data.memo,
+                }),
+              ),
+            );
+            const failures = results.filter(
+              (r): r is PromiseRejectedResult => r.status === 'rejected',
+            );
+            const successes = destinations.length - failures.length;
+
+            if (failures.length === destinations.length) {
+              // All transfers failed – surface as an error
+              const msgs = failures.map((f) => f.reason?.message || 'Unknown error').join('; ');
+              throw new Error(
+                `${failures.length}/${destinations.length} transfers failed: ${msgs}`,
+              );
+            }
+
+            if (failures.length > 0 && successes > 0) {
+              // Partial success: refresh balances but notify user of partial failure
+              this._delayedRefreshCoinsData();
+              dispatch(
+                toastNotification(
+                  `${successes}/${destinations.length} transfers succeeded, ${failures.length} failed`,
+                ),
+              );
+              navigation.goBack();
+              return;
+            }
             break;
+          }
           case TransferTypes.RECURRENT_TRANSFER:
             await mutations.recurrentTransfer.mutateAsync({
               from: data.from,
@@ -455,11 +473,46 @@ class TransferContainer extends Component {
 
       // Handle POINTS layer
       if (tokenLayer === TokenLayers.POINTS) {
-        await mutations.transferPoint.mutateAsync({
-          to: data.destination,
-          amount: data.amount,
-          memo: data.memo,
-        });
+        const destinations = data.destination
+          .trim()
+          .split(/[\s,]+/)
+          .filter(Boolean);
+        if (destinations.length === 0) {
+          throw new Error('No valid transfer destinations provided');
+        }
+        if (destinations.length > 50) {
+          throw new Error(`Too many recipients (${destinations.length}), max is 50`);
+        }
+        const results = await Promise.allSettled(
+          destinations.map((dest) =>
+            mutations.transferPoint.mutateAsync({
+              to: dest,
+              amount: data.amount,
+              memo: data.memo,
+            }),
+          ),
+        );
+        const failures = results.filter((r): r is PromiseRejectedResult => r.status === 'rejected');
+        const successes = destinations.length - failures.length;
+
+        if (failures.length === destinations.length) {
+          // All transfers failed – surface as an error
+          const msgs = failures.map((f) => f.reason?.message || 'Unknown error').join('; ');
+          throw new Error(`${failures.length}/${destinations.length} transfers failed: ${msgs}`);
+        }
+
+        if (failures.length > 0 && successes > 0) {
+          // Partial success: refresh balances but notify user of partial failure
+          this._delayedRefreshCoinsData();
+          dispatch(
+            toastNotification(
+              `${successes}/${destinations.length} transfers succeeded, ${failures.length} failed`,
+            ),
+          );
+          navigation.goBack();
+          return;
+        }
+
         _onSuccess();
         return;
       }

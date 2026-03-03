@@ -5,7 +5,12 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
 import { Icon } from '../icon';
 import { IconButton } from '../iconButton';
-import { extractPlainTextForTTS, hasReadableContent } from '../../utils/textToSpeech';
+import {
+  extractPlainTextForTTS,
+  hasReadableContent,
+  chunkTextForTTS,
+  detectTextLanguage,
+} from '../../utils/textToSpeech';
 import { loadTTSSettings, TTSSettings } from '../../utils/ttsSettings';
 
 interface TTSControlsProps {
@@ -22,6 +27,8 @@ export const TTSControls = ({ post, style, showLabel = false }: TTSControlsProps
   const settingsRef = useRef<TTSSettings | null>(null);
   const isMountedRef = useRef(true);
   const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const chunksRef = useRef<string[]>([]);
+  const chunkIndexRef = useRef(0);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -118,69 +125,83 @@ export const TTSControls = ({ post, style, showLabel = false }: TTSControlsProps
           return;
         }
 
-        // Check if TTS is currently speaking
-        const isSpeaking = await Speech.isSpeakingAsync().catch(() => false);
-        console.log('TTS speaking status:', isSpeaking);
+        // Stop any prior speech to ensure clean state before starting
+        await Speech.stop();
 
         // Reload settings in case they changed
         const settings = await loadTTSSettings();
         settingsRef.current = settings;
 
-        const speechOptions: Speech.SpeechOptions = {
-          language: settings.language,
-          pitch: settings.pitch,
-          rate: settings.rate,
-          onStart: () => {
-            // Clear timeout since onStart fired successfully
-            if (loadingTimeoutRef.current) {
-              clearTimeout(loadingTimeoutRef.current);
-              loadingTimeoutRef.current = null;
-            }
-            if (isMountedRef.current) {
-              setIsPlaying(true);
-              setIsLoading(false);
-            }
-          },
-          onDone: () => {
-            if (loadingTimeoutRef.current) {
-              clearTimeout(loadingTimeoutRef.current);
-              loadingTimeoutRef.current = null;
-            }
+        // Resolve language: auto-detect from post text or use explicit setting
+        const language =
+          settings.language === 'auto' ? detectTextLanguage(text) : settings.language;
+
+        // Chunk text to avoid Android's ~4000 char TTS limit
+        const chunks = chunkTextForTTS(text);
+        chunksRef.current = chunks;
+        chunkIndexRef.current = 0;
+
+        const speakChunk = (index: number) => {
+          if (!isMountedRef.current || index >= chunksRef.current.length) {
+            // All chunks done
             if (isMountedRef.current) {
               setIsPlaying(false);
               setIsPaused(false);
             }
-          },
-          onStopped: () => {
-            if (loadingTimeoutRef.current) {
-              clearTimeout(loadingTimeoutRef.current);
-              loadingTimeoutRef.current = null;
-            }
-            if (isMountedRef.current) {
-              setIsPlaying(false);
-              setIsPaused(false);
-            }
-          },
-          onError: (error) => {
-            console.error('TTS error:', error);
-            if (loadingTimeoutRef.current) {
-              clearTimeout(loadingTimeoutRef.current);
-              loadingTimeoutRef.current = null;
-            }
-            if (isMountedRef.current) {
-              setIsPlaying(false);
-              setIsPaused(false);
-              setIsLoading(false);
-            }
-          },
+            return;
+          }
+
+          const speechOptions: Speech.SpeechOptions = {
+            language,
+            pitch: settings.pitch,
+            rate: settings.rate,
+            onStart: () => {
+              if (loadingTimeoutRef.current) {
+                clearTimeout(loadingTimeoutRef.current);
+                loadingTimeoutRef.current = null;
+              }
+              if (isMountedRef.current) {
+                setIsPlaying(true);
+                setIsLoading(false);
+              }
+            },
+            onDone: () => {
+              // Speak next chunk
+              chunkIndexRef.current = index + 1;
+              speakChunk(index + 1);
+            },
+            onStopped: () => {
+              if (loadingTimeoutRef.current) {
+                clearTimeout(loadingTimeoutRef.current);
+                loadingTimeoutRef.current = null;
+              }
+              if (isMountedRef.current) {
+                setIsPlaying(false);
+                setIsPaused(false);
+              }
+            },
+            onError: (error) => {
+              console.error('TTS error:', error);
+              if (loadingTimeoutRef.current) {
+                clearTimeout(loadingTimeoutRef.current);
+                loadingTimeoutRef.current = null;
+              }
+              if (isMountedRef.current) {
+                setIsPlaying(false);
+                setIsPaused(false);
+                setIsLoading(false);
+              }
+            },
+          };
+
+          if (settings.voice) {
+            speechOptions.voice = settings.voice;
+          }
+
+          Speech.speak(chunksRef.current[index], speechOptions);
         };
 
-        // Add voice if specified
-        if (settings.voice) {
-          speechOptions.voice = settings.voice;
-        }
-
-        Speech.speak(text, speechOptions);
+        speakChunk(0);
       } catch (error) {
         console.error('Failed to start TTS:', error);
         if (loadingTimeoutRef.current) {

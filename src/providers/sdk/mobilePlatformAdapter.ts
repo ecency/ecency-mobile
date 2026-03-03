@@ -139,15 +139,21 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
     },
 
     invalidateQueries: async (keys: any[]) => {
-      await Promise.all(
-        keys.map((key) => {
-          // SDK may pass predicate objects for pattern-based invalidation
-          if (key && typeof key === 'object' && !Array.isArray(key) && key.predicate) {
-            return queryClient.invalidateQueries(key);
-          }
-          return queryClient.invalidateQueries({ queryKey: key });
-        }),
-      );
+      // Wrap entirely in try-catch: cache invalidation must never cause
+      // mutateAsync to reject after a successful broadcast.
+      try {
+        await Promise.all(
+          keys.map((key) => {
+            // SDK may pass QueryFilters objects (e.g. { queryKey, exact, predicate })
+            if (key && typeof key === 'object' && !Array.isArray(key)) {
+              return queryClient.invalidateQueries(key);
+            }
+            return queryClient.invalidateQueries({ queryKey: key });
+          }),
+        );
+      } catch (error) {
+        console.warn('[mobilePlatformAdapter] invalidateQueries failed:', error);
+      }
     },
 
     showAuthUpgradeUI: async (
