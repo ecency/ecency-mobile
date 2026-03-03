@@ -139,7 +139,10 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
     },
 
     invalidateQueries: async (keys: any[]) => {
-      await Promise.all(
+      // Use allSettled so invalidation errors never propagate to the SDK
+      // mutation's onSuccess callback — a failed cache refresh must not
+      // cause mutateAsync to reject after a successful broadcast.
+      const results = await Promise.allSettled(
         keys.map((key) => {
           // SDK may pass predicate objects for pattern-based invalidation
           if (key && typeof key === 'object' && !Array.isArray(key) && key.predicate) {
@@ -148,6 +151,10 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
           return queryClient.invalidateQueries({ queryKey: key });
         }),
       );
+      const rejected = results.filter((r) => r.status === 'rejected');
+      if (rejected.length > 0) {
+        console.warn('[mobilePlatformAdapter] invalidateQueries partial failure:', rejected);
+      }
     },
 
     showAuthUpgradeUI: async (

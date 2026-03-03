@@ -380,13 +380,21 @@ class TransferContainer extends Component {
             const failures = results.filter(
               (r): r is PromiseRejectedResult => r.status === 'rejected',
             );
-            if (failures.length > 0) {
-              if (failures.length < destinations.length) {
-                this._delayedRefreshCoinsData();
-              }
+            const successes = destinations.length - failures.length;
+
+            if (failures.length === destinations.length) {
+              // All transfers failed – surface as an error
               const msgs = failures.map((f) => f.reason?.message || 'Unknown error').join('; ');
               throw new Error(
                 `${failures.length}/${destinations.length} transfers failed: ${msgs}`,
+              );
+            }
+
+            if (failures.length > 0 && successes > 0) {
+              // Partial success: refresh balances but still treat overall as success
+              this._delayedRefreshCoinsData();
+              console.warn(
+                `Some HIVE transfers failed: ${failures.length}/${destinations.length} failed`,
               );
             }
             break;
@@ -475,13 +483,22 @@ class TransferContainer extends Component {
           ),
         );
         const failures = results.filter((r): r is PromiseRejectedResult => r.status === 'rejected');
-        if (failures.length > 0) {
-          if (failures.length < destinations.length) {
-            this._delayedRefreshCoinsData();
-          }
+        const successes = destinations.length - failures.length;
+
+        if (failures.length === destinations.length) {
+          // All transfers failed – surface as an error
           const msgs = failures.map((f) => f.reason?.message || 'Unknown error').join('; ');
           throw new Error(`${failures.length}/${destinations.length} transfers failed: ${msgs}`);
         }
+
+        if (failures.length > 0 && successes > 0) {
+          // Partial success: refresh balances but still treat overall as success
+          this._delayedRefreshCoinsData();
+          console.warn(
+            `Some POINTS transfers failed: ${failures.length}/${destinations.length} failed`,
+          );
+        }
+
         _onSuccess();
         return;
       }
