@@ -144,8 +144,8 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       // cause mutateAsync to reject after a successful broadcast.
       const results = await Promise.allSettled(
         keys.map((key) => {
-          // SDK may pass predicate objects for pattern-based invalidation
-          if (key && typeof key === 'object' && !Array.isArray(key) && key.predicate) {
+          // SDK may pass QueryFilters objects (e.g. { queryKey, exact, predicate })
+          if (key && typeof key === 'object' && !Array.isArray(key)) {
             return queryClient.invalidateQueries(key);
           }
           return queryClient.invalidateQueries({ queryKey: key });

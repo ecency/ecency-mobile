@@ -10,6 +10,8 @@ import { getLimitOrderCreateOpData } from '../providers/hive-trade/hiveTrade';
 import parseToken from './parseToken';
 import TokenLayers from '../constants/tokenLayers';
 
+const MAX_RECIPIENTS = 50;
+
 interface TansferData {
   from: string;
   to: string;
@@ -64,6 +66,9 @@ export const buildTransferOpsArray = (
     if (destinations.length === 0) {
       throw new Error(`No valid recipients in: ${to}`);
     }
+    if (destinations.length > MAX_RECIPIENTS) {
+      throw new Error(`Too many recipients (${destinations.length}), max is ${MAX_RECIPIENTS}`);
+    }
     return destinations.flatMap((receiver) =>
       buildActiveCustomJsonOpArr(from, transferType, {
         sender: from,
@@ -106,6 +111,9 @@ export const buildTransferOpsArray = (
         .filter(Boolean);
       if (destinations.length === 0) {
         throw new Error(`No valid recipients in: ${to}`);
+      }
+      if (destinations.length > MAX_RECIPIENTS) {
+        throw new Error(`Too many recipients (${destinations.length}), max is ${MAX_RECIPIENTS}`);
       }
       return destinations.map((dest) => [
         transferType,

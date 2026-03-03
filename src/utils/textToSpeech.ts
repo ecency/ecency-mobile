@@ -177,6 +177,11 @@ export const estimateReadingMinutes = (text: string): number => {
 
   const nonCjkWords = countNonCjkWords(text);
 
+  // No actual word content → 0 minutes
+  if (cjkCount === 0 && nonCjkWords === 0) {
+    return 0;
+  }
+
   // CJK: ~500 chars/min, Non-CJK: ~200 words/min
   const cjkMinutes = cjkCount / 500;
   const nonCjkMinutes = nonCjkWords / 200;

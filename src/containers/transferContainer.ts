@@ -391,11 +391,15 @@ class TransferContainer extends Component {
             }
 
             if (failures.length > 0 && successes > 0) {
-              // Partial success: refresh balances but still treat overall as success
+              // Partial success: refresh balances but notify user of partial failure
               this._delayedRefreshCoinsData();
-              console.warn(
-                `Some HIVE transfers failed: ${failures.length}/${destinations.length} failed`,
+              dispatch(
+                toastNotification(
+                  `${successes}/${destinations.length} transfers succeeded, ${failures.length} failed`,
+                ),
               );
+              navigation.goBack();
+              return;
             }
             break;
           }
@@ -492,11 +496,15 @@ class TransferContainer extends Component {
         }
 
         if (failures.length > 0 && successes > 0) {
-          // Partial success: refresh balances but still treat overall as success
+          // Partial success: refresh balances but notify user of partial failure
           this._delayedRefreshCoinsData();
-          console.warn(
-            `Some POINTS transfers failed: ${failures.length}/${destinations.length} failed`,
+          dispatch(
+            toastNotification(
+              `${successes}/${destinations.length} transfers succeeded, ${failures.length} failed`,
+            ),
           );
+          navigation.goBack();
+          return;
         }
 
         _onSuccess();
