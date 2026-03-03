@@ -286,10 +286,13 @@ export const useClaimRewardsMutation = () => {
           );
           portfolio = Array.isArray(raw) ? raw : raw?.wallets;
         } catch {
-          // Fetch failed — fall back to whatever is in the cache
-          portfolio =
-            queryClient.getQueryData<PortfolioItem[]>(portfolioKeyEnabled) ||
-            queryClient.getQueryData<PortfolioItem[]>(portfolioKeyAll);
+          // Fetch failed — fall back to whatever is in the cache.
+          // Cache may hold the raw SDK shape { wallets: [...] } or the
+          // select-transformed PortfolioItem[], so normalise here.
+          const cached: any =
+            queryClient.getQueryData(portfolioKeyEnabled) ||
+            queryClient.getQueryData(portfolioKeyAll);
+          portfolio = Array.isArray(cached) ? cached : cached?.wallets;
         }
 
         const pointsAsset = portfolio?.find((item) => item.symbol === symbol);
