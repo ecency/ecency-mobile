@@ -13,6 +13,7 @@ import {
 } from '../hive/dhive';
 import { decryptKey } from '../../utils/crypto';
 import { mapAuthTypeToLoginType } from '../../utils/authMapper';
+import AUTH_TYPE from '../../constants/authType';
 
 interface MobilePlatformAdapterParams {
   queryClient: QueryClient;
@@ -120,6 +121,14 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
     ): Promise<TransactionConfirmation> => {
       const state = store.getState();
       const currentAccount = state.account?.currentAccount;
+
+      // Reject immediately for non-HiveAuth users to prevent opening the
+      // HiveAuth broadcast sheet (which initializes HAS WebSocket and crashes
+      // when it detects the user isn't a HiveAuth user and tries to close immediately)
+      if (currentAccount?.local?.authType !== AUTH_TYPE.HIVE_AUTH) {
+        throw new Error('HiveAuth is not available. You are not logged in with HiveAuth.');
+      }
+
       const opName = ops.length > 0 ? (ops[0][0] as string) : 'unknown';
       return handleHiveAuthFallback(currentAccount, ops, opName);
     },
@@ -132,9 +141,9 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       store.dispatch(toastNotification(message) as any);
     },
 
-    recordActivity: async (activityType: number, _blockNum: number, txId: string) => {
+    recordActivity: async (activityType: number, txId: string, blockNum?: number) => {
       if (userActivityMutate) {
-        userActivityMutate({ pointsTy: activityType, transactionId: txId });
+        userActivityMutate({ pointsTy: activityType, transactionId: txId, blockNum });
       }
     },
 
@@ -160,16 +169,43 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       requiredAuthority: 'posting' | 'active',
       operation: string,
     ): Promise<'hiveauth' | 'hivesigner' | 'keychain' | 'key' | false> => {
+      const state = store.getState();
+      const currentAccount = state.account?.currentAccount;
+      const local = currentAccount?.local;
+
+      const isHiveAuth = local?.authType === AUTH_TYPE.HIVE_AUTH;
+      const hasAccessToken = !!local?.accessToken;
+
+      // If no upgrade methods available, tell user they need to re-login
+      if (!isHiveAuth && !hasAccessToken) {
+        return new Promise((resolve) => {
+          Alert.alert(
+            'Active Key Required',
+            `The "${operation}" operation requires ${requiredAuthority} authority. ` +
+              'Please log in with your active private key or master password.',
+            [{ text: 'OK', style: 'cancel', onPress: () => resolve(false) }],
+          );
+        });
+      }
+
+      // Build options based on what the user can actually use
       return new Promise((resolve) => {
+        type AlertButton = { text: string; onPress: () => void; style?: 'cancel' };
+        const buttons: AlertButton[] = [];
+
+        if (isHiveAuth) {
+          buttons.push({ text: 'HiveAuth', onPress: () => resolve('hiveauth') });
+        }
+        if (hasAccessToken) {
+          buttons.push({ text: 'HiveSigner', onPress: () => resolve('hivesigner') });
+        }
+        buttons.push({ text: 'Cancel', style: 'cancel', onPress: () => resolve(false) });
+
         Alert.alert(
           'Authorization Required',
           `The "${operation}" operation requires ` +
             `${requiredAuthority} authority. Choose an auth method:`,
-          [
-            { text: 'HiveAuth', onPress: () => resolve('hiveauth') },
-            { text: 'HiveSigner', onPress: () => resolve('hivesigner') },
-            { text: 'Cancel', style: 'cancel', onPress: () => resolve(false) },
-          ],
+          buttons,
         );
       });
     },

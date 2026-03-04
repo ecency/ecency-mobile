@@ -56,8 +56,6 @@ import {
   updateReplyCache,
 } from '../../../redux/actions/cacheActions';
 import QUERIES from '../../../providers/queries/queryKeys';
-import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
-import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
 import { deriveDiscussionRoot } from '../../../utils/discussionRoot';
 import {
@@ -821,7 +819,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       dispatch,
       intl,
       navigation,
-      userActivityMutation,
       speakContentBuilder,
       speakMutations,
       queryClient,
@@ -961,7 +958,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         });
       } else {
         try {
-          const response = await this.props.commentMutation.mutateAsync({
+          await this.props.commentMutation.mutateAsync({
             author,
             permlink,
             parentAuthor: '',
@@ -982,27 +979,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
               : undefined,
           });
 
-          // track user activity for points
-          userActivityMutation.mutate({
-            pointsTy: PointActivityIds.POST,
-            transactionId: response.id,
-          });
-
           // reblog if flag is active
           if (shouldReblog) {
-            this.props.reblogMutation
-              .mutateAsync({ author, permlink })
-              .then((resp) => {
-                // track user activity for points on reblog
-                userActivityMutation.mutate({
-                  pointsTy: PointActivityIds.REBLOG,
-                  transactionId: resp.id,
-                });
-              })
-              .catch((err) => {
-                console.warn('Failed to reblog post', err);
-                dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-              });
+            this.props.reblogMutation.mutateAsync({ author, permlink }).catch((err) => {
+              console.warn('Failed to reblog post', err);
+              dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+            });
           }
 
           // mark unpublished video as published on 3speak if that is the case
@@ -1668,7 +1650,6 @@ const useEditorQueryProps = () => ({
   queryClient: useQueryClient(),
   speakContentBuilder: speakQueries.useSpeakContentBuilder(),
   speakMutations: speakQueries.useSpeakMutations(),
-  userActivityMutation: useUserActivityMutation(),
   postCachePrimer: usePostsCachePrimer(),
   ...useCommentMutations(),
   reblogMutation: useReblogMutation(),

@@ -35,6 +35,11 @@ export function useTransferMutations() {
   const currentAccount = useSelector((state: RootState) => selectCurrentAccount(state));
   const authContext = useAuthContext();
   const username = currentAccount?.name;
+  const getWalletInvalidationKeys = (account: string) => [
+    QueryKeys.accounts.full(account),
+    ['ecency-wallets', 'asset-info', account],
+    ['wallet', 'portfolio', 'v2', account],
+  ];
 
   // HIVE layer
   const transfer = useBroadcastMutation(
@@ -126,13 +131,13 @@ export function useTransferMutations() {
     username || '',
     ({ destinations, amount, memo }: { destinations: string[]; amount: string; memo: string }) =>
       destinations.map((dest) => buildPointTransferOp(username!, dest, amount, memo)),
-    async () => {
+    async (_data, { destinations }) => {
       try {
         if (authContext?.adapter?.invalidateQueries) {
+          const recipients = [...new Set((destinations || []).filter(Boolean))];
           await authContext.adapter.invalidateQueries([
-            QueryKeys.accounts.full(username),
-            ['ecency-wallets', 'asset-info', username],
-            ['wallet', 'portfolio', 'v2', username],
+            ...getWalletInvalidationKeys(username || ''),
+            ...recipients.flatMap((recipient) => getWalletInvalidationKeys(recipient)),
           ]);
         }
       } catch (error) {
@@ -152,13 +157,13 @@ export function useTransferMutations() {
     username || '',
     ({ destinations, amount, memo }: { destinations: string[]; amount: string; memo: string }) =>
       destinations.map((dest) => buildTransferOp(username!, dest, amount, memo)),
-    async () => {
+    async (_data, { destinations }) => {
       try {
         if (authContext?.adapter?.invalidateQueries) {
+          const recipients = [...new Set((destinations || []).filter(Boolean))];
           await authContext.adapter.invalidateQueries([
-            QueryKeys.accounts.full(username),
-            ['ecency-wallets', 'asset-info', username],
-            ['wallet', 'portfolio', 'v2', username],
+            ...getWalletInvalidationKeys(username || ''),
+            ...recipients.flatMap((recipient) => getWalletInvalidationKeys(recipient)),
           ]);
         }
       } catch (error) {
