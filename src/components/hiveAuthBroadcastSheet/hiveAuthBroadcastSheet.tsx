@@ -52,6 +52,7 @@ export const HiveAuthBroadcastSheet = ({
   const currentAccount = useAppSelector(selectCurrentAccount);
   const isCancelledRef = useRef(false);
   const broadcastStartedRef = useRef(false);
+  const callbackTimerRef = useRef<NodeJS.Timeout | null>(null);
   const autoCloseTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [broadcastSeq, setBroadcastSeq] = useState(0);
 
@@ -77,9 +78,13 @@ export const HiveAuthBroadcastSheet = ({
     setBroadcastSeq((seq) => seq + 1);
   }, [payload?.operations, payload]);
 
-  // Cleanup auto-close timer on unmount
+  // Cleanup timers on unmount
   useEffect(() => {
     return () => {
+      if (callbackTimerRef.current) {
+        clearTimeout(callbackTimerRef.current);
+        callbackTimerRef.current = null;
+      }
       if (autoCloseTimerRef.current) {
         clearTimeout(autoCloseTimerRef.current);
         autoCloseTimerRef.current = null;
@@ -97,7 +102,11 @@ export const HiveAuthBroadcastSheet = ({
     }
 
     const { operations, onSuccess, onError } = payloadRef.current || {};
-    const clearAutoCloseTimer = () => {
+    const clearTimers = () => {
+      if (callbackTimerRef.current) {
+        clearTimeout(callbackTimerRef.current);
+        callbackTimerRef.current = null;
+      }
       if (autoCloseTimerRef.current) {
         clearTimeout(autoCloseTimerRef.current);
         autoCloseTimerRef.current = null;
@@ -126,16 +135,23 @@ export const HiveAuthBroadcastSheet = ({
         const result = await hiveAuthBroadcastRef.current(operations);
 
         if (!isCancelledRef.current) {
-          // Call success callback first, wrapped in try-catch to prevent
-          // callback errors from leaving the sheet in an inconsistent state
-          try {
-            onSuccess?.(result);
-          } catch (callbackError) {
-            console.warn('[HiveAuthBroadcastSheet] onSuccess callback error', callbackError);
-          }
+          // Defer onSuccess callback so the success UI (green checkmark with
+          // reanimated ZoomIn animation) can render before the SDK starts
+          // post-broadcast processing (cache invalidation, query refetches).
+          // This prevents crashes from query observers triggering component tree
+          // updates while the sheet's entering animation is still initializing.
+          clearTimers();
+          callbackTimerRef.current = setTimeout(() => {
+            if (isCancelledRef.current) return;
 
-          // Wait for user to see the success message (green checkmark) before closing
-          clearAutoCloseTimer();
+            try {
+              onSuccess?.(result);
+            } catch (callbackError) {
+              console.warn('[HiveAuthBroadcastSheet] onSuccess callback error', callbackError);
+            }
+          }, 300);
+
+          // Auto-close after user has seen the success state
           autoCloseTimerRef.current = setTimeout(() => {
             if (!isCancelledRef.current) {
               ActionSheet.hide(sheetIdRef.current);
@@ -157,7 +173,7 @@ export const HiveAuthBroadcastSheet = ({
             ActionSheet.hide(sheetIdRef.current);
 
             // Navigate to login screen after a small delay to let sheet close
-            clearAutoCloseTimer();
+            clearTimers();
             autoCloseTimerRef.current = setTimeout(() => {
               RootNavigation.navigate({
                 name: ROUTES.SCREENS.LOGIN,
@@ -166,7 +182,7 @@ export const HiveAuthBroadcastSheet = ({
             }, 300);
           } else {
             // Wait for user to see the error message (red X) before closing
-            clearAutoCloseTimer();
+            clearTimers();
             autoCloseTimerRef.current = setTimeout(() => {
               if (!isCancelledRef.current) {
                 ActionSheet.hide(sheetIdRef.current);
@@ -190,7 +206,11 @@ export const HiveAuthBroadcastSheet = ({
     // Prevent any further operations or callbacks
     isCancelledRef.current = true;
 
-    // Clear any pending auto-close timer
+    // Clear any pending timers (deferred callback + auto-close)
+    if (callbackTimerRef.current) {
+      clearTimeout(callbackTimerRef.current);
+      callbackTimerRef.current = null;
+    }
     if (autoCloseTimerRef.current) {
       clearTimeout(autoCloseTimerRef.current);
       autoCloseTimerRef.current = null;

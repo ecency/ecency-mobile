@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, TextInput } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionSheet, { SheetProps } from 'react-native-actions-sheet';
@@ -18,10 +18,24 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
   const [isValidating, setIsValidating] = useState(false);
   const resolvedRef = useRef(false);
 
+  // Keep a ref to the current payload so _resolve always calls the latest callback.
+  // This prevents stale onClose events from resolving a newer invocation's promise.
+  const payloadRef = useRef(payload);
+  payloadRef.current = payload;
+
+  // Reset state when the sheet is shown with a new payload (component stays mounted
+  // across invocations because react-native-actions-sheet reuses registered sheets).
+  useEffect(() => {
+    resolvedRef.current = false;
+    setKeyInput('');
+    setError('');
+    setIsValidating(false);
+  }, [payload]);
+
   const _resolve = (method: 'key' | 'hivesigner' | 'hiveauth' | false) => {
     if (resolvedRef.current) return;
     resolvedRef.current = true;
-    payload?.onMethodSelected?.(method);
+    payloadRef.current?.onMethodSelected?.(method);
     ActionSheet.hide(sheetId);
   };
 
