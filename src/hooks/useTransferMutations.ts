@@ -35,31 +35,44 @@ export function useTransferMutations() {
   const currentAccount = useSelector((state: RootState) => selectCurrentAccount(state));
   const authContext = useAuthContext();
   const username = currentAccount?.name;
+  const requireUsername = () => {
+    if (!username) {
+      throw new Error('Username is required for transfer operations.');
+    }
+    return username;
+  };
   const getWalletInvalidationKeys = (account: string) => [
     QueryKeys.accounts.full(account),
     ['ecency-wallets', 'asset-info', account],
     ['wallet', 'portfolio', 'v2', account],
   ];
+  const runPostBroadcastInvalidation = async (recipients: string[], logContext: string) => {
+    if (!username || !authContext?.adapter?.invalidateQueries) {
+      return;
+    }
+
+    try {
+      const uniqueRecipients = [...new Set((recipients || []).filter(Boolean))];
+      await authContext.adapter.invalidateQueries([
+        ...getWalletInvalidationKeys(username),
+        ...uniqueRecipients.flatMap((recipient) => getWalletInvalidationKeys(recipient)),
+      ]);
+    } catch (error) {
+      console.warn(
+        `[useTransferMutations][${logContext}] Post-broadcast side-effect failed:`,
+        error,
+      );
+    }
+  };
 
   // HIVE layer
   const transfer = useBroadcastMutation(
     ['wallet', 'transfer-safe'],
     username || '',
     ({ to, amount, memo }: { to: string; amount: string; memo: string }) => [
-      buildTransferOp(username!, to, amount, memo),
+      buildTransferOp(requireUsername(), to, amount, memo),
     ],
-    async (_data, { to }) => {
-      try {
-        if (authContext?.adapter?.invalidateQueries) {
-          await authContext.adapter.invalidateQueries([
-            ...getWalletInvalidationKeys(username || ''),
-            ...getWalletInvalidationKeys(to),
-          ]);
-        }
-      } catch (error) {
-        console.warn('[useTransferMutations][transfer] Post-broadcast side-effect failed:', error);
-      }
-    },
+    async (_data, { to }) => runPostBroadcastInvalidation([to], 'transfer'),
     authContext,
     'active',
   );
@@ -100,23 +113,9 @@ export function useTransferMutations() {
     ['wallet', 'transfer-point-safe'],
     username || '',
     ({ to, amount, memo }: { to: string; amount: string; memo: string }) => [
-      buildPointTransferOp(username!, to, amount, memo),
+      buildPointTransferOp(requireUsername(), to, amount, memo),
     ],
-    async (_data, { to }) => {
-      try {
-        if (authContext?.adapter?.invalidateQueries) {
-          await authContext.adapter.invalidateQueries([
-            ...getWalletInvalidationKeys(username || ''),
-            ...getWalletInvalidationKeys(to),
-          ]);
-        }
-      } catch (error) {
-        console.warn(
-          '[useTransferMutations][transferPoint] Post-broadcast side-effect failed:',
-          error,
-        );
-      }
-    },
+    async (_data, { to }) => runPostBroadcastInvalidation([to], 'transferPoint'),
     authContext,
     'active',
   );
@@ -126,23 +125,9 @@ export function useTransferMutations() {
     ['wallet', 'multi-transfer-point'],
     username || '',
     ({ destinations, amount, memo }: { destinations: string[]; amount: string; memo: string }) =>
-      destinations.map((dest) => buildPointTransferOp(username!, dest, amount, memo)),
-    async (_data, { destinations }) => {
-      try {
-        if (authContext?.adapter?.invalidateQueries) {
-          const recipients = [...new Set((destinations || []).filter(Boolean))];
-          await authContext.adapter.invalidateQueries([
-            ...getWalletInvalidationKeys(username || ''),
-            ...recipients.flatMap((recipient) => getWalletInvalidationKeys(recipient)),
-          ]);
-        }
-      } catch (error) {
-        console.warn(
-          '[useTransferMutations][multiPointTransfer] Post-broadcast side-effect failed:',
-          error,
-        );
-      }
-    },
+      destinations.map((dest) => buildPointTransferOp(requireUsername(), dest, amount, memo)),
+    async (_data, { destinations }) =>
+      runPostBroadcastInvalidation(destinations, 'multiPointTransfer'),
     authContext,
     'active',
   );
@@ -152,23 +137,8 @@ export function useTransferMutations() {
     ['wallet', 'multi-transfer'],
     username || '',
     ({ destinations, amount, memo }: { destinations: string[]; amount: string; memo: string }) =>
-      destinations.map((dest) => buildTransferOp(username!, dest, amount, memo)),
-    async (_data, { destinations }) => {
-      try {
-        if (authContext?.adapter?.invalidateQueries) {
-          const recipients = [...new Set((destinations || []).filter(Boolean))];
-          await authContext.adapter.invalidateQueries([
-            ...getWalletInvalidationKeys(username || ''),
-            ...recipients.flatMap((recipient) => getWalletInvalidationKeys(recipient)),
-          ]);
-        }
-      } catch (error) {
-        console.warn(
-          '[useTransferMutations][multiTransfer] Post-broadcast side-effect failed:',
-          error,
-        );
-      }
-    },
+      destinations.map((dest) => buildTransferOp(requireUsername(), dest, amount, memo)),
+    async (_data, { destinations }) => runPostBroadcastInvalidation(destinations, 'multiTransfer'),
     authContext,
     'active',
   );

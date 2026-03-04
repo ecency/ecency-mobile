@@ -445,11 +445,6 @@ export const useHiveAuth = () => {
             'Account data not available. Please re-login.',
         );
       }
-      assert(
-        account.local.authType === AUTH_TYPE.HIVE_AUTH,
-        intl.formatMessage({ id: 'hiveauth.invalid_auth_type' }),
-      );
-
       setStatus(HiveAuthStatus.PROCESSING);
       setStatusText(intl.formatMessage({ id: 'hiveauth.initiating' }));
 
@@ -466,63 +461,87 @@ export const useHiveAuth = () => {
         );
       }
 
-      if (!pin) {
-        throw new Error(
-          intl.formatMessage({ id: 'alert.auth_expired' }) || 'PIN not available. Please re-login.',
-        );
-      }
-      const pinCode = getDigitPinCode(pin);
-      if (!pinCode) {
-        throw new Error(
-          intl.formatMessage({ id: 'alert.auth_expired' }) || 'PIN not available. Please re-login.',
-        );
-      }
+      const isHiveAuthUser = account.local.authType === AUTH_TYPE.HIVE_AUTH;
 
-      // Decrypt HiveAuth credentials with validation
-      const decryptedKey = decryptKey(account.local.hiveAuthKey, pinCode);
-      const decryptedToken = account.local.hiveAuthToken
-        ? decryptKey(account.local.hiveAuthToken, pinCode)
-        : undefined;
+      // For non-HiveAuth users (e.g. posting-key users via auth upgrade),
+      // generate a temporary key and skip PIN-based credential decryption.
+      // The existing "not connected" retry logic will call HAS.authenticate()
+      // to create a fresh session, matching the web's ensureSession() pattern.
+      let _hiveAuthObj: any;
 
-      // Critical validation: ensure decryption succeeded
-      if (!decryptedKey) {
-        const errorMsg =
-          intl.formatMessage({ id: 'hiveauth.decrypt_fail' }) ||
-          'Failed to decrypt HiveAuth key. Please re-login.';
-        console.error('[HiveAuth] Key decryption failed - invalid PIN or corrupted data');
-        Sentry.captureMessage('HiveAuth key decryption failed', {
-          level: 'error',
-          extra: {
-            username,
-            hasKey: !!account.local.hiveAuthKey,
-            hasPinHash: !!pin,
-          },
-        });
-        throw new Error(errorMsg);
+      if (isHiveAuthUser) {
+        if (!pin) {
+          throw new Error(
+            intl.formatMessage({ id: 'alert.auth_expired' }) ||
+              'PIN not available. Please re-login.',
+          );
+        }
+        const pinCode = getDigitPinCode(pin);
+        if (!pinCode) {
+          throw new Error(
+            intl.formatMessage({ id: 'alert.auth_expired' }) ||
+              'PIN not available. Please re-login.',
+          );
+        }
+
+        // Decrypt HiveAuth credentials with validation
+        const decryptedKey = decryptKey(account.local.hiveAuthKey, pinCode);
+        const decryptedToken = account.local.hiveAuthToken
+          ? decryptKey(account.local.hiveAuthToken, pinCode)
+          : undefined;
+
+        // Critical validation: ensure decryption succeeded
+        if (!decryptedKey) {
+          const errorMsg =
+            intl.formatMessage({ id: 'hiveauth.decrypt_fail' }) ||
+            'Failed to decrypt HiveAuth key. Please re-login.';
+          console.error('[HiveAuth] Key decryption failed - invalid PIN or corrupted data');
+          Sentry.captureMessage('HiveAuth key decryption failed', {
+            level: 'error',
+            extra: {
+              username,
+              hasKey: !!account.local.hiveAuthKey,
+              hasPinHash: !!pin,
+            },
+          });
+          throw new Error(errorMsg);
+        }
+
+        // Validate token decryption if token exists
+        if (account.local.hiveAuthToken && !decryptedToken) {
+          const errorMsg =
+            intl.formatMessage({ id: 'hiveauth.decrypt_fail' }) ||
+            'Failed to decrypt HiveAuth token. Please re-login.';
+          console.error('[HiveAuth] Token decryption failed - invalid PIN or corrupted data');
+          Sentry.captureMessage('HiveAuth token decryption failed', {
+            level: 'error',
+            extra: {
+              username,
+              hasToken: !!account.local.hiveAuthToken,
+            },
+          });
+          throw new Error(errorMsg);
+        }
+
+        _hiveAuthObj = {
+          username,
+          expiry: account.local.hiveAuthExpiry,
+          key: decryptedKey,
+          token: decryptedToken,
+        };
+      } else {
+        // Non-HiveAuth user: create a fresh session object.
+        // HAS.broadcast() will fail with "not been connected through HAS",
+        // which triggers the re-auth catch block below that calls
+        // HAS.authenticate() to create an on-demand session.
+        console.log('[HiveAuth] Non-HiveAuth user, creating temp session for on-demand auth');
+        _hiveAuthObj = {
+          username,
+          key: uuidv4(),
+          token: undefined,
+          expiry: undefined,
+        };
       }
-
-      // Validate token decryption if token exists
-      if (account.local.hiveAuthToken && !decryptedToken) {
-        const errorMsg =
-          intl.formatMessage({ id: 'hiveauth.decrypt_fail' }) ||
-          'Failed to decrypt HiveAuth token. Please re-login.';
-        console.error('[HiveAuth] Token decryption failed - invalid PIN or corrupted data');
-        Sentry.captureMessage('HiveAuth token decryption failed', {
-          level: 'error',
-          extra: {
-            username,
-            hasToken: !!account.local.hiveAuthToken,
-          },
-        });
-        throw new Error(errorMsg);
-      }
-
-      const _hiveAuthObj: any = {
-        username,
-        expiry: account.local.hiveAuthExpiry,
-        key: decryptedKey,
-        token: decryptedToken,
-      };
 
       // Hard check: if session is expired, throw error to let caller handle navigation
       if (
