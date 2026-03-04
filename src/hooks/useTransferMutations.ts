@@ -1,7 +1,12 @@
-import { useBroadcastMutation, buildRecurrentTransferOp } from '@ecency/sdk';
+import {
+  useBroadcastMutation,
+  buildRecurrentTransferOp,
+  buildPointTransferOp,
+  buildTransferOp,
+  QueryKeys,
+} from '@ecency/sdk';
 import { useSelector } from 'react-redux';
 import {
-  useTransferMutation,
   useConvertMutation,
   useTransferToSavingsMutation,
   useTransferFromSavingsMutation,
@@ -9,7 +14,6 @@ import {
   useWithdrawVestingMutation,
   useDelegateVestingSharesMutation,
   useSetWithdrawVestingRouteMutation,
-  useTransferPointMutation,
   useTransferEngineTokenMutation,
   useStakeEngineTokenMutation,
   useDelegateEngineTokenMutation,
@@ -31,9 +35,47 @@ export function useTransferMutations() {
   const currentAccount = useSelector((state: RootState) => selectCurrentAccount(state));
   const authContext = useAuthContext();
   const username = currentAccount?.name;
+  const requireUsername = () => {
+    if (!username) {
+      throw new Error('Username is required for transfer operations.');
+    }
+    return username;
+  };
+  const getWalletInvalidationKeys = (account: string) => [
+    QueryKeys.accounts.full(account),
+    ['ecency-wallets', 'asset-info', account],
+    ['wallet', 'portfolio', 'v2', account],
+  ];
+  const runPostBroadcastInvalidation = async (recipients: string[], logContext: string) => {
+    if (!username || !authContext?.adapter?.invalidateQueries) {
+      return;
+    }
+
+    try {
+      const uniqueRecipients = [...new Set((recipients || []).filter(Boolean))];
+      await authContext.adapter.invalidateQueries([
+        ...getWalletInvalidationKeys(username),
+        ...uniqueRecipients.flatMap((recipient) => getWalletInvalidationKeys(recipient)),
+      ]);
+    } catch (error) {
+      console.warn(
+        `[useTransferMutations][${logContext}] Post-broadcast side-effect failed:`,
+        error,
+      );
+    }
+  };
 
   // HIVE layer
-  const transfer = useTransferMutation();
+  const transfer = useBroadcastMutation(
+    ['wallet', 'transfer-safe'],
+    username || '',
+    ({ to, amount, memo }: { to: string; amount: string; memo: string }) => [
+      buildTransferOp(requireUsername(), to, amount, memo),
+    ],
+    async (_data, { to }) => runPostBroadcastInvalidation([to], 'transfer'),
+    authContext,
+    'active',
+  );
   const convert = useConvertMutation();
   const transferToSavings = useTransferToSavingsMutation();
   const transferFromSavings = useTransferFromSavingsMutation();
@@ -67,7 +109,39 @@ export function useTransferMutations() {
   );
 
   // POINTS layer
-  const transferPoint = useTransferPointMutation();
+  const transferPoint = useBroadcastMutation(
+    ['wallet', 'transfer-point-safe'],
+    username || '',
+    ({ to, amount, memo }: { to: string; amount: string; memo: string }) => [
+      buildPointTransferOp(requireUsername(), to, amount, memo),
+    ],
+    async (_data, { to }) => runPostBroadcastInvalidation([to], 'transferPoint'),
+    authContext,
+    'active',
+  );
+
+  // Multi-recipient Points transfer — single broadcast for all destinations
+  const multiPointTransfer = useBroadcastMutation(
+    ['wallet', 'multi-transfer-point'],
+    username || '',
+    ({ destinations, amount, memo }: { destinations: string[]; amount: string; memo: string }) =>
+      destinations.map((dest) => buildPointTransferOp(requireUsername(), dest, amount, memo)),
+    async (_data, { destinations }) =>
+      runPostBroadcastInvalidation(destinations, 'multiPointTransfer'),
+    authContext,
+    'active',
+  );
+
+  // Multi-recipient HIVE transfer — single broadcast for all destinations
+  const multiTransfer = useBroadcastMutation(
+    ['wallet', 'multi-transfer'],
+    username || '',
+    ({ destinations, amount, memo }: { destinations: string[]; amount: string; memo: string }) =>
+      destinations.map((dest) => buildTransferOp(requireUsername(), dest, amount, memo)),
+    async (_data, { destinations }) => runPostBroadcastInvalidation(destinations, 'multiTransfer'),
+    authContext,
+    'active',
+  );
 
   // ENGINE layer
   const transferEngine = useTransferEngineTokenMutation();
@@ -120,6 +194,8 @@ export function useTransferMutations() {
     setWithdrawVestingRoute,
     // POINTS
     transferPoint,
+    multiPointTransfer,
+    multiTransfer,
     // ENGINE
     transferEngine,
     stakeEngine,

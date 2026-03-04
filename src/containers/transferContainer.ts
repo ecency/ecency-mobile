@@ -266,7 +266,36 @@ class TransferContainer extends Component {
         alertId = 'alert.key_warning';
       }
 
-      dispatch(toastNotification(intl.formatMessage({ id: alertId })));
+      const operationLabel = intl.formatMessage({ id: `wallet.${transferType}` });
+      const errorDetail = (error?.message ?? '').toString().split('\n')[0];
+
+      if (alertId === 'alert.key_warning') {
+        dispatch(
+          toastNotification(
+            intl.formatMessage(
+              { id: 'alert.operation_failed_with_reason' },
+              {
+                operation: operationLabel,
+                reason: intl.formatMessage({ id: 'alert.key_warning' }),
+              },
+            ),
+          ),
+        );
+      } else {
+        dispatch(
+          toastNotification(
+            errorDetail
+              ? intl.formatMessage(
+                  { id: 'alert.operation_failed_with_reason' },
+                  { operation: operationLabel, reason: errorDetail },
+                )
+              : intl.formatMessage(
+                  { id: 'alert.operation_failed_with_reason' },
+                  { operation: operationLabel, reason: intl.formatMessage({ id: alertId }) },
+                ),
+          ),
+        );
+      }
     };
 
     try {
@@ -371,38 +400,20 @@ class TransferContainer extends Component {
             if (destinations.length > 50) {
               throw new Error(`Too many recipients (${destinations.length}), max is 50`);
             }
-            const results = await Promise.allSettled(
-              destinations.map((dest) =>
-                mutations.transfer.mutateAsync({
-                  to: dest,
-                  amount: data.amount,
-                  memo: data.memo,
-                }),
-              ),
-            );
-            const failures = results.filter(
-              (r): r is PromiseRejectedResult => r.status === 'rejected',
-            );
-            const successes = destinations.length - failures.length;
-
-            if (failures.length === destinations.length) {
-              // All transfers failed – surface as an error
-              const msgs = failures.map((f) => f.reason?.message || 'Unknown error').join('; ');
-              throw new Error(
-                `${failures.length}/${destinations.length} transfers failed: ${msgs}`,
-              );
-            }
-
-            if (failures.length > 0 && successes > 0) {
-              // Partial success: refresh balances but notify user of partial failure
-              this._delayedRefreshCoinsData();
-              dispatch(
-                toastNotification(
-                  `${successes}/${destinations.length} transfers succeeded, ${failures.length} failed`,
-                ),
-              );
-              navigation.goBack();
-              return;
+            if (destinations.length === 1) {
+              await mutations.transfer.mutateAsync({
+                to: destinations[0],
+                amount: data.amount,
+                memo: data.memo,
+              });
+            } else {
+              // Single broadcast with all transfer ops — avoids repeated
+              // invalidation that caused false "Fail" toasts.
+              await mutations.multiTransfer.mutateAsync({
+                destinations,
+                amount: data.amount,
+                memo: data.memo,
+              });
             }
             break;
           }
@@ -483,36 +494,21 @@ class TransferContainer extends Component {
         if (destinations.length > 50) {
           throw new Error(`Too many recipients (${destinations.length}), max is 50`);
         }
-        const results = await Promise.allSettled(
-          destinations.map((dest) =>
-            mutations.transferPoint.mutateAsync({
-              to: dest,
-              amount: data.amount,
-              memo: data.memo,
-            }),
-          ),
-        );
-        const failures = results.filter((r): r is PromiseRejectedResult => r.status === 'rejected');
-        const successes = destinations.length - failures.length;
-
-        if (failures.length === destinations.length) {
-          // All transfers failed – surface as an error
-          const msgs = failures.map((f) => f.reason?.message || 'Unknown error').join('; ');
-          throw new Error(`${failures.length}/${destinations.length} transfers failed: ${msgs}`);
+        if (destinations.length === 1) {
+          await mutations.transferPoint.mutateAsync({
+            to: destinations[0],
+            amount: data.amount,
+            memo: data.memo,
+          });
+        } else {
+          // Single broadcast with all point transfer ops — avoids repeated
+          // invalidation that caused false "Fail" toasts.
+          await mutations.multiPointTransfer.mutateAsync({
+            destinations,
+            amount: data.amount,
+            memo: data.memo,
+          });
         }
-
-        if (failures.length > 0 && successes > 0) {
-          // Partial success: refresh balances but notify user of partial failure
-          this._delayedRefreshCoinsData();
-          dispatch(
-            toastNotification(
-              `${successes}/${destinations.length} transfers succeeded, ${failures.length} failed`,
-            ),
-          );
-          navigation.goBack();
-          return;
-        }
-
         _onSuccess();
         return;
       }
@@ -535,7 +531,24 @@ class TransferContainer extends Component {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
       this._delayedRefreshCoinsData();
     } catch (error) {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      const errorDetail = (error?.message ?? '').toString().split('\n')[0];
+      const operationLabel = intl.formatMessage({ id: 'transfer.withdraw_accounts' });
+      dispatch(
+        toastNotification(
+          errorDetail
+            ? intl.formatMessage(
+                { id: 'alert.operation_failed_with_reason' },
+                { operation: operationLabel, reason: errorDetail },
+              )
+            : intl.formatMessage(
+                { id: 'alert.operation_failed_with_reason' },
+                {
+                  operation: operationLabel,
+                  reason: intl.formatMessage({ id: 'alert.fail' }),
+                },
+              ),
+        ),
+      );
       throw error;
     }
   };

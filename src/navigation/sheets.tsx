@@ -13,6 +13,7 @@ import {
   PostingAuthoritySheet,
   HiveAuthBroadcastSheet,
   EmojiPickerSheet,
+  AuthUpgradeSheet,
 } from '../components';
 import { TippingDialog } from '../components/tipping';
 import { TTSSettingsSheet } from '../components/textToSpeech/ttsSettingsSheet';
@@ -33,6 +34,7 @@ export enum SheetNames {
   POSTING_AUTHORITY_PROMPT = 'posting_authority_prompt',
   HIVE_AUTH_BROADCAST = 'hive_auth_broadcast',
   EMOJI_PICKER = 'emoji_picker',
+  AUTH_UPGRADE = 'auth_upgrade',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -49,6 +51,7 @@ registerSheet(SheetNames.TTS_SETTINGS, TTSSettingsSheet);
 registerSheet(SheetNames.POSTING_AUTHORITY_PROMPT, PostingAuthoritySheet);
 registerSheet(SheetNames.HIVE_AUTH_BROADCAST, HiveAuthBroadcastSheet);
 registerSheet(SheetNames.EMOJI_PICKER, EmojiPickerSheet);
+registerSheet(SheetNames.AUTH_UPGRADE, AuthUpgradeSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -138,6 +141,14 @@ declare module 'react-native-actions-sheet' {
     [SheetNames.EMOJI_PICKER]: SheetDefinition<{
       payload: {
         onEmojiSelected: (emojiName: string) => void;
+      };
+    }>;
+    [SheetNames.AUTH_UPGRADE]: SheetDefinition<{
+      payload: {
+        requiredAuthority: 'posting' | 'active';
+        operation: string;
+        username: string;
+        onMethodSelected: (method: 'key' | 'hivesigner' | 'hiveauth' | false) => void;
       };
     }>;
   }

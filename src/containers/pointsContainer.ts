@@ -256,7 +256,14 @@ const PointsContainer = ({
       navigation.goBack();
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
     } catch (error) {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      const errorDetail = (error?.message ?? '').toString().split('\n')[0];
+      dispatch(
+        toastNotification(
+          errorDetail
+            ? intl.formatMessage({ id: 'alert.boost_failed_with_reason' }, { reason: errorDetail })
+            : intl.formatMessage({ id: 'alert.boost_failed' }),
+        ),
+      );
     } finally {
       setIsLoading(false);
     }

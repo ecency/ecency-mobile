@@ -27,7 +27,6 @@ import { Operation } from '@hiveio/dhive';
 import { useHiveAuth, HiveAuthStatus } from '../hiveAuthModal/hooks/useHiveAuth';
 import { ModalHeader } from '../modalHeader';
 import { StatusContent } from '../hiveAuthModal/children/statusContent';
-import AUTH_TYPE from '../../constants/authType';
 import { useAppSelector } from '../../hooks';
 import { selectCurrentAccount } from '../../redux/selectors';
 import RootNavigation from '../../navigation/rootNavigation';
@@ -62,12 +61,10 @@ export const HiveAuthBroadcastSheet = ({
 
   // Store stable refs for values needed in broadcast effect
   const sheetIdRef = useRef(sheetId);
-  const currentAccountAuthTypeRef = useRef(currentAccount?.local?.authType);
   const currentAccountUsernameRef = useRef(currentAccount?.name ?? currentAccount?.username);
   const hiveAuthBroadcastRef = useRef(hiveAuth.broadcast);
 
   sheetIdRef.current = sheetId;
-  currentAccountAuthTypeRef.current = currentAccount?.local?.authType;
   currentAccountUsernameRef.current = currentAccount?.name ?? currentAccount?.username;
   hiveAuthBroadcastRef.current = hiveAuth.broadcast;
 
@@ -123,17 +120,6 @@ export const HiveAuthBroadcastSheet = ({
       return;
     }
     broadcastStartedRef.current = true;
-
-    // Verify user is HiveAuth type
-    const isHiveAuth = currentAccountAuthTypeRef.current === AUTH_TYPE.HIVE_AUTH;
-    if (!isHiveAuth) {
-      const error = new Error('Current account is not authenticated with HiveAuth');
-      if (!isCancelledRef.current) {
-        onError?.(error);
-        ActionSheet.hide(sheetIdRef.current);
-      }
-      return;
-    }
 
     const executeBroadcast = async () => {
       try {

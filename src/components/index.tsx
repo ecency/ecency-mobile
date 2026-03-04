@@ -120,6 +120,7 @@ import { TTSControls } from './textToSpeech/ttsControls';
 import { PostingAuthoritySheet } from './postingAuthoritySheet';
 import { HiveAuthBroadcastSheet } from './hiveAuthBroadcastSheet';
 import EmojiPickerSheet from './emojiPickerSheet';
+import { AuthUpgradeSheet } from './authUpgradeSheet';
 
 // Basic UI Elements
 import {
@@ -295,4 +296,5 @@ export {
   PostingAuthoritySheet,
   HiveAuthBroadcastSheet,
   EmojiPickerSheet,
+  AuthUpgradeSheet,
 };

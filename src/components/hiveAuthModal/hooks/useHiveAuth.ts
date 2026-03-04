@@ -187,8 +187,15 @@ const isHasNotConnectedError = (error: any): boolean => {
     typeof error === 'string' ? error : null,
   ].filter(Boolean);
 
-  return candidates.some((s) => /not been connected through HAS/i.test(String(s)));
+  return candidates.some((s) => /not\s+(?:been\s+)?connected(?:\s+to\s+server)?/i.test(String(s)));
 };
+
+interface HiveAuthSession {
+  username: string;
+  key: string;
+  token?: string;
+  expiry?: number | string;
+}
 
 export enum HiveAuthStatus {
   INPUT = 0,
@@ -445,11 +452,6 @@ export const useHiveAuth = () => {
             'Account data not available. Please re-login.',
         );
       }
-      assert(
-        account.local.authType === AUTH_TYPE.HIVE_AUTH,
-        intl.formatMessage({ id: 'hiveauth.invalid_auth_type' }),
-      );
-
       setStatus(HiveAuthStatus.PROCESSING);
       setStatusText(intl.formatMessage({ id: 'hiveauth.initiating' }));
 
@@ -466,70 +468,93 @@ export const useHiveAuth = () => {
         );
       }
 
-      if (!pin) {
-        throw new Error(
-          intl.formatMessage({ id: 'alert.auth_expired' }) || 'PIN not available. Please re-login.',
-        );
-      }
-      const pinCode = getDigitPinCode(pin);
-      if (!pinCode) {
-        throw new Error(
-          intl.formatMessage({ id: 'alert.auth_expired' }) || 'PIN not available. Please re-login.',
-        );
-      }
+      const isHiveAuthUser = account.local.authType === AUTH_TYPE.HIVE_AUTH;
 
-      // Decrypt HiveAuth credentials with validation
-      const decryptedKey = decryptKey(account.local.hiveAuthKey, pinCode);
-      const decryptedToken = account.local.hiveAuthToken
-        ? decryptKey(account.local.hiveAuthToken, pinCode)
-        : undefined;
+      // For non-HiveAuth users (e.g. posting-key users via auth upgrade),
+      // generate a temporary key and skip PIN-based credential decryption.
+      // The existing "not connected" retry logic will call HAS.authenticate()
+      // to create a fresh session, matching the web's ensureSession() pattern.
+      let _hiveAuthObj: HiveAuthSession;
 
-      // Critical validation: ensure decryption succeeded
-      if (!decryptedKey) {
-        const errorMsg =
-          intl.formatMessage({ id: 'hiveauth.decrypt_fail' }) ||
-          'Failed to decrypt HiveAuth key. Please re-login.';
-        console.error('[HiveAuth] Key decryption failed - invalid PIN or corrupted data');
-        Sentry.captureMessage('HiveAuth key decryption failed', {
-          level: 'error',
-          extra: {
-            username,
-            hasKey: !!account.local.hiveAuthKey,
-            hasPinHash: !!pin,
-          },
-        });
-        throw new Error(errorMsg);
+      if (isHiveAuthUser) {
+        if (!pin) {
+          throw new Error(
+            intl.formatMessage({ id: 'alert.auth_expired' }) ||
+              'PIN not available. Please re-login.',
+          );
+        }
+        const pinCode = getDigitPinCode(pin);
+        if (!pinCode) {
+          throw new Error(
+            intl.formatMessage({ id: 'alert.auth_expired' }) ||
+              'PIN not available. Please re-login.',
+          );
+        }
+
+        // Decrypt HiveAuth credentials with validation
+        const decryptedKey = decryptKey(account.local.hiveAuthKey, pinCode);
+        const decryptedToken = account.local.hiveAuthToken
+          ? decryptKey(account.local.hiveAuthToken, pinCode)
+          : undefined;
+
+        // Critical validation: ensure decryption succeeded
+        if (!decryptedKey) {
+          const errorMsg =
+            intl.formatMessage({ id: 'hiveauth.decrypt_fail' }) ||
+            'Failed to decrypt HiveAuth key. Please re-login.';
+          console.error('[HiveAuth] Key decryption failed - invalid PIN or corrupted data');
+          Sentry.captureMessage('HiveAuth key decryption failed', {
+            level: 'error',
+            extra: {
+              username,
+              hasKey: !!account.local.hiveAuthKey,
+              hasPinHash: !!pin,
+            },
+          });
+          throw new Error(errorMsg);
+        }
+
+        // Validate token decryption if token exists
+        if (account.local.hiveAuthToken && !decryptedToken) {
+          const errorMsg =
+            intl.formatMessage({ id: 'hiveauth.decrypt_fail' }) ||
+            'Failed to decrypt HiveAuth token. Please re-login.';
+          console.error('[HiveAuth] Token decryption failed - invalid PIN or corrupted data');
+          Sentry.captureMessage('HiveAuth token decryption failed', {
+            level: 'error',
+            extra: {
+              username,
+              hasToken: !!account.local.hiveAuthToken,
+            },
+          });
+          throw new Error(errorMsg);
+        }
+
+        _hiveAuthObj = {
+          username,
+          expiry: account.local.hiveAuthExpiry,
+          key: decryptedKey,
+          token: decryptedToken,
+        };
+      } else {
+        // Non-HiveAuth user: create a fresh session object.
+        // HAS.broadcast() will fail with "not been connected through HAS",
+        // which triggers the re-auth catch block below that calls
+        // HAS.authenticate() to create an on-demand session.
+        console.log('[HiveAuth] Non-HiveAuth user, creating temp session for on-demand auth');
+        _hiveAuthObj = {
+          username,
+          key: uuidv4(),
+          token: undefined,
+          expiry: undefined,
+        };
       }
-
-      // Validate token decryption if token exists
-      if (account.local.hiveAuthToken && !decryptedToken) {
-        const errorMsg =
-          intl.formatMessage({ id: 'hiveauth.decrypt_fail' }) ||
-          'Failed to decrypt HiveAuth token. Please re-login.';
-        console.error('[HiveAuth] Token decryption failed - invalid PIN or corrupted data');
-        Sentry.captureMessage('HiveAuth token decryption failed', {
-          level: 'error',
-          extra: {
-            username,
-            hasToken: !!account.local.hiveAuthToken,
-          },
-        });
-        throw new Error(errorMsg);
-      }
-
-      const _hiveAuthObj: any = {
-        username,
-        expiry: account.local.hiveAuthExpiry,
-        key: decryptedKey,
-        token: decryptedToken,
-      };
 
       // Hard check: if session is expired, throw error to let caller handle navigation
-      if (
-        _hiveAuthObj.expiry &&
-        _hiveAuthObj.expiry > 0 &&
-        _hiveAuthObj.expiry <= new Date().getTime()
-      ) {
+      const sessionExpiry =
+        typeof _hiveAuthObj.expiry === 'number' ? _hiveAuthObj.expiry : Number(_hiveAuthObj.expiry);
+
+      if (Number.isFinite(sessionExpiry) && sessionExpiry > 0 && sessionExpiry <= Date.now()) {
         const error = new Error(intl.formatMessage({ id: 'alert.auth_expired' }));
         console.log('[HiveAuth] Session expired, throwing error for caller to handle');
         throw error;
@@ -611,44 +636,53 @@ export const useHiveAuth = () => {
           _hiveAuthObj.expiry = auth.expire;
         }
 
-        // Persist updated session data to realm so future broadcasts can reuse it
-        try {
-          await updateHiveAuthSession(username, pinCode, auth.token, auth.expire);
-        } catch (persistErr) {
-          console.warn('[HiveAuth] Failed to persist re-auth session data', persistErr);
+        // Persist updated session data for HiveAuth users only.
+        // Non-HiveAuth users (on-demand sessions) have no stored credentials to update.
+        if (isHiveAuthUser) {
+          try {
+            const pinCode = getDigitPinCode(pin);
+            if (pinCode) {
+              await updateHiveAuthSession(username, pinCode, auth.token, auth.expire);
+            }
+          } catch (persistErr) {
+            console.warn('[HiveAuth] Failed to persist re-auth session data', persistErr);
+          }
         }
 
-        // Update Redux so subsequent broadcasts use refreshed credentials
-        try {
-          // Re-read account from ref — it may have been updated during re-auth
-          const freshAccount = currentAccountRef.current;
-          if (!freshAccount?.local) {
-            console.warn('[HiveAuth] currentAccount gone after re-auth, skipping Redux update');
-          } else if ((freshAccount.name ?? freshAccount.username) !== username) {
-            console.warn(
-              '[HiveAuth] currentAccount changed during re-auth, skipping Redux update',
-              {
-                expectedUsername: username,
-                currentUsername: freshAccount.name ?? freshAccount.username,
-              },
-            );
-          } else {
-            const updatedLocal = { ...freshAccount.local };
-            if (auth.token) {
-              updatedLocal.hiveAuthToken = encryptKey(auth.token, pinCode);
+        // Update Redux so subsequent broadcasts use refreshed credentials (HiveAuth users only)
+        if (isHiveAuthUser) {
+          try {
+            // Re-read account from ref — it may have been updated during re-auth
+            const freshAccount = currentAccountRef.current;
+            if (!freshAccount?.local) {
+              console.warn('[HiveAuth] currentAccount gone after re-auth, skipping Redux update');
+            } else if ((freshAccount.name ?? freshAccount.username) !== username) {
+              console.warn(
+                '[HiveAuth] currentAccount changed during re-auth, skipping Redux update',
+                {
+                  expectedUsername: username,
+                  currentUsername: freshAccount.name ?? freshAccount.username,
+                },
+              );
+            } else {
+              const pinCode = getDigitPinCode(pin);
+              const updatedLocal = { ...freshAccount.local };
+              if (auth.token && pinCode) {
+                updatedLocal.hiveAuthToken = encryptKey(auth.token, pinCode);
+              }
+              if (auth.expire) {
+                updatedLocal.hiveAuthExpiry = auth.expire;
+              }
+              dispatch(
+                updateCurrentAccount({
+                  ...freshAccount,
+                  local: updatedLocal,
+                }),
+              );
             }
-            if (auth.expire) {
-              updatedLocal.hiveAuthExpiry = auth.expire;
-            }
-            dispatch(
-              updateCurrentAccount({
-                ...freshAccount,
-                local: updatedLocal,
-              }),
-            );
+          } catch (reduxErr) {
+            console.warn('[HiveAuth] Failed to update Redux after re-auth', reduxErr);
           }
-        } catch (reduxErr) {
-          console.warn('[HiveAuth] Failed to update Redux after re-auth', reduxErr);
         }
 
         // Retry broadcast after successful re-authentication

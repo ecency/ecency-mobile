@@ -246,7 +246,9 @@ const WalletContainer = ({
   const _handleOnWalletRefresh = () => {
     if (refreshing) return;
     if (!selectedUser?.name) {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      dispatch(
+        toastNotification(intl.formatMessage({ id: 'alert.wallet_refresh_missing_account' })),
+      );
       return;
     }
     setRefreshing(true);
@@ -261,13 +263,7 @@ const WalletContainer = ({
         setRefreshing(false);
       })
       .catch(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-          ),
-        );
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.wallet_refresh_failed' })));
         setRefreshing(false);
       });
   };

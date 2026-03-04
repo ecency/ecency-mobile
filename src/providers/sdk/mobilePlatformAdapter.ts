@@ -1,4 +1,3 @@
-import { Alert } from 'react-native';
 import { QueryClient } from '@tanstack/react-query';
 import { getAccountFullQueryOptions } from '@ecency/sdk';
 import type { PlatformAdapter } from '@ecency/sdk';
@@ -14,9 +13,54 @@ import {
 import { decryptKey } from '../../utils/crypto';
 import { mapAuthTypeToLoginType } from '../../utils/authMapper';
 
+// --- Temp active key storage (mirrors website's auth-upgrade-events.ts pattern) ---
+let _tempActiveKey: string | null = null;
+let _tempActiveKeyTimer: ReturnType<typeof setTimeout> | null = null;
+
+export const setTempActiveKey = (key: string) => {
+  _tempActiveKey = key;
+  if (_tempActiveKeyTimer) {
+    clearTimeout(_tempActiveKeyTimer);
+  }
+  _tempActiveKeyTimer = setTimeout(() => {
+    _tempActiveKey = null;
+    _tempActiveKeyTimer = null;
+  }, 60_000);
+};
+
+export const getTempActiveKey = (): string | null => _tempActiveKey;
+
+export const clearTempActiveKey = () => {
+  _tempActiveKey = null;
+  if (_tempActiveKeyTimer) {
+    clearTimeout(_tempActiveKeyTimer);
+    _tempActiveKeyTimer = null;
+  }
+};
+
+// Lazy-loaded sheet deps to avoid circular imports
+let _cachedSheetManager: typeof import('react-native-actions-sheet').SheetManager | null = null;
+let _cachedSheetNames: typeof import('../../navigation/sheets').SheetNames | null = null;
+
+const getSheetDeps = async () => {
+  if (!_cachedSheetManager || !_cachedSheetNames) {
+    const [actionSheetModule, sheetsModule] = await Promise.all([
+      import('react-native-actions-sheet'),
+      import('../../navigation/sheets'),
+    ]);
+    _cachedSheetManager = actionSheetModule.SheetManager;
+    _cachedSheetNames = sheetsModule.SheetNames;
+  }
+  return { SheetManager: _cachedSheetManager!, SheetNames: _cachedSheetNames! };
+};
+
 interface MobilePlatformAdapterParams {
   queryClient: QueryClient;
-  userActivityMutate?: (params: { pointsTy: number; transactionId: string }) => void;
+  userActivityMutate?: (params: {
+    pointsTy: number;
+    transactionId: string;
+    blockNum?: number;
+  }) => void;
 }
 
 export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams): PlatformAdapter {
@@ -52,6 +96,13 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
     },
 
     getActiveKey: async (username: string) => {
+      // Check temp key first (set by AuthUpgradeSheet key input)
+      const tempKey = getTempActiveKey();
+      if (tempKey) {
+        clearTempActiveKey();
+        return tempKey;
+      }
+
       const local = _getAccountLocal(username);
       if (!local) return undefined;
       const digitPin = _getDigitPin();
@@ -132,9 +183,9 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       store.dispatch(toastNotification(message) as any);
     },
 
-    recordActivity: async (activityType: number, _blockNum: number, txId: string) => {
+    recordActivity: async (activityType: number, txId: string, blockNum?: number) => {
       if (userActivityMutate) {
-        userActivityMutate({ pointsTy: activityType, transactionId: txId });
+        userActivityMutate({ pointsTy: activityType, transactionId: txId, blockNum });
       }
     },
 
@@ -160,17 +211,22 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       requiredAuthority: 'posting' | 'active',
       operation: string,
     ): Promise<'hiveauth' | 'hivesigner' | 'keychain' | 'key' | false> => {
+      const { SheetManager, SheetNames } = await getSheetDeps();
+      const state = store.getState();
+      const currentAccount = state.account?.currentAccount;
+      const username = currentAccount?.name || currentAccount?.username || '';
+
       return new Promise((resolve) => {
-        Alert.alert(
-          'Authorization Required',
-          `The "${operation}" operation requires ` +
-            `${requiredAuthority} authority. Choose an auth method:`,
-          [
-            { text: 'HiveAuth', onPress: () => resolve('hiveauth') },
-            { text: 'HiveSigner', onPress: () => resolve('hivesigner') },
-            { text: 'Cancel', style: 'cancel', onPress: () => resolve(false) },
-          ],
-        );
+        SheetManager.show(SheetNames.AUTH_UPGRADE, {
+          payload: {
+            requiredAuthority,
+            operation,
+            username,
+            onMethodSelected: (method: 'key' | 'hivesigner' | 'hiveauth' | false) => {
+              resolve(method);
+            },
+          },
+        });
       });
     },
   };
