@@ -50,6 +50,53 @@ export const fetchMattermostChannels = async () => {
   return data.channels || data;
 };
 
+export const normalizeMattermostChannels = (rawChannels: any): any[] => {
+  if (!rawChannels) {
+    return [];
+  }
+  if (Array.isArray(rawChannels)) {
+    return rawChannels;
+  }
+  if (Array.isArray(rawChannels.channels)) {
+    return rawChannels.channels;
+  }
+  return [];
+};
+
+export const getChannelUnreadTotal = (channel: any): number => {
+  if (channel?.is_muted) {
+    return 0;
+  }
+
+  const unreadMentionValues = [
+    channel?.unread_mentions,
+    channel?.mention_count,
+    channel?.mentions_count,
+    channel?.mention_count_root,
+    channel?.urgent_mention_count,
+    channel?.channel_wide_mention_count,
+  ].filter((value) => Number.isFinite(value)) as number[];
+
+  const unreadMentions = unreadMentionValues.length ? Math.max(0, ...unreadMentionValues) : 0;
+
+  const unreadMessages = Number.isFinite(channel?.unread_messages)
+    ? channel.unread_messages
+    : Number.isFinite(channel?.unread_msg_count)
+    ? channel.unread_msg_count
+    : Number.isFinite(channel?.unread_count)
+    ? channel.unread_count
+    : 0;
+
+  // mentions are a subset of unread messages, use max to avoid double-counting
+  return Math.max(unreadMentions, unreadMessages);
+};
+
+export const calculateGlobalUnreadTotal = async (): Promise<number> => {
+  const channelResponse = await fetchMattermostChannels();
+  const channels = normalizeMattermostChannels(channelResponse);
+  return channels.reduce((total: number, item: any) => total + getChannelUnreadTotal(item), 0);
+};
+
 export const searchMattermostChannels = async (query: string) => {
   const term = query.trim();
 

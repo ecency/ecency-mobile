@@ -219,39 +219,45 @@ const TippingDialogContent = forwardRef<any, TippingDialogContentProps>(
         {/* Currency Selector */}
         <View style={styles.sectionContainer}>
           <Text style={styles.label}>{intl.formatMessage({ id: 'tipping.currency' })}</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.currencyScrollContainer}
-          >
-            {currencyOptions.map((curr) => (
-              <TouchableOpacity
-                key={curr.symbol}
-                style={[
-                  styles.currencyButton,
-                  currency === curr.symbol && styles.currencyButtonSelected,
-                ]}
-                onPress={() => setCurrency(curr.symbol)}
-              >
-                <Text
+          {assetsQuery.isLoading ? (
+            <View style={styles.currencyLoadingContainer}>
+              <ActivityIndicator />
+            </View>
+          ) : (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.currencyScrollContainer}
+            >
+              {currencyOptions.map((curr) => (
+                <TouchableOpacity
+                  key={curr.symbol}
                   style={[
-                    styles.currencyButtonText,
-                    currency === curr.symbol && styles.currencyButtonTextSelected,
+                    styles.currencyButton,
+                    currency === curr.symbol && styles.currencyButtonSelected,
                   ]}
+                  onPress={() => setCurrency(curr.symbol)}
                 >
-                  {curr.label}
-                </Text>
-                <Text
-                  style={[
-                    styles.currencyBalance,
-                    currency === curr.symbol && styles.currencyBalanceSelected,
-                  ]}
-                >
-                  {curr.balance.toFixed(curr.precision || 3)}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+                  <Text
+                    style={[
+                      styles.currencyButtonText,
+                      currency === curr.symbol && styles.currencyButtonTextSelected,
+                    ]}
+                  >
+                    {curr.label}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.currencyBalance,
+                      currency === curr.symbol && styles.currencyBalanceSelected,
+                    ]}
+                  >
+                    {curr.balance.toFixed(curr.precision || 3)}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          )}
         </View>
 
         {/* Amount Input */}
@@ -333,6 +339,11 @@ const styles = EStyleSheet.create({
   },
   currencyScrollContainer: {
     paddingRight: 10,
+  },
+  currencyLoadingContainer: {
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   currencyButton: {
     paddingVertical: 12,

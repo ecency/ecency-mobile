@@ -1,22 +1,5 @@
-import { PrivateKey } from '@esteemapp/dhive';
-import { Operation } from '@hiveio/dhive';
 import axios from 'axios';
-import parseToken from '../../utils/parseToken';
-// import TransferTypes from '../../constants/transferTypes';
-import { getActiveKey, getDigitPinCode, sendHiveOperations } from '../hive/dhive';
-// import { PrivateKey, TransactionConfirmation } from "@hiveio/dhive";
-// import { client as hiveClient } from "./hive";
-// import * as keychain from "../helper/keychain";
-// import { broadcastPostingJSON } from "./operations";
-// import { hotSign } from "../helper/hive-signer";
-import {
-  Markets,
-  SpkApiWallet,
-  SpkLockMode,
-  SpkMarkets,
-  SpkPowerMode,
-  // SpkTransactionIds,
-} from './hiveSpk.types';
+import { Markets, SpkApiWallet, SpkMarkets } from './hiveSpk.types';
 
 export const SPK_NODE_ECENCY = 'good-karma.spk';
 
@@ -76,8 +59,9 @@ export const fetchSpkWallet = async (username: string): Promise<SpkApiWallet> =>
 
 export const fetchSpkMarkets = async (): Promise<Markets> => {
   const resp = await spkApi.get<SpkMarkets>('markets');
+  const nodes = resp.data?.markets?.node ?? {};
   return {
-    list: Object.entries(resp.data.markets.node).map(([name, node]) => ({
+    list: Object.entries(nodes).map(([name, node]) => ({
       name,
       status:
         node.lastGood >= resp.data.head_block - 1200
@@ -90,184 +74,10 @@ export const fetchSpkMarkets = async (): Promise<Markets> => {
   };
 };
 
-const executeSpkAction = (id: string, json: any, currentAccount: any, pinHash: string) => {
-  const pin = getDigitPinCode(pinHash);
-  const key = getActiveKey(currentAccount.local, pin);
-  const username = currentAccount.name;
-
-  if (key) {
-    const privateKey = PrivateKey.fromString(key);
-
-    const op = {
-      id,
-      json: JSON.stringify(json),
-      required_auths: [username],
-      required_posting_auths: [],
-    };
-    const opArray: Operation[] = [['custom_json', op]];
-    return sendHiveOperations(opArray, privateKey);
-  }
-
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
-};
-
 export const getSpkActionJSON = (amount: number, to?: string, memo?: string) => {
   return {
     amount: amount * 1000,
     ...(to ? { to } : {}),
     ...(memo ? { memo } : {}),
   };
-};
-
-/**
- * Builder functions for SPK operations - used by unified active key operation handler
- */
-export const getSpkTransferOpArr = (
-  username: string,
-  destination: string,
-  amount: string,
-  memo: string,
-  isLarynx: boolean,
-): Operation[] => {
-  const json = {
-    to: destination,
-    amount: parseToken(amount) * 1000,
-    ...(memo ? { memo } : {}),
-  };
-
-  const id = isLarynx ? 'spkcc_send' : 'spkcc_spk_send';
-
-  const op = {
-    id,
-    json: JSON.stringify(json),
-    required_auths: [username],
-    required_posting_auths: [],
-  };
-  return [['custom_json', op]];
-};
-
-export const getSpkDelegateOpArr = (
-  username: string,
-  destination: string,
-  amount: string,
-): Operation[] => {
-  const json = {
-    to: destination,
-    amount: parseToken(amount) * 1000,
-  };
-
-  const op = {
-    id: 'spkcc_power_grant',
-    json: JSON.stringify(json),
-    required_auths: [username],
-    required_posting_auths: [],
-  };
-  return [['custom_json', op]];
-};
-
-export const getSpkPowerOpArr = (
-  username: string,
-  amount: string,
-  mode: SpkPowerMode,
-): Operation[] => {
-  const json = {
-    amount: parseToken(amount) * 1000,
-  };
-
-  const op = {
-    id: `spkcc_power_${mode}`,
-    json: JSON.stringify(json),
-    required_auths: [username],
-    required_posting_auths: [],
-  };
-  return [['custom_json', op]];
-};
-
-/**
- * SPK operations
- */
-
-export const transferSpk = async (
-  currentAccount: any,
-  pinHash: string,
-  data: {
-    destination: string;
-    amount: string;
-    memo?: string;
-  },
-) => {
-  const json = {
-    to: data.destination,
-    amount: parseToken(data.amount) * 1000,
-    ...(data.memo ? { memo: data.memo } : {}),
-  };
-
-  return executeSpkAction('spkcc_spk_send', json, currentAccount, pinHash);
-};
-
-export const transferLarynx = async (
-  currentAccount: any,
-  pinHash: string,
-  data: {
-    destination: string;
-    amount: string;
-    memo?: string;
-  },
-) => {
-  const json = {
-    to: data.destination,
-    amount: parseToken(data.amount) * 1000,
-    ...(data.memo ? { memo: data.memo } : {}),
-  };
-  return executeSpkAction('spkcc_send', json, currentAccount, pinHash);
-};
-
-export const delegateLarynx = async (
-  currentAccount: any,
-  pinHash: string,
-  data: {
-    destination: string;
-    amount: string;
-  },
-) => {
-  const json = {
-    to: data.destination,
-    amount: parseToken(data.amount) * 1000,
-  };
-  return executeSpkAction('spkcc_power_grant', json, currentAccount, pinHash);
-};
-
-export const powerLarynx = async (
-  currentAccount: any,
-  pinHash: string,
-  data: {
-    mode: SpkPowerMode;
-    amount: string;
-  },
-) => {
-  const json = {
-    amount: parseToken(data.amount) * 1000,
-  };
-  return executeSpkAction(`spkcc_power_${data.mode}`, json, currentAccount, pinHash);
-};
-
-export const lockLarynx = async (
-  currentAccount: any,
-  pinHash: string,
-  data: {
-    mode: SpkLockMode;
-    amount: string;
-  },
-) => {
-  const json = {
-    amount: parseToken(data.amount) * 1000,
-  };
-  return executeSpkAction(
-    `spkcc_gov_${data.mode === 'lock' ? 'up' : 'down'}`,
-    json,
-    currentAccount,
-    pinHash,
-  );
 };

@@ -8,42 +8,34 @@ import { SheetManager } from 'react-native-actions-sheet';
 import styles from '../styles/tradeScreen.styles';
 import { AssetChangeBtn, ErrorSection, SwapAmountInput, SwapFeeSection } from '.';
 import { Icon, MainButton } from '../../../components';
-import {
-  fetchHiveMarketRate,
-  generateHsSwapTokenPath,
-  swapToken,
-} from '../../../providers/hive-trade/hiveTrade';
+import { fetchHiveMarketRate } from '../../../providers/hive-trade/hiveTrade';
 import { useAppSelector } from '../../../hooks';
-import { MarketAsset, SwapOptions } from '../../../providers/hive-trade/hiveTrade.types';
+import {
+  MarketAsset,
+  OrderIdPrefix,
+  SwapOptions,
+} from '../../../providers/hive-trade/hiveTrade.types';
 import { walletQueries } from '../../../providers/queries';
 import { useSwapCalculator } from './useSwapCalculator';
-import AUTH_TYPE from '../../../constants/authType';
 import { delay } from '../../../utils/editor';
-import { buildTradeOpsArray } from '../../../utils/transactionOpsBuilder';
 import { SheetNames } from '../../../navigation/sheets';
-import {
-  selectCurrency,
-  selectIsDarkTheme,
-  selectCurrentAccount,
-  selectPin,
-} from '../../../redux/selectors';
+import { convertSwapOptionsToLimitOrder } from '../../../providers/hive-trade/converters';
+import { useLimitOrderCreateMutation } from '../../../providers/sdk/mutations';
+import { selectCurrency, selectIsDarkTheme } from '../../../redux/selectors';
 
 interface Props {
   initialSymbol: MarketAsset;
-  handleHsTransfer: (hsSignPath: string) => void;
   onSuccess: () => void;
 }
 
-export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }: Props) => {
+export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
   const intl = useIntl();
   const navigation = useNavigation();
 
-  const currentAccount = useAppSelector(selectCurrentAccount);
   const currency = useAppSelector(selectCurrency);
-
-  // const assetsData = useAppSelector((state) => state.wallet.coinsData);
-  const pinHash = useAppSelector(selectPin);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
+
+  const limitOrderCreate = useLimitOrderCreateMutation();
 
   const [fromAssetSymbol, setFromAssetSymbol] = useState(initialSymbol || MarketAsset.HIVE);
   const [marketPrice, setMarketPrice] = useState(0);
@@ -126,10 +118,11 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
       // TODO: update marketPrice
       const _marketPrice = await fetchHiveMarketRate(fromAssetSymbol);
       setMarketPrice(_marketPrice);
-
-      setLoading(false);
     } catch (err) {
-      Alert.alert(intl.formatMessage({ id: 'alert.market_data_load_failed' }), err.message);
+      const message = err instanceof Error ? err.message : String(err);
+      Alert.alert(intl.formatMessage({ id: 'alert.market_data_load_failed' }), message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -186,57 +179,41 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
       toAmount,
     };
 
-    if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-      await delay(500); // NOTE: it's required to avoid modal mis fire
-      handleHsTransfer(generateHsSwapTokenPath(currentAccount, data));
-    } else if (currentAccount.local.authType === AUTH_TYPE.HIVE_AUTH) {
-      await delay(500); // NOTE: it's required to avoid modal mis fire
-      const opsArray = buildTradeOpsArray(currentAccount.name, data);
-      SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
-        payload: {
-          operations: opsArray,
-          onSuccess: async () => {
-            await delay(1000);
-            const _existingPedingCount = pendingRequestsQuery.data?.length || 0;
-            const pendingRequests = await pendingRequestsQuery.refetch();
-            const _latestPendingCount =
-              pendingRequests?.length ?? pendingRequestsQuery.data?.length ?? 0;
-            const _hasPending = _latestPendingCount !== _existingPedingCount;
+    try {
+      setSwapping(true);
 
-            onSuccess();
-            setSwapping(false);
-            _onSwapSuccess(_hasPending);
-          },
-          onError: (error) => {
-            console.error('[Swap] HiveAuth broadcast failed:', error);
-            Alert.alert(intl.formatMessage({ id: 'alert.swap_failed' }), error.message);
-            setSwapping(false);
-          },
-          onClose: () => {
-            setSwapping(false);
-          },
-        },
+      const { amountToSell, minToReceive } = convertSwapOptionsToLimitOrder(data);
+
+      const expirationDate = new Date(Date.now());
+      expirationDate.setDate(expirationDate.getDate() + 27);
+      const [expiration] = expirationDate.toISOString().split('.');
+
+      // Hive order IDs must be uint32 (max 4,294,967,295). Prefix '9' identifies swap orders.
+      // Use last 8 digits of ms timestamp for ~27h uniqueness window (per-account, no collision risk).
+      const numericOrderId = parseInt(`${OrderIdPrefix.SWAP}${Date.now() % 100000000}`, 10);
+
+      await limitOrderCreate.mutateAsync({
+        amountToSell: `${amountToSell.toFixed(3)} ${fromAssetSymbol}`,
+        minToReceive: `${minToReceive.toFixed(3)} ${toAssetSymbol}`,
+        fillOrKill: false,
+        expiration,
+        orderId: numericOrderId,
       });
-    } else {
-      try {
-        setSwapping(true);
 
-        await swapToken(currentAccount, pinHash, data);
+      await delay(1000);
+      const _existingPendingCount = pendingRequestsQuery.data?.length || 0;
+      const refetchResult = await pendingRequestsQuery.refetch();
+      const _latestPendingCount =
+        refetchResult.data?.length ?? pendingRequestsQuery.data?.length ?? 0;
+      const _hasPending = _latestPendingCount !== _existingPendingCount;
 
-        await delay(1000);
-        const _existingPedingCount = pendingRequestsQuery.data?.length || 0;
-        const pendingRequests = await pendingRequestsQuery.refetch();
-        const _latestPendingCount =
-          pendingRequests?.length ?? pendingRequestsQuery.data?.length ?? 0;
-        const _hasPending = _latestPendingCount !== _existingPedingCount;
-
-        onSuccess();
-        setSwapping(false);
-        _onSwapSuccess(_hasPending);
-      } catch (err) {
-        Alert.alert(intl.formatMessage({ id: 'alert.swap_failed' }), err.message);
-        setSwapping(false);
-      }
+      onSuccess();
+      _onSwapSuccess(_hasPending);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      Alert.alert(intl.formatMessage({ id: 'alert.swap_failed' }), message);
+    } finally {
+      setSwapping(false);
     }
   };
 

@@ -25,7 +25,7 @@ import ROUTES from '../../../constants/routeNames';
 import { useAppSelector, useLinkProcessor } from '../../../hooks';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 import { useMattermostWebSocket } from '../../../hooks/useMattermostWebSocket';
-import { toastNotification } from '../../../redux/actions/uiAction';
+import { toastNotification, updateUnreadChatCount } from '../../../redux/actions/uiAction';
 import {
   bootstrapMattermostSession,
   fetchMattermostChannelPosts,
@@ -44,6 +44,7 @@ import {
   fetchMattermostPinnedPosts,
   pinMattermostPost,
   unpinMattermostPost,
+  calculateGlobalUnreadTotal,
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
 import { signImage } from '../../../providers/hive/dhive';
@@ -1033,6 +1034,15 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     [posts],
   );
 
+  const _refreshGlobalUnreadChatCount = useCallback(async () => {
+    try {
+      const unreadTotal = await calculateGlobalUnreadTotal();
+      dispatch(updateUnreadChatCount(unreadTotal));
+    } catch {
+      // keep existing badge value when refresh fails
+    }
+  }, [dispatch]);
+
   const _markChannelViewed = useCallback(
     async (latestTimestamp: number) => {
       if (!latestTimestamp) {
@@ -1108,8 +1118,13 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         // Screen is blurred - disable websocket
         console.log('[Chat] Screen blurred, disabling WebSocket');
         setWsEnabled(false);
+
+        // Refresh global unread count on leaving thread if user viewed messages
+        if (lastMarkedViewedAtRef.current) {
+          _refreshGlobalUnreadChatCount();
+        }
       };
-    }, [bootstrapResult, bootstrapUserId]),
+    }, [bootstrapResult, bootstrapUserId, _refreshGlobalUnreadChatCount]),
   );
 
   // Edit and reply actions

@@ -6,7 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useAppSelector } from '../../hooks';
 import { selectCurrentAccount } from '../../redux/selectors';
 import { MainButton } from '../mainButton';
-import { Icon } from '../basicUIElements';
+import { Icon } from '../icon';
 import { getPrivateKeys } from '../../providers/hive/auth';
 import { setTempActiveKey } from '../../providers/sdk/mobilePlatformAdapter';
 
@@ -139,7 +139,7 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
         <MainButton
           onPress={_handleSignWithKey}
           isLoading={isValidating}
-          isDisabled={isValidating || !keyInput.trim()}
+          isDisable={isValidating || !keyInput.trim()}
           text={intl.formatMessage({ id: 'auth_upgrade.sign_button' })}
           style={styles.signButton}
         />
@@ -154,7 +154,7 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
         {/* HiveSigner */}
         <MainButton
           onPress={_handleHiveSigner}
-          isDisabled={isValidating}
+          isDisable={isValidating}
           text={intl.formatMessage({ id: 'auth_upgrade.hivesigner_button' })}
           style={styles.altButton}
           textStyle={styles.altButtonText}
@@ -163,7 +163,7 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
         {/* HiveAuth / Keychain */}
         <MainButton
           onPress={_handleHiveAuth}
-          isDisabled={isValidating}
+          isDisable={isValidating}
           text={intl.formatMessage({ id: 'auth_upgrade.hiveauth_button' })}
           style={styles.altButton}
           textStyle={styles.altButtonText}
@@ -172,7 +172,7 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
         {/* Cancel */}
         <MainButton
           onPress={_handleClose}
-          isDisabled={isValidating}
+          isDisable={isValidating}
           text={intl.formatMessage({ id: 'auth_upgrade.cancel' })}
           style={styles.cancelButton}
           textStyle={styles.cancelButtonText}

@@ -226,6 +226,9 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
               resolve(method);
             },
           },
+        }).catch((sheetError: any) => {
+          console.error('[showAuthUpgradeUI] Failed to show sheet:', sheetError);
+          resolve(false);
         });
       });
     },

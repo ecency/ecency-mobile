@@ -1,161 +1,13 @@
-import { PrivateKey } from '@esteemapp/dhive';
-import { Operation } from '@hiveio/dhive';
 import * as Sentry from '@sentry/react-native';
-import {
-  getActiveKey,
-  getDigitPinCode,
-  getMarketStatistics,
-  sendHiveOperations,
-} from '../hive/dhive';
-import {
-  MarketAsset,
-  MarketStatistics,
-  OrderIdPrefix,
-  SwapOptions,
-  TransactionType,
-} from './hiveTrade.types';
-import { convertSwapOptionsToLimitOrder } from './converters';
-
-// This operation creates a limit order and matches it against existing open orders.
-// The maximum expiration time for any limit order is 28 days from head_block_time()
-export const limitOrderCreate = (
-  currentAccount: any,
-  pinHash: string,
-  amountToSell: number,
-  minToReceive: number,
-  orderType: TransactionType,
-  idPrefix = OrderIdPrefix.EMPTY,
-) => {
-  const digitPinCode = getDigitPinCode(pinHash);
-  const key = getActiveKey(currentAccount?.local, digitPinCode);
-
-  const owner = currentAccount?.name ?? currentAccount?.username;
-  if (!owner) {
-    return Promise.reject(new Error('Missing account name'));
-  }
-
-  if (key) {
-    const privateKey = PrivateKey.fromString(key);
-
-    let expiration: any = new Date(Date.now());
-    expiration.setDate(expiration.getDate() + 27);
-    [expiration] = expiration.toISOString().split('.');
-
-    const data = getLimitOrderCreateOpData(owner, amountToSell, minToReceive, orderType, idPrefix);
-
-    const args: Operation[] = [['limit_order_create', data]];
-
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(args, privateKey)
-        .then((result) => {
-          if (result) {
-            resolve(result);
-          }
-        })
-        .catch((err) => {
-          Sentry.captureException(err);
-          reject(err);
-        });
-    });
-  }
-
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
-};
-
-export const limitOrderCancel = (currentAccount: any, pinHash: string, orderid: number) => {
-  const digitPinCode = getDigitPinCode(pinHash);
-  const key = getActiveKey(currentAccount?.local, digitPinCode);
-
-  const owner = currentAccount?.name ?? currentAccount?.username;
-  if (!owner) {
-    return Promise.reject(new Error('Missing account name'));
-  }
-
-  if (key) {
-    const privateKey = PrivateKey.fromString(key);
-    const ops: Operation[] = [
-      [
-        'limit_order_cancel',
-        {
-          owner,
-          orderid,
-        },
-      ],
-    ];
-
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(ops, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
-};
-
-export const generateHsLimitOrderCreatePath = (
-  currentAccount: any,
-  amountToSell: number,
-  minToReceive: number,
-  orderType: TransactionType,
-  idPrefix = OrderIdPrefix.EMPTY,
-) => {
-  const owner = currentAccount?.name ?? currentAccount?.username;
-  if (!owner) {
-    throw new Error('Missing account name');
-  }
-
-  const data = getLimitOrderCreateOpData(owner, amountToSell, minToReceive, orderType, idPrefix);
-
-  const query = new URLSearchParams(data).toString();
-
-  return `sign/limitOrderCreate?${query}`;
-};
-
-export const generateHsSwapTokenPath = (currentAccount: any, data: SwapOptions) => {
-  const { amountToSell, minToRecieve, transactionType } = convertSwapOptionsToLimitOrder(data);
-
-  return generateHsLimitOrderCreatePath(
-    currentAccount,
-    amountToSell,
-    minToRecieve,
-    transactionType,
-    OrderIdPrefix.SWAP,
-  );
-};
-
-export const swapToken = async (currentAccount: any, pinHash: string, data: SwapOptions) => {
-  try {
-    const { amountToSell, minToRecieve, transactionType } = convertSwapOptionsToLimitOrder(data);
-
-    await limitOrderCreate(
-      currentAccount,
-      pinHash,
-      amountToSell,
-      minToRecieve,
-      transactionType,
-      OrderIdPrefix.SWAP,
-    );
-  } catch (err) {
-    console.warn('Failed to swap token', err);
-    throw err;
-  }
-};
+import { getMarketStatistics } from '../hive/dhive';
+import { MarketAsset, MarketStatistics } from './hiveTrade.types';
 
 export const fetchHiveMarketRate = async (asset: MarketAsset): Promise<number> => {
   try {
     const market: MarketStatistics = await getMarketStatistics();
     const _lowestAsk = Number(market?.lowest_ask);
 
-    if (!_lowestAsk) {
+    if (!Number.isFinite(_lowestAsk) || _lowestAsk <= 0) {
       throw new Error('Invalid market lowest ask');
     }
 
@@ -165,40 +17,11 @@ export const fetchHiveMarketRate = async (asset: MarketAsset): Promise<number> =
       case MarketAsset.HBD:
         return 1 / _lowestAsk;
       default:
-        return 0;
+        throw new Error(`Unsupported MarketAsset: ${asset}`);
     }
   } catch (err) {
     console.warn('failed to get hive market rate');
     Sentry.captureException(err);
     throw err;
   }
-};
-
-export const getLimitOrderCreateOpData = (
-  username,
-  amountToSell,
-  minToReceive,
-  orderType,
-  idPrefix,
-) => {
-  let expiration: any = new Date(Date.now());
-  expiration.setDate(expiration.getDate() + 27);
-  [expiration] = expiration.toISOString().split('.');
-
-  return {
-    owner: username,
-    orderid: Number(
-      `${idPrefix}${Math.floor(Date.now() / 1000)
-        .toString()
-        .slice(2)}`,
-    ),
-    amount_to_sell: `${
-      orderType === TransactionType.Buy ? amountToSell.toFixed(3) : minToReceive.toFixed(3)
-    } ${orderType === TransactionType.Buy ? MarketAsset.HBD : MarketAsset.HIVE}`,
-    min_to_receive: `${
-      orderType === TransactionType.Buy ? minToReceive.toFixed(3) : amountToSell.toFixed(3)
-    } ${orderType === TransactionType.Buy ? MarketAsset.HIVE : MarketAsset.HBD}`,
-    fill_or_kill: false,
-    expiration,
-  };
 };
