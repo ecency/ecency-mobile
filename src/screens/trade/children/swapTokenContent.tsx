@@ -14,7 +14,6 @@ import {
   MarketAsset,
   OrderIdPrefix,
   SwapOptions,
-  TransactionType,
 } from '../../../providers/hive-trade/hiveTrade.types';
 import { walletQueries } from '../../../providers/queries';
 import { useSwapCalculator } from './useSwapCalculator';
@@ -119,10 +118,10 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
       // TODO: update marketPrice
       const _marketPrice = await fetchHiveMarketRate(fromAssetSymbol);
       setMarketPrice(_marketPrice);
-
-      setLoading(false);
-    } catch (err) {
+    } catch (err: any) {
       Alert.alert(intl.formatMessage({ id: 'alert.market_data_load_failed' }), err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -182,29 +181,25 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
     try {
       setSwapping(true);
 
-      const { amountToSell, minToRecieve, transactionType } = convertSwapOptionsToLimitOrder(data);
+      const { amountToSell, minToRecieve } = convertSwapOptionsToLimitOrder(data);
 
-      // Build the same op data as the legacy path
-      const isBuy = transactionType === TransactionType.Buy;
-      const sellAmt = isBuy ? amountToSell.toFixed(3) : minToRecieve.toFixed(3);
-      const sellAsset = isBuy ? MarketAsset.HBD : MarketAsset.HIVE;
-      const recvAmt = isBuy ? minToRecieve.toFixed(3) : amountToSell.toFixed(3);
-      const recvAsset = isBuy ? MarketAsset.HIVE : MarketAsset.HBD;
+      const expirationDate = new Date(Date.now());
+      expirationDate.setDate(expirationDate.getDate() + 27);
+      const [expiration] = expirationDate.toISOString().split('.');
 
-      let expiration: any = new Date(Date.now());
-      expiration.setDate(expiration.getDate() + 27);
-      [expiration] = expiration.toISOString().split('.');
+      const numericOrderId = parseInt(
+        `${OrderIdPrefix.SWAP}${Math.floor(Date.now() / 1000)
+          .toString()
+          .slice(2)}`,
+        10,
+      );
 
       await limitOrderCreate.mutateAsync({
-        amountToSell: `${sellAmt} ${sellAsset}`,
-        minToReceive: `${recvAmt} ${recvAsset}`,
+        amountToSell: `${amountToSell.toFixed(3)} ${fromAssetSymbol}`,
+        minToReceive: `${minToRecieve.toFixed(3)} ${toAssetSymbol}`,
         fillOrKill: false,
         expiration,
-        orderId: Number(
-          `${OrderIdPrefix.SWAP}${Math.floor(Date.now() / 1000)
-            .toString()
-            .slice(2)}`,
-        ),
+        orderId: numericOrderId,
       });
 
       await delay(1000);

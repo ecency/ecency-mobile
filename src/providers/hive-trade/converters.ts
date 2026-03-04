@@ -7,8 +7,8 @@ export const convertSwapOptionsToLimitOrder = (data: SwapOptions) => {
 
   switch (data.fromAsset) {
     case MarketAsset.HIVE:
-      amountToSell = data.toAmount;
-      minToRecieve = data.fromAmount;
+      amountToSell = data.fromAmount;
+      minToRecieve = data.toAmount;
       transactionType = TransactionType.Sell;
       break;
     case MarketAsset.HBD:

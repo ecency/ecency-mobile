@@ -5,7 +5,8 @@ import { useIntl } from 'react-intl';
 import { SheetManager } from 'react-native-actions-sheet';
 
 import ROUTES from '../../../constants/routeNames';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { updateUnreadChatCount } from '../../../redux/actions/uiAction';
 import {
   selectCurrentAccount,
   selectPin,
@@ -39,6 +40,7 @@ import { SearchResults } from '../children/SearchResults';
 const ChatsContainer = () => {
   const intl = useIntl();
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinCode = useAppSelector(selectPin);
@@ -171,6 +173,21 @@ const ChatsContainer = () => {
       totalUnread,
     };
   }, []);
+
+  const _refreshGlobalUnreadChatCount = useCallback(async () => {
+    try {
+      const channelResponse = await fetchMattermostChannels();
+      const normalizedChannels = _normalizeChannels(channelResponse);
+      const unreadTotal = normalizedChannels.reduce((total: number, item: any) => {
+        const { totalUnread } = _getUnreadMeta(item);
+        return total + (totalUnread || 0);
+      }, 0);
+
+      dispatch(updateUnreadChatCount(unreadTotal));
+    } catch {
+      // keep existing badge value when refresh fails
+    }
+  }, [_getUnreadMeta, dispatch]);
 
   // ============================================================================
   // Bootstrap and Session Management
@@ -454,11 +471,13 @@ const ChatsContainer = () => {
           lastViewedAt: viewedAt,
           lastViewed: viewedAt,
         });
+
+        await _refreshGlobalUnreadChatCount();
       } catch (err: any) {
         setError(err?.message || 'Unable to mark channel as read');
       }
     },
-    [_ensureBootstrap, _getChannelId, _updateChannelState, intl],
+    [_ensureBootstrap, _getChannelId, _updateChannelState, _refreshGlobalUnreadChatCount, intl],
   );
 
   const _confirmChannelOptions = useCallback(

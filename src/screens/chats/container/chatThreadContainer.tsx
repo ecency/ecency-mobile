@@ -25,7 +25,7 @@ import ROUTES from '../../../constants/routeNames';
 import { useAppSelector, useLinkProcessor } from '../../../hooks';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 import { useMattermostWebSocket } from '../../../hooks/useMattermostWebSocket';
-import { toastNotification } from '../../../redux/actions/uiAction';
+import { toastNotification, updateUnreadChatCount } from '../../../redux/actions/uiAction';
 import {
   bootstrapMattermostSession,
   fetchMattermostChannelPosts,
@@ -1033,6 +1033,61 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     [posts],
   );
 
+  const _getChannelUnreadTotal = useCallback((channel: any) => {
+    if (channel?.is_muted) {
+      return 0;
+    }
+
+    const unreadMentionValues = [
+      channel?.unread_mentions,
+      channel?.mention_count,
+      channel?.mentions_count,
+      channel?.mention_count_root,
+      channel?.urgent_mention_count,
+      channel?.channel_wide_mention_count,
+    ].filter((value) => Number.isFinite(value)) as number[];
+
+    const unreadMentions = unreadMentionValues.length ? Math.max(0, ...unreadMentionValues) : 0;
+
+    const unreadMessages = Number.isFinite(channel?.unread_messages)
+      ? channel.unread_messages
+      : Number.isFinite(channel?.unread_msg_count)
+      ? channel.unread_msg_count
+      : Number.isFinite(channel?.unread_count)
+      ? channel.unread_count
+      : 0;
+
+    return Math.max(0, unreadMentions) + Math.max(0, unreadMessages);
+  }, []);
+
+  const _normalizeChannels = useCallback((rawChannels: any): any[] => {
+    if (!rawChannels) {
+      return [];
+    }
+    if (Array.isArray(rawChannels)) {
+      return rawChannels;
+    }
+    if (Array.isArray(rawChannels.channels)) {
+      return rawChannels.channels;
+    }
+    return [];
+  }, []);
+
+  const _refreshGlobalUnreadChatCount = useCallback(async () => {
+    try {
+      const channelResponse = await fetchMattermostChannels();
+      const channels = _normalizeChannels(channelResponse);
+      const unreadTotal = channels.reduce(
+        (total: number, item: any) => total + _getChannelUnreadTotal(item),
+        0,
+      );
+
+      dispatch(updateUnreadChatCount(unreadTotal));
+    } catch {
+      // keep existing badge value when refresh fails
+    }
+  }, [_getChannelUnreadTotal, _normalizeChannels, dispatch]);
+
   const _markChannelViewed = useCallback(
     async (latestTimestamp: number) => {
       if (!latestTimestamp) {
@@ -1051,11 +1106,12 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           const previous = prev || 0;
           return latestTimestamp > previous ? latestTimestamp : prev;
         });
+        await _refreshGlobalUnreadChatCount();
       } catch (err) {
         // ignore view update failures so the thread still renders
       }
     },
-    [_ensureBootstrap, channelId],
+    [_ensureBootstrap, channelId, _refreshGlobalUnreadChatCount],
   );
 
   // Mark channel viewed effect
