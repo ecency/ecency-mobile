@@ -14,10 +14,15 @@ import {
 import { decryptKey } from '../../utils/crypto';
 import { mapAuthTypeToLoginType } from '../../utils/authMapper';
 import AUTH_TYPE from '../../constants/authType';
+import createIntl from '../../utils/createIntl';
 
 interface MobilePlatformAdapterParams {
   queryClient: QueryClient;
-  userActivityMutate?: (params: { pointsTy: number; transactionId: string }) => void;
+  userActivityMutate?: (params: {
+    pointsTy: number;
+    transactionId: string;
+    blockNum?: number;
+  }) => void;
 }
 
 export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams): PlatformAdapter {
@@ -179,11 +184,20 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       // If no upgrade methods available, tell user they need to re-login
       if (!isHiveAuth && !hasAccessToken) {
         return new Promise((resolve) => {
+          const intl = createIntl();
           Alert.alert(
-            'Active Key Required',
-            `The "${operation}" operation requires ${requiredAuthority} authority. ` +
-              'Please log in with your active private key or master password.',
-            [{ text: 'OK', style: 'cancel', onPress: () => resolve(false) }],
+            intl.formatMessage({ id: 'alert.active_key_required_title' }),
+            intl.formatMessage(
+              { id: 'alert.active_key_required_message' },
+              { operation, requiredAuthority },
+            ),
+            [
+              {
+                text: intl.formatMessage({ id: 'alert.okay' }),
+                style: 'cancel',
+                onPress: () => resolve(false),
+              },
+            ],
           );
         });
       }

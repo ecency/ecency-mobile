@@ -52,10 +52,8 @@ export function useTransferMutations() {
       try {
         if (authContext?.adapter?.invalidateQueries) {
           await authContext.adapter.invalidateQueries([
-            QueryKeys.accounts.full(username),
-            QueryKeys.accounts.full(to),
-            ['ecency-wallets', 'asset-info', username],
-            ['wallet', 'portfolio', 'v2', username],
+            ...getWalletInvalidationKeys(username || ''),
+            ...getWalletInvalidationKeys(to),
           ]);
         }
       } catch (error) {
@@ -108,10 +106,8 @@ export function useTransferMutations() {
       try {
         if (authContext?.adapter?.invalidateQueries) {
           await authContext.adapter.invalidateQueries([
-            QueryKeys.accounts.full(username),
-            QueryKeys.accounts.full(to),
-            ['ecency-wallets', 'asset-info', username],
-            ['wallet', 'portfolio', 'v2', username],
+            ...getWalletInvalidationKeys(username || ''),
+            ...getWalletInvalidationKeys(to),
           ]);
         }
       } catch (error) {

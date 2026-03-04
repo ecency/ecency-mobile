@@ -680,6 +680,8 @@
     "error": "Error", 
     "restart_ecency_desc": "Applying changes will require a restart.", 
     "key_warning": "Operation requires active key or master password, please relogin!", 
+    "active_key_required_title": "Active Key Required",
+    "active_key_required_message": "The \"{operation}\" operation requires {requiredAuthority} authority. Please log in with your active private key or master password.",
     "warning": "Warning", 
     "success_unfollow": "Unfollow success!", 
     "move_question": "Are you sure to move to drafts?"
