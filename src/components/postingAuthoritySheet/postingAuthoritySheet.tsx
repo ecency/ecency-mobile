@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionSheet, { SheetProps } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../hooks';
 import { selectCurrentAccount } from '../../redux/selectors';
 import { MainButton } from '../mainButton';
-import { ActivityIndicator, Icon } from '../basicUIElements';
+import { Icon } from '../icon';
 import { getAccount } from '../../providers/hive/dhive';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { useGrantPostingPermissionMutation } from '../../providers/sdk/mutations';

@@ -217,16 +217,21 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       const username = currentAccount?.name || currentAccount?.username || '';
 
       return new Promise((resolve) => {
-        SheetManager.show(SheetNames.AUTH_UPGRADE, {
-          payload: {
-            requiredAuthority,
-            operation,
-            username,
-            onMethodSelected: (method: 'key' | 'hivesigner' | 'hiveauth' | false) => {
-              resolve(method);
+        try {
+          SheetManager.show(SheetNames.AUTH_UPGRADE, {
+            payload: {
+              requiredAuthority,
+              operation,
+              username,
+              onMethodSelected: (method: 'key' | 'hivesigner' | 'hiveauth' | false) => {
+                resolve(method);
+              },
             },
-          },
-        });
+          });
+        } catch (sheetError) {
+          console.error('[showAuthUpgradeUI] Failed to show sheet:', sheetError);
+          resolve(false);
+        }
       });
     },
   };
