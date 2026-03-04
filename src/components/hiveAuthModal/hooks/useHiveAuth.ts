@@ -187,8 +187,15 @@ const isHasNotConnectedError = (error: any): boolean => {
     typeof error === 'string' ? error : null,
   ].filter(Boolean);
 
-  return candidates.some((s) => /not been connected through HAS/i.test(String(s)));
+  return candidates.some((s) => /not\s+(?:been\s+)?connected(?:\s+to\s+server)?/i.test(String(s)));
 };
+
+interface HiveAuthSession {
+  username: string;
+  key: string;
+  token?: string;
+  expiry?: number | string;
+}
 
 export enum HiveAuthStatus {
   INPUT = 0,
@@ -467,7 +474,7 @@ export const useHiveAuth = () => {
       // generate a temporary key and skip PIN-based credential decryption.
       // The existing "not connected" retry logic will call HAS.authenticate()
       // to create a fresh session, matching the web's ensureSession() pattern.
-      let _hiveAuthObj: any;
+      let _hiveAuthObj: HiveAuthSession;
 
       if (isHiveAuthUser) {
         if (!pin) {
@@ -544,11 +551,10 @@ export const useHiveAuth = () => {
       }
 
       // Hard check: if session is expired, throw error to let caller handle navigation
-      if (
-        _hiveAuthObj.expiry &&
-        _hiveAuthObj.expiry > 0 &&
-        _hiveAuthObj.expiry <= new Date().getTime()
-      ) {
+      const sessionExpiry =
+        typeof _hiveAuthObj.expiry === 'number' ? _hiveAuthObj.expiry : Number(_hiveAuthObj.expiry);
+
+      if (Number.isFinite(sessionExpiry) && sessionExpiry > 0 && sessionExpiry <= Date.now()) {
         const error = new Error(intl.formatMessage({ id: 'alert.auth_expired' }));
         console.log('[HiveAuth] Session expired, throwing error for caller to handle');
         throw error;
