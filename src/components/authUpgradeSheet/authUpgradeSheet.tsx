@@ -56,8 +56,9 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
         return;
       }
 
+      const normalize = (k: string) => k.replace(/^STM/, '');
       const isMatch = accountActiveKeys.some(
-        (auth: any) => auth[0] === derivedPubKey || auth[0] === derivedPubKey.replace('STM', ''),
+        (auth: any) => normalize(auth[0]) === normalize(derivedPubKey),
       );
 
       if (!isMatch) {
@@ -149,7 +150,7 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
         {/* Divider */}
         <View style={styles.divider}>
           <View style={styles.dividerLine} />
-          <Text style={styles.dividerText}>or</Text>
+          <Text style={styles.dividerText}>{intl.formatMessage({ id: 'auth_upgrade.or' })}</Text>
           <View style={styles.dividerLine} />
         </View>
 

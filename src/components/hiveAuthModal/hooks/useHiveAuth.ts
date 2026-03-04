@@ -630,44 +630,53 @@ export const useHiveAuth = () => {
           _hiveAuthObj.expiry = auth.expire;
         }
 
-        // Persist updated session data to realm so future broadcasts can reuse it
-        try {
-          await updateHiveAuthSession(username, pinCode, auth.token, auth.expire);
-        } catch (persistErr) {
-          console.warn('[HiveAuth] Failed to persist re-auth session data', persistErr);
+        // Persist updated session data for HiveAuth users only.
+        // Non-HiveAuth users (on-demand sessions) have no stored credentials to update.
+        if (isHiveAuthUser) {
+          try {
+            const pinCode = getDigitPinCode(pin);
+            if (pinCode) {
+              await updateHiveAuthSession(username, pinCode, auth.token, auth.expire);
+            }
+          } catch (persistErr) {
+            console.warn('[HiveAuth] Failed to persist re-auth session data', persistErr);
+          }
         }
 
-        // Update Redux so subsequent broadcasts use refreshed credentials
-        try {
-          // Re-read account from ref — it may have been updated during re-auth
-          const freshAccount = currentAccountRef.current;
-          if (!freshAccount?.local) {
-            console.warn('[HiveAuth] currentAccount gone after re-auth, skipping Redux update');
-          } else if ((freshAccount.name ?? freshAccount.username) !== username) {
-            console.warn(
-              '[HiveAuth] currentAccount changed during re-auth, skipping Redux update',
-              {
-                expectedUsername: username,
-                currentUsername: freshAccount.name ?? freshAccount.username,
-              },
-            );
-          } else {
-            const updatedLocal = { ...freshAccount.local };
-            if (auth.token) {
-              updatedLocal.hiveAuthToken = encryptKey(auth.token, pinCode);
+        // Update Redux so subsequent broadcasts use refreshed credentials (HiveAuth users only)
+        if (isHiveAuthUser) {
+          try {
+            // Re-read account from ref — it may have been updated during re-auth
+            const freshAccount = currentAccountRef.current;
+            if (!freshAccount?.local) {
+              console.warn('[HiveAuth] currentAccount gone after re-auth, skipping Redux update');
+            } else if ((freshAccount.name ?? freshAccount.username) !== username) {
+              console.warn(
+                '[HiveAuth] currentAccount changed during re-auth, skipping Redux update',
+                {
+                  expectedUsername: username,
+                  currentUsername: freshAccount.name ?? freshAccount.username,
+                },
+              );
+            } else {
+              const pinCode = getDigitPinCode(pin);
+              const updatedLocal = { ...freshAccount.local };
+              if (auth.token && pinCode) {
+                updatedLocal.hiveAuthToken = encryptKey(auth.token, pinCode);
+              }
+              if (auth.expire) {
+                updatedLocal.hiveAuthExpiry = auth.expire;
+              }
+              dispatch(
+                updateCurrentAccount({
+                  ...freshAccount,
+                  local: updatedLocal,
+                }),
+              );
             }
-            if (auth.expire) {
-              updatedLocal.hiveAuthExpiry = auth.expire;
-            }
-            dispatch(
-              updateCurrentAccount({
-                ...freshAccount,
-                local: updatedLocal,
-              }),
-            );
+          } catch (reduxErr) {
+            console.warn('[HiveAuth] Failed to update Redux after re-auth', reduxErr);
           }
-        } catch (reduxErr) {
-          console.warn('[HiveAuth] Failed to update Redux after re-auth', reduxErr);
         }
 
         // Retry broadcast after successful re-authentication

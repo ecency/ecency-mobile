@@ -1427,6 +1427,7 @@
     "cancel": "Cancel",
     "invalid_key": "Invalid private key or password",
     "key_mismatch": "Key does not match account's active authority",
-    "validating": "Validating key..."
+    "validating": "Validating key...",
+    "or": "or"
   }
 }
