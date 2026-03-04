@@ -7,7 +7,7 @@ export const fetchHiveMarketRate = async (asset: MarketAsset): Promise<number> =
     const market: MarketStatistics = await getMarketStatistics();
     const _lowestAsk = Number(market?.lowest_ask);
 
-    if (!_lowestAsk) {
+    if (!Number.isFinite(_lowestAsk) || _lowestAsk <= 0) {
       throw new Error('Invalid market lowest ask');
     }
 
@@ -17,7 +17,7 @@ export const fetchHiveMarketRate = async (asset: MarketAsset): Promise<number> =
       case MarketAsset.HBD:
         return 1 / _lowestAsk;
       default:
-        return 0;
+        throw new Error(`Unsupported MarketAsset: ${asset}`);
     }
   } catch (err) {
     console.warn('failed to get hive market rate');

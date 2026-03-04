@@ -42,7 +42,7 @@ export const ActivitiesList = ({
 
   const _onCancelPress = async (trxId: number) => {
     try {
-      if (trxId) {
+      if (trxId != null) {
         setCancellingTrxIndex(trxId);
         await limitOrderCancel.mutateAsync({ orderId: trxId });
         setCancellingTrxIndex(-1);

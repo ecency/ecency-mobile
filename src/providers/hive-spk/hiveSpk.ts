@@ -59,8 +59,9 @@ export const fetchSpkWallet = async (username: string): Promise<SpkApiWallet> =>
 
 export const fetchSpkMarkets = async (): Promise<Markets> => {
   const resp = await spkApi.get<SpkMarkets>('markets');
+  const nodes = resp.data?.markets?.node ?? {};
   return {
-    list: Object.entries(resp.data.markets.node).map(([name, node]) => ({
+    list: Object.entries(nodes).map(([name, node]) => ({
       name,
       status:
         node.lastGood >= resp.data.head_block - 1200

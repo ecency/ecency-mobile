@@ -188,13 +188,13 @@ const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = 
           <MainButton
             onPress={_handleGrant}
             isLoading={isGranting}
-            isDisabled={isGranting}
+            isDisable={isGranting}
             text={intl.formatMessage({ id: 'posting_authority.grant_button' })}
             style={styles.grantButton}
           />
           <MainButton
             onPress={_handleSkip}
-            isDisabled={isGranting}
+            isDisable={isGranting}
             text={intl.formatMessage({ id: 'posting_authority.skip_button' })}
             style={styles.skipButton}
             textStyle={styles.skipButtonText}

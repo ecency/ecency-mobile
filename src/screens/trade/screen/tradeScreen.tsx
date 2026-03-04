@@ -7,6 +7,7 @@ import styles from '../styles/tradeScreen.styles';
 
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
+import { MarketAsset } from '../../../providers/hive-trade/hiveTrade.types';
 
 const TradeScreen = ({ route }) => {
   const intl = useIntl();
@@ -14,7 +15,11 @@ const TradeScreen = ({ route }) => {
   const assetsQuery = walletQueries.useAssetsQuery();
 
   const transferType = route?.params?.transferType;
-  const fundType = route?.params?.fundType;
+  const rawFundType = route?.params?.fundType;
+  const fundType =
+    rawFundType === MarketAsset.HIVE || rawFundType === MarketAsset.HBD
+      ? rawFundType
+      : MarketAsset.HIVE;
 
   const _delayedRefreshCoinsData = () => {
     setTimeout(() => {

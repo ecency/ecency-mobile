@@ -214,10 +214,10 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
       const _hasPending = _latestPendingCount !== _existingPedingCount;
 
       onSuccess();
-      setSwapping(false);
       _onSwapSuccess(_hasPending);
     } catch (err) {
-      Alert.alert(intl.formatMessage({ id: 'alert.swap_failed' }), err.message);
+      Alert.alert(intl.formatMessage({ id: 'alert.swap_failed' }), err?.message);
+    } finally {
       setSwapping(false);
     }
   };
