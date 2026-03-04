@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
-import WebView from 'react-native-webview';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { BasicHeader, Modal } from '../../../components';
+import { BasicHeader } from '../../../components';
 import { SwapTokenContent } from '../children';
 import styles from '../styles/tradeScreen.styles';
 
-import { hsOptions } from '../../../constants/hsOptions';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
-import { delay } from '../../../utils/editor';
 
-const TradeScreen = ({ route, navigation }) => {
+const TradeScreen = ({ route }) => {
   const intl = useIntl();
 
   const assetsQuery = walletQueries.useAssetsQuery();
@@ -19,42 +16,20 @@ const TradeScreen = ({ route, navigation }) => {
   const transferType = route?.params?.transferType;
   const fundType = route?.params?.fundType;
 
-  const [showHsModal, setShowHsModal] = useState(false);
-  const [hsSignPath, setHsSignPath] = useState('');
-
   const _delayedRefreshCoinsData = () => {
     setTimeout(() => {
       assetsQuery.refetch();
     }, 3000);
   };
 
-  const _handleOnModalClose = async () => {
-    setShowHsModal(false);
-    setHsSignPath('');
-
-    await delay(300);
-    navigation.goBack();
-  };
-
   const _onSuccess = () => {
     _delayedRefreshCoinsData();
-  };
-
-  const _handleHsTransfer = (_hsSignPath: string) => {
-    setHsSignPath(_hsSignPath);
-    setShowHsModal(true);
   };
 
   let _content: any = null;
   switch (transferType) {
     case TransferTypes.SWAP_TOKEN:
-      _content = (
-        <SwapTokenContent
-          initialSymbol={fundType}
-          handleHsTransfer={_handleHsTransfer}
-          onSuccess={_onSuccess}
-        />
-      );
+      _content = <SwapTokenContent initialSymbol={fundType} onSuccess={_onSuccess} />;
       break;
 
     // NOTE: when we add support for different modes of trade, those section will separatly rendered from here.
@@ -64,18 +39,6 @@ const TradeScreen = ({ route, navigation }) => {
     <SafeAreaView style={styles.container}>
       <BasicHeader title={intl.formatMessage({ id: `trade.${transferType}` })} />
       {_content}
-
-      {!!hsSignPath && (
-        <Modal
-          isOpen={showHsModal}
-          isFullScreen
-          isCloseButton
-          handleOnModalClose={_handleOnModalClose}
-          title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
-        >
-          <WebView source={{ uri: `${hsOptions.base_url}${hsSignPath}` }} />
-        </Modal>
-      )}
     </SafeAreaView>
   );
 };

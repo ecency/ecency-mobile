@@ -2,13 +2,12 @@ import React, { ComponentType, JSXElementConstructor, ReactElement, useState } f
 import { useIntl } from 'react-intl';
 import { SectionList, Text, RefreshControl, ActivityIndicator } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useQueryClient } from '@tanstack/react-query';
 import { Transaction } from '../../../components';
 import { useAppSelector } from '../../../hooks';
-import { selectIsDarkTheme, selectCurrentAccount, selectPin } from '../../../redux/selectors';
+import { selectIsDarkTheme } from '../../../redux/selectors';
 import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
-import { limitOrderCancel } from '../../../providers/hive-trade/hiveTrade';
+import { useLimitOrderCancelMutation } from '../../../providers/sdk/mutations';
 import TransferTypes from '../../../constants/transferTypes';
 
 interface ActivitiesListProps {
@@ -36,10 +35,8 @@ export const ActivitiesList = ({
 }: ActivitiesListProps) => {
   const intl = useIntl();
 
-  const queryClient = useQueryClient();
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
-  const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinHash = useAppSelector(selectPin);
+  const limitOrderCancel = useLimitOrderCancelMutation();
 
   const [cancellingTrxIndex, setCancellingTrxIndex] = useState(-1);
 
@@ -47,8 +44,7 @@ export const ActivitiesList = ({
     try {
       if (trxId) {
         setCancellingTrxIndex(trxId);
-        await limitOrderCancel(currentAccount, pinHash, trxId);
-        queryClient.invalidateQueries({ queryKey: ['wallet', 'open-orders'] });
+        await limitOrderCancel.mutateAsync({ orderId: trxId });
         setCancellingTrxIndex(-1);
       }
     } catch (err) {
