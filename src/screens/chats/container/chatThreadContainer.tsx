@@ -41,6 +41,7 @@ import {
   addMattermostReaction,
   removeMattermostReaction,
   joinMattermostChannel,
+  fetchMattermostChannels,
   fetchMattermostPinnedPosts,
   pinMattermostPost,
   unpinMattermostPost,

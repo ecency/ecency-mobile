@@ -119,7 +119,7 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
       const _marketPrice = await fetchHiveMarketRate(fromAssetSymbol);
       setMarketPrice(_marketPrice);
     } catch (err: any) {
-      Alert.alert(intl.formatMessage({ id: 'alert.market_data_load_failed' }), err.message);
+      Alert.alert(intl.formatMessage({ id: 'alert.market_data_load_failed' }), err?.message);
     } finally {
       setLoading(false);
     }
@@ -203,15 +203,17 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
       });
 
       await delay(1000);
-      const _existingPedingCount = pendingRequestsQuery.data?.length || 0;
-      const pendingRequests = await pendingRequestsQuery.refetch();
-      const _latestPendingCount = pendingRequests?.length ?? pendingRequestsQuery.data?.length ?? 0;
-      const _hasPending = _latestPendingCount !== _existingPedingCount;
+      const _existingPendingCount = pendingRequestsQuery.data?.length || 0;
+      const refetchResult = await pendingRequestsQuery.refetch();
+      const _latestPendingCount =
+        refetchResult.data?.length ?? pendingRequestsQuery.data?.length ?? 0;
+      const _hasPending = _latestPendingCount !== _existingPendingCount;
 
       onSuccess();
       _onSwapSuccess(_hasPending);
     } catch (err) {
-      Alert.alert(intl.formatMessage({ id: 'alert.swap_failed' }), err?.message);
+      const message = err instanceof Error ? err.message : String(err);
+      Alert.alert(intl.formatMessage({ id: 'alert.swap_failed' }), message);
     } finally {
       setSwapping(false);
     }
