@@ -609,6 +609,16 @@
     "something_wrong_alt": "U međuvremenu, isprobajte Ecency.com iz vašeg pretraživača",
     "same_user": "Ovaj korisnik je već dodan na listu",
     "fail": "Neuspješno!",
+    "operation_failed_with_reason": "{operation} failed: {reason}",
+    "wallet_refresh_failed": "Wallet refresh failed. Please try again.",
+    "wallet_refresh_missing_account": "Wallet refresh failed: missing account.",
+    "boost_failed": "Boost failed.",
+    "boost_failed_with_reason": "Boost failed: {reason}",
+    "add_withdraw_route_failed": "Add withdraw route failed.",
+    "remove_withdraw_route_failed": "Remove withdraw route failed.",
+    "update_tokens_failed": "Update tokens failed.",
+    "swap_failed": "Swap failed.",
+    "market_data_load_failed": "Market data load failed.",
     "close": "CLOSE",
     "update_available_title": "Dostupno ažuriranje v{version}",
     "restart_ecency": "Ponovo pokrenuti Ecency?",
@@ -670,6 +680,12 @@
     "error": "Grеška",
     "restart_ecency_desc": "Primjena promjena će zahtijevati ponovno pokretanje.",
     "key_warning": "Operacija zahtijeva aktivni ključ ili glavnu lozinku, molimo vas da se ponovo prijavite!",
+    "active_key_required_title": "Active Key Required",
+    "active_key_required_message": "The \"{operation}\" operation requires {requiredAuthority} authority. Please log in with your active private key or master password.",
+    "authorization_required_title": "Authorization Required",
+    "authorization_required_message": "The \"{operation}\" operation requires {requiredAuthority} authority. Choose an auth method:",
+    "auth_method_hiveauth": "HiveAuth",
+    "auth_method_hivesigner": "HiveSigner",
     "warning": "Upozorenje",
     "success_unfollow": "Prestanak praćenja uspješan!",
     "move_question": "Sigurni ste da želite prijeći na nacrte?"
@@ -1400,5 +1416,18 @@
     "granting": "Granting permission...",
     "success": "Posting permission granted successfully!",
     "error": "Failed to grant posting permission. Please try again."
+  },
+  "auth_upgrade": {
+    "title": "Authorization Required",
+    "description": "This operation requires {authority} authority. Choose how to sign:",
+    "key_placeholder": "Enter active private key or master password",
+    "sign_button": "Sign",
+    "hivesigner_button": "Sign with HiveSigner",
+    "hiveauth_button": "Sign with HiveAuth / Keychain",
+    "cancel": "Cancel",
+    "invalid_key": "Invalid private key or password",
+    "key_mismatch": "Key does not match account's active authority",
+    "validating": "Validating key...",
+    "or": "or"
   }
 }
