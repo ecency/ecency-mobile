@@ -48,7 +48,7 @@ import { fetchLatestAppVersion } from '../../../providers/github/github';
 import RootNavigation from '../../../navigation/rootNavigation';
 import {
   bootstrapMattermostSession,
-  fetchMattermostChannels,
+  calculateGlobalUnreadTotal,
 } from '../../../providers/chat/mattermost';
 
 // Actions
@@ -405,49 +405,6 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _getChannelUnreadTotal = (channel: any) => {
-    if (channel?.is_muted) {
-      return 0;
-    }
-
-    const unreadMentionValues = [
-      channel?.unread_mentions,
-      channel?.mention_count,
-      channel?.mentions_count,
-      channel?.mention_count_root,
-      channel?.urgent_mention_count,
-      channel?.channel_wide_mention_count,
-    ].filter((value) => Number.isFinite(value)) as number[];
-
-    const unreadMentions = unreadMentionValues.length ? Math.max(0, ...unreadMentionValues) : 0;
-
-    const unreadMessages = Number.isFinite(channel?.unread_messages)
-      ? channel.unread_messages
-      : Number.isFinite(channel?.unread_msg_count)
-      ? channel.unread_msg_count
-      : Number.isFinite(channel?.unread_count)
-      ? channel.unread_count
-      : 0;
-
-    return Math.max(0, unreadMentions) + Math.max(0, unreadMessages);
-  };
-
-  _normalizeChannels = (rawChannels: any): any[] => {
-    if (!rawChannels) {
-      return [];
-    }
-
-    if (Array.isArray(rawChannels)) {
-      return rawChannels;
-    }
-
-    if (Array.isArray(rawChannels.channels)) {
-      return rawChannels.channels;
-    }
-
-    return [];
-  };
-
   _refreshUnreadChats = async () => {
     const { dispatch, isLoggedIn, isConnected, currentAccount, pinCode } = this.props;
 
@@ -462,12 +419,7 @@ class ApplicationContainer extends Component {
 
     try {
       await bootstrapMattermostSession(currentAccount, pinCode);
-      const channels = this._normalizeChannels(await fetchMattermostChannels());
-      const unreadTotal = channels.reduce(
-        (total: number, channel: any) => total + this._getChannelUnreadTotal(channel),
-        0,
-      );
-
+      const unreadTotal = await calculateGlobalUnreadTotal();
       dispatch(updateUnreadChatCount(unreadTotal));
     } catch (error) {
       dispatch(updateUnreadChatCount(0));

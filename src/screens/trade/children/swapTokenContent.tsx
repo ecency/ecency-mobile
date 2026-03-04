@@ -188,7 +188,9 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
       expirationDate.setDate(expirationDate.getDate() + 27);
       const [expiration] = expirationDate.toISOString().split('.');
 
-      const numericOrderId = parseInt(`${OrderIdPrefix.SWAP}${Date.now().toString().slice(2)}`, 10);
+      // Hive order IDs must be uint32 (max 4,294,967,295). Prefix '9' identifies swap orders.
+      // Use last 8 digits of ms timestamp for ~27h uniqueness window (per-account, no collision risk).
+      const numericOrderId = parseInt(`${OrderIdPrefix.SWAP}${Date.now() % 100000000}`, 10);
 
       await limitOrderCreate.mutateAsync({
         amountToSell: `${amountToSell.toFixed(3)} ${fromAssetSymbol}`,

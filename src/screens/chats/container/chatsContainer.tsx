@@ -28,6 +28,8 @@ import {
   toggleMattermostChannelMute,
   leaveMattermostChannel,
   markMattermostChannelViewed,
+  normalizeMattermostChannels,
+  calculateGlobalUnreadTotal,
 } from '../../../providers/chat/mattermost';
 import { Header } from '../../../components';
 import { chatsStyles as styles } from '../styles/chats.styles';
@@ -71,18 +73,7 @@ const ChatsContainer = () => {
   // Utility Functions
   // ============================================================================
 
-  const _normalizeChannels = (rawChannels: any): any[] => {
-    if (!rawChannels) {
-      return [];
-    }
-    if (Array.isArray(rawChannels)) {
-      return rawChannels;
-    }
-    if (Array.isArray(rawChannels.channels)) {
-      return rawChannels.channels;
-    }
-    return [];
-  };
+  const _normalizeChannels = normalizeMattermostChannels;
 
   const _collectDmUserIds = (channelList: any[], knownUsers: Record<string, any>): string[] => {
     const ids = new Set<string>();
@@ -164,7 +155,8 @@ const ChatsContainer = () => {
       : 0;
 
     const unreadCount = unreadMentions || unreadMessages || 0;
-    const totalUnread = Math.max(0, unreadMentions) + Math.max(0, unreadMessages);
+    // mentions are a subset of unread messages, use max to avoid double-counting
+    const totalUnread = Math.max(unreadMentions, unreadMessages);
 
     return {
       unreadMentions,
@@ -176,18 +168,12 @@ const ChatsContainer = () => {
 
   const _refreshGlobalUnreadChatCount = useCallback(async () => {
     try {
-      const channelResponse = await fetchMattermostChannels();
-      const normalizedChannels = _normalizeChannels(channelResponse);
-      const unreadTotal = normalizedChannels.reduce((total: number, item: any) => {
-        const { totalUnread } = _getUnreadMeta(item);
-        return total + (totalUnread || 0);
-      }, 0);
-
+      const unreadTotal = await calculateGlobalUnreadTotal();
       dispatch(updateUnreadChatCount(unreadTotal));
     } catch {
       // keep existing badge value when refresh fails
     }
-  }, [_getUnreadMeta, dispatch]);
+  }, [dispatch]);
 
   // ============================================================================
   // Bootstrap and Session Management
