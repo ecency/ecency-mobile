@@ -147,9 +147,8 @@ const PowerDownScreen = ({
         setDestinationAccounts((prev) => prev.filter((item) => item.username !== account.username));
       } catch (error) {
         console.error('[PowerDown] Failed to remove destination account:', error);
-        // Optionally show user-facing error message here
         Alert.alert(
-          intl.formatMessage({ id: 'alert.fail' }),
+          intl.formatMessage({ id: 'alert.remove_withdraw_route_failed' }),
           error?.message || intl.formatMessage({ id: 'alert.error' }),
         );
       }
@@ -162,7 +161,7 @@ const PowerDownScreen = ({
       // Check if account already exists before updating state
       if (destinationAccounts.some((item) => item.username === username)) {
         Alert.alert(
-          intl.formatMessage({ id: 'alert.fail' }),
+          intl.formatMessage({ id: 'alert.add_withdraw_route_failed' }),
           intl.formatMessage({ id: 'alert.same_user' }),
         );
         return;
@@ -178,7 +177,7 @@ const PowerDownScreen = ({
       } catch (error) {
         console.error('[PowerDown] Failed to set withdraw vesting route:', error);
         Alert.alert(
-          intl.formatMessage({ id: 'alert.fail' }),
+          intl.formatMessage({ id: 'alert.add_withdraw_route_failed' }),
           error?.message || intl.formatMessage({ id: 'alert.error' }),
         );
       }

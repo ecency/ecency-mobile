@@ -1,7 +1,12 @@
-import { useBroadcastMutation, buildRecurrentTransferOp } from '@ecency/sdk';
+import {
+  useBroadcastMutation,
+  buildRecurrentTransferOp,
+  buildPointTransferOp,
+  buildTransferOp,
+  QueryKeys,
+} from '@ecency/sdk';
 import { useSelector } from 'react-redux';
 import {
-  useTransferMutation,
   useConvertMutation,
   useTransferToSavingsMutation,
   useTransferFromSavingsMutation,
@@ -9,7 +14,6 @@ import {
   useWithdrawVestingMutation,
   useDelegateVestingSharesMutation,
   useSetWithdrawVestingRouteMutation,
-  useTransferPointMutation,
   useTransferEngineTokenMutation,
   useStakeEngineTokenMutation,
   useDelegateEngineTokenMutation,
@@ -33,7 +37,29 @@ export function useTransferMutations() {
   const username = currentAccount?.name;
 
   // HIVE layer
-  const transfer = useTransferMutation();
+  const transfer = useBroadcastMutation(
+    ['wallet', 'transfer-safe'],
+    username || '',
+    ({ to, amount, memo }: { to: string; amount: string; memo: string }) => [
+      buildTransferOp(username!, to, amount, memo),
+    ],
+    async (_data, { to }) => {
+      try {
+        if (authContext?.adapter?.invalidateQueries) {
+          await authContext.adapter.invalidateQueries([
+            QueryKeys.accounts.full(username),
+            QueryKeys.accounts.full(to),
+            ['ecency-wallets', 'asset-info', username],
+            ['wallet', 'portfolio', 'v2', username],
+          ]);
+        }
+      } catch (error) {
+        console.warn('[useTransferMutations][transfer] Post-broadcast side-effect failed:', error);
+      }
+    },
+    authContext,
+    'active',
+  );
   const convert = useConvertMutation();
   const transferToSavings = useTransferToSavingsMutation();
   const transferFromSavings = useTransferFromSavingsMutation();
@@ -67,7 +93,84 @@ export function useTransferMutations() {
   );
 
   // POINTS layer
-  const transferPoint = useTransferPointMutation();
+  const transferPoint = useBroadcastMutation(
+    ['wallet', 'transfer-point-safe'],
+    username || '',
+    ({ to, amount, memo }: { to: string; amount: string; memo: string }) => [
+      buildPointTransferOp(username!, to, amount, memo),
+    ],
+    async (_data, { to }) => {
+      try {
+        if (authContext?.adapter?.invalidateQueries) {
+          await authContext.adapter.invalidateQueries([
+            QueryKeys.accounts.full(username),
+            QueryKeys.accounts.full(to),
+            ['ecency-wallets', 'asset-info', username],
+            ['wallet', 'portfolio', 'v2', username],
+          ]);
+        }
+      } catch (error) {
+        console.warn(
+          '[useTransferMutations][transferPoint] Post-broadcast side-effect failed:',
+          error,
+        );
+      }
+    },
+    authContext,
+    'active',
+  );
+
+  // Multi-recipient Points transfer — single broadcast for all destinations
+  const multiPointTransfer = useBroadcastMutation(
+    ['wallet', 'multi-transfer-point'],
+    username || '',
+    ({ destinations, amount, memo }: { destinations: string[]; amount: string; memo: string }) =>
+      destinations.map((dest) => buildPointTransferOp(username!, dest, amount, memo)),
+    async () => {
+      try {
+        if (authContext?.adapter?.invalidateQueries) {
+          await authContext.adapter.invalidateQueries([
+            QueryKeys.accounts.full(username),
+            ['ecency-wallets', 'asset-info', username],
+            ['wallet', 'portfolio', 'v2', username],
+          ]);
+        }
+      } catch (error) {
+        console.warn(
+          '[useTransferMutations][multiPointTransfer] Post-broadcast side-effect failed:',
+          error,
+        );
+      }
+    },
+    authContext,
+    'active',
+  );
+
+  // Multi-recipient HIVE transfer — single broadcast for all destinations
+  const multiTransfer = useBroadcastMutation(
+    ['wallet', 'multi-transfer'],
+    username || '',
+    ({ destinations, amount, memo }: { destinations: string[]; amount: string; memo: string }) =>
+      destinations.map((dest) => buildTransferOp(username!, dest, amount, memo)),
+    async () => {
+      try {
+        if (authContext?.adapter?.invalidateQueries) {
+          await authContext.adapter.invalidateQueries([
+            QueryKeys.accounts.full(username),
+            ['ecency-wallets', 'asset-info', username],
+            ['wallet', 'portfolio', 'v2', username],
+          ]);
+        }
+      } catch (error) {
+        console.warn(
+          '[useTransferMutations][multiTransfer] Post-broadcast side-effect failed:',
+          error,
+        );
+      }
+    },
+    authContext,
+    'active',
+  );
 
   // ENGINE layer
   const transferEngine = useTransferEngineTokenMutation();
@@ -120,6 +223,8 @@ export function useTransferMutations() {
     setWithdrawVestingRoute,
     // POINTS
     transferPoint,
+    multiPointTransfer,
+    multiTransfer,
     // ENGINE
     transferEngine,
     stakeEngine,

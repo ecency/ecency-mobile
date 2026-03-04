@@ -129,7 +129,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
 
       setLoading(false);
     } catch (err) {
-      Alert.alert('fail', err.message);
+      Alert.alert(intl.formatMessage({ id: 'alert.market_data_load_failed' }), err.message);
     }
   };
 
@@ -209,7 +209,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
           },
           onError: (error) => {
             console.error('[Swap] HiveAuth broadcast failed:', error);
-            Alert.alert('fail', error.message);
+            Alert.alert(intl.formatMessage({ id: 'alert.swap_failed' }), error.message);
             setSwapping(false);
           },
           onClose: () => {
@@ -234,7 +234,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
         setSwapping(false);
         _onSwapSuccess(_hasPending);
       } catch (err) {
-        Alert.alert('fail', err.message);
+        Alert.alert(intl.formatMessage({ id: 'alert.swap_failed' }), err.message);
         setSwapping(false);
       }
     }

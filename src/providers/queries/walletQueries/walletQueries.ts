@@ -787,9 +787,7 @@ export const useUpdateProfileTokensMutation = () => {
 
     onError: (error) => {
       Alert.alert(
-        intl.formatMessage({
-          id: 'alert.fail',
-        }),
+        intl.formatMessage({ id: 'alert.update_tokens_failed' }),
         error instanceof Error ? error.message : String(error),
       );
     },
