@@ -609,6 +609,16 @@
     "something_wrong_alt": "브라우저에서 Ecency.com을 사용해 보세요",
     "same_user": "이 사용자는 목록에 이미 추가되었습니다",
     "fail": "실패!",
+    "operation_failed_with_reason": "{operation} failed: {reason}",
+    "wallet_refresh_failed": "Wallet refresh failed. Please try again.",
+    "wallet_refresh_missing_account": "Wallet refresh failed: missing account.",
+    "boost_failed": "Boost failed.",
+    "boost_failed_with_reason": "Boost failed: {reason}",
+    "add_withdraw_route_failed": "Add withdraw route failed.",
+    "remove_withdraw_route_failed": "Remove withdraw route failed.",
+    "update_tokens_failed": "Update tokens failed.",
+    "swap_failed": "Swap failed.",
+    "market_data_load_failed": "Market data load failed.",
     "close": "CLOSE",
     "update_available_title": "버전 v{version} 업데이트하기",
     "restart_ecency": "Restart Ecency?",
@@ -670,6 +680,12 @@
     "error": "오류",
     "restart_ecency_desc": "Applying changes will require a restart.",
     "key_warning": "작업을 수행하려면 활성 키 또는 마스터 키가 필요합니다. 다시 로그인하세요!",
+    "active_key_required_title": "Active Key Required",
+    "active_key_required_message": "The \"{operation}\" operation requires {requiredAuthority} authority. Please log in with your active private key or master password.",
+    "authorization_required_title": "Authorization Required",
+    "authorization_required_message": "The \"{operation}\" operation requires {requiredAuthority} authority. Choose an auth method:",
+    "auth_method_hiveauth": "HiveAuth",
+    "auth_method_hivesigner": "HiveSigner",
     "warning": "경고",
     "success_unfollow": "팔로우를 취소하였습니다.",
     "move_question": "임시 보관함으로 이동하시겠습니까?"
@@ -1400,5 +1416,18 @@
     "granting": "Granting permission...",
     "success": "Posting permission granted successfully!",
     "error": "Failed to grant posting permission. Please try again."
+  },
+  "auth_upgrade": {
+    "title": "Authorization Required",
+    "description": "This operation requires {authority} authority. Choose how to sign:",
+    "key_placeholder": "Enter active private key or master password",
+    "sign_button": "Sign",
+    "hivesigner_button": "Sign with HiveSigner",
+    "hiveauth_button": "Sign with HiveAuth / Keychain",
+    "cancel": "Cancel",
+    "invalid_key": "Invalid private key or password",
+    "key_mismatch": "Key does not match account's active authority",
+    "validating": "Validating key...",
+    "or": "or"
   }
 }
