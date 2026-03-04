@@ -56,10 +56,7 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
         return;
       }
 
-      const normalize = (k: string) => k.replace(/^STM/, '');
-      const isMatch = accountActiveKeys.some(
-        (auth: any) => normalize(auth[0]) === normalize(derivedPubKey),
-      );
+      const isMatch = accountActiveKeys.some((auth: any) => auth[0] === derivedPubKey);
 
       if (!isMatch) {
         setError(intl.formatMessage({ id: 'auth_upgrade.key_mismatch' }));
