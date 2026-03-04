@@ -41,10 +41,10 @@ import {
   addMattermostReaction,
   removeMattermostReaction,
   joinMattermostChannel,
-  fetchMattermostChannels,
   fetchMattermostPinnedPosts,
   pinMattermostPost,
   unpinMattermostPost,
+  fetchMattermostChannels,
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
 import { signImage } from '../../../providers/hive/dhive';
@@ -1107,12 +1107,11 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           const previous = prev || 0;
           return latestTimestamp > previous ? latestTimestamp : prev;
         });
-        await _refreshGlobalUnreadChatCount();
       } catch (err) {
         // ignore view update failures so the thread still renders
       }
     },
-    [_ensureBootstrap, channelId, _refreshGlobalUnreadChatCount],
+    [_ensureBootstrap, channelId],
   );
 
   // Mark channel viewed effect
@@ -1165,8 +1164,13 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         // Screen is blurred - disable websocket
         console.log('[Chat] Screen blurred, disabling WebSocket');
         setWsEnabled(false);
+
+        // Refresh global unread count on leaving thread if user viewed messages
+        if (lastMarkedViewedAtRef.current) {
+          _refreshGlobalUnreadChatCount();
+        }
       };
-    }, [bootstrapResult, bootstrapUserId]),
+    }, [bootstrapResult, bootstrapUserId, _refreshGlobalUnreadChatCount]),
   );
 
   // Edit and reply actions

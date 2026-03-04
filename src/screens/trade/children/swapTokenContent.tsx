@@ -118,8 +118,9 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
       // TODO: update marketPrice
       const _marketPrice = await fetchHiveMarketRate(fromAssetSymbol);
       setMarketPrice(_marketPrice);
-    } catch (err: any) {
-      Alert.alert(intl.formatMessage({ id: 'alert.market_data_load_failed' }), err?.message);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      Alert.alert(intl.formatMessage({ id: 'alert.market_data_load_failed' }), message);
     } finally {
       setLoading(false);
     }
@@ -181,22 +182,17 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
     try {
       setSwapping(true);
 
-      const { amountToSell, minToRecieve } = convertSwapOptionsToLimitOrder(data);
+      const { amountToSell, minToReceive } = convertSwapOptionsToLimitOrder(data);
 
       const expirationDate = new Date(Date.now());
       expirationDate.setDate(expirationDate.getDate() + 27);
       const [expiration] = expirationDate.toISOString().split('.');
 
-      const numericOrderId = parseInt(
-        `${OrderIdPrefix.SWAP}${Math.floor(Date.now() / 1000)
-          .toString()
-          .slice(2)}`,
-        10,
-      );
+      const numericOrderId = parseInt(`${OrderIdPrefix.SWAP}${Date.now().toString().slice(2)}`, 10);
 
       await limitOrderCreate.mutateAsync({
         amountToSell: `${amountToSell.toFixed(3)} ${fromAssetSymbol}`,
-        minToReceive: `${minToRecieve.toFixed(3)} ${toAssetSymbol}`,
+        minToReceive: `${minToReceive.toFixed(3)} ${toAssetSymbol}`,
         fillOrKill: false,
         expiration,
         orderId: numericOrderId,
