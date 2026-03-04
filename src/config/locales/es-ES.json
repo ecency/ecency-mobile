@@ -1384,9 +1384,9 @@
     "settings_info": "Estos ajustes se utilizarán al leer mensajes en voz alta",
     "play": "Reproducir",
     "pause": "Pausa",
-    "language": "Language",
-    "language_auto": "Auto-detect",
-    "language_hint": "Auto-detect chooses the language based on post content"
+    "language": "Idioma",
+    "language_auto": "Autodetectar",
+    "language_hint": "Autodetectar elige el idioma basado en el contenido del post"
   },
   "posting_authority": {
     "title": "Habilitar publicación más rápida",
