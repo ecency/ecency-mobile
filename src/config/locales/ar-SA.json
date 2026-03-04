@@ -609,6 +609,16 @@
     "something_wrong_alt": "في هذا الوقت، جرب Ecency.com من متصفحك",
     "same_user": "تمت إضافة هذا المستخدم بالفعل إلى القائمة",
     "fail": "فشل!",
+    "operation_failed_with_reason": "{operation} failed: {reason}",
+    "wallet_refresh_failed": "Wallet refresh failed. Please try again.",
+    "wallet_refresh_missing_account": "Wallet refresh failed: missing account.",
+    "boost_failed": "Boost failed.",
+    "boost_failed_with_reason": "Boost failed: {reason}",
+    "add_withdraw_route_failed": "Add withdraw route failed.",
+    "remove_withdraw_route_failed": "Remove withdraw route failed.",
+    "update_tokens_failed": "Update tokens failed.",
+    "swap_failed": "Swap failed.",
+    "market_data_load_failed": "Market data load failed.",
     "close": "إغلاق",
     "update_available_title": "تحديث متوفر v{version}",
     "restart_ecency": "إعادة تشغيل Ecency؟",
@@ -670,6 +680,12 @@
     "error": "خطأ",
     "restart_ecency_desc": "سيتطلب تطبيق التغييرات إعادة التشغيل.",
     "key_warning": "العملية تتطلب مفتاح نشط أو كلمة مرور رئيسية، يرجى إعادة تسجيل الدخول!",
+    "active_key_required_title": "Active Key Required",
+    "active_key_required_message": "The \"{operation}\" operation requires {requiredAuthority} authority. Please log in with your active private key or master password.",
+    "authorization_required_title": "Authorization Required",
+    "authorization_required_message": "The \"{operation}\" operation requires {requiredAuthority} authority. Choose an auth method:",
+    "auth_method_hiveauth": "HiveAuth",
+    "auth_method_hivesigner": "HiveSigner",
     "warning": "تحذير",
     "success_unfollow": "نجح إلغاء المتابعة!",
     "move_question": "هل أنت متأكد من نقل إلى المسودات؟"
@@ -1383,7 +1399,10 @@
     "test_voice": "Test Voice",
     "settings_info": "These settings will be used when reading posts aloud",
     "play": "Play",
-    "pause": "Pause"
+    "pause": "Pause",
+    "language": "Language",
+    "language_auto": "Auto-detect",
+    "language_hint": "Auto-detect chooses the language based on post content"
   },
   "posting_authority": {
     "title": "Enable Faster Posting",
@@ -1397,5 +1416,18 @@
     "granting": "Granting permission...",
     "success": "Posting permission granted successfully!",
     "error": "Failed to grant posting permission. Please try again."
+  },
+  "auth_upgrade": {
+    "title": "Authorization Required",
+    "description": "This operation requires {authority} authority. Choose how to sign:",
+    "key_placeholder": "Enter active private key or master password",
+    "sign_button": "Sign",
+    "hivesigner_button": "Sign with HiveSigner",
+    "hiveauth_button": "Sign with HiveAuth / Keychain",
+    "cancel": "Cancel",
+    "invalid_key": "Invalid private key or password",
+    "key_mismatch": "Key does not match account's active authority",
+    "validating": "Validating key...",
+    "or": "or"
   }
 }

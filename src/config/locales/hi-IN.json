@@ -609,6 +609,16 @@
     "something_wrong_alt": "इस बीच, अपने ब्राउज़र से Ecency.com आज़माएं",
     "same_user": "इस उपयोगकर्ता को पहले ही सूची में जोड़ दिया",
     "fail": "असफल!",
+    "operation_failed_with_reason": "{operation} failed: {reason}",
+    "wallet_refresh_failed": "Wallet refresh failed. Please try again.",
+    "wallet_refresh_missing_account": "Wallet refresh failed: missing account.",
+    "boost_failed": "Boost failed.",
+    "boost_failed_with_reason": "Boost failed: {reason}",
+    "add_withdraw_route_failed": "Add withdraw route failed.",
+    "remove_withdraw_route_failed": "Remove withdraw route failed.",
+    "update_tokens_failed": "Update tokens failed.",
+    "swap_failed": "Swap failed.",
+    "market_data_load_failed": "Market data load failed.",
     "close": "CLOSE",
     "update_available_title": "अपडेट उपलब्ध v{version}",
     "restart_ecency": "इसेंसी फिर से शुरू करें?",
@@ -670,6 +680,12 @@
     "error": "त्रुटि",
     "restart_ecency_desc": "परिवर्तनों को लागू करने के लिए पुनः आरंभ करने की आवश्यकता होगी।",
     "key_warning": "ऑपरेशन के लिए सक्रिय कुंजी या मास्टर पासवर्ड की आवश्यकता होती है, कृपया पुनः लोड करें!",
+    "active_key_required_title": "Active Key Required",
+    "active_key_required_message": "The \"{operation}\" operation requires {requiredAuthority} authority. Please log in with your active private key or master password.",
+    "authorization_required_title": "Authorization Required",
+    "authorization_required_message": "The \"{operation}\" operation requires {requiredAuthority} authority. Choose an auth method:",
+    "auth_method_hiveauth": "HiveAuth",
+    "auth_method_hivesigner": "HiveSigner",
     "warning": "चेतावनी",
     "success_unfollow": "असफल सफलता!",
     "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?"
@@ -1383,7 +1399,10 @@
     "test_voice": "Test Voice",
     "settings_info": "These settings will be used when reading posts aloud",
     "play": "Play",
-    "pause": "Pause"
+    "pause": "Pause",
+    "language": "Language",
+    "language_auto": "Auto-detect",
+    "language_hint": "Auto-detect chooses the language based on post content"
   },
   "posting_authority": {
     "title": "Enable Faster Posting",
@@ -1397,5 +1416,18 @@
     "granting": "Granting permission...",
     "success": "Posting permission granted successfully!",
     "error": "Failed to grant posting permission. Please try again."
+  },
+  "auth_upgrade": {
+    "title": "Authorization Required",
+    "description": "This operation requires {authority} authority. Choose how to sign:",
+    "key_placeholder": "Enter active private key or master password",
+    "sign_button": "Sign",
+    "hivesigner_button": "Sign with HiveSigner",
+    "hiveauth_button": "Sign with HiveAuth / Keychain",
+    "cancel": "Cancel",
+    "invalid_key": "Invalid private key or password",
+    "key_mismatch": "Key does not match account's active authority",
+    "validating": "Validating key...",
+    "or": "or"
   }
 }
