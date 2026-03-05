@@ -104,7 +104,6 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
       id={sheetId}
       gestureEnabled={false}
       closeOnTouchBackdrop={false}
-      onClose={_handleCancel}
       containerStyle={styles.sheetContainer}
     >
       <View style={styles.container}>

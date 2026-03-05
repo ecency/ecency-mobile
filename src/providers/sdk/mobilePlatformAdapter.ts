@@ -2,6 +2,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { getAccountFullQueryOptions } from '@ecency/sdk';
 import type { PlatformAdapter } from '@ecency/sdk';
 import type { Operation, TransactionConfirmation } from '@hiveio/dhive';
+import * as hiveuri from 'hive-uri';
 import { store } from '../../redux/store/store';
 import { toastNotification } from '../../redux/actions/uiAction';
 import {
@@ -12,6 +13,8 @@ import {
 } from '../hive/dhive';
 import { decryptKey } from '../../utils/crypto';
 import { mapAuthTypeToLoginType } from '../../utils/authMapper';
+import RootNavigation from '../../navigation/rootNavigation';
+import ROUTES from '../../constants/routeNames';
 
 // --- Temp active key storage (mirrors website's auth-upgrade-events.ts pattern) ---
 let _tempActiveKey: string | null = null;
@@ -173,6 +176,32 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       const currentAccount = state.account?.currentAccount;
       const opName = ops.length > 0 ? (ops[0][0] as string) : 'unknown';
       return handleHiveAuthFallback(currentAccount, ops, opName);
+    },
+
+    broadcastWithHiveSigner: async (
+      _username: string,
+      ops: Operation[],
+      _keyType: 'posting' | 'active' | 'owner' | 'memo',
+    ): Promise<TransactionConfirmation> => {
+      // Encode operations as hive-uri for HiveSigner hot signing WebView
+      const encodedUri = hiveuri.encodeOps(ops);
+
+      return new Promise<TransactionConfirmation>((resolve, reject) => {
+        RootNavigation.navigate({
+          name: ROUTES.MODALS.HIVE_SIGNER,
+          params: {
+            hiveuri: encodedUri,
+            opsArray: ops,
+            onSuccess: () => {
+              // HiveSigner WebView confirms via URL redirect, no tx confirmation returned
+              resolve({} as TransactionConfirmation);
+            },
+            onClose: () => {
+              reject(new Error('HiveSigner signing cancelled'));
+            },
+          },
+        });
+      });
     },
 
     showError: (message: string) => {
