@@ -125,20 +125,22 @@ const TransferView = ({
           executions: isRecurrentTransfer ? +executions : null,
         });
         SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
-          payload: {
-            operations: opArray,
-            onSuccess: () => {
+          payload: { operations: opArray },
+        })
+          .then((response) => {
+            if (response?.success) {
               handleOnModalClose();
-            },
-            onError: (error) => {
-              console.error('[Transfer] HiveAuth broadcast failed:', error);
+            } else {
+              if (response?.error) {
+                console.error('[Transfer] HiveAuth broadcast failed:', response.error);
+              }
               setIsTransfering(false);
-            },
-            onClose: () => {
-              setIsTransfering(false);
-            },
-          },
-        });
+            }
+          })
+          .catch((error) => {
+            console.error('[Transfer] HiveAuth broadcast failed:', error);
+            setIsTransfering(false);
+          });
       } else {
         transferToAccount(
           from,

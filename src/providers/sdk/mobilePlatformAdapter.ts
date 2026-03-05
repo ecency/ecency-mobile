@@ -211,12 +211,13 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       requiredAuthority: 'posting' | 'active',
       operation: string,
     ): Promise<'hiveauth' | 'hivesigner' | 'keychain' | 'key' | false> => {
-      const { SheetManager, SheetNames } = await getSheetDeps();
       const state = store.getState();
       const currentAccount = state.account?.currentAccount;
       const username = currentAccount?.name || currentAccount?.username || '';
 
       try {
+        const { SheetManager, SheetNames } = await getSheetDeps();
+
         // SheetManager.show() returns a promise that resolves with the value
         // passed to SheetManager.hide(id, { payload: value }) when the sheet closes.
         // This avoids callback-based races where onClose fires from a previous

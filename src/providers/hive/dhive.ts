@@ -199,11 +199,12 @@ export const handleHiveAuthFallback = async (
       'falling back to HiveAuth broadcast',
   );
 
-  const { SheetManager, SheetNames } = await getSheetDeps();
   const timeoutMs = 180000; // 3 minutes — HiveAuth requires switching to keychain app
   let timeoutId: NodeJS.Timeout;
 
   try {
+    const { SheetManager, SheetNames } = await getSheetDeps();
+
     // SheetManager.show() returns a promise that resolves when SheetManager.hide()
     // is called from the sheet component. The result is passed as hide()'s payload.
     // This ensures the caller receives the result AFTER the sheet and its reanimated
