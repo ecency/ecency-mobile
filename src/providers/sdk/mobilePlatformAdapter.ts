@@ -216,21 +216,20 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       const currentAccount = state.account?.currentAccount;
       const username = currentAccount?.name || currentAccount?.username || '';
 
-      return new Promise((resolve) => {
-        SheetManager.show(SheetNames.AUTH_UPGRADE, {
-          payload: {
-            requiredAuthority,
-            operation,
-            username,
-            onMethodSelected: (method: 'key' | 'hivesigner' | 'hiveauth' | false) => {
-              resolve(method);
-            },
-          },
-        }).catch((sheetError: any) => {
-          console.error('[showAuthUpgradeUI] Failed to show sheet:', sheetError);
-          resolve(false);
+      try {
+        // SheetManager.show() returns a promise that resolves with the value
+        // passed to SheetManager.hide(id, { payload: value }) when the sheet closes.
+        // This avoids callback-based races where onClose fires from a previous
+        // close animation and resolves the wrong promise.
+        const result = await SheetManager.show(SheetNames.AUTH_UPGRADE, {
+          payload: { requiredAuthority, operation, username },
         });
-      });
+        // result is undefined when user dismisses via backdrop tap
+        return result || false;
+      } catch (sheetError: any) {
+        console.error('[showAuthUpgradeUI] Failed to show sheet:', sheetError);
+        return false;
+      }
     },
   };
 }

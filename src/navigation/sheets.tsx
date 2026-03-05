@@ -133,10 +133,8 @@ declare module 'react-native-actions-sheet' {
     [SheetNames.HIVE_AUTH_BROADCAST]: SheetDefinition<{
       payload: {
         operations: Operation[];
-        onSuccess?: (result: any) => void;
-        onError?: (error: Error) => void;
-        onClose?: (error: Error) => void;
       };
+      returnValue: { success: true; result: any } | { success: false; error: Error };
     }>;
     [SheetNames.EMOJI_PICKER]: SheetDefinition<{
       payload: {
@@ -148,8 +146,8 @@ declare module 'react-native-actions-sheet' {
         requiredAuthority: 'posting' | 'active';
         operation: string;
         username: string;
-        onMethodSelected: (method: 'key' | 'hivesigner' | 'hiveauth' | false) => void;
       };
+      returnValue: 'key' | 'hivesigner' | 'hiveauth' | false;
     }>;
   }
 }
