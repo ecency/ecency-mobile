@@ -153,7 +153,9 @@
     "translate": "Translate",
     "voice": "Voice",
     "boost": "推薦",
-    "pin-community": "置頂于社群"
+    "pin-community": "置頂于社群",
+    "pin-reply": "Pin comment",
+    "unpin-reply": "Unpin comment"
   },
   "side_menu": {
     "profile": "個人檔案",
