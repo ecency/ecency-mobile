@@ -15,7 +15,7 @@ export interface ActionModalRef {
 }
 
 interface ActionModalViewProps {
-  onClose: () => void;
+  onClose: (returnValue?: string) => void;
   data: ActionModalPayload;
 }
 
@@ -56,8 +56,8 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps) => {
               key={props.text}
               text={props.textId ? intl.formatMessage({ id: props.textId }) : props.text}
               onPress={(evn) => {
-                onClose();
-                props.onPress(evn);
+                onClose(props.returnValue ?? props.textId ?? props.text);
+                props.onPress?.(evn);
               }}
               style={props?.type === ButtonTypes.CANCEL ? styles.cancel : styles.button}
               textStyle={props?.type === ButtonTypes.CANCEL ? styles.cancelBtnText : styles.btnText}

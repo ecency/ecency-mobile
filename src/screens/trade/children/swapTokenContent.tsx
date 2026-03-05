@@ -218,8 +218,8 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
   };
 
   // prompts user to verify swap action;
-  const handleContinue = () => {
-    SheetManager.show(SheetNames.ACTION_MODAL, {
+  const handleContinue = async () => {
+    const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
       payload: {
         title: intl.formatMessage({ id: 'trade.confirm_swap' }),
         body: intl.formatMessage(
@@ -232,14 +232,16 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
         buttons: [
           {
             textId: 'alert.cancel',
-            onPress: () => {
-              console.log('cancel pressed');
-            },
+            returnValue: 'cancel',
           },
-          { textId: 'alert.confirm', onPress: _confirmSwap },
+          { textId: 'alert.confirm', returnValue: 'confirm' },
         ],
       },
     });
+
+    if (action === 'confirm') {
+      _confirmSwap();
+    }
   };
 
   // refreshes wallet data and market rate

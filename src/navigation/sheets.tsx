@@ -80,6 +80,7 @@ declare module 'react-native-actions-sheet' {
     }>;
     [SheetNames.ACTION_MODAL]: SheetDefinition<{
       payload: ActionModalPayload;
+      returnValue: string | undefined;
     }>;
     [SheetNames.ACCOUNTS_SHEET]: SheetDefinition;
     [SheetNames.QR_SCAN]: SheetDefinition;

@@ -13,6 +13,7 @@ export enum ButtonTypes {
 interface ExtendedAlertButton extends AlertButton {
   textId?: string;
   type?: ButtonTypes;
+  returnValue?: string;
 }
 
 export interface ActionModalPayload {
@@ -27,11 +28,11 @@ export interface ActionModalPayload {
 }
 
 const ActionModalContainer = ({ payload }: SheetProps<SheetNames.ACTION_MODAL>) => {
-  const _onClose = () => {
+  const _onClose = (returnValue?: string) => {
     if (payload?.onClosed) {
       payload.onClosed();
     }
-    SheetManager.hide(SheetNames.ACTION_MODAL);
+    SheetManager.hide(SheetNames.ACTION_MODAL, { payload: returnValue });
   };
 
   if (!payload) {
