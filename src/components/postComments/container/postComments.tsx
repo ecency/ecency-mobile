@@ -42,6 +42,7 @@ const PostComments = forwardRef(
       author,
       permlink,
       mainAuthor,
+      pinnedReply,
       postContentView,
       isPostLoading,
       onRefresh,
@@ -82,8 +83,8 @@ const PostComments = forwardRef(
     const headerHeightRef = useRef(0);
 
     const sortedSections = useMemo(
-      () => sortComments(selectedFilter, discussionQuery.sectionedData),
-      [discussionQuery.sectionedData, selectedFilter],
+      () => sortComments(selectedFilter, discussionQuery.sectionedData, pinnedReply),
+      [discussionQuery.sectionedData, selectedFilter, pinnedReply],
     );
     const listData = useMemo(() => {
       if (isPostLoading) {
