@@ -89,27 +89,22 @@ export const useActiveKeyOperation = () => {
         // For HiveAuth, use the bottom sheet for consistent UX.
         // SheetManager.show() resolves AFTER the sheet is fully hidden,
         // with the result passed via SheetManager.hide(id, { payload }).
-        try {
-          const response = await SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
-            payload: { operations },
-          });
+        const response = await SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
+          payload: { operations },
+        });
 
-          if (response?.success) {
-            callbacks?.onSuccess?.();
-            return response.result;
-          } else if (response?.success === false) {
-            const error = response.error || new Error('HiveAuth broadcast failed');
-            callbacks?.onError?.(error);
-            throw error;
-          } else {
-            // undefined = user dismissed the sheet
-            const error = new Error('Operation cancelled by user');
-            callbacks?.onClose?.();
-            callbacks?.onError?.(error);
-            throw error;
-          }
-        } catch (error) {
-          callbacks?.onError?.(error as Error);
+        if (response?.success) {
+          callbacks?.onSuccess?.();
+          return response.result;
+        } else if (response?.success === false) {
+          const error = response.error || new Error('HiveAuth broadcast failed');
+          callbacks?.onError?.(error);
+          throw error;
+        } else {
+          // undefined = user dismissed the sheet
+          const error = new Error('Operation cancelled by user');
+          callbacks?.onClose?.();
+          callbacks?.onError?.(error);
           throw error;
         }
       } else if (authType === AUTH_TYPE.STEEM_CONNECT) {

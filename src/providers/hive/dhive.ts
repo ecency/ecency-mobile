@@ -200,7 +200,7 @@ export const handleHiveAuthFallback = async (
   );
 
   const timeoutMs = 180000; // 3 minutes — HiveAuth requires switching to keychain app
-  let timeoutId: NodeJS.Timeout;
+  let timeoutId: NodeJS.Timeout | undefined;
 
   try {
     const { SheetManager, SheetNames } = await getSheetDeps();
@@ -233,7 +233,7 @@ export const handleHiveAuthFallback = async (
       throw new Error('HiveAuth broadcast was dismissed');
     }
   } finally {
-    clearTimeout(timeoutId!);
+    clearTimeout(timeoutId);
     _activeFallbacks.delete(fallbackKey);
   }
 };
