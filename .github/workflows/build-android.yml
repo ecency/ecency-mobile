@@ -105,6 +105,18 @@ jobs:
           TIMESTAMP=$(date +%s)
           echo "Setting version code to: $TIMESTAMP"
           sed -i '' "s/versionCode .*/versionCode $TIMESTAMP/" android/app/build.gradle
+          echo "ANDROID_VERSION_CODE=$TIMESTAMP" >> $GITHUB_ENV
+
+      - name: Resolve Android Sentry release metadata
+        run: |
+          APPLICATION_ID=$(ruby -e "c=File.read('android/app/build.gradle'); m=c.match(/applicationId\\s+['\\\"]([^'\\\"]+)['\\\"]/); puts(m && m[1] ? m[1] : 'app.esteem.mobile.android')")
+          VERSION_NAME=$(node -p "require('./package.json').version")
+          DIST="${ANDROID_VERSION_CODE}"
+          RELEASE="${APPLICATION_ID}@${VERSION_NAME}+${DIST}"
+          echo "SENTRY_RELEASE=$RELEASE" >> $GITHUB_ENV
+          echo "SENTRY_DIST=$DIST" >> $GITHUB_ENV
+          echo "Using Sentry release: $RELEASE"
+          echo "Using Sentry dist: $DIST"
 
       - name: Bundle Android
         run: yarn run bundle:android
@@ -118,17 +130,15 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |
-          VERSION=$(node -p "require('./package.json').version")
-          DIST=$(date +%s)
           BUNDLE_PATH=android/app/src/main/assets/index.android.bundle
           MAP_PATH=android/app/src/main/assets/index.android.bundle.map
-          npx sentry-cli releases new "$VERSION-$DIST" --org ecency --project ecency-mobile
-          npx sentry-cli releases files "$VERSION-$DIST" upload-sourcemaps \
-            --dist "$DIST" \
+          npx sentry-cli releases new "$SENTRY_RELEASE" --org ecency --project ecency-mobile
+          npx sentry-cli releases files "$SENTRY_RELEASE" upload-sourcemaps \
+            --dist "$SENTRY_DIST" \
             --org ecency --project ecency-mobile \
             --rewrite \
             "$BUNDLE_PATH" "$MAP_PATH"
-          npx sentry-cli releases finalize "$VERSION-$DIST" --org ecency --project ecency-mobile
+          npx sentry-cli releases finalize "$SENTRY_RELEASE" --org ecency --project ecency-mobile
 
       - name: Upload APK application
         uses: actions/upload-artifact@v4
