@@ -153,7 +153,9 @@
     "translate": "Translate",
     "voice": "Voice",
     "boost": "ブースト",
-    "pin-community": "Pin to community"
+    "pin-community": "Pin to community",
+    "pin-reply": "Pin comment",
+    "unpin-reply": "Unpin comment"
   },
   "side_menu": {
     "profile": "プロフィール",
