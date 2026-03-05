@@ -1,4 +1,4 @@
-export const sortComments = (sortOrder = 'trending', _comments) => {
+export const sortComments = (sortOrder = 'trending', _comments, pinnedReply?: string) => {
   if (!Array.isArray(_comments) || _comments.length === 0) {
     return _comments;
   }
@@ -112,13 +112,36 @@ export const sortComments = (sortOrder = 'trending', _comments) => {
     }
   }
 
-  if (!needsSort) {
+  if (!needsSort && !pinnedReply) {
+    return _comments;
+  }
+
+  if (!needsSort && pinnedReply) {
+    // No sort needed but pinned reply must be moved to front
+    const pinnedIndex = _comments.findIndex((c) => `${c.author}/${c.permlink}` === pinnedReply);
+    if (pinnedIndex > 0) {
+      const result = [..._comments];
+      const [pinned] = result.splice(pinnedIndex, 1);
+      result.unshift(pinned);
+      return result;
+    }
     return _comments;
   }
 
   // Only create new array if sorting is needed
   const sortedComments = [..._comments];
   sortedComments.sort(sorter);
+
+  // Move pinned reply to the front (matches web SDK sortDiscussions pattern)
+  if (pinnedReply) {
+    const pinnedIndex = sortedComments.findIndex(
+      (c) => `${c.author}/${c.permlink}` === pinnedReply,
+    );
+    if (pinnedIndex > 0) {
+      const [pinned] = sortedComments.splice(pinnedIndex, 1);
+      sortedComments.unshift(pinned);
+    }
+  }
 
   return sortedComments;
 };

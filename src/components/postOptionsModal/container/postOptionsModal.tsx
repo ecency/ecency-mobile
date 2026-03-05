@@ -16,6 +16,7 @@ import {
   usePinPostMutation,
   useAccountUpdateMutation,
   useIgnoreUserMutation,
+  useUpdateReplyMutation,
 } from '../../../providers/sdk/mutations';
 import { addReport } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
@@ -78,6 +79,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   const pinPostMutation = usePinPostMutation();
   const accountUpdateMutation = useAccountUpdateMutation();
   const ignoreUserMutation = useIgnoreUserMutation();
+  const updateReplyMutation = useUpdateReplyMutation();
   const isPinCodeOpen = useAppSelector(selectIsPinCodeOpen);
   const subscribedCommunities = useAppSelector((state) => state.communities.subscribedCommunities);
 
@@ -183,6 +185,19 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
     const _isReblogged = _isOwnProfileReblog || _isRebloggedFromField || _isRebloggedFromQuery;
 
+    // Pin reply: only for depth-1 comments when current user is the post author
+    const _isDirectReply = content?.depth === 1;
+    const _canPinReply = _isDirectReply && currentAccount?.name === content.parent_author;
+    const _observer = currentAccount?.name || currentAccount?.username;
+    const _parentPostData = _canPinReply
+      ? queryClient.getQueryData(
+          getPostQueryOptions(content.parent_author, content.parent_permlink, _observer).queryKey,
+        )
+      : null;
+    const _isPinnedReply =
+      (_parentPostData as any)?.json_metadata?.pinned_reply ===
+      `${content.author}/${content.permlink}`;
+
     // cook options list based on collected flags
     const _options = OPTIONS.filter((option) => {
       switch (option) {
@@ -198,6 +213,10 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
           return _canUpdateCommunityPin && !_isPinnedInCommunity;
         case 'unpin-community':
           return _canUpdateCommunityPin && _isPinnedInCommunity;
+        case 'pin-reply':
+          return _canPinReply && !_isPinnedReply;
+        case 'unpin-reply':
+          return _canPinReply && _isPinnedReply;
         case 'translate':
           return isVisibleTranslateModal;
         case 'delete-post':
@@ -517,6 +536,44 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     }
   };
 
+  const _updatePinnedReply = async ({ unpin }: { unpin: boolean } = { unpin: false }) => {
+    const observer = currentAccount?.name || currentAccount?.username;
+    const parentPost = queryClient.getQueryData(
+      getPostQueryOptions(content.parent_author, content.parent_permlink, observer).queryKey,
+    ) as any;
+
+    if (!parentPost) {
+      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), 'Parent post not found');
+      return;
+    }
+
+    const newJsonMetadata = {
+      ...parentPost.json_metadata,
+      pinned_reply: unpin ? undefined : `${content.author}/${content.permlink}`,
+    };
+
+    try {
+      await updateReplyMutation.mutateAsync({
+        author: content.parent_author,
+        permlink: content.parent_permlink,
+        parentAuthor: parentPost.parent_author || '',
+        parentPermlink: parentPost.parent_permlink || parentPost.category,
+        title: parentPost.title || '',
+        body: parentPost.body,
+        jsonMetadata: newJsonMetadata,
+      });
+
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+
+      queryClient.invalidateQueries({
+        queryKey: getPostQueryOptions(content.parent_author, content.parent_permlink, observer)
+          .queryKey,
+      });
+    } catch (err) {
+      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), get(err, 'message') || String(err));
+    }
+  };
+
   const _redirectToReply = () => {
     if (isLoggedIn) {
       navigation.navigate({
@@ -622,6 +679,12 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         break;
       case 'unpin-community':
         _updatePinnedPostCommunity({ unpinPost: true });
+        break;
+      case 'pin-reply':
+        _updatePinnedReply();
+        break;
+      case 'unpin-reply':
+        _updatePinnedReply({ unpin: true });
         break;
       case 'edit-history':
         navigation.navigate({

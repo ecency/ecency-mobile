@@ -119,6 +119,7 @@ class PostHeaderDescription extends PureComponent {
       content,
       tagOnPress,
       isShowOwnerIndicator,
+      isShowPinnedIndicator,
       isPromoted,
       intl,
       inlineTime,
@@ -159,6 +160,10 @@ class PostHeaderDescription extends PureComponent {
 
               {isShowOwnerIndicator && (
                 <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
+              )}
+
+              {isShowPinnedIndicator && (
+                <Icon style={styles.pushPinIcon} name="pin" iconType="MaterialCommunityIcons" />
               )}
 
               {showDotMenuButton && (

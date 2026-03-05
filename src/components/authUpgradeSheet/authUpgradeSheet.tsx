@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, TextInput } from 'react-native';
 import { useIntl } from 'react-intl';
-import ActionSheet, { SheetProps } from 'react-native-actions-sheet';
+import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useAppSelector } from '../../hooks';
 import { selectCurrentAccount } from '../../redux/selectors';
@@ -16,27 +16,26 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
   const [keyInput, setKeyInput] = useState('');
   const [error, setError] = useState('');
   const [isValidating, setIsValidating] = useState(false);
-  const resolvedRef = useRef(false);
+  const closedRef = useRef(false);
 
-  // Keep a ref to the current payload so _resolve always calls the latest callback.
-  // This prevents stale onClose events from resolving a newer invocation's promise.
-  const payloadRef = useRef(payload);
-  payloadRef.current = payload;
-
-  // Reset state when the sheet is shown with a new payload (component stays mounted
-  // across invocations because react-native-actions-sheet reuses registered sheets).
+  // Reset state when sheet is invoked with new payload.
+  // react-native-actions-sheet keeps registered sheets mounted, so state persists
+  // between invocations unless explicitly reset.
   useEffect(() => {
-    resolvedRef.current = false;
+    closedRef.current = false;
     setKeyInput('');
     setError('');
     setIsValidating(false);
   }, [payload]);
 
-  const _resolve = (method: 'key' | 'hivesigner' | 'hiveauth' | false) => {
-    if (resolvedRef.current) return;
-    resolvedRef.current = true;
-    payloadRef.current?.onMethodSelected?.(method);
-    ActionSheet.hide(sheetId);
+  // Hide sheet and return the selected method to the caller.
+  // SheetManager.hide resolves the SheetManager.show() promise with the payload,
+  // so the caller (mobilePlatformAdapter.showAuthUpgradeUI) receives the result
+  // AFTER the sheet is fully hidden — no animation race conditions.
+  const _close = (method: 'key' | 'hivesigner' | 'hiveauth' | false) => {
+    if (closedRef.current) return;
+    closedRef.current = true;
+    SheetManager.hide(sheetId, { payload: method });
   };
 
   const _handleSignWithKey = async () => {
@@ -80,7 +79,7 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
 
       // Store the WIF for the adapter's getActiveKey to pick up
       setTempActiveKey(privateKeys.activeKey.toString());
-      _resolve('key');
+      _close('key');
     } catch (e) {
       setError(intl.formatMessage({ id: 'auth_upgrade.invalid_key' }));
     } finally {
@@ -89,15 +88,15 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
   };
 
   const _handleHiveSigner = () => {
-    _resolve('hivesigner');
+    _close('hivesigner');
   };
 
   const _handleHiveAuth = () => {
-    _resolve('hiveauth');
+    _close('hiveauth');
   };
 
-  const _handleClose = () => {
-    _resolve(false);
+  const _handleCancel = () => {
+    _close(false);
   };
 
   return (
@@ -105,7 +104,6 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
       id={sheetId}
       gestureEnabled={!isValidating}
       closeOnTouchBackdrop={!isValidating}
-      onClose={_handleClose}
       containerStyle={styles.sheetContainer}
     >
       <View style={styles.container}>
@@ -185,7 +183,7 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
 
         {/* Cancel */}
         <MainButton
-          onPress={_handleClose}
+          onPress={_handleCancel}
           isDisable={isValidating}
           text={intl.formatMessage({ id: 'auth_upgrade.cancel' })}
           style={styles.cancelButton}

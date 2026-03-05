@@ -43,6 +43,7 @@ const CommentView = ({
   handleImagePress,
   handleYoutubePress,
   handleVideoPress,
+  isPinned,
   mainAuthor = '',
   openReplyThread,
   repliesToggle,
@@ -305,6 +306,7 @@ const CommentView = ({
           size={avatarSize || 40}
           currentAccountUsername={_currentUsername}
           isShowOwnerIndicator={mainAuthor === comment.author}
+          isShowPinnedIndicator={isPinned}
           isHideImage={isHideImage}
           inlineTime={true}
           customStyle={{ alignItems: 'flex-start', paddingLeft: 12 }}
@@ -328,6 +330,7 @@ export default memo(CommentView, (prev, next) => {
     prev.comment === next.comment &&
     prev.repliesToggle === next.repliesToggle &&
     prev.commentNumber === next.commentNumber &&
+    prev.isPinned === next.isPinned &&
     prev.mainAuthor === next.mainAuthor &&
     prev.currentAccountUsername === next.currentAccountUsername
   );

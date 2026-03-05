@@ -462,6 +462,7 @@ const PostDisplayView = ({
           author={author || post?.author}
           mainAuthor={author || post?.author}
           permlink={permlink || post?.permlink}
+          pinnedReply={post?.json_metadata?.pinned_reply}
           commentCount={post?.children}
           fetchPost={fetchPost}
           handleOnVotersPress={handleOnVotersPress}

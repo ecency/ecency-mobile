@@ -86,39 +86,26 @@ export const useActiveKeyOperation = () => {
 
       // Route based on auth type
       if (authType === AUTH_TYPE.HIVE_AUTH) {
-        // For HiveAuth, use the bottom sheet for consistent UX
-        return new Promise((resolve, reject) => {
-          try {
-            SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
-              payload: {
-                operations,
-                onSuccess: (result) => {
-                  callbacks?.onSuccess?.();
-                  resolve(result);
-                },
-                onError: (error) => {
-                  callbacks?.onError?.(error);
-                  reject(error);
-                },
-                onClose: (error) => {
-                  // Normalize to concrete Error instance (sheet may pass undefined or string)
-                  const normalizedError =
-                    error instanceof Error
-                      ? error
-                      : new Error(
-                          typeof error === 'string' ? error : 'Operation cancelled by user',
-                        );
-                  callbacks?.onClose?.();
-                  callbacks?.onError?.(normalizedError);
-                  reject(normalizedError);
-                },
-              },
-            });
-          } catch (error) {
-            callbacks?.onError?.(error as Error);
-            reject(error);
-          }
+        // For HiveAuth, use the bottom sheet for consistent UX.
+        // SheetManager.show() resolves AFTER the sheet is fully hidden,
+        // with the result passed via SheetManager.hide(id, { payload }).
+        const response = await SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
+          payload: { operations },
         });
+
+        if (response?.success) {
+          callbacks?.onSuccess?.();
+        } else if (response?.success === false) {
+          const error = response.error || new Error('HiveAuth broadcast failed');
+          callbacks?.onError?.(error);
+          throw error;
+        } else {
+          // undefined = user dismissed the sheet
+          const error = new Error('Operation cancelled by user');
+          callbacks?.onClose?.();
+          callbacks?.onError?.(error);
+          throw error;
+        }
       } else if (authType === AUTH_TYPE.STEEM_CONNECT) {
         // For HiveSigner, navigate to full-screen modal with WebView
         return new Promise((resolve, reject) => {
