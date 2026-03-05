@@ -153,7 +153,9 @@
     "translate": "Translate",
     "voice": "Voice",
     "boost": "kuchaytirish",
-    "pin-community": "Guruhga qadash"
+    "pin-community": "Guruhga qadash",
+    "pin-reply": "Pin comment",
+    "unpin-reply": "Unpin comment"
   },
   "side_menu": {
     "profile": "Profil",
