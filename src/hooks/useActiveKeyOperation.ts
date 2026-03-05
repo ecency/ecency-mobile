@@ -95,7 +95,6 @@ export const useActiveKeyOperation = () => {
 
         if (response?.success) {
           callbacks?.onSuccess?.();
-          return response.result;
         } else if (response?.success === false) {
           const error = response.error || new Error('HiveAuth broadcast failed');
           callbacks?.onError?.(error);
