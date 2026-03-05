@@ -153,7 +153,9 @@
     "translate": "Перевод",
     "voice": "Voice",
     "boost": "усилить",
-    "pin-community": "Закрепить в сообществе"
+    "pin-community": "Закрепить в сообществе",
+    "pin-reply": "Pin comment",
+    "unpin-reply": "Unpin comment"
   },
   "side_menu": {
     "profile": "Профиль",
