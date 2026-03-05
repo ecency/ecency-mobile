@@ -396,6 +396,7 @@ const PostComments = forwardRef(
             item={item}
             index={index}
             hiddenCommentKeys={hiddenCommentKeys}
+            pinnedReply={pinnedReply}
             mainAuthor={mainAuthor}
             handleDeleteComment={_handleDeleteComment}
             handleOnEditPress={_handleOnEditPress}
@@ -414,6 +415,7 @@ const PostComments = forwardRef(
       },
       [
         mainAuthor,
+        pinnedReply,
         hiddenCommentKeys,
         _handleDeleteComment,
         _handleOnEditPress,

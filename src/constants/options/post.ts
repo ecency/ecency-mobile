@@ -10,6 +10,8 @@ export default [
   'unpin-blog',
   'pin-community',
   'unpin-community',
+  'pin-reply',
+  'unpin-reply',
   'edit-history',
   'share',
   'bookmarks',

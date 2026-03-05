@@ -4,7 +4,7 @@ import Animated, { LinearTransition, Easing } from 'react-native-reanimated';
 import { useLayoutState, useMappingHelper } from '@shopify/flash-list';
 import { Comment } from '../..';
 
-export const CommentsSection = ({ item, hiddenCommentKeys, ...props }) => {
+export const CommentsSection = ({ item, hiddenCommentKeys, pinnedReply, ...props }) => {
   const { getMappingKey } = useMappingHelper();
   const [toggle, setToggle] = useLayoutState(false);
   const isHidden = (comment: any) =>
@@ -32,6 +32,7 @@ export const CommentsSection = ({ item, hiddenCommentKeys, ...props }) => {
       <View key={getMappingKey(commentItem.commentKey, index)}>
         <Comment
           comment={commentItem}
+          isPinned={`${commentItem.author}/${commentItem.permlink}` === pinnedReply}
           repliesToggle={toggle}
           handleOnToggleReplies={() => {
             setToggle(!toggle);
