@@ -153,7 +153,9 @@
     "translate": "Traduire",
     "voice": "Voice",
     "boost": "accélérer",
-    "pin-community": "Épingler à la communauté"
+    "pin-community": "Épingler à la communauté",
+    "pin-reply": "Pin comment",
+    "unpin-reply": "Unpin comment"
   },
   "side_menu": {
     "profile": "Profil",
