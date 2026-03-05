@@ -187,11 +187,11 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
     // Pin reply: only for depth-1 comments when current user is the post author
     const _isDirectReply = content?.depth === 1;
-    const _canPinReply = _isDirectReply && currentAccount.name === content.parent_author;
+    const _canPinReply = _isDirectReply && currentAccount?.name === content.parent_author;
+    const _observer = currentAccount?.name || currentAccount?.username;
     const _parentPostData = _canPinReply
       ? queryClient.getQueryData(
-          getPostQueryOptions(content.parent_author, content.parent_permlink, currentAccount?.name)
-            .queryKey,
+          getPostQueryOptions(content.parent_author, content.parent_permlink, _observer).queryKey,
         )
       : null;
     const _isPinnedReply =
@@ -537,9 +537,9 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   };
 
   const _updatePinnedReply = async ({ unpin }: { unpin: boolean } = { unpin: false }) => {
+    const observer = currentAccount?.name || currentAccount?.username;
     const parentPost = queryClient.getQueryData(
-      getPostQueryOptions(content.parent_author, content.parent_permlink, currentAccount?.name)
-        .queryKey,
+      getPostQueryOptions(content.parent_author, content.parent_permlink, observer).queryKey,
     ) as any;
 
     if (!parentPost) {
@@ -566,11 +566,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
 
       queryClient.invalidateQueries({
-        queryKey: getPostQueryOptions(
-          content.parent_author,
-          content.parent_permlink,
-          currentAccount?.name,
-        ).queryKey,
+        queryKey: getPostQueryOptions(content.parent_author, content.parent_permlink, observer)
+          .queryKey,
       });
     } catch (err) {
       Alert.alert(intl.formatMessage({ id: 'alert.fail' }), get(err, 'message') || String(err));
