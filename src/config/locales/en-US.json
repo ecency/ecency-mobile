@@ -726,7 +726,8 @@
   }, 
   "report": {
     "confirm_report_title": "Confirm Report!", 
-    "added": "Reported objectionable content", 
+    "added": "Reported objectionable content",
+    "failed": "Failed to report content",
     "confirm_report_body": "Are you sure you want report?"
   }, 
   "uploads_modal": {
@@ -1105,7 +1106,11 @@
     "spkcc_power_up": "Stake", 
     "vote_value": "Vote value", 
     "nft_burn": "NFT Burned", 
-    "delegated_hive_power": "Outgoing delegations", 
+    "delegated_hive_power": "Outgoing delegations",
+    "expiring": "Expiring",
+    "expiring_soon": "Expiring soon",
+    "time_remaining_days": "{days}d {hours}h remaining",
+    "time_remaining_hours": "{hours}h {mins}m remaining",
     "POINTS": {
       "buy": "GET POINTS", 
       "name": "Ecency Points", 
