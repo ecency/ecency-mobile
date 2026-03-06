@@ -70,7 +70,7 @@ export const ProposalVoteRequest = () => {
   };
 
   const _remindLater = async () => {
-    if (!_ecencyProposalId) {
+    if (!_ecencyProposalId || !currentAccount?.name) {
       return null;
     }
 

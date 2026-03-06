@@ -24,12 +24,11 @@ export interface TransferAmountInputSectionProps {
   setRecurrence: (value: string) => void;
   executions: string;
   setExecutions: (value: string) => void;
-  hsTransfer: boolean;
   transferType: string;
-  selectedAccount: any;
   fundType: any;
-  currentAccountName: string;
   disableMinimum?: boolean;
+  startDate?: string | null;
+  onDelete?: () => void;
 }
 
 export const RECURRENCE_TYPES = [
@@ -50,7 +49,7 @@ export const RECURRENCE_TYPES = [
   },
 ];
 
-const TransferAmountInputSection = ({
+const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
   balance,
   getAccountsWithUsername,
   setIsUsernameValid,

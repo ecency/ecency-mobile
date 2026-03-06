@@ -302,7 +302,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
           dispatch(
             toastNotification(
               intl.formatMessage({
-                id: 'report.added',
+                id: 'report.failed',
               }),
             ),
           );

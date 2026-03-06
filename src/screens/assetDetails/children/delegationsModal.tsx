@@ -199,7 +199,10 @@ export const DelegationsModal = forwardRef(({}, ref) => {
 
   const _formatTimeLeft = (expiration: string) => {
     const now = Date.now();
-    const expTime = new Date(`${expiration}Z`).getTime();
+    let expTime = new Date(expiration).getTime();
+    if (Number.isNaN(expTime)) {
+      expTime = new Date(`${expiration}Z`).getTime();
+    }
     const diff = expTime - now;
     if (diff <= 0) return intl.formatMessage({ id: 'wallet.expiring_soon' });
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));

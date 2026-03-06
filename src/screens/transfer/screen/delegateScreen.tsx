@@ -229,6 +229,7 @@ class DelegateScreen extends Component {
             delegatedHP: 0,
             hp: 0,
             amount: 0,
+            isAmountValid: false,
           });
         }
       } else {
@@ -236,10 +237,17 @@ class DelegateScreen extends Component {
           delegatedHP: 0,
           hp: 0,
           amount: 0,
+          isAmountValid: false,
         });
       }
     } catch (err) {
       console.warn(err);
+      this.setState({
+        delegatedHP: 0,
+        hp: 0,
+        amount: 0,
+        isAmountValid: false,
+      });
     }
   };
 
