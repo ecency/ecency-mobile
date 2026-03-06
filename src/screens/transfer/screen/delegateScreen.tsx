@@ -173,6 +173,22 @@ class DelegateScreen extends Component {
     }
   };
 
+  _getAvailableVestingShares = () => {
+    const { selectedAccount } = this.props;
+    if (!isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'))) {
+      return (
+        parseToken(get(selectedAccount, 'vesting_shares')) -
+        (Number(get(selectedAccount, 'to_withdraw')) - Number(get(selectedAccount, 'withdrawn'))) /
+          1e6 -
+        parseToken(get(selectedAccount, 'delegated_vesting_shares'))
+      );
+    }
+    return (
+      parseToken(get(selectedAccount, 'vesting_shares')) -
+      parseToken(get(selectedAccount, 'delegated_vesting_shares'))
+    );
+  };
+
   _fetchReceivedVestingShare = async () => {
     try {
       const { hivePerMVests } = this.props;
@@ -221,11 +237,12 @@ class DelegateScreen extends Component {
         if (curShare) {
           const vest_shares = parseAsset(curShare.vesting_shares);
           const hpValue = vestsToHp(vest_shares.amount, hivePerMVests).toFixed(3);
+          const availableVestingShares = this._getAvailableVestingShares();
           this.setState({
             delegatedHP: hpValue,
             hp: hpValue,
             amount: vest_shares.amount,
-            isAmountValid: parseFloat(hpValue) > 0.001,
+            isAmountValid: this._validateHP({ value: hpValue, availableVestingShares }),
           });
         } else {
           this.setState({
@@ -497,7 +514,7 @@ class DelegateScreen extends Component {
   };
 
   render() {
-    const { intl, selectedAccount, handleOnModalClose, hivePerMVests } = this.props;
+    const { intl, handleOnModalClose, hivePerMVests } = this.props;
     const {
       amount,
       isTransfering,
@@ -509,20 +526,7 @@ class DelegateScreen extends Component {
       confirmModalOpen,
       isAmountValid,
     } = this.state;
-    let availableVestingShares = 0;
-    if (!isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'))) {
-      // powering down
-      availableVestingShares =
-        parseToken(get(selectedAccount, 'vesting_shares')) -
-        (Number(get(selectedAccount, 'to_withdraw')) - Number(get(selectedAccount, 'withdrawn'))) /
-          1e6 -
-        parseToken(get(selectedAccount, 'delegated_vesting_shares'));
-    } else {
-      // not powering down
-      availableVestingShares =
-        parseToken(get(selectedAccount, 'vesting_shares')) -
-        parseToken(get(selectedAccount, 'delegated_vesting_shares'));
-    }
+    const availableVestingShares = this._getAvailableVestingShares();
     const fixedAmount = `${amount.toFixed(6)} VESTS`;
     // eslint-disable-next-line max-len
     const path = `sign/delegate-vesting-shares?delegator=${from}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
