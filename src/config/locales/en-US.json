@@ -1105,7 +1105,10 @@
     "spkcc_power_up": "Stake", 
     "vote_value": "Vote value", 
     "nft_burn": "NFT Burned", 
-    "delegated_hive_power": "Outgoing delegations", 
+    "delegated_hive_power": "Outgoing delegations",
+    "expiring": "Expiring",
+    "expiring_soon": "Expiring soon",
+    "remaining": "remaining",
     "POINTS": {
       "buy": "GET POINTS", 
       "name": "Ecency Points", 

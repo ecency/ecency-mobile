@@ -197,6 +197,7 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
 const styles = EStyleSheet.create({
   sheetContainer: {
     paddingHorizontal: 0,
+    backgroundColor: '$primaryBackgroundColor',
   },
   container: {
     paddingHorizontal: 20,

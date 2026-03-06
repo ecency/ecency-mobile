@@ -7,9 +7,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import {
   getVestingDelegationsQueryOptions,
   getReceivedVestingSharesQueryOptions,
+  getVestingDelegationExpirationsQueryOptions,
 } from '@ecency/sdk';
 
 import unionBy from 'lodash/unionBy';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import AccountListContainer from '../../../containers/accountListContainer';
 import ROUTES from '../../../constants/routeNames';
 import styles from './children.styles';
@@ -31,6 +33,7 @@ interface DelegationItem {
   username: string;
   vestingShares: string;
   timestamp: string;
+  isExpiring?: boolean;
 }
 
 // eslint-disable-next-line no-empty-pattern
@@ -63,11 +66,11 @@ export const DelegationsModal = forwardRef(({}, ref) => {
   }, [mode, showModal]);
 
   const _getVestingDelegations = async () => {
-    let allDelegations: DelegationItem[] = [];
+    let activeDelegations: DelegationItem[] = [];
     const limit = 1000;
 
     // Fetch all pages of vesting delegations using infinite query
-    const queryOptions = getVestingDelegationsQueryOptions(currentAccount.name, limit);
+    const queryOpts = getVestingDelegationsQueryOptions(currentAccount.name, limit);
 
     // Fetch first page
     let cursor: string | undefined = '';
@@ -78,9 +81,9 @@ export const DelegationsModal = forwardRef(({}, ref) => {
         // Fetch page with current cursor
         // eslint-disable-next-line no-await-in-loop
         const response = await queryClient.fetchQuery({
-          ...queryOptions,
-          queryKey: [...queryOptions.queryKey, cursor],
-          queryFn: () => queryOptions.queryFn({ pageParam: cursor || '' }),
+          ...queryOpts,
+          queryKey: [...queryOpts.queryKey, cursor],
+          queryFn: () => queryOpts.queryFn({ pageParam: cursor || '' }),
         });
 
         // Map to DelegationItem format
@@ -93,7 +96,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
             } as DelegationItem),
         );
 
-        allDelegations = unionBy(allDelegations, pageDelegations, 'username');
+        activeDelegations = unionBy(activeDelegations, pageDelegations, 'username');
 
         // Check if there are more pages
         if (response.length < limit) {
@@ -111,7 +114,27 @@ export const DelegationsModal = forwardRef(({}, ref) => {
       }
     }
 
-    return allDelegations;
+    // Fetch expiring delegations (undelegated HP in 5-day cooldown)
+    let expiringDelegations: DelegationItem[] = [];
+    try {
+      const expirations = await queryClient.fetchQuery(
+        getVestingDelegationExpirationsQueryOptions(currentAccount.name),
+      );
+      expiringDelegations = (expirations || []).map((item) => {
+        // Convert NAI asset {amount, precision} to VESTS string
+        const vestsNum = Number(item.vesting_shares.amount) / 10 ** item.vesting_shares.precision;
+        return {
+          username: `expiring-${item.id}`,
+          vestingShares: `${vestsNum.toFixed(6)} VESTS`,
+          timestamp: item.expiration,
+          isExpiring: true,
+        } as DelegationItem;
+      });
+    } catch (error) {
+      console.warn('Failed to fetch expiring delegations:', error);
+    }
+
+    return [...activeDelegations, ...expiringDelegations];
   };
 
   const _getReceivedDelegations = async () => {
@@ -174,8 +197,42 @@ export const DelegationsModal = forwardRef(({}, ref) => {
 
   const title = intl.formatMessage({ id: `wallet.${mode}` });
 
+  const _formatTimeLeft = (expiration: string) => {
+    const now = Date.now();
+    const expTime = new Date(`${expiration}Z`).getTime();
+    const diff = expTime - now;
+    if (diff <= 0) return intl.formatMessage({ id: 'wallet.expiring_soon' });
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    if (days > 0) {
+      return `${days}d ${hours}h ${intl.formatMessage({ id: 'wallet.remaining' })}`;
+    }
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours}h ${mins}m ${intl.formatMessage({ id: 'wallet.remaining' })}`;
+  };
+
   const _renderItem = ({ item, index }: { item: DelegationItem; index: number }) => {
     const value = `${vestsToHp(item.vestingShares, globalProps.hivePerMVests).toFixed(3)} HP`;
+
+    if (item.isExpiring) {
+      const timeLeft = _formatTimeLeft(item.timestamp);
+      return (
+        <UserListItem
+          key={item.username}
+          index={index}
+          username={currentAccount.name}
+          text={intl.formatMessage({ id: 'wallet.expiring' })}
+          description={timeLeft}
+          descriptionStyle={{ color: EStyleSheet.value('$primaryRed') }}
+          isHasRightItem
+          rightText={value}
+          rightTextStyle={{ color: EStyleSheet.value('$primaryRed') }}
+          isLoggedIn
+          isClickable={false}
+        />
+      );
+    }
+
     const timeString = new Date(item.timestamp).toDateString();
     const subRightText =
       mode === MODES.DELEGATEED && intl.formatMessage({ id: 'wallet.tap_update' });

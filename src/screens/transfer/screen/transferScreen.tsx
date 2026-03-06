@@ -266,7 +266,7 @@ const TransferView = ({
     console.log('path is: ', path);
   }
 
-  const _onNextPress = (deleteTransfer = false) => {
+  const _onNextPress = async (deleteTransfer = false) => {
     const parsedDestinations = destination
       .trim()
       .split(/[\s,]+/)
@@ -280,23 +280,29 @@ const TransferView = ({
 
       return false;
     } else {
-      SheetManager.show(SheetNames.ACTION_MODAL, {
+      const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
         payload: {
           title: intl.formatMessage({ id: 'transfer.information' }),
           buttons: [
             {
               text: intl.formatMessage({ id: 'alert.cancel' }),
-              onPress: () => {
-                console.log('cancel pressed');
-              },
+              returnValue: 'cancel',
             },
             {
               text: intl.formatMessage({ id: 'alert.confirm' }),
-              onPress: deleteTransfer ? _handleDeleteRecurrentTransfer : _handleTransferAction,
+              returnValue: 'confirm',
             },
           ],
         },
       });
+
+      if (action === 'confirm') {
+        if (deleteTransfer) {
+          _handleDeleteRecurrentTransfer();
+        } else {
+          _handleTransferAction();
+        }
+      }
     }
   };
 
