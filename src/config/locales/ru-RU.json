@@ -153,7 +153,9 @@
     "translate": "Перевод",
     "voice": "Voice",
     "boost": "усилить",
-    "pin-community": "Закрепить в сообществе"
+    "pin-community": "Закрепить в сообществе",
+    "pin-reply": "Pin comment",
+    "unpin-reply": "Unpin comment"
   },
   "side_menu": {
     "profile": "Профиль",
@@ -725,6 +727,7 @@
   "report": {
     "confirm_report_title": "Подтвердить Жалобу!",
     "added": "Было сообщено о нежелательном содержании",
+    "failed": "Failed to report content",
     "confirm_report_body": "Вы уверены, что хотите подать жалобу?"
   },
   "uploads_modal": {
@@ -1104,6 +1107,10 @@
     "vote_value": "Величина голоса",
     "nft_burn": "NFT сожжены",
     "delegated_hive_power": "Outgoing delegations",
+    "expiring": "Expiring",
+    "expiring_soon": "Expiring soon",
+    "time_remaining_days": "{days}d {hours}h remaining",
+    "time_remaining_hours": "{hours}h {mins}m remaining",
     "POINTS": {
       "buy": "GET POINTS",
       "name": "Ecency Points",
