@@ -286,7 +286,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     });
   };
 
-  const _report = (url) => {
+  const _report = async (url) => {
     const _onConfirm = () => {
       addReport('content', url)
         .then(() => {
@@ -302,34 +302,36 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
           dispatch(
             toastNotification(
               intl.formatMessage({
-                id: 'report.added',
+                id: 'report.failed',
               }),
             ),
           );
         });
     };
 
-    SheetManager.show(SheetNames.ACTION_MODAL, {
+    const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
       payload: {
         title: intl.formatMessage({ id: 'report.confirm_report_title' }),
         body: intl.formatMessage({ id: 'report.confirm_report_body' }),
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {
-              console.log('cancel pressed');
-            },
+            returnValue: 'cancel',
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
-            onPress: _onConfirm,
+            returnValue: 'confirm',
           },
         ],
       },
     });
+
+    if (action === 'confirm') {
+      _onConfirm();
+    }
   };
 
-  const _deletePost = () => {
+  const _deletePost = async () => {
     const _onConfirm = async () => {
       try {
         await deleteCommentMutation.mutateAsync({
@@ -358,23 +360,25 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       }
     };
 
-    SheetManager.show(SheetNames.ACTION_MODAL, {
+    const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
       payload: {
         title: intl.formatMessage({ id: 'alert.remove_alert' }),
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {
-              console.log('cancel pressed');
-            },
+            returnValue: 'cancel',
           },
           {
             text: intl.formatMessage({ id: 'alert.delete' }),
-            onPress: _onConfirm,
+            returnValue: 'confirm',
           },
         ],
       },
     });
+
+    if (action === 'confirm') {
+      _onConfirm();
+    }
   };
 
   const _addToBookmarks = () => {

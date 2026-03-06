@@ -172,7 +172,7 @@ const PostComments = forwardRef(
     );
 
     const _handleDeleteComment = useCallback(
-      (_permlink, _parentPermlink?, _parentAuthor?, _rootAuthor?, _rootPermlink?) => {
+      async (_permlink, _parentPermlink?, _parentAuthor?, _rootAuthor?, _rootPermlink?) => {
         const _onConfirmDelete = async () => {
           const deletedKey = `${currentAccountName}/${_permlink}`;
           const extractErrorDetail = (error: any) => {
@@ -224,23 +224,25 @@ const PostComments = forwardRef(
           }
         };
 
-        SheetManager.show(SheetNames.ACTION_MODAL, {
+        const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
           payload: {
             title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
             buttons: [
               {
                 text: intl.formatMessage({ id: 'alert.cancel' }),
-                onPress: () => {
-                  console.log('canceled delete comment');
-                },
+                returnValue: 'cancel',
               },
               {
                 text: intl.formatMessage({ id: 'alert.delete' }),
-                onPress: _onConfirmDelete,
+                returnValue: 'confirm',
               },
             ],
           },
         });
+
+        if (action === 'confirm') {
+          _onConfirmDelete();
+        }
       },
       [author, currentAccountName, deleteComment, dispatch, discussionQuery.data, intl, permlink],
     );

@@ -19,7 +19,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { debounce } from 'lodash';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
-import { getReceivedVestingSharesQueryOptions } from '@ecency/sdk';
+import { getVestingDelegationsQueryOptions } from '@ecency/sdk';
 import { hsOptions } from '../../../constants/hsOptions';
 
 // Components
@@ -134,19 +134,24 @@ class DelegateScreen extends Component {
     }
     const parsedValue = parseFloat(hp);
     const { hivePerMVests } = this.props;
-    const vestsForHp = hpToVests(hp, hivePerMVests);
     const totalHP = vestsToHp(availableVests, hivePerMVests).toFixed(3);
     if (Number.isNaN(parsedValue)) {
       this.setState({ amount: 0, hp: 0.0, step: 2, isAmountValid: false });
-    } else if (parsedValue >= totalHP) {
+    } else if (parsedValue > parseFloat(totalHP)) {
+      // Clamp to max
       this.setState({
         amount: hpToVests(totalHP, hivePerMVests),
         hp: totalHP,
         step: 2,
-        isAmountValid: false,
+        isAmountValid: true,
       });
     } else {
-      this.setState({ amount: vestsForHp, hp: parsedValue, step: 2, isAmountValid: true });
+      const vestsForHp = hpToVests(parsedValue, hivePerMVests);
+      const isAmountValid = this._validateHP({
+        value: parsedValue,
+        availableVestingShares: availableVests,
+      });
+      this.setState({ amount: vestsForHp, hp: parsedValue, step: 2, isAmountValid });
     }
   };
 
@@ -168,28 +173,83 @@ class DelegateScreen extends Component {
     }
   };
 
+  _getAvailableVestingShares = () => {
+    const { selectedAccount } = this.props;
+    if (!isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'))) {
+      return (
+        parseToken(get(selectedAccount, 'vesting_shares')) -
+        (Number(get(selectedAccount, 'to_withdraw')) - Number(get(selectedAccount, 'withdrawn'))) /
+          1e6 -
+        parseToken(get(selectedAccount, 'delegated_vesting_shares'))
+      );
+    }
+    return (
+      parseToken(get(selectedAccount, 'vesting_shares')) -
+      parseToken(get(selectedAccount, 'delegated_vesting_shares'))
+    );
+  };
+
   _fetchReceivedVestingShare = async () => {
     try {
       const { hivePerMVests } = this.props;
+      const delegatorUser = this.state.from;
       const delegateeUser = this.state.destination;
+
+      if (!delegatorUser || !delegateeUser) {
+        this.setState({
+          delegatedHP: 0,
+          hp: 0,
+          amount: 0,
+          isAmountValid: false,
+        });
+        return;
+      }
+
       const queryClient = getQueryClient();
-      const vestingShares = await queryClient.fetchQuery(
-        getReceivedVestingSharesQueryOptions(delegateeUser),
-      );
-      if (vestingShares && vestingShares.length) {
-        const curShare = vestingShares.find((item) => item.delegator === this.state.from);
+      const limit = 1000;
+      const queryOpts = getVestingDelegationsQueryOptions(delegatorUser, limit);
+      let allDelegations = [];
+      let cursor = '';
+      let hasMore = true;
+
+      while (hasMore) {
+        // eslint-disable-next-line no-await-in-loop
+        const page = await queryClient.fetchQuery({
+          ...queryOpts,
+          queryKey: [...queryOpts.queryKey, cursor],
+          queryFn: () => queryOpts.queryFn({ pageParam: cursor }),
+        });
+        allDelegations = allDelegations.concat(page);
+        if (page.length < limit) {
+          hasMore = false;
+        } else {
+          const lastDelegatee = page[page.length - 1]?.delegatee;
+          if (!lastDelegatee || lastDelegatee === cursor) {
+            hasMore = false;
+          } else {
+            cursor = lastDelegatee;
+          }
+        }
+      }
+
+      if (allDelegations.length) {
+        const curShare = allDelegations.find((item) => item.delegatee === delegateeUser);
         if (curShare) {
           const vest_shares = parseAsset(curShare.vesting_shares);
+          const hpValue = vestsToHp(vest_shares.amount, hivePerMVests).toFixed(3);
+          const availableVestingShares = this._getAvailableVestingShares();
           this.setState({
-            delegatedHP: vestsToHp(vest_shares.amount, hivePerMVests).toFixed(3),
-            hp: vestsToHp(vest_shares.amount, hivePerMVests).toFixed(3),
+            delegatedHP: hpValue,
+            hp: hpValue,
             amount: vest_shares.amount,
+            isAmountValid: this._validateHP({ value: hpValue, availableVestingShares }),
           });
         } else {
           this.setState({
             delegatedHP: 0,
             hp: 0,
             amount: 0,
+            isAmountValid: false,
           });
         }
       } else {
@@ -197,10 +257,17 @@ class DelegateScreen extends Component {
           delegatedHP: 0,
           hp: 0,
           amount: 0,
+          isAmountValid: false,
         });
       }
     } catch (err) {
       console.warn(err);
+      this.setState({
+        delegatedHP: 0,
+        hp: 0,
+        amount: 0,
+        isAmountValid: false,
+      });
     }
   };
 
@@ -221,19 +288,9 @@ class DelegateScreen extends Component {
 
   _handleSliderValueChange = (value, availableVestingShares) => {
     const { hivePerMVests } = this.props;
-    if (value === availableVestingShares) {
-      this.setState({ isAmountValid: false });
-    }
-    if (value !== availableVestingShares) {
-      this.setState({
-        step: 2,
-        isAmountValid: true,
-        amount: value,
-        hp: vestsToHp(value, hivePerMVests).toFixed(3),
-      });
-    } else {
-      this.setState({ amount: value, hp: vestsToHp(value, hivePerMVests).toFixed(3), step: 2 });
-    }
+    const hp = vestsToHp(value, hivePerMVests).toFixed(3);
+    const isAmountValid = this._validateHP({ value: hp, availableVestingShares });
+    this.setState({ step: 2, isAmountValid, amount: value, hp });
   };
 
   // validate hp value if it is out of range or not a valid number
@@ -243,8 +300,8 @@ class DelegateScreen extends Component {
     const parsedHpValue = parseFloat(value);
     const amountValid = !(
       Number.isNaN(parsedHpValue) ||
-      parsedHpValue < 0.0 ||
-      parsedHpValue >= totalHP
+      parsedHpValue <= 0.001 ||
+      parsedHpValue > totalHP
     );
     return amountValid;
   };
@@ -282,25 +339,31 @@ class DelegateScreen extends Component {
 
       if (amountValid) {
         this.setState({ confirmModalOpen: true });
+        try {
+          const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
+            payload: {
+              title: intl.formatMessage({ id: 'transfer.confirm' }),
+              body,
+              buttons: [
+                {
+                  text: intl.formatMessage({ id: 'alert.cancel' }),
+                  returnValue: 'cancel',
+                },
+                {
+                  text: intl.formatMessage({ id: 'alert.confirm' }),
+                  returnValue: 'confirm',
+                },
+              ],
+              headerContent: this._renderToFromAvatars(),
+            },
+          });
 
-        SheetManager.show(SheetNames.ACTION_MODAL, {
-          payload: {
-            title: intl.formatMessage({ id: 'transfer.confirm' }),
-            body,
-            buttons: [
-              {
-                text: intl.formatMessage({ id: 'alert.cancel' }),
-                onPress: () => console.log('Cancel'),
-              },
-              {
-                text: intl.formatMessage({ id: 'alert.confirm' }),
-                onPress: () => this._handleTransferAction(),
-              },
-            ],
-            headerContent: this._renderToFromAvatars(),
-            onClosed: () => this.setState({ confirmModalOpen: false }),
-          },
-        });
+          if (action === 'confirm') {
+            this._handleTransferAction();
+          }
+        } finally {
+          this.setState({ confirmModalOpen: false });
+        }
       } else {
         Alert.alert(
           intl.formatMessage({ id: 'transfer.invalid_amount' }),
@@ -451,7 +514,7 @@ class DelegateScreen extends Component {
   };
 
   render() {
-    const { intl, selectedAccount, handleOnModalClose, hivePerMVests } = this.props;
+    const { intl, handleOnModalClose, hivePerMVests } = this.props;
     const {
       amount,
       isTransfering,
@@ -463,20 +526,7 @@ class DelegateScreen extends Component {
       confirmModalOpen,
       isAmountValid,
     } = this.state;
-    let availableVestingShares = 0;
-    if (!isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'))) {
-      // powering down
-      availableVestingShares =
-        parseToken(get(selectedAccount, 'vesting_shares')) -
-        (Number(get(selectedAccount, 'to_withdraw')) - Number(get(selectedAccount, 'withdrawn'))) /
-          1e6 -
-        parseToken(get(selectedAccount, 'delegated_vesting_shares'));
-    } else {
-      // not powering down
-      availableVestingShares =
-        parseToken(get(selectedAccount, 'vesting_shares')) -
-        parseToken(get(selectedAccount, 'delegated_vesting_shares'));
-    }
+    const availableVestingShares = this._getAvailableVestingShares();
     const fixedAmount = `${amount.toFixed(6)} VESTS`;
     // eslint-disable-next-line max-len
     const path = `sign/delegate-vesting-shares?delegator=${from}&delegatee=${destination}&vesting_shares=${encodeURIComponent(

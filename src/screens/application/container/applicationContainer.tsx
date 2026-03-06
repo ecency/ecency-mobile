@@ -238,7 +238,7 @@ class ApplicationContainer extends Component {
     const remoteVersion = await fetchLatestAppVersion();
 
     if (parseVersionNumber(remoteVersion) > parseVersionNumber(VersionNumber.appVersion)) {
-      SheetManager.show(SheetNames.ACTION_MODAL, {
+      const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
         payload: {
           title: intl.formatMessage(
             { id: 'alert.update_available_title' },
@@ -248,31 +248,33 @@ class ApplicationContainer extends Component {
           buttons: [
             {
               text: intl.formatMessage({ id: 'alert.remind_later' }),
-              onPress: () => {
-                setLastUpdateCheck(new Date().getTime());
-              },
+              returnValue: 'later',
             },
             {
               text: intl.formatMessage({ id: 'alert.update' }),
-              onPress: () => {
-                DeviceInfo.getInstallerPackageName().then((installerPackageName) => {
-                  let _url = 'https://github.com/ecency/ecency-mobile/releases';
-                  switch (installerPackageName) {
-                    case 'com.android.vending':
-                      _url = 'market://details?id=app.esteem.mobile.android';
-                      break;
-                    case 'AppStore':
-                      _url = 'itms-apps://itunes.apple.com/us/app/apple-store/id1451896376?mt=8';
-                      break;
-                  }
-                  Linking.openURL(_url);
-                });
-              },
+              returnValue: 'update',
             },
           ],
           headerImage: require('../../../assets/phone-holding.png'),
         },
       });
+
+      if (action === 'later') {
+        setLastUpdateCheck(new Date().getTime());
+      } else if (action === 'update') {
+        DeviceInfo.getInstallerPackageName().then((installerPackageName) => {
+          let _url = 'https://github.com/ecency/ecency-mobile/releases';
+          switch (installerPackageName) {
+            case 'com.android.vending':
+              _url = 'market://details?id=app.esteem.mobile.android';
+              break;
+            case 'AppStore':
+              _url = 'itms-apps://itunes.apple.com/us/app/apple-store/id1451896376?mt=8';
+              break;
+          }
+          Linking.openURL(_url);
+        });
+      }
     }
   };
 
@@ -426,7 +428,7 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _checkHiveAuthExpiry = (authData: any) => {
+  _checkHiveAuthExpiry = async (authData: any) => {
     const { intl } = this.props;
 
     // Only check expiry for session-based authentication (HiveAuth/Keychain or HiveSigner)
@@ -443,7 +445,7 @@ class ApplicationContainer extends Component {
     ) {
       const curTime = new Date().getTime();
       if (curTime > authData.hiveAuthExpiry) {
-        SheetManager.show(SheetNames.ACTION_MODAL, {
+        const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
           payload: {
             title: intl.formatMessage({ id: 'alert.warning' }),
             body: intl.formatMessage({ id: 'alert.auth_expired' }),
@@ -451,22 +453,22 @@ class ApplicationContainer extends Component {
               {
                 text: intl.formatMessage({ id: 'alert.cancel' }),
                 style: 'destructive',
-                onPress: () => {
-                  console.log('cancel pressed');
-                },
+                returnValue: 'cancel',
               },
               {
                 text: intl.formatMessage({ id: 'alert.verify' }),
-                onPress: () => {
-                  RootNavigation.navigate({
-                    name: ROUTES.SCREENS.LOGIN,
-                    params: { username: authData.username },
-                  });
-                },
+                returnValue: 'verify',
               },
             ],
           },
         });
+
+        if (action === 'verify') {
+          RootNavigation.navigate({
+            name: ROUTES.SCREENS.LOGIN,
+            params: { username: authData.username },
+          });
+        }
       }
     }
   };
@@ -522,8 +524,11 @@ class ApplicationContainer extends Component {
         }
       }
 
-      // check session expiry in case of HIVE_AUTH
-      if (authData.authType === AUTH_TYPE.HIVE_AUTH) {
+      // check session expiry for session-based auth (HiveAuth or HiveSigner)
+      if (
+        authData.authType === AUTH_TYPE.HIVE_AUTH ||
+        authData.authType === AUTH_TYPE.STEEM_CONNECT
+      ) {
         this._checkHiveAuthExpiry(authData);
       }
 
@@ -1096,8 +1101,11 @@ class ApplicationContainer extends Component {
         );
       }
 
-      // check session expiry in case of HIVE_AUTH
-      if (realmData[0].authType === AUTH_TYPE.HIVE_AUTH) {
+      // check session expiry for session-based auth (HiveAuth or HiveSigner)
+      if (
+        realmData[0].authType === AUTH_TYPE.HIVE_AUTH ||
+        realmData[0].authType === AUTH_TYPE.STEEM_CONNECT
+      ) {
         this._checkHiveAuthExpiry(realmData[0]);
       }
 

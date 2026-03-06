@@ -226,7 +226,16 @@ export const handleHiveAuthFallback = async (
       return response.result;
     } else if (response?.success === false) {
       console.error(`[HiveAuth Fallback] ${operationName} broadcast failed`, response.error);
-      throw response.error || new Error('HiveAuth broadcast failed');
+      const rawError = response.error;
+      throw rawError instanceof Error
+        ? rawError
+        : new Error(
+            typeof rawError === 'object' && rawError !== null && 'message' in rawError
+              ? String(rawError.message)
+              : rawError
+              ? String(rawError)
+              : 'HiveAuth broadcast failed',
+          );
     } else {
       // undefined = user dismissed the sheet
       console.warn(`[HiveAuth Fallback] ${operationName} dismissed`);

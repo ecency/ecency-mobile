@@ -210,7 +210,12 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
       onSuccess();
       _onSwapSuccess(_hasPending);
     } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
+      const message =
+        err instanceof Error
+          ? err.message
+          : typeof err === 'object' && err !== null && 'message' in err
+          ? String((err as any).message)
+          : String(err);
       Alert.alert(intl.formatMessage({ id: 'alert.swap_failed' }), message);
     } finally {
       setSwapping(false);

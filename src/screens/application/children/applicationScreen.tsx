@@ -45,9 +45,10 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
   const [isShowToastNotification, setIsShowToastNotification] = useState(false);
 
   useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
     if (!rcOfferRef.current && rcOffer) {
-      setTimeout(() => {
-        SheetManager.show(SheetNames.ACTION_MODAL, {
+      timer = setTimeout(async () => {
+        const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
           payload: {
             title: intl.formatMessage({
               id: 'alert.fail',
@@ -58,25 +59,30 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
             buttons: [
               {
                 text: 'Cancel',
-                onPress: () => dispatch(setRcOffer(false)),
+                returnValue: 'cancel',
                 style: 'cancel',
               },
               {
                 text: 'OK',
-                onPress: () => {
-                  RootNavigation.navigate({
-                    name: ROUTES.SCREENS.ACCOUNT_BOOST,
-                  });
-                  dispatch(setRcOffer(false));
-                },
+                returnValue: 'confirm',
               },
             ],
           },
         });
+
+        if (action === 'confirm') {
+          RootNavigation.navigate({
+            name: ROUTES.SCREENS.ACCOUNT_BOOST,
+          });
+        }
+        dispatch(setRcOffer(false));
       }, 300);
     }
 
     rcOfferRef.current = rcOffer;
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [rcOffer]);
 
   useEffect(() => {
