@@ -47,6 +47,8 @@ import { decryptKey } from '../utils/crypto';
 
 // Constants
 import { default as ROUTES } from '../constants/routeNames';
+import TransferTypes from '../constants/transferTypes';
+import TokenLayers from '../constants/tokenLayers';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 import { SheetNames } from '../navigation/sheets';
 
@@ -530,8 +532,9 @@ class ProfileContainer extends Component {
     navigation.navigate({
       name: ROUTES.SCREENS.TRANSFER,
       params: {
-        transferType: 'delegate',
+        transferType: TransferTypes.DELEGATE_VESTING_SHARES,
         fundType: 'HIVE_POWER',
+        assetLayer: TokenLayers.HIVE,
         referredUsername: username,
       },
     });

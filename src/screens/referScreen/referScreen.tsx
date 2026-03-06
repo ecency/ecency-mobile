@@ -34,6 +34,8 @@ import styles from './referScreenStyles';
 
 // constants
 import ROUTES from '../../constants/routeNames';
+import TransferTypes from '../../constants/transferTypes';
+import TokenLayers from '../../constants/tokenLayers';
 
 // Redux / Services
 import RootNavigation from '../../navigation/rootNavigation';
@@ -72,8 +74,9 @@ const ReferScreen = () => {
     RootNavigation.navigate({
       name: ROUTES.SCREENS.TRANSFER,
       params: {
-        transferType: 'delegate',
+        transferType: TransferTypes.DELEGATE_VESTING_SHARES,
         fundType: 'HIVE_POWER',
+        assetLayer: TokenLayers.HIVE,
         referredUsername: item.referredUsername,
       },
     });

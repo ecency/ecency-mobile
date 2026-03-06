@@ -44,6 +44,7 @@ export const clearTempActiveKey = () => {
 // Lazy-loaded sheet deps to avoid circular imports
 let _cachedSheetManager: typeof import('react-native-actions-sheet').SheetManager | null = null;
 let _cachedSheetNames: typeof import('../../navigation/sheets').SheetNames | null = null;
+let _pendingAuthUpgradePromise: Promise<'hiveauth' | 'hivesigner' | 'key' | false> | null = null;
 
 const getSheetDeps = async () => {
   if (!_cachedSheetManager || !_cachedSheetNames) {
@@ -239,26 +240,38 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
     showAuthUpgradeUI: async (
       requiredAuthority: 'posting' | 'active',
       operation: string,
-    ): Promise<'hiveauth' | 'hivesigner' | 'keychain' | 'key' | false> => {
+    ): Promise<'hiveauth' | 'hivesigner' | 'key' | false> => {
+      if (_pendingAuthUpgradePromise) {
+        return _pendingAuthUpgradePromise;
+      }
+
       const state = store.getState();
       const currentAccount = state.account?.currentAccount;
       const username = currentAccount?.name || currentAccount?.username || '';
 
-      try {
-        const { SheetManager, SheetNames } = await getSheetDeps();
+      _pendingAuthUpgradePromise = (async () => {
+        try {
+          const { SheetManager, SheetNames } = await getSheetDeps();
 
-        // SheetManager.show() returns a promise that resolves with the value
-        // passed to SheetManager.hide(id, { payload: value }) when the sheet closes.
-        // This avoids callback-based races where onClose fires from a previous
-        // close animation and resolves the wrong promise.
-        const result = await SheetManager.show(SheetNames.AUTH_UPGRADE, {
-          payload: { requiredAuthority, operation, username },
-        });
-        // result is undefined when user dismisses via backdrop tap
-        return result || false;
-      } catch (sheetError: any) {
-        console.error('[showAuthUpgradeUI] Failed to show sheet:', sheetError);
-        return false;
+          // SheetManager.show() returns a promise that resolves with the value
+          // passed to SheetManager.hide(id, { payload: value }) when the sheet closes.
+          // This avoids callback-based races where onClose fires from a previous
+          // close animation and resolves the wrong promise.
+          const result = await SheetManager.show(SheetNames.AUTH_UPGRADE, {
+            payload: { requiredAuthority, operation, username },
+          });
+          // result is undefined when user dismisses via backdrop tap
+          return result || false;
+        } catch (sheetError: any) {
+          console.error('[showAuthUpgradeUI] Failed to show sheet:', sheetError);
+          return false;
+        }
+      })();
+
+      try {
+        return await _pendingAuthUpgradePromise;
+      } finally {
+        _pendingAuthUpgradePromise = null;
       }
     },
   };
