@@ -153,7 +153,9 @@
     "translate": "Translate",
     "voice": "Voice",
     "boost": "menaikkan",
-    "pin-community": "Semat untuk komunitas"
+    "pin-community": "Semat untuk komunitas",
+    "pin-reply": "Pin comment",
+    "unpin-reply": "Unpin comment"
   },
   "side_menu": {
     "profile": "Profil",
@@ -725,6 +727,7 @@
   "report": {
     "confirm_report_title": "Konfirmasi Laporan!",
     "added": "Konten yang tidak pantas dilaporkan",
+    "failed": "Failed to report content",
     "confirm_report_body": "Yakin mau membuat laporan?"
   },
   "uploads_modal": {
@@ -1104,6 +1107,10 @@
     "vote_value": "Nilai Voting",
     "nft_burn": "NFT Burned",
     "delegated_hive_power": "Outgoing delegations",
+    "expiring": "Expiring",
+    "expiring_soon": "Expiring soon",
+    "time_remaining_days": "{days}d {hours}h remaining",
+    "time_remaining_hours": "{hours}h {mins}m remaining",
     "POINTS": {
       "buy": "GET POINTS",
       "name": "Ecency Points",
