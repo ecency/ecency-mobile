@@ -153,7 +153,9 @@
     "translate": "Translate",
     "voice": "Voice",
     "boost": "प्रोत्साहन",
-    "pin-community": "समुदाय को पिन करें"
+    "pin-community": "समुदाय को पिन करें",
+    "pin-reply": "Pin comment",
+    "unpin-reply": "Unpin comment"
   },
   "side_menu": {
     "profile": "रुपरेखा",
@@ -725,6 +727,7 @@
   "report": {
     "confirm_report_title": "रिपोर्ट की पुष्टि करें!",
     "added": "आपत्तिजनक सामग्री की सूचना दी",
+    "failed": "Failed to report content",
     "confirm_report_body": "क्या आप वाकई रिपोर्ट चाहते हैं?"
   },
   "uploads_modal": {
@@ -1104,6 +1107,10 @@
     "vote_value": "वोट का मूल्य",
     "nft_burn": "एनएफटी जल गया",
     "delegated_hive_power": "Outgoing delegations",
+    "expiring": "Expiring",
+    "expiring_soon": "Expiring soon",
+    "time_remaining_days": "{days}d {hours}h remaining",
+    "time_remaining_hours": "{hours}h {mins}m remaining",
     "POINTS": {
       "buy": "GET POINTS",
       "name": "Ecency Points",
