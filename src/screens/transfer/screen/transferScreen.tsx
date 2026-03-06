@@ -266,7 +266,26 @@ const TransferView = ({
     console.log('path is: ', path);
   }
 
-  const _onNextPress = async (deleteTransfer = false) => {
+  const _showConfirmSheet = async () => {
+    const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
+      payload: {
+        title: intl.formatMessage({ id: 'transfer.information' }),
+        buttons: [
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            returnValue: 'cancel',
+          },
+          {
+            text: intl.formatMessage({ id: 'alert.confirm' }),
+            returnValue: 'confirm',
+          },
+        ],
+      },
+    });
+    return action === 'confirm';
+  };
+
+  const _onNextPress = async () => {
     const parsedDestinations = destination
       .trim()
       .split(/[\s,]+/)
@@ -277,32 +296,16 @@ const TransferView = ({
     }
     if (balance < amount * recipientCount) {
       Alert.alert(intl.formatMessage({ id: 'wallet.low_liquidity' }));
-
       return false;
-    } else {
-      const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
-        payload: {
-          title: intl.formatMessage({ id: 'transfer.information' }),
-          buttons: [
-            {
-              text: intl.formatMessage({ id: 'alert.cancel' }),
-              returnValue: 'cancel',
-            },
-            {
-              text: intl.formatMessage({ id: 'alert.confirm' }),
-              returnValue: 'confirm',
-            },
-          ],
-        },
-      });
+    }
+    if (await _showConfirmSheet()) {
+      _handleTransferAction();
+    }
+  };
 
-      if (action === 'confirm') {
-        if (deleteTransfer) {
-          _handleDeleteRecurrentTransfer();
-        } else {
-          _handleTransferAction();
-        }
-      }
+  const _onDeletePress = async () => {
+    if (await _showConfirmSheet()) {
+      _handleDeleteRecurrentTransfer();
     }
   };
 
@@ -410,7 +413,7 @@ const TransferView = ({
             executions={executions}
             setExecutions={setExecutions}
             startDate={startDate}
-            onNext={_onNextPress}
+            onDelete={_onDeletePress}
           />
           <View style={styles.bottomContent}>
             <MainButton

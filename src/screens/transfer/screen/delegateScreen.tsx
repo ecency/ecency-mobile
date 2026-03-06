@@ -134,11 +134,11 @@ class DelegateScreen extends Component {
     }
     const parsedValue = parseFloat(hp);
     const { hivePerMVests } = this.props;
-    const vestsForHp = hpToVests(hp, hivePerMVests);
     const totalHP = vestsToHp(availableVests, hivePerMVests).toFixed(3);
     if (Number.isNaN(parsedValue)) {
       this.setState({ amount: 0, hp: 0.0, step: 2, isAmountValid: false });
-    } else if (parsedValue > totalHP) {
+    } else if (parsedValue > parseFloat(totalHP)) {
+      // Clamp to max
       this.setState({
         amount: hpToVests(totalHP, hivePerMVests),
         hp: totalHP,
@@ -146,7 +146,12 @@ class DelegateScreen extends Component {
         isAmountValid: true,
       });
     } else {
-      this.setState({ amount: vestsForHp, hp: parsedValue, step: 2, isAmountValid: true });
+      const vestsForHp = hpToVests(parsedValue, hivePerMVests);
+      const isAmountValid = this._validateHP({
+        value: parsedValue,
+        availableVestingShares: availableVests,
+      });
+      this.setState({ amount: vestsForHp, hp: parsedValue, step: 2, isAmountValid });
     }
   };
 
@@ -184,15 +189,34 @@ class DelegateScreen extends Component {
       }
 
       const queryClient = getQueryClient();
-      const queryOptions = getVestingDelegationsQueryOptions(delegatorUser, 1000);
-      const vestingDelegations = await queryClient.fetchQuery({
-        ...queryOptions,
-        queryKey: [...queryOptions.queryKey, ''],
-        queryFn: () => queryOptions.queryFn({ pageParam: '' }),
-      });
+      const limit = 1000;
+      const queryOpts = getVestingDelegationsQueryOptions(delegatorUser, limit);
+      let allDelegations = [];
+      let cursor = '';
+      let hasMore = true;
 
-      if (vestingDelegations && vestingDelegations.length) {
-        const curShare = vestingDelegations.find((item) => item.delegatee === delegateeUser);
+      while (hasMore) {
+        // eslint-disable-next-line no-await-in-loop
+        const page = await queryClient.fetchQuery({
+          ...queryOpts,
+          queryKey: [...queryOpts.queryKey, cursor],
+          queryFn: () => queryOpts.queryFn({ pageParam: cursor }),
+        });
+        allDelegations = allDelegations.concat(page);
+        if (page.length < limit) {
+          hasMore = false;
+        } else {
+          const lastDelegatee = page[page.length - 1]?.delegatee;
+          if (!lastDelegatee || lastDelegatee === cursor) {
+            hasMore = false;
+          } else {
+            cursor = lastDelegatee;
+          }
+        }
+      }
+
+      if (allDelegations.length) {
+        const curShare = allDelegations.find((item) => item.delegatee === delegateeUser);
         if (curShare) {
           const vest_shares = parseAsset(curShare.vesting_shares);
           this.setState({
@@ -236,19 +260,9 @@ class DelegateScreen extends Component {
 
   _handleSliderValueChange = (value, availableVestingShares) => {
     const { hivePerMVests } = this.props;
-    if (value === availableVestingShares) {
-      this.setState({ isAmountValid: false });
-    }
-    if (value !== availableVestingShares) {
-      this.setState({
-        step: 2,
-        isAmountValid: true,
-        amount: value,
-        hp: vestsToHp(value, hivePerMVests).toFixed(3),
-      });
-    } else {
-      this.setState({ amount: value, hp: vestsToHp(value, hivePerMVests).toFixed(3), step: 2 });
-    }
+    const hp = vestsToHp(value, hivePerMVests).toFixed(3);
+    const isAmountValid = this._validateHP({ value: hp, availableVestingShares });
+    this.setState({ step: 2, isAmountValid, amount: value, hp });
   };
 
   // validate hp value if it is out of range or not a valid number
@@ -297,25 +311,31 @@ class DelegateScreen extends Component {
 
       if (amountValid) {
         this.setState({ confirmModalOpen: true });
+        try {
+          const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
+            payload: {
+              title: intl.formatMessage({ id: 'transfer.confirm' }),
+              body,
+              buttons: [
+                {
+                  text: intl.formatMessage({ id: 'alert.cancel' }),
+                  returnValue: 'cancel',
+                },
+                {
+                  text: intl.formatMessage({ id: 'alert.confirm' }),
+                  returnValue: 'confirm',
+                },
+              ],
+              headerContent: this._renderToFromAvatars(),
+            },
+          });
 
-        SheetManager.show(SheetNames.ACTION_MODAL, {
-          payload: {
-            title: intl.formatMessage({ id: 'transfer.confirm' }),
-            body,
-            buttons: [
-              {
-                text: intl.formatMessage({ id: 'alert.cancel' }),
-                onPress: () => console.log('Cancel'),
-              },
-              {
-                text: intl.formatMessage({ id: 'alert.confirm' }),
-                onPress: () => this._handleTransferAction(),
-              },
-            ],
-            headerContent: this._renderToFromAvatars(),
-            onClosed: () => this.setState({ confirmModalOpen: false }),
-          },
-        });
+          if (action === 'confirm') {
+            this._handleTransferAction();
+          }
+        } finally {
+          this.setState({ confirmModalOpen: false });
+        }
       } else {
         Alert.alert(
           intl.formatMessage({ id: 'transfer.invalid_amount' }),

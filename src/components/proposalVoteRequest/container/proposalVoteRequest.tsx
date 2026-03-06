@@ -69,46 +69,37 @@ export const ProposalVoteRequest = () => {
     proposalVoteMutation.mutate({ proposalId: _ecencyProposalId });
   };
 
-  const _remindLater = () => {
+  const _remindLater = async () => {
     if (!_ecencyProposalId) {
       return null;
     }
 
-    SheetManager.show(SheetNames.ACTION_MODAL, {
+    const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
       payload: {
         title: intl.formatMessage({ id: 'proposal.title-action-dismiss' }), // "Dismiss Vote Request",
         buttons: [
           {
             text: intl.formatMessage({ id: 'proposal.btn-ignore' }),
             type: ButtonTypes.CANCEL,
-            onPress: () => {
-              console.log('Ignore');
-              dispatch(
-                updateProposalVoteMeta(
-                  _ecencyProposalId,
-                  currentAccount.name,
-                  true,
-                  new Date().getTime(),
-                ),
-              );
-            },
+            returnValue: 'ignore',
           },
           {
             text: intl.formatMessage({ id: 'proposal.btn-later' }),
-            onPress: () => {
-              dispatch(
-                updateProposalVoteMeta(
-                  _ecencyProposalId,
-                  currentAccount.name,
-                  false,
-                  new Date().getTime(),
-                ),
-              );
-            },
+            returnValue: 'later',
           },
         ],
       },
     });
+
+    if (action === 'ignore') {
+      dispatch(
+        updateProposalVoteMeta(_ecencyProposalId, currentAccount.name, true, new Date().getTime()),
+      );
+    } else if (action === 'later') {
+      dispatch(
+        updateProposalVoteMeta(_ecencyProposalId, currentAccount.name, false, new Date().getTime()),
+      );
+    }
   };
 
   const _actionPanel = () => {

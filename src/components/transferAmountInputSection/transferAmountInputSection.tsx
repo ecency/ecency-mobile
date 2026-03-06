@@ -68,7 +68,7 @@ const TransferAmountInputSection = ({
   executions,
   setExecutions,
   startDate,
-  onNext,
+  onDelete,
 }) => {
   const intl = useIntl();
 
@@ -149,7 +149,9 @@ const TransferAmountInputSection = ({
   }, []);
 
   const _onDelete = () => {
-    onNext(true);
+    if (onDelete) {
+      onDelete();
+    }
   };
 
   const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;

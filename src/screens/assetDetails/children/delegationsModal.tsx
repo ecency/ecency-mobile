@@ -205,10 +205,10 @@ export const DelegationsModal = forwardRef(({}, ref) => {
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     if (days > 0) {
-      return `${days}d ${hours}h ${intl.formatMessage({ id: 'wallet.remaining' })}`;
+      return intl.formatMessage({ id: 'wallet.time_remaining_days' }, { days, hours });
     }
     const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    return `${hours}h ${mins}m ${intl.formatMessage({ id: 'wallet.remaining' })}`;
+    return intl.formatMessage({ id: 'wallet.time_remaining_hours' }, { hours, mins });
   };
 
   const _renderItem = ({ item, index }: { item: DelegationItem; index: number }) => {
