@@ -10,6 +10,8 @@ import { Icon } from '../icon';
 import { getPrivateKeys } from '../../providers/hive/auth';
 import { setTempActiveKey } from '../../providers/sdk/mobilePlatformAdapter';
 
+const FALLBACK_SHEET_ID = 'auth_upgrade';
+
 const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, payload }) => {
   const intl = useIntl();
   const currentAccount = useAppSelector(selectCurrentAccount);
@@ -35,7 +37,7 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
   const _close = (method: 'key' | 'hivesigner' | 'hiveauth' | false) => {
     if (closedRef.current) return;
     closedRef.current = true;
-    SheetManager.hide(sheetId, { payload: method });
+    SheetManager.hide(sheetId || FALLBACK_SHEET_ID, { payload: method });
   };
 
   const _handleSignWithKey = async () => {
@@ -101,9 +103,9 @@ const AuthUpgradeSheet: React.FC<SheetProps<'auth_upgrade'>> = ({ sheetId, paylo
 
   return (
     <ActionSheet
-      id={sheetId}
-      gestureEnabled={false}
-      closeOnTouchBackdrop={false}
+      id={sheetId || FALLBACK_SHEET_ID}
+      gestureEnabled
+      closeOnTouchBackdrop
       containerStyle={styles.sheetContainer}
     >
       <View style={styles.container}>

@@ -14,6 +14,8 @@ import unionBy from 'lodash/unionBy';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import AccountListContainer from '../../../containers/accountListContainer';
 import ROUTES from '../../../constants/routeNames';
+import TransferTypes from '../../../constants/transferTypes';
+import TokenLayers from '../../../constants/tokenLayers';
 import styles from './children.styles';
 import { BasicHeader, Modal, UserListItem } from '../../../components';
 import { useAppSelector } from '../../../hooks';
@@ -186,8 +188,9 @@ export const DelegationsModal = forwardRef(({}, ref) => {
       navigation.navigate({
         name: ROUTES.SCREENS.TRANSFER,
         params: {
-          transferType: 'delegate',
+          transferType: TransferTypes.DELEGATE_VESTING_SHARES,
           fundType: 'HIVE_POWER',
+          assetLayer: TokenLayers.HIVE,
           referredUsername: username,
         },
       });
