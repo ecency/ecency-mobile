@@ -727,6 +727,7 @@
   "report": {
     "confirm_report_title": "¡Confirmar Reporte!",
     "added": "Contenido censurable reportado",
+    "failed": "Failed to report content",
     "confirm_report_body": "¿Estás seguro de que quieres reportar?"
   },
   "uploads_modal": {
@@ -1106,6 +1107,10 @@
     "vote_value": "Valor del voto",
     "nft_burn": "NFT Quemado",
     "delegated_hive_power": "Delegaciones salientes",
+    "expiring": "Expiring",
+    "expiring_soon": "Expiring soon",
+    "time_remaining_days": "{days}d {hours}h remaining",
+    "time_remaining_hours": "{hours}h {mins}m remaining",
     "POINTS": {
       "buy": "GANAR PUNTOS",
       "name": "Puntos Ecency",
