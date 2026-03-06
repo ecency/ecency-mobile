@@ -45,8 +45,9 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
   const [isShowToastNotification, setIsShowToastNotification] = useState(false);
 
   useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
     if (!rcOfferRef.current && rcOffer) {
-      setTimeout(async () => {
+      timer = setTimeout(async () => {
         const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
           payload: {
             title: intl.formatMessage({
@@ -79,6 +80,9 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
     }
 
     rcOfferRef.current = rcOffer;
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [rcOffer]);
 
   useEffect(() => {

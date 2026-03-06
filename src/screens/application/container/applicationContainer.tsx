@@ -524,8 +524,11 @@ class ApplicationContainer extends Component {
         }
       }
 
-      // check session expiry in case of HIVE_AUTH
-      if (authData.authType === AUTH_TYPE.HIVE_AUTH) {
+      // check session expiry for session-based auth (HiveAuth or HiveSigner)
+      if (
+        authData.authType === AUTH_TYPE.HIVE_AUTH ||
+        authData.authType === AUTH_TYPE.STEEM_CONNECT
+      ) {
         this._checkHiveAuthExpiry(authData);
       }
 
@@ -1098,8 +1101,11 @@ class ApplicationContainer extends Component {
         );
       }
 
-      // check session expiry in case of HIVE_AUTH
-      if (realmData[0].authType === AUTH_TYPE.HIVE_AUTH) {
+      // check session expiry for session-based auth (HiveAuth or HiveSigner)
+      if (
+        realmData[0].authType === AUTH_TYPE.HIVE_AUTH ||
+        realmData[0].authType === AUTH_TYPE.STEEM_CONNECT
+      ) {
         this._checkHiveAuthExpiry(realmData[0]);
       }
 

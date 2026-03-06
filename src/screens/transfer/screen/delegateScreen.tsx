@@ -184,6 +184,7 @@ class DelegateScreen extends Component {
           delegatedHP: 0,
           hp: 0,
           amount: 0,
+          isAmountValid: false,
         });
         return;
       }
@@ -219,10 +220,12 @@ class DelegateScreen extends Component {
         const curShare = allDelegations.find((item) => item.delegatee === delegateeUser);
         if (curShare) {
           const vest_shares = parseAsset(curShare.vesting_shares);
+          const hpValue = vestsToHp(vest_shares.amount, hivePerMVests).toFixed(3);
           this.setState({
-            delegatedHP: vestsToHp(vest_shares.amount, hivePerMVests).toFixed(3),
-            hp: vestsToHp(vest_shares.amount, hivePerMVests).toFixed(3),
+            delegatedHP: hpValue,
+            hp: hpValue,
             amount: vest_shares.amount,
+            isAmountValid: parseFloat(hpValue) > 0.001,
           });
         } else {
           this.setState({
