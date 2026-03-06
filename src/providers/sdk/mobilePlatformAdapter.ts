@@ -44,9 +44,7 @@ export const clearTempActiveKey = () => {
 // Lazy-loaded sheet deps to avoid circular imports
 let _cachedSheetManager: typeof import('react-native-actions-sheet').SheetManager | null = null;
 let _cachedSheetNames: typeof import('../../navigation/sheets').SheetNames | null = null;
-let _pendingAuthUpgradePromise: Promise<
-  'hiveauth' | 'hivesigner' | 'keychain' | 'key' | false
-> | null = null;
+let _pendingAuthUpgradePromise: Promise<'hiveauth' | 'hivesigner' | 'key' | false> | null = null;
 
 const getSheetDeps = async () => {
   if (!_cachedSheetManager || !_cachedSheetNames) {
@@ -242,7 +240,7 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
     showAuthUpgradeUI: async (
       requiredAuthority: 'posting' | 'active',
       operation: string,
-    ): Promise<'hiveauth' | 'hivesigner' | 'keychain' | 'key' | false> => {
+    ): Promise<'hiveauth' | 'hivesigner' | 'key' | false> => {
       if (_pendingAuthUpgradePromise) {
         return _pendingAuthUpgradePromise;
       }
