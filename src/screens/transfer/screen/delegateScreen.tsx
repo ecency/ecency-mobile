@@ -19,7 +19,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { debounce } from 'lodash';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
-import { getReceivedVestingSharesQueryOptions } from '@ecency/sdk';
+import { getVestingDelegationsQueryOptions } from '@ecency/sdk';
 import { hsOptions } from '../../../constants/hsOptions';
 
 // Components
@@ -138,12 +138,12 @@ class DelegateScreen extends Component {
     const totalHP = vestsToHp(availableVests, hivePerMVests).toFixed(3);
     if (Number.isNaN(parsedValue)) {
       this.setState({ amount: 0, hp: 0.0, step: 2, isAmountValid: false });
-    } else if (parsedValue >= totalHP) {
+    } else if (parsedValue > totalHP) {
       this.setState({
         amount: hpToVests(totalHP, hivePerMVests),
         hp: totalHP,
         step: 2,
-        isAmountValid: false,
+        isAmountValid: true,
       });
     } else {
       this.setState({ amount: vestsForHp, hp: parsedValue, step: 2, isAmountValid: true });
@@ -171,13 +171,28 @@ class DelegateScreen extends Component {
   _fetchReceivedVestingShare = async () => {
     try {
       const { hivePerMVests } = this.props;
+      const delegatorUser = this.state.from;
       const delegateeUser = this.state.destination;
+
+      if (!delegatorUser || !delegateeUser) {
+        this.setState({
+          delegatedHP: 0,
+          hp: 0,
+          amount: 0,
+        });
+        return;
+      }
+
       const queryClient = getQueryClient();
-      const vestingShares = await queryClient.fetchQuery(
-        getReceivedVestingSharesQueryOptions(delegateeUser),
-      );
-      if (vestingShares && vestingShares.length) {
-        const curShare = vestingShares.find((item) => item.delegator === this.state.from);
+      const queryOptions = getVestingDelegationsQueryOptions(delegatorUser, 1000);
+      const vestingDelegations = await queryClient.fetchQuery({
+        ...queryOptions,
+        queryKey: [...queryOptions.queryKey, ''],
+        queryFn: () => queryOptions.queryFn({ pageParam: '' }),
+      });
+
+      if (vestingDelegations && vestingDelegations.length) {
+        const curShare = vestingDelegations.find((item) => item.delegatee === delegateeUser);
         if (curShare) {
           const vest_shares = parseAsset(curShare.vesting_shares);
           this.setState({
@@ -243,8 +258,8 @@ class DelegateScreen extends Component {
     const parsedHpValue = parseFloat(value);
     const amountValid = !(
       Number.isNaN(parsedHpValue) ||
-      parsedHpValue < 0.0 ||
-      parsedHpValue >= totalHP
+      parsedHpValue <= 0.001 ||
+      parsedHpValue > totalHP
     );
     return amountValid;
   };
