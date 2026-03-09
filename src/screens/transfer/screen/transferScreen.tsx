@@ -109,6 +109,7 @@ const TransferView = ({
 
   const _handleTransferAction = debounce(
     () => {
+      if (isTransfering) return;
       setIsTransfering(true);
 
       if (accountType === AUTH_TYPE.STEEM_CONNECT) {
