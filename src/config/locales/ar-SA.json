@@ -153,7 +153,9 @@
     "translate": "ترجم",
     "voice": "Voice",
     "boost": "تعزيز منشورك",
-    "pin-community": "تثبيت للمجتمع"
+    "pin-community": "تثبيت للمجتمع",
+    "pin-reply": "Pin comment",
+    "unpin-reply": "Unpin comment"
   },
   "side_menu": {
     "profile": "الملف الشّخصي",
@@ -725,6 +727,7 @@
   "report": {
     "confirm_report_title": "تأكيد التقرير!",
     "added": "المحتوى المرفوض المبلغ عنه",
+    "failed": "Failed to report content",
     "confirm_report_body": "هل أنت متأكد من أنك تريد الإبلاغ؟"
   },
   "uploads_modal": {
@@ -1104,6 +1107,10 @@
     "vote_value": "قيمة التصويت",
     "nft_burn": "رموز غير قابلة للاستبدال محترقة",
     "delegated_hive_power": "Outgoing delegations",
+    "expiring": "Expiring",
+    "expiring_soon": "Expiring soon",
+    "time_remaining_days": "{days}d {hours}h remaining",
+    "time_remaining_hours": "{hours}h {mins}m remaining",
     "POINTS": {
       "buy": "GET POINTS",
       "name": "Ecency Points",
