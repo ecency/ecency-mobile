@@ -71,6 +71,7 @@ const PowerDownScreen = ({
 
   const handleTransferAction = useCallback(
     async (amountOverride?: number) => {
+      if (isTransfering) return;
       setIsTransfering(true);
 
       // Use explicit amount override (for stop power down) or current amount state

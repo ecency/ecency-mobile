@@ -171,6 +171,8 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
 
   // initiates swaping action on confirmation
   const _confirmSwap = async () => {
+    if (swapping) return;
+
     const _fromAmount = Number(fromAmount);
 
     const data: SwapOptions = {

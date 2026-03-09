@@ -67,6 +67,8 @@ class TransferTokenView extends Component {
   };
 
   _handleTransferAction = async () => {
+    if (this.state.isTransfering) return;
+
     const { transferToAccount, accountType } = this.props;
     const { from, destination, amount, memo } = this.state;
 

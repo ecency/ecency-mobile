@@ -170,30 +170,45 @@ const getSheetDeps = async () => {
 };
 
 /**
- * Recursion guard for HiveAuth fallback
- * Tracks active fallback operations to prevent infinite recursion
+ * Deduplication map for HiveAuth fallback.
+ * If a second call arrives for the same account+operation while one is already
+ * in-flight, it piggybacks on the existing promise instead of throwing.
  * Key format: `${accountName}:${operationName}`
  */
-const _activeFallbacks = new Set<string>();
+const _activeFallbackPromises = new Map<string, Promise<any>>();
 
 export const handleHiveAuthFallback = async (
   currentAccount: any,
   operations: Operation[],
   operationName: string,
 ): Promise<any> => {
-  // Prevent infinite recursion: block if this exact operation is already in fallback
   const fallbackKey = `${currentAccount?.name || 'unknown'}:${operationName}`;
 
-  if (_activeFallbacks.has(fallbackKey)) {
-    const recursionError = new Error(
-      `[HiveAuth Fallback] Recursion detected for ${operationName}. Already in fallback state.`,
+  // If an identical fallback is already in-flight, piggyback on it instead of
+  // opening a second HiveAuth sheet (which would fail or confuse the user).
+  const existing = _activeFallbackPromises.get(fallbackKey);
+  if (existing) {
+    console.warn(
+      `[HiveAuth Fallback] Concurrent call for ${operationName}, reusing in-flight request`,
     );
-    console.error(recursionError.message);
-    throw recursionError;
+    return existing;
   }
 
-  _activeFallbacks.add(fallbackKey);
+  const promise = _executeHiveAuthFallback(currentAccount, operations, operationName);
+  _activeFallbackPromises.set(fallbackKey, promise);
 
+  try {
+    return await promise;
+  } finally {
+    _activeFallbackPromises.delete(fallbackKey);
+  }
+};
+
+const _executeHiveAuthFallback = async (
+  currentAccount: any,
+  operations: Operation[],
+  operationName: string,
+): Promise<any> => {
   console.log(
     `[HiveAuth Fallback] Access token failed for ${operationName}, ` +
       'falling back to HiveAuth broadcast',
@@ -243,7 +258,6 @@ export const handleHiveAuthFallback = async (
     }
   } finally {
     clearTimeout(timeoutId);
-    _activeFallbacks.delete(fallbackKey);
   }
 };
 

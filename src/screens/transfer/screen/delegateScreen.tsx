@@ -156,6 +156,8 @@ class DelegateScreen extends Component {
   };
 
   _handleTransferAction = async () => {
+    if (this.state.isTransfering) return;
+
     const { transferToAccount, handleOnModalClose, intl } = this.props;
     const { from, destination, amount } = this.state;
 
