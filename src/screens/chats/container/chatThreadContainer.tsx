@@ -1290,22 +1290,20 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         }
       }
 
-      // Only clear input via HTTP if WebSocket is NOT connected
-      // WebSocket will handle it via onNewMessage callback for instant feedback
-      if (!isWsConnected) {
-        setMessage('');
-        messageRef.current = '';
-        _updateMentionState('');
-        setRootPost(null);
-        setLinkMeta(null);
-        lastSentPendingIdRef.current = null;
-        lastSentMessageRef.current = null;
-        lastSentRootIdRef.current = null;
-        lastSentAtRef.current = 0;
-        if (sendTimeoutRef.current) {
-          clearTimeout(sendTimeoutRef.current);
-          sendTimeoutRef.current = null;
-        }
+      // Always clear input after successful send via HTTP response.
+      // WebSocket may also clear it via onNewMessage, but HTTP is the reliable path.
+      setMessage('');
+      messageRef.current = '';
+      _updateMentionState('');
+      setRootPost(null);
+      setLinkMeta(null);
+      lastSentPendingIdRef.current = null;
+      lastSentMessageRef.current = null;
+      lastSentRootIdRef.current = null;
+      lastSentAtRef.current = 0;
+      if (sendTimeoutRef.current) {
+        clearTimeout(sendTimeoutRef.current);
+        sendTimeoutRef.current = null;
       }
     } catch (err: any) {
       // Clear pending ID on error so we don't match it later

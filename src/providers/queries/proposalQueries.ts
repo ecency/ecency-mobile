@@ -122,8 +122,15 @@ export const useProposalVoteMutation = () => {
 
     retry: (failureCount, error) => {
       const message = error?.message || '';
-      if (message === 'Operation cancelled by user') return false;
-      if (message.includes('HiveSigner modal closed')) return false;
+      const lowerMessage = message.toLowerCase();
+
+      // User-driven cancellation/decline should never be auto-retried,
+      // otherwise auth-upgrade UI can re-open multiple times in a row.
+      if (lowerMessage.includes('operation cancelled by user')) return false;
+      if (lowerMessage.includes('hivesigner modal closed')) return false;
+      if (lowerMessage.includes('user declined alternate auth')) return false;
+      if (lowerMessage.includes('declined alternate auth')) return false;
+
       return failureCount < 3;
     },
     onSuccess: (_, { proposalId }) => {
