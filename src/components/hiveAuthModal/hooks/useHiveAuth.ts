@@ -187,7 +187,15 @@ const isHasNotConnectedError = (error: any): boolean => {
     typeof error === 'string' ? error : null,
   ].filter(Boolean);
 
-  return candidates.some((s) => /not\s+(?:been\s+)?connected(?:\s+to\s+server)?/i.test(String(s)));
+  return candidates.some((s) => {
+    const str = String(s);
+    // HAS relay returns "not been connected" when account session is missing
+    if (/not\s+(?:been\s+)?connected(?:\s+to\s+server)?/i.test(str)) return true;
+    // WebSocket-level errors when connection dropped (e.g., during background transition)
+    if (/websocket\s+(?:is\s+)?(?:not\s+open|closed|not\s+connected)/i.test(str)) return true;
+    if (/connection\s+(?:closed|lost|refused|reset)/i.test(str)) return true;
+    return false;
+  });
 };
 
 interface HiveAuthSession {
@@ -455,10 +463,21 @@ export const useHiveAuth = () => {
       setStatus(HiveAuthStatus.PROCESSING);
       setStatusText(intl.formatMessage({ id: 'hiveauth.initiating' }));
 
-      // Ensure HAS connection is established before broadcasting
+      // Ensure HAS connection is established before broadcasting.
+      // ensureHasConnection's catch handler swallows errors, so the await
+      // may resolve even when the connection failed. Verify with HAS.status().
       await ensureHasConnection();
-      const hasStatus = HAS.status();
+      let hasStatus = HAS.status();
       console.log('[HiveAuth] Broadcast - HAS status:', hasStatus);
+
+      if (!hasStatus?.connected) {
+        console.warn(
+          '[HiveAuth] Connection not active after ensureHasConnection, forcing reconnect',
+        );
+        await ensureHasConnection(true);
+        hasStatus = HAS.status();
+        console.log('[HiveAuth] Broadcast - HAS status after forced reconnect:', hasStatus);
+      }
 
       const username = account.name ?? account.username;
       if (!username) {

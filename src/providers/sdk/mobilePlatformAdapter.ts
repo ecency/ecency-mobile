@@ -46,6 +46,12 @@ let _cachedSheetManager: typeof import('react-native-actions-sheet').SheetManage
 let _cachedSheetNames: typeof import('../../navigation/sheets').SheetNames | null = null;
 let _pendingAuthUpgradePromise: Promise<'hiveauth' | 'hivesigner' | 'key' | false> | null = null;
 
+// When the auth upgrade sheet returns 'hivesigner', the SDK cannot handle hot signing
+// (it only does token-based HiveSigner which lacks active scope). We return 'hiveauth'
+// to the SDK so it calls broadcastWithHiveAuth() — which gives us the operations array.
+// This flag tells broadcastWithHiveAuth to redirect to the HiveSigner WebView instead.
+let _authUpgradeUseHiveSigner = false;
+
 const getSheetDeps = async () => {
   if (!_cachedSheetManager || !_cachedSheetNames) {
     const [actionSheetModule, sheetsModule] = await Promise.all([
@@ -141,6 +147,13 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
         }
       }
 
+      // HiveSigner access tokens only have posting scope.
+      // For active operations, return null so the SDK goes directly to
+      // showAuthUpgradeUI instead of attempting a doomed token-based broadcast.
+      if (mapped === 'hivesigner' && authority === 'active') {
+        return null;
+      }
+
       return mapped;
     },
 
@@ -173,6 +186,25 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       ops: Operation[],
       _keyType: 'posting' | 'active' | 'owner' | 'memo',
     ): Promise<TransactionConfirmation> => {
+      // Auth upgrade selected HiveSigner: redirect to hot signing WebView.
+      // The SDK doesn't call broadcastWithHiveSigner directly, so we route
+      // through broadcastWithHiveAuth by returning 'hiveauth' from showAuthUpgradeUI.
+      if (_authUpgradeUseHiveSigner) {
+        _authUpgradeUseHiveSigner = false;
+        const encodedUri = hiveuri.encodeOps(ops);
+        return new Promise<TransactionConfirmation>((resolve, reject) => {
+          RootNavigation.navigate({
+            name: ROUTES.MODALS.HIVE_SIGNER,
+            params: {
+              hiveuri: encodedUri,
+              opsArray: ops,
+              onSuccess: () => resolve({} as TransactionConfirmation),
+              onClose: () => reject(new Error('HiveSigner signing cancelled')),
+            },
+          });
+        });
+      }
+
       const state = store.getState();
       const currentAccount = state.account?.currentAccount;
       const opName = ops.length > 0 ? (ops[0][0] as string) : 'unknown';
@@ -251,6 +283,17 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
 
       _pendingAuthUpgradePromise = (async () => {
         try {
+          // HiveSigner users: skip the dialog and go directly to hot signing.
+          // getLoginType returns null for hivesigner+active, so the SDK calls
+          // showAuthUpgradeUI. We auto-select HiveSigner to preserve the existing
+          // UX where the WebView opens immediately for HiveSigner-logged users.
+          const local = _getAccountLocal(username);
+          const loginType = local?.authType ? mapAuthTypeToLoginType(local.authType) : null;
+          if (loginType === 'hivesigner') {
+            _authUpgradeUseHiveSigner = true;
+            return 'hiveauth';
+          }
+
           const { SheetManager, SheetNames } = await getSheetDeps();
 
           // SheetManager.show() returns a promise that resolves with the value
@@ -261,7 +304,17 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
             payload: { requiredAuthority, operation, username },
           });
           // result is undefined when user dismisses via backdrop tap
-          return result || false;
+          if (!result) return false;
+
+          if (result === 'hivesigner') {
+            // SDK's H('hivesigner') uses token-based API which lacks active scope.
+            // Set flag so broadcastWithHiveAuth redirects to hot signing WebView,
+            // then return 'hiveauth' so the SDK calls broadcastWithHiveAuth with the ops.
+            _authUpgradeUseHiveSigner = true;
+            return 'hiveauth';
+          }
+
+          return result;
         } catch (sheetError: any) {
           console.error('[showAuthUpgradeUI] Failed to show sheet:', sheetError);
           return false;
