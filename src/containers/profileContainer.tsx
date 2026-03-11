@@ -481,11 +481,11 @@ class ProfileContainer extends Component {
   };
 
   _handleReportUser = () => {
-    const { dispatch, intl } = this.props;
+    const { dispatch, intl, currentAccount } = this.props;
     const { username } = this.state;
 
     const _onConfirm = () => {
-      addReport('user', username)
+      addReport('account', username, currentAccount?.name)
         .then(() => {
           dispatch(
             toastNotification(

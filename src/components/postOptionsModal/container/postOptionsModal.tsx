@@ -286,9 +286,9 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     });
   };
 
-  const _report = async (url) => {
+  const _report = async (author: string, permlink: string) => {
     const _onConfirm = () => {
-      addReport('content', url)
+      addReport('post', author, currentAccount?.name, permlink)
         .then(() => {
           dispatch(
             toastNotification(
@@ -668,7 +668,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
       case 'report':
         reportTimer.current = setTimeout(() => {
-          _report(get(content, 'url'));
+          _report(get(content, 'author'), get(content, 'permlink'));
         }, 300);
 
         break;

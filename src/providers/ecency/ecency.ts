@@ -40,20 +40,27 @@ import { PurchaseRequestData } from './ecency.types';
  */
 
 /**
- * TODO:
  * POST /private-api/report
  *
- * body:
- * type:string
- * data:string
- *
- * */
-export const addReport = async (type: 'content' | 'user', data: string) => {
+ * For post reports: { type: 'post', author, permlink, reporter?, notes? }
+ * For account reports: { type: 'account', author, reporter?, notes? }
+ */
+export const addReport = async (
+  type: 'post' | 'account',
+  author: string,
+  reporter: string,
+  permlink?: string,
+  notes?: string,
+) => {
   try {
-    const response = await ecencyApi.post('/private-api/report', {
-      type,
-      data,
-    });
+    const body: Record<string, string> = { type, author, reporter };
+    if (type === 'post' && permlink) {
+      body.permlink = permlink;
+    }
+    if (notes) {
+      body.notes = notes;
+    }
+    const response = await ecencyApi.post('/private-api/report', body);
     return response.data;
   } catch (err) {
     console.warn('Failed to report to ecency');
