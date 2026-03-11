@@ -35,6 +35,7 @@ import { getName, getAvatar, parseReputation } from '../../utils/user';
 import AUTH_TYPE from '../../constants/authType';
 import { SERVER_LIST } from '../../constants/options/api';
 import { b64uEnc } from '../../utils/b64';
+import { delay } from '../../utils/editor';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 global.Buffer = global.Buffer || require('buffer').Buffer;
@@ -159,10 +160,12 @@ let _cachedSheetNames: typeof import('../../navigation/sheets').SheetNames | nul
 
 const getSheetDeps = async () => {
   if (!_cachedSheetManager || !_cachedSheetNames) {
-    const [actionSheetModule, sheetsModule] = await Promise.all([
-      import('react-native-actions-sheet'),
-      import('../../navigation/sheets'),
-    ]);
+    // Use require here to avoid Metro's async import() wrapper
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const actionSheetModule = require('react-native-actions-sheet');
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const sheetsModule = require('../../navigation/sheets');
+
     _cachedSheetManager = actionSheetModule.SheetManager;
     _cachedSheetNames = sheetsModule.SheetNames;
   }
@@ -224,6 +227,7 @@ const _executeHiveAuthFallback = async (
     // is called from the sheet component. The result is passed as hide()'s payload.
     // This ensures the caller receives the result AFTER the sheet and its reanimated
     // animations are fully hidden — no component tree conflicts.
+    await delay(500); // NOTE: this hack makes sure first upgrade sheet is closed before showing the second one,
     const response = await Promise.race([
       SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
         payload: { operations },
