@@ -54,10 +54,12 @@ let _authUpgradeUseHiveSigner = false;
 
 const getSheetDeps = async () => {
   if (!_cachedSheetManager || !_cachedSheetNames) {
-    const [actionSheetModule, sheetsModule] = await Promise.all([
-      import('react-native-actions-sheet'),
-      import('../../navigation/sheets'),
-    ]);
+    // Use require here to avoid Metro's async import() wrapper
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const actionSheetModule = require('react-native-actions-sheet');
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const sheetsModule = require('../../navigation/sheets');
+
     _cachedSheetManager = actionSheetModule.SheetManager;
     _cachedSheetNames = sheetsModule.SheetNames;
   }
