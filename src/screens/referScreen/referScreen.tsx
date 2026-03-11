@@ -189,7 +189,7 @@ const ReferScreen = () => {
         key={get(item, '_id')}
         index={index}
         username={item.referredUsername}
-        description={get(item, 'timestamp')}
+        description={item.timestamp instanceof Date ? item.timestamp.toLocaleDateString() : ''}
         // isClickable
         isBlackRightColor
         isLoggedIn
