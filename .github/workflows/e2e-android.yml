@@ -1,0 +1,91 @@
+name: E2E Tests (Android)
+
+on:
+  # Run on demand or when deploy label is added
+  workflow_dispatch:
+  pull_request:
+    types: [labeled]
+
+concurrency:
+  group: e2e-android-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e-android:
+    name: Maestro E2E (Android)
+    # Only run when 'e2e-test' label is added or on manual dispatch
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'e2e-test'))
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: 12266719
+
+      - name: Create .env file
+        run: |
+          echo "ACTIVITY_WEBSOCKET_URL=${{ secrets.ACTIVITY_WEBSOCKET_URL }}" >> .env
+          echo "DEFAULT_PIN=${{ secrets.DEFAULT_PIN }}" >> .env
+          echo "ECENCY_BACKEND_API=${{ secrets.ECENCY_BACKEND_API }}" >> .env
+          echo "NEW_IMAGE_API=${{ secrets.NEW_IMAGE_API }}" >> .env
+          echo "PIN_KEY=${{ secrets.PIN_KEY }}" >> .env
+          echo "SERVER_LIST_API=${{ secrets.SERVER_LIST_API }}" >> .env
+          echo "USER_AGENT=${{ secrets.USER_AGENT }}" >> .env
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Create Google Services JSON
+        env:
+          GOOGLE_JSON: ${{ secrets.GOOGLE_JSON }}
+        run: echo $GOOGLE_JSON | base64 --decode > ./android/app/google-services.json
+
+      - name: Install Maestro
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      - name: Build debug APK
+        run: |
+          cd android
+          ./gradlew assembleDebug
+
+      - name: Run Maestro E2E tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          profile: pixel_6
+          heap-size: 512M
+          ram-size: 4096M
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          disable-animations: true
+          script: |
+            adb install android/app/build/outputs/apk/debug/app-debug.apk
+            maestro test .maestro/ --format junit --output maestro-results.xml
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-results
+          path: maestro-results.xml
+          retention-days: 30

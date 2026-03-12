@@ -69,7 +69,7 @@ export const calculateVoteReward = (voteRShares: number, post: any, totalRshares
       : voteRShares;
   }
 
-  const ratio = totalPayout / totalRshares || 0;
+  const ratio = totalRshares ? totalPayout / totalRshares : 0;
 
   return voteRShares * ratio;
 };

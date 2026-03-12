@@ -164,3 +164,24 @@ jest.mock('@notifee/react-native', () => ({
     getInitialNotification: jest.fn(() => Promise.resolve(null)),
   },
 }));
+
+// Mock crypto-js to avoid native WordArray errors in test environment
+jest.mock('crypto-js', () => {
+  const mockCiphertext = {
+    toString: jest.fn(() => 'mock-encrypted'),
+  };
+  return {
+    AES: {
+      encrypt: jest.fn(() => mockCiphertext),
+      decrypt: jest.fn(() => ({ toString: jest.fn(() => '{"data":"mock","stamp":true}') })),
+    },
+    enc: {
+      Base64: { stringify: jest.fn(() => 'bW9jay1lbmNyeXB0ZWQ=') },
+      Utf8: {
+        parse: jest.fn((str) => str),
+        stringify: jest.fn(() => '{"data":"mock","stamp":true}'),
+      },
+    },
+    SHA256: jest.fn(() => ({ toString: jest.fn(() => 'mock-hash') })),
+  };
+});

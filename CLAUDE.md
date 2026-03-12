@@ -22,6 +22,7 @@ yarn lint                # Run ESLint on src/
 yarn lint:fix            # Auto-fix linting issues
 yarn format              # Format with Prettier and lint:fix
 yarn test                # Run Jest tests in watch mode
+yarn test:ci             # Run Jest tests for CI (no watch, forceExit)
 ```
 
 ### Build Scripts
@@ -66,6 +67,7 @@ Uses React Navigation v6 with nested navigators:
 - Primary Hive client: `src/providers/hive/dhive.ts` (uses @hiveio/dhive and @esteemapp/dhive)
 - Client auto-configures with fallback servers from `src/constants/options/api.ts`
 - Post parsing utilities: `src/utils/postParser.ts`
+  - `parsePost(post, currentUserName, isPromoted)` — all 3 args required
 - HiveSigner support: `src/providers/hive/hivesignerAPI.ts`
 - HiveAuth wrapper: Uses hive-auth-wrapper for keychain integration
 
@@ -246,11 +248,39 @@ Uses `rn-nodeify` to polyfill Node.js modules (crypto, stream, buffer, etc.) for
 
 ## Testing
 
-- Test framework: Jest 29
-- Config: `jest.config.ts` with React Native preset
-- Setup: `jest.setup.ts`
-- Tests location: `__tests__/`
-- Run single test: `node node_modules/jest/bin/jest.js <test-file-path>`
+### Unit Tests
+- Test framework: Jest 29 with React Native preset
+- Config: `jest.config.ts`, Setup: `jest.setup.ts`
+- Tests co-located with source: `src/utils/*.test.ts`, `src/redux/reducers/*.test.ts`
+- Run all: `yarn test` (watch mode) or `yarn test:ci` (CI, no watch)
+- Run single: `node node_modules/jest/bin/jest.js <test-file-path>`
+
+**Test suites (284 tests):**
+- Utilities: `conversions`, `number`, `vote`, `wallet`, `postParser`, `deepLinkParser`, `transactionOpsBuilder`, `crypto`, `migrationHelpers`
+- Redux reducers: `cacheReducer`, `accountReducer`
+
+**Mocking patterns:**
+- Native modules mocked globally in `jest.setup.ts` (react-native, expo-*, CryptoJS, etc.)
+- Heavy dependency chains (store → navigation → components) require strategic `jest.mock()` to break circular imports
+- Use `jest.unmock('crypto-js')` in crypto.test.ts for real encryption roundtrip tests
+
+### E2E Tests (Maestro)
+- Config: `.maestro/config.yaml`
+- Flows: `.maestro/01-app-launch.yaml` through `04-feed-navigation.yaml`
+- Run locally: `maestro test .maestro/` (requires Android emulator or device)
+- CI: `.github/workflows/e2e-android.yml` — triggered by `e2e-test` label or manual dispatch
+- Uses `reactivecircus/android-emulator-runner@v2` with API 34
+
+### CI Workflows
+- `.github/workflows/test.yml` — lint + unit tests (runs on all PRs)
+- Build workflows (`.github/workflows/build-android.yml`, `build-ios.yml`) gate on `lint-and-test` job
+
+## Code Style (ESLint)
+
+- Unused function params must be `_`-prefixed (e.g., `(_opts)` not `(opts)`)
+- Use `Number.isNaN()` not global `isNaN` (`no-restricted-globals`)
+- `require()` in TypeScript needs `// eslint-disable-next-line @typescript-eslint/no-var-requires`
+- Max line length: 100 chars (warning, not error)
 
 ## TypeScript
 

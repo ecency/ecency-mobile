@@ -12,8 +12,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  lint-and-test:
+    name: Lint & Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: >
+            ${{ github.event_name == 'push' && github.ref == 'refs/heads/development' && github.repository ||
+            github.event.pull_request.head.repo.full_name }}
+          ref: >
+            ${{ github.event_name == 'push' && github.ref == 'refs/heads/development' && 'development' ||
+            github.event.pull_request.head.sha }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Unit tests
+        run: yarn test:ci
+
   ios-build:
     name: iOS Build
+    needs: lint-and-test
     if: >
         (github.event_name == 'pull_request') ||
         (github.event_name == 'push' && github.ref == 'refs/heads/development')
