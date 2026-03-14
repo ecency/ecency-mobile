@@ -54,6 +54,14 @@ class MattermostWebSocketClient {
 
   private lastSequence = 0;
 
+  private lastPongReceived = 0;
+
+  private pongTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  private readonly PONG_TIMEOUT = 10000; // 10s to receive pong
+
+  private readonly PING_INTERVAL = 30000; // 30s ping interval
+
   private appStateSubscription: any = null;
 
   private reconnectTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -91,7 +99,7 @@ class MattermostWebSocketClient {
       const backendUrl = Config.ECENCY_BACKEND_API || '';
       const wsProtocol = backendUrl.startsWith('https') ? 'wss' : 'ws';
       const wsHost = backendUrl.replace(/^https?:\/\//, '');
-      const wsUrl = `${wsProtocol}://${wsHost}/api/mattermost/websocket`;
+      const wsUrl = `${wsProtocol}://${wsHost}/api/mattermost/websocket?token=${config.token}`;
 
       console.log('[MattermostWS] Connecting to:', wsUrl);
       console.log('[MattermostWS] User ID:', config.userId);
@@ -127,6 +135,7 @@ class MattermostWebSocketClient {
         this.isConnecting = false;
         this.reconnectAttempts = 0;
         this.firstDisconnectTime = null; // Reset disconnect timer on successful connection
+        this.lastPongReceived = Date.now();
 
         // Track metrics
         this.metrics.connectionsOpened++;
@@ -151,19 +160,13 @@ class MattermostWebSocketClient {
 
       this.ws.onmessage = (event) => {
         try {
-          console.log('[MattermostWS] Raw message received:', event.data);
           const message: MattermostWebSocketEvent = JSON.parse(event.data);
-          console.log('[MattermostWS] Parsed message:', JSON.stringify(message, null, 2));
-          console.log(
-            '[MattermostWS] Received message, event:',
-            message.event,
-            'seq:',
-            message.seq,
-          );
-
-          // Update sequence number
-          if (message.seq && message.seq > this.lastSequence) {
-            this.lastSequence = message.seq;
+          // Handle pong responses
+          // Mattermost responds with {status:"OK", data:{text:"pong"}} not {event:"pong"}
+          if (message.event === ('pong' as any) || (message as any).data?.text === 'pong') {
+            this.lastPongReceived = Date.now();
+            this._stopPongTimeout();
+            return;
           }
 
           // Handle authentication response
@@ -240,9 +243,9 @@ class MattermostWebSocketClient {
         this.metrics.totalDisconnects++;
         this.metrics.lastDisconnectedAt = Date.now();
 
-        // Don't reconnect if we got HTTP 426, 404, 403, 401, 1000 (normal/timeout), or 1006 (abnormal closure)
-        // These indicate the endpoint doesn't support WebSocket, auth failed, or connection issues
-        const doNotReconnectCodes = [426, 404, 403, 401, 1000, 1002, 1003, 1006];
+        // Don't reconnect on HTTP errors (endpoint doesn't exist or auth permanently failed)
+        // DO reconnect on 1000 (server restart), 1006 (network drop) - these are recoverable
+        const doNotReconnectCodes = [426, 404, 403, 401, 1002, 1003];
         const shouldNotReconnect = event?.code && doNotReconnectCodes.includes(event.code);
 
         if (!this.isClosed && !shouldNotReconnect) {
@@ -370,9 +373,6 @@ class MattermostWebSocketClient {
     };
 
     console.log('[MattermostWS] Sending authentication message');
-    console.log('[MattermostWS] Auth token length:', this.config.token.length);
-    console.log('[MattermostWS] Auth token prefix:', `${this.config.token.substring(0, 10)}...`);
-    console.log('[MattermostWS] Auth message seq:', authMessage.seq);
 
     this._send(authMessage);
   }
@@ -390,6 +390,14 @@ class MattermostWebSocketClient {
     this._stopHeartbeat();
 
     this.heartbeatInterval = setInterval(() => {
+      // Check if last pong was received recently
+      const timeSinceLastPong = Date.now() - this.lastPongReceived;
+      if (timeSinceLastPong > this.PING_INTERVAL + this.PONG_TIMEOUT) {
+        console.warn('[MattermostWS] No pong received for too long, reconnecting...');
+        this.ws?.close(1001, 'Ping timeout');
+        return;
+      }
+
       const ping = {
         seq: ++this.lastSequence,
         action: 'ping',
@@ -397,13 +405,32 @@ class MattermostWebSocketClient {
       };
 
       this._send(ping);
-    }, 30000); // Ping every 30 seconds
+
+      // Start timeout for pong response
+      this._startPongTimeout();
+    }, this.PING_INTERVAL);
   }
 
   private _stopHeartbeat() {
     if (this.heartbeatInterval) {
       clearInterval(this.heartbeatInterval);
       this.heartbeatInterval = null;
+    }
+    this._stopPongTimeout();
+  }
+
+  private _startPongTimeout() {
+    this._stopPongTimeout();
+    this.pongTimeout = setTimeout(() => {
+      console.warn('[MattermostWS] Pong timeout - no response to ping');
+      this.ws?.close(1001, 'Pong timeout');
+    }, this.PONG_TIMEOUT);
+  }
+
+  private _stopPongTimeout() {
+    if (this.pongTimeout) {
+      clearTimeout(this.pongTimeout);
+      this.pongTimeout = null;
     }
   }
 
