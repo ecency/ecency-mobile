@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { View, Platform, Text, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
 import { useIntl } from 'react-intl';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { debounce } from 'lodash';
 // Internal Components
 import { lookupAccountsQueryOptions } from '@ecency/sdk';
@@ -286,4 +285,4 @@ const RegisterScreen = ({ navigation, route }) => {
   );
 };
 
-export default gestureHandlerRootHOC(RegisterScreen);
+export default RegisterScreen;

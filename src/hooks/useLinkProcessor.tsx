@@ -619,10 +619,12 @@ export const useLinkProcessor = (onClose?: () => void) => {
     const { name, params, key } = deepLinkData || {};
     if (name && params && key) {
       onClose && onClose();
+      await delay(500);
       RootNavigation.navigate(deepLinkData);
     } else {
       // Open unsupported links in in-app browser
       onClose && onClose();
+      await delay(500);
       RootNavigation.navigate({
         name: ROUTES.SCREENS.WEB_BROWSER,
         params: {
