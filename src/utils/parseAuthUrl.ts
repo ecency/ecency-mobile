@@ -12,6 +12,7 @@ interface ParsedAuthUrl {
   username?: string | null;
   code?: string | null;
   referredUser?: string | null;
+  email?: string | null;
 }
 
 export default (urlString: string): ParsedAuthUrl | null => {
@@ -19,9 +20,13 @@ export default (urlString: string): ParsedAuthUrl | null => {
   console.log(JSON.stringify(url, null, '\t'));
   if (url.pathname === '/signup') {
     const referredUser = url.searchParams.get('referral');
+    const username = url.searchParams.get('username');
+    const email = url.searchParams.get('email');
     return {
       mode: AUTH_MODES.SIGNUP,
       referredUser,
+      username,
+      email,
     };
   } else if (url.pathname === '/auth') {
     const username = url.searchParams.get('username');

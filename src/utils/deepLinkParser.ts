@@ -74,12 +74,14 @@ export const deepLinkParser = async (url) => {
   if (!routeName) {
     const data = parseAuthUrl(url);
     if (data) {
-      const { mode, referredUser, username, code } = data;
+      const { mode, referredUser, username, code, email } = data;
 
       if (mode === AUTH_MODES.SIGNUP) {
         routeName = ROUTES.SCREENS.REGISTER;
         params = {
           referredUser,
+          username,
+          email,
         };
         keey = `${mode}/${referredUser || ''}`;
       }

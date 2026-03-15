@@ -51,22 +51,20 @@ const RegisterScreen = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    if (registerAccountModalRef.current) {
-      const { purchaseOnly, email, username, referredUser } = route.params || {};
-      if (email) {
-        _handleEmailChange(email);
-      }
-      if (username) {
-        _handleUsernameChange({ value: username });
-      }
-      if (referredUser) {
-        _handleRefUsernameChange({ value: referredUser });
-      }
-      if (purchaseOnly && email && username) {
-        registerAccountModalRef.current.showModal({ purchaseOnly });
-      }
+    const { purchaseOnly, email, username, referredUser } = route.params || {};
+    if (email) {
+      _handleEmailChange(email);
     }
-  }, [registerAccountModalRef]);
+    if (username) {
+      _handleUsernameChange({ value: username });
+    }
+    if (referredUser) {
+      _handleRefUsernameChange({ value: referredUser });
+    }
+    if (purchaseOnly && email && username) {
+      registerAccountModalRef.current?.showModal({ purchaseOnly });
+    }
+  }, []);
 
   const _getAccountsWithUsername = async (username) => {
     if (!isConnected) {
