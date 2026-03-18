@@ -3,21 +3,17 @@ import { useIntl } from 'react-intl';
 import { Alert, AlertButton } from 'react-native';
 import ImagePicker, { Image, Options, Video } from 'react-native-image-crop-picker';
 import RNHeicConverter from 'react-native-heic-converter';
+import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 import { openSettings } from 'react-native-permissions';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import {
-  delay,
-  extract3SpeakIds,
-  extractFilenameFromPath,
-  extractImageUrls,
-} from '../../../utils/editor';
+import { delay, extractFilenameFromPath, extractImageUrls } from '../../../utils/editor';
 import { isMediaPickerCancellation, reportMediaPickerError } from '../../../utils/mediaPickerError';
 import showLoginAlert from '../../../utils/showLoginAlert';
-import { editorQueries, speakQueries } from '../../../providers/queries';
+import { editorQueries } from '../../../providers/queries';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 import { SpeakUploaderModal } from '../children/speakUploaderModal';
 import { SheetNames } from '../../../navigation/sheets';
@@ -33,11 +29,8 @@ export enum Modes {
 }
 
 const MAX_IMAGE_UPLOAD_SIZE = 30000000; // 30MB server limit
-const IMAGE_COMPRESS_OPTIONS = {
-  compressImageMaxWidth: 1920,
-  compressImageMaxHeight: 1920,
-  compressImageQuality: 0.85,
-};
+const MAX_IMAGE_DIMENSION = 1920;
+const COMPRESS_QUALITY = 0.85;
 
 export enum MediaInsertStatus {
   UPLOADING = 'UPLOADING',
@@ -84,7 +77,6 @@ export const UploadsGalleryModal = forwardRef(
     const dispatch = useAppDispatch();
 
     const imageUploadsQuery = editorQueries.useMediaQuery();
-    const videoUploadsQuery = speakQueries.useVideoUploadsQuery();
 
     const mediaUploadMutation = editorQueries.useMediaUploadMutation();
 
@@ -99,8 +91,8 @@ export const UploadsGalleryModal = forwardRef(
 
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
-    // Select query based on mode and extract pagination functions
-    const mediaUploadsQuery = mode === Modes.MODE_VIDEO ? videoUploadsQuery : imageUploadsQuery;
+    // Image gallery query (video gallery no longer needed with new embed architecture)
+    const mediaUploadsQuery = imageUploadsQuery;
     const { fetchNextPage, hasNextPage, isFetchingNextPage } = mediaUploadsQuery;
 
     useImperativeHandle(ref, () => ({
@@ -165,16 +157,7 @@ export const UploadsGalleryModal = forwardRef(
 
     useEffect(() => {
       if (showModal) {
-        let _urls: string[] = [];
-        if (mode === Modes.MODE_VIDEO) {
-          const _vidIds = extract3SpeakIds({ body: postBody });
-          _urls = _vidIds.map((id) => {
-            const mediaItem = mediaUploadsQuery.data.find((item) => item._id === id);
-            return mediaItem?.url;
-          });
-        } else {
-          _urls = extractImageUrls({ body: postBody });
-        }
+        const _urls = extractImageUrls({ body: postBody });
         setMediaUrls(_urls);
       }
     }, [postBody, showModal, mode]);
@@ -197,7 +180,6 @@ export const UploadsGalleryModal = forwardRef(
             multiple: allowMultiple || true,
             mediaType: 'photo',
             smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
-            ...IMAGE_COMPRESS_OPTIONS,
           };
 
       ImagePicker.openPicker(_options)
@@ -231,7 +213,6 @@ export const UploadsGalleryModal = forwardRef(
         : {
             includeBase64: true,
             mediaType: 'photo',
-            ...IMAGE_COMPRESS_OPTIONS,
           };
 
       ImagePicker.openCamera(_options)
@@ -266,9 +247,11 @@ export const UploadsGalleryModal = forwardRef(
           }
         }
 
-        // post process heic to jpg media items
+        // post process media items: convert HEIC and compress non-GIF images
         for (let i = 0; i < media.length; i++) {
           const element = media[i];
+
+          // convert HEIC to JPEG
           if (element.mime === 'image/heic') {
             // eslint-disable-next-line no-await-in-loop
             const res = await RNHeicConverter.convert({ path: element.sourceURL });
@@ -278,6 +261,32 @@ export const UploadsGalleryModal = forwardRef(
               element.filename = element.filename ? element.filename.replace('.HEIC', '.JPG') : '';
               media[i] = element;
             }
+          }
+
+          // compress non-GIF images that exceed max dimensions (skip GIFs to preserve animation)
+          if (
+            element.mime !== 'image/gif' &&
+            (element.width > MAX_IMAGE_DIMENSION || element.height > MAX_IMAGE_DIMENSION)
+          ) {
+            // eslint-disable-next-line no-await-in-loop
+            const resizeOpt =
+              element.width >= element.height
+                ? { width: MAX_IMAGE_DIMENSION }
+                : { height: MAX_IMAGE_DIMENSION };
+            // eslint-disable-next-line no-await-in-loop
+            const imageRef = await ImageManipulator.manipulate(element.path)
+              .resize(resizeOpt)
+              .renderAsync();
+            // eslint-disable-next-line no-await-in-loop
+            const result = await imageRef.saveAsync({
+              compress: COMPRESS_QUALITY,
+              format: SaveFormat.JPEG,
+            });
+            element.path = result.uri;
+            element.width = result.width;
+            element.height = result.height;
+            element.mime = 'image/jpeg';
+            media[i] = element;
           }
         }
 
@@ -520,8 +529,8 @@ export const UploadsGalleryModal = forwardRef(
         console.log(index);
         const item: MediaItem = mediaUploadsQuery.data[index];
         data.push({
-          url: mode === Modes.MODE_VIDEO ? item.speakData?._id || '' : item.url,
-          text: mode === Modes.MODE_VIDEO ? '3speak' : '',
+          url: item.url,
+          text: '',
           status: MediaInsertStatus.READY,
           mode,
         });
@@ -561,6 +570,16 @@ export const UploadsGalleryModal = forwardRef(
           ref={speakUploaderRef}
           isUploading={isAddingToUploads}
           setIsUploading={_setIsSpeakUploading}
+          onVideoUploaded={(embedUrl) => {
+            handleMediaInsert([
+              {
+                url: embedUrl,
+                text: '',
+                status: MediaInsertStatus.READY,
+                mode: Modes.MODE_VIDEO,
+              },
+            ]);
+          }}
         />
       </>
     );

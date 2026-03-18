@@ -45,24 +45,24 @@ export const ImageViewer = forwardRef(({}, ref) => {
   };
 
   const _getImageExt = (url: string, contentType?: string): string => {
-    // Try URL extension first (preserves gif, png, webp, etc.)
-    try {
-      const match = new URL(url).pathname.match(/\.(jpe?g|png|gif|webp|avif|bmp)$/i);
-      if (match) return match[1].toLowerCase().replace('jpeg', 'jpg');
-    } catch (_e) {
-      /* ignore */
+    // Try content-type header first (most reliable source of truth)
+    if (contentType) {
+      const type = contentType.split(';')[0].trim().toLowerCase();
+      const match = type.match(/^image\/(\w+)/);
+      if (match) {
+        const sub = match[1];
+        if (sub === 'jpeg') return 'jpg';
+        if (sub === 'svg+xml') return 'svg';
+        return sub;
+      }
     }
 
-    // Try content-type header
-    if (contentType) {
-      const typeMap: Record<string, string> = {
-        'image/jpeg': 'jpg',
-        'image/png': 'png',
-        'image/gif': 'gif',
-        'image/webp': 'webp',
-      };
-      const type = contentType.split(';')[0].trim().toLowerCase();
-      if (typeMap[type]) return typeMap[type];
+    // Fallback: extract extension from URL path
+    try {
+      const pathMatch = new URL(url).pathname.match(/\.([a-z0-9]+)$/i);
+      if (pathMatch) return pathMatch[1].toLowerCase().replace('jpeg', 'jpg');
+    } catch (_e) {
+      /* ignore */
     }
 
     return 'jpg';
@@ -74,7 +74,7 @@ export const ImageViewer = forwardRef(({}, ref) => {
     }).fetch('GET', uri);
 
     const { status, headers } = res.info();
-    if (status != 200) {
+    if (status !== 200) {
       throw new Error(`Download failed with status ${status}`);
     }
 

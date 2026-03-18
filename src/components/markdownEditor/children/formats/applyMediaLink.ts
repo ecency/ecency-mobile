@@ -31,7 +31,9 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
   let newSelection = selection;
 
   const _insertFormatedString = (text, value, mode) => {
-    const formatedText = `\n${mode === Modes.MODE_VIDEO ? '' : imagePrefix}[${text}](${value})\n`;
+    // Video embeds: insert raw URL so the post renderer detects the 3Speak embed
+    const formatedText =
+      mode === Modes.MODE_VIDEO ? `\n${value}\n` : `\n${imagePrefix}[${text}](${value})\n`;
     newText = replaceBetween(newText, newSelection, formatedText);
     const newIndex = newText && newText.indexOf(value, newSelection.start) + value.length + 2;
     newSelection = {

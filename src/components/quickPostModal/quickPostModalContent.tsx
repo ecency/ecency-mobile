@@ -10,6 +10,7 @@ import React, {
 } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {
+  Alert,
   View,
   Text,
   TouchableOpacity,
@@ -26,6 +27,7 @@ import { Image as ExpoImage } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getCommunityQueryOptions } from '@ecency/sdk';
 import { useQuery } from '@tanstack/react-query';
+import ImagePicker, { Video as VideoType } from 'react-native-image-crop-picker';
 import styles from './quickPostModal.styles';
 import {
   Icon,
@@ -54,6 +56,7 @@ import {
   MediaInsertStatus,
   Modes,
 } from '../uploadsGalleryModal/container/uploadsGalleryModal';
+import { SpeakUploaderModal } from '../uploadsGalleryModal/children/speakUploaderModal';
 import { removePollDraft } from '../../redux/actions/editorActions';
 import { CommunityRole, CommunityTypeId } from '../../providers/hive/hive.types';
 
@@ -72,6 +75,7 @@ export const QuickPostModalContent = forwardRef(
     const insets = useSafeAreaInsets();
 
     const uploadsGalleryModalRef = useRef(null);
+    const speakUploaderRef = useRef<any>(null);
     const postsCachePrimer = postQueries.usePostsCachePrimer();
     const postSubmitter = usePostSubmitter();
 
@@ -79,6 +83,9 @@ export const QuickPostModalContent = forwardRef(
     const pollWizardModalRef = useRef(null);
     const commentValueRef = useRef('');
     const isSubmittingRef = useRef(false);
+
+    const [videoEmbedUrl, setVideoEmbedUrl] = useState<string | null>(null);
+    const [isVideoUploading, setIsVideoUploading] = useState(false);
 
     const currentAccount = useAppSelector(selectCurrentAccount);
     const pollDraftsMap = useAppSelector((state: RootState) => state.editor.pollDraftsMap);
@@ -160,6 +167,10 @@ export const QuickPostModalContent = forwardRef(
         setMediaUrls([]);
       }
 
+      // Restore video embed from draft cache
+      const cachedVideo = currentDraft?.meta?.video;
+      setVideoEmbedUrl(typeof cachedVideo === 'string' ? cachedVideo : null);
+
       // check if user can comment to community
       setCommunityToCheck(selectedPost?.community ?? null);
     }, [currentDraft, currentAccount.name, selectedPost?.community]);
@@ -179,24 +190,25 @@ export const QuickPostModalContent = forwardRef(
 
     // add quick comment value into cache - memoized with useCallback
     const _addQuickCommentIntoCache = useCallback(
-      (value: string, media: string[] = mediaUrls) => {
-        const meta =
-          media && media.length > 0
-            ? {
-                image: media,
-              }
-            : undefined;
+      (value: string, media: string[] = mediaUrls, videoUrl: string | null = videoEmbedUrl) => {
+        const meta: Record<string, any> = {};
+        if (media && media.length > 0) {
+          meta.image = media;
+        }
+        if (videoUrl) {
+          meta.video = videoUrl;
+        }
 
         const quickCommentDraftData: Draft = {
           author: currentAccount.name,
           body: value,
-          meta,
+          meta: Object.keys(meta).length > 0 ? meta : undefined,
         };
 
         // add quick comment/wave cache entry to replyCache
         dispatch(updateReplyCache(draftId, quickCommentDraftData));
       },
-      [currentAccount.name, draftId, dispatch, mediaUrls],
+      [currentAccount.name, draftId, dispatch, mediaUrls, videoEmbedUrl],
     );
 
     // Expose imperative handle for sheet close - must come after _addQuickCommentIntoCache
@@ -242,8 +254,12 @@ export const QuickPostModalContent = forwardRef(
 
       try {
         let _isSuccess = false;
-        const _body =
-          mediaUrls.length > 0 ? `${commentValue}\n\n ![](${mediaUrls[0]})` : commentValue;
+        let _body = commentValue;
+        if (videoEmbedUrl) {
+          _body = `${_body}\n\n${videoEmbedUrl}`;
+        } else if (mediaUrls.length > 0) {
+          _body = `${_body}\n\n ![](${mediaUrls[0]})`;
+        }
 
         switch (mode) {
           case 'comment':
@@ -266,6 +282,7 @@ export const QuickPostModalContent = forwardRef(
           dispatch(removePollDraft(draftId));
           setCommentValue('');
           commentValueRef.current = '';
+          setVideoEmbedUrl(null);
           onClose();
         } else {
           _addQuickCommentIntoCache(commentValue); // add comment value into cache if there is error while posting comment
@@ -329,6 +346,61 @@ export const QuickPostModalContent = forwardRef(
       if (pollWizardModalRef.current) {
         pollWizardModalRef.current.showModal(draftId);
       }
+    };
+
+    const _openVideoPicker = () => {
+      ImagePicker.openPicker({
+        mediaType: 'video',
+        smartAlbums: ['UserLibrary', 'Favorites', 'Videos'],
+      })
+        .then((video: VideoType) => {
+          speakUploaderRef.current?.showUploader(video);
+        })
+        .catch((e: any) => {
+          if (e?.code === 'E_PICKER_CANCELLED') return;
+          console.warn('Video picker failed', e);
+        });
+    };
+
+    const _openVideoCamera = () => {
+      ImagePicker.openCamera({
+        mediaType: 'video',
+      })
+        .then((video: VideoType) => {
+          speakUploaderRef.current?.showUploader(video);
+        })
+        .catch((e: any) => {
+          if (e?.code === 'E_PICKER_CANCELLED') return;
+          console.warn('Video camera failed', e);
+        });
+    };
+
+    const _handleVideoBtn = () => {
+      Keyboard.dismiss();
+      Alert.alert(intl.formatMessage({ id: 'video-upload.select_source' }), undefined, [
+        {
+          text: intl.formatMessage({ id: 'video-upload.record' }),
+          onPress: _openVideoCamera,
+        },
+        {
+          text: intl.formatMessage({ id: 'video-upload.choose_library' }),
+          onPress: _openVideoPicker,
+        },
+        {
+          text: intl.formatMessage({ id: 'alert.cancel' }),
+          style: 'cancel',
+        },
+      ]);
+    };
+
+    const _handleVideoUploaded = (embedUrl: string) => {
+      setVideoEmbedUrl(embedUrl);
+      _addQuickCommentIntoCache(commentValueRef.current || '', mediaUrls, embedUrl);
+    };
+
+    const _handleRemoveVideo = () => {
+      setVideoEmbedUrl(null);
+      _addQuickCommentIntoCache(commentValueRef.current || '', mediaUrls, null);
     };
 
     const _handleAiImageBtn = async () => {
@@ -436,10 +508,35 @@ export const QuickPostModalContent = forwardRef(
         </View>
       );
 
+      const _videoPreview = videoEmbedUrl && (
+        <TouchableOpacity onPress={_handleRemoveVideo} disabled={isVideoUploading}>
+          <View style={[styles.mediaItem, { justifyContent: 'center', alignItems: 'center' }]}>
+            <Icon
+              iconType="MaterialCommunityIcons"
+              name="video-check"
+              size={32}
+              color={EStyleSheet.value('$primaryBlue')}
+            />
+            <Text style={{ fontSize: 10, color: EStyleSheet.value('$iconColor'), marginTop: 4 }}>
+              {intl.formatMessage({ id: 'uploads_modal.video_attached' })}
+            </Text>
+          </View>
+          {_minusIcon}
+        </TouchableOpacity>
+      );
+
+      const _videoUploading = isVideoUploading && (
+        <View style={styles.mediaItem}>
+          <ActivityIndicator />
+        </View>
+      );
+
       return (
         <Fragment>
-          {_mediaThumb}
-          {_uploadingPlaceholder}
+          {_videoPreview}
+          {_videoUploading}
+          {!videoEmbedUrl && _mediaThumb}
+          {!videoEmbedUrl && _uploadingPlaceholder}
 
           <UploadsGalleryModal
             ref={uploadsGalleryModalRef}
@@ -451,6 +548,14 @@ export const QuickPostModalContent = forwardRef(
             }}
             handleMediaInsert={_handleMediaInsert}
             setIsUploading={setIsUploading}
+          />
+
+          <SpeakUploaderModal
+            ref={speakUploaderRef}
+            isUploading={isVideoUploading}
+            setIsUploading={setIsVideoUploading}
+            onVideoUploaded={_handleVideoUploaded}
+            isShort={true}
           />
         </Fragment>
       );
@@ -495,6 +600,14 @@ export const QuickPostModalContent = forwardRef(
           {mode === 'wave' && (
             <>
               <IconButton
+                iconType="MaterialCommunityIcons"
+                name="video-outline"
+                onPress={_handleVideoBtn}
+                size={24}
+                color={EStyleSheet.value(videoEmbedUrl ? '$primaryBlue' : '$primaryBlack')}
+                disabled={!!videoEmbedUrl || isVideoUploading}
+              />
+              <IconButton
                 iconType="SimpleLineIcons"
                 style={!!pollDraft && styles.iconBottomBar}
                 name="chart"
@@ -529,6 +642,7 @@ export const QuickPostModalContent = forwardRef(
             })}
             isDisable={
               isUploading ||
+              isVideoUploading ||
               bodyLengthExceeded ||
               !canCommentToCommunity ||
               postSubmitter.isSubmitting

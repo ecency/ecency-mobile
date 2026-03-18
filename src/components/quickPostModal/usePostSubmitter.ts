@@ -13,13 +13,20 @@ import { usePublishWaveMutation } from '../../providers/queries/postQueries/wave
 import { PostTypes } from '../../constants/postTypes';
 import extractHashTags from '../../utils/extractHashTags';
 import { deriveDiscussionRoot } from '../../utils/discussionRoot';
-import { selectCurrentAccount } from '../../redux/selectors';
+import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 import { SheetNames } from '../../navigation/sheets';
 import { useAuthContext } from '../../providers/sdk';
 import {
   addOptimisticComment,
   removeOptimisticComment,
 } from '../../providers/queries/postQueries/commentQueries';
+import {
+  enforceThreeSpeakBeneficiary,
+  hasThreeSpeakEmbed,
+} from '../../providers/speak/beneficiary';
+import { extractPermlink, linkVideoToHive } from '../../providers/speak/speak';
+import { getDigitPinCode } from '../../providers/hive/dhive';
+import { decryptKey } from '../../utils/crypto';
 
 export const usePostSubmitter = () => {
   const dispatch = useDispatch();
@@ -28,6 +35,7 @@ export const usePostSubmitter = () => {
   const pusblishWaveMutation = usePublishWaveMutation();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
   const authContext = useAuthContext();
   const commentMutation = useComment(currentAccount?.name, authContext);
   const [isSubmitting, setIsSubmitting, getIsSubmittingCurrent] = useStateWithRef(false);
@@ -157,7 +165,8 @@ export const usePostSubmitter = () => {
           authorReputation: currentAccount.reputation,
         });
 
-        await commentMutation.mutateAsync({
+        // Build mutation params, adding beneficiary options for 3Speak video waves
+        const mutationParams: any = {
           author,
           permlink,
           parentAuthor,
@@ -167,7 +176,45 @@ export const usePostSubmitter = () => {
           jsonMetadata,
           rootAuthor,
           rootPermlink,
-        });
+        };
+
+        if (hasThreeSpeakEmbed(commentBody)) {
+          const beneficiaries = enforceThreeSpeakBeneficiary([], commentBody);
+          if (beneficiaries.length > 0) {
+            mutationParams.options = {
+              beneficiaries: beneficiaries.map((b) => ({
+                account: b.account,
+                weight: b.weight,
+              })),
+            };
+          }
+        }
+
+        await commentMutation.mutateAsync(mutationParams);
+
+        // Link video to Hive post for 3Speak feeds (fire-and-forget)
+        if (hasThreeSpeakEmbed(commentBody)) {
+          const embedMatch = commentBody.match(/https?:\/\/[a-z.]*3speak\.tv\/embed[?/][^\s<"']*/);
+          if (embedMatch) {
+            const videoPermlink = extractPermlink(embedMatch[0]);
+            if (videoPermlink && pinHash && currentAccount?.local?.accessToken) {
+              const digitPinCode = getDigitPinCode(pinHash);
+              const accessToken = decryptKey(
+                currentAccount.local.accessToken,
+                digitPinCode as string,
+              );
+              if (accessToken) {
+                linkVideoToHive({
+                  videoPermlink,
+                  hiveAuthor: author,
+                  hivePermlink: permlink,
+                  hiveTags: tags,
+                  accessToken,
+                }).catch(() => {}); // non-critical
+              }
+            }
+          }
+        }
 
         dispatch(
           toastNotification(

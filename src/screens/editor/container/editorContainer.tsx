@@ -20,7 +20,6 @@ import {
 } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
-import { speakQueries } from '../../../providers/queries';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import { getDigitPinCode, shouldPromptPostingAuthority } from '../../../providers/hive/dhive';
 import { decryptKey } from '../../../utils/crypto';
@@ -37,7 +36,6 @@ import {
   extractMetadata,
   makeJsonMetadataForUpdate,
   createPatch,
-  extract3SpeakIds,
 } from '../../../utils/editor';
 
 // Component
@@ -55,7 +53,6 @@ import {
   updateDraftCache,
   updateReplyCache,
 } from '../../../redux/actions/cacheActions';
-import QUERIES from '../../../providers/queries/queryKeys';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
 import { deriveDiscussionRoot } from '../../../utils/discussionRoot';
 import {
@@ -70,11 +67,7 @@ import {
 import { useAddScheduleMutation } from '../../../providers/queries/draftQueries';
 import { PostTypes } from '../../../constants/postTypes';
 
-import {
-  BENEFICIARY_SRC_ENCODER,
-  DEFAULT_SPEAK_BENEFICIARIES,
-} from '../../../providers/speak/constants';
-import { ThreeSpeakVideo } from '../../../providers/speak/speak.types';
+import { enforceThreeSpeakBeneficiary } from '../../../providers/speak/beneficiary';
 import { SheetNames } from '../../../navigation/sheets';
 import {
   selectCurrentAccount,
@@ -550,8 +543,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
     const { isDraftSaved, draftId, thumbUrl, isReply, rewardType, postDescription } = this.state;
-    const { currentAccount, dispatch, intl, queryClient, speakContentBuilder, pinCode } =
-      this.props;
+    const { currentAccount, dispatch, intl, queryClient, pinCode } = this.props;
 
     try {
       // saves draft locallly
@@ -564,8 +556,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     if (isReply) {
       return;
     }
-
-    speakContentBuilder.build(fields.body);
 
     const beneficiaries = this._extractBeneficiaries();
     const pollDraft = this._extractPollDraft();
@@ -595,23 +585,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         const _extractedMeta = await extractMetadata({
           body: draftField.body,
           thumbUrl,
-          videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
           fetchRatios: false,
         });
-
-        // inject video meta for draft
-        const speakIds = extract3SpeakIds({ body: draftField.body });
-        const videos: any = {};
-        const videosCache: any = queryClient.getQueryData([QUERIES.MEDIA.GET_VIDEOS]);
-
-        if (videosCache) {
-          speakIds.forEach((_id) => {
-            const videoItem = videosCache.find((item) => item._id === _id);
-            if (videoItem?.speakData) {
-              videos[_id] = videoItem.speakData;
-            }
-          });
-        }
 
         const meta = Object.assign({}, _extractedMeta, {
           tags: draftField.tags,
@@ -619,7 +594,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           poll: pollDraft,
           rewardType,
           description: postDescription || postBodySummaryContent,
-          videos: Object.keys(videos).length > 0 && videos,
         });
 
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
@@ -814,56 +788,20 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     fields: any;
     scheduleDate?: string;
   }) => {
-    const {
-      currentAccount,
-      dispatch,
-      intl,
-      navigation,
-      speakContentBuilder,
-      speakMutations,
-      queryClient,
-    } = this.props;
+    const { currentAccount, dispatch, intl, navigation, queryClient } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 
     const fields = Object.assign({}, _fieldsBase);
     let beneficiaries = this._extractBeneficiaries();
     const pollDraft = this._extractPollDraft();
-    let videoPublishMeta: ThreeSpeakVideo | undefined;
 
     if (isPostSending) {
       return;
     }
 
     if (currentAccount) {
-      // build speak video body
-      try {
-        fields.body = speakContentBuilder.build(fields.body);
-        videoPublishMeta = speakContentBuilder.videoPublishMetaRef.current;
-
-        // verify and make video beneficiaries redundent
-        beneficiaries = beneficiaries.filter((item) => item.src !== BENEFICIARY_SRC_ENCODER);
-        if (videoPublishMeta) {
-          const encoderBene = [
-            ...JSON.parse(videoPublishMeta.beneficiaries || '[]'),
-            ...DEFAULT_SPEAK_BENEFICIARIES,
-          ];
-          beneficiaries = [...encoderBene, ...beneficiaries];
-        }
-      } catch (err) {
-        console.warn('fail', err);
-        return;
-      }
-
-      if (scheduleDate && videoPublishMeta) {
-        SheetManager.show(SheetNames.ACTION_MODAL, {
-          payload: {
-            title: intl.formatMessage({ id: 'alert.notice' }),
-            body: intl.formatMessage({ id: 'editor.schedule_video_unsupported' }),
-          },
-        });
-
-        return;
-      }
+      // Enforce 3Speak beneficiary if post contains an embed URL
+      beneficiaries = enforceThreeSpeakBeneficiary(beneficiaries, fields.body);
 
       this.setState({
         isPostSending: true,
@@ -904,22 +842,17 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         }
       }
 
-      // only require video meta for unpublished video, it will always be one
       const meta = await extractMetadata({
         body: fields.body,
         thumbUrl,
-        videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
         fetchRatios: true,
-        videoPublishMeta,
         pollDraft,
       });
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
 
-      let permlink = videoPublishMeta
-        ? videoPublishMeta.permlink
-        : generatePermlink(fields.title || '');
+      let permlink = generatePermlink(fields.title || '');
 
       let duplicatePost;
       try {
@@ -987,18 +920,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             });
           }
 
-          // mark unpublished video as published on 3speak if that is the case
-          if (videoPublishMeta) {
-            console.log('marking inserted video as published');
-            speakMutations.updateInfoMutation.mutate({
-              id: videoPublishMeta._id,
-              title: fields.title,
-              body: fields.body,
-              tags: fields.tags,
-            });
-            speakMutations.markAsPublishedMutation.mutate(videoPublishMeta._id);
-          }
-
           // post publish updates
           dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
@@ -1031,8 +952,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _submitReply = async (fields) => {
-    const { currentAccount, dispatch, replyCache, speakContentBuilder, commentMutation } =
-      this.props;
+    const { currentAccount, dispatch, replyCache, commentMutation } = this.props;
     const { isPostSending } = this.state;
 
     if (isPostSending || this._isSubmitting) {
@@ -1087,8 +1007,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
 
       const { post } = this.state;
-
-      fields.body = speakContentBuilder.build(fields.body);
 
       const _prefix = `re-${post.author.replace(/\./g, '')}`;
       const permlink = generateUniquePermlink(_prefix);
@@ -1163,8 +1081,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _submitEdit = async (fields) => {
-    const { currentAccount, postCachePrimer, speakContentBuilder, updateReplyMutation } =
-      this.props;
+    const { currentAccount, postCachePrimer, updateReplyMutation } = this.props;
     const { post, isPostSending, thumbUrl, isReply } = this.state;
 
     if (isPostSending) {
@@ -1212,9 +1129,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         isPostSending: true,
       });
 
-      // build speak video body
-      fields.body = speakContentBuilder.build(fields.body);
-
       const { tags, body, title } = fields;
       const {
         markdownBody: oldBody,
@@ -1233,7 +1147,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       const meta = await extractMetadata({
         body: fields.body,
-        videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
         thumbUrl,
         fetchRatios: true,
         postType: jsonMetadata.type,
@@ -1648,8 +1561,6 @@ const mapStateToProps = (state) => ({
 
 const useEditorQueryProps = () => ({
   queryClient: useQueryClient(),
-  speakContentBuilder: speakQueries.useSpeakContentBuilder(),
-  speakMutations: speakQueries.useSpeakMutations(),
   postCachePrimer: usePostsCachePrimer(),
   ...useCommentMutations(),
   reblogMutation: useReblogMutation(),

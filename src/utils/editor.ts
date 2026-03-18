@@ -6,7 +6,6 @@ import VersionNumber from 'react-native-version-number';
 import getSlug from 'speakingurl';
 import { getQueryClient, getPostQueryOptions } from '@ecency/sdk';
 import { PostTypes } from '../constants/postTypes';
-import { ThreeSpeakVideo } from '../providers/speak/speak.types';
 import { PollDraft } from '../providers/ecency/ecency.types';
 import { ContentType, PollMetadata, PostMetadata } from '../providers/hive/hive.types';
 import postUrlParser from './postUrlParser';
@@ -233,16 +232,14 @@ export const extractMetadata = async ({
   fetchRatios,
   postType,
   contentType,
-  videoPublishMeta,
   pollDraft,
 }: {
   body: string;
   thumbUrl?: string;
-  videoThumbUrls: string[];
+  videoThumbUrls?: string[];
   fetchRatios?: boolean;
   postType?: PostTypes;
   contentType?: ContentType;
-  videoPublishMeta?: ThreeSpeakVideo;
   pollDraft?: PollDraft;
 }) => {
   // NOTE: keepting regex to extract usernames as reference for later usage if any
@@ -334,40 +331,8 @@ export const extractMetadata = async ({
     );
   }
 
-  // insert three speak meta
-  if (videoPublishMeta) {
-    out.video = {
-      info: {
-        platform: '3speak',
-        title: videoPublishMeta.title,
-        author: videoPublishMeta.owner,
-        permlink: videoPublishMeta.permlink,
-        duration: videoPublishMeta.duration,
-        filesize: videoPublishMeta.size,
-        file: videoPublishMeta.filename,
-        lang: videoPublishMeta.language,
-        firstUpload: videoPublishMeta.firstUpload,
-        ipfs: null,
-        ipfsThumbnail: null,
-        video_v2: videoPublishMeta.video_v2,
-        sourceMap: [
-          {
-            type: 'video',
-            url: videoPublishMeta.video_v2,
-            format: 'm3u8',
-          },
-          {
-            type: 'thumbnail',
-            url: videoPublishMeta.thumbUrl,
-          },
-        ],
-      },
-      content: {
-        description: videoPublishMeta.description,
-        tags: videoPublishMeta.tags_v2,
-      },
-    };
-  }
+  // Note: 3Speak video metadata is no longer stored in json_metadata.
+  // The new embed architecture uses the embed URL in the post body instead.
 
   if (pollDraft && pollDraft.title) {
     // TODO: added poll validity checks

@@ -1,239 +1,119 @@
-import { Query, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useRef } from 'react';
-import { SheetManager } from 'react-native-actions-sheet';
+import { Video, Image } from 'react-native-image-crop-picker';
 import * as Sentry from '@sentry/react-native';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
-import { MediaItem } from '../../ecency/ecency.types';
-import {
-  deleteVideo,
-  getAllVideoStatuses,
-  markAsPublished,
-  updateSpeakVideoInfo,
-} from '../../speak/speak';
-import QUERIES from '../queryKeys';
-import { extract3SpeakIds } from '../../../utils/editor';
-import { ThreeSpeakStatus, ThreeSpeakVideo } from '../../speak/speak.types';
-import { SheetNames } from '../../../navigation/sheets';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
+import { uploadVideoEmbed, setVideoThumbnail } from '../../speak/speak';
+import { VideoUploadResult } from '../../speak/speak.types';
+import { getDigitPinCode } from '../../hive/dhive';
+import { decryptKey } from '../../../utils/crypto';
 
 /**
- * fetches and caches speak video uploads
- * @returns query instance with data as array of videos as MediaItem[]
+ * Returns the decrypted HiveSigner access token for the current account.
+ * Used to authenticate with the Ecency 3Speak proxy.
  */
-export const useVideoUploadsQuery = () => {
+function useAccessToken() {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinHash = useAppSelector(selectPin);
 
-  const _fetchVideoUploads = async () => getAllVideoStatuses(currentAccount, pinHash);
-
-  const _setRefetchInterval = (query: Query<MediaItem[]>) => {
-    const { data } = query.state;
-    if (data) {
-      const hasPendingItem = data.find(
-        (item) =>
-          item.speakData?.status === ThreeSpeakStatus.PREPARING ||
-          item.speakData?.status === ThreeSpeakStatus.ENCODING,
-      );
-
-      if (hasPendingItem) {
-        return 5000;
-      }
+  return (): string => {
+    const digitPinCode = getDigitPinCode(pinHash);
+    const token = currentAccount?.local?.accessToken;
+    if (!token) {
+      throw new Error('No access token stored for current account');
     }
-
-    return false;
+    const decrypted = decryptKey(token, digitPinCode as string);
+    if (!decrypted) {
+      throw new Error('Failed to decrypt access token');
+    }
+    return decrypted;
   };
+}
 
-  return useQuery<MediaItem[]>({
-    queryKey: [QUERIES.MEDIA.GET_VIDEOS],
-    queryFn: _fetchVideoUploads,
-    initialData: [],
-    refetchInterval: _setRefetchInterval,
-  });
-};
-
-export const useSpeakContentBuilder = () => {
-  const videoUploads = useVideoUploadsQuery();
-  const videoPublishMetaRef = useRef<ThreeSpeakVideo | null>(null);
-  const thumbUrlsRef = useRef<string[]>([]);
-
-  const build = (body: string) => {
-    let _newBody = body;
-    videoPublishMetaRef.current = null;
-    thumbUrlsRef.current = [];
-    const _ids = extract3SpeakIds({ body });
-    const thumbUrls: string[] = [];
-
-    _ids.forEach((id) => {
-      const mediaItem: MediaItem | undefined = videoUploads.data.find((item) => item._id === id);
-      if (mediaItem) {
-        // check if video is unpublished, set unpublish video meta
-        if (mediaItem.speakData?.status !== ThreeSpeakStatus.PUBLISHED) {
-          if (!videoPublishMetaRef.current) {
-            videoPublishMetaRef.current = mediaItem.speakData;
-          } else {
-            SheetManager.show(SheetNames.ACTION_MODAL, {
-              payload: {
-                title: 'Fail',
-                body: 'Can have only one unpublished video per post',
-              },
-            });
-
-            throw new Error('Fail');
-          }
-        }
-
-        // replace 3speak with actual data
-        const _toReplaceStr = `[3speak](${id})`;
-        const _replacement = `<center>[![](${mediaItem.thumbUrl})](${mediaItem.url})</center>`;
-        _newBody = _newBody.replace(_toReplaceStr, _replacement);
-
-        thumbUrls.push(mediaItem.thumbUrl);
-      }
-    });
-
-    thumbUrlsRef.current = thumbUrls;
-
-    return _newBody;
-  };
-
-  return {
-    build,
-    videoPublishMetaRef,
-    thumbUrlsRef,
-  };
-};
-
-export const useSpeakMutations = () => {
+/**
+ * Hook for uploading videos via the new 3Speak embed architecture.
+ *
+ * Returns a mutation that:
+ * 1. Requests a short-lived upload token from the Ecency proxy
+ * 2. Uploads the video via TUS resumable protocol
+ * 3. Returns { embedUrl, permlink } on success
+ *
+ * Also exposes `completed` (0-100) for progress UI.
+ */
+export const useThreeSpeakEmbedUpload = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
-
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinCode = useAppSelector(selectPin);
+  const getToken = useAccessToken();
+  const [completed, setCompleted] = useState(0);
 
-  // mark as published mutations id is options, if no id is provided program marks all notifications as read;
-  const _mutationFn = async (id: string) => {
-    try {
-      const response = await markAsPublished(currentAccount, pinCode, id);
-      console.log('Speak video marked as published', response);
-
-      return true;
-    } catch (err) {
-      Sentry.captureException(err);
-    }
-  };
-
-  const _options = {
-    retry: 3,
-    retryDelay: 5000,
-    onMutate: async (videoId) => {
-      // TODO: find a way to optimise mutations by avoiding too many loops
-      console.log('on mutate data', videoId);
-
-      // update query data
-      const videosCache: MediaItem[] | undefined = queryClient.getQueryData([
-        QUERIES.MEDIA.GET_VIDEOS,
-      ]);
-      console.log('query data', videosCache);
-
-      if (!videosCache) {
-        return;
+  const mutation = useMutation({
+    mutationKey: ['threeSpeakEmbedUpload'],
+    mutationFn: async ({
+      media,
+      isShort = false,
+    }: {
+      media: Video | Image;
+      isShort?: boolean;
+    }): Promise<VideoUploadResult> => {
+      const accessToken = getToken();
+      if (!accessToken) {
+        throw new Error('No access token available');
       }
 
-      const _vidIndex = videosCache.findIndex((item) => item._id === videoId);
+      try {
+        const result = await uploadVideoEmbed(
+          media,
+          currentAccount.name,
+          accessToken,
+          isShort,
+          (percentage) => setCompleted(percentage),
+        );
+        return result;
+      } catch (e: any) {
+        Sentry.captureException(e);
 
-      if (_vidIndex) {
-        const spkData = videosCache[_vidIndex].speakData;
-        if (spkData) {
-          spkData.status = ThreeSpeakStatus.PUBLISHED;
+        const status = e?.originalResponse?.getStatus?.() ?? e?.status;
+
+        if (status === 413) {
+          dispatch(toastNotification(intl.formatMessage({ id: 'video-upload.error-too-large' })));
+        } else if (status === 429) {
+          dispatch(toastNotification(intl.formatMessage({ id: 'video-upload.error-too-many' })));
+        } else if (status === 503) {
+          dispatch(toastNotification(intl.formatMessage({ id: 'video-upload.error-unavailable' })));
+        } else if (status === 401 || status === 403) {
+          dispatch(toastNotification(intl.formatMessage({ id: 'video-upload.error-auth' })));
+        } else {
+          dispatch(toastNotification(intl.formatMessage({ id: 'video-upload.error-generic' })));
         }
+
+        throw e;
+      } finally {
+        setCompleted(0);
       }
-
-      queryClient.setQueryData([QUERIES.MEDIA.GET_VIDEOS], videosCache);
     },
-
-    onSuccess: async (status, _id) => {
-      console.log('on success data', status);
-      queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET_VIDEOS] });
-    },
-    onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-    },
-  };
-
-  // update info mutation
-  const _updateInfoMutationFn = async ({ id, title, body, tags }) => {
-    try {
-      // TODO: update information
-      const response = await updateSpeakVideoInfo(currentAccount, pinCode, body, id, title, tags);
-      console.log('Speak video marked as published', response);
-
-      return true;
-    } catch (err) {
-      Sentry.captureException(err);
-    }
-  };
-
-  const _updateInfoOptions = {
-    retry: 3,
-    onSuccess: async (status, _data) => {
-      console.log('on success data', status);
-      queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET_VIDEOS] });
-    },
-    onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-    },
-  };
-
-  // delete mutation
-  const _deleteMutationFn = async (permlinks: string[]) => {
-    try {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const i in permlinks) {
-        // eslint-disable-next-line no-await-in-loop
-        await deleteVideo(currentAccount, pinCode, permlinks[i]);
-      }
-      console.log('deleted speak videos', permlinks);
-      return true;
-    } catch (err) {
-      Sentry.captureException(err);
-    }
-  };
-
-  const _deleteVideoOptions = {
-    retry: 3,
-    onSuccess: async (status, permlinks) => {
-      console.log('Success media deletion', status, permlinks);
-      const data: MediaItem[] | undefined = queryClient.getQueryData([QUERIES.MEDIA.GET_VIDEOS]);
-      if (data) {
-        const _newData = data.filter((item) => !permlinks.includes(item.speakData?.permlink));
-        queryClient.setQueryData([QUERIES.MEDIA.GET_VIDEOS], _newData);
-      }
-
-      queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET_VIDEOS] });
-    },
-    onError: (err) => {
-      console.warn('delete failing', err);
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-    },
-  };
-
-  // init mutations
-  const markAsPublishedMutation = useMutation({ mutationFn: _mutationFn, ..._options });
-  const updateInfoMutation = useMutation({
-    mutationFn: _updateInfoMutationFn,
-    ..._updateInfoOptions,
-  });
-  const deleteVideoMutation = useMutation({
-    mutationFn: _deleteMutationFn,
-    ..._deleteVideoOptions,
   });
 
-  return {
-    markAsPublishedMutation,
-    updateInfoMutation,
-    deleteVideoMutation,
-  };
+  return { ...mutation, completed, setCompleted };
+};
+
+/**
+ * Hook for setting a custom thumbnail on an uploaded 3Speak video.
+ */
+export const useSetVideoThumbnail = () => {
+  const getToken = useAccessToken();
+
+  return useMutation({
+    mutationKey: ['threeSpeakSetThumbnail'],
+    mutationFn: async ({ permlink, thumbnailUrl }: { permlink: string; thumbnailUrl: string }) => {
+      const accessToken = getToken();
+      if (!accessToken) {
+        throw new Error('No access token available');
+      }
+      await setVideoThumbnail(permlink, thumbnailUrl, accessToken);
+    },
+  });
 };

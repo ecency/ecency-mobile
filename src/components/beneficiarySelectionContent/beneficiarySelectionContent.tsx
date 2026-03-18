@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setBeneficiaries as setBeneficiariesAction } from '../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID } from '../../redux/constants/constants';
 import { Beneficiary } from '../../redux/reducers/editorReducer';
-import { BENEFICIARY_SRC_ENCODER } from '../../providers/speak/constants';
+import { isThreeSpeakBeneficiary } from '../../providers/speak/beneficiary';
 import { selectCurrentAccountName } from '../../redux/selectors';
 
 interface BeneficiarySelectionContentProps {
@@ -98,7 +98,7 @@ const BeneficiarySelectionContent = ({
 
     if (beneficiariesMap && beneficiariesMap[_draftId]) {
       const _cachedBenef = beneficiariesMap[_draftId];
-      const _filteredBenef = _cachedBenef.filter((bene) => bene.src !== BENEFICIARY_SRC_ENCODER);
+      const _filteredBenef = _cachedBenef.filter((bene) => !isThreeSpeakBeneficiary(bene.account));
       savedBeneficiareis = [...savedBeneficiareis, ..._filteredBenef];
     }
 
@@ -349,7 +349,7 @@ const BeneficiarySelectionContent = ({
             wrapperStyle={styles.usernameFormInputWrapper}
           />
         </View>
-        {!_isCurrentUser && item.src !== BENEFICIARY_SRC_ENCODER ? (
+        {!_isCurrentUser && !isThreeSpeakBeneficiary(item.account) ? (
           <IconButton
             name="close"
             iconType="MaterialCommunityIcons"
