@@ -1,239 +1,216 @@
-import axios from 'axios';
-import hs from 'hivesigner';
-import { Image, Video } from 'react-native-image-crop-picker';
 import * as tus from 'tus-js-client';
 import { Platform } from 'react-native';
-import { getDigitPinCode } from '../hive/dhive';
-import { ThreeSpeakVideo } from './speak.types';
-import { decryptKey } from '../../utils/crypto';
-import { convertVideoUpload } from './converters';
-import { BASE_URL_SPEAK_STUDIO, PATH_API, PATH_LOGIN, PATH_MOBILE } from './constants';
+import { Video, Image } from 'react-native-image-crop-picker';
+import Config from 'react-native-config';
+import { EMBED_ENDPOINT } from './constants';
+import { UploadTokenResponse, VideoUploadResult } from './speak.types';
 
-const tusEndPoint = 'https://uploads.3speak.tv/files/';
+// ---------------------------------------------------------------------------
+// Token request — proxied through ecency.com so the API key never leaves server
+// ---------------------------------------------------------------------------
 
-const speakApi = axios.create({
-  baseURL: `${BASE_URL_SPEAK_STUDIO}/${PATH_MOBILE}`,
-});
+/**
+ * Request an upload token from the Ecency 3Speak proxy.
+ *
+ * The proxy validates the caller via the `code` field (HiveSigner access
+ * token) that the ecencyApi interceptor injects automatically. We call it
+ * directly here instead of through the interceptor because we need the raw
+ * response shape.
+ */
+export async function requestUploadToken(
+  owner: string,
+  accessToken: string,
+  isShort = false,
+): Promise<UploadTokenResponse> {
+  const res = await fetch(`${Config.ECENCY_BACKEND_API}/api/threespeak/upload-token`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner, isShort, code: accessToken }),
+  });
 
-export const threespeakAuth = async (currentAccount: any, pinHash: string) => {
-  try {
-    const response = await speakApi.get(
-      `${PATH_LOGIN}?username=${currentAccount.username}&hivesigner=true`,
-      {
-        withCredentials: false,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-    const memo_string = response.data.memo;
-    const memoDecoded = await getDecodedMemo(currentAccount.local, pinHash, memo_string);
-
-    return memoDecoded.replace('#', '');
-  } catch (err) {
-    console.error(new Error('[3Speak auth] Failed to login'));
-    throw err;
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`[3Speak] Token request failed: ${res.status} ${text}`);
   }
-};
 
-export const uploadVideoInfo = async (
-  currentAccount: any,
-  pinHash: string,
-  oFilename: string,
-  fileSize: number,
-  videoId: string,
-  thumbnailId: string,
-  duration: string,
-) => {
-  const token = await threespeakAuth(currentAccount, pinHash);
-  try {
-    const { data } = await speakApi.post<ThreeSpeakVideo>(
-      `${PATH_API}/upload_info?app=ecency`,
-      {
-        filename: videoId,
-        oFilename,
-        size: fileSize,
-        duration,
-        thumbnail: thumbnailId,
-        isReel: false,
-        owner: currentAccount.username,
-      },
-      {
-        withCredentials: false,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
-    return data;
-  } catch (e) {
-    console.error(e);
-    throw e;
+  return res.json();
+}
+
+// ---------------------------------------------------------------------------
+// Permlink extraction
+// ---------------------------------------------------------------------------
+
+/**
+ * Extract the video permlink from an embed URL.
+ * Handles `?v=owner/permlink` and `@owner/permlink` formats.
+ */
+export function extractPermlink(embedUrl: string): string {
+  // ?v=user/permlink
+  const vParam = embedUrl.match(/[?&]v=([^&]+)/);
+  if (vParam?.[1]) {
+    const parts = vParam[1].split('/');
+    const permlink = parts[parts.length - 1];
+    if (permlink) return permlink;
   }
-};
 
-export const getAllVideoStatuses = async (currentAccount: any, pinHash: string) => {
-  const token = await threespeakAuth(currentAccount, pinHash);
-  try {
-    const response = await speakApi.get<ThreeSpeakVideo[]>(`${PATH_API}/my-videos`, {
-      withCredentials: false,
+  // @user/permlink
+  const atFormat = embedUrl.match(/@[^/]+\/([a-zA-Z0-9]+)/);
+  if (atFormat?.[1]) {
+    return atFormat[1];
+  }
+
+  // last segment fallback
+  const lastSegment = embedUrl.split('/').pop() ?? '';
+  return lastSegment.split('?')[0].split('#')[0];
+}
+
+// ---------------------------------------------------------------------------
+// Video upload — TUS resumable protocol
+// ---------------------------------------------------------------------------
+
+/**
+ * Upload a video file using the new 3Speak embed architecture.
+ *
+ * Flow:
+ * 1. Request a short-lived upload token from the Ecency proxy.
+ * 2. Upload the file via the TUS resumable protocol.
+ * 3. Read the embed URL from the `x-embed-url` response header.
+ * 4. Return { embedUrl, permlink }.
+ */
+export async function uploadVideoEmbed(
+  media: Video | Image,
+  owner: string,
+  accessToken: string,
+  isShort: boolean,
+  progressCallback: (percentage: number) => void,
+): Promise<VideoUploadResult> {
+  // Step 1: Get token
+  const { token, upload_url } = await requestUploadToken(owner, accessToken, isShort);
+
+  const endpoint = upload_url || `${EMBED_ENDPOINT}/uploads`;
+
+  // Step 2: Build file reference for React Native
+  const uri = Platform.select({
+    ios: (media as Video).sourceURL || media.path,
+    android: media.path,
+  });
+
+  if (!uri) {
+    throw new Error('[3Speak] Failed to resolve file path');
+  }
+
+  const filename = (media as Video).filename || media.path.split('/').pop() || 'video.mp4';
+
+  const file = {
+    uri,
+    size: media.size,
+    name: filename,
+    type: media.mime,
+  } as any;
+
+  // Step 3: TUS upload
+  return new Promise<VideoUploadResult>((resolve, reject) => {
+    let embedUrl = '';
+
+    const upload = new tus.Upload(file, {
+      endpoint,
+      retryDelays: [0, 3000, 5000, 10000, 20000],
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-    });
-
-    const mediaItems = response.data.map(convertVideoUpload);
-
-    return mediaItems;
-  } catch (err) {
-    console.error(new Error('[3Speak video] Failed to get videos'));
-
-    throw err;
-  }
-};
-
-// TOOD: use api during post publishing
-export const updateSpeakVideoInfo = async (
-  currentAccount: any,
-  pinHash: string,
-  postBody: string,
-  videoId: string,
-  title: string,
-  tags: string[],
-  isNsfwC?: boolean,
-) => {
-  const token = await threespeakAuth(currentAccount, pinHash);
-
-  const data = {
-    videoId,
-    title,
-    description: postBody,
-    isNsfwContent: isNsfwC || false,
-    tags_v2: tags,
-  };
-
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  };
-
-  try {
-    await speakApi.post(`${PATH_API}/update_info`, data, { headers });
-  } catch (e) {
-    console.error(e);
-  }
-};
-
-export const markAsPublished = async (currentAccount: any, pinHash: string, videoId: string) => {
-  const token = await threespeakAuth(currentAccount, pinHash);
-  const data = {
-    videoId,
-  };
-
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  };
-
-  speakApi
-    .post(`${PATH_API}/my-videos/iPublished`, data, { headers })
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-};
-
-export const deleteVideo = async (currentAccount: any, pinHash: string, permlink: string) => {
-  const token = await threespeakAuth(currentAccount, pinHash);
-
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  };
-
-  speakApi
-    .get(`${PATH_API}/video/${permlink}/delete`, { headers })
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-};
-
-export const uploadFile = (media: Video | Image, onProgress?: (progress: number) => void) => {
-  return new Promise((resolve, reject) => {
-    try {
-      const _uri = Platform.select({
-        ios: media.sourceURL,
-        android: media.path,
-      });
-
-      if (!_uri) {
-        throw new Error('failed to create apporpriate path');
-      }
-
-      const filename = media.filename || media.path.split('/').pop();
-
-      const file = {
-        size: media.size,
-        uri: _uri,
-        name: media.filename || media.path.split('/').pop(),
-        type: media.mime,
-      } as any;
-
-      const upload = new tus.Upload(file, {
-        endpoint: tusEndPoint,
-        retryDelays: [0, 1000, 3000, 5000],
-        metadata: {
-          filename: filename || '',
-          filetype: media.mime,
-        },
-        onError: (error) => {
-          console.log('error', error);
-          reject(error);
-        },
-        onProgress: (uploaded, total) => {
-          if (onProgress) {
-            onProgress(uploaded / total);
+      metadata: {
+        filename,
+      },
+      onError(error: Error) {
+        reject(error);
+      },
+      onProgress(bytesUploaded: number, bytesTotal: number) {
+        const percentage = Number(((bytesUploaded / bytesTotal) * 100).toFixed(2));
+        progressCallback(percentage);
+      },
+      onSuccess() {
+        if (embedUrl) {
+          const permlink = extractPermlink(embedUrl);
+          if (!permlink) {
+            reject(new Error('[3Speak] Upload succeeded but permlink could not be extracted'));
+            return;
           }
-        },
-        onSuccess: () => {
-          console.log('Upload completed. File url:', upload.url);
-          const _videoId = upload.url.replace(tusEndPoint, '');
-          resolve(_videoId);
-        },
-      });
-
-      upload.start();
-    } catch (error) {
-      console.warn('Image upload failed', error);
-      reject(error);
-    }
-  });
-};
-
-const getDecodedMemo = async (local, pinHash, encryptedMemo) => {
-  try {
-    const digitPinCode = getDigitPinCode(pinHash);
-    const token = decryptKey(local.accessToken, digitPinCode);
-
-    const client = new hs.Client({
-      accessToken: token,
+          resolve({ embedUrl, permlink });
+        } else {
+          reject(new Error('[3Speak] Upload succeeded but no embed URL was returned'));
+        }
+      },
+      onAfterResponse(_req: any, res: any) {
+        const headerUrl = res.getHeader?.('x-embed-url') || res.getHeader?.('X-Embed-URL');
+        if (headerUrl) {
+          embedUrl = headerUrl;
+        }
+      },
     });
 
-    const { memoDecoded } = await client.decode(encryptedMemo);
+    upload.start();
+  });
+}
 
-    if (!memoDecoded) {
-      throw new Error('Decode failed');
-    }
+// ---------------------------------------------------------------------------
+// Thumbnail — proxied through ecency.com
+// ---------------------------------------------------------------------------
 
-    return memoDecoded;
-  } catch (err) {
-    console.warn('Failed to decode memo key', err);
+/**
+ * Set a custom thumbnail for an uploaded video.
+ * Calls the Ecency proxy which forwards to the 3Speak embed API.
+ */
+export async function setVideoThumbnail(
+  permlink: string,
+  thumbnailUrl: string,
+  accessToken: string,
+): Promise<void> {
+  const res = await fetch(`${Config.ECENCY_BACKEND_API}/api/threespeak/thumbnail`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ permlink, thumbnail_url: thumbnailUrl, code: accessToken }),
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    console.error(`[3Speak] Thumbnail update failed: ${res.status} ${text}`);
   }
-};
+}
+
+// ---------------------------------------------------------------------------
+// Link video to Hive post — enables 3Speak special feeds (Shorts, etc.)
+// ---------------------------------------------------------------------------
+
+/**
+ * Links an uploaded video to a published Hive post/comment.
+ * Called after the Hive broadcast succeeds. Fire-and-forget is fine
+ * since this is a non-critical metadata update.
+ */
+export async function linkVideoToHive(params: {
+  videoPermlink: string;
+  hiveAuthor: string;
+  hivePermlink: string;
+  hiveTags?: string[];
+  accessToken: string;
+}): Promise<void> {
+  try {
+    const res = await fetch(`${Config.ECENCY_BACKEND_API}/api/threespeak/link-hive`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        permlink: params.videoPermlink,
+        hive_author: params.hiveAuthor,
+        hive_permlink: params.hivePermlink,
+        hive_tags: params.hiveTags,
+        code: params.accessToken,
+      }),
+    });
+
+    if (!res.ok) {
+      console.error(`[3Speak] Hive link failed: ${res.status}`);
+    }
+  } catch (e) {
+    // Non-critical — video still works, just won't appear in 3Speak feeds
+    console.error('[3Speak] linkVideoToHive error:', e);
+  }
+}

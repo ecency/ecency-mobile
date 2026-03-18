@@ -1,16 +1,11 @@
 import React, { forwardRef, useImperativeHandle, useState, useRef } from 'react';
 import { View, Text, TouchableOpacity, Image, Alert, useWindowDimensions } from 'react-native';
 import { useIntl } from 'react-intl';
-import { useQueryClient } from '@tanstack/react-query';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import * as Progress from 'react-native-progress';
 import { createThumbnail, Thumbnail } from 'react-native-create-thumbnail';
-import ImagePicker, {
-  Options,
-  Image as ImageType,
-  Video as VideoType,
-} from 'react-native-image-crop-picker';
+import ImagePicker, { Options, Video as VideoType } from 'react-native-image-crop-picker';
 import Video from 'react-native-video';
 
 // Components
@@ -20,261 +15,286 @@ import { MainButton } from '../../mainButton';
 import Icon from '../../icon';
 import { TextButton } from '../../buttons';
 
-// Providers and hooks
-import { uploadFile, uploadVideoInfo } from '../../../providers/speak/speak';
+// Hooks
+import {
+  useThreeSpeakEmbedUpload,
+  useSetVideoThumbnail,
+} from '../../../providers/queries/editorQueries/speakQueries';
+import { isMediaPickerCancellation, reportMediaPickerError } from '../../../utils/mediaPickerError';
+import { signImage } from '../../../providers/hive/dhive';
+import { uploadImage } from '../../../providers/ecency/ecency';
 import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
-import QUERIES from '../../../providers/queries/queryKeys';
-import { isMediaPickerCancellation, reportMediaPickerError } from '../../../utils/mediaPickerError';
 
 interface Props {
   setIsUploading: (flag: boolean) => void;
   isUploading: boolean;
+  /** Called with the embed URL and optional thumbnail URL after successful upload. */
+  onVideoUploaded?: (embedUrl: string, thumbnailUrl?: string) => void;
+  /** If true, enforces 60-second max duration for Shorts/Waves. */
+  isShort?: boolean;
 }
 
-export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: Props, ref) => {
-  const intl = useIntl();
-  const sheetModalRef = useRef(null);
-  const dim = useWindowDimensions();
+export const SpeakUploaderModal = forwardRef(
+  ({ setIsUploading, isUploading, onVideoUploaded, isShort = false }: Props, ref) => {
+    const intl = useIntl();
+    const sheetModalRef = useRef(null);
+    const dim = useWindowDimensions();
 
-  const queryClient = useQueryClient();
+    const currentAccount = useAppSelector(selectCurrentAccount);
+    const pinCode = useAppSelector(selectPin);
 
-  const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinHash = useAppSelector(selectPin);
+    const { mutateAsync: uploadVideo, completed: uploadProgress } = useThreeSpeakEmbedUpload();
+    const { mutateAsync: setThumbnail } = useSetVideoThumbnail();
 
-  const [selectedThumb, setSelectedThumb] = useState<Thumbnail | null>(null);
-  const [availableThumbs, setAvailableThumbs] = useState<Thumbnail[]>([]);
-  const [uploadProgress, setUploadProgress] = useState(0);
+    const [selectedThumb, setSelectedThumb] = useState<Thumbnail | null>(null);
+    const [availableThumbs, setAvailableThumbs] = useState<Thumbnail[]>([]);
 
-  const [selectedVido, setSelectedVideo] = useState<VideoType | null>(null);
+    const [selectedVido, setSelectedVideo] = useState<VideoType | null>(null);
 
-  useImperativeHandle(ref, () => ({
-    showUploader: async (_video: VideoType) => {
-      if (sheetModalRef.current) {
-        sheetModalRef.current.show();
+    useImperativeHandle(ref, () => ({
+      showUploader: async (_video: VideoType) => {
+        if (sheetModalRef.current) {
+          sheetModalRef.current.show();
 
-        if (_video) {
-          if (!_video.filename) {
-            _video.filename = _video.path.split('/').pop();
+          if (_video) {
+            if (!_video.filename) {
+              _video.filename = _video.path.split('/').pop();
+            }
+
+            // Enforce 60s limit for shorts
+            if (isShort && _video.duration && _video.duration > 60000) {
+              Alert.alert(
+                intl.formatMessage({ id: 'alert.notice' }),
+                intl.formatMessage({ id: 'video-upload.error-too-long-short' }),
+              );
+              sheetModalRef.current.hide();
+              return;
+            }
+
+            setSelectedVideo(_video);
+            setSelectedThumb(null);
+
+            // Generate 5 thumbnails from video
+            const thumbs = [];
+            const _diff = _video.duration / 5;
+            for (let i = 0; i < 5; i++) {
+              // eslint-disable-next-line no-await-in-loop
+              const _thumb = await createThumbnail({
+                url: _video.sourceURL || _video.path,
+                timeStamp: i * _diff,
+              });
+              thumbs.push(_thumb);
+            }
+
+            setAvailableThumbs(thumbs);
           }
-          setSelectedVideo(_video);
-          setSelectedThumb(null);
-          setUploadProgress(0);
-
-          const thumbs = [];
-          const _diff = _video.duration / 5;
-          for (let i = 0; i < 5; i++) {
-            // eslint-disable-next-line no-await-in-loop
-            const _thumb = await createThumbnail({
-              url: _video.sourceURL || _video.path,
-              timeStamp: i * _diff,
-            });
-            thumbs.push(_thumb);
-          }
-
-          setAvailableThumbs(thumbs);
         }
+      },
+    }));
+
+    const _startUpload = async () => {
+      if (!selectedVido || isUploading) {
+        return;
       }
-    },
-  }));
 
-  const _startUpload = async () => {
-    if (!selectedVido || isUploading) {
-      return;
-    }
+      setIsUploading(true);
 
-    setIsUploading(true);
+      try {
+        // Upload video via new 3Speak embed architecture
+        const result = await uploadVideo({
+          media: selectedVido,
+          isShort,
+        });
 
-    try {
-      const { filename, size, duration } = selectedVido;
+        // Upload thumbnail to Ecency image server, then set on 3Speak (fire-and-forget)
+        const thumbToUse = selectedThumb || availableThumbs[0];
+        let uploadedThumbUrl: string | undefined;
 
-      const _onProgress = (progress) => {
-        console.log('Upload progress', progress);
-        setUploadProgress(progress);
+        if (thumbToUse?.path && result.permlink) {
+          try {
+            const thumbMedia = {
+              path: thumbToUse.path,
+              mime: 'image/jpeg',
+              filename: 'thumbnail.jpg',
+              size: 0,
+            };
+            const sign = await signImage(thumbMedia, currentAccount, pinCode);
+            const imgRes = await uploadImage(thumbMedia, currentAccount.name, sign);
+            if (imgRes?.url) {
+              uploadedThumbUrl = imgRes.url;
+              setThumbnail({
+                permlink: result.permlink,
+                thumbnailUrl: imgRes.url,
+              }).catch((err) =>
+                console.warn('3Speak thumbnail metadata failed (non-critical):', err),
+              );
+            }
+          } catch (err) {
+            console.warn('Thumbnail upload failed (non-critical):', err);
+          }
+        }
+
+        if (sheetModalRef.current) {
+          sheetModalRef.current.hide();
+        }
+
+        // Notify parent with the embed URL and uploaded thumbnail URL
+        onVideoUploaded?.(result.embedUrl, uploadedThumbUrl);
+      } catch (err) {
+        console.warn('Video upload failed', err);
+      }
+
+      setIsUploading(false);
+    };
+
+    const _onClosePress = () => {
+      sheetModalRef.current?.hide();
+    };
+
+    const _handleOpenImagePicker = () => {
+      const _options: Options = {
+        includeBase64: true,
+        mediaType: 'photo',
+        smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
       };
 
-      const videoId = await uploadFile(selectedVido, _onProgress);
+      ImagePicker.openPicker(_options)
+        .then((items) => {
+          if (items && !Array.isArray(items)) {
+            items = [items];
+          }
+          setSelectedThumb(items[0]);
+        })
+        .catch((e) => {
+          if (isMediaPickerCancellation(e)) {
+            return;
+          }
+          reportMediaPickerError(e, {
+            feature: 'speak-uploader',
+            action: 'openPicker',
+            mediaType: 'photo',
+          });
+          Alert.alert('Fail', `Thumb selection failed, ${e.message}`);
+        });
+    };
 
-      const thmubnail = selectedThumb || availableThumbs[0];
-      let thumbId: any = '';
-
-      const thumbMedia = {
-        ...thmubnail,
-        sourceURL: `file://${thmubnail.path}`,
-      } as ImageType;
-
-      thumbId = await uploadFile(thumbMedia);
-
-      console.log('updating video information', videoId, thumbId);
-
-      const response = await uploadVideoInfo(
-        currentAccount,
-        pinHash,
-        filename,
-        size,
-        videoId,
-        thumbId,
-        duration,
+    const _renderThumbSelection = () => {
+      const _renderThumb = (uri, onPress) => (
+        <TouchableOpacity onPress={onPress} disabled={isUploading}>
+          <Image source={uri && { uri }} style={styles.thumbnail} />
+        </TouchableOpacity>
       );
 
-      queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET_VIDEOS] });
+      const _renderThumbItem = ({ item }) => {
+        const _onPress = () => {
+          setSelectedThumb(item);
+        };
 
-      if (sheetModalRef.current) {
-        sheetModalRef.current.hide();
-      }
-
-      console.log('response after updating video information', response);
-    } catch (err) {
-      console.warn('Video upload failed', err);
-    }
-
-    setIsUploading(false);
-  };
-
-  const _onClosePress = () => {
-    sheetModalRef.current?.hide();
-  };
-
-  const _handleOpenImagePicker = () => {
-    const _options: Options = {
-      includeBase64: true,
-      mediaType: 'photo',
-      smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
-    };
-
-    ImagePicker.openPicker(_options)
-      .then((items) => {
-        if (items && !Array.isArray(items)) {
-          items = [items];
-        }
-        setSelectedThumb(items[0]);
-      })
-      .catch((e) => {
-        if (isMediaPickerCancellation(e)) {
-          return;
-        }
-        reportMediaPickerError(e, {
-          feature: 'speak-uploader',
-          action: 'openPicker',
-          mediaType: 'photo',
-        });
-        Alert.alert('Fail', `Thumb selection failed, ${e.message}`);
-      });
-  };
-
-  const _renderThumbSelection = () => {
-    const _renderThumb = (uri, onPress) => (
-      <TouchableOpacity onPress={onPress} disabled={isUploading}>
-        <Image source={uri && { uri }} style={styles.thumbnail} />
-      </TouchableOpacity>
-    );
-
-    const _renderThumbItem = ({ item }) => {
-      const _onPress = () => {
-        setSelectedThumb(item);
+        return _renderThumb(item.path || '', _onPress);
       };
 
-      return _renderThumb(item.path || '', _onPress);
+      const _renderHeader = () => (
+        <View style={styles.selectedThumbContainer}>
+          <>
+            {_renderThumb(selectedThumb?.path || '', _handleOpenImagePicker)}
+            <Icon
+              iconType="MaterialCommunityIcons"
+              style={{ position: 'absolute', top: 16, left: 8 }}
+              name="pencil"
+              color={EStyleSheet.value('$iconColor')}
+              size={20}
+            />
+          </>
+
+          <View style={styles.thumbSeparator} />
+        </View>
+      );
+
+      return (
+        <View style={styles.imageContainer}>
+          <Text style={styles.label}>
+            {intl.formatMessage({ id: 'uploads_modal.select_thumb' })}
+          </Text>
+          <FlashList
+            horizontal={true}
+            ListHeaderComponent={_renderHeader}
+            data={availableThumbs.slice()}
+            renderItem={_renderThumbItem}
+            keyExtractor={(item, index) => item.path + index}
+          />
+        </View>
+      );
     };
 
-    const _renderHeader = () => (
-      <View style={styles.selectedThumbContainer}>
-        <>
-          {_renderThumb(selectedThumb?.path || '', _handleOpenImagePicker)}
-          <Icon
-            iconType="MaterialCommunityIcons"
-            style={{ position: 'absolute', top: 16, left: 8 }}
-            name="pencil"
-            color={EStyleSheet.value('$iconColor')}
-            size={20}
+    const _renderUploadProgress = () => {
+      return (
+        <Progress.Bar
+          style={{ alignSelf: 'center', marginBottom: 12, borderWidth: 0 }}
+          progress={uploadProgress / 100}
+          color={EStyleSheet.value('$primaryBlue')}
+          unfilledColor={EStyleSheet.value('$primaryLightBackground')}
+          width={dim.width - 40}
+          indeterminate={uploadProgress >= 99 && isUploading}
+        />
+      );
+    };
+
+    const _renderActionPanel = () => {
+      return (
+        <View style={styles.actionPanel}>
+          <TextButton
+            text={intl.formatMessage({ id: 'alert.close' })}
+            onPress={_onClosePress}
+            textStyle={styles.btnTxtClose}
+            style={styles.btnClose}
           />
-        </>
-
-        <View style={styles.thumbSeparator} />
-      </View>
-    );
-
-    return (
-      <View style={styles.imageContainer}>
-        <Text style={styles.label}>{intl.formatMessage({ id: 'uploads_modal.select_thumb' })}</Text>
-        <FlashList
-          horizontal={true}
-          ListHeaderComponent={_renderHeader}
-          data={availableThumbs.slice()}
-          renderItem={_renderThumbItem}
-          keyExtractor={(item, index) => item.path + index}
-        />
-      </View>
-    );
-  };
-
-  const _renderUploadProgress = () => {
-    return (
-      <Progress.Bar
-        style={{ alignSelf: 'center', marginBottom: 12, borderWidth: 0 }}
-        progress={uploadProgress}
-        color={EStyleSheet.value('$primaryBlue')}
-        unfilledColor={EStyleSheet.value('$primaryLightBackground')}
-        width={dim.width - 40}
-        indeterminate={uploadProgress === 1 && isUploading}
-      />
-    );
-  };
-
-  const _renderActionPanel = () => {
-    return (
-      <View style={styles.actionPanel}>
-        <TextButton
-          text={intl.formatMessage({ id: 'alert.close' })}
-          onPress={_onClosePress}
-          textStyle={styles.btnTxtClose}
-          style={styles.btnClose}
-        />
-        <MainButton
-          style={{}}
-          onPress={_startUpload}
-          text={intl.formatMessage({
-            id: `uploads_modal.${isUploading ? 'uploading' : 'start_upload'}`,
-          })}
-          isDisable={isUploading}
-        />
-      </View>
-    );
-  };
-
-  const _renderFormContent = () => {
-    return (
-      <View style={styles.contentContainer}>
-        {!!selectedVido && (
-          <Video
-            source={{
-              uri: selectedVido?.sourceURL || selectedVido?.path,
-            }}
-            repeat={true}
-            resizeMode="contain"
-            fullscreen={false}
-            paused={isUploading}
-            style={styles.mediaPlayer}
-            volume={0}
+          <MainButton
+            style={{}}
+            onPress={_startUpload}
+            text={intl.formatMessage({
+              id: `uploads_modal.${isUploading ? 'uploading' : 'start_upload'}`,
+            })}
+            isDisable={isUploading}
           />
-        )}
+        </View>
+      );
+    };
 
-        {_renderThumbSelection()}
-        {_renderUploadProgress()}
-        {_renderActionPanel()}
-      </View>
+    const _renderFormContent = () => {
+      return (
+        <View style={styles.contentContainer}>
+          {!!selectedVido && (
+            <Video
+              source={{
+                uri: selectedVido?.sourceURL || selectedVido?.path,
+              }}
+              repeat={true}
+              resizeMode="contain"
+              fullscreen={false}
+              paused={isUploading}
+              style={styles.mediaPlayer}
+              volume={0}
+            />
+          )}
+
+          {_renderThumbSelection()}
+          {_renderUploadProgress()}
+          {_renderActionPanel()}
+        </View>
+      );
+    };
+
+    return (
+      <ActionSheet
+        ref={sheetModalRef}
+        gestureEnabled={true}
+        closeOnTouchBackdrop={true}
+        containerStyle={styles.sheetContent}
+        indicatorStyle={styles.sheetIndicator}
+      >
+        {_renderFormContent()}
+      </ActionSheet>
     );
-  };
-
-  return (
-    <ActionSheet
-      ref={sheetModalRef}
-      gestureEnabled={true}
-      closeOnTouchBackdrop={true}
-      containerStyle={styles.sheetContent}
-      indicatorStyle={styles.sheetIndicator}
-    >
-      {_renderFormContent()}
-    </ActionSheet>
-  );
-});
+  },
+);

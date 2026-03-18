@@ -21,20 +21,16 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { useDispatch } from 'react-redux';
 import { FlatList } from 'react-native-gesture-handler';
 import { Icon, IconButton } from '../..';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
-import { editorQueries, speakQueries } from '../../../providers/queries';
+import { editorQueries } from '../../../providers/queries';
 import { MediaPreviewItem } from './mediaPreviewItem';
 import styles, {
   COMPACT_HEIGHT,
   EXPANDED_HEIGHT,
   MAX_HORIZONTAL_THUMBS,
 } from './uploadsGalleryModalStyles';
-import { ThreeSpeakStatus } from '../../../providers/speak/speak.types';
-import { toastNotification } from '../../../redux/actions/uiAction';
-import { useAppSelector } from '../../../hooks';
 import { Modes } from '../container/uploadsGalleryModal';
 
 type Props = {
@@ -67,12 +63,8 @@ const UploadsGalleryContent = ({
   isFetchingNextPage,
 }: Props) => {
   const intl = useIntl();
-  const dispatch = useDispatch();
 
   const deleteMediaMutation = editorQueries.useMediaDeleteMutation();
-  const speakMutations = speakQueries.useSpeakMutations();
-
-  const allowSpkPublishing = useAppSelector((state) => state.editor.allowSpkPublishing);
 
   const [deleteIds, setDeleteIds] = useState<string[]>([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
@@ -87,10 +79,7 @@ const UploadsGalleryContent = ({
     });
   }, []);
 
-  const isDeleting =
-    mode === Modes.MODE_IMAGE
-      ? deleteMediaMutation.isLoading
-      : speakMutations.deleteVideoMutation.isLoading;
+  const isDeleting = deleteMediaMutation.isPending;
 
   useEffect(() => {
     if (isExpandedMode) {
@@ -106,21 +95,7 @@ const UploadsGalleryContent = ({
       },
     };
 
-    switch (mode) {
-      case Modes.MODE_VIDEO:
-        const _permlinks: string[] = [];
-        deleteIds.forEach((_id) => {
-          const mediaItem = mediaUploads.find((item) => item._id === _id);
-          if (mediaItem?.speakData) {
-            _permlinks.push(mediaItem.speakData.permlink);
-          }
-        });
-        speakMutations.deleteVideoMutation.mutate(_permlinks, _options);
-        break;
-      default:
-        deleteMediaMutation.mutate(deleteIds, _options);
-        break;
-    }
+    deleteMediaMutation.mutate(deleteIds, _options);
   };
 
   const _onDeletePress = async () => {
@@ -163,14 +138,7 @@ const UploadsGalleryContent = ({
 
   // render list item for snippet and handle actions;
   const _renderItem = ({ item, index }: { item: MediaItem; index: number }) => {
-    // avoid rendering unpublihsed videos in allow publishing state is false
-    if (
-      !allowSpkPublishing &&
-      item.speakData &&
-      item.speakData.status !== ThreeSpeakStatus.PUBLISHED
-    ) {
-      return null;
-    }
+    // Video items no longer appear in the gallery (new embed architecture)
 
     const _onPress = () => {
       if (isDeleteMode) {
@@ -184,37 +152,8 @@ const UploadsGalleryContent = ({
         }
         setDeleteIds([...deleteIds]);
       } else {
-        let insertError: Error | null = null;
-        if (item.speakData) {
-          switch (item.speakData.status) {
-            case ThreeSpeakStatus.READY:
-              // check if a ready video is already inserted
-              insertedMediaUrls.forEach((url) => {
-                const _mediaItem = mediaUploads.find(
-                  (item) => item.url === url && item.speakData?.status === ThreeSpeakStatus.READY,
-                );
-                if (_mediaItem) {
-                  insertError = new Error('Can only have on unpublised speak speak per post');
-                }
-              });
-              break;
-            case ThreeSpeakStatus.PREPARING:
-            case ThreeSpeakStatus.ENCODING:
-              // interupt video insertion is it's still under processing
-              insertError = new Error('Please wait while video is being processed');
-              break;
-
-            default:
-              console.log('Skipping corner check for published video');
-              break;
-          }
-        }
-
-        if (!insertError) {
-          insertMedia(new Map([[index, true]]));
-        } else {
-          dispatch(toastNotification(insertError.message));
-        }
+        // New embed architecture: no video status checks needed, just insert
+        insertMedia(new Map([[index, true]]));
       }
     };
 

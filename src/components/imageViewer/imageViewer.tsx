@@ -44,24 +44,46 @@ export const ImageViewer = forwardRef(({}, ref) => {
     }
   };
 
-  const _downloadImage = async (uri: string) => {
-    return RNFetchBlob.config({
-      fileCache: true,
-      appendExt: 'jpg',
-    })
-      .fetch('GET', uri)
-      .then((res) => {
-        const { status } = res.info();
+  const _getImageExt = (url: string, contentType?: string): string => {
+    // Try content-type header first (most reliable source of truth)
+    if (contentType) {
+      const type = contentType.split(';')[0].trim().toLowerCase();
+      const match = type.match(/^image\/(\w+)/);
+      if (match) {
+        const sub = match[1];
+        if (sub === 'jpeg') return 'jpg';
+        if (sub === 'svg+xml') return 'svg';
+        return sub;
+      }
+    }
 
-        if (status == 200) {
-          return res.path();
-        } else {
-          Promise.reject();
-        }
-      })
-      .catch((errorMessage) => {
-        Promise.reject(errorMessage);
-      });
+    // Fallback: extract extension from URL path
+    try {
+      const pathMatch = new URL(url).pathname.match(/\.([a-z0-9]+)$/i);
+      if (pathMatch) return pathMatch[1].toLowerCase().replace('jpeg', 'jpg');
+    } catch (_e) {
+      /* ignore */
+    }
+
+    return 'jpg';
+  };
+
+  const _downloadImage = async (uri: string) => {
+    const res = await RNFetchBlob.config({
+      fileCache: true,
+    }).fetch('GET', uri);
+
+    const { status, headers } = res.info();
+    if (status !== 200) {
+      throw new Error(`Download failed with status ${status}`);
+    }
+
+    const contentType = headers['Content-Type'] || headers['content-type'] || '';
+    const ext = _getImageExt(uri, contentType);
+    const srcPath = res.path();
+    const destPath = `${srcPath}.${ext}`;
+    await RNFetchBlob.fs.mv(srcPath, destPath);
+    return destPath;
   };
 
   const _onSavePress = async (index: number) => {
@@ -71,11 +93,7 @@ export const ImageViewer = forwardRef(({}, ref) => {
       }
 
       const url = imageUrls[index];
-
-      const imagePath = Platform.select({
-        ios: await ExpoImage.getCachePathAsync(url),
-        android: await _downloadImage(url),
-      });
+      const imagePath = await _downloadImage(url);
 
       if (!imagePath) {
         return;
@@ -85,8 +103,9 @@ export const ImageViewer = forwardRef(({}, ref) => {
       await CameraRoll.saveAsset(uri, { album: 'Ecency' });
 
       Alert.alert(intl.formatMessage({ id: 'post.image_saved' }));
-    } catch (err) {
-      console.warn('fail to save image', err.message);
+    } catch (err: any) {
+      console.warn('fail to save image', err?.message);
+      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err?.message);
     }
   };
 

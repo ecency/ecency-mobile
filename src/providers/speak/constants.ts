@@ -1,19 +1,11 @@
-export const BASE_URL_SPEAK_STUDIO = 'https://studio.3speak.tv';
+/** Ecency backend base — used to reach the 3Speak proxy routes. */
+export { default as Config } from 'react-native-config';
 
-export const BASE_URL_SPEAK_UPLOAD = 'https://uploads.3speak.tv/files';
+/** Default embed endpoint (fallback if proxy doesn't return upload_url). */
+export const EMBED_ENDPOINT = 'https://embed.3speak.tv';
 
-export const BASE_URL_SPEAK_WATCH = 'https://3speak.tv/watch';
+/** 3Speak beneficiary account for the new embed architecture. */
+export const THREESPEAK_BENEFICIARY_ACCOUNT = 'threespeakfund';
 
-export const PATH_MOBILE = 'mobile';
-export const PATH_LOGIN = 'login';
-export const PATH_API = 'api';
-
-export const DEFAULT_SPEAK_BENEFICIARIES = [
-  {
-    account: 'spk.beneficiary',
-    src: 'ENCODER_PAY',
-    weight: 1000,
-  },
-];
-
-export const BENEFICIARY_SRC_ENCODER = 'ENCODER_PAY';
+/** 3Speak beneficiary weight: 11 % */
+export const THREESPEAK_BENEFICIARY_WEIGHT = 1100;

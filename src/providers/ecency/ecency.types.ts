@@ -2,7 +2,6 @@ import { HiveEngineToken, MarketData } from 'providers/hive-engine/hiveEngine.ty
 import { SpkApiWallet } from 'providers/hive-spk/hiveSpk.types';
 import { QuoteItem } from '../../redux/reducers/walletReducer';
 import { PollPreferredInterpretation } from '../hive/hive.types';
-import { ThreeSpeakVideo } from '../speak/speak.types';
 
 export interface ReceivedVestingShare {
   delegator: string;
@@ -17,7 +16,6 @@ export interface MediaItem {
   thumbUrl: string;
   created: string;
   timestamp: number;
-  speakData?: ThreeSpeakVideo;
 }
 
 export interface Snippet {
