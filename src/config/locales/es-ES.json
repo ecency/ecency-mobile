@@ -751,7 +751,7 @@
     "message_failed": "Error al subir la imagen",
     "btn_add": "Imágen",
     "confirm_delete": "¿Está seguro que desea eliminar los elementos seleccionados de sus subidas",
-    "video_attached": "Video attached"
+    "video_attached": "Vídeo adjuntado"
   },
   "post": {
     "image": "Imágen",
@@ -1439,14 +1439,14 @@
     "or": "o"
   },
   "video-upload": {
-    "error-too-large": "Video file is too large. Maximum size is 1GB.",
-    "error-too-many": "Too many upload requests. Please try again later.",
-    "error-unavailable": "Video upload service is temporarily unavailable.",
-    "error-auth": "Authentication failed. Please log in again.",
-    "error-generic": "Video upload failed. Please try again.",
-    "error-too-long-short": "Short videos must be 60 seconds or less.",
-    "select_source": "Add Video",
-    "record": "Record Video",
-    "choose_library": "Choose from Library"
+    "error-too-large": "El archivo de vídeo es demasiado grande. El tamaño máximo es de 1GB.",
+    "error-too-many": "Demasiadas solicitudes de subida. Inténtalo de nuevo más tarde.",
+    "error-unavailable": "Servicio de subida de vídeo no está disponible temporalmente.",
+    "error-auth": "Error de autenticación. Inicie sesión de nuevo, por favor.",
+    "error-generic": "Error al subir el vídeo. Vuelve a intentarlo, por favor.",
+    "error-too-long-short": "Los videos cortos deben ser de 60 segundos o menos.",
+    "select_source": "Añadir vídeos",
+    "record": "Grabar video",
+    "choose_library": "Elegir desde Galería"
   }
 }
