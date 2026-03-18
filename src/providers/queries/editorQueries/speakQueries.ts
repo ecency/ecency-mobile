@@ -59,6 +59,10 @@ export const useThreeSpeakEmbedUpload = () => {
       media: Video | Image;
       isShort?: boolean;
     }): Promise<VideoUploadResult> => {
+      if (!currentAccount?.name) {
+        throw new Error('No active account');
+      }
+
       const accessToken = getToken();
       if (!accessToken) {
         throw new Error('No access token available');
