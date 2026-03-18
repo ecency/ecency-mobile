@@ -750,7 +750,8 @@
     "published": "Julkaistu",
     "message_failed": "Kuvan lataaminen epäonnistui",
     "btn_add": "Kuva",
-    "confirm_delete": "Haluatko varmasti poistaa valitut kohteet latauksistasi"
+    "confirm_delete": "Haluatko varmasti poistaa valitut kohteet latauksistasi",
+    "video_attached": "Video attached"
   },
   "post": {
     "image": "Kuva",
@@ -1436,5 +1437,16 @@
     "key_mismatch": "Key does not match account's active authority",
     "validating": "Validating key...",
     "or": "or"
+  },
+  "video-upload": {
+    "error-too-large": "Video file is too large. Maximum size is 1GB.",
+    "error-too-many": "Too many upload requests. Please try again later.",
+    "error-unavailable": "Video upload service is temporarily unavailable.",
+    "error-auth": "Authentication failed. Please log in again.",
+    "error-generic": "Video upload failed. Please try again.",
+    "error-too-long-short": "Short videos must be 60 seconds or less.",
+    "select_source": "Add Video",
+    "record": "Record Video",
+    "choose_library": "Choose from Library"
   }
 }
