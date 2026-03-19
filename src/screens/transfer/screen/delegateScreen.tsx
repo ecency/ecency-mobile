@@ -1,41 +1,20 @@
-import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  Platform,
-  ScrollView,
-  KeyboardAvoidingView,
-  Alert,
-  TouchableOpacity,
-} from 'react-native';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { View, Text, Alert, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
-import Animated, { BounceInRight } from 'react-native-reanimated';
-import { FlatList } from 'react-native-gesture-handler';
-
-// Constants
 import { debounce } from 'lodash';
+import { FlatList } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
 import { getVestingDelegationsQueryOptions } from '@ecency/sdk';
-import { hsOptions } from '../../../constants/hsOptions';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-// Components
-import {
-  BasicHeader,
-  TransferFormItem,
-  TextInput,
-  MainButton,
-  UserAvatar,
-  Icon,
-  Modal,
-} from '../../../components';
-// Styles
+import { BasicHeader, TextInput, MainButton, UserAvatar, Icon, Modal } from '../../../components';
+
 import styles from './transferStyles';
-
-// Utils
+import { hsOptions } from '../../../constants/hsOptions';
 import { getQueryClient } from '../../../providers/queries';
 import parseToken from '../../../utils/parseToken';
 import { isEmptyDate } from '../../../utils/time';
@@ -44,139 +23,48 @@ import parseAsset from '../../../utils/parseAsset';
 import { delay } from '../../../utils/editor';
 import { SheetNames } from '../../../navigation/sheets';
 
-class DelegateScreen extends Component {
-  _handleOnAmountChange = debounce(
-    async (state, amount) => {
-      let _amount = amount.toString();
-      if (_amount.includes(',')) {
-        _amount = amount.replace(',', '.');
-      }
+interface DelegateScreenProps {
+  currentAccountName: string;
+  selectedAccount: any;
+  getAccountsWithUsername: (username: string) => Promise<string[]>;
+  transferToAccount: (...args: any[]) => Promise<void>;
+  handleOnModalClose: () => void;
+  hivePerMVests: number;
+  referredUsername?: string;
+  badActors?: Set<string>;
+}
 
-      this._setState(state, _amount);
-    },
-    1000,
-    { leading: true },
-  );
+const DelegateScreen = ({
+  currentAccountName,
+  selectedAccount,
+  getAccountsWithUsername,
+  handleOnModalClose,
+  hivePerMVests,
+  referredUsername,
+  badActors,
+  transferToAccount,
+}: DelegateScreenProps) => {
+  const intl = useIntl();
 
-  constructor(props) {
-    super(props);
+  // --- State ---
+  const [from] = useState(currentAccountName);
+  const [destination, setDestination] = useState(referredUsername || '');
+  const [hp, setHp] = useState(0.0);
+  const [amount, setAmount] = useState(0); // VESTS
+  const [delegatedHP, setDelegatedHP] = useState<number>(0);
+  const [isAmountValid, setIsAmountValid] = useState(false);
+  const [isTransfering, setIsTransfering] = useState(false);
+  const [usersResult, setUsersResult] = useState<string[]>([]);
+  const [hasValidDestination, setHasValidDestination] = useState(false);
+  const [steemConnectTransfer] = useState(false);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(true);
 
-    this.state = {
-      amount: 0,
-      isAmountValid: true,
-      hp: 0.0,
-      isTransfering: false,
-      from: props.currentAccountName,
-      destination: '',
-      steemConnectTransfer: false,
-      usersResult: [],
-      step: 1,
-      delegatedHP: 0,
-      confirmModalOpen: true,
-    };
+  // --- Refs ---
+  const destinationRef = useRef<any>(null);
+  const amountRef = useRef<any>(null);
 
-    this.destinationTextInput = React.createRef();
-    this.amountTextInput = React.createRef();
-  }
-
-  // Component Lifecycles
-  componentDidMount() {
-    const { referredUsername } = this.props;
-    if (referredUsername) {
-      this.setState({ destination: referredUsername, usersResult: [], step: 2 }, () => {
-        this._fetchReceivedVestingShare();
-        this.destinationTextInput.current?.blur();
-      });
-    } else {
-      this.destinationTextInput.current?.focus();
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.from !== this.state.from) {
-      this._fetchReceivedVestingShare();
-    }
-  }
-
-  // Component Functions
-  _setState = (key, value) => {
-    const { getAccountsWithUsername, balance } = this.props;
-    if (key) {
-      switch (key) {
-        case 'destination':
-          getAccountsWithUsername(value).then((res) => {
-            const isValid = res.includes(value);
-            this.setState({ usersResult: [...res] });
-            this.setState({ isUsernameValid: isValid });
-          });
-          if (!value) {
-            this.setState({ destination: '', step: 1 });
-          }
-
-          break;
-        case 'amount':
-          if (parseFloat(value) <= parseFloat(balance)) {
-            this.setState({ [key]: value });
-          }
-          break;
-
-        default:
-          this.setState({ [key]: value });
-          break;
-      }
-    }
-  };
-
-  _handleAmountChange = (hp, availableVests) => {
-    if (!hp) {
-      this.setState({ step: 2, hp: 0.0, amount: 0, isAmountValid: false });
-      return;
-    }
-    const parsedValue = parseFloat(hp);
-    const { hivePerMVests } = this.props;
-    const totalHP = vestsToHp(availableVests, hivePerMVests).toFixed(3);
-    if (Number.isNaN(parsedValue)) {
-      this.setState({ amount: 0, hp: 0.0, step: 2, isAmountValid: false });
-    } else if (parsedValue > parseFloat(totalHP)) {
-      // Clamp to max
-      this.setState({
-        amount: hpToVests(totalHP, hivePerMVests),
-        hp: totalHP,
-        step: 2,
-        isAmountValid: true,
-      });
-    } else {
-      const vestsForHp = hpToVests(parsedValue, hivePerMVests);
-      const isAmountValid = this._validateHP({
-        value: parsedValue,
-        availableVestingShares: availableVests,
-      });
-      this.setState({ amount: vestsForHp, hp: parsedValue, step: 2, isAmountValid });
-    }
-  };
-
-  _handleTransferAction = async () => {
-    if (this.state.isTransfering) return;
-
-    const { transferToAccount, handleOnModalClose, intl } = this.props;
-    const { from, destination, amount } = this.state;
-
-    this.setState({ isTransfering: true });
-
-    try {
-      await transferToAccount(from, destination, amount, '');
-      this.setState({ isTransfering: false });
-      if (handleOnModalClose) {
-        handleOnModalClose();
-      }
-    } catch (error) {
-      this.setState({ isTransfering: false });
-      Alert.alert(intl.formatMessage({ id: 'alert.error' }), error.message || error.toString());
-    }
-  };
-
-  _getAvailableVestingShares = () => {
-    const { selectedAccount } = this.props;
+  // --- Computed ---
+  const availableVestingShares = useMemo(() => {
     if (!isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'))) {
       return (
         parseToken(get(selectedAccount, 'vesting_shares')) -
@@ -189,203 +77,119 @@ class DelegateScreen extends Component {
       parseToken(get(selectedAccount, 'vesting_shares')) -
       parseToken(get(selectedAccount, 'delegated_vesting_shares'))
     );
-  };
+  }, [selectedAccount]);
 
-  _fetchReceivedVestingShare = async () => {
-    try {
-      const { hivePerMVests } = this.props;
-      const delegatorUser = this.state.from;
-      const delegateeUser = this.state.destination;
+  const totalHP = useMemo(
+    () => vestsToHp(availableVestingShares, hivePerMVests),
+    [availableVestingShares, hivePerMVests],
+  );
 
+  const isBadActor = destination && badActors?.has(destination.trim().toLowerCase());
+
+  // --- Fetch existing delegation ---
+  const fetchExistingDelegation = useCallback(
+    async (delegatorUser: string, delegateeUser: string) => {
       if (!delegatorUser || !delegateeUser) {
-        this.setState({
-          delegatedHP: 0,
-          hp: 0,
-          amount: 0,
-          isAmountValid: false,
-        });
+        setDelegatedHP(0);
+        setHp(0);
+        setAmount(0);
+        setIsAmountValid(false);
         return;
       }
 
-      const queryClient = getQueryClient();
-      const limit = 1000;
-      const queryOpts = getVestingDelegationsQueryOptions(delegatorUser, limit);
-      let allDelegations = [];
-      let cursor = '';
-      let hasMore = true;
+      try {
+        const queryClient = getQueryClient();
+        const limit = 1000;
+        const queryOpts = getVestingDelegationsQueryOptions(delegatorUser, limit);
 
-      while (hasMore) {
-        // eslint-disable-next-line no-await-in-loop
-        const page = await queryClient.fetchQuery({
-          ...queryOpts,
-          queryKey: [...queryOpts.queryKey, cursor],
-          queryFn: () => queryOpts.queryFn({ pageParam: cursor }),
-        });
-        allDelegations = allDelegations.concat(page);
-        if (page.length < limit) {
-          hasMore = false;
-        } else {
+        const fetchAllPages = async (cursor = ''): Promise<any[]> => {
+          const page = await queryClient.fetchQuery({
+            ...queryOpts,
+            queryKey: [...queryOpts.queryKey, cursor],
+            queryFn: () => queryOpts.queryFn({ pageParam: cursor }),
+          });
+          if (page.length < limit) {
+            return page;
+          }
           const lastDelegatee = page[page.length - 1]?.delegatee;
           if (!lastDelegatee || lastDelegatee === cursor) {
-            hasMore = false;
+            return page;
+          }
+          const rest = await fetchAllPages(lastDelegatee);
+          return page.concat(rest);
+        };
+
+        const allDelegations = await fetchAllPages();
+
+        if (allDelegations.length) {
+          const curShare = allDelegations.find((item) => item.delegatee === delegateeUser);
+          if (curShare) {
+            const vestShares = parseAsset(curShare.vesting_shares);
+            const hpValue = parseFloat(vestsToHp(vestShares.amount, hivePerMVests).toFixed(3));
+            const maxHP = parseFloat(vestsToHp(availableVestingShares, hivePerMVests).toFixed(3));
+            const isValid = !(Number.isNaN(hpValue) || hpValue <= 0.001 || hpValue > maxHP);
+            setDelegatedHP(hpValue);
+            setHp(hpValue);
+            setAmount(vestShares.amount);
+            setIsAmountValid(isValid);
           } else {
-            cursor = lastDelegatee;
+            setDelegatedHP(0);
+            setHp(0);
+            setAmount(0);
+            setIsAmountValid(false);
           }
-        }
-      }
-
-      if (allDelegations.length) {
-        const curShare = allDelegations.find((item) => item.delegatee === delegateeUser);
-        if (curShare) {
-          const vest_shares = parseAsset(curShare.vesting_shares);
-          const hpValue = vestsToHp(vest_shares.amount, hivePerMVests).toFixed(3);
-          const availableVestingShares = this._getAvailableVestingShares();
-          this.setState({
-            delegatedHP: hpValue,
-            hp: hpValue,
-            amount: vest_shares.amount,
-            isAmountValid: this._validateHP({ value: hpValue, availableVestingShares }),
-          });
         } else {
-          this.setState({
-            delegatedHP: 0,
-            hp: 0,
-            amount: 0,
-            isAmountValid: false,
-          });
+          setDelegatedHP(0);
+          setHp(0);
+          setAmount(0);
+          setIsAmountValid(false);
         }
-      } else {
-        this.setState({
-          delegatedHP: 0,
-          hp: 0,
-          amount: 0,
-          isAmountValid: false,
-        });
+      } catch (err) {
+        console.warn(err);
+        setDelegatedHP(0);
+        setHp(0);
+        setAmount(0);
+        setIsAmountValid(false);
       }
-    } catch (err) {
-      console.warn(err);
-      this.setState({
-        delegatedHP: 0,
-        hp: 0,
-        amount: 0,
-        isAmountValid: false,
-      });
-    }
-  };
-
-  _handleOnDropdownChange = (value) => {
-    const { fetchBalance, intl } = this.props;
-    const { destination } = this.state;
-    if (value === destination) {
-      Alert.alert(
-        intl.formatMessage({ id: 'transfer.username_alert' }),
-        intl.formatMessage({ id: 'transfer.username_alert_detail' }),
-      );
-      this.setState({ step: 1, destination: '' });
-      return;
-    }
-    fetchBalance(value);
-    this.setState({ from: value, amount: 0 });
-  };
-
-  _handleSliderValueChange = (value, availableVestingShares) => {
-    const { hivePerMVests } = this.props;
-    const hp = vestsToHp(value, hivePerMVests).toFixed(3);
-    const isAmountValid = this._validateHP({ value: hp, availableVestingShares });
-    this.setState({ step: 2, isAmountValid, amount: value, hp });
-  };
-
-  // validate hp value if it is out of range or not a valid number
-  _validateHP = ({ value, availableVestingShares }) => {
-    const { hivePerMVests } = this.props;
-    const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
-    const parsedHpValue = parseFloat(value);
-    const amountValid = !(
-      Number.isNaN(parsedHpValue) ||
-      parsedHpValue <= 0.001 ||
-      parsedHpValue > totalHP
-    );
-    return amountValid;
-  };
-
-  _handleNext = async ({ availableVestingShares }) => {
-    const { step, hp, destination, from, delegatedHP } = this.state;
-    const { intl, hivePerMVests } = this.props;
-    const vestsForHp = hpToVests(hp, hivePerMVests);
-    const parsedHpValue = parseFloat(hp);
-    const amountValid = this._validateHP({ value: hp, availableVestingShares });
-    this.setState({ hp: parsedHpValue, isAmountValid: amountValid, amount: vestsForHp });
-    if (step === 1) {
-      // this.setState({ step: 2 });
-    } else {
-      this.amountTextInput.current.blur();
-      await delay(500);
-      const body =
-        intl.formatMessage(
-          { id: 'transfer.confirm_summary' },
-          {
-            hp: parsedHpValue,
-            vests: vestsForHp.toFixed(3),
-            delegatee: from,
-            delegator: destination,
-          },
-        ) +
-        (delegatedHP
-          ? `\n${intl.formatMessage(
-              { id: 'transfer.confirm_summary_para' },
-              {
-                prev: delegatedHP,
-              },
-            )}`
-          : '');
-
-      if (amountValid) {
-        this.setState({ confirmModalOpen: true });
-        try {
-          const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
-            payload: {
-              title: intl.formatMessage({ id: 'transfer.confirm' }),
-              body,
-              buttons: [
-                {
-                  text: intl.formatMessage({ id: 'alert.cancel' }),
-                  returnValue: 'cancel',
-                },
-                {
-                  text: intl.formatMessage({ id: 'alert.confirm' }),
-                  returnValue: 'confirm',
-                },
-              ],
-              headerContent: this._renderToFromAvatars(),
-            },
-          });
-
-          if (action === 'confirm') {
-            this._handleTransferAction();
-          }
-        } finally {
-          this.setState({ confirmModalOpen: false });
-        }
-      } else {
-        Alert.alert(
-          intl.formatMessage({ id: 'transfer.invalid_amount' }),
-          intl.formatMessage({ id: 'transfer.invalid_amount_desc' }),
-        );
-      }
-    }
-  };
-
-  // Note: dropdown for user account selection. can be used in later implementaion
-  _renderDropdown = (_accounts, currentAccountName) => (
-    <Text style={styles.dropdownText}>{currentAccountName}</Text>
+    },
+    [hivePerMVests, availableVestingShares],
   );
 
-  _renderUsersDropdownItem = ({ item }) => {
-    const username = item;
-    const { from } = this.state;
-    const { intl } = this.props;
+  // --- Username validation (debounced) ---
+  const debouncedValidate = useCallback(
+    debounce(async (value: string) => {
+      if (!value) {
+        setUsersResult([]);
+        setHasValidDestination(false);
+        return;
+      }
+      try {
+        const res = await getAccountsWithUsername(value);
+        setUsersResult([...res]);
+        const isValid = res.includes(value);
+        setHasValidDestination(isValid);
+        if (isValid) {
+          fetchExistingDelegation(from, value);
+        }
+      } catch {
+        setHasValidDestination(false);
+      }
+    }, 500),
+    [from, fetchExistingDelegation, getAccountsWithUsername],
+  );
 
-    const _onItemPress = () => {
+  const handleDestinationChange = useCallback(
+    (value: string) => {
+      const lowercaseValue = value.toLowerCase();
+      setDestination(lowercaseValue);
+      setHasValidDestination(false);
+      debouncedValidate(lowercaseValue);
+    },
+    [debouncedValidate],
+  );
+
+  const handleUserSelect = useCallback(
+    (username: string) => {
       if (username === from) {
         Alert.alert(
           intl.formatMessage({ id: 'transfer.username_alert' }),
@@ -394,281 +198,339 @@ class DelegateScreen extends Component {
         return;
       }
 
-      this.setState({ destination: username, usersResult: [], step: 2 }, () => {
-        // since method uses destination from state it sould be called
-        // after state has been updated successfully
-        this._fetchReceivedVestingShare();
+      setDestination(username);
+      setUsersResult([]);
+      setHasValidDestination(true);
+      fetchExistingDelegation(from, username);
+      destinationRef.current?.blur();
+    },
+    [from, intl, fetchExistingDelegation],
+  );
+
+  // --- Mount: validate referredUsername ---
+  useEffect(() => {
+    if (referredUsername) {
+      getAccountsWithUsername(referredUsername)
+        .then((res) => {
+          if (res.includes(referredUsername)) {
+            setHasValidDestination(true);
+            fetchExistingDelegation(from, referredUsername);
+          }
+        })
+        .catch(() => {
+          setHasValidDestination(false);
+        });
+    } else {
+      destinationRef.current?.focus();
+    }
+  }, [referredUsername, from, fetchExistingDelegation, getAccountsWithUsername]);
+
+  // --- HP validation ---
+  const validateHP = useCallback(
+    (value: number) => {
+      const maxHP = parseFloat(vestsToHp(availableVestingShares, hivePerMVests).toFixed(3));
+      return !(Number.isNaN(value) || value <= 0.001 || value > maxHP);
+    },
+    [availableVestingShares, hivePerMVests],
+  );
+
+  // --- Amount handlers ---
+  const handleHpInputChange = useCallback(
+    (text: string) => {
+      const cleaned = text.replace(',', '.');
+      setHp(cleaned);
+      const parsed = parseFloat(cleaned);
+      setIsAmountValid(validateHP(parsed));
+    },
+    [validateHP],
+  );
+
+  const handleHpInputEnd = useCallback(
+    (text: string) => {
+      const parsed = parseFloat(text.replace(',', '.'));
+      if (Number.isNaN(parsed)) {
+        setAmount(0);
+        setHp(0.0);
+        setIsAmountValid(false);
+      } else {
+        const maxHP = parseFloat(vestsToHp(availableVestingShares, hivePerMVests).toFixed(3));
+        if (parsed > maxHP) {
+          setAmount(hpToVests(maxHP, hivePerMVests));
+          setHp(maxHP);
+          setIsAmountValid(true);
+        } else {
+          const vestsForHp = hpToVests(parsed, hivePerMVests);
+          setAmount(vestsForHp);
+          setHp(parsed);
+          setIsAmountValid(validateHP(parsed));
+        }
+      }
+    },
+    [availableVestingShares, hivePerMVests, validateHP],
+  );
+
+  const handleSliderChange = useCallback(
+    (value: number) => {
+      const hpValue = vestsToHp(value, hivePerMVests).toFixed(3);
+      const isValid = value !== 0 && value <= availableVestingShares;
+      setAmount(value);
+      setHp(hpValue);
+      setIsAmountValid(isValid);
+    },
+    [availableVestingShares, hivePerMVests],
+  );
+
+  const handleSetMax = useCallback(() => {
+    setAmount(availableVestingShares);
+    setHp(totalHP.toFixed(3));
+    setIsAmountValid(availableVestingShares > 0);
+  }, [availableVestingShares, totalHP]);
+
+  // --- Transfer ---
+  const handleTransferAction = useCallback(async () => {
+    if (isTransfering) return;
+    setIsTransfering(true);
+
+    try {
+      await transferToAccount(from, destination, amount, '');
+      setIsTransfering(false);
+      handleOnModalClose?.();
+    } catch (error) {
+      setIsTransfering(false);
+      Alert.alert(intl.formatMessage({ id: 'alert.error' }), error.message || error.toString());
+    }
+  }, [isTransfering, from, destination, amount, transferToAccount, handleOnModalClose, intl]);
+
+  // --- Review / Confirm ---
+  const handleReview = useCallback(async () => {
+    const parsedHpValue = parseFloat(hp);
+    const vestsForHp = hpToVests(parsedHpValue, hivePerMVests);
+    const amountValid = validateHP(parsedHpValue);
+
+    setHp(parsedHpValue);
+    setIsAmountValid(amountValid);
+    setAmount(vestsForHp);
+
+    if (!amountValid) {
+      Alert.alert(
+        intl.formatMessage({ id: 'transfer.invalid_amount' }),
+        intl.formatMessage({ id: 'transfer.invalid_amount_desc' }),
+      );
+      return;
+    }
+
+    amountRef.current?.blur();
+    await delay(300);
+
+    const body =
+      intl.formatMessage(
+        { id: 'transfer.confirm_summary' },
+        {
+          hp: parsedHpValue,
+          vests: vestsForHp.toFixed(3),
+          delegatee: from,
+          delegator: destination,
+        },
+      ) +
+      (delegatedHP
+        ? `\n${intl.formatMessage({ id: 'transfer.confirm_summary_para' }, { prev: delegatedHP })}`
+        : '');
+
+    setConfirmModalOpen(true);
+    try {
+      const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
+        payload: {
+          title: intl.formatMessage({ id: 'transfer.confirm' }),
+          body,
+          buttons: [
+            {
+              text: intl.formatMessage({ id: 'alert.cancel' }),
+              returnValue: 'cancel',
+            },
+            {
+              text: intl.formatMessage({ id: 'alert.confirm' }),
+              returnValue: 'confirm',
+            },
+          ],
+          headerContent: (
+            <View style={styles.recipientRow}>
+              <UserAvatar username={from} size="xl" noAction />
+              <Icon style={styles.arrowIcon} name="arrow-forward" iconType="MaterialIcons" />
+              <UserAvatar username={destination} size="xl" noAction />
+            </View>
+          ),
+        },
       });
 
-      this.destinationTextInput.current?.blur();
-    };
+      if (action === 'confirm') {
+        handleTransferAction();
+      }
+    } finally {
+      setConfirmModalOpen(false);
+    }
+  }, [hp, hivePerMVests, validateHP, intl, from, destination, delegatedHP, handleTransferAction]);
 
-    return (
-      <TouchableOpacity onPress={_onItemPress} style={styles.usersDropItemRow}>
+  // --- HiveSigner path (preserved for completeness) ---
+  const fixedAmount = `${(amount || 0).toFixed ? amount.toFixed(6) : '0.000000'} VESTS`;
+  const hsPath = `sign/delegate-vesting-shares?delegator=${from}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
+    fixedAmount,
+  )}`;
+
+  const isSubmitDisabled = !isAmountValid || !hasValidDestination;
+
+  // --- Render suggestion item ---
+  const renderSuggestionItem = useCallback(
+    ({ item: username }) => (
+      <TouchableOpacity onPress={() => handleUserSelect(username)} style={styles.usersDropItemRow}>
         <UserAvatar username={username} noAction />
         <Text style={styles.usersDropItemRowText}>{username}</Text>
       </TouchableOpacity>
-    );
-  };
-
-  _renderUsersDropdown = () => (
-    <FlatList
-      data={this.state.usersResult}
-      keyboardShouldPersistTaps="always"
-      renderItem={this._renderUsersDropdownItem}
-      keyExtractor={(item) => `searched-user-${item}`}
-      style={styles.usersDropdown}
-      ListFooterComponent={<View />}
-      ListFooterComponentStyle={{ height: 20 }} // this fixes the last item visibility bug
-    />
+    ),
+    [handleUserSelect],
   );
 
-  _renderInput = (placeholder, state, keyboardType, availableVestingShares, isTextArea) => {
-    const { isAmountValid } = this.state;
+  return (
+    <SafeAreaView style={styles.container}>
+      <BasicHeader title={intl.formatMessage({ id: 'transfer.delegate' })} backIconName="close" />
 
-    switch (state) {
-      case 'from':
-        return (
-          <TextInput
-            style={[styles.input]}
-            value={this.state[state]}
-            placeholder={placeholder}
-            placeholderTextColor="#c1c5c7"
-            autoCapitalize="none"
-            multiline={isTextArea}
-            numberOfLines={isTextArea ? 4 : 1}
-            keyboardType={keyboardType}
-            editable={false}
-          />
-        );
-      case 'destination':
-        return (
-          <View style={styles.transferToContainer}>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="always"
+        enableOnAndroid={true}
+        extraScrollHeight={80}
+        contentContainerStyle={styles.scrollContent}
+      >
+        {/* --- Recipient Section --- */}
+        <View style={styles.recipientSection}>
+          <View style={styles.recipientRow}>
+            <UserAvatar username={from} size="xl" noAction />
+            <Icon style={styles.arrowIcon} name="arrow-forward" iconType="MaterialIcons" />
+            <UserAvatar username={destination || ''} size="xl" noAction />
+          </View>
+
+          <View style={{ width: '100%', zIndex: 10 }}>
             <TextInput
-              style={[styles.input, { width: '100%' }]}
-              onChangeText={(value) => {
-                // Force lowercase for usernames (Hive usernames are always lowercase)
-                const lowercaseValue = value.toLowerCase();
-                this.setState({ destination: lowercaseValue, step: 1 });
-                this._handleOnAmountChange(state, lowercaseValue);
-              }}
-              value={this.state[state]}
-              placeholder={placeholder}
+              style={styles.inputField}
+              onChangeText={handleDestinationChange}
+              value={destination}
+              placeholder={intl.formatMessage({ id: 'transfer.to_placeholder' })}
               placeholderTextColor="#c1c5c7"
               autoCapitalize="none"
-              multiline={isTextArea}
-              numberOfLines={isTextArea ? 4 : 1}
-              keyboardType={keyboardType}
+              autoCorrect={false}
               returnKeyType="done"
-              innerRef={this.destinationTextInput}
+              innerRef={destinationRef}
             />
 
-            <View style={styles.usersDropdownContainer}>
-              {this.state.destination !== '' &&
-                this.state.usersResult.length !== 0 &&
-                this._renderUsersDropdown()}
+            {destination !== '' && usersResult.length > 0 && (
+              <View style={styles.suggestionsContainer}>
+                <FlatList
+                  data={usersResult}
+                  keyboardShouldPersistTaps="always"
+                  renderItem={renderSuggestionItem}
+                  keyExtractor={(item) => `suggest-${item}`}
+                  style={styles.suggestionsList}
+                />
+              </View>
+            )}
+          </View>
+
+          {isBadActor && (
+            <Text style={styles.badActorWarning}>
+              {intl.formatMessage({ id: 'transfer.to_bad_actor' })}
+            </Text>
+          )}
+        </View>
+
+        {/* --- Existing Delegation Info --- */}
+        {hasValidDestination && delegatedHP > 0 && (
+          <View style={styles.delegationInfoRow}>
+            <Text style={styles.delegationInfoLabel}>
+              {intl.formatMessage({ id: 'transfer.already_delegated' })} @{destination}
+            </Text>
+            <Text style={styles.delegationInfoValue}>{delegatedHP} HP</Text>
+          </View>
+        )}
+
+        {/* --- Amount Section --- */}
+        <View style={styles.fieldGroup}>
+          <View style={styles.amountHeader}>
+            <Text style={styles.fieldLabel}>
+              {intl.formatMessage({ id: 'transfer.amount_hp' })}
+            </Text>
+            <TouchableOpacity onPress={handleSetMax}>
+              <Text style={styles.maxButton}>MAX</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.amountRow}>
+            <TextInput
+              style={[
+                styles.inputField,
+                styles.amountInputLarge,
+                !isAmountValid && hp > 0 && styles.inputError,
+              ]}
+              onChangeText={handleHpInputChange}
+              value={hp.toString()}
+              placeholder="0.000"
+              placeholderTextColor="#c1c5c7"
+              keyboardType="decimal-pad"
+              autoCapitalize="none"
+              innerRef={amountRef}
+              blurOnSubmit={true}
+              returnKeyType="done"
+              selectTextOnFocus={true}
+              onEndEditing={(e) => handleHpInputEnd(e.nativeEvent.text)}
+            />
+            <View style={styles.fundBadge}>
+              <Text style={styles.fundBadgeText}>HP</Text>
             </View>
           </View>
-        );
-      case 'amount':
-        return (
-          <TextInput
-            style={[styles.amountInput, !isAmountValid && styles.error]}
-            onChangeText={(amount) => {
-              this.setState({
-                hp: amount.replace(',', '.'),
-                isAmountValid: this._validateHP({ value: amount, availableVestingShares }),
-              });
-            }}
-            value={this.state.hp.toString()}
-            placeholder={placeholder}
-            placeholderTextColor="#c1c5c7"
-            autoCapitalize="none"
-            multiline={isTextArea}
-            numberOfLines={isTextArea ? 4 : 1}
-            keyboardType={keyboardType}
-            innerRef={this.amountTextInput}
-            blurOnSubmit={true}
-            returnKeyType="done"
-            selectTextOnFocus={true}
-            onEndEditing={(e) =>
-              this._handleAmountChange(e.nativeEvent.text, availableVestingShares)
-            }
-          />
-        );
-      default:
-        null;
-        break;
-    }
-  };
 
-  _renderInformationText = (text) => <Text style={styles.amountText}>{text}</Text>;
+          <Text style={styles.balanceText}>
+            {`${intl.formatMessage({ id: 'transfer.remain_hp' })}: ${totalHP.toFixed(3)} HP`}
+          </Text>
+        </View>
 
-  _renderToFromAvatars = () => {
-    const { destination, from } = this.state;
-    return (
-      <View style={styles.toFromAvatarsContainer}>
-        <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
-        <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
-        <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
-      </View>
-    );
-  };
-
-  render() {
-    const { intl, handleOnModalClose, hivePerMVests } = this.props;
-    const {
-      amount,
-      isTransfering,
-      from,
-      destination,
-      steemConnectTransfer,
-      step,
-      delegatedHP,
-      confirmModalOpen,
-      isAmountValid,
-    } = this.state;
-    const availableVestingShares = this._getAvailableVestingShares();
-    const fixedAmount = `${amount.toFixed(6)} VESTS`;
-    // eslint-disable-next-line max-len
-    const path = `sign/delegate-vesting-shares?delegator=${from}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
-      fixedAmount,
-    )}`;
-    const totalHP = vestsToHp(availableVestingShares, hivePerMVests);
-    const _renderSlider = () => (
-      <View style={styles.sliderBox}>
-        <View style={styles.emptyBox} />
-        <View style={styles.sliderContainer}>
+        {/* --- Slider --- */}
+        <View style={styles.fieldGroup}>
           <Slider
-            style={styles.slider}
             trackStyle={styles.track}
             thumbStyle={styles.thumb}
             minimumTrackTintColor="#357ce6"
             thumbTintColor="#007ee5"
             maximumValue={availableVestingShares}
             value={amount}
-            onValueChange={(value) => this._handleSliderValueChange(value, availableVestingShares)}
+            onValueChange={handleSliderChange}
           />
-          <View style={styles.sliderAmountContainer}>
-            <Text style={styles.amountText}>{`MAX  ${totalHP.toFixed(3)} HP`}</Text>
-          </View>
         </View>
-      </View>
-    );
 
-    const _renderStepOne = () => (
-      <View style={styles.stepOneContainer}>
-        <Text style={styles.sectionHeading}>
-          {intl.formatMessage({ id: 'transfer.account_detail_head' })}
-        </Text>
-        <Text style={styles.sectionSubheading}>
-          {intl.formatMessage({ id: 'transfer.account_detail_subhead' })}
-        </Text>
-        <TransferFormItem
-          containerStyle={{ marginTop: 32 }}
-          label={intl.formatMessage({ id: 'transfer.from' })}
-          rightComponent={() =>
-            this._renderInput(intl.formatMessage({ id: 'transfer.from' }), 'from', 'default')
-          }
-        />
-        <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.to' })}
-          rightComponent={() =>
-            this._renderInput(
-              intl.formatMessage({ id: 'transfer.to_placeholder' }),
-              'destination',
-              'default',
-            )
-          }
-          containerStyle={styles.elevate}
-        />
-        {this._renderToFromAvatars()}
-      </View>
-    );
-
-    const _renderStepTwo = () => (
-      <Animated.View entering={BounceInRight.delay(500)}>
-        <View style={styles.stepTwoContainer}>
-          <Text style={styles.sectionHeading}>
-            {intl.formatMessage({ id: 'transfer.delegat_detail_head' })}
-          </Text>
-          <Text style={styles.sectionSubheading}>
-            {intl.formatMessage({ id: 'transfer.delegat_detail_subhead' })}
-          </Text>
-          <View style={styles.alreadyDelegateRow}>
-            <Text style={styles.sectionSubheading}>
-              {`${intl.formatMessage({ id: 'transfer.already_delegated' })} @${destination}`}
-            </Text>
-            <Text style={styles.sectionSubheading}>{`${delegatedHP} HP`}</Text>
-          </View>
-          <TransferFormItem
-            label={intl.formatMessage({ id: 'transfer.new_amount' })}
-            rightComponent={() =>
-              this._renderInput(
-                intl.formatMessage({ id: 'transfer.amount' }),
-                'amount',
-                'numeric',
-                availableVestingShares,
-                null,
-                null,
-                200,
-              )
-            }
-            containerStyle={styles.paddBottom}
-          />
-          {_renderSlider()}
-        </View>
-      </Animated.View>
-    );
-    const _renderMainBtn = () => (
-      <View style={styles.stepThreeContainer}>
-        <MainButton
-          style={styles.button}
-          onPress={() => this._handleNext({ availableVestingShares })}
-          isLoading={isTransfering}
-          isDisable={!isAmountValid || step === 1}
-        >
-          <Text style={styles.buttonText}>
-            {step === 2
-              ? intl.formatMessage({ id: 'transfer.review' })
-              : intl.formatMessage({ id: 'transfer.next' })}
-          </Text>
-        </MainButton>
-      </View>
-    );
-
-    return (
-      <SafeAreaView style={styles.container}>
-        <BasicHeader title={intl.formatMessage({ id: 'transfer.delegate' })} backIconName="close" />
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.fillSpace}
-          keyboardShouldPersistTaps="always"
-        >
-          <ScrollView keyboardShouldPersistTaps="always" contentContainerStyle={styles.grow}>
-            <View style={styles.container}>
-              {step >= 1 && _renderStepOne()}
-              {step >= 2 && _renderStepTwo()}
-
-              {_renderMainBtn()}
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-
-        {path && !confirmModalOpen && (
-          <Modal
-            isOpen={steemConnectTransfer}
-            isFullScreen
-            isCloseButton
-            handleOnModalClose={handleOnModalClose}
-            title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
+        {/* --- Submit --- */}
+        <View style={styles.submitContainer}>
+          <MainButton
+            style={styles.submitButton}
+            onPress={handleReview}
+            isLoading={isTransfering}
+            isDisable={isSubmitDisabled}
           >
-            <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
-          </Modal>
-        )}
-      </SafeAreaView>
-    );
-  }
-}
+            <Text style={styles.submitButtonText}>
+              {intl.formatMessage({ id: 'transfer.review' })}
+            </Text>
+          </MainButton>
+        </View>
+      </KeyboardAwareScrollView>
 
-export default injectIntl(DelegateScreen);
+      {hsPath && !confirmModalOpen && (
+        <Modal
+          isOpen={steemConnectTransfer}
+          isFullScreen
+          isCloseButton
+          handleOnModalClose={handleOnModalClose}
+          title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
+        >
+          <WebView source={{ uri: `${hsOptions.base_url}${hsPath}` }} />
+        </Modal>
+      )}
+    </SafeAreaView>
+  );
+};
+
+export default DelegateScreen;

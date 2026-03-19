@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Alert, Text, View } from 'react-native';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { get, debounce } from 'lodash';
+import { useDispatch } from 'react-redux';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,13 +12,9 @@ import { SheetManager } from 'react-native-actions-sheet';
 import { hsOptions } from '../../../constants/hsOptions';
 import AUTH_TYPE from '../../../constants/authType';
 
-import {
-  BasicHeader,
-  MainButton,
-  Modal,
-  TransferAccountSelector,
-  TransferAmountInputSection,
-} from '../../../components';
+import { BasicHeader, MainButton, Modal, TextInput, UserAvatar, Icon } from '../../../components';
+import DropdownButton from '../../../components/dropdownButton';
+import { RECURRENCE_TYPES } from '../../../components/transferAmountInputSection/transferAmountInputSection';
 
 import styles from './transferStyles';
 import TransferTypes from '../../../constants/transferTypes';
@@ -28,6 +25,8 @@ import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
 import { SheetNames } from '../../../navigation/sheets';
 import TokenLayers from '../../../constants/tokenLayers';
 import { EngineActions } from '../../../providers/hive-engine/hiveEngine.types';
+import { toastNotification } from '../../../redux/actions/uiAction';
+import { dateToFormatted } from '../../../utils/time';
 
 interface TransferViewProps {
   currentAccountName: string;
@@ -37,11 +36,10 @@ interface TransferViewProps {
   transferToAccount: (params: any) => void;
   accountType: string;
   accounts: any[];
-  intl: any;
   handleOnModalClose: () => void;
   fundType: string;
   selectedAccount: any;
-  fetchBalance: () => void;
+  fetchBalance: (username: string) => void;
   spkMarkets: any;
   referredUsername?: string;
   initialAmount?: string | number;
@@ -49,6 +47,7 @@ interface TransferViewProps {
   fetchRecurrentTransfers?: () => void;
   recurrentTransfers?: any;
   tokenLayer?: string;
+  badActors?: Set<string>;
 }
 
 const TransferView = ({
@@ -59,7 +58,6 @@ const TransferView = ({
   transferToAccount,
   accountType,
   accounts,
-  intl,
   handleOnModalClose,
   fundType,
   selectedAccount,
@@ -71,7 +69,11 @@ const TransferView = ({
   fetchRecurrentTransfers,
   recurrentTransfers,
   tokenLayer,
+  badActors,
 }: TransferViewProps) => {
+  const intl = useIntl();
+  const dispatch = useDispatch();
+
   const [from, setFrom] = useState(currentAccountName);
   const [destination, setDestination] = useState(
     transferType === TransferTypes.TRANSFER_TO_SAVINGS ||
@@ -89,7 +91,7 @@ const TransferView = ({
       : referredUsername || '',
   );
 
-  const [amount, setAmount] = useState(`${initialAmount}`);
+  const [amount, setAmount] = useState(initialAmount != null ? `${initialAmount}` : '');
   const [memo, setMemo] = useState(
     transferType === 'purchase_estm' ? 'estm-purchase' : initialMemo,
   );
@@ -97,16 +99,149 @@ const TransferView = ({
   const [executions, setExecutions] = useState('');
   const [startDate, setStartDate] = useState('');
 
-  const [isUsernameValid, setIsUsernameValid] = useState(!!destination); // if destination is preset, set username to valid;
-
+  const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [hsTransfer, setHsTransfer] = useState(false);
   const [isTransfering, setIsTransfering] = useState(false);
 
-  const isRecurrentTransfer = transferType === TransferTypes.RECURRENT_TRANSFER;
+  const destinationRef = useRef<string[]>([]);
+  const hasInitializedRef = useRef(false);
+  const dpRef = useRef();
 
+  const isRecurrentTransfer = transferType === TransferTypes.RECURRENT_TRANSFER;
   const isEngineToken = tokenLayer === TokenLayers.ENGINE;
   const isSpkToken = tokenLayer === TokenLayers.SPK;
 
+  const destinationLocked = useMemo(() => {
+    switch (transferType) {
+      case TransferTypes.CONVERT:
+      case TransferTypes.UNSTAKE:
+      case TransferTypes.POWER_UP_SPK:
+      case TransferTypes.POWER_DOWN_SPK:
+        return true;
+      default:
+        return false;
+    }
+  }, [transferType]);
+
+  const allowMultipleDest =
+    (tokenLayer === TokenLayers.HIVE && transferType === TransferTypes.TRANSFER) ||
+    (tokenLayer === TokenLayers.POINTS && transferType === TransferTypes.ECENCY_POINT_TRANSFER);
+
+  const showMemo =
+    transferType === TransferTypes.ECENCY_POINT_TRANSFER ||
+    transferType === TransferTypes.TRANSFER ||
+    transferType === TransferTypes.RECURRENT_TRANSFER ||
+    transferType === TransferTypes.TRANSFER_TO_SAVINGS ||
+    transferType === TransferTypes.TRANSFER_SPK ||
+    transferType === TransferTypes.TRANSFER_LARYNX;
+
+  const displayFundType = fundType === 'POINT' ? 'Points' : fundType;
+
+  // --- Validation ---
+  const _debouncedValidateUsername = useCallback(
+    debounce(async (usernames: string[]) => {
+      if (usernames.length === 0) {
+        setIsUsernameValid(false);
+        return;
+      }
+      if (usernames.length > 5) {
+        dispatch(toastNotification(intl.formatMessage({ id: 'transfer.too_many_usernames' })));
+        setIsUsernameValid(false);
+        return;
+      }
+
+      const validationResults = await Promise.all(
+        usernames.map(async (username) => {
+          try {
+            const users = await getAccountsWithUsername(username.trim());
+            const _isValid = users.includes(username);
+            if (_isValid) {
+              _findRecurrentTransferOfUser(username);
+            }
+            return _isValid;
+          } catch (error) {
+            return false;
+          }
+        }),
+      );
+
+      if (usernames.toString() !== destinationRef.current.toString()) {
+        return;
+      }
+
+      setIsUsernameValid(validationResults.every((result) => result));
+    }, 300),
+    [recurrentTransfers],
+  );
+
+  // --- Validate prefilled destination on mount ---
+  useEffect(() => {
+    if (hasInitializedRef.current) return;
+    hasInitializedRef.current = true;
+    if (destination) {
+      const usernames = destination
+        .trim()
+        .toLowerCase()
+        .split(/[\s,]+/)
+        .filter(Boolean);
+      destinationRef.current = allowMultipleDest ? usernames : [usernames[0]].filter(Boolean);
+      _debouncedValidateUsername(destinationRef.current);
+    }
+  }, [destination, allowMultipleDest, _debouncedValidateUsername]);
+
+  // --- Handlers ---
+  const _handleDestinationChange = (val: string) => {
+    const trimmedLowercase = val.trim().toLowerCase();
+    const usernames = trimmedLowercase ? trimmedLowercase.split(/[\s,]+/).filter(Boolean) : [];
+    setIsUsernameValid(false);
+    _debouncedValidateUsername(
+      allowMultipleDest ? usernames : trimmedLowercase ? [trimmedLowercase] : [],
+    );
+    destinationRef.current = allowMultipleDest
+      ? usernames
+      : trimmedLowercase
+      ? [trimmedLowercase]
+      : [];
+    setDestination(trimmedLowercase);
+  };
+
+  const _handleAmountChange = (val: string | number) => {
+    let newValue = String(val);
+    if (newValue.includes(',')) {
+      newValue = newValue.replace(',', '.');
+    }
+    const parsed = parseFloat(newValue);
+    if (newValue === '' || newValue === '.' || Number.isNaN(parsed)) {
+      setAmount(newValue);
+    } else if (parsed <= parseFloat(String(balance))) {
+      setAmount(newValue);
+    }
+  };
+
+  const _handleFromChange = (username: string) => {
+    fetchBalance(username);
+    setFrom(username);
+    if (destinationLocked) {
+      setDestination(username);
+    }
+  };
+
+  const [recurrenceIndex, setRecurrenceIndex] = useState(
+    RECURRENCE_TYPES.findIndex((r) => r.hours === recurrence),
+  );
+
+  useEffect(() => {
+    const newSelectedIndex = RECURRENCE_TYPES.findIndex((r) => r.hours === +recurrence);
+    setRecurrenceIndex(newSelectedIndex);
+    if (newSelectedIndex > -1) {
+      setRecurrence(RECURRENCE_TYPES[newSelectedIndex].hours);
+    }
+    if (dpRef?.current) {
+      dpRef.current.select(newSelectedIndex);
+    }
+  }, [recurrence]);
+
+  // --- Transfer Actions ---
   const _handleTransferAction = debounce(
     () => {
       if (isTransfering) return;
@@ -160,7 +295,6 @@ const TransferView = ({
   const _handleDeleteRecurrentTransfer = debounce(
     () => {
       setIsTransfering(true);
-      // TODO: check if this need to accomodate HIVE_AUTH;
       if (accountType === AUTH_TYPE.STEEM_CONNECT) {
         setHsTransfer(true);
       } else {
@@ -171,13 +305,11 @@ const TransferView = ({
     { trailing: true },
   );
 
+  // --- HiveSigner Path ---
   let path;
-
   if (hsTransfer) {
-    // split to multiple destinations
-    const destinations = destination.trim().split(/[\s,]+/); // Split by spaces or commas
+    const destinations = destination.trim().split(/[\s,]+/);
 
-    // handle engine transactions
     if (isEngineToken) {
       const json = getEngineActionJSON(
         transferType as EngineActions,
@@ -192,12 +324,7 @@ const TransferView = ({
       )}%22%5D&required_posting_auths=%5B%5D&id=ssc-mainnet-hive&json=${encodeURIComponent(
         JSON.stringify(json),
       )}`;
-    }
-
-    // handle spk transactions
-    else if (isSpkToken) {
-      // TODO: update this section as required
-      // compose spk json
+    } else if (isSpkToken) {
       const json = getSpkActionJSON(Number(amount), destination, memo);
       path = `sign/custom-json?authority=active&required_auths=%5B%22${
         selectedAccount.name
@@ -205,31 +332,31 @@ const TransferView = ({
         JSON.stringify(json),
       )}`;
     } else if (transferType === TransferTypes.RECURRENT_TRANSFER) {
-      path = `sign/recurrent_transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
+      path = `sign/recurrent_transfer?from=${from}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}&recurrence=${recurrence}&executions=${executions}`;
     } else if (transferType === TransferTypes.TRANSFER_TO_SAVINGS) {
-      path = `sign/transfer_to_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
+      path = `sign/transfer_to_savings?from=${from}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}`;
     } else if (transferType === TransferTypes.DELEGATE_VESTING_SHARES) {
-      path = `sign/delegate_vesting_shares?delegator=${currentAccountName}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
+      path = `sign/delegate_vesting_shares?delegator=${from}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
     } else if (transferType === TransferTypes.TRANSFER_TO_VESTING) {
-      path = `sign/transfer_to_vesting?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
+      path = `sign/transfer_to_vesting?from=${from}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
     } else if (transferType === TransferTypes.TRANSFER_FROM_SAVINGS) {
-      path = `sign/transfer_from_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
+      path = `sign/transfer_from_savings?from=${from}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&request_id=${new Date().getTime() >>> 0}`;
     } else if (transferType === TransferTypes.CONVERT) {
-      path = `sign/convert?owner=${currentAccountName}&amount=${encodeURIComponent(
+      path = `sign/convert?owner=${from}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&requestid=${new Date().getTime() >>> 0}`;
     } else if (transferType === TransferTypes.WITHDRAW_VESTING) {
-      path = `sign/withdraw_vesting?account=${currentAccountName}&vesting_shares=${encodeURIComponent(
+      path = `sign/withdraw_vesting?account=${from}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
     } else if (transferType === TransferTypes.ECENCY_POINT_TRANSFER) {
@@ -251,22 +378,20 @@ const TransferView = ({
           ]),
         )
         .replace('hive://', '');
-
-      path += '?authority=active'; // IMPORTANT: sets appropriate key to use with transaction signing
+      path += '?authority=active';
     } else {
       path = hiveuri
         .encodeOps(
           destinations.map((receiver) => [
             'transfer',
-            { from: currentAccountName, to: receiver, amount: `${amount} ${fundType}`, memo },
+            { from, to: receiver, amount: `${amount} ${fundType}`, memo },
           ]),
         )
         .replace('hive://', '');
     }
-
-    console.log('path is: ', path);
   }
 
+  // --- Confirmation ---
   const _showConfirmSheet = async () => {
     const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
       payload: {
@@ -338,11 +463,6 @@ const TransferView = ({
         newRecurrence = existingRecurrentTransfer.recurrence.toString();
         newExecutions = `${existingRecurrentTransfer.remaining_executions}`;
         newStartDate = existingRecurrentTransfer.trigger_date;
-
-        console.log('====================================');
-        console.log('existingRecurrentTransfer');
-        console.log('====================================');
-        console.log(existingRecurrentTransfer);
       }
       setMemo(newMemo);
       setAmount(newAmount);
@@ -355,9 +475,18 @@ const TransferView = ({
     [recurrentTransfers],
   );
 
-  const allowMultipleDest =
-    (tokenLayer === TokenLayers.HIVE && transferType === TransferTypes.TRANSFER) ||
-    (tokenLayer === TokenLayers.POINTS && transferType === TransferTypes.ECENCY_POINT_TRANSFER);
+  const badActorUsername = useMemo(() => {
+    if (!destination || !badActors) return null;
+    const usernames = destination
+      .trim()
+      .toLowerCase()
+      .split(/[\s,]+/)
+      .filter(Boolean);
+    return usernames.find((u) => badActors.has(u)) || null;
+  }, [destination, badActors]);
+
+  // Multi-account: show "from" only when user has multiple accounts
+  const showFromSelector = accounts.length > 1;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -370,62 +499,189 @@ const TransferView = ({
         keyboardShouldPersistTaps="always"
         enableOnAndroid={true}
         extraScrollHeight={80}
-        contentContainerStyle={[styles.grow, styles.keyboardAwareScrollContainer]}
+        contentContainerStyle={styles.scrollContent}
       >
-        <View style={styles.container}>
-          <TransferAccountSelector
-            accounts={accounts}
-            currentAccountName={currentAccountName}
-            transferType={transferType}
-            balance={balance}
-            fetchBalance={fetchBalance}
-            getAccountsWithUsername={getAccountsWithUsername}
-            from={from}
-            setFrom={setFrom}
-            destination={destination}
-            setDestination={setDestination}
-            amount={amount}
-            setAmount={setAmount}
-            setIsUsernameValid={setIsUsernameValid}
-            memo={memo}
-            setMemo={setMemo}
-            spkMarkets={spkMarkets}
-            getRecurrentTransferOfUser={_findRecurrentTransferOfUser}
-            allowMultipleDest={allowMultipleDest}
-          />
-          <TransferAmountInputSection
-            balance={balance}
-            getAccountsWithUsername={getAccountsWithUsername}
-            setIsUsernameValid={setIsUsernameValid}
-            setDestination={setDestination}
-            destination={destination}
-            memo={memo}
-            setMemo={setMemo}
-            amount={amount}
-            setAmount={setAmount}
-            hsTransfer={hsTransfer}
-            transferType={transferType}
-            selectedAccount={selectedAccount}
-            fundType={fundType}
-            currentAccountName={currentAccountName}
-            disableMinimum={isEngineToken}
-            recurrence={recurrence}
-            setRecurrence={setRecurrence}
-            executions={executions}
-            setExecutions={setExecutions}
-            startDate={startDate}
-            onDelete={_onDeletePress}
-          />
-          <View style={styles.bottomContent}>
-            <MainButton
-              style={styles.button}
-              isDisable={nextBtnDisabled}
-              onPress={_onNextPress}
-              isLoading={isTransfering}
-            >
-              <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
-            </MainButton>
+        {/* --- Recipient Section --- */}
+        {!destinationLocked && (
+          <View style={styles.recipientSection}>
+            <View style={styles.recipientRow}>
+              <UserAvatar username={from} size="xl" noAction />
+              <Icon style={styles.arrowIcon} name="arrow-forward" iconType="MaterialIcons" />
+              {destinationRef.current.length > 0 ? (
+                destinationRef.current.map((username, index) => (
+                  <UserAvatar
+                    key={username}
+                    username={username}
+                    size="xl"
+                    style={index > 0 ? { marginLeft: -20 } : undefined}
+                    noAction
+                  />
+                ))
+              ) : (
+                <UserAvatar username="" size="xl" noAction />
+              )}
+            </View>
+
+            {transferType === TransferTypes.DELEGATE_SPK ? (
+              <DropdownButton
+                dropdownButtonStyle={styles.inputField}
+                rowTextStyle={styles.dropdownRowText}
+                style={styles.dropdownWrapper}
+                dropdownStyle={styles.dropdownMenu}
+                textStyle={styles.inputText}
+                options={spkMarkets.map((market) => market.name)}
+                defaultText={SPK_NODE_ECENCY}
+                selectedOptionIndex={0}
+                onSelect={(_index, value) => _handleDestinationChange(value)}
+              />
+            ) : (
+              <TextInput
+                style={styles.inputField}
+                onChangeText={_handleDestinationChange}
+                value={destination}
+                placeholder={intl.formatMessage({ id: 'transfer.to_placeholder' })}
+                placeholderTextColor="#c1c5c7"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            )}
+
+            {badActorUsername && (
+              <Text style={styles.badActorWarning}>
+                {intl.formatMessage({ id: 'transfer.to_bad_actor' })}
+              </Text>
+            )}
           </View>
+        )}
+
+        {/* --- From Selector (multi-account only) --- */}
+        {showFromSelector && (
+          <View style={styles.fieldGroup}>
+            <Text style={styles.fieldLabel}>{intl.formatMessage({ id: 'transfer.from' })}</Text>
+            <DropdownButton
+              dropdownButtonStyle={styles.inputField}
+              rowTextStyle={styles.dropdownRowText}
+              style={styles.dropdownWrapper}
+              dropdownStyle={styles.dropdownMenu}
+              textStyle={styles.inputText}
+              options={accounts.map((account) => account.username)}
+              defaultText={currentAccountName}
+              selectedOptionIndex={accounts.findIndex((a) => a.username === from)}
+              onSelect={(_index, value) => _handleFromChange(value)}
+            />
+          </View>
+        )}
+
+        {/* --- Amount Section --- */}
+        <View style={styles.fieldGroup}>
+          <View style={styles.amountHeader}>
+            <Text style={styles.fieldLabel}>{intl.formatMessage({ id: 'transfer.amount' })}</Text>
+            <TouchableOpacity onPress={() => _handleAmountChange(balance)}>
+              <Text style={styles.maxButton}>MAX</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.amountRow}>
+            <TextInput
+              style={[styles.inputField, styles.amountInputLarge]}
+              onChangeText={_handleAmountChange}
+              value={amount}
+              placeholder="0.000"
+              placeholderTextColor="#c1c5c7"
+              keyboardType="decimal-pad"
+              autoCapitalize="none"
+            />
+            <View style={styles.fundBadge}>
+              <Text style={styles.fundBadgeText}>{displayFundType}</Text>
+            </View>
+          </View>
+          <Text style={styles.balanceText}>
+            {intl.formatMessage({ id: 'transfer.amount_desc' })} {balance} {displayFundType}
+          </Text>
+        </View>
+
+        {/* --- Recurrent Transfer Fields --- */}
+        {isRecurrentTransfer && (
+          <View style={styles.fieldGroup}>
+            {startDate && startDate !== '' && (
+              <TouchableOpacity onPress={_onDeletePress}>
+                <Text style={styles.deleteRecurrentText}>
+                  {intl.formatMessage({ id: 'transfer.delete_recurrent_transfer' }) +
+                    dateToFormatted(startDate, 'LL')}
+                </Text>
+              </TouchableOpacity>
+            )}
+            <Text style={styles.fieldLabel}>
+              {intl.formatMessage({ id: 'transfer.recurrence' })}
+            </Text>
+            <DropdownButton
+              dropdownButtonStyle={styles.inputField}
+              rowTextStyle={styles.dropdownRowText}
+              style={styles.dropdownWrapper}
+              dropdownStyle={styles.dropdownMenu}
+              textStyle={styles.inputText}
+              options={RECURRENCE_TYPES.map((k) => intl.formatMessage({ id: k.intlId }))}
+              defaultText={intl.formatMessage({ id: 'transfer.recurrence_placeholder' })}
+              selectedOptionIndex={recurrenceIndex}
+              onSelect={(index) => {
+                setRecurrenceIndex(index);
+                setRecurrence(RECURRENCE_TYPES[index].hours);
+              }}
+              dropdownRef={dpRef}
+            />
+            <Text style={[styles.fieldLabel, { marginTop: 12 }]}>
+              {intl.formatMessage({ id: 'transfer.executions' })}
+            </Text>
+            <TextInput
+              style={styles.inputField}
+              onChangeText={setExecutions}
+              value={executions}
+              placeholder={intl.formatMessage({ id: 'transfer.executions_placeholder' })}
+              placeholderTextColor="#c1c5c7"
+              keyboardType="numeric"
+              autoCapitalize="none"
+            />
+          </View>
+        )}
+
+        {/* --- Memo Section --- */}
+        {showMemo && (
+          <View style={styles.fieldGroup}>
+            <Text style={styles.fieldLabel}>{intl.formatMessage({ id: 'transfer.memo' })}</Text>
+            <TextInput
+              style={[styles.inputField, styles.memoInput]}
+              onChangeText={setMemo}
+              value={memo}
+              placeholder={intl.formatMessage({ id: 'transfer.memo_placeholder' })}
+              placeholderTextColor="#c1c5c7"
+              autoCapitalize="none"
+              multiline
+              numberOfLines={3}
+            />
+            <Text style={styles.memoHint}>{intl.formatMessage({ id: 'transfer.memo_desc' })}</Text>
+          </View>
+        )}
+
+        {/* --- Convert Description --- */}
+        {transferType === TransferTypes.CONVERT && (
+          <View style={styles.fieldGroup}>
+            <Text style={styles.convertDesc}>
+              {intl.formatMessage({ id: 'transfer.convert_desc' })}
+            </Text>
+          </View>
+        )}
+
+        {/* --- Submit Button --- */}
+        <View style={styles.submitContainer}>
+          <MainButton
+            style={styles.submitButton}
+            isDisable={nextBtnDisabled}
+            onPress={_onNextPress}
+            isLoading={isTransfering}
+          >
+            <Text style={styles.submitButtonText}>
+              {intl.formatMessage({ id: 'transfer.next' })}
+            </Text>
+          </MainButton>
         </View>
       </KeyboardAwareScrollView>
 
@@ -444,4 +700,4 @@ const TransferView = ({
   );
 };
 
-export default injectIntl(TransferView);
+export default TransferView;

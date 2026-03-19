@@ -3067,7 +3067,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
-  DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
+  DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   EmojiPopup: 5b3df930842fbaf3d10f22b229cfddb92da35cfc
   EXConstants: 9d62a46a36eae6d28cb978efcbc68aef354d1704
   EXImageLoader: ab4fcf9240cf3636a83c00e3fc5229d692899428
@@ -3092,7 +3092,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: ca48ec60ea51b66b9f214a91847ea3720cde97f5
   FirebaseMessaging: 919ce76cb353f0c36d463f5461d8ab584e6ed765
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
-  glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
+  glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
   hermes-engine: f03b0e06d3882d71e67e45b073bb827da1a21aae
@@ -3216,4 +3216,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 43ff3f5c0713e64ab4d744d0650205bd54277781
 
-COCOAPODS: 1.16.2
+COCOAPODS: 1.15.2

@@ -83,6 +83,12 @@ export default EStyleSheet.create({
   elevate: {
     zIndex: 1,
   },
+  badActorWarning: {
+    color: '#e6a819',
+    fontSize: 12,
+    paddingHorizontal: 16,
+    marginTop: 4,
+  },
   sectionHeading: {
     paddingHorizontal: 16,
     marginBottom: 0,
