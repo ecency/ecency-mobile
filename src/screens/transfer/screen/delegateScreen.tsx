@@ -55,7 +55,7 @@ const DelegateScreen = ({
   const [isAmountValid, setIsAmountValid] = useState(false);
   const [isTransfering, setIsTransfering] = useState(false);
   const [usersResult, setUsersResult] = useState<string[]>([]);
-  const [hasValidDestination, setHasValidDestination] = useState(!!referredUsername);
+  const [hasValidDestination, setHasValidDestination] = useState(false);
   const [steemConnectTransfer] = useState(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState(true);
 
@@ -207,14 +207,23 @@ const DelegateScreen = ({
     [from, intl, fetchExistingDelegation],
   );
 
-  // --- Mount ---
+  // --- Mount: validate referredUsername ---
   useEffect(() => {
     if (referredUsername) {
-      fetchExistingDelegation(from, referredUsername);
+      getAccountsWithUsername(referredUsername)
+        .then((res) => {
+          if (res.includes(referredUsername)) {
+            setHasValidDestination(true);
+            fetchExistingDelegation(from, referredUsername);
+          }
+        })
+        .catch(() => {
+          setHasValidDestination(false);
+        });
     } else {
       destinationRef.current?.focus();
     }
-  }, [referredUsername, from, fetchExistingDelegation]);
+  }, [referredUsername, from, fetchExistingDelegation, getAccountsWithUsername]);
 
   // --- HP validation ---
   const validateHP = useCallback(

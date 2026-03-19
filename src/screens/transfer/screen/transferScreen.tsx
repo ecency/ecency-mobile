@@ -99,11 +99,12 @@ const TransferView = ({
   const [executions, setExecutions] = useState('');
   const [startDate, setStartDate] = useState('');
 
-  const [isUsernameValid, setIsUsernameValid] = useState(!!destination);
+  const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [hsTransfer, setHsTransfer] = useState(false);
   const [isTransfering, setIsTransfering] = useState(false);
 
   const destinationRef = useRef<string[]>([]);
+  const hasInitializedRef = useRef(false);
   const dpRef = useRef();
 
   const isRecurrentTransfer = transferType === TransferTypes.RECURRENT_TRANSFER;
@@ -173,10 +174,26 @@ const TransferView = ({
     [recurrentTransfers],
   );
 
+  // --- Validate prefilled destination on mount ---
+  useEffect(() => {
+    if (hasInitializedRef.current) return;
+    hasInitializedRef.current = true;
+    if (destination) {
+      const usernames = destination
+        .trim()
+        .toLowerCase()
+        .split(/[\s,]+/)
+        .filter(Boolean);
+      destinationRef.current = allowMultipleDest ? usernames : [usernames[0]].filter(Boolean);
+      _debouncedValidateUsername(destinationRef.current);
+    }
+  }, [destination, allowMultipleDest, _debouncedValidateUsername]);
+
   // --- Handlers ---
   const _handleDestinationChange = (val: string) => {
     const trimmedLowercase = val.trim().toLowerCase();
     const usernames = trimmedLowercase ? trimmedLowercase.split(/[\s,]+/).filter(Boolean) : [];
+    setIsUsernameValid(false);
     _debouncedValidateUsername(
       allowMultipleDest ? usernames : trimmedLowercase ? [trimmedLowercase] : [],
     );
@@ -193,7 +210,10 @@ const TransferView = ({
     if (newValue.includes(',')) {
       newValue = newValue.replace(',', '.');
     }
-    if (parseFloat(newValue) <= parseFloat(String(balance))) {
+    const parsed = parseFloat(newValue);
+    if (newValue === '' || newValue === '.' || Number.isNaN(parsed)) {
+      setAmount(newValue);
+    } else if (parsed <= parseFloat(String(balance))) {
       setAmount(newValue);
     }
   };
