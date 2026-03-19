@@ -750,7 +750,8 @@
     "published": "Publicado",
     "message_failed": "Error al subir la imagen",
     "btn_add": "Imágen",
-    "confirm_delete": "¿Está seguro que desea eliminar los elementos seleccionados de sus subidas"
+    "confirm_delete": "¿Está seguro que desea eliminar los elementos seleccionados de sus subidas",
+    "video_attached": "Vídeo adjuntado"
   },
   "post": {
     "image": "Imágen",
@@ -1272,7 +1273,8 @@
     "power_down_spk": "Retirar de Estaca LARYNX",
     "power_up_spk": "Estacar LARYNX",
     "amount_select_desc_limit": " y debe ser mayor que 0.001",
-    "undelegate_engine": "Desdelegar Token"
+    "undelegate_engine": "Desdelegar Token",
+    "to_bad_actor": "Use caution sending to this account. Please double check your spelling for possible phishing."
   },
   "login": {
     "cancel": "cancelar",
@@ -1436,5 +1438,16 @@
     "key_mismatch": "La clave no coincide con la autoridad activa de la cuenta",
     "validating": "Validando clave...",
     "or": "o"
+  },
+  "video-upload": {
+    "error-too-large": "El archivo de vídeo es demasiado grande. El tamaño máximo es de 1GB.",
+    "error-too-many": "Demasiadas solicitudes de subida. Inténtalo de nuevo más tarde.",
+    "error-unavailable": "Servicio de subida de vídeo no está disponible temporalmente.",
+    "error-auth": "Error de autenticación. Inicie sesión de nuevo, por favor.",
+    "error-generic": "Error al subir el vídeo. Vuelve a intentarlo, por favor.",
+    "error-too-long-short": "Los videos cortos deben ser de 60 segundos o menos.",
+    "select_source": "Añadir vídeos",
+    "record": "Grabar video",
+    "choose_library": "Elegir desde Galería"
   }
 }

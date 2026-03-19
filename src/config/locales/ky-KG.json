@@ -750,7 +750,8 @@
     "published": "Published",
     "message_failed": "Failed to upload image",
     "btn_add": "Image",
-    "confirm_delete": "Are you sure you want to delete selected items from your uploads"
+    "confirm_delete": "Are you sure you want to delete selected items from your uploads",
+    "video_attached": "Video attached"
   },
   "post": {
     "image": "Сүрөт",
@@ -1272,7 +1273,8 @@
     "power_down_spk": "Unstake LARYNX",
     "power_up_spk": "Stake LARYNX",
     "amount_select_desc_limit": " and must be greater than 0.001",
-    "undelegate_engine": "Undelegate Token"
+    "undelegate_engine": "Undelegate Token",
+    "to_bad_actor": "Use caution sending to this account. Please double check your spelling for possible phishing."
   },
   "login": {
     "cancel": "токтотуу",
@@ -1436,5 +1438,16 @@
     "key_mismatch": "Key does not match account's active authority",
     "validating": "Validating key...",
     "or": "or"
+  },
+  "video-upload": {
+    "error-too-large": "Video file is too large. Maximum size is 1GB.",
+    "error-too-many": "Too many upload requests. Please try again later.",
+    "error-unavailable": "Video upload service is temporarily unavailable.",
+    "error-auth": "Authentication failed. Please log in again.",
+    "error-generic": "Video upload failed. Please try again.",
+    "error-too-long-short": "Short videos must be 60 seconds or less.",
+    "select_source": "Add Video",
+    "record": "Record Video",
+    "choose_library": "Choose from Library"
   }
 }

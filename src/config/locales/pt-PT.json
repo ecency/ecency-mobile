@@ -750,7 +750,8 @@
     "published": "Publicado",
     "message_failed": "Falha ao carregar imagem",
     "btn_add": "Imagem",
-    "confirm_delete": "Tem certeza que deseja excluir os itens selecionados dos seus envios"
+    "confirm_delete": "Tem certeza que deseja excluir os itens selecionados dos seus envios",
+    "video_attached": "Video attached"
   },
   "post": {
     "image": "Imagem",
@@ -1272,7 +1273,8 @@
     "power_down_spk": "Diminuir Poder em LARYNX",
     "power_up_spk": "Aumentar Poder em LARYNX",
     "amount_select_desc_limit": " e deve ser maior que 0,001",
-    "undelegate_engine": "Remover Delegação"
+    "undelegate_engine": "Remover Delegação",
+    "to_bad_actor": "Use caution sending to this account. Please double check your spelling for possible phishing."
   },
   "login": {
     "cancel": "cancelar",
@@ -1436,5 +1438,16 @@
     "key_mismatch": "Key does not match account's active authority",
     "validating": "Validating key...",
     "or": "or"
+  },
+  "video-upload": {
+    "error-too-large": "Video file is too large. Maximum size is 1GB.",
+    "error-too-many": "Too many upload requests. Please try again later.",
+    "error-unavailable": "Video upload service is temporarily unavailable.",
+    "error-auth": "Authentication failed. Please log in again.",
+    "error-generic": "Video upload failed. Please try again.",
+    "error-too-long-short": "Short videos must be 60 seconds or less.",
+    "select_source": "Add Video",
+    "record": "Record Video",
+    "choose_library": "Choose from Library"
   }
 }
