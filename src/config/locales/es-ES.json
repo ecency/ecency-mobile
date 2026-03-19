@@ -1273,7 +1273,8 @@
     "power_down_spk": "Retirar de Estaca LARYNX",
     "power_up_spk": "Estacar LARYNX",
     "amount_select_desc_limit": " y debe ser mayor que 0.001",
-    "undelegate_engine": "Desdelegar Token"
+    "undelegate_engine": "Desdelegar Token",
+    "to_bad_actor": "Use caution sending to this account. Please double check your spelling for possible phishing."
   },
   "login": {
     "cancel": "cancelar",
