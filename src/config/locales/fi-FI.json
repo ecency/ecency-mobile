@@ -1273,7 +1273,8 @@
     "power_down_spk": "Panosta LARYNX panostus",
     "power_up_spk": "Panosta LARYNX",
     "amount_select_desc_limit": " ja on oltava suurempi kuin 0,001",
-    "undelegate_engine": "Poista merkkien valtuutus"
+    "undelegate_engine": "Poista merkkien valtuutus",
+    "to_bad_actor": "Use caution sending to this account. Please double check your spelling for possible phishing."
   },
   "login": {
     "cancel": "peruuta",
