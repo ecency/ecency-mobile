@@ -1273,7 +1273,8 @@
     "power_down_spk": "Unstake LARYNX",
     "power_up_spk": "Stake LARYNX",
     "amount_select_desc_limit": " and must be greater than 0.001",
-    "undelegate_engine": "Undelegate Token"
+    "undelegate_engine": "Undelegate Token",
+    "to_bad_actor": "Use caution sending to this account. Please double check your spelling for possible phishing."
   },
   "login": {
     "cancel": "キャンセル",
