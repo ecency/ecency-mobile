@@ -401,36 +401,35 @@ const DelegateScreen = ({
       >
         {/* --- Recipient Section --- */}
         <View style={styles.recipientSection}>
-          <View style={styles.recipientRow}>
-            <UserAvatar username={from} size="xl" noAction />
+          <View style={styles.recipientInputRow}>
+            <UserAvatar username={from} size="large" noAction />
             <Icon style={styles.arrowIcon} name="arrow-forward" iconType="MaterialIcons" />
-            <UserAvatar username={destination || ''} size="xl" noAction />
-          </View>
+            {destination ? <UserAvatar username={destination} size="large" noAction /> : null}
+            <View style={styles.recipientInputWrapper}>
+              <TextInput
+                style={styles.inputField}
+                onChangeText={handleDestinationChange}
+                value={destination}
+                placeholder={intl.formatMessage({ id: 'transfer.to_placeholder' })}
+                placeholderTextColor="#c1c5c7"
+                autoCapitalize="none"
+                autoCorrect={false}
+                returnKeyType="done"
+                innerRef={destinationRef}
+              />
 
-          <View style={{ width: '100%', zIndex: 10 }}>
-            <TextInput
-              style={styles.inputField}
-              onChangeText={handleDestinationChange}
-              value={destination}
-              placeholder={intl.formatMessage({ id: 'transfer.to_placeholder' })}
-              placeholderTextColor="#c1c5c7"
-              autoCapitalize="none"
-              autoCorrect={false}
-              returnKeyType="done"
-              innerRef={destinationRef}
-            />
-
-            {destination !== '' && usersResult.length > 0 && (
-              <View style={styles.suggestionsContainer}>
-                <FlatList
-                  data={usersResult}
-                  keyboardShouldPersistTaps="always"
-                  renderItem={renderSuggestionItem}
-                  keyExtractor={(item) => `suggest-${item}`}
-                  style={styles.suggestionsList}
-                />
-              </View>
-            )}
+              {destination !== '' && usersResult.length > 0 && (
+                <View style={styles.suggestionsContainer}>
+                  <FlatList
+                    data={usersResult}
+                    keyboardShouldPersistTaps="always"
+                    renderItem={renderSuggestionItem}
+                    keyExtractor={(item) => `suggest-${item}`}
+                    style={styles.suggestionsList}
+                  />
+                </View>
+              )}
+            </View>
           </View>
 
           {isBadActor && (
@@ -452,14 +451,7 @@ const DelegateScreen = ({
 
         {/* --- Amount Section --- */}
         <View style={styles.fieldGroup}>
-          <View style={styles.amountHeader}>
-            <Text style={styles.fieldLabel}>
-              {intl.formatMessage({ id: 'transfer.amount_hp' })}
-            </Text>
-            <TouchableOpacity onPress={handleSetMax}>
-              <Text style={styles.maxButton}>MAX</Text>
-            </TouchableOpacity>
-          </View>
+          <Text style={styles.fieldLabel}>{intl.formatMessage({ id: 'transfer.amount_hp' })}</Text>
 
           <View style={styles.amountRow}>
             <TextInput
@@ -485,9 +477,12 @@ const DelegateScreen = ({
             </View>
           </View>
 
-          <Text style={styles.balanceText}>
-            {`${intl.formatMessage({ id: 'transfer.remain_hp' })}: ${totalHP.toFixed(3)} HP`}
-          </Text>
+          <TouchableOpacity style={styles.balanceRow} onPress={handleSetMax}>
+            <Text style={styles.balanceText}>
+              {`${intl.formatMessage({ id: 'transfer.remain_hp' })}: ${totalHP.toFixed(3)} HP`}
+            </Text>
+            <Text style={styles.maxButton}>MAX</Text>
+          </TouchableOpacity>
         </View>
 
         {/* --- Slider --- */}

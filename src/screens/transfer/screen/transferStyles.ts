@@ -15,22 +15,34 @@ export default EStyleSheet.create({
 
   // --- Recipient Section ---
   recipientSection: {
-    alignItems: 'center',
-    paddingVertical: 20,
+    paddingVertical: 16,
     paddingHorizontal: 16,
     borderRadius: 16,
     backgroundColor: '$primaryLightBackground',
     marginBottom: 16,
   },
+  recipientInputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  recipientAvatars: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  recipientInputWrapper: {
+    flex: 1,
+  },
   recipientRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 16,
   },
   arrowIcon: {
-    fontSize: 24,
+    fontSize: 20,
     color: '$iconColor',
-    marginHorizontal: 16,
+    marginHorizontal: 8,
   },
 
   // --- Fields ---
@@ -62,12 +74,6 @@ export default EStyleSheet.create({
   },
 
   // --- Amount ---
-  amountHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 6,
-  },
   amountRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -96,10 +102,15 @@ export default EStyleSheet.create({
     fontSize: 13,
     fontWeight: '700',
   },
+  balanceRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 8,
+  },
   balanceText: {
     fontSize: 12,
     color: '$iconColor',
-    marginTop: 6,
   },
 
   // --- Memo ---
