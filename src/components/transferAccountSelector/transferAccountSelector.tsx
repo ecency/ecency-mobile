@@ -35,6 +35,7 @@ export interface TransferAccountSelectorProps {
   spkMarkets: Market[];
   getRecurrentTransferOfUser: (username: string) => string;
   allowMultipleDest?: boolean;
+  badActors?: Set<string>;
 }
 
 const TransferAccountSelector = ({
@@ -56,6 +57,7 @@ const TransferAccountSelector = ({
   spkMarkets,
   getRecurrentTransferOfUser,
   allowMultipleDest,
+  badActors,
 }: TransferAccountSelectorProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -257,6 +259,12 @@ const TransferAccountSelector = ({
       />
 
       {_destinationInput}
+
+      {destination && badActors?.has(destination.trim().toLowerCase()) && (
+        <Text style={styles.badActorWarning}>
+          {intl.formatMessage({ id: 'transfer.to_bad_actor' })}
+        </Text>
+      )}
 
       <View style={styles.toFromAvatarsContainer}>
         <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
