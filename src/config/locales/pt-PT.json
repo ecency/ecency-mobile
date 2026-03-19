@@ -1273,7 +1273,8 @@
     "power_down_spk": "Diminuir Poder em LARYNX",
     "power_up_spk": "Aumentar Poder em LARYNX",
     "amount_select_desc_limit": " e deve ser maior que 0,001",
-    "undelegate_engine": "Remover Delegação"
+    "undelegate_engine": "Remover Delegação",
+    "to_bad_actor": "Use caution sending to this account. Please double check your spelling for possible phishing."
   },
   "login": {
     "cancel": "cancelar",
