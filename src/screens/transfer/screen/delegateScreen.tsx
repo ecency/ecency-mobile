@@ -51,7 +51,7 @@ const DelegateScreen = ({
   const [destination, setDestination] = useState(referredUsername || '');
   const [hp, setHp] = useState(0.0);
   const [amount, setAmount] = useState(0); // VESTS
-  const [delegatedHP, setDelegatedHP] = useState(0);
+  const [delegatedHP, setDelegatedHP] = useState<number>(0);
   const [isAmountValid, setIsAmountValid] = useState(false);
   const [isTransfering, setIsTransfering] = useState(false);
   const [usersResult, setUsersResult] = useState<string[]>([]);
@@ -125,13 +125,9 @@ const DelegateScreen = ({
           const curShare = allDelegations.find((item) => item.delegatee === delegateeUser);
           if (curShare) {
             const vestShares = parseAsset(curShare.vesting_shares);
-            const hpValue = vestsToHp(vestShares.amount, hivePerMVests).toFixed(3);
-            const isValid = !(
-              Number.isNaN(parseFloat(hpValue)) ||
-              parseFloat(hpValue) <= 0.001 ||
-              parseFloat(hpValue) >
-                parseFloat(vestsToHp(availableVestingShares, hivePerMVests).toFixed(3))
-            );
+            const hpValue = parseFloat(vestsToHp(vestShares.amount, hivePerMVests).toFixed(3));
+            const maxHP = parseFloat(vestsToHp(availableVestingShares, hivePerMVests).toFixed(3));
+            const isValid = !(Number.isNaN(hpValue) || hpValue <= 0.001 || hpValue > maxHP);
             setDelegatedHP(hpValue);
             setHp(hpValue);
             setAmount(vestShares.amount);
@@ -218,7 +214,7 @@ const DelegateScreen = ({
     } else {
       destinationRef.current?.focus();
     }
-  }, []);
+  }, [referredUsername, from, fetchExistingDelegation]);
 
   // --- HP validation ---
   const validateHP = useCallback(

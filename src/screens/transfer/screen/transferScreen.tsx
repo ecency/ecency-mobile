@@ -39,7 +39,7 @@ interface TransferViewProps {
   handleOnModalClose: () => void;
   fundType: string;
   selectedAccount: any;
-  fetchBalance: () => void;
+  fetchBalance: (username: string) => void;
   spkMarkets: any;
   referredUsername?: string;
   initialAmount?: string | number;
@@ -91,7 +91,7 @@ const TransferView = ({
       : referredUsername || '',
   );
 
-  const [amount, setAmount] = useState(`${initialAmount}`);
+  const [amount, setAmount] = useState(initialAmount != null ? `${initialAmount}` : '');
   const [memo, setMemo] = useState(
     transferType === 'purchase_estm' ? 'estm-purchase' : initialMemo,
   );
@@ -188,12 +188,12 @@ const TransferView = ({
     setDestination(trimmedLowercase);
   };
 
-  const _handleAmountChange = (val: string) => {
-    let newValue = val.toString();
+  const _handleAmountChange = (val: string | number) => {
+    let newValue = String(val);
     if (newValue.includes(',')) {
-      newValue = val.replace(',', '.');
+      newValue = newValue.replace(',', '.');
     }
-    if (parseFloat(Number(newValue)) <= parseFloat(balance)) {
+    if (parseFloat(newValue) <= parseFloat(String(balance))) {
       setAmount(newValue);
     }
   };
@@ -312,31 +312,31 @@ const TransferView = ({
         JSON.stringify(json),
       )}`;
     } else if (transferType === TransferTypes.RECURRENT_TRANSFER) {
-      path = `sign/recurrent_transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
+      path = `sign/recurrent_transfer?from=${from}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}&recurrence=${recurrence}&executions=${executions}`;
     } else if (transferType === TransferTypes.TRANSFER_TO_SAVINGS) {
-      path = `sign/transfer_to_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
+      path = `sign/transfer_to_savings?from=${from}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}`;
     } else if (transferType === TransferTypes.DELEGATE_VESTING_SHARES) {
-      path = `sign/delegate_vesting_shares?delegator=${currentAccountName}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
+      path = `sign/delegate_vesting_shares?delegator=${from}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
     } else if (transferType === TransferTypes.TRANSFER_TO_VESTING) {
-      path = `sign/transfer_to_vesting?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
+      path = `sign/transfer_to_vesting?from=${from}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
     } else if (transferType === TransferTypes.TRANSFER_FROM_SAVINGS) {
-      path = `sign/transfer_from_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
+      path = `sign/transfer_from_savings?from=${from}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&request_id=${new Date().getTime() >>> 0}`;
     } else if (transferType === TransferTypes.CONVERT) {
-      path = `sign/convert?owner=${currentAccountName}&amount=${encodeURIComponent(
+      path = `sign/convert?owner=${from}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&requestid=${new Date().getTime() >>> 0}`;
     } else if (transferType === TransferTypes.WITHDRAW_VESTING) {
-      path = `sign/withdraw_vesting?account=${currentAccountName}&vesting_shares=${encodeURIComponent(
+      path = `sign/withdraw_vesting?account=${from}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
     } else if (transferType === TransferTypes.ECENCY_POINT_TRANSFER) {
@@ -364,7 +364,7 @@ const TransferView = ({
         .encodeOps(
           destinations.map((receiver) => [
             'transfer',
-            { from: currentAccountName, to: receiver, amount: `${amount} ${fundType}`, memo },
+            { from, to: receiver, amount: `${amount} ${fundType}`, memo },
           ]),
         )
         .replace('hive://', '');
@@ -455,7 +455,15 @@ const TransferView = ({
     [recurrentTransfers],
   );
 
-  const isBadActor = destination && badActors?.has(destination.trim().toLowerCase());
+  const badActorUsername = useMemo(() => {
+    if (!destination || !badActors) return null;
+    const usernames = destination
+      .trim()
+      .toLowerCase()
+      .split(/[\s,]+/)
+      .filter(Boolean);
+    return usernames.find((u) => badActors.has(u)) || null;
+  }, [destination, badActors]);
 
   // Multi-account: show "from" only when user has multiple accounts
   const showFromSelector = accounts.length > 1;
@@ -504,7 +512,7 @@ const TransferView = ({
                 options={spkMarkets.map((market) => market.name)}
                 defaultText={SPK_NODE_ECENCY}
                 selectedOptionIndex={0}
-                onSelect={(index, value) => setDestination(value)}
+                onSelect={(_index, value) => _handleDestinationChange(value)}
               />
             ) : (
               <TextInput
@@ -518,7 +526,7 @@ const TransferView = ({
               />
             )}
 
-            {isBadActor && (
+            {badActorUsername && (
               <Text style={styles.badActorWarning}>
                 {intl.formatMessage({ id: 'transfer.to_bad_actor' })}
               </Text>
@@ -539,7 +547,7 @@ const TransferView = ({
               options={accounts.map((account) => account.username)}
               defaultText={currentAccountName}
               selectedOptionIndex={accounts.findIndex((a) => a.username === from)}
-              onSelect={(index, value) => _handleFromChange(value)}
+              onSelect={(_index, value) => _handleFromChange(value)}
             />
           </View>
         )}
