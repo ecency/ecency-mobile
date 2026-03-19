@@ -36,12 +36,49 @@ export const parsePost = (
   // adjust tags type as it can be string sometimes;
   post = parseTags(post);
 
+  // detect cross-post and swap display data with original entry
+  // mirrors website behavior: show original post content with cross-post indicator
+  if (post.original_entry) {
+    const orig = post.original_entry;
+
+    // parse original entry's json_metadata if needed
+    if (typeof orig.json_metadata === 'string' || orig.json_metadata instanceof String) {
+      try {
+        orig.json_metadata = JSON.parse(orig.json_metadata as string);
+      } catch (_e) {
+        orig.json_metadata = {};
+      }
+    }
+
+    post.crosspostMeta = {
+      author: post.author,
+      community: post.community || '',
+    };
+
+    // swap display fields to original post content, matching website behavior
+    post.author = orig.author;
+    post.author_reputation = orig.author_reputation;
+    post.permlink = orig.permlink;
+    post.category = orig.category;
+    post.url = orig.url;
+    post.body = orig.body;
+    post.title = orig.title;
+    post.json_metadata = orig.json_metadata || post.json_metadata;
+    post.pending_payout_value = orig.pending_payout_value;
+    post.author_payout_value = orig.author_payout_value;
+    post.curator_payout_value = orig.curator_payout_value;
+    post.max_accepted_payout = orig.max_accepted_payout;
+    post.active_votes = orig.active_votes;
+    post.children = orig.children;
+    post.stats = orig.stats;
+  }
+
   // extract cover image and thumbnail from post body
   post.image = catchPostImage(post, 600, 500, 'match');
   post.thumbnail = catchPostImage(post, 10, 7, 'match');
 
   // find and inject thumbnail ratio
-  if (post.json_metadata.image_ratios) {
+  if (post.json_metadata?.image_ratios) {
     const imgRatios = post.json_metadata.image_ratios;
     if (typeof imgRatios[0] === 'number' && !Number.isNaN(imgRatios[0])) {
       [post.thumbRatio] = post.json_metadata.image_ratios;

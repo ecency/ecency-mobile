@@ -35,7 +35,7 @@ const CrossPostLabel: React.FC<CrossPostLabelProps> = ({
   useEffect(() => {
     const fetchCommunityTitle = async () => {
       try {
-        if (!communityTitle) {
+        if (!communityTitle && community) {
           const communityData = await queryClient.fetchQuery(
             getCommunityQueryOptions(community, ''),
           );
