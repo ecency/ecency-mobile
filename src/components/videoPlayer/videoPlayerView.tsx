@@ -272,11 +272,12 @@ const VideoPlayer = ({
               style={[styles.barkBackground, { width: contentWidth, height: playerHeight }]}
               startInLoadingState={true}
               onShouldStartLoadWithRequest={() => true}
-              mediaPlaybackRequiresUserAction={true}
+              mediaPlaybackRequiresUserAction={false}
               allowsInlineMediaPlayback={true}
               allowsFullscreenVideo={true}
               useWebKit={true}
               domStorageEnabled
+              mixedContentMode="compatibility"
               originWhitelist={['*']}
               onMessage={(event) => {
                 try {
