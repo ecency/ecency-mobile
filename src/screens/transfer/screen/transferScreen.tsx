@@ -57,11 +57,11 @@ const TransferView = ({
   balance,
   transferToAccount,
   accountType,
-  accounts,
+  accounts: _accounts,
   handleOnModalClose,
   fundType,
   selectedAccount,
-  fetchBalance,
+  fetchBalance: _fetchBalance,
   spkMarkets,
   referredUsername,
   initialAmount,
@@ -74,7 +74,7 @@ const TransferView = ({
   const intl = useIntl();
   const dispatch = useDispatch();
 
-  const [from, setFrom] = useState(currentAccountName);
+  const [from] = useState(currentAccountName);
   const [destination, setDestination] = useState(
     transferType === TransferTypes.TRANSFER_TO_SAVINGS ||
       transferType === TransferTypes.TRANSFER_TO_VESTING ||
@@ -215,14 +215,6 @@ const TransferView = ({
       setAmount(newValue);
     } else if (parsed <= parseFloat(String(balance))) {
       setAmount(newValue);
-    }
-  };
-
-  const _handleFromChange = (username: string) => {
-    fetchBalance(username);
-    setFrom(username);
-    if (destinationLocked) {
-      setDestination(username);
     }
   };
 
@@ -485,9 +477,6 @@ const TransferView = ({
     return usernames.find((u) => badActors.has(u)) || null;
   }, [destination, badActors]);
 
-  // Multi-account: show "from" only when user has multiple accounts
-  const showFromSelector = accounts.length > 1;
-
   return (
     <SafeAreaView style={styles.container}>
       <BasicHeader
@@ -504,47 +493,48 @@ const TransferView = ({
         {/* --- Recipient Section --- */}
         {!destinationLocked && (
           <View style={styles.recipientSection}>
-            <View style={styles.recipientRow}>
-              <UserAvatar username={from} size="xl" noAction />
+            <View style={styles.recipientInputRow}>
+              <UserAvatar username={from} size="large" noAction />
               <Icon style={styles.arrowIcon} name="arrow-forward" iconType="MaterialIcons" />
-              {destinationRef.current.length > 0 ? (
-                destinationRef.current.map((username, index) => (
-                  <UserAvatar
-                    key={username}
-                    username={username}
-                    size="xl"
-                    style={index > 0 ? { marginLeft: -20 } : undefined}
-                    noAction
-                  />
-                ))
-              ) : (
-                <UserAvatar username="" size="xl" noAction />
+              {destinationRef.current.length > 0 && (
+                <View style={styles.recipientAvatars}>
+                  {destinationRef.current.map((username, index) => (
+                    <UserAvatar
+                      key={username}
+                      username={username}
+                      size="large"
+                      style={index > 0 ? { marginLeft: -12 } : undefined}
+                      noAction
+                    />
+                  ))}
+                </View>
               )}
+              <View style={styles.recipientInputWrapper}>
+                {transferType === TransferTypes.DELEGATE_SPK ? (
+                  <DropdownButton
+                    dropdownButtonStyle={styles.inputField}
+                    rowTextStyle={styles.dropdownRowText}
+                    style={styles.dropdownWrapper}
+                    dropdownStyle={styles.dropdownMenu}
+                    textStyle={styles.inputText}
+                    options={spkMarkets.map((market) => market.name)}
+                    defaultText={SPK_NODE_ECENCY}
+                    selectedOptionIndex={0}
+                    onSelect={(_index, value) => _handleDestinationChange(value)}
+                  />
+                ) : (
+                  <TextInput
+                    style={styles.inputField}
+                    onChangeText={_handleDestinationChange}
+                    value={destination}
+                    placeholder={intl.formatMessage({ id: 'transfer.to_placeholder' })}
+                    placeholderTextColor="#c1c5c7"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+                )}
+              </View>
             </View>
-
-            {transferType === TransferTypes.DELEGATE_SPK ? (
-              <DropdownButton
-                dropdownButtonStyle={styles.inputField}
-                rowTextStyle={styles.dropdownRowText}
-                style={styles.dropdownWrapper}
-                dropdownStyle={styles.dropdownMenu}
-                textStyle={styles.inputText}
-                options={spkMarkets.map((market) => market.name)}
-                defaultText={SPK_NODE_ECENCY}
-                selectedOptionIndex={0}
-                onSelect={(_index, value) => _handleDestinationChange(value)}
-              />
-            ) : (
-              <TextInput
-                style={styles.inputField}
-                onChangeText={_handleDestinationChange}
-                value={destination}
-                placeholder={intl.formatMessage({ id: 'transfer.to_placeholder' })}
-                placeholderTextColor="#c1c5c7"
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-            )}
 
             {badActorUsername && (
               <Text style={styles.badActorWarning}>
@@ -554,32 +544,9 @@ const TransferView = ({
           </View>
         )}
 
-        {/* --- From Selector (multi-account only) --- */}
-        {showFromSelector && (
-          <View style={styles.fieldGroup}>
-            <Text style={styles.fieldLabel}>{intl.formatMessage({ id: 'transfer.from' })}</Text>
-            <DropdownButton
-              dropdownButtonStyle={styles.inputField}
-              rowTextStyle={styles.dropdownRowText}
-              style={styles.dropdownWrapper}
-              dropdownStyle={styles.dropdownMenu}
-              textStyle={styles.inputText}
-              options={accounts.map((account) => account.username)}
-              defaultText={currentAccountName}
-              selectedOptionIndex={accounts.findIndex((a) => a.username === from)}
-              onSelect={(_index, value) => _handleFromChange(value)}
-            />
-          </View>
-        )}
-
         {/* --- Amount Section --- */}
         <View style={styles.fieldGroup}>
-          <View style={styles.amountHeader}>
-            <Text style={styles.fieldLabel}>{intl.formatMessage({ id: 'transfer.amount' })}</Text>
-            <TouchableOpacity onPress={() => _handleAmountChange(balance)}>
-              <Text style={styles.maxButton}>MAX</Text>
-            </TouchableOpacity>
-          </View>
+          <Text style={styles.fieldLabel}>{intl.formatMessage({ id: 'transfer.amount' })}</Text>
           <View style={styles.amountRow}>
             <TextInput
               style={[styles.inputField, styles.amountInputLarge]}
@@ -594,9 +561,12 @@ const TransferView = ({
               <Text style={styles.fundBadgeText}>{displayFundType}</Text>
             </View>
           </View>
-          <Text style={styles.balanceText}>
-            {intl.formatMessage({ id: 'transfer.amount_desc' })} {balance} {displayFundType}
-          </Text>
+          <TouchableOpacity style={styles.balanceRow} onPress={() => _handleAmountChange(balance)}>
+            <Text style={styles.balanceText}>
+              {intl.formatMessage({ id: 'transfer.amount_desc' })} {balance} {displayFundType}
+            </Text>
+            <Text style={styles.maxButton}>MAX</Text>
+          </TouchableOpacity>
         </View>
 
         {/* --- Recurrent Transfer Fields --- */}
