@@ -427,25 +427,26 @@ export const QuickPostModalContent = forwardRef(
       });
     };
 
-    const _handleAiAssistBtn = () => {
-      SheetManager.show(SheetNames.AI_ASSIST, {
-        payload: {
-          text: commentValueRef.current,
-          onApply: (output: string, action: string) => {
-            if (action === 'improve' || action === 'check_grammar' || action === 'summarize') {
-              commentValueRef.current = output;
-              setCommentValue(output);
-              _addQuickCommentIntoCache(output);
-            }
-          },
-        },
-      });
-    };
-
     const _deboucedCacheUpdate = useMemo(
       () => debounce(_addQuickCommentIntoCache, 500),
       [_addQuickCommentIntoCache],
     );
+
+    const _handleAiAssistBtn = () => {
+      SheetManager.show(SheetNames.AI_ASSIST, {
+        payload: {
+          text: commentValueRef.current,
+          supportedActions: ['improve', 'check_grammar', 'summarize'],
+          onApply: (output: string, _action: string) => {
+            // Cancel any pending debounced cache update to prevent stale overwrite
+            _deboucedCacheUpdate.cancel();
+            commentValueRef.current = output;
+            setCommentValue(output);
+            _addQuickCommentIntoCache(output);
+          },
+        },
+      });
+    };
 
     const _onChangeText = (value) => {
       commentValueRef.current = value;

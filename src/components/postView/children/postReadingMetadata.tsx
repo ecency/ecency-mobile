@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, memo } from 'react';
+import React, { useMemo, useState, useCallback, useEffect, memo } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
@@ -24,6 +24,11 @@ const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
   const { username, code } = useAuth();
   const assistMutation = useAiAssist(username, code);
   const [summary, setSummary] = useState<string | null>(null);
+
+  // Reset summary when viewing a different post
+  useEffect(() => {
+    setSummary(null);
+  }, [post?.permlink]);
 
   // Calculate word count and reading time
   const { wordCount, readingTime, plainText } = useMemo(() => {
@@ -58,10 +63,14 @@ const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
       setSummary(res.output);
     } catch (err: any) {
       const status = err?.status;
+      const data = err?.data;
       if (status === 402) {
         Alert.alert(
           intl.formatMessage({ id: 'alert.fail' }),
-          intl.formatMessage({ id: 'ai_assist.error_insufficient_points' }),
+          intl.formatMessage(
+            { id: 'ai_assist.error_insufficient_points' },
+            { required: data?.required ?? 0, available: data?.available ?? '0' },
+          ),
         );
       } else if (status === 429) {
         Alert.alert(

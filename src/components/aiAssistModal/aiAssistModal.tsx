@@ -39,6 +39,12 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
   const { username, code } = useAuth();
 
   const initialText = payload?.text?.slice(0, MAX_INPUT) || '';
+  const availableActions = useMemo(() => {
+    if (payload?.supportedActions?.length) {
+      return ACTIONS.filter((a) => payload.supportedActions!.includes(a));
+    }
+    return [...ACTIONS];
+  }, [payload?.supportedActions]);
 
   const [selectedAction, setSelectedAction] = useState<AiAssistAction | null>(null);
   const [text, setText] = useState(initialText);
@@ -384,7 +390,7 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
       {pricesQuery.isLoading ? (
         <ActivityIndicator />
       ) : (
-        ACTIONS.map((action) => _renderActionCard(action))
+        availableActions.map((action) => _renderActionCard(action))
       )}
 
       {/* Text input */}

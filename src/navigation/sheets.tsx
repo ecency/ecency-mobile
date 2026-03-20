@@ -157,6 +157,7 @@ declare module 'react-native-actions-sheet' {
       payload: {
         text: string;
         onApply?: (output: string, action: string) => void;
+        supportedActions?: string[];
       };
     }>;
   }
