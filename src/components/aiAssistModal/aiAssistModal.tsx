@@ -91,6 +91,7 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
 
   const canSubmit =
     selectedAction &&
+    selectedPrice &&
     !pricesQuery.isLoading &&
     text.trim().length >= minInput &&
     !isInsufficientBalance &&
@@ -347,7 +348,7 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
   };
 
   const _renderFormView = () => (
-    <ScrollView>
+    <ScrollView keyboardShouldPersistTaps="handled">
       {/* Balance and cost row */}
       <View style={styles.header}>
         <View style={styles.balanceRow}>

@@ -813,8 +813,9 @@
     "words": "Words",
     "reading": "Reading",
     "listen": "Listen",
-    "min": "min"
-  }, 
+    "min": "min",
+    "summarize_start": "Start"
+  },
   "promote": {
     "information": "Are you sure to promote?", 
     "permlinkPlaceholder": "username/permlink", 
