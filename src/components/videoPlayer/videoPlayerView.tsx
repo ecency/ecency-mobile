@@ -39,9 +39,16 @@ const VideoPlayer = ({
   const [screenType, setScreenType] = useState('contain');
   const lockedOrientation = useAppSelector((state) => state.ui.lockedOrientation);
 
-  const PLAYER_HEIGHT = (contentWidth || dim.width) * (9 / 16);
+  const playerWidth = contentWidth || dim.width;
+  const defaultHeight = playerWidth * (9 / 16);
+  const [playerHeight, setPlayerHeight] = useState(defaultHeight);
   const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
   const isExtensionType = mode === 'uri' ? uri.match(checkSrcRegex) : false;
+
+  // Reset height when URI changes
+  useEffect(() => {
+    setPlayerHeight(playerWidth * (9 / 16));
+  }, [uri, playerWidth]);
 
   useEffect(() => {
     if (isFullScreen) {
@@ -182,42 +189,49 @@ const VideoPlayer = ({
     );
   };
 
-  const htmlIframeVideoPlayer = (uri) =>
-    `
-      <!DOCTYPE html>
-        <html>
-          <head>
-            <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0" />
-              <style>
-                * {
-                    padding: 0;
-                    margin: 0;
-                    box-sizing: border-box;
-                  }
-                #iframeWrapper {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    height: 100%;
-                  }
-                </style>
-            </head> 
-            <body>
-              <div id="iframeWrapper">
-                <iframe width="100%" height="100%" src="${uri}" frameborder="0"  allowfullscreen>
-                </iframe>
-                </div>
-          </body>
-        </html>
-                `;
+  const htmlIframeVideoPlayer = (_uri) =>
+    `<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <style>
+    * { padding: 0; margin: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+    #iframeWrapper {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      height: 100%;
+    }
+    iframe { border: 0; }
+  </style>
+</head>
+<body>
+  <div id="iframeWrapper">
+    <iframe width="100%" height="100%" src="${_uri}" allowfullscreen></iframe>
+  </div>
+  <script>
+    window.addEventListener('message', function(e) {
+      if (e.data && e.data.type === '3speak-player-ready') {
+        var msg = { type: 'aspectRatio' };
+        if (e.data.isVertical) {
+          msg.ratio = 4 / 3;
+        } else if (e.data.aspectRatio && Math.abs(e.data.aspectRatio - 1) < 0.1) {
+          msg.ratio = 1;
+        }
+        if (msg.ratio && window.ReactNativeWebView) {
+          window.ReactNativeWebView.postMessage(JSON.stringify(msg));
+        }
+      }
+    });
+  </script>
+</body>
+</html>`;
   return (
     <View style={styles.container}>
       {mode === 'youtube' && youtubeVideoId && (
-        <View style={{ width: contentWidth, height: PLAYER_HEIGHT }}>
+        <View style={{ width: contentWidth, height: defaultHeight }}>
           <YoutubeIframe
-            height={PLAYER_HEIGHT}
+            height={defaultHeight}
             videoId={youtubeVideoId}
             initialPlayerParams={initialParams}
             onReady={_onReady}
@@ -239,7 +253,7 @@ const VideoPlayer = ({
         </View>
       )}
       {mode === 'uri' && uri && (
-        <View style={[styles.playerWrapper, { height: PLAYER_HEIGHT }]}>
+        <View style={[styles.playerWrapper, { height: playerHeight }]}>
           {isExtensionType ? (
             _renderVideoplayerWithControls()
           ) : (
@@ -255,7 +269,7 @@ const VideoPlayer = ({
                 setIsLoading(true);
               }}
               source={{ html: htmlIframeVideoPlayer(uri) }}
-              style={[styles.barkBackground, { width: contentWidth, height: PLAYER_HEIGHT }]}
+              style={[styles.barkBackground, { width: contentWidth, height: playerHeight }]}
               startInLoadingState={true}
               onShouldStartLoadWithRequest={() => true}
               mediaPlaybackRequiresUserAction={true}
@@ -264,6 +278,16 @@ const VideoPlayer = ({
               useWebKit={true}
               domStorageEnabled
               originWhitelist={['*']}
+              onMessage={(event) => {
+                try {
+                  const msg = JSON.parse(event.nativeEvent.data);
+                  if (msg.type === 'aspectRatio' && msg.ratio) {
+                    setPlayerHeight(playerWidth * msg.ratio);
+                  }
+                } catch {
+                  // ignore non-JSON messages
+                }
+              }}
             />
           )}
         </View>
