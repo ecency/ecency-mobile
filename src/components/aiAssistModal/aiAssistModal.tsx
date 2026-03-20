@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -44,6 +44,15 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
   const [text, setText] = useState(initialText);
   const [result, setResult] = useState<{ output: string; action: AiAssistAction } | null>(null);
   const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
+
+  // Reset state when payload changes (sheets stay mounted)
+  useEffect(() => {
+    const newText = payload?.text?.slice(0, MAX_INPUT) || '';
+    setText(newText);
+    setSelectedAction(null);
+    setResult(null);
+    setSelectedTitleIndex(0);
+  }, [payload]);
 
   // Fetch points balance
   const pointsQuery = useQuery({
@@ -151,7 +160,7 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
         ) {
           return {
             type: 'titles' as const,
-            titles: titles.map((t: string) => t.trim()).filter(Boolean),
+            titles: [...new Set(titles.map((t: string) => t.trim()).filter(Boolean))],
           };
         }
       } catch {
@@ -165,7 +174,7 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
         if (Array.isArray(tags) && tags.length > 0 && tags.every((t) => typeof t === 'string')) {
           return {
             type: 'tags' as const,
-            tags: tags.map((t: string) => t.trim().toLowerCase()).filter(Boolean),
+            tags: [...new Set(tags.map((t: string) => t.trim().toLowerCase()).filter(Boolean))],
           };
         }
       } catch {
@@ -227,7 +236,7 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
         onPress={() => setSelectedAction(action)}
         activeOpacity={0.7}
       >
-        <View style={{ flex: 1 }}>
+        <View style={styles.actionCardContent}>
           <Text style={[styles.actionName, isSelected && styles.actionNameSelected]}>
             {intl.formatMessage({ id: `ai_assist.action_${action}` })}
           </Text>
@@ -260,17 +269,22 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
 
         {parsedResult?.type === 'titles' ? (
           <View>
-            {parsedResult.titles.map((title, i) => (
+            {parsedResult.titles.map((title) => (
               <TouchableOpacity
                 key={title}
-                style={[styles.titleOption, selectedTitleIndex === i && styles.titleOptionSelected]}
-                onPress={() => setSelectedTitleIndex(i)}
+                style={[
+                  styles.titleOption,
+                  selectedTitleIndex === parsedResult.titles.indexOf(title) &&
+                    styles.titleOptionSelected,
+                ]}
+                onPress={() => setSelectedTitleIndex(parsedResult.titles.indexOf(title))}
                 activeOpacity={0.7}
               >
                 <Text
                   style={[
                     styles.titleOptionText,
-                    selectedTitleIndex === i && styles.titleOptionTextSelected,
+                    selectedTitleIndex === parsedResult.titles.indexOf(title) &&
+                      styles.titleOptionTextSelected,
                   ]}
                 >
                   {title}
@@ -375,7 +389,7 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
       {/* Text input */}
       {selectedAction && (
         <>
-          <Text style={[styles.sectionLabel, { marginTop: 16 }]}>
+          <Text style={styles.sectionLabelWithMargin}>
             {intl.formatMessage({ id: 'ai_assist.text_label' })}
           </Text>
           <TextInput
@@ -409,7 +423,11 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
 
       {/* Submit button */}
       <TouchableOpacity
-        style={[styles.submitButton, styles.actionButton, !canSubmit && { opacity: 0.5 }]}
+        style={[
+          styles.submitButton,
+          styles.actionButton,
+          !canSubmit && styles.submitButtonDisabled,
+        ]}
         onPress={handleSubmit}
         disabled={!canSubmit}
         activeOpacity={0.7}
@@ -417,7 +435,7 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
         {assistMutation.isPending ? (
           <ActivityIndicator color="#fff" />
         ) : (
-          <Text style={[styles.actionButtonText, { textAlign: 'center' }]}>
+          <Text style={styles.submitButtonTextCentered}>
             {intl.formatMessage({ id: 'ai_assist.submit_button' })}
           </Text>
         )}
@@ -426,7 +444,7 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
   );
 
   return (
-    <ActionSheet id={SheetNames.AI_ASSIST} gestureEnabled containerStyle={{ maxHeight: '85%' }}>
+    <ActionSheet id={SheetNames.AI_ASSIST} gestureEnabled containerStyle={styles.sheetContainer}>
       <View style={styles.container}>
         <Text style={styles.title}>{intl.formatMessage({ id: 'ai_assist.title' })}</Text>
         {result ? _renderResultView() : _renderFormView()}

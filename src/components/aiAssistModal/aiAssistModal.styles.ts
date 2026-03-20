@@ -95,7 +95,7 @@ export default EStyleSheet.create({
   freeLabel: {
     fontSize: 11,
     fontWeight: '600',
-    color: '#22c55e',
+    color: '$successColor',
     marginRight: 6,
   } as TextStyle,
 
@@ -119,12 +119,12 @@ export default EStyleSheet.create({
   } as TextStyle,
 
   charCountError: {
-    color: '#ef4444',
+    color: '$primaryRed',
   } as TextStyle,
 
   errorText: {
     fontSize: 12,
-    color: '#ef4444',
+    color: '$primaryRed',
     marginTop: 8,
   } as TextStyle,
 
@@ -246,6 +246,33 @@ export default EStyleSheet.create({
   freeCostValue: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#22c55e',
+    color: '$successColor',
   } as TextStyle,
+
+  actionCardContent: {
+    flex: 1,
+  } as ViewStyle,
+
+  sectionLabelWithMargin: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '$primaryBlack',
+    marginBottom: 8,
+    marginTop: 16,
+  } as TextStyle,
+
+  submitButtonDisabled: {
+    opacity: 0.5,
+  } as ViewStyle,
+
+  submitButtonTextCentered: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '$white',
+    textAlign: 'center',
+  } as TextStyle,
+
+  sheetContainer: {
+    maxHeight: '85%',
+  } as ViewStyle,
 });
