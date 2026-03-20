@@ -615,29 +615,8 @@ export const QuickPostModalContent = forwardRef(
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
           />
-          <IconButton
-            iconType="MaterialsIcons"
-            name="image-outline"
-            onPress={_handleAiImageBtn}
-            size={24}
-            color={EStyleSheet.value('$primaryBlack')}
-            badgeCount="AI"
-            badgeStyle={styles.aiBadge}
-            badgeTextStyle={styles.aiBadgeText}
-          />
-          <IconButton
-            iconType="MaterialCommunityIcons"
-            name="creation"
-            onPress={_handleAiAssistBtn}
-            size={24}
-            color={EStyleSheet.value('$primaryBlack')}
-            badgeCount="AI"
-            badgeStyle={styles.aiBadge}
-            badgeTextStyle={styles.aiBadgeText}
-          />
           {mode !== 'wave' && canCommentToCommunity && (
             <IconButton
-              iconStyle={styles.toolbarSpacer}
               iconType="MaterialCommunityIcons"
               name="arrow-expand"
               onPress={_handleExpandBtn}
@@ -645,7 +624,6 @@ export const QuickPostModalContent = forwardRef(
               color={EStyleSheet.value('$primaryBlack')}
             />
           )}
-
           {mode === 'wave' && (
             <>
               <IconButton
@@ -666,6 +644,26 @@ export const QuickPostModalContent = forwardRef(
               />
             </>
           )}
+          <IconButton
+            iconType="MaterialsIcons"
+            name="image-outline"
+            onPress={_handleAiImageBtn}
+            size={24}
+            color={EStyleSheet.value('$primaryBlack')}
+            badgeCount="AI"
+            badgeStyle={styles.aiBadge}
+            badgeTextStyle={styles.aiBadgeText}
+          />
+          <IconButton
+            iconType="MaterialCommunityIcons"
+            name="creation"
+            onPress={_handleAiAssistBtn}
+            size={24}
+            color={EStyleSheet.value('$primaryBlack')}
+            badgeCount="AI"
+            badgeStyle={styles.aiBadge}
+            badgeTextStyle={styles.aiBadgeText}
+          />
         </View>
       );
     };

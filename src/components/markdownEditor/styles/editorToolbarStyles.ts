@@ -53,11 +53,10 @@ export default EStyleSheet.create({
     height: 24,
   },
   leftButtonsWrapper: {
-    marginLeft: 16,
+    paddingLeft: 16,
+    paddingRight: 8,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    flexGrow: 1,
   } as ViewStyle,
   rightButtonsWrapper: {
     flexDirection: 'row',

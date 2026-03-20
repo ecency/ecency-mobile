@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Keyboard, View, ViewStyle, Platform } from 'react-native';
+import { Keyboard, View, ViewStyle, Platform, ScrollView } from 'react-native';
 import {
   Gesture,
   GestureDetector,
@@ -312,7 +312,12 @@ export const EditorToolbar = ({
 
       {!isPreviewActive && (
         <View style={_buttonsContainerStyle}>
-          <View style={styles.leftButtonsWrapper}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.leftButtonsWrapper}
+            keyboardShouldPersistTaps="always"
+          >
             <IconButton
               size={22}
               style={styles.rightIcons}
@@ -392,7 +397,7 @@ export const EditorToolbar = ({
               iconType="MaterialCommunityIcons"
               name="video-outline"
             />
-          </View>
+          </ScrollView>
 
           <View style={styles.rightButtonsWrapper}>
             <View style={styles.clearButtonWrapper}>

@@ -150,6 +150,7 @@ export default EStyleSheet.create({
   toolbarContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 12,
   } as ViewStyle,
   toolbarSpacer: {
     marginLeft: 8,
