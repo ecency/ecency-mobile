@@ -114,6 +114,7 @@ import { ImageViewer } from './imageViewer';
 import { WalkthroughMarker } from './walkthroughMarker';
 import { LinkPreview, HiveLinkPreview } from './linkPreview';
 import { CrossPostModal } from './crossPostModal';
+import { AiAssistModal } from './aiAssistModal';
 import { ChatOptionsSheet } from './chatOptionsSheet';
 import { ChatChannelOptionsSheet } from './chatChannelOptionsSheet';
 import { TTSControls } from './textToSpeech/ttsControls';
@@ -289,6 +290,7 @@ export {
   LinkPreview,
   HiveLinkPreview,
   CrossPostModal,
+  AiAssistModal,
   CopyModal,
   ChatOptionsSheet,
   ChatChannelOptionsSheet,

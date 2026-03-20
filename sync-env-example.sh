@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Path to .env and .env.example files
-ENV_FILE=".env"
+ENV_FILE=".env.local"
 ENV_EXAMPLE_FILE=".env.example"
 
 # Check if .env exists

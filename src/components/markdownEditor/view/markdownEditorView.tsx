@@ -302,6 +302,37 @@ const MarkdownEditorView = ({
     insertLinkModalRef.current?.hideModal();
   };
 
+  const _handleAiAssistResult = useCallback(
+    (output: string, action: string) => {
+      if (action === 'improve' || action === 'check_grammar' || action === 'summarize') {
+        // Replace entire body with AI output
+        _setTextAndSelection({
+          text: output,
+          selection: { start: output.length, end: output.length },
+        });
+      } else if (action === 'generate_title') {
+        onTitleChanged?.(output);
+      } else if (action === 'suggest_tags') {
+        try {
+          const tags = JSON.parse(output);
+          if (Array.isArray(tags)) {
+            onTagChanged?.(tags);
+          }
+        } catch {
+          // fallback: treat as comma-separated
+          const tags = output
+            .split(',')
+            .map((t) => t.trim())
+            .filter(Boolean);
+          if (tags.length) {
+            onTagChanged?.(tags);
+          }
+        }
+      }
+    },
+    [_setTextAndSelection, onTitleChanged, onTagChanged],
+  );
+
   const _renderFloatingDraftButton = () => {
     if (showDraftLoadButton) {
       const _onPress = () => {
@@ -424,6 +455,7 @@ const MarkdownEditorView = ({
           handleOnAddLinkPress={_handleOnAddLinkPress}
           handleShowSnippets={() => setIsSnippetsOpen(true)}
           handleOnClearPress={() => clearRef.current.show()}
+          handleAiAssistResult={_handleAiAssistResult}
           handleOnMarkupButtonPress={(item) => {
             item.onPress({
               text: bodyTextRef.current,

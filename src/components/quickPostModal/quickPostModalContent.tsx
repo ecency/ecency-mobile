@@ -28,6 +28,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getCommunityQueryOptions } from '@ecency/sdk';
 import { useQuery } from '@tanstack/react-query';
 import ImagePicker, { Video as VideoType } from 'react-native-image-crop-picker';
+import { SheetManager } from 'react-native-actions-sheet';
 import styles from './quickPostModal.styles';
 import {
   Icon,
@@ -58,6 +59,7 @@ import {
 } from '../uploadsGalleryModal/container/uploadsGalleryModal';
 import { SpeakUploaderModal } from '../uploadsGalleryModal/children/speakUploaderModal';
 import { removePollDraft } from '../../redux/actions/editorActions';
+import { SheetNames } from '../../navigation/sheets';
 import { CommunityRole, CommunityTypeId } from '../../providers/hive/hive.types';
 
 export interface QuickPostModalContentProps {
@@ -430,6 +432,22 @@ export const QuickPostModalContent = forwardRef(
       [_addQuickCommentIntoCache],
     );
 
+    const _handleAiAssistBtn = () => {
+      SheetManager.show(SheetNames.AI_ASSIST, {
+        payload: {
+          text: commentValueRef.current,
+          supportedActions: ['improve', 'check_grammar', 'summarize'],
+          onApply: (output: string, _action: string) => {
+            // Cancel any pending debounced cache update to prevent stale overwrite
+            _deboucedCacheUpdate.cancel();
+            commentValueRef.current = output;
+            setCommentValue(output);
+            _addQuickCommentIntoCache(output);
+          },
+        },
+      });
+    };
+
     const _onChangeText = (value) => {
       commentValueRef.current = value;
       setCommentValue(value);
@@ -580,6 +598,16 @@ export const QuickPostModalContent = forwardRef(
             iconType="MaterialsIcons"
             name="image-outline"
             onPress={_handleAiImageBtn}
+            size={24}
+            color={EStyleSheet.value('$primaryBlack')}
+            badgeCount="AI"
+            badgeStyle={styles.aiBadge}
+            badgeTextStyle={styles.aiBadgeText}
+          />
+          <IconButton
+            iconType="MaterialCommunityIcons"
+            name="creation"
+            onPress={_handleAiAssistBtn}
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
             badgeCount="AI"

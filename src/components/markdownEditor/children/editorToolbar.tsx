@@ -16,8 +16,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SheetManager } from 'react-native-actions-sheet';
 import { IconButton, UploadsGalleryModal } from '../..';
 import { useAppSelector } from '../../../hooks';
+import { SheetNames } from '../../../navigation/sheets';
 import {
   MediaInsertData,
   MediaInsertStatus,
@@ -43,6 +45,7 @@ type Props = {
   handleOnClearPress: () => void;
   handleOnMarkupButtonPress: (item) => void;
   handleShowSnippets: () => void;
+  handleAiAssistResult?: (output: string, action: string) => void;
 };
 
 export const EditorToolbar = ({
@@ -59,6 +62,7 @@ export const EditorToolbar = ({
   handleOnClearPress,
   handleOnMarkupButtonPress,
   handleShowSnippets,
+  handleAiAssistResult,
 }: Props) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
@@ -133,6 +137,15 @@ export const EditorToolbar = ({
 
   const _showImageUploads = () => {
     _showUploadsExtension(Modes.MODE_IMAGE);
+  };
+
+  const _showAiAssist = () => {
+    SheetManager.show(SheetNames.AI_ASSIST, {
+      payload: {
+        text: postBody,
+        onApply: handleAiAssistResult,
+      },
+    });
   };
 
   const _showAiImageGenerator = () => {
@@ -356,6 +369,17 @@ export const EditorToolbar = ({
               iconStyle={styles.icon}
               iconType="FontAwesome"
               name="image"
+              badgeCount="AI"
+              badgeStyle={styles.aiBadge}
+              badgeTextStyle={styles.aiBadgeText}
+            />
+            <IconButton
+              onPress={_showAiAssist}
+              style={styles.rightIcons}
+              size={18}
+              iconStyle={styles.icon}
+              iconType="MaterialCommunityIcons"
+              name="creation"
               badgeCount="AI"
               badgeStyle={styles.aiBadge}
               badgeTextStyle={styles.aiBadgeText}
