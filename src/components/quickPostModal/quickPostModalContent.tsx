@@ -36,7 +36,6 @@ import {
   MainButton,
   PollWizardModal,
   PopoverWrapper,
-  TextButton,
   TextInput,
   UploadsGalleryModal,
   UserAvatar,
@@ -462,13 +461,40 @@ export const QuickPostModalContent = forwardRef(
 
     // VIEW_RENDERERS
 
-    const _renderSummary = () => (
-      <TouchableOpacity disabled={mode === 'wave'} onPress={() => _handleOnSummaryPress()}>
-        <Text numberOfLines={2} style={styles.summaryStyle}>
-          {headerText}
-        </Text>
-      </TouchableOpacity>
-    );
+    const _renderSummary = () => {
+      const _lengthTextStyle = {
+        ...styles.charCountText,
+        color: EStyleSheet.value(bodyLengthExceeded ? '$primaryRed' : '$iconColor'),
+      };
+
+      return (
+        <View style={styles.summaryRow}>
+          <TouchableOpacity
+            style={styles.summaryTouchable}
+            disabled={mode === 'wave'}
+            onPress={() => _handleOnSummaryPress()}
+          >
+            <Text numberOfLines={2} style={styles.summaryStyle}>
+              {headerText}
+            </Text>
+          </TouchableOpacity>
+          {mode === 'wave' && (
+            <Text style={_lengthTextStyle}>{`${commentValue.length}/${MAX_BODY_LENGTH}`}</Text>
+          )}
+          <TouchableOpacity
+            onPress={_handleClosePress}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          >
+            <Icon
+              iconType="MaterialCommunityIcons"
+              name="close"
+              size={22}
+              color={EStyleSheet.value('$iconColor')}
+            />
+          </TouchableOpacity>
+        </View>
+      );
+    };
 
     const _renderAvatar = () => (
       <View style={styles.avatarAndNameContainer}>
@@ -580,11 +606,6 @@ export const QuickPostModalContent = forwardRef(
     };
 
     const _renderExpandBtn = () => {
-      const _lengthTextStyle = {
-        ...styles.toolbarSpacer,
-        color: EStyleSheet.value(bodyLengthExceeded ? '$primaryRed' : '$iconColor'),
-      };
-
       return (
         <View style={styles.toolbarContainer}>
           <IconButton
@@ -643,7 +664,6 @@ export const QuickPostModalContent = forwardRef(
                 size={18}
                 color={EStyleSheet.value('$primaryBlack')}
               />
-              <Text style={_lengthTextStyle}>{`${commentValue.length}/${MAX_BODY_LENGTH}`}</Text>
             </>
           )}
         </View>
@@ -655,13 +675,6 @@ export const QuickPostModalContent = forwardRef(
 
       return (
         <View style={styles.replyBtnContainer}>
-          <TextButton
-            style={styles.cancelButton}
-            onPress={_handleClosePress}
-            text={intl.formatMessage({
-              id: 'quick_reply.close',
-            })}
-          />
           <MainButton
             style={styles.commentBtn}
             onPress={_submitPost}

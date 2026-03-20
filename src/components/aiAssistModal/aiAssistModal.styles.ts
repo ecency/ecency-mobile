@@ -274,5 +274,6 @@ export default EStyleSheet.create({
 
   sheetContainer: {
     maxHeight: '85%',
+    backgroundColor: '$primaryBackgroundColor',
   } as ViewStyle,
 });

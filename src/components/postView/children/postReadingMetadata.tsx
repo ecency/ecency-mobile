@@ -137,9 +137,6 @@ const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
                 <View style={styles.aiBadge}>
                   <Text style={styles.aiBadgeText}>AI</Text>
                 </View>
-                <Text style={styles.metadataLabel}>
-                  {intl.formatMessage({ id: 'ai_assist.action_summarize' })}
-                </Text>
               </View>
               {summary ? (
                 <TouchableOpacity onPress={() => setSummary(null)}>
@@ -153,7 +150,7 @@ const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
                     <ActivityIndicator size="small" />
                   ) : (
                     <Text style={styles.summarizeLink}>
-                      {intl.formatMessage({ id: 'post.summarize_start' })}
+                      {intl.formatMessage({ id: 'ai_assist.action_summarize' })}
                     </Text>
                   )}
                 </TouchableOpacity>

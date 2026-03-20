@@ -48,10 +48,22 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
     color: '$primaryBlack',
   },
+  summaryRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    gap: 8,
+  } as ViewStyle,
+  summaryTouchable: {
+    flex: 1,
+  } as ViewStyle,
   summaryStyle: {
     fontSize: 16,
-    paddingHorizontal: 16,
     color: '$primaryDarkGray',
+    fontWeight: '500',
+  },
+  charCountText: {
+    fontSize: 12,
     fontWeight: '500',
   },
   inputContainer: {

@@ -54,7 +54,7 @@ export const ActivitiesList = ({
 
   const _onRepeatPress = async (item: CoinActivity) => {
     if (onActionPress) {
-      onActionPress(TransferTypes.TRANSFER_TOKEN, item);
+      onActionPress(TransferTypes.TRANSFER, item);
     }
   };
 
