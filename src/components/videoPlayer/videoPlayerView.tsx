@@ -1,5 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator, useWindowDimensions } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  useWindowDimensions,
+  Image as RNImage,
+} from 'react-native';
 
 import WebView from 'react-native-webview';
 import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe';
@@ -17,6 +23,8 @@ interface VideoPlayerProps {
   uri?: string;
   // prop for youtube player
   disableAutoplay?: boolean;
+  // thumbnail URL used to detect portrait video orientation
+  thumbnailUrl?: string;
 }
 
 const VideoPlayer = ({
@@ -26,6 +34,7 @@ const VideoPlayer = ({
   contentWidth,
   mode,
   disableAutoplay,
+  thumbnailUrl,
 }: VideoPlayerProps) => {
   const dim = useWindowDimensions();
   const videoPlayer = useRef(null);
@@ -40,15 +49,33 @@ const VideoPlayer = ({
   const lockedOrientation = useAppSelector((state) => state.ui.lockedOrientation);
 
   const playerWidth = contentWidth || dim.width;
-  const defaultHeight = playerWidth * (9 / 16);
-  const [playerHeight, setPlayerHeight] = useState(defaultHeight);
+  const [playerHeight, setPlayerHeight] = useState(playerWidth * (9 / 16));
   const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
   const isExtensionType = mode === 'uri' ? uri.match(checkSrcRegex) : false;
 
-  // Reset height when URI changes
+  // Reset height when URI changes; detect portrait from thumbnail if available
   useEffect(() => {
     setPlayerHeight(playerWidth * (9 / 16));
-  }, [uri, playerWidth]);
+
+    if (thumbnailUrl) {
+      // Load the thumbnail to detect its aspect ratio
+      RNImage.getSize(
+        thumbnailUrl,
+        (w: number, h: number) => {
+          if (w > 0 && h > 0) {
+            const ratio = h / w;
+            if (ratio > 1.05) {
+              // Portrait or square — update player height
+              setPlayerHeight(playerWidth * ratio);
+            }
+          }
+        },
+        () => {
+          // Ignore thumbnail load errors
+        },
+      );
+    }
+  }, [uri, playerWidth, thumbnailUrl]);
 
   useEffect(() => {
     if (isFullScreen) {
@@ -210,15 +237,16 @@ const VideoPlayer = ({
     <iframe width="100%" height="100%" src="${_uri}" allowfullscreen></iframe>
   </div>
   <script>
+    // Listen for 3speak-player-ready postMessage for dynamic aspect ratio
     window.addEventListener('message', function(e) {
-      if (e.data && e.data.type === '3speak-player-ready') {
+      if (e.data && e.data.type === '3speak-player-ready' && window.ReactNativeWebView) {
         var msg = { type: 'aspectRatio' };
         if (e.data.isVertical) {
           msg.ratio = 4 / 3;
         } else if (e.data.aspectRatio && Math.abs(e.data.aspectRatio - 1) < 0.1) {
           msg.ratio = 1;
         }
-        if (msg.ratio && window.ReactNativeWebView) {
+        if (msg.ratio) {
           window.ReactNativeWebView.postMessage(JSON.stringify(msg));
         }
       }
@@ -229,9 +257,9 @@ const VideoPlayer = ({
   return (
     <View style={styles.container}>
       {mode === 'youtube' && youtubeVideoId && (
-        <View style={{ width: contentWidth, height: defaultHeight }}>
+        <View style={{ width: contentWidth, height: playerHeight }}>
           <YoutubeIframe
-            height={defaultHeight}
+            height={playerHeight}
             videoId={youtubeVideoId}
             initialPlayerParams={initialParams}
             onReady={_onReady}
