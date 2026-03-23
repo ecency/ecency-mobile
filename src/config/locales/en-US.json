@@ -601,7 +601,8 @@
     "error_insufficient_points": "Insufficient points. You need {required} but have {available}.",
     "error_content_policy": "Content violates our content policy. Please modify your text.",
     "error_rate_limit": "Too many requests. Please wait a moment and try again.",
-    "error_generic": "Something went wrong. Please try again."
+    "error_generic": "Something went wrong. Please try again.",
+    "hide_translation": "Hide translation"
   },
   "welcome": {
     "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.", 
@@ -1207,6 +1208,7 @@
     "prompt_placeholder": "A beautiful sunset over mountains...",
     "chars_remaining": "{count} characters remaining",
     "select_aspect_ratio": "Select aspect ratio",
+    "select_power": "Quality boost",
     "cost_label": "Cost",
     "balance_label": "Balance",
     "points_unit": "POINTS",

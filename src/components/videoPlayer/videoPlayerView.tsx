@@ -58,15 +58,17 @@ const VideoPlayer = ({
     setPlayerHeight(playerWidth * (9 / 16));
 
     if (thumbnailUrl) {
-      // Load the thumbnail to detect its aspect ratio
+      // Load the thumbnail to detect portrait/square orientation
       RNImage.getSize(
         thumbnailUrl,
         (w: number, h: number) => {
           if (w > 0 && h > 0) {
             const ratio = h / w;
             if (ratio > 1.05) {
-              // Portrait or square — update player height
-              setPlayerHeight(playerWidth * ratio);
+              // Portrait video — use 3:4 container (matching website)
+              // Cap at 4/3 so the embed player controls remain accessible
+              const cappedRatio = Math.min(ratio, 4 / 3);
+              setPlayerHeight(playerWidth * cappedRatio);
             }
           }
         },
@@ -216,28 +218,29 @@ const VideoPlayer = ({
     );
   };
 
-  const htmlIframeVideoPlayer = (_uri) =>
+  const htmlIframeVideoPlayer = (_uri: string) =>
     `<!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0" />
   <style>
     * { padding: 0; margin: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
-    #iframeWrapper {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
+    html, body { width: 100%; height: 100%; background: #000; }
+    iframe {
+      border: 0;
+      width: 100%;
       height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
-    iframe { border: 0; }
   </style>
 </head>
 <body>
-  <div id="iframeWrapper">
-    <iframe width="100%" height="100%" src="${_uri}" allowfullscreen></iframe>
-  </div>
+  <iframe src="${_uri}"
+    allow="autoplay; accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+    allowfullscreen></iframe>
   <script>
-    // Listen for 3speak-player-ready postMessage for dynamic aspect ratio
     window.addEventListener('message', function(e) {
       if (e.data && e.data.type === '3speak-player-ready' && window.ReactNativeWebView) {
         var msg = { type: 'aspectRatio' };
@@ -311,7 +314,9 @@ const VideoPlayer = ({
                 try {
                   const msg = JSON.parse(event.nativeEvent.data);
                   if (msg.type === 'aspectRatio' && msg.ratio) {
-                    setPlayerHeight(playerWidth * msg.ratio);
+                    // Cap at 4/3 to keep player controls accessible
+                    const cappedRatio = Math.min(msg.ratio, 4 / 3);
+                    setPlayerHeight(playerWidth * cappedRatio);
                   }
                 } catch {
                   // ignore non-JSON messages
