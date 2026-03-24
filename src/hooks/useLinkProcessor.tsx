@@ -21,9 +21,11 @@ import { delay } from '../utils/editor';
 import { SheetNames } from '../navigation/sheets';
 import getWindowDimensions from '../utils/getWindowDimensions';
 import { useAppSelector } from './index';
+import { usePostLoginActions } from './usePostLogin';
 import authType from '../constants/authType';
 import { getUserDataWithUsername } from '../realm/realm';
 import { decryptKey } from '../utils/crypto';
+import { loginWithAuthTransfer } from '../providers/hive/auth';
 import {
   selectCurrentAccount,
   selectPin,
@@ -41,6 +43,7 @@ export const useLinkProcessor = (onClose?: () => void) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const otherAccounts = useAppSelector(selectOtherAccounts);
   const pinCode = useAppSelector(selectPin);
+  const { updateAccountsData } = usePostLoginActions();
 
   const _isEcencyLoginDeeplink = (deeplink: string) => {
     try {
@@ -60,6 +63,18 @@ export const useLinkProcessor = (onClose?: () => void) => {
       return (
         parsedUrl.protocol.toLowerCase() === 'ecency:' &&
         parsedUrl.hostname.toLowerCase() === 'transfer'
+      );
+    } catch (err) {
+      return false;
+    }
+  };
+
+  const _isEcencyAuthTransferDeeplink = (deeplink: string) => {
+    try {
+      const parsedUrl = new URL(deeplink);
+      return (
+        parsedUrl.protocol.toLowerCase() === 'ecency:' &&
+        parsedUrl.hostname.toLowerCase() === 'auth-transfer'
       );
     } catch (err) {
       return false;
@@ -435,7 +450,81 @@ export const useLinkProcessor = (onClose?: () => void) => {
     }
   };
 
+  const _handleEcencyAuthTransferDeeplink = async (deeplink: string) => {
+    try {
+      onClose && onClose();
+
+      const parsedUrl = new URL(deeplink);
+      const params = parsedUrl.searchParams;
+
+      const username = params.get('username');
+      const accessToken = params.get('accessToken');
+      const refreshToken = params.get('refreshToken');
+      const expiresIn = parseInt(params.get('expiresIn') || '86400', 10);
+
+      if (!username || !accessToken || !refreshToken) {
+        _showInvalidAlert();
+        return;
+      }
+
+      // Ask user to confirm before switching account
+      const confirmed = await new Promise<boolean>((resolve) => {
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.confirm' }),
+          intl.formatMessage({ id: 'qr.auth_transfer_confirm' }, { username }),
+          [
+            {
+              text: intl.formatMessage({ id: 'qr.cancel' }),
+              style: 'cancel',
+              onPress: () => resolve(false),
+            },
+            {
+              text: intl.formatMessage({ id: 'qr.approve' }),
+              onPress: () => resolve(true),
+            },
+          ],
+        );
+      });
+
+      if (!confirmed) return;
+
+      const result = await loginWithAuthTransfer(username, accessToken, refreshToken, expiresIn);
+
+      if (result) {
+        updateAccountsData(result);
+
+        if (isPinCodeOpen) {
+          RootNavigation.navigate({
+            name: ROUTES.SCREENS.PINCODE,
+            params: {
+              accessToken: result.accessToken,
+              navigateTo: ROUTES.DRAWER.MAIN,
+            },
+          });
+        } else {
+          RootNavigation.navigate({
+            name: ROUTES.DRAWER.MAIN,
+            params: { accessToken: result.accessToken },
+          });
+        }
+
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+      }
+    } catch (error) {
+      console.warn('Failed to handle auth transfer deeplink', error);
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.fail' }),
+        intl.formatMessage({ id: 'alert.unknow_error' }),
+      );
+    }
+  };
+
   const handleLink = (deeplink: string) => {
+    if (_isEcencyAuthTransferDeeplink(deeplink)) {
+      _handleEcencyAuthTransferDeeplink(deeplink);
+      return;
+    }
+
     if (_isEcencyLoginDeeplink(deeplink)) {
       _handleEcencyLoginDeeplink(deeplink);
       return;

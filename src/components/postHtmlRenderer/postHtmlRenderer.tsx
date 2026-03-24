@@ -440,6 +440,15 @@ export const PostHtmlRenderer = memo(
       [_minTableColWidth, contentWidth],
     );
 
+    // Extract thumbnail for 3Speak video orientation detection
+    const _speakThumbnail = useMemo(() => {
+      if (metadata?.type === '3speak/video' || metadata?.video?.info?.platform === '3speak') {
+        const images = metadata?.image;
+        return Array.isArray(images) ? images[0] : images;
+      }
+      return undefined;
+    }, [metadata]);
+
     // iframe renderer for rendering iframes in body
     const _iframeRenderer = useCallback(
       function IframeRenderer(props) {
@@ -454,12 +463,18 @@ export const PostHtmlRenderer = memo(
           };
           return <VideoThumb contentWidth={contentWidth} onPress={_onPress} />;
         } else {
+          const isSpeakEmbed = /3speak\.tv/i.test(iframeProps.source.uri || '');
           return (
-            <VideoPlayer mode="uri" uri={iframeProps.source.uri} contentWidth={contentWidth} />
+            <VideoPlayer
+              mode="uri"
+              uri={iframeProps.source.uri}
+              contentWidth={contentWidth}
+              thumbnailUrl={isSpeakEmbed ? _speakThumbnail : undefined}
+            />
           );
         }
       },
-      [isComment, handleVideoPress, contentWidth],
+      [isComment, handleVideoPress, contentWidth, _speakThumbnail],
     );
 
     const tagsStyles = useMemo(

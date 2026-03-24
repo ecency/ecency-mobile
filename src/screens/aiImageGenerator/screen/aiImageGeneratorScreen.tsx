@@ -26,6 +26,13 @@ const ASPECT_RATIOS = ['1:1', '16:9', '9:16', '4:3', '3:4', '3:2', '2:3'];
 const DEFAULT_RATIO = '4:3';
 const MAX_PROMPT_LENGTH = 1000;
 
+const POWER_LABELS: Record<number, string> = {
+  1: '1x',
+  2: '2x',
+  4: '4x',
+  6: '6x',
+};
+
 interface AiImageGeneratorParams {
   onInsert?: (url: string) => void;
   suggestedPrompt?: string;
@@ -41,6 +48,7 @@ const AiImageGeneratorScreen = () => {
 
   const [prompt, setPrompt] = useState('');
   const [aspectRatio, setAspectRatio] = useState(DEFAULT_RATIO);
+  const [selectedPower, setSelectedPower] = useState(1);
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
 
   const generateMutation = useGenerateImageMutation();
@@ -55,6 +63,9 @@ const AiImageGeneratorScreen = () => {
     enabled: !!username,
   });
 
+  const prices = priceQuery.data?.prices;
+  const powerTiers = priceQuery.data?.power;
+
   const balance = useMemo(() => {
     if (!pointsQuery.data?.points) return 0;
     const normalized = String(pointsQuery.data.points).replace(/,/g, '');
@@ -62,11 +73,19 @@ const AiImageGeneratorScreen = () => {
     return Number.isNaN(value) ? 0 : value;
   }, [pointsQuery.data]);
 
-  const cost = useMemo(() => {
-    if (!priceQuery.data || !Array.isArray(priceQuery.data)) return 150;
-    const match = priceQuery.data.find((p) => p.aspect_ratio === aspectRatio);
-    return match?.cost ?? priceQuery.data[0]?.cost ?? 150;
-  }, [priceQuery.data, aspectRatio]);
+  const baseCost = useMemo(() => {
+    if (!prices || prices.length === 0) return 150;
+    const match = prices.find((p) => p.aspect_ratio === aspectRatio);
+    return match?.cost ?? prices[0]?.cost ?? 150;
+  }, [prices, aspectRatio]);
+
+  const powerMultiplier = useMemo(() => {
+    if (!powerTiers) return 1;
+    const tier = powerTiers.find((t) => t.power === selectedPower);
+    return tier?.multiplier ?? 1;
+  }, [powerTiers, selectedPower]);
+
+  const cost = baseCost * powerMultiplier;
 
   const canGenerate = prompt.trim().length > 0 && balance >= cost && !generateMutation.isPending;
 
@@ -80,6 +99,7 @@ const AiImageGeneratorScreen = () => {
       const result = await generateMutation.mutateAsync({
         prompt: prompt.trim(),
         aspect_ratio: aspectRatio,
+        power: selectedPower,
       });
       setGeneratedUrl(result.url);
       // Refresh balance
@@ -207,6 +227,35 @@ const AiImageGeneratorScreen = () => {
     </View>
   );
 
+  const _renderPowerSelector = () => {
+    if (!powerTiers || powerTiers.length <= 1) return null;
+
+    return (
+      <View>
+        <Text style={styles.sectionLabel}>
+          {intl.formatMessage({ id: 'ai_image_generator.select_power' })}
+        </Text>
+        <View style={styles.ratioContainer}>
+          {powerTiers.map((tier) => {
+            const isActive = tier.power === selectedPower;
+            return (
+              <TouchableOpacity
+                key={tier.power}
+                style={[styles.ratioPill, isActive && styles.ratioPillActive]}
+                onPress={() => setSelectedPower(tier.power)}
+                disabled={generateMutation.isPending}
+              >
+                <Text style={[styles.ratioPillText, isActive && styles.ratioPillTextActive]}>
+                  {POWER_LABELS[tier.power] ?? `${tier.power}x`}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </View>
+    );
+  };
+
   const _renderCostAndBalance = () => (
     <View style={styles.balanceContainer}>
       <Text style={styles.balanceLabel}>
@@ -277,6 +326,7 @@ const AiImageGeneratorScreen = () => {
           <>
             {_renderPromptInput()}
             {_renderAspectRatioSelector()}
+            {_renderPowerSelector()}
 
             {generateMutation.isPending ? (
               _renderLoading()

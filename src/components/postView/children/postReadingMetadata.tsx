@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import { SheetManager } from 'react-native-actions-sheet';
 import { useAiAssist } from '@ecency/sdk';
 import { Icon } from '../../icon';
+import { DropdownButton } from '../../dropdownButton';
 import { TTSControls } from '../../textToSpeech/ttsControls';
 import {
   extractPlainTextForTTS,
@@ -12,7 +13,9 @@ import {
   countWords,
   estimateReadingMinutes,
 } from '../../../utils/textToSpeech';
-import { useAuth } from '../../../hooks';
+import { getTranslation, fetchSupportedLangs } from '../../../providers/translation/translation';
+import { useAuth, useAppSelector } from '../../../hooks';
+import { selectLanguage } from '../../../redux/selectors';
 import { SheetNames } from '../../../navigation/sheets';
 
 interface PostReadingMetadataProps {
@@ -85,6 +88,68 @@ const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
       }
     }
   }, [username, plainText, assistMutation, intl]);
+
+  // Translation state
+  const appLang = useAppSelector(selectLanguage);
+  const [showTranslate, setShowTranslate] = useState(false);
+  const [translatedSummary, setTranslatedSummary] = useState('');
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [languages, setLanguages] = useState<{ name: string; code: string }[]>([]);
+  const [targetLang, setTargetLang] = useState<{ name: string; code: string } | null>(null);
+
+  // Load languages when translate is toggled
+  useEffect(() => {
+    if (showTranslate && languages.length === 0) {
+      fetchSupportedLangs()
+        .then((res) => {
+          if (res?.length) {
+            const langs = res.map((item: any) => ({ code: item.code, name: item.name }));
+            setLanguages(langs);
+
+            // Auto-select target language based on app language
+            const appCode = appLang?.split('-')[0];
+            const match = langs.find((l: any) => l.code === appCode);
+            if (!targetLang) {
+              setTargetLang(match || { name: 'English', code: 'en' });
+            }
+          }
+        })
+        .catch((err) => {
+          console.warn('Failed to fetch languages:', err);
+        });
+    }
+  }, [showTranslate]);
+
+  // Translate when target language changes
+  useEffect(() => {
+    if (!showTranslate || !summary || !targetLang) return;
+    let cancelled = false;
+    setIsTranslating(true);
+    setTranslatedSummary('');
+    getTranslation(summary, 'auto', targetLang.code)
+      .then((res) => {
+        if (!cancelled && res?.translatedText) {
+          setTranslatedSummary(res.translatedText);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) console.warn('Translation failed:', err);
+      })
+      .finally(() => {
+        if (!cancelled) setIsTranslating(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [showTranslate, summary, targetLang]);
+
+  // Reset translation when summary changes
+  useEffect(() => {
+    setShowTranslate(false);
+    setTranslatedSummary('');
+  }, [summary]);
+
+  const langOptions = useMemo(() => languages.map((l) => l.name), [languages]);
 
   // Don't show if post has no readable content or less than 10 words
   if (!hasReadableContent(post) || wordCount < 10) {
@@ -162,7 +227,32 @@ const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
 
       {!!summary && (
         <View style={styles.summaryBox}>
-          <Text style={styles.summaryText}>{summary}</Text>
+          <Text style={styles.summaryText}>
+            {showTranslate && translatedSummary ? translatedSummary : summary}
+          </Text>
+          {showTranslate && isTranslating && (
+            <ActivityIndicator size="small" style={styles.translateLoader} />
+          )}
+          <View style={styles.translateRow}>
+            <TouchableOpacity onPress={() => setShowTranslate(!showTranslate)}>
+              <Text style={styles.translateLink}>
+                {showTranslate
+                  ? intl.formatMessage({ id: 'ai_assist.hide_translation' })
+                  : intl.formatMessage({ id: 'post_dropdown.translate' })}
+              </Text>
+            </TouchableOpacity>
+            {showTranslate && languages.length > 0 && (
+              <DropdownButton
+                style={styles.langDropdown}
+                defaultText={targetLang?.name || 'English'}
+                isHasChildIcon
+                noHighlight
+                onSelect={(index) => setTargetLang(languages[index])}
+                options={langOptions}
+                textStyle={styles.langDropdownText}
+              />
+            )}
+          </View>
         </View>
       )}
     </View>
@@ -257,6 +347,34 @@ const styles = EStyleSheet.create({
     fontSize: 14,
     color: '$primaryBlack',
     lineHeight: 20,
+  },
+  translateRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: '$iconColor',
+    gap: 12,
+  },
+  translateLink: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '$primaryBlue',
+  },
+  translateLoader: {
+    marginTop: 8,
+  },
+  langDropdown: {
+    borderWidth: 1,
+    borderColor: '$iconColor',
+    borderRadius: 6,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  langDropdownText: {
+    fontSize: 12,
+    color: '$primaryBlack',
   },
 });
 

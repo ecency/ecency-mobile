@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Alert, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useIntl } from 'react-intl';
 import { get, debounce } from 'lodash';
@@ -100,6 +100,7 @@ const TransferView = ({
   const [startDate, setStartDate] = useState('');
 
   const [isUsernameValid, setIsUsernameValid] = useState(false);
+  const [usersResult, setUsersResult] = useState<string[]>([]);
   const [hsTransfer, setHsTransfer] = useState(false);
   const [isTransfering, setIsTransfering] = useState(false);
 
@@ -142,14 +143,37 @@ const TransferView = ({
     debounce(async (usernames: string[]) => {
       if (usernames.length === 0) {
         setIsUsernameValid(false);
+        setUsersResult([]);
         return;
       }
       if (usernames.length > 5) {
         dispatch(toastNotification(intl.formatMessage({ id: 'transfer.too_many_usernames' })));
         setIsUsernameValid(false);
+        setUsersResult([]);
         return;
       }
 
+      // For single username, fetch suggestions for dropdown
+      if (usernames.length === 1) {
+        try {
+          const users = await getAccountsWithUsername(usernames[0].trim());
+          setUsersResult([...users]);
+          const _isValid = users.includes(usernames[0]);
+          if (_isValid) {
+            _findRecurrentTransferOfUser(usernames[0]);
+          }
+          if (usernames.toString() !== destinationRef.current.toString()) {
+            return;
+          }
+          setIsUsernameValid(_isValid);
+        } catch {
+          setUsersResult([]);
+          setIsUsernameValid(false);
+        }
+        return;
+      }
+
+      // Multiple usernames — validate each
       const validationResults = await Promise.all(
         usernames.map(async (username) => {
           try {
@@ -164,6 +188,8 @@ const TransferView = ({
           }
         }),
       );
+
+      setUsersResult([]);
 
       if (usernames.toString() !== destinationRef.current.toString()) {
         return;
@@ -204,6 +230,33 @@ const TransferView = ({
       : [];
     setDestination(trimmedLowercase);
   };
+
+  const _handleUserSelect = useCallback(
+    (username: string) => {
+      if (username === from) {
+        Alert.alert(
+          intl.formatMessage({ id: 'transfer.username_alert' }),
+          intl.formatMessage({ id: 'transfer.username_alert_detail' }),
+        );
+        return;
+      }
+      setDestination(username);
+      destinationRef.current = [username];
+      setUsersResult([]);
+      setIsUsernameValid(true);
+    },
+    [from, intl],
+  );
+
+  const _renderSuggestionItem = useCallback(
+    ({ item: username }) => (
+      <TouchableOpacity onPress={() => _handleUserSelect(username)} style={styles.usersDropItemRow}>
+        <UserAvatar username={username} noAction />
+        <Text style={styles.usersDropItemRowText}>{username}</Text>
+      </TouchableOpacity>
+    ),
+    [_handleUserSelect],
+  );
 
   const _handleAmountChange = (val: string | number) => {
     let newValue = String(val);
@@ -532,6 +585,18 @@ const TransferView = ({
                     autoCapitalize="none"
                     autoCorrect={false}
                   />
+                )}
+
+                {destination !== '' && usersResult.length > 0 && !isUsernameValid && (
+                  <View style={styles.suggestionsContainer}>
+                    <FlatList
+                      data={usersResult}
+                      keyboardShouldPersistTaps="always"
+                      renderItem={_renderSuggestionItem}
+                      keyExtractor={(item) => `suggest-${item}`}
+                      style={styles.suggestionsList}
+                    />
+                  </View>
                 )}
               </View>
             </View>

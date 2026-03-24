@@ -1,5 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator, useWindowDimensions } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  useWindowDimensions,
+  Image as RNImage,
+} from 'react-native';
 
 import WebView from 'react-native-webview';
 import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe';
@@ -17,6 +23,8 @@ interface VideoPlayerProps {
   uri?: string;
   // prop for youtube player
   disableAutoplay?: boolean;
+  // thumbnail URL used to detect portrait video orientation
+  thumbnailUrl?: string;
 }
 
 const VideoPlayer = ({
@@ -26,6 +34,7 @@ const VideoPlayer = ({
   contentWidth,
   mode,
   disableAutoplay,
+  thumbnailUrl,
 }: VideoPlayerProps) => {
   const dim = useWindowDimensions();
   const videoPlayer = useRef(null);
@@ -40,15 +49,40 @@ const VideoPlayer = ({
   const lockedOrientation = useAppSelector((state) => state.ui.lockedOrientation);
 
   const playerWidth = contentWidth || dim.width;
-  const defaultHeight = playerWidth * (9 / 16);
-  const [playerHeight, setPlayerHeight] = useState(defaultHeight);
+  const [playerHeight, setPlayerHeight] = useState(playerWidth * (9 / 16));
   const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
   const isExtensionType = mode === 'uri' ? uri.match(checkSrcRegex) : false;
 
-  // Reset height when URI changes
+  // Reset height when URI changes; detect portrait from thumbnail if available
   useEffect(() => {
+    let isActive = true;
     setPlayerHeight(playerWidth * (9 / 16));
-  }, [uri, playerWidth]);
+
+    if (thumbnailUrl) {
+      // Load the thumbnail to detect portrait/square orientation
+      RNImage.getSize(
+        thumbnailUrl,
+        (w: number, h: number) => {
+          if (!isActive) return;
+          if (w > 0 && h > 0) {
+            const ratio = h / w;
+            if (ratio > 1.05) {
+              // Portrait video — use 3:4 container (matching website)
+              // Cap at 4/3 so the embed player controls remain accessible
+              const cappedRatio = Math.min(ratio, 4 / 3);
+              setPlayerHeight(playerWidth * cappedRatio);
+            }
+          }
+        },
+        () => {
+          // Ignore thumbnail load errors
+        },
+      );
+    }
+    return () => {
+      isActive = false;
+    };
+  }, [uri, playerWidth, thumbnailUrl]);
 
   useEffect(() => {
     if (isFullScreen) {
@@ -189,36 +223,42 @@ const VideoPlayer = ({
     );
   };
 
-  const htmlIframeVideoPlayer = (_uri) =>
+  // Escape URI for safe HTML attribute interpolation
+  const _sanitizeUri = (raw: string) =>
+    raw.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  const htmlIframeVideoPlayer = (_uri: string) =>
     `<!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0" />
   <style>
     * { padding: 0; margin: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
-    #iframeWrapper {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
+    html, body { width: 100%; height: 100%; background: #000; }
+    iframe {
+      border: 0;
+      width: 100%;
       height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
-    iframe { border: 0; }
   </style>
 </head>
 <body>
-  <div id="iframeWrapper">
-    <iframe width="100%" height="100%" src="${_uri}" allowfullscreen></iframe>
-  </div>
+  <iframe src="${_sanitizeUri(_uri)}"
+    allow="autoplay; accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+    allowfullscreen></iframe>
   <script>
     window.addEventListener('message', function(e) {
-      if (e.data && e.data.type === '3speak-player-ready') {
+      if (e.data && e.data.type === '3speak-player-ready' && window.ReactNativeWebView) {
         var msg = { type: 'aspectRatio' };
         if (e.data.isVertical) {
           msg.ratio = 4 / 3;
         } else if (e.data.aspectRatio && Math.abs(e.data.aspectRatio - 1) < 0.1) {
           msg.ratio = 1;
         }
-        if (msg.ratio && window.ReactNativeWebView) {
+        if (msg.ratio) {
           window.ReactNativeWebView.postMessage(JSON.stringify(msg));
         }
       }
@@ -229,9 +269,9 @@ const VideoPlayer = ({
   return (
     <View style={styles.container}>
       {mode === 'youtube' && youtubeVideoId && (
-        <View style={{ width: contentWidth, height: defaultHeight }}>
+        <View style={{ width: playerWidth, height: playerHeight }}>
           <YoutubeIframe
-            height={defaultHeight}
+            height={playerHeight}
             videoId={youtubeVideoId}
             initialPlayerParams={initialParams}
             onReady={_onReady}
@@ -269,7 +309,7 @@ const VideoPlayer = ({
                 setIsLoading(true);
               }}
               source={{ html: htmlIframeVideoPlayer(uri) }}
-              style={[styles.barkBackground, { width: contentWidth, height: playerHeight }]}
+              style={[styles.barkBackground, { width: playerWidth, height: playerHeight }]}
               startInLoadingState={true}
               onShouldStartLoadWithRequest={() => true}
               mediaPlaybackRequiresUserAction={false}
@@ -283,7 +323,9 @@ const VideoPlayer = ({
                 try {
                   const msg = JSON.parse(event.nativeEvent.data);
                   if (msg.type === 'aspectRatio' && msg.ratio) {
-                    setPlayerHeight(playerWidth * msg.ratio);
+                    // Cap at 4/3 to keep player controls accessible
+                    const cappedRatio = Math.min(msg.ratio, 4 / 3);
+                    setPlayerHeight(playerWidth * cappedRatio);
                   }
                 } catch {
                   // ignore non-JSON messages
