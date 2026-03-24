@@ -269,7 +269,7 @@ const VideoPlayer = ({
   return (
     <View style={styles.container}>
       {mode === 'youtube' && youtubeVideoId && (
-        <View style={{ width: contentWidth, height: playerHeight }}>
+        <View style={{ width: playerWidth, height: playerHeight }}>
           <YoutubeIframe
             height={playerHeight}
             videoId={youtubeVideoId}
@@ -309,7 +309,7 @@ const VideoPlayer = ({
                 setIsLoading(true);
               }}
               source={{ html: htmlIframeVideoPlayer(uri) }}
-              style={[styles.barkBackground, { width: contentWidth, height: playerHeight }]}
+              style={[styles.barkBackground, { width: playerWidth, height: playerHeight }]}
               startInLoadingState={true}
               onShouldStartLoadWithRequest={() => true}
               mediaPlaybackRequiresUserAction={false}
