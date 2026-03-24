@@ -55,6 +55,7 @@ const VideoPlayer = ({
 
   // Reset height when URI changes; detect portrait from thumbnail if available
   useEffect(() => {
+    let isActive = true;
     setPlayerHeight(playerWidth * (9 / 16));
 
     if (thumbnailUrl) {
@@ -62,6 +63,7 @@ const VideoPlayer = ({
       RNImage.getSize(
         thumbnailUrl,
         (w: number, h: number) => {
+          if (!isActive) return;
           if (w > 0 && h > 0) {
             const ratio = h / w;
             if (ratio > 1.05) {
@@ -77,6 +79,9 @@ const VideoPlayer = ({
         },
       );
     }
+    return () => {
+      isActive = false;
+    };
   }, [uri, playerWidth, thumbnailUrl]);
 
   useEffect(() => {
@@ -218,6 +223,10 @@ const VideoPlayer = ({
     );
   };
 
+  // Escape URI for safe HTML attribute interpolation
+  const _sanitizeUri = (raw: string) =>
+    raw.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
   const htmlIframeVideoPlayer = (_uri: string) =>
     `<!DOCTYPE html>
 <html>
@@ -237,7 +246,7 @@ const VideoPlayer = ({
   </style>
 </head>
 <body>
-  <iframe src="${_uri}"
+  <iframe src="${_sanitizeUri(_uri)}"
     allow="autoplay; accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
     allowfullscreen></iframe>
   <script>

@@ -872,8 +872,9 @@
     "confirmTransaction": "Confirm transaction", 
     "invalid_amount_desc": "Enter valid amount in proper format", 
     "open": "Open URL", 
-    "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction"
-  }, 
+    "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction",
+    "auth_transfer_confirm": "Confirm transfer to {username}?"
+  },
   "voters_dropdown": {
     "rewards": "REWARDS", 
     "percent": "PERCENT", 

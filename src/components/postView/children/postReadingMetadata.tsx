@@ -114,7 +114,9 @@ const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
             }
           }
         })
-        .catch(() => {});
+        .catch((err) => {
+          console.warn('Failed to fetch languages:', err);
+        });
     }
   }, [showTranslate]);
 
@@ -130,7 +132,9 @@ const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
           setTranslatedSummary(res.translatedText);
         }
       })
-      .catch(() => {})
+      .catch((err) => {
+        if (!cancelled) console.warn('Translation failed:', err);
+      })
       .finally(() => {
         if (!cancelled) setIsTranslating(false);
       });
