@@ -261,6 +261,84 @@ export const loginWithSC2 = async (code) => {
   }
 };
 
+/**
+ * Login using tokens transferred from the web app via QR code.
+ * Stores the session as a HiveSigner (steemConnect) auth type.
+ */
+export const loginWithAuthTransfer = async (
+  username: string,
+  accessToken: string,
+  refreshToken: string,
+  expiresIn: number,
+) => {
+  try {
+    const account = await fetchAccount(username);
+    if (!account) {
+      throw new Error('auth.invalid_username');
+    }
+
+    let avatar = '';
+    try {
+      const queryClient = getQueryClient();
+      account.unread_activity_count = await queryClient.fetchQuery(
+        getNotificationsUnreadCountQueryOptions(username, accessToken),
+      );
+      account.pointsSummary = await getPointsSummary(username);
+      account.mutes = await queryClient.fetchQuery(getMutedUsersQueryOptions(username));
+    } catch (err) {
+      console.warn('Optional user data fetch failed during auth transfer', err);
+    }
+
+    const { profile } = account;
+    avatar = profile?.profile_image || account.avatar || '';
+
+    const userData = {
+      username: account.name,
+      avatar,
+      authType: AUTH_TYPE.STEEM_CONNECT,
+      masterKey: '',
+      postingKey: '',
+      activeKey: '',
+      memoKey: '',
+      accessToken: '',
+    };
+
+    const resData = {
+      pinCode: Config.DEFAULT_PIN,
+      accessToken,
+    };
+    const updatedUserData = getUpdatedUserData(userData, resData);
+
+    account.local = updatedUserData;
+    account.local.avatar = avatar;
+
+    await setUserData(account.local);
+    await updateCurrentUsername(account.name);
+
+    const authData = {
+      isLoggedIn: true,
+      currentUsername: account.name,
+    };
+    await setAuthStatus(authData);
+
+    // Store SC tokens for refresh
+    await setSCAccount({
+      username: account.name,
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      expires_in: expiresIn,
+    });
+
+    return {
+      ...account,
+      accessToken,
+    };
+  } catch (err) {
+    Sentry.captureException(err);
+    throw err;
+  }
+};
+
 export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry, hiveAuthToken?) => {
   try {
     const scTokens = await getSCAccessToken(hsCode);
