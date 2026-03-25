@@ -99,45 +99,51 @@ const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
 
   // Load languages when translate is toggled
   useEffect(() => {
-    if (showTranslate && languages.length === 0) {
-      fetchSupportedLangs()
-        .then((res) => {
-          if (res?.length) {
-            const langs = res.map((item: any) => ({ code: item.code, name: item.name }));
-            setLanguages(langs);
+    if (!showTranslate || languages.length > 0) return;
 
-            // Auto-select target language based on app language
-            const appCode = appLang?.split('-')[0];
-            const match = langs.find((l: any) => l.code === appCode);
-            if (!targetLang) {
-              setTargetLang(match || { name: 'English', code: 'en' });
-            }
+    const loadLanguages = async () => {
+      try {
+        const res = await fetchSupportedLangs();
+        if (res?.length) {
+          const langs = res.map((item: any) => ({ code: item.code, name: item.name }));
+          setLanguages(langs);
+
+          // Auto-select target language based on app language
+          const appCode = appLang?.split('-')[0];
+          const match = langs.find((l: any) => l.code === appCode);
+          if (!targetLang) {
+            setTargetLang(match || { name: 'English', code: 'en' });
           }
-        })
-        .catch((err) => {
-          console.warn('Failed to fetch languages:', err);
-        });
-    }
+        }
+      } catch (err) {
+        console.warn('Failed to fetch languages:', err);
+      }
+    };
+
+    loadLanguages();
   }, [showTranslate]);
 
   // Translate when target language changes
   useEffect(() => {
-    if (!showTranslate || !summary || !targetLang) return;
+    if (!showTranslate || !summary || !targetLang?.code) return;
     let cancelled = false;
-    setIsTranslating(true);
-    setTranslatedSummary('');
-    getTranslation(summary, 'auto', targetLang.code)
-      .then((res) => {
+
+    const runTranslation = async () => {
+      try {
+        setIsTranslating(true);
+        setTranslatedSummary('');
+        const res = await getTranslation(summary, 'auto', targetLang.code);
         if (!cancelled && res?.translatedText) {
           setTranslatedSummary(res.translatedText);
         }
-      })
-      .catch((err) => {
+      } catch (err) {
         if (!cancelled) console.warn('Translation failed:', err);
-      })
-      .finally(() => {
+      } finally {
         if (!cancelled) setIsTranslating(false);
-      });
+      }
+    };
+
+    runTranslation();
     return () => {
       cancelled = true;
     };
