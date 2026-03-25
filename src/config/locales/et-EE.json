@@ -293,7 +293,8 @@
     "follow": "hakkas sind jälgima",
     "notification": "Teavitused",
     "this_month": "Sel kuul",
-    "referral": "liitus sinu kutsega, tervita neid"
+    "referral": "liitus sinu kutsega, tervita neid",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
