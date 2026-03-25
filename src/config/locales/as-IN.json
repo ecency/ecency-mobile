@@ -293,7 +293,8 @@
     "follow": "ফʼলʼ কৰে",
     "notification": "জাননী",
     "this_month": "এই মাহ",
-    "referral": "আপোনাৰ ৰেফাৰেলৰ জৰিয়তে যোগদান কৰিলে, স্বাগতম জনাওক"
+    "referral": "আপোনাৰ ৰেফাৰেলৰ জৰিয়তে যোগদান কৰিলে, স্বাগতম জনাওক",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
