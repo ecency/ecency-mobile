@@ -293,7 +293,8 @@
     "follow": "关注了您",
     "notification": "通知",
     "this_month": "本月",
-    "referral": "joined with your referral, welcome them"
+    "referral": "joined with your referral, welcome them",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
