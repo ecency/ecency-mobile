@@ -293,7 +293,8 @@
     "follow": "підписався(-лась) на вас",
     "notification": "Сповіщення",
     "this_month": "Цього місяця",
-    "referral": "приєднався за вашим посиланням. Привітайте його"
+    "referral": "приєднався за вашим посиланням. Привітайте його",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
