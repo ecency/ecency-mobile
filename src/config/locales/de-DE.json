@@ -293,7 +293,8 @@
     "follow": "folgt dir jetzt",
     "notification": "Benachrichtigungen",
     "this_month": "Diesen Monat",
-    "referral": "ist mit Deiner Empfehlung beigetreten. Sende eine Wilkommensnachricht"
+    "referral": "ist mit Deiner Empfehlung beigetreten. Sende eine Wilkommensnachricht",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
