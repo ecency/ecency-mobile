@@ -293,7 +293,8 @@
     "follow": "jus seka",
     "notification": "Pranešimai",
     "this_month": "Šį mėnesį",
-    "referral": "prisijungė su jūsų pakvietimu, pasveikinkite"
+    "referral": "prisijungė su jūsų pakvietimu, pasveikinkite",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
