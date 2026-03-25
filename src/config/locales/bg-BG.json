@@ -293,7 +293,8 @@
     "follow": "те последва",
     "notification": "Известия",
     "this_month": "Този месец",
-    "referral": "се присъедини чрез вашата покана, приветствайте го"
+    "referral": "се присъедини чрез вашата покана, приветствайте го",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
