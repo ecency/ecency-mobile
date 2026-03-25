@@ -293,7 +293,8 @@
     "follow": "ha iniziato a seguirti",
     "notification": "Notifiche",
     "this_month": "Questo Mese",
-    "referral": "si è unito con il tuo referral, benvenuto"
+    "referral": "si è unito con il tuo referral, benvenuto",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
