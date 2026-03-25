@@ -293,7 +293,8 @@
     "follow": "mengikuti anda",
     "notification": "Pemberitahuan",
     "this_month": "Bulan ini",
-    "referral": "bergabunglah dengan referral Anda, sambutlah mereka"
+    "referral": "bergabunglah dengan referral Anda, sambutlah mereka",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
