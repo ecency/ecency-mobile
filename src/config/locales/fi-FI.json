@@ -293,7 +293,8 @@
     "follow": "seurasi sinua",
     "notification": "Ilmoitukset",
     "this_month": "Tässä kuussa",
-    "referral": "liittyi suosituksestasi, toivota heidät tervetulleeksi"
+    "referral": "liittyi suosituksestasi, toivota heidät tervetulleeksi",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Toistuvan siirron peruutus epäonnistui, {error}",
