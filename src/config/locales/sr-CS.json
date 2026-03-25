@@ -293,7 +293,8 @@
     "follow": "vas je zapratio",
     "notification": "Obaveštenja",
     "this_month": "Ovaj mesec",
-    "referral": "pridružili su se sa vašom preporukom, pozdravite ih"
+    "referral": "pridružili su se sa vašom preporukom, pozdravite ih",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
