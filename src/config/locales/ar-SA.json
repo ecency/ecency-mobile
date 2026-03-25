@@ -293,7 +293,8 @@
     "follow": "قام بمتابعتك",
     "notification": "الإشعارات",
     "this_month": "هذا الشهر",
-    "referral": "انضمو برابط إحالتك ، رحب بهم"
+    "referral": "انضمو برابط إحالتك ، رحب بهم",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
