@@ -293,7 +293,8 @@
     "follow": "आपके साथ जुड़ा",
     "notification": "अधिसूचनाएं",
     "this_month": "इस महीने",
-    "referral": "अपने रेफरल के साथ शामिल हुए, उनका स्वागत करें"
+    "referral": "अपने रेफरल के साथ शामिल हुए, उनका स्वागत करें",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
