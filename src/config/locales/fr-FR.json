@@ -293,7 +293,8 @@
     "follow": "vous a suivi",
     "notification": "Notifications",
     "this_month": "Ce mois",
-    "referral": "à rejoint avec votre parrainage, acceuillez-le"
+    "referral": "à rejoint avec votre parrainage, acceuillez-le",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
