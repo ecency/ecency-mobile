@@ -293,7 +293,8 @@
     "follow": "követ téged",
     "notification": "Értesítések",
     "this_month": "Ebben a hónapban",
-    "referral": "regisztrált a te ajánlásoddal, üdvözöld őt"
+    "referral": "regisztrált a te ajánlásoddal, üdvözöld őt",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
