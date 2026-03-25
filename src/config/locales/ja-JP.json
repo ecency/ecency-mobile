@@ -293,7 +293,8 @@
     "follow": "あなたをフォローしました",
     "notification": "通知",
     "this_month": "今月",
-    "referral": "あなたに紹介されて参加されました、歓迎しましょう"
+    "referral": "あなたに紹介されて参加されました、歓迎しましょう",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
