@@ -293,7 +293,8 @@
     "follow": "עקב\\ה אחרייך",
     "notification": "התראות",
     "this_month": "החודש הזה",
-    "referral": "joined with your referral, welcome them"
+    "referral": "joined with your referral, welcome them",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
