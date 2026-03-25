@@ -293,7 +293,8 @@
     "follow": "님이 팔로우를 시작했습니다",
     "notification": "알림",
     "this_month": "이번 달",
-    "referral": "귀하의 추천인 링크를 통해 가입한 사용자를 환영해주세요."
+    "referral": "귀하의 추천인 링크를 통해 가입한 사용자를 환영해주세요.",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
