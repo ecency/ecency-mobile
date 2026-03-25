@@ -54,6 +54,9 @@ jobs:
         with:
           xcode-version: '26.3'
 
+      - name: Set Swift toolchain for Xcode 26
+        run: echo "TOOLCHAINS=com.apple.dt.toolchain.XcodeDefault" >> $GITHUB_ENV
+
       - name: Show host machine information
         run: |
           uname -a
