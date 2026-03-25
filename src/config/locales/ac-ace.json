@@ -293,7 +293,8 @@
     "follow": "ikot dröen",
     "notification": "Bithé",
     "this_month": "Buleuën Nyoë",
-    "referral": "joined with your referral, welcome them"
+    "referral": "joined with your referral, welcome them",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
