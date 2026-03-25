@@ -256,6 +256,8 @@ const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
                 onSelect={(index) => setTargetLang(languages[index])}
                 options={langOptions}
                 textStyle={styles.langDropdownText}
+                dropdownStyle={styles.langDropdownList}
+                disableFrameAdjustment
               />
             )}
           </View>
@@ -381,6 +383,10 @@ const styles = EStyleSheet.create({
   langDropdownText: {
     fontSize: 12,
     color: '$primaryBlack',
+  },
+  langDropdownList: {
+    height: 250,
+    width: 180,
   },
 });
 
