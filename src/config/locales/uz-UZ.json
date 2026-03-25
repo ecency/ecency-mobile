@@ -293,7 +293,8 @@
     "follow": "sizni kuzatdi",
     "notification": "E'lonlar",
     "this_month": "Shu Oy",
-    "referral": "sizning taklif ssilkangiz orqali qo'shildi, uni kutib oling"
+    "referral": "sizning taklif ssilkangiz orqali qo'shildi, uni kutib oling",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
