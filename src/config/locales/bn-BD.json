@@ -293,7 +293,8 @@
     "follow": "আপনাকে অনুসরণ করেছে",
     "notification": "বিজ্ঞপ্তি",
     "this_month": "মাস",
-    "referral": "আপনার রেফারেলের সাথে যোগদান, তাদের স্বাগত জানাই"
+    "referral": "আপনার রেফারেলের সাথে যোগদান, তাদের স্বাগত জানাই",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
