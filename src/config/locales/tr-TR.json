@@ -293,7 +293,8 @@
     "follow": "seni takip etti",
     "notification": "Bildirimler",
     "this_month": "Bu Ay",
-    "referral": "referansınızla katıldı, hoş geldin deyin"
+    "referral": "referansınızla katıldı, hoş geldin deyin",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
