@@ -1161,10 +1161,10 @@
   dependencies:
     long "~3"
 
-"@ecency/render-helper@^2.4.24":
-  version "2.4.24"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.4.24.tgz#8ed6fe788329f3bf7150c267fa7f939b27ce991c"
-  integrity sha512-GOkDqwSjIwZ8A/MmzTnjvtyZNhyDxGeOWxz3jHIb76n0q7GQWVSxIo+PvIWqj897Wmqa4wTPzHBSJWLp5YCZxw==
+"@ecency/render-helper@^2.4.25":
+  version "2.4.25"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.4.25.tgz#0efd072cd24ed10a79aa9a7c5be74664d741e561"
+  integrity sha512-7IRATVctijbdNVViX4ovi+xY2w9ddtXXoe8K0VtYDd9JS+9hg9dQ6Z3/V8zIGtt24KH1CRgD08u5QK7fDqa6vQ==
   dependencies:
     "@xmldom/xmldom" "^0.9.6"
     dom-serializer "^2.0.0"

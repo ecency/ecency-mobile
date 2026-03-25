@@ -69,12 +69,14 @@ const NotificationLineView = ({
     titleExtra = _percent;
   }
 
-  const _title = [
-    intl.formatMessage({ id: `notification.${notification.type}` }, _messageValues),
-    titleExtra,
-  ]
-    .filter((part) => !!part)
-    .join(' ');
+  const _notificationText = intl.formatMessage(
+    {
+      id: `notification.${notification.type}`,
+      defaultMessage: notification.type?.replace(/_/g, ' ') || 'notification',
+    },
+    _messageValues,
+  );
+  const _title = [_notificationText, titleExtra].filter((part) => !!part).join(' ');
 
   if (
     notification.type === 'vote' ||
