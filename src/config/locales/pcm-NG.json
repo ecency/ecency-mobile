@@ -293,7 +293,8 @@
     "follow": "don dey follow you",
     "notification": "Alerts",
     "this_month": "This Month",
-    "referral": "enter based on person wey send dem come, greet dem"
+    "referral": "enter based on person wey send dem come, greet dem",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
