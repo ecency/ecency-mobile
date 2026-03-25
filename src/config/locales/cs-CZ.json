@@ -293,7 +293,8 @@
     "follow": "vás sleduje",
     "notification": "Oznámení",
     "this_month": "Tento měsíc",
-    "referral": "se registroval/a přes tvůj referral link. Řekni ahoj!"
+    "referral": "se registroval/a přes tvůj referral link. Řekni ahoj!",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
