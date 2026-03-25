@@ -293,7 +293,8 @@
     "follow": "關注了您",
     "notification": "通知",
     "this_month": "本月",
-    "referral": "根據你的介紹已經加入我們。趕快歡迎他們吧"
+    "referral": "根據你的介紹已經加入我們。趕快歡迎他們吧",
+    "account_update": "Your account keys or profile were updated"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
