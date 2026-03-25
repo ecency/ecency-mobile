@@ -601,7 +601,8 @@
     "error_insufficient_points": "Insufficient points. You need {required} but have {available}.",
     "error_content_policy": "Content violates our content policy. Please modify your text.",
     "error_rate_limit": "Too many requests. Please wait a moment and try again.",
-    "error_generic": "Something went wrong. Please try again."
+    "error_generic": "Something went wrong. Please try again.",
+    "hide_translation": "Hide translation"
   },
   "welcome": {
     "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
@@ -871,7 +872,8 @@
     "confirmTransaction": "Confirm transaction",
     "invalid_amount_desc": "Enter valid amount in proper format",
     "open": "Open URL",
-    "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction"
+    "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction",
+    "auth_transfer_confirm": "Confirm transfer to {username}?"
   },
   "voters_dropdown": {
     "rewards": "DEM GAINS",
@@ -1207,6 +1209,7 @@
     "prompt_placeholder": "A beautiful sunset over mountains...",
     "chars_remaining": "{count} characters remaining",
     "select_aspect_ratio": "Select aspect ratio",
+    "select_power": "Quality boost",
     "cost_label": "Cost",
     "balance_label": "Balance",
     "points_unit": "POINTS",

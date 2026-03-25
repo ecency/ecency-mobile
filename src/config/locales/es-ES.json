@@ -601,7 +601,8 @@
     "error_insufficient_points": "Puntos insuficientes. Necesitas {required} pero tienes {available}.",
     "error_content_policy": "El contenido viola nuestra política de contenido. Por favor, modifique su texto.",
     "error_rate_limit": "Demasiadas solicitudes. Por favor, espere un momento y vuelva a intentarlo.",
-    "error_generic": "Algo salió mal. Por favor, inténtalo de nuevo."
+    "error_generic": "Algo salió mal. Por favor, inténtalo de nuevo.",
+    "hide_translation": "Hide translation"
   },
   "welcome": {
     "line1_body": "No censurado, inmutable, gratificante, descentralizado, que te pertenece.",
@@ -871,7 +872,8 @@
     "confirmTransaction": "Confirmar transacción",
     "invalid_amount_desc": "Introduzca una cantidad válida en el formato adecuado",
     "open": "Abrir URL",
-    "invalid_key_desc": "iniciar sesión con la clave {key} o clave maestra para realizar esta transacción"
+    "invalid_key_desc": "iniciar sesión con la clave {key} o clave maestra para realizar esta transacción",
+    "auth_transfer_confirm": "Confirm transfer to {username}?"
   },
   "voters_dropdown": {
     "rewards": "RECOMPENSAS",
@@ -1207,6 +1209,7 @@
     "prompt_placeholder": "Una hermosa puesta de sol sobre las montañas...",
     "chars_remaining": "{count} caracteres restantes",
     "select_aspect_ratio": "Seleccionar relación de aspecto",
+    "select_power": "Quality boost",
     "cost_label": "Costo",
     "balance_label": "Balance",
     "points_unit": "PUNTOS",
@@ -1308,7 +1311,7 @@
     "power_up_spk": "Estacar LARYNX",
     "amount_select_desc_limit": " y debe ser mayor que 0.001",
     "undelegate_engine": "Desdelegar Token",
-    "to_bad_actor": "Use caution sending to this account. Please double check your spelling for possible phishing."
+    "to_bad_actor": "Tenga cuidado enviando a esta cuenta. Por favor verifique la ortografía ante posible suplantación de identidad (phishing)."
   },
   "login": {
     "cancel": "cancelar",
