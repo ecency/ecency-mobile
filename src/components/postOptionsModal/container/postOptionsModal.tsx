@@ -297,6 +297,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
               }),
             ),
           );
+          // auto-mute the reported user
+          _muteUser();
         })
         .catch(() => {
           dispatch(

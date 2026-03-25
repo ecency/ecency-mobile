@@ -494,6 +494,8 @@ class ProfileContainer extends Component {
               }),
             ),
           );
+          // auto-mute the reported user
+          this._muteUser();
         })
         .catch(() => {
           dispatch(
