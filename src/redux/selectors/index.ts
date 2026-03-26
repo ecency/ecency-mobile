@@ -157,6 +157,11 @@ export const selectIsDefaultFooter = createSelector(
   (application) => application.isDefaultFooter,
 );
 
+export const selectImageServer = createSelector(
+  [getApplicationState],
+  (application) => application.imageServer,
+);
+
 export const selectIsGlobalRenderRequired = createSelector(
   [getApplicationState],
   (application) => application.isRenderRequired,

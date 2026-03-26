@@ -2,8 +2,16 @@ import CryptoJS from 'crypto-js';
 import * as dsteem from '@esteemapp/dhive';
 import { Buffer } from 'buffer';
 import { proxifyImageSrc } from '@ecency/render-helper';
+import { store } from '../redux/store/store';
+import { DEFAULT_IMAGE_SERVER } from '../constants/options/imageServer';
 
-const BASE_IMAGE_URL = 'https://images.ecency.com';
+const getImageBaseUrl = () => {
+  try {
+    return store.getState().application.imageServer || DEFAULT_IMAGE_SERVER;
+  } catch {
+    return DEFAULT_IMAGE_SERVER;
+  }
+};
 
 export const generateSignature = (media, privateKey) => {
   const STRING = 'ImageSigningChallenge';
@@ -100,12 +108,12 @@ export const getResizedAvatar = (author, sizeString = 'small') => {
   if (!author) {
     return '';
   }
-  return `${BASE_IMAGE_URL}/u/${author}/avatar/${sizeString}`;
+  return `${getImageBaseUrl()}/u/${author}/avatar/${sizeString}`;
 };
 
 export const getCoverImageUrl = (username: string) => {
   if (!username) {
     return '';
   }
-  return `${BASE_IMAGE_URL}/u/${username}/cover/`;
+  return `${getImageBaseUrl()}/u/${username}/cover/`;
 };

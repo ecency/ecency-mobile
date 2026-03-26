@@ -41,6 +41,7 @@ import {
   setEncryptedUnlockPin,
   setHidePostsThumbnails,
   setIsDarkTheme,
+  setImageServer,
 } from '../../../redux/actions/applicationActions';
 import { logout, logoutDone, toastNotification } from '../../../redux/actions/uiAction';
 import { deleteAccount } from '../../../providers/ecency/ecency';
@@ -71,12 +72,14 @@ import {
   selectColorTheme,
   selectNsfw,
   selectIsDefaultFooter,
+  selectImageServer,
 } from '../../../redux/selectors';
 // Middleware
 
 // Constants
 import { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
 import { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
+import { IMAGE_SERVERS } from '../../../constants/options/imageServer';
 import settingsTypes from '../../../constants/settingsTypes';
 
 // Utilities
@@ -146,6 +149,15 @@ class SettingsContainer extends Component {
         dispatch(setColorTheme(action));
 
         break;
+      case settingsTypes.IMAGE_SERVER: {
+        const server = IMAGE_SERVERS[action];
+        if (server) {
+          dispatch(setImageServer(server));
+          dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+        }
+        break;
+      }
+
       case settingsTypes.DM_PRIVACY: {
         const options: MattermostDmPrivacy[] = ['all', 'followers', 'none'];
         const nextValue = options[action] || 'all';
@@ -643,6 +655,7 @@ const mapStateToProps = (state) => {
     pinCode: selectPin(state),
     otherAccounts: selectOtherAccounts(state),
     isHideImages: selectHidePostsThumbnails(state),
+    selectedImageServer: selectImageServer(state),
   };
 };
 

@@ -1,5 +1,6 @@
 import Config from 'react-native-config';
 import { encryptKey } from '../../utils/crypto';
+import { DEFAULT_IMAGE_SERVER } from '../../constants/options/imageServer';
 import {
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
@@ -34,6 +35,7 @@ import {
   SET_IS_BIOMETRIC_ENABLED,
   SET_ENC_UNLOCK_PIN,
   SET_WAVE_UPVOTE_PERCENT,
+  SET_IMAGE_SERVER,
 } from '../constants/constants';
 
 interface State {
@@ -76,6 +78,7 @@ interface State {
   hidePostsThumbnails: boolean;
   isTermsAccepted: boolean;
   isBiometricEnabled: boolean;
+  imageServer: string;
 }
 
 const initialState: State = {
@@ -118,6 +121,7 @@ const initialState: State = {
   hidePostsThumbnails: false,
   isTermsAccepted: false,
   isBiometricEnabled: false,
+  imageServer: DEFAULT_IMAGE_SERVER,
 };
 
 const applicationReducer = (state = initialState, action): State => {
@@ -306,6 +310,12 @@ const applicationReducer = (state = initialState, action): State => {
       return {
         ...state,
         encUnlockPin: action.payload,
+      };
+
+    case SET_IMAGE_SERVER:
+      return {
+        ...state,
+        imageServer: action.payload,
       };
     default:
       return state;
