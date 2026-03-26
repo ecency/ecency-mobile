@@ -279,7 +279,6 @@
     "leaderboard": "Tulostaulukko",
     "unvote": "äänestetty alas",
     "activities": "Kaikki",
-    "payouts": "Sait maksun {amount}.",
     "checkin": "Kirjauduit {count} päivä{suffix} tällä viikolla. Jatka samaan malliin!",
     "mention_on": "Uusi maininta",
     "yesterday": "Eiliset",
@@ -294,7 +293,9 @@
     "notification": "Ilmoitukset",
     "this_month": "Tässä kuussa",
     "referral": "liittyi suosituksestasi, toivota heidät tervetulleeksi",
-    "account_update": "Your account keys or profile were updated"
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Toistuvan siirron peruutus epäonnistui, {error}",
