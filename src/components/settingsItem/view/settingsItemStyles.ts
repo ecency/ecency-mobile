@@ -30,7 +30,7 @@ export default EStyleSheet.create({
   dropdownStyle: {
     marginTop: 4,
     minWidth: 192,
-    width: 192,
+    width: 220,
     borderWidth: EStyleSheet.hairlineWidth,
     borderColor: '$primaryDarkGray',
   },
@@ -38,7 +38,7 @@ export default EStyleSheet.create({
     borderColor: '$primaryGray',
     borderWidth: 1,
     height: 44,
-    width: 172,
+    width: 192,
     borderRadius: 8,
     marginHorizontal: 2,
   },

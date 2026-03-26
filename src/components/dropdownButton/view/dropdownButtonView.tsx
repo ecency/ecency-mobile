@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, TouchableHighlight } from 'react-native';
+import { View, Text, ActivityIndicator, TouchableHighlight, Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 // External components
 import ModalDropdown from 'react-native-modal-dropdown';
@@ -66,14 +66,25 @@ const DropdownButtonView = ({
   dropdownRowWrapper,
   disableFrameAdjustment,
 }) => {
-  const adjustDropdownFrame = (style: any) => {
+  const adjustDropdownFrame = (frame: any) => {
     if (disableFrameAdjustment) {
-      return style;
+      return frame;
     }
 
-    style.left = 'auto';
-    style.right = 10;
-    return style;
+    const screenWidth = Dimensions.get('window').width;
+    const margin = 10;
+
+    // Ensure dropdown doesn't overflow right edge
+    if (frame.left + frame.width > screenWidth - margin) {
+      frame.left = screenWidth - frame.width - margin;
+    }
+
+    // Ensure dropdown doesn't overflow left edge
+    if (frame.left < margin) {
+      frame.left = margin;
+    }
+
+    return frame;
   };
 
   return (
@@ -87,7 +98,11 @@ const DropdownButtonView = ({
         }}
         style={[!style ? styles.button : style]}
         textStyle={[textStyle || styles.buttonText]}
-        dropdownStyle={[styles.dropdown, { height: 32 * (options.length + 0.8) }, dropdownStyle]}
+        dropdownStyle={[
+          styles.dropdown,
+          { height: Math.min(32 * (options.length + 0.8), Dimensions.get('window').height * 0.45) },
+          dropdownStyle,
+        ]}
         dropdownTextStyle={[dropdownTextStyle || styles.dropdownText]}
         options={options}
         onSelect={(e) => onSelect && onSelect(e, options[e])}
@@ -105,7 +120,7 @@ const DropdownButtonView = ({
             dropdownRowWrapper,
           )
         }
-        adjustFrame={(style: any) => adjustDropdownFrame(style)}
+        adjustFrame={(frame: any) => adjustDropdownFrame(frame)}
       >
         {isHasChildIcon && !isLoading ? (
           <View style={styles.childrenWrapper}>
