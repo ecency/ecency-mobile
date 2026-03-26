@@ -279,7 +279,6 @@
     "leaderboard": "Tabla de posiciones",
     "unvote": "downvoted",
     "activities": "Todo",
-    "payouts": "Has recibido el pago de {amount}.",
     "checkin": "Has comprobado {count} día{suffix} esta semana. ¡Sigue así!",
     "mention_on": "Nueva mención en",
     "yesterday": "Ayer",
@@ -293,7 +292,10 @@
     "follow": "te siguió",
     "notification": "Notificaciones",
     "this_month": "Este mes",
-    "referral": "se unieron con tu enlace de referido, dales la bienvenida!"
+    "referral": "se unieron con tu enlace de referido, dales la bienvenida!",
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "No se pudo eliminar la transferencia recurrente, {error}",
@@ -577,6 +579,7 @@
     "cost_label": "Costo",
     "free_label": "Gratis",
     "free_remaining": "{count} gratis restante",
+    "hint": "Write your content first, then use AI Assist to polish and improve it.",
     "action_label": "Seleccione una acción",
     "action_improve": "Mejorar escritura",
     "action_improve_desc": "Pulir gramática, claridad y estilo",
@@ -1391,6 +1394,10 @@
     "backup": "Administrar",
     "settings": "Ajustes",
     "server": "Servidor",
+    "image_server": "Image Server",
+    "image_server_default": "Ecency Images (Default)",
+    "image_server_hiveblog": "Hive Images (Alternative)",
+    "image_server_nocdn": "Ecency Images (No CDN)",
     "nsfw_content": "NSFW",
     "default_footer": "Pie de página predeterminado",
     "feedback_fail": "Ocurrió un error al intentar abrir el cliente del correo electrónico",

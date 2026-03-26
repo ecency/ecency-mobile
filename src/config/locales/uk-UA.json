@@ -279,7 +279,6 @@
     "leaderboard": "Дошка лідерів",
     "unvote": "downvoted",
     "activities": "Усi",
-    "payouts": "You received {amount} payout.",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "New mention on",
     "yesterday": "Вчора",
@@ -293,7 +292,10 @@
     "follow": "підписався(-лась) на вас",
     "notification": "Сповіщення",
     "this_month": "Цього місяця",
-    "referral": "приєднався за вашим посиланням. Привітайте його"
+    "referral": "приєднався за вашим посиланням. Привітайте його",
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
@@ -577,6 +579,7 @@
     "cost_label": "Cost",
     "free_label": "Free",
     "free_remaining": "{count} free left",
+    "hint": "Write your content first, then use AI Assist to polish and improve it.",
     "action_label": "Select an action",
     "action_improve": "Improve Writing",
     "action_improve_desc": "Polish grammar, clarity, and style",
@@ -1391,6 +1394,10 @@
     "backup": "Manage",
     "settings": "Налаштування",
     "server": "Сервер",
+    "image_server": "Image Server",
+    "image_server_default": "Ecency Images (Default)",
+    "image_server_hiveblog": "Hive Images (Alternative)",
+    "image_server_nocdn": "Ecency Images (No CDN)",
     "nsfw_content": "NSFW",
     "default_footer": "Типовий футер",
     "feedback_fail": "Не вдалося відкрити клієнт електронної пошти",

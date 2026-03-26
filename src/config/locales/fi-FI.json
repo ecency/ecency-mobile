@@ -279,7 +279,6 @@
     "leaderboard": "Tulostaulukko",
     "unvote": "äänestetty alas",
     "activities": "Kaikki",
-    "payouts": "Sait maksun {amount}.",
     "checkin": "Kirjauduit {count} päivä{suffix} tällä viikolla. Jatka samaan malliin!",
     "mention_on": "Uusi maininta",
     "yesterday": "Eiliset",
@@ -293,7 +292,10 @@
     "follow": "seurasi sinua",
     "notification": "Ilmoitukset",
     "this_month": "Tässä kuussa",
-    "referral": "liittyi suosituksestasi, toivota heidät tervetulleeksi"
+    "referral": "liittyi suosituksestasi, toivota heidät tervetulleeksi",
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Toistuvan siirron peruutus epäonnistui, {error}",
@@ -577,6 +579,7 @@
     "cost_label": "Cost",
     "free_label": "Free",
     "free_remaining": "{count} free left",
+    "hint": "Write your content first, then use AI Assist to polish and improve it.",
     "action_label": "Select an action",
     "action_improve": "Improve Writing",
     "action_improve_desc": "Polish grammar, clarity, and style",
@@ -1391,6 +1394,10 @@
     "backup": "Hallinnoi",
     "settings": "Asetukset",
     "server": "Palvelin",
+    "image_server": "Image Server",
+    "image_server_default": "Ecency Images (Default)",
+    "image_server_hiveblog": "Hive Images (Alternative)",
+    "image_server_nocdn": "Ecency Images (No CDN)",
     "nsfw_content": "NSFW",
     "default_footer": "Oletus Alatunniste",
     "feedback_fail": "Sähköpostipalvelin alhaalla",

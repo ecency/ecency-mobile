@@ -279,7 +279,6 @@
     "leaderboard": "Таблица лидеров",
     "unvote": "проголосовано против",
     "activities": "Все",
-    "payouts": "You received {amount} payout.",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "Новое упоминание в",
     "yesterday": "Вчера",
@@ -293,7 +292,10 @@
     "follow": "подписан",
     "notification": "Уведомления",
     "this_month": "В этом месяце",
-    "referral": "присоединился по вашей ссылке. Поприветствуйте его"
+    "referral": "присоединился по вашей ссылке. Поприветствуйте его",
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
@@ -577,6 +579,7 @@
     "cost_label": "Cost",
     "free_label": "Free",
     "free_remaining": "{count} free left",
+    "hint": "Write your content first, then use AI Assist to polish and improve it.",
     "action_label": "Select an action",
     "action_improve": "Improve Writing",
     "action_improve_desc": "Polish grammar, clarity, and style",
@@ -1391,6 +1394,10 @@
     "backup": "Управлять",
     "settings": "Настройки",
     "server": "Сервер",
+    "image_server": "Image Server",
+    "image_server_default": "Ecency Images (Default)",
+    "image_server_hiveblog": "Hive Images (Alternative)",
+    "image_server_nocdn": "Ecency Images (No CDN)",
     "nsfw_content": "NSFW",
     "default_footer": "Подвал по умолчанию",
     "feedback_fail": "Не удалось открыть почтовый клиент",

@@ -279,7 +279,6 @@
     "leaderboard": "Žebříček",
     "unvote": "hlas proti",
     "activities": "Vše",
-    "payouts": "You received {amount} payout.",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "Nová zmínka v",
     "yesterday": "Včera",
@@ -293,7 +292,10 @@
     "follow": "vás sleduje",
     "notification": "Oznámení",
     "this_month": "Tento měsíc",
-    "referral": "se registroval/a přes tvůj referral link. Řekni ahoj!"
+    "referral": "se registroval/a přes tvůj referral link. Řekni ahoj!",
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
@@ -577,6 +579,7 @@
     "cost_label": "Cost",
     "free_label": "Free",
     "free_remaining": "{count} free left",
+    "hint": "Write your content first, then use AI Assist to polish and improve it.",
     "action_label": "Select an action",
     "action_improve": "Improve Writing",
     "action_improve_desc": "Polish grammar, clarity, and style",
@@ -1391,6 +1394,10 @@
     "backup": "Nastavení",
     "settings": "Nastavení",
     "server": "Server",
+    "image_server": "Image Server",
+    "image_server_default": "Ecency Images (Default)",
+    "image_server_hiveblog": "Hive Images (Alternative)",
+    "image_server_nocdn": "Ecency Images (No CDN)",
     "nsfw_content": "Choulostivý obsah",
     "default_footer": "Výchozí zápatí",
     "feedback_fail": "Nepodařilo se otevřít e-mailového klienta",
