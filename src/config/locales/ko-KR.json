@@ -279,7 +279,6 @@
     "leaderboard": "순위표",
     "unvote": "다운보팅된",
     "activities": "모든",
-    "payouts": "You received {amount} payout.",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "새 언급",
     "yesterday": "어제",
@@ -294,7 +293,9 @@
     "notification": "알림",
     "this_month": "이번 달",
     "referral": "귀하의 추천인 링크를 통해 가입한 사용자를 환영해주세요.",
-    "account_update": "Your account keys or profile were updated"
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
