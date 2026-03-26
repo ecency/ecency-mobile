@@ -279,7 +279,6 @@
     "leaderboard": "Classement",
     "unvote": "sous-vote",
     "activities": "Toutes",
-    "payouts": "You received {amount} payout.",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "Nouvelle mention sur",
     "yesterday": "Hier",
@@ -294,7 +293,9 @@
     "notification": "Notifications",
     "this_month": "Ce mois",
     "referral": "à rejoint avec votre parrainage, acceuillez-le",
-    "account_update": "Your account keys or profile were updated"
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
