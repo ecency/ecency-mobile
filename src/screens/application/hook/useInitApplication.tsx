@@ -14,6 +14,8 @@ import { isEmpty, some, get } from 'lodash';
 import { getMessaging } from '@react-native-firebase/messaging';
 import BackgroundTimer from 'react-native-background-timer';
 import { Image as ExpoImage } from 'expo-image';
+import { setProxyBase } from '@ecency/render-helper';
+import { ConfigManager } from '@ecency/sdk';
 import { useAppDispatch, useAppSelector, useLinkProcessor } from '../../../hooks';
 import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
@@ -35,7 +37,7 @@ export const useInitApplication = () => {
   const dispatch = useAppDispatch();
   const linkProcessor = useLinkProcessor();
 
-  const { isDarkTheme, colorTheme, isPinCodeOpen, currency } = useAppSelector(
+  const { isDarkTheme, colorTheme, isPinCodeOpen, currency, imageServer } = useAppSelector(
     (state) => state.application,
   );
   const currentAccount = useAppSelector(selectCurrentAccount);
@@ -63,6 +65,14 @@ export const useInitApplication = () => {
     console.log('device orientation changed : ', o);
     dispatch(setDeviceOrientation(o));
   });
+
+  // Apply saved image server preference on startup and when it changes
+  useEffect(() => {
+    if (imageServer) {
+      setProxyBase(imageServer);
+      ConfigManager.setImageHost(imageServer);
+    }
+  }, [imageServer]);
 
   useEffect(() => {
     BackgroundTimer.start(); // ref: https://github.com/ocetnik/react-native-background-timer#ios

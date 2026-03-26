@@ -34,6 +34,7 @@ import {
   SET_POST_UPVOTE_PERCENT,
   SET_COMMENT_UPVOTE_PERCENT,
   SET_WAVE_UPVOTE_PERCENT,
+  SET_IMAGE_SERVER,
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -232,4 +233,9 @@ export const setIsBiometricEnabled = (enabled: boolean) => ({
 export const setEncryptedUnlockPin = (encryptedUnlockPin: string) => ({
   payload: encryptedUnlockPin,
   type: SET_ENC_UNLOCK_PIN,
+});
+
+export const setImageServer = (server: string) => ({
+  payload: server,
+  type: SET_IMAGE_SERVER,
 });

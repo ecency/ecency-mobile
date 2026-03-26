@@ -11,6 +11,7 @@ import LANGUAGE, { VALUE as LANGUAGE_VALUE } from '../../../constants/options/la
 import CURRENCY, { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
 import NSFW from '../../../constants/options/nsfw';
 import THEME_OPTIONS from '../../../constants/options/theme';
+import { IMAGE_SERVERS, IMAGE_SERVER_LABELS } from '../../../constants/options/imageServer';
 
 // Components
 import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components';
@@ -47,6 +48,7 @@ const SettingsScreen = ({
   handleOnButtonPress,
   isLoading,
   isHideImages,
+  selectedImageServer,
   dmPrivacy,
 }) => {
   const dmPrivacyOptions = [
@@ -130,6 +132,20 @@ const SettingsScreen = ({
                 id: 'alert.checking',
               })
             }
+            handleOnChange={handleOnChange}
+          />
+          <SettingsItem
+            title={intl.formatMessage({
+              id: 'settings.image_server',
+            })}
+            type="dropdown"
+            actionType={settingsTypes.IMAGE_SERVER}
+            options={IMAGE_SERVER_LABELS.map((item) =>
+              intl.formatMessage({
+                id: item,
+              }),
+            )}
+            selectedOptionIndex={IMAGE_SERVERS.indexOf(selectedImageServer)}
             handleOnChange={handleOnChange}
           />
           <SettingsItem
