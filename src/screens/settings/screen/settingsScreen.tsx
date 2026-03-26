@@ -148,7 +148,7 @@ const SettingsScreen = ({
                 id: item,
               }),
             )}
-            selectedOptionIndex={IMAGE_SERVERS.indexOf(selectedImageServer)}
+            selectedOptionIndex={Math.max(0, IMAGE_SERVERS.indexOf(selectedImageServer))}
             handleOnChange={handleOnChange}
           />
           <SettingsItem

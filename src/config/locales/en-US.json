@@ -578,6 +578,7 @@
     "cost_label": "Cost",
     "free_label": "Free",
     "free_remaining": "{count} free left",
+    "hint": "Write your content first, then use AI Assist to polish and improve it.",
     "action_label": "Select an action",
     "action_improve": "Improve Writing",
     "action_improve_desc": "Polish grammar, clarity, and style",

@@ -37,6 +37,13 @@ export default EStyleSheet.create({
     color: '$primaryBlue',
   } as TextStyle,
 
+  hintText: {
+    fontSize: 12,
+    color: '$iconColor',
+    marginBottom: 12,
+    lineHeight: 18,
+  } as TextStyle,
+
   sectionLabel: {
     fontSize: 14,
     fontWeight: '600',

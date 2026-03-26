@@ -384,6 +384,9 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
         )}
       </View>
 
+      {/* Hint */}
+      <Text style={styles.hintText}>{intl.formatMessage({ id: 'ai_assist.hint' })}</Text>
+
       {/* Action selection */}
       <Text style={styles.sectionLabel}>
         {intl.formatMessage({ id: 'ai_assist.action_label' })}
