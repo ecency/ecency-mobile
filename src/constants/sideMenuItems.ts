@@ -81,6 +81,13 @@ const noAuthMenuItems: MenuItem[] = [
     id: 'add_account',
   },
   {
+    name: 'QR Scan',
+    route: '',
+    icon: 'qrcode-scan',
+    iconType: 'MaterialCommunityIcons',
+    id: 'qr',
+  },
+  {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,
     icon: 'settings',
