@@ -279,7 +279,6 @@
     "leaderboard": "排行榜",
     "unvote": "已踩",
     "activities": "全部",
-    "payouts": "You received {amount} payout.",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "有人提及你",
     "yesterday": "昨天",
@@ -294,7 +293,9 @@
     "notification": "通知",
     "this_month": "本月",
     "referral": "根據你的介紹已經加入我們。趕快歡迎他們吧",
-    "account_update": "Your account keys or profile were updated"
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
