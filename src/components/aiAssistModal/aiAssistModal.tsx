@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import ActionSheet, { SheetProps } from 'react-native-actions-sheet';
+import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import { useIntl } from 'react-intl';
 import { useQuery } from '@tanstack/react-query';
 import { getPointsQueryOptions, getAiAssistPriceQueryOptions, useAiAssist } from '@ecency/sdk';
@@ -206,6 +206,7 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
   const _handleApply = useCallback(() => {
     if (!result) return;
     payload?.onApply?.(getApplyValue(), result.action);
+    SheetManager.hide(SheetNames.AI_ASSIST);
   }, [result, getApplyValue, payload]);
 
   const _handleCopy = useCallback(() => {
