@@ -279,7 +279,6 @@
     "leaderboard": "Rangliste",
     "unvote": "downvoted",
     "activities": "Alle",
-    "payouts": "You received {amount} payout.",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "New mention on",
     "yesterday": "Gestern",
@@ -294,7 +293,9 @@
     "notification": "Benachrichtigungen",
     "this_month": "Diesen Monat",
     "referral": "ist mit Deiner Empfehlung beigetreten. Sende eine Wilkommensnachricht",
-    "account_update": "Your account keys or profile were updated"
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
