@@ -279,7 +279,6 @@
     "leaderboard": "Leaderboard",
     "unvote": "downvoted",
     "activities": "Everything",
-    "payouts": "You received {amount} payout.",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "New mention on",
     "yesterday": "Yesterday",
@@ -294,7 +293,9 @@
     "notification": "Alerts",
     "this_month": "This Month",
     "referral": "enter based on person wey send dem come, greet dem",
-    "account_update": "Your account keys or profile were updated"
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
