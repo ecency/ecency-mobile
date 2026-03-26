@@ -279,7 +279,6 @@
     "leaderboard": "লিডাৰ বৰ্ড",
     "unvote": "ডাউনভোট",
     "activities": "সকলো",
-    "payouts": "You received {amount} payout.",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "নতুন উল্লেখ",
     "yesterday": "যোৱাকালি",
@@ -294,7 +293,9 @@
     "notification": "জাননী",
     "this_month": "এই মাহ",
     "referral": "আপোনাৰ ৰেফাৰেলৰ জৰিয়তে যোগদান কৰিলে, স্বাগতম জনাওক",
-    "account_update": "Your account keys or profile were updated"
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
