@@ -279,7 +279,6 @@
     "leaderboard": "अधिनायकपटल",
     "unvote": "डाउनवोट किया",
     "activities": "सब",
-    "payouts": "You received {amount} payout.",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "नया उल्लेख चालू",
     "yesterday": "बीता कल",
@@ -294,7 +293,9 @@
     "notification": "अधिसूचनाएं",
     "this_month": "इस महीने",
     "referral": "अपने रेफरल के साथ शामिल हुए, उनका स्वागत करें",
-    "account_update": "Your account keys or profile were updated"
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
