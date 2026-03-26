@@ -31,7 +31,17 @@ const NotificationLineView = ({
         return { count, suffix };
       }
       case 'payouts':
-        return { amount: notification.amount || '' };
+        return { amount: notification.amount_usd || notification.amount || '' };
+      case 'weekly_earnings': {
+        const total = notification.total_usd || notification.amount || '0';
+        const authorUsd = notification.author_usd;
+        const curationUsd = notification.curation_usd;
+        const breakdown =
+          authorUsd && curationUsd
+            ? ` - $${authorUsd} from posts, $${curationUsd} from curation.`
+            : ' from your posts and curation.';
+        return { amount: total, breakdown };
+      }
       default:
         return {};
     }

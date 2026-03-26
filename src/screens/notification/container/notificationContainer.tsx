@@ -111,7 +111,7 @@ const NotificationContainer = ({ navigation }) => {
       params = {
         username: get(data, 'follower'),
       };
-    } else if (type === 'transfer') {
+    } else if (type === 'transfer' || type === 'weekly_earnings') {
       routeName = ROUTES.TABBAR.WALLET;
     } else if (type === 'spin') {
       routeName = ROUTES.SCREENS.BOOST;
