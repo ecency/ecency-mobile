@@ -5,13 +5,16 @@ import { injectIntl } from 'react-intl';
 // Utils
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { groomingServerName } from '../../../utils/settings';
-
 // Constants
 import LANGUAGE, { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 import CURRENCY, { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
 import NSFW from '../../../constants/options/nsfw';
 import THEME_OPTIONS from '../../../constants/options/theme';
-import { IMAGE_SERVERS, IMAGE_SERVER_LABELS } from '../../../constants/options/imageServer';
+import {
+  IMAGE_SERVERS,
+  IMAGE_SERVER_LABELS,
+  DEFAULT_IMAGE_SERVER,
+} from '../../../constants/options/imageServer';
 
 // Components
 import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components';
@@ -48,7 +51,7 @@ const SettingsScreen = ({
   handleOnButtonPress,
   isLoading,
   isHideImages,
-  selectedImageServer,
+  selectedImageServer = DEFAULT_IMAGE_SERVER,
   dmPrivacy,
 }) => {
   const dmPrivacyOptions = [

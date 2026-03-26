@@ -1,5 +1,6 @@
 import Config from 'react-native-config';
 import { encryptKey } from '../../utils/crypto';
+import { DEFAULT_IMAGE_SERVER } from '../../constants/options/imageServer';
 import {
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
@@ -120,7 +121,7 @@ const initialState: State = {
   hidePostsThumbnails: false,
   isTermsAccepted: false,
   isBiometricEnabled: false,
-  imageServer: 'https://images.ecency.com',
+  imageServer: DEFAULT_IMAGE_SERVER,
 };
 
 const applicationReducer = (state = initialState, action): State => {

@@ -3,14 +3,13 @@ import * as dsteem from '@esteemapp/dhive';
 import { Buffer } from 'buffer';
 import { proxifyImageSrc } from '@ecency/render-helper';
 import { store } from '../redux/store/store';
-
-const DEFAULT_IMAGE_URL = 'https://images.ecency.com';
+import { DEFAULT_IMAGE_SERVER } from '../constants/options/imageServer';
 
 const getImageBaseUrl = () => {
   try {
-    return store.getState().application.imageServer || DEFAULT_IMAGE_URL;
+    return store.getState().application.imageServer || DEFAULT_IMAGE_SERVER;
   } catch {
-    return DEFAULT_IMAGE_URL;
+    return DEFAULT_IMAGE_SERVER;
   }
 };
 

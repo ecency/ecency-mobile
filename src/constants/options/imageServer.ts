@@ -1,5 +1,7 @@
+export const DEFAULT_IMAGE_SERVER = 'https://images.ecency.com';
+
 export const IMAGE_SERVERS = [
-  'https://images.ecency.com',
+  DEFAULT_IMAGE_SERVER,
   'https://images.hive.blog',
   'https://img.ecency.com',
 ];

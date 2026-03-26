@@ -10,7 +10,6 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import DeviceInfo from 'react-native-device-info';
 import { SheetManager } from 'react-native-actions-sheet';
 import { saveNotificationSetting, ConfigManager } from '@ecency/sdk';
-import { setProxyBase } from '@ecency/render-helper';
 import { languageRestart } from '../../../utils/I18nUtils';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
@@ -154,8 +153,6 @@ class SettingsContainer extends Component {
         const server = IMAGE_SERVERS[action];
         if (server) {
           dispatch(setImageServer(server));
-          setProxyBase(server);
-          ConfigManager.setImageHost(server);
           dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
         }
         break;
