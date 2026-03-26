@@ -279,7 +279,6 @@
     "leaderboard": "排行榜",
     "unvote": "downvoted",
     "activities": "全部",
-    "payouts": "You received {amount} payout.",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "有人@您",
     "yesterday": "昨天",
@@ -293,7 +292,10 @@
     "follow": "关注了您",
     "notification": "通知",
     "this_month": "本月",
-    "referral": "joined with your referral, welcome them"
+    "referral": "joined with your referral, welcome them",
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
@@ -577,6 +579,7 @@
     "cost_label": "Cost",
     "free_label": "Free",
     "free_remaining": "{count} free left",
+    "hint": "Write your content first, then use AI Assist to polish and improve it.",
     "action_label": "Select an action",
     "action_improve": "Improve Writing",
     "action_improve_desc": "Polish grammar, clarity, and style",
@@ -1391,6 +1394,10 @@
     "backup": "Manage",
     "settings": "设置",
     "server": "服务器",
+    "image_server": "Image Server",
+    "image_server_default": "Ecency Images (Default)",
+    "image_server_hiveblog": "Hive Images (Alternative)",
+    "image_server_nocdn": "Ecency Images (No CDN)",
     "nsfw_content": "NSFW(工作不宜)",
     "default_footer": "默认页脚",
     "feedback_fail": "无法打开电子邮件客户端",

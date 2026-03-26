@@ -279,7 +279,6 @@
     "leaderboard": "লিডারবোর্ড",
     "unvote": "downvoted",
     "activities": "সকল",
-    "payouts": "You received {amount} payout.",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "New mention on",
     "yesterday": "গতকাল",
@@ -293,7 +292,10 @@
     "follow": "আপনাকে অনুসরণ করেছে",
     "notification": "বিজ্ঞপ্তি",
     "this_month": "মাস",
-    "referral": "আপনার রেফারেলের সাথে যোগদান, তাদের স্বাগত জানাই"
+    "referral": "আপনার রেফারেলের সাথে যোগদান, তাদের স্বাগত জানাই",
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
@@ -577,6 +579,7 @@
     "cost_label": "Cost",
     "free_label": "Free",
     "free_remaining": "{count} free left",
+    "hint": "Write your content first, then use AI Assist to polish and improve it.",
     "action_label": "Select an action",
     "action_improve": "Improve Writing",
     "action_improve_desc": "Polish grammar, clarity, and style",
@@ -1391,6 +1394,10 @@
     "backup": "Manage",
     "settings": "সেটিংস",
     "server": "সার্ভার",
+    "image_server": "Image Server",
+    "image_server_default": "Ecency Images (Default)",
+    "image_server_hiveblog": "Hive Images (Alternative)",
+    "image_server_nocdn": "Ecency Images (No CDN)",
     "nsfw_content": "এনএসএফডাব্লু",
     "default_footer": "ডিফল্ট ফুটার",
     "feedback_fail": "ইমেল ক্লায়েন্ট খুলতে পারে নি",
