@@ -279,7 +279,6 @@
     "leaderboard": "Sardorlar ro'yhati",
     "unvote": "qarshi ovoz berdi",
     "activities": "Hammasi",
-    "payouts": "You received {amount} payout.",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "Yangi eslatma",
     "yesterday": "Kecha",
@@ -294,7 +293,9 @@
     "notification": "E'lonlar",
     "this_month": "Shu Oy",
     "referral": "sizning taklif ssilkangiz orqali qo'shildi, uni kutib oling",
-    "account_update": "Your account keys or profile were updated"
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
