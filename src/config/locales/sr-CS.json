@@ -279,7 +279,6 @@
     "leaderboard": "Rang lista",
     "unvote": "downvoted",
     "activities": "Sve",
-    "payouts": "You received {amount} payout.",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "New mention on",
     "yesterday": "Juče",
@@ -294,7 +293,9 @@
     "notification": "Obaveštenja",
     "this_month": "Ovaj mesec",
     "referral": "pridružili su se sa vašom preporukom, pozdravite ih",
-    "account_update": "Your account keys or profile were updated"
+    "account_update": "Your account keys or profile were updated",
+    "weekly_earnings": "You earned ${amount} this week{breakdown}",
+    "payouts": "Payout received: ${amount}"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
