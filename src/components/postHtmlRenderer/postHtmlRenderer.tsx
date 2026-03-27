@@ -8,7 +8,7 @@ import RenderHTML, {
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Platform, Text, TouchableOpacity } from 'react-native';
+import { Platform, Text, TouchableOpacity, View } from 'react-native';
 import { postBodySummary } from '@ecency/render-helper';
 import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
@@ -260,19 +260,20 @@ export const PostHtmlRenderer = memo(
             const imgElement = tnode.children.find(
               (child) => child.classes.indexOf('video-thumbnail') >= 0,
             );
-            if (!imgElement) {
-              return <VideoThumb contentWidth={contentWidth} onPress={_onPress} />;
-            }
+            const thumbUri = imgElement?.attributes?.src;
+            return <VideoThumb contentWidth={contentWidth} uri={thumbUri} onPress={_onPress} />;
           } else {
             return (
-              <VideoPlayer
-                mode={parsedTnode.youtubeId ? 'youtube' : 'uri'}
-                contentWidth={contentWidth}
-                uri={parsedTnode.videoHref}
-                youtubeVideoId={parsedTnode.youtubeId}
-                startTime={parsedTnode.startTime}
-                disableAutoplay={true}
-              />
+              <View style={{ width: contentWidth }}>
+                <VideoPlayer
+                  mode={parsedTnode.youtubeId ? 'youtube' : 'uri'}
+                  contentWidth={contentWidth}
+                  uri={parsedTnode.videoHref}
+                  youtubeVideoId={parsedTnode.youtubeId}
+                  startTime={parsedTnode.startTime}
+                  disableAutoplay={true}
+                />
+              </View>
             );
           }
         }

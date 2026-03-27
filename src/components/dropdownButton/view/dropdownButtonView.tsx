@@ -66,12 +66,30 @@ const DropdownButtonView = ({
   dropdownRowWrapper,
   disableFrameAdjustment,
 }) => {
+  const screenWidth = Dimensions.get('window').width;
+  const screenHeight = Dimensions.get('window').height;
+
+  // Calculate dropdown width based on longest option text
+  const calcDropdownWidth = () => {
+    if (!options || options.length === 0) {
+      return screenWidth / 2;
+    }
+    const longestOption = options.reduce(
+      (a, b) => (String(b).length > String(a).length ? b : a),
+      '',
+    );
+    // ~7px per char at fontSize 10, plus row padding
+    const estimatedWidth = String(longestOption).length * 7 + 80;
+    const minWidth = screenWidth / 2;
+    const maxWidth = screenWidth - 20;
+    return Math.min(Math.max(estimatedWidth, minWidth), maxWidth);
+  };
+
   const adjustDropdownFrame = (frame: any) => {
     if (disableFrameAdjustment) {
       return frame;
     }
 
-    const screenWidth = Dimensions.get('window').width;
     const margin = 10;
 
     // Ensure dropdown doesn't overflow right edge
@@ -82,6 +100,16 @@ const DropdownButtonView = ({
     // Ensure dropdown doesn't overflow left edge
     if (frame.left < margin) {
       frame.left = margin;
+    }
+
+    // Ensure dropdown doesn't overflow bottom edge
+    if (frame.top + frame.height > screenHeight - margin) {
+      frame.top = screenHeight - frame.height - margin;
+    }
+
+    // Ensure dropdown doesn't overflow top edge
+    if (frame.top < margin) {
+      frame.top = margin;
     }
 
     return frame;
@@ -100,7 +128,10 @@ const DropdownButtonView = ({
         textStyle={[textStyle || styles.buttonText]}
         dropdownStyle={[
           styles.dropdown,
-          { height: Math.min(32 * (options.length + 0.8), Dimensions.get('window').height * 0.45) },
+          {
+            width: calcDropdownWidth(),
+            height: Math.min(32 * (options.length + 0.8), screenHeight * 0.45),
+          },
           dropdownStyle,
         ]}
         dropdownTextStyle={[dropdownTextStyle || styles.dropdownText]}

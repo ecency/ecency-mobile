@@ -18,7 +18,6 @@ export default EStyleSheet.create({
     marginLeft: -2,
     paddingTop: 10,
     paddingBottom: 10,
-    minWidth: '$deviceWidth / 2',
     borderColor: '$primaryWhiteLightBackground',
     borderRadius: 5,
     shadowOpacity: 0.3,
@@ -53,7 +52,6 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    width: '$deviceWidth / 2',
     padding: 5,
   },
   dropdownRow: {
@@ -65,6 +63,7 @@ export default EStyleSheet.create({
     height: 35,
     backgroundColor: '$primaryBlue',
     alignSelf: 'flex-start',
+    alignItems: 'center',
     paddingLeft: 11,
     paddingRight: 11,
     marginLeft: 20,
