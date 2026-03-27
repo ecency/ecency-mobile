@@ -466,12 +466,16 @@ export const PostHtmlRenderer = memo(
         } else {
           const isSpeakEmbed = /3speak\.tv/i.test(iframeProps.source.uri || '');
           return (
-            <VideoPlayer
-              mode="uri"
-              uri={iframeProps.source.uri}
-              contentWidth={contentWidth}
-              thumbnailUrl={isSpeakEmbed ? _speakThumbnail : undefined}
-            />
+            <View
+              style={[styles.embeddedVideoWrapper, { width: contentWidth, maxWidth: contentWidth }]}
+            >
+              <VideoPlayer
+                mode="uri"
+                uri={iframeProps.source.uri}
+                contentWidth={contentWidth}
+                thumbnailUrl={isSpeakEmbed ? _speakThumbnail : undefined}
+              />
+            </View>
           );
         }
       },
@@ -487,6 +491,13 @@ export const PostHtmlRenderer = memo(
         th: { ...styles.th, minWidth: _minTableColWidth },
         td: { ...styles.td, minWidth: _minTableColWidth },
         div: { ...styles.div, maxWidth: contentWidth }, // makes sure width covers the available horizontal space for view and not exceed the contentWidth if parent bound id not defined
+        iframe: {
+          width: contentWidth,
+          maxWidth: contentWidth,
+          alignSelf: 'center',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        },
         blockquote: styles.blockquote,
         code: styles.code,
         li: styles.li,

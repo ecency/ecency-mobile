@@ -125,6 +125,11 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '$darkIconColor',
   },
+  embeddedVideoWrapper: {
+    alignSelf: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  } as ViewStyle,
   playButton: {
     alignItems: 'center',
     justifyContent: 'center',
