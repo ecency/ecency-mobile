@@ -25,7 +25,10 @@ import { useBotAuthorsQuery } from './postQueries';
 import { selectCurrentAccount, selectCurrentAccountMutes } from '../../../redux/selectors';
 import { useAuthContext } from '../../sdk';
 
-export const useWavesQuery = (host: string) => {
+export const useWavesQuery = (
+  sdkQueryOptions: ReturnType<typeof getWavesByHostQueryOptions>,
+  host: string,
+) => {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const intl = useIntl();
@@ -39,10 +42,8 @@ export const useWavesQuery = (host: string) => {
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const sdkOptions = getWavesByHostQueryOptions(host);
-
   const wavesQuery = useInfiniteQuery({
-    ...sdkOptions,
+    ...sdkQueryOptions,
     refetchInterval: 60000,
   });
 
@@ -101,7 +102,7 @@ export const useWavesQuery = (host: string) => {
       });
 
       // Remove deleted wave from cache
-      queryClient.setQueryData<InfiniteData<WaveEntry[]>>(sdkOptions.queryKey, (oldData) => {
+      queryClient.setQueryData<InfiniteData<WaveEntry[]>>(sdkQueryOptions.queryKey, (oldData) => {
         if (!oldData) return oldData;
         return {
           ...oldData,

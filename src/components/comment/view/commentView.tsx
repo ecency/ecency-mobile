@@ -50,6 +50,7 @@ const CommentView = ({
   handleOnToggleReplies,
   onUpvotePress,
   handleParaSelection,
+  onTagPress,
 }) => {
   const intl = useIntl();
 
@@ -159,6 +160,7 @@ const CommentView = ({
           handleYoutubePress={handleYoutubePress}
           handleParaSelection={handleParaSelection}
           handleOnContentPress={_handleOnContentPress}
+          onTagPress={onTagPress}
         />
 
         {comment.json_metadata.content_type === ContentType.POLL && (

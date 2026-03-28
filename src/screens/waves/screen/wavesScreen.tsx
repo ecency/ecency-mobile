@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   NativeScrollEvent,
@@ -12,6 +12,11 @@ import { debounce } from 'lodash';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
 import {
+  getWavesByHostQueryOptions,
+  getWavesFollowingQueryOptions,
+  getWavesByTagQueryOptions,
+} from '@ecency/sdk';
+import {
   Comments,
   EmptyScreen,
   Header,
@@ -22,11 +27,19 @@ import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
 import WavesHeader from '../children/wavesHeader';
+import { WavesFeedType } from '../children/wavesHeader';
 import { PostTypes } from '../../../constants/postTypes';
 import { ScrollTopPopup } from '../../../components/atoms';
 import { SheetNames } from '../../../navigation/sheets';
-import { selectIsDarkTheme } from '../../../redux/selectors';
+import {
+  selectCurrentAccount,
+  selectIsDarkTheme,
+  selectIsLoggedIn,
+} from '../../../redux/selectors';
+import ROUTES from '../../../constants/routeNames';
+import RootNavigation from '../../../navigation/rootNavigation';
 
+const WAVES_HOST = 'ecency.waves';
 const SCROLL_POPUP_THRESHOLD = 5000;
 
 const WavesScreen = () => {
@@ -36,19 +49,42 @@ const WavesScreen = () => {
   const blockPopupRef = useRef(false);
   const scrollOffsetRef = useRef(0);
 
-  const wavesQuery = wavesQueries.useWavesQuery('ecency.waves');
+  // state
+  const [feedType, setFeedType] = useState<WavesFeedType>('for-you');
+  const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [enableScrollTop, setEnableScrollTop] = useState(false);
 
+  // selectors
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
-
   const insets = useSafeAreaInsets();
 
-  const [enableScrollTop, setEnableScrollTop] = useState(false);
+  // Build SDK query options based on active feed type and tag
+  const sdkQueryOptions = useMemo(() => {
+    if (activeTag) {
+      return getWavesByTagQueryOptions(WAVES_HOST, activeTag);
+    }
+    if (feedType === 'following' && currentAccount?.name) {
+      return getWavesFollowingQueryOptions(WAVES_HOST, currentAccount.name);
+    }
+    return getWavesByHostQueryOptions(WAVES_HOST);
+  }, [feedType, activeTag, currentAccount?.name]);
+
+  // SDK query option types differ across feed types but share the same
+  // runtime shape; cast to the host-based type that useWavesQuery expects.
+  const wavesQuery = wavesQueries.useWavesQuery(
+    sdkQueryOptions as ReturnType<typeof getWavesByHostQueryOptions>,
+    WAVES_HOST,
+  );
+
+  // Scroll to top when feed type or tag changes
+  useEffect(() => {
+    postsListRef.current?.scrollToOffset({ offset: 0, animated: false });
+  }, [feedType, activeTag]);
 
   // Calculate FAB offset to account for bottom tab bar
   const fabBottomOffset = Platform.OS === 'android' ? 66 + (insets.bottom || 0) : 16;
-
-  // Auto-refresh is now handled by the query itself (refetchInterval in wavesQueries.ts)
-  // No need for manual background checks or app state listeners
 
   const _fetchData = (fetchProps: any) => {
     if (fetchProps?.refresh) {
@@ -63,6 +99,28 @@ const WavesScreen = () => {
       _permlink,
       _parent_permlink,
     });
+  };
+
+  const _handleTabChange = (tab: WavesFeedType) => {
+    if (tab === 'following' && !isLoggedIn) {
+      RootNavigation.navigate({ name: ROUTES.SCREENS.LOGIN });
+      return;
+    }
+    if (tab === 'following') {
+      setActiveTag(null);
+    }
+    setFeedType(tab);
+  };
+
+  const _handleTagFilter = (tag: string) => {
+    if (feedType === 'following') {
+      setFeedType('for-you');
+    }
+    setActiveTag(tag);
+  };
+
+  const _handleClearTag = () => {
+    setActiveTag(null);
   };
 
   // scrolls to top, blocks scroll popup for 2 seconds to reappear after scroll
@@ -112,7 +170,14 @@ const WavesScreen = () => {
 
   const _data = wavesQuery.data;
 
-  const _renderListHeader = <WavesHeader />;
+  const _renderListHeader = (
+    <WavesHeader
+      feedType={feedType}
+      activeTag={activeTag}
+      onTabChange={_handleTabChange}
+      onClearTag={_handleClearTag}
+    />
+  );
   const _renderListFooter = () =>
     wavesQuery.isLoading && !wavesQuery.isRefreshing ? (
       <ActivityIndicator style={{ padding: 32 }} />
@@ -132,6 +197,7 @@ const WavesScreen = () => {
           comments={_data}
           handleOnOptionsPress={_handleOnOptionsPress}
           handleCommentDelete={_handleCommentDelete}
+          onTagPress={_handleTagFilter}
           flatListProps={{
             ref: postsListRef,
             onEndReached: _fetchData,

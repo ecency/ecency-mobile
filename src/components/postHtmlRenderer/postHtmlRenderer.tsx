@@ -54,20 +54,73 @@ export const PostHtmlRenderer = memo(
   }: PostHtmlRendererProps) => {
     const postImgUrlsRef = useRef<string[]>([]);
 
-    console.log('rendering body', body);
-
     // Memoize body processing to avoid expensive regex operations on every render
-    const processedBody = useMemo(() => {
+    const { processedBody, extractedVideo } = useMemo(() => {
       let processed = body;
+      let video: { embedSrc?: string; thumbUrl?: string } | null = null;
+
       if (processed) {
         processed = processed
           .replace(/<center>/g, '<div class="text-center">')
           .replace(/<\/center>/g, '</div>')
           .replace(/<span(.*?)>/g, '') // TODO: later handle span with propties lie <span class="ll-key"> and remove on raw <span/>
           .replace(/<\/span>/g, '');
+
+        // For waves, extract the *trailing* video link and render
+        // it as a separate block below text. This avoids inline
+        // overlap with RTL/mixed-direction text.  Only trailing
+        // videos are extracted because wave submit always appends
+        // the embed URL at the end of the body; a mid-content
+        // video in a regular comment should stay in place.
+        const isWave = metadata?.type === 'wave';
+        if (isWave) {
+          // Trailing whitespace / empty tags after the video
+          const tail = '(?:\\s|<br\\s*/?>|<p>\\s*</p>)*$';
+
+          // Match video link anchor at end of body
+          const videoTailRx = new RegExp(
+            `(<a[^>]*class="[^"]*markdown-video-link[^"]*"[^>]*>[\\s\\S]*?</a>)${tail}`,
+            'i',
+          );
+          const videoMatch = processed.match(videoTailRx);
+          if (videoMatch) {
+            const html = videoMatch[1];
+            const embedMatch = html.match(/data-embed-src="([^"]*)"/);
+            const thumbRx = /class="[^"]*video-thumbnail[^"]*"[^>]*src="([^"]*)"/;
+            const thumbMatch = html.match(thumbRx);
+            video = {
+              embedSrc: embedMatch?.[1],
+              thumbUrl: thumbMatch?.[1],
+            };
+            processed = processed.replace(videoTailRx, '');
+          }
+
+          // Match trailing iframe video embeds (3speak etc.)
+          if (!video) {
+            const iframeTailRx = new RegExp(
+              `(<iframe[^>]*src="([^"]*)"[^>]*>[\\s\\S]*?</iframe>)${tail}`,
+              'i',
+            );
+            const iframeMatch = processed.match(iframeTailRx);
+            if (iframeMatch) {
+              video = { embedSrc: iframeMatch[2] };
+              processed = processed.replace(iframeTailRx, '');
+            }
+          }
+
+          // Use metadata.image as thumbnail fallback
+          if (video && !video.thumbUrl) {
+            const metaImages = metadata?.image;
+            if (Array.isArray(metaImages) && metaImages.length > 0) {
+              [video.thumbUrl] = metaImages;
+            } else if (typeof metaImages === 'string') {
+              video.thumbUrl = metaImages;
+            }
+          }
+        }
       }
-      return processed;
-    }, [body]);
+      return { processedBody: processed, extractedVideo: video };
+    }, [body, isComment, metadata]);
 
     const _minTableColWidth = contentWidth / 3 - 12;
 
@@ -559,25 +612,46 @@ export const PostHtmlRenderer = memo(
       [],
     );
 
+    const _handleExtractedVideoPress = useCallback(() => {
+      if (!extractedVideo?.embedSrc) {
+        return;
+      }
+      if (handleVideoPress) {
+        handleVideoPress(extractedVideo.embedSrc);
+      }
+    }, [extractedVideo, handleVideoPress]);
+
     return (
-      <RenderHTML
-        source={{ html: processedBody }}
-        contentWidth={contentWidth}
-        baseStyle={baseStyle}
-        classesStyles={classesStyles}
-        tagsStyles={tagsStyles}
-        domVisitors={domVisitors}
-        renderers={renderers}
-        onHTMLLoaded={onLoaded && onLoaded}
-        defaultTextProps={{
-          selectable: false,
-        }}
-        customHTMLElementModels={customHTMLElementModels}
-        renderersProps={renderersProps}
-        WebView={WebView}
-        pressableHightlightColor="transparent"
-      />
+      <View>
+        <RenderHTML
+          source={{ html: processedBody }}
+          contentWidth={contentWidth}
+          baseStyle={baseStyle}
+          classesStyles={classesStyles}
+          tagsStyles={tagsStyles}
+          domVisitors={domVisitors}
+          renderers={renderers}
+          onHTMLLoaded={onLoaded && onLoaded}
+          defaultTextProps={{
+            selectable: false,
+          }}
+          customHTMLElementModels={customHTMLElementModels}
+          renderersProps={renderersProps}
+          WebView={WebView}
+          pressableHightlightColor="transparent"
+        />
+        {extractedVideo && (
+          <VideoThumb
+            contentWidth={contentWidth}
+            uri={extractedVideo.thumbUrl}
+            onPress={_handleExtractedVideoPress}
+          />
+        )}
+      </View>
     );
   },
-  (next, prev) => next.body === prev.body,
+  (next, prev) =>
+    next.body === prev.body &&
+    next.metadata === prev.metadata &&
+    next.contentWidth === prev.contentWidth,
 );
