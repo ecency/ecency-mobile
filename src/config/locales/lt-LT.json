@@ -1,4 +1,8 @@
 {
+  "waves": {
+    "for_you": "For you",
+    "following": "Following"
+  },
   "profile": {
     "havent_commented": "kolkas dar nieko nepakomentavo",
     "full_in": "Pilnas už",
@@ -798,7 +802,7 @@
     "copy_link": "Kopijuoti nuorodą",
     "wrong_link": "Netinkama nuoroda",
     "select_action": "Select Action",
-    "ecency_waves": "Ecency Waves",
+    "ecency_waves": "Waves",
     "open_thread": "Atidaryti giją",
     "cross_post": "cross post by {username} in {community}",
     "image_saved_error": "Nepavyko išsaugoti vaizdo",
