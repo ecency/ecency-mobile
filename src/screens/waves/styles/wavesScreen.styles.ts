@@ -10,4 +10,16 @@ export default EStyleSheet.create({
     flex: 1,
     paddingTop: 8,
   } as ViewStyle,
+  feedsContainer: {
+    flex: 1,
+  } as ViewStyle,
+  tabScenesContainer: {
+    flex: 1,
+  } as ViewStyle,
+  tabScene: {
+    flex: 1,
+  } as ViewStyle,
+  listSpacing: {
+    padding: 32,
+  } as ViewStyle,
 });
