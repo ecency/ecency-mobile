@@ -1,4 +1,8 @@
 {
+  "waves": {
+    "for_you": "For you",
+    "following": "Following"
+  },
   "profile": {
     "havent_commented": "ei ole vielä kommentoinut mitään",
     "full_in": "Full in",
@@ -798,7 +802,7 @@
     "copy_link": "Kopioi linkki",
     "wrong_link": "Väärä linkki",
     "select_action": "Valitse toiminto",
-    "ecency_waves": "Ecency Aallot",
+    "ecency_waves": "Waves",
     "open_thread": "Avaa ketju",
     "cross_post": "ristiinjulkaisu käyttäjältä {username} yhteisössä {community}",
     "image_saved_error": "Virhe tallentaessa kuvaa",
