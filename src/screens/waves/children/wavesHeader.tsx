@@ -1,11 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
-import { SheetManager } from 'react-native-actions-sheet';
-import { WritePostButton } from '../../../components/atoms';
 import { Icon } from '../../../components/icon';
 import styles from '../styles/children.styles';
-import { SheetNames } from '../../../navigation/sheets';
 
 export type WavesFeedType = 'for-you' | 'following';
 
@@ -18,12 +15,6 @@ interface WavesHeaderProps {
 
 export const WavesHeader = ({ feedType, activeTag, onTabChange, onClearTag }: WavesHeaderProps) => {
   const intl = useIntl();
-
-  const _onPress = () => {
-    SheetManager.show(SheetNames.QUICK_POST, {
-      payload: { mode: 'wave' },
-    });
-  };
 
   return (
     <View style={styles.headerContainer}>
@@ -54,8 +45,6 @@ export const WavesHeader = ({ feedType, activeTag, onTabChange, onClearTag }: Wa
           </TouchableOpacity>
         </View>
       )}
-
-      <WritePostButton placeholderId="quick_reply.placeholder_wave" onPress={_onPress} />
     </View>
   );
 };
