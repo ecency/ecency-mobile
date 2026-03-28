@@ -14,6 +14,8 @@ import { useIntl } from 'react-intl';
 import {
   getAccountPosts,
   getWavesByHostQueryOptions,
+  getWavesFollowingQueryOptions,
+  getWavesByTagQueryOptions,
   useDeleteComment,
   WaveEntry,
 } from '@ecency/sdk';
@@ -25,7 +27,12 @@ import { useBotAuthorsQuery } from './postQueries';
 import { selectCurrentAccount, selectCurrentAccountMutes } from '../../../redux/selectors';
 import { useAuthContext } from '../../sdk';
 
-export const useWavesQuery = (host: string) => {
+type WavesQueryOptions =
+  | ReturnType<typeof getWavesByHostQueryOptions>
+  | ReturnType<typeof getWavesFollowingQueryOptions>
+  | ReturnType<typeof getWavesByTagQueryOptions>;
+
+export const useWavesQuery = (sdkQueryOptions: WavesQueryOptions, host: string) => {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const intl = useIntl();
@@ -39,10 +46,10 @@ export const useWavesQuery = (host: string) => {
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const sdkOptions = getWavesByHostQueryOptions(host);
-
+  // All SDK wave query options share the same runtime shape but
+  // differ in page-param generics; cast to satisfy useInfiniteQuery
   const wavesQuery = useInfiniteQuery({
-    ...sdkOptions,
+    ...(sdkQueryOptions as ReturnType<typeof getWavesByHostQueryOptions>),
     refetchInterval: 60000,
   });
 
@@ -101,7 +108,7 @@ export const useWavesQuery = (host: string) => {
       });
 
       // Remove deleted wave from cache
-      queryClient.setQueryData<InfiniteData<WaveEntry[]>>(sdkOptions.queryKey, (oldData) => {
+      queryClient.setQueryData<InfiniteData<WaveEntry[]>>(sdkQueryOptions.queryKey, (oldData) => {
         if (!oldData) return oldData;
         return {
           ...oldData,

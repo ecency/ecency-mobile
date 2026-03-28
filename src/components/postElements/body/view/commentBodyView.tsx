@@ -31,6 +31,7 @@ interface CommentBodyProps {
   handleLinkPress: () => void;
   handleOnContentPress: () => void;
   handleParaSelection: (selectedText: string) => void;
+  onTagPress?: (tag: string) => void;
 }
 
 const CommentBody = ({
@@ -46,6 +47,7 @@ const CommentBody = ({
   handleLinkPress,
   handleOnContentPress,
   handleParaSelection,
+  onTagPress,
 }: CommentBodyProps) => {
   const dispatch = useAppDispatch();
   const dims = useWindowDimensions();
@@ -62,6 +64,10 @@ const CommentBody = ({
 
   const _handleTagPress = (tag: string, filter: string = GLOBAL_POST_FILTERS_VALUE[0]) => {
     if (tag) {
+      if (onTagPress && !isCommunity(tag)) {
+        onTagPress(tag);
+        return;
+      }
       const name = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
       const key = `${filter}/${tag}`;
       RootNavigation.navigate({
