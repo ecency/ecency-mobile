@@ -77,13 +77,14 @@ export const PostHtmlRenderer = memo(
           // Trailing whitespace / empty tags after the video
           const tail = '(?:\\s|<br\\s*/?>|<p>\\s*</p>)*$';
 
-          // Match video link anchor at end of body
+          // Match video link anchor at end of body (exclude YouTube
+          // links so their youtubeId/startTime handling is preserved)
           const videoTailRx = new RegExp(
             `(<a[^>]*class="[^"]*markdown-video-link[^"]*"[^>]*>[\\s\\S]*?</a>)${tail}`,
             'i',
           );
           const videoMatch = processed.match(videoTailRx);
-          if (videoMatch) {
+          if (videoMatch && !videoMatch[1].includes('markdown-video-link-youtube')) {
             const html = videoMatch[1];
             const embedMatch = html.match(/data-embed-src="([^"]*)"/);
             const thumbRx = /class="[^"]*video-thumbnail[^"]*"[^>]*src="([^"]*)"/;
@@ -653,5 +654,7 @@ export const PostHtmlRenderer = memo(
   (next, prev) =>
     next.body === prev.body &&
     next.metadata === prev.metadata &&
-    next.contentWidth === prev.contentWidth,
+    next.contentWidth === prev.contentWidth &&
+    next.isComment === prev.isComment &&
+    next.enableViewabilityTracker === prev.enableViewabilityTracker,
 );

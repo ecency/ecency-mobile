@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   NativeScrollEvent,
@@ -71,12 +71,7 @@ const WavesScreen = () => {
     return getWavesByHostQueryOptions(WAVES_HOST);
   }, [feedType, activeTag, currentAccount?.name]);
 
-  // SDK query option types differ across feed types but share the same
-  // runtime shape; cast to the host-based type that useWavesQuery expects.
-  const wavesQuery = wavesQueries.useWavesQuery(
-    sdkQueryOptions as ReturnType<typeof getWavesByHostQueryOptions>,
-    WAVES_HOST,
-  );
+  const wavesQuery = wavesQueries.useWavesQuery(sdkQueryOptions, WAVES_HOST);
 
   // Scroll to top when feed type or tag changes
   useEffect(() => {
@@ -112,16 +107,14 @@ const WavesScreen = () => {
     setFeedType(tab);
   };
 
-  const _handleTagFilter = (tag: string) => {
-    if (feedType === 'following') {
-      setFeedType('for-you');
-    }
+  const _handleTagFilter = useCallback((tag: string) => {
+    setFeedType((prev) => (prev === 'following' ? 'for-you' : prev));
     setActiveTag(tag);
-  };
+  }, []);
 
-  const _handleClearTag = () => {
+  const _handleClearTag = useCallback(() => {
     setActiveTag(null);
-  };
+  }, []);
 
   // scrolls to top, blocks scroll popup for 2 seconds to reappear after scroll
   const _scrollTop = () => {
