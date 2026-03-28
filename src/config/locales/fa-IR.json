@@ -1,4 +1,8 @@
 {
+  "waves": {
+    "for_you": "For you",
+    "following": "Following"
+  },
   "profile": {
     "havent_commented": "هنوز نظری نداده",
     "full_in": "کامل در",
@@ -798,7 +802,7 @@
     "copy_link": "کاپی لنک",
     "wrong_link": "لنک اشتباه",
     "select_action": "Select Action",
-    "ecency_waves": "Ecency Waves",
+    "ecency_waves": "Waves",
     "open_thread": "بازکردن موضوع",
     "cross_post": "cross post by {username} in {community}",
     "image_saved_error": "خطایی در ذخیره عکس بوجود آمد",
