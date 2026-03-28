@@ -1,4 +1,8 @@
 {
+  "waves": {
+    "for_you": "For you",
+    "following": "Following"
+  },
   "profile": {
     "havent_commented": "ainda não comentou nada",
     "full_in": "Completo em",
@@ -798,7 +802,7 @@
     "copy_link": "Copiar link",
     "wrong_link": "Link errado",
     "select_action": "Selecionar ação",
-    "ecency_waves": "Ondas da Ecency",
+    "ecency_waves": "Waves",
     "open_thread": "Tópico aberto",
     "cross_post": "cross post by {username} in {community}",
     "image_saved_error": "Error ao Salvar a Imagem",
