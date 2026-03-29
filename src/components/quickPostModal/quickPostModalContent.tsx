@@ -86,6 +86,7 @@ export const QuickPostModalContent = forwardRef(
     const isSubmittingRef = useRef(false);
 
     const [videoEmbedUrl, setVideoEmbedUrl] = useState<string | null>(null);
+    const [videoThumbUrl, setVideoThumbUrl] = useState<string | null>(null);
     const [isVideoUploading, setIsVideoUploading] = useState(false);
 
     const currentAccount = useAppSelector(selectCurrentAccount);
@@ -168,9 +169,11 @@ export const QuickPostModalContent = forwardRef(
         setMediaUrls([]);
       }
 
-      // Restore video embed from draft cache
+      // Restore video embed and thumbnail from draft cache
       const cachedVideo = currentDraft?.meta?.video;
       setVideoEmbedUrl(typeof cachedVideo === 'string' ? cachedVideo : null);
+      const cachedVideoThumb = currentDraft?.meta?.videoThumb;
+      setVideoThumbUrl(typeof cachedVideoThumb === 'string' ? cachedVideoThumb : null);
 
       // check if user can comment to community
       setCommunityToCheck(selectedPost?.community ?? null);
@@ -191,13 +194,21 @@ export const QuickPostModalContent = forwardRef(
 
     // add quick comment value into cache - memoized with useCallback
     const _addQuickCommentIntoCache = useCallback(
-      (value: string, media: string[] = mediaUrls, videoUrl: string | null = videoEmbedUrl) => {
+      (
+        value: string,
+        media: string[] = mediaUrls,
+        videoUrl: string | null = videoEmbedUrl,
+        thumbUrl: string | null = videoThumbUrl,
+      ) => {
         const meta: Record<string, any> = {};
         if (media && media.length > 0) {
           meta.image = media;
         }
         if (videoUrl) {
           meta.video = videoUrl;
+        }
+        if (thumbUrl) {
+          meta.videoThumb = thumbUrl;
         }
 
         const quickCommentDraftData: Draft = {
@@ -209,7 +220,7 @@ export const QuickPostModalContent = forwardRef(
         // add quick comment/wave cache entry to replyCache
         dispatch(updateReplyCache(draftId, quickCommentDraftData));
       },
-      [currentAccount.name, draftId, dispatch, mediaUrls, videoEmbedUrl],
+      [currentAccount.name, draftId, dispatch, mediaUrls, videoEmbedUrl, videoThumbUrl],
     );
 
     // Expose imperative handle for sheet close - must come after _addQuickCommentIntoCache
@@ -267,7 +278,7 @@ export const QuickPostModalContent = forwardRef(
             _isSuccess = await postSubmitter.submitReply(_body, selectedPost);
             break;
           case 'wave':
-            _isSuccess = await postSubmitter.submitWave(_body, pollDraft);
+            _isSuccess = await postSubmitter.submitWave(_body, pollDraft, videoThumbUrl);
             break;
           default:
             throw new Error('mode needs implementing');
@@ -394,14 +405,21 @@ export const QuickPostModalContent = forwardRef(
       ]);
     };
 
-    const _handleVideoUploaded = (embedUrl: string) => {
+    const _handleVideoUploaded = (embedUrl: string, thumbUrl?: string) => {
       setVideoEmbedUrl(embedUrl);
-      _addQuickCommentIntoCache(commentValueRef.current || '', mediaUrls, embedUrl);
+      setVideoThumbUrl(thumbUrl || null);
+      _addQuickCommentIntoCache(
+        commentValueRef.current || '',
+        mediaUrls,
+        embedUrl,
+        thumbUrl || null,
+      );
     };
 
     const _handleRemoveVideo = () => {
       setVideoEmbedUrl(null);
-      _addQuickCommentIntoCache(commentValueRef.current || '', mediaUrls, null);
+      setVideoThumbUrl(null);
+      _addQuickCommentIntoCache(commentValueRef.current || '', mediaUrls, null, null);
     };
 
     const _handleAiImageBtn = async () => {

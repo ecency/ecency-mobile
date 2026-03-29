@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { useComment } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector, useStateWithRef } from '../../hooks';
-import { shouldPromptPostingAuthority } from '../../providers/hive/dhive';
+import { shouldPromptPostingAuthority, getDigitPinCode } from '../../providers/hive/dhive';
 import { extractMetadata, generateUniquePermlink, makeJsonMetadata } from '../../utils/editor';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { wavesQueries } from '../../providers/queries';
@@ -25,7 +25,6 @@ import {
   hasThreeSpeakEmbed,
 } from '../../providers/speak/beneficiary';
 import { extractPermlink, linkVideoToHive } from '../../providers/speak/speak';
-import { getDigitPinCode } from '../../providers/hive/dhive';
 import { decryptKey } from '../../utils/crypto';
 
 export const usePostSubmitter = () => {
@@ -52,6 +51,7 @@ export const usePostSubmitter = () => {
     postType: PostTypes = PostTypes.COMMENT,
     pollDraft?: PollDraft,
     manageSubmittingState = true,
+    videoThumbUrls?: string[],
   ) => {
     if (!commentBody) {
       return false;
@@ -100,6 +100,7 @@ export const usePostSubmitter = () => {
             postType,
             pollDraft,
             manageSubmittingState,
+            videoThumbUrls,
           );
         } catch (error) {
           // Error granting posting authority - surface through outer handler
@@ -127,6 +128,7 @@ export const usePostSubmitter = () => {
       // adding jsonmeta with image ratios here....
       const meta = await extractMetadata({
         body: commentBody,
+        videoThumbUrls,
         fetchRatios: true,
         postType,
         pollDraft,
@@ -279,8 +281,8 @@ export const usePostSubmitter = () => {
     }
   };
 
-  // feteced lates wafves container and  wave to that container
-  const _submitWave = async (body: string, pollDraft: PollDraft) => {
+  // fetch latest waves container and post wave to it
+  const _submitWave = async (body: string, pollDraft: PollDraft, videoThumbUrl?: string | null) => {
     if (getIsSubmittingCurrent()) {
       return false;
     }
@@ -297,6 +299,7 @@ export const usePostSubmitter = () => {
         PostTypes.WAVE,
         pollDraft,
         false,
+        videoThumbUrl ? [videoThumbUrl] : undefined,
       );
 
       if (_cacheCommentData) {
