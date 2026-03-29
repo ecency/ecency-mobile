@@ -306,6 +306,26 @@ const WavesScreen = () => {
       );
     }
 
+    if (activeTag && tagQueryOptions) {
+      return (
+        <View style={styles.tabScene}>
+          {_renderTagChip}
+          <WavesFeed
+            queryOptions={tagQueryOptions}
+            queryKey={`tag:${activeTag}`}
+            listRef={tagListRef}
+            onTagPress={_handleTagFilter}
+            onOptionsPress={_handleOnOptionsPress}
+            onScrollStateChange={_handleScrollStateChange}
+            onVisibilityChange={({ deleteWave }) => {
+              activeDeleteWaveRef.current = deleteWave;
+            }}
+            isDarkTheme={isDarkTheme}
+          />
+        </View>
+      );
+    }
+
     return (
       <View style={styles.tabScene}>
         <WavesFeed
@@ -329,53 +349,34 @@ const WavesScreen = () => {
       <Header />
 
       <View style={styles.contentContainer} onLayout={_lazyLoadContent}>
-        {!!activeTag && !!tagQueryOptions ? (
-          <>
-            {_renderTagChip}
-            <View style={styles.tabScene}>
-              <WavesFeed
-                queryOptions={tagQueryOptions}
-                queryKey={`tag:${activeTag}`}
-                listRef={tagListRef}
-                onTagPress={_handleTagFilter}
-                onOptionsPress={_handleOnOptionsPress}
-                onScrollStateChange={_handleScrollStateChange}
-                onVisibilityChange={({ deleteWave }) => {
-                  activeDeleteWaveRef.current = deleteWave;
+        {lazyLoad ? (
+          <TabView
+            navigationState={{ index: wavesIndex, routes: wavesRoutes }}
+            style={styles.tabView}
+            renderTabBar={(tabProps) => (
+              <TabBar
+                {...tabProps}
+                onTabPress={({ route, preventDefault }) => {
+                  preventDefault();
+                  _handleTabChange(route.key as WavesFeedType);
                 }}
-                isDarkTheme={isDarkTheme}
               />
-            </View>
-          </>
-        ) : (
-          lazyLoad && (
-            <TabView
-              navigationState={{ index: wavesIndex, routes: wavesRoutes }}
-              style={styles.tabView}
-              renderTabBar={(tabProps) => (
-                <TabBar
-                  {...tabProps}
-                  onTabPress={({ route }) => {
-                    _handleTabChange(route.key as WavesFeedType);
-                  }}
-                />
-              )}
-              renderScene={_renderWavesScene}
-              onIndexChange={(index) => {
-                const nextFeed = wavesRoutes[index]?.key as WavesFeedType;
-                if (nextFeed && nextFeed !== feedType) {
-                  _handleTabChange(nextFeed);
-                }
-              }}
-              animationEnabled={false}
-              lazy={true}
-              swipeEnabled={true}
-              commonOptions={{
-                labelStyle: styles.tabLabelColor,
-              }}
-            />
-          )
-        )}
+            )}
+            renderScene={_renderWavesScene}
+            onIndexChange={(index) => {
+              const nextFeed = wavesRoutes[index]?.key as WavesFeedType;
+              if (nextFeed && nextFeed !== feedType) {
+                _handleTabChange(nextFeed);
+              }
+            }}
+            animationEnabled={false}
+            lazy={true}
+            swipeEnabled={isLoggedIn}
+            commonOptions={{
+              labelStyle: styles.tabLabelColor,
+            }}
+          />
+        ) : null}
 
         <ScrollTopPopup enable={enableScrollTop} onPress={_scrollTop} />
       </View>
