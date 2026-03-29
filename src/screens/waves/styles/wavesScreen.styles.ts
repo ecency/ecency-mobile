@@ -1,4 +1,4 @@
-import { ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
@@ -8,14 +8,15 @@ export default EStyleSheet.create({
   } as ViewStyle,
   contentContainer: {
     flex: 1,
-    paddingTop: 8,
   } as ViewStyle,
-  feedsContainer: {
+  tabView: {
     flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
+    minWidth: '100%',
   } as ViewStyle,
-  tabScenesContainer: {
-    flex: 1,
-  } as ViewStyle,
+  tabLabelColor: {
+    color: '$primaryDarkText',
+  } as TextStyle,
   tabScene: {
     flex: 1,
   } as ViewStyle,

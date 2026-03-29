@@ -12,6 +12,7 @@ import { debounce } from 'lodash';
 import { TabView } from 'react-native-tab-view';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
+import { useIntl } from 'react-intl';
 import {
   getWavesByHostQueryOptions,
   getWavesFollowingQueryOptions,
@@ -23,6 +24,7 @@ import {
   Header,
   PostOptionsModal,
   FabButton,
+  TabBar,
 } from '../../../components/index';
 import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
@@ -191,12 +193,13 @@ const WavesScreen = () => {
     ? followingListRef
     : forYouListRef;
 
+  const intl = useIntl();
   const wavesRoutes = useMemo(
     () => [
-      { key: 'for-you', title: 'for-you' as WavesFeedType },
-      { key: 'following', title: 'following' as WavesFeedType },
+      { key: 'for-you', title: intl.formatMessage({ id: 'waves.for_you' }) },
+      { key: 'following', title: intl.formatMessage({ id: 'waves.following' }) },
     ],
-    [],
+    [intl],
   );
 
   const wavesIndex = useMemo(
@@ -275,14 +278,9 @@ const WavesScreen = () => {
     setEnableScrollTop(enabled);
   };
 
-  const _renderListHeader = (
-    <WavesHeader
-      feedType={feedType}
-      activeTag={activeTag}
-      onTabChange={_handleTabChange}
-      onClearTag={_handleClearTag}
-    />
-  );
+  const _renderTagChip = activeTag ? (
+    <WavesHeader activeTag={activeTag} onClearTag={_handleClearTag} />
+  ) : null;
 
   const _renderWavesScene = ({ route }: { route: { key: string } }) => {
     if (route.key === 'following') {
@@ -331,10 +329,9 @@ const WavesScreen = () => {
       <Header />
 
       <View style={styles.contentContainer} onLayout={_lazyLoadContent}>
-        {_renderListHeader}
-
-        <View style={styles.feedsContainer}>
-          {!!activeTag && !!tagQueryOptions ? (
+        {!!activeTag && !!tagQueryOptions ? (
+          <>
+            {_renderTagChip}
             <View style={styles.tabScene}>
               <WavesFeed
                 queryOptions={tagQueryOptions}
@@ -349,28 +346,36 @@ const WavesScreen = () => {
                 isDarkTheme={isDarkTheme}
               />
             </View>
-          ) : (
-            lazyLoad && (
-              <TabView
-                animationEnabled={false}
-                lazy={true}
-                swipeEnabled={false}
-                renderTabBar={() => null}
-                navigationState={{ index: wavesIndex, routes: wavesRoutes }}
-                renderScene={_renderWavesScene}
-                onIndexChange={(index) => {
-                  const nextFeedType = wavesRoutes[index]?.key as WavesFeedType | undefined;
-                  if (nextFeedType && nextFeedType !== feedType) {
-                    setEnableScrollTop(false);
-                    setFeedType(nextFeedType);
-                  }
-                }}
-                initialLayout={undefined}
-                sceneContainerStyle={styles.tabScenesContainer}
-              />
-            )
-          )}
-        </View>
+          </>
+        ) : (
+          lazyLoad && (
+            <TabView
+              navigationState={{ index: wavesIndex, routes: wavesRoutes }}
+              style={styles.tabView}
+              renderTabBar={(tabProps) => (
+                <TabBar
+                  {...tabProps}
+                  onTabPress={({ route }) => {
+                    _handleTabChange(route.key as WavesFeedType);
+                  }}
+                />
+              )}
+              renderScene={_renderWavesScene}
+              onIndexChange={(index) => {
+                const nextFeed = wavesRoutes[index]?.key as WavesFeedType;
+                if (nextFeed && nextFeed !== feedType) {
+                  _handleTabChange(nextFeed);
+                }
+              }}
+              animationEnabled={false}
+              lazy={true}
+              swipeEnabled={true}
+              commonOptions={{
+                labelStyle: styles.tabLabelColor,
+              }}
+            />
+          )
+        )}
 
         <ScrollTopPopup enable={enableScrollTop} onPress={_scrollTop} />
       </View>
