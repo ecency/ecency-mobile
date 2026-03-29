@@ -51,6 +51,7 @@ const CommentView = ({
   onUpvotePress,
   handleParaSelection,
   onTagPress,
+  onAuthorPress,
 }) => {
   const intl = useIntl();
 
@@ -314,8 +315,8 @@ const CommentView = ({
           customStyle={{ alignItems: 'flex-start', paddingLeft: 12 }}
           showDotMenuButton={true}
           handleOnDotPress={() => handleOnMenuPress(comment)}
-          avatarOnPress={handleOnUserPress}
-          profileOnPress={_openProfilePage}
+          avatarOnPress={onAuthorPress || handleOnUserPress}
+          profileOnPress={onAuthorPress || _openProfilePage}
           secondaryContentComponent={_renderComment()}
         />
       </View>

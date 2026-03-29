@@ -44,6 +44,7 @@ const CommentsView = ({
   isLoading,
   postType,
   onTagPress,
+  onAuthorPress,
 }) => {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
@@ -142,6 +143,7 @@ const CommentsView = ({
         fetchedAt={fetchedAt}
         incrementRepliesCount={incrementRepliesCount}
         onTagPress={onTagPress}
+        onAuthorPress={onAuthorPress}
       />
     );
   };
