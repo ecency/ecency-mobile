@@ -1,7 +1,7 @@
 {
   "waves": {
-    "for_you": "For you",
-    "following": "Following"
+    "for_you": "Para ti",
+    "following": "Siguiendo"
   },
   "profile": {
     "havent_commented": "no has comentado nada aún",
@@ -802,7 +802,7 @@
     "copy_link": "Copiar enlace",
     "wrong_link": "Enlace incorrecto",
     "select_action": "Seleccionar acción",
-    "ecency_waves": "Waves",
+    "ecency_waves": "Olas",
     "open_thread": "Hilo abierto",
     "cross_post": "publicación cruzada por {username} en {community}",
     "image_saved_error": "Error guardando imagen",
