@@ -68,6 +68,14 @@ export const getChannelUnreadTotal = (channel: any): number => {
     return 0;
   }
 
+  // If the channel has never been viewed, treat it as having no unreads.
+  // This prevents auto-joined or newly joined channels from inflating
+  // the badge with all historical messages.
+  const lastViewed = channel?.last_viewed_at || channel?.last_view_at || 0;
+  if (!lastViewed || lastViewed === 0) {
+    return 0;
+  }
+
   const unreadMentionValues = [
     channel?.unread_mentions,
     channel?.mention_count,
