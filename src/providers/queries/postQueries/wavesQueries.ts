@@ -16,6 +16,7 @@ import {
   getWavesByHostQueryOptions,
   getWavesFollowingQueryOptions,
   getWavesByTagQueryOptions,
+  getWavesByAccountQueryOptions,
   useDeleteComment,
   WaveEntry,
 } from '@ecency/sdk';
@@ -30,7 +31,8 @@ import { useAuthContext } from '../../sdk';
 type WavesQueryOptions =
   | ReturnType<typeof getWavesByHostQueryOptions>
   | ReturnType<typeof getWavesFollowingQueryOptions>
-  | ReturnType<typeof getWavesByTagQueryOptions>;
+  | ReturnType<typeof getWavesByTagQueryOptions>
+  | ReturnType<typeof getWavesByAccountQueryOptions>;
 
 export const useWavesQuery = (sdkQueryOptions: WavesQueryOptions, host: string) => {
   const queryClient = useQueryClient();

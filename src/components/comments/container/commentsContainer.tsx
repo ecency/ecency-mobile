@@ -55,6 +55,7 @@ const CommentsContainer = ({
   postType,
   handleCommentDelete,
   onTagPress,
+  onAuthorPress,
 }) => {
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
@@ -321,6 +322,7 @@ const CommentsContainer = ({
       isLoading={isLoading}
       postType={postType}
       onTagPress={onTagPress}
+      onAuthorPress={onAuthorPress}
     />
   );
 };

@@ -17,6 +17,7 @@ import {
   getWavesByHostQueryOptions,
   getWavesFollowingQueryOptions,
   getWavesByTagQueryOptions,
+  getWavesByAccountQueryOptions,
 } from '@ecency/sdk';
 import {
   Comments,
@@ -49,6 +50,7 @@ const WavesFeed = ({
   queryKey,
   listRef,
   onTagPress,
+  onAuthorPress,
   onOptionsPress,
   onScrollStateChange,
   onVisibilityChange,
@@ -58,6 +60,7 @@ const WavesFeed = ({
   queryKey: string;
   listRef: React.RefObject<FlatList | null>;
   onTagPress: (tag: string) => void;
+  onAuthorPress: (username: string) => void;
   onOptionsPress: (content: any) => void;
   onScrollStateChange: (state: { enabled: boolean; offset: number }) => void;
   onVisibilityChange?: (api: {
@@ -136,6 +139,7 @@ const WavesFeed = ({
       handleOnOptionsPress={onOptionsPress}
       handleCommentDelete={wavesQuery.deleteWave}
       onTagPress={onTagPress}
+      onAuthorPress={onAuthorPress}
       flatListProps={{
         ref: listRef,
         onEndReached: _fetchData,
@@ -162,9 +166,11 @@ const WavesScreen = () => {
   const forYouListRef = useRef<FlatList>(null);
   const followingListRef = useRef<FlatList>(null);
   const tagListRef = useRef<FlatList>(null);
+  const authorListRef = useRef<FlatList>(null);
 
   const [feedType, setFeedType] = useState<WavesFeedType>('for-you');
   const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [activeAuthor, setActiveAuthor] = useState<string | null>(null);
   const [enableScrollTop, setEnableScrollTop] = useState(false);
   const [lazyLoad, setLazyLoad] = useState(false);
   const activeDeleteWaveRef = useRef<
@@ -186,8 +192,14 @@ const WavesScreen = () => {
     () => (activeTag ? getWavesByTagQueryOptions(WAVES_HOST, activeTag) : null),
     [activeTag],
   );
+  const authorQueryOptions = useMemo(
+    () => (activeAuthor ? getWavesByAccountQueryOptions(WAVES_HOST, activeAuthor) : null),
+    [activeAuthor],
+  );
 
-  const activeListRef = activeTag
+  const activeListRef = activeAuthor
+    ? authorListRef
+    : activeTag
     ? tagListRef
     : feedType === 'following'
     ? followingListRef
@@ -223,7 +235,7 @@ const WavesScreen = () => {
       return;
     }
 
-    if (tab === feedType && !activeTag) {
+    if (tab === feedType && !activeTag && !activeAuthor) {
       activeListRef.current?.scrollToOffset({ offset: 0, animated: false });
       setEnableScrollTop(false);
       return;
@@ -231,6 +243,7 @@ const WavesScreen = () => {
 
     if (tab === 'following') {
       setActiveTag(null);
+      setActiveAuthor(null);
     }
 
     setEnableScrollTop(false);
@@ -240,12 +253,25 @@ const WavesScreen = () => {
   const _handleTagFilter = useCallback((tag: string) => {
     setFeedType((prev) => (prev === 'following' ? 'for-you' : prev));
     setEnableScrollTop(false);
+    setActiveAuthor(null);
     setActiveTag(tag);
   }, []);
 
   const _handleClearTag = useCallback(() => {
     setEnableScrollTop(false);
     setActiveTag(null);
+  }, []);
+
+  const _handleAuthorFilter = useCallback((username: string) => {
+    setFeedType((prev) => (prev === 'following' ? 'for-you' : prev));
+    setEnableScrollTop(false);
+    setActiveTag(null);
+    setActiveAuthor(username);
+  }, []);
+
+  const _handleClearAuthor = useCallback(() => {
+    setEnableScrollTop(false);
+    setActiveAuthor(null);
   }, []);
 
   const _handleOnOptionsPress = (content: any) => {
@@ -278,9 +304,15 @@ const WavesScreen = () => {
     setEnableScrollTop(enabled);
   };
 
-  const _renderTagChip = activeTag ? (
-    <WavesHeader activeTag={activeTag} onClearTag={_handleClearTag} />
-  ) : null;
+  const _renderFilterChip =
+    activeTag || activeAuthor ? (
+      <WavesHeader
+        activeTag={activeTag}
+        activeAuthor={activeAuthor}
+        onClearTag={_handleClearTag}
+        onClearAuthor={_handleClearAuthor}
+      />
+    ) : null;
 
   const _renderWavesScene = ({ route }: { route: { key: string } }) => {
     if (route.key === 'following') {
@@ -295,6 +327,28 @@ const WavesScreen = () => {
             queryKey={`following:${currentAccount?.name}`}
             listRef={followingListRef}
             onTagPress={_handleTagFilter}
+            onAuthorPress={_handleAuthorFilter}
+            onOptionsPress={_handleOnOptionsPress}
+            onScrollStateChange={_handleScrollStateChange}
+            onVisibilityChange={({ deleteWave }) => {
+              activeDeleteWaveRef.current = deleteWave;
+            }}
+            isDarkTheme={isDarkTheme}
+          />
+        </View>
+      );
+    }
+
+    if (activeAuthor && authorQueryOptions) {
+      return (
+        <View style={styles.tabScene}>
+          {_renderFilterChip}
+          <WavesFeed
+            queryOptions={authorQueryOptions}
+            queryKey={`author:${activeAuthor}`}
+            listRef={authorListRef}
+            onTagPress={_handleTagFilter}
+            onAuthorPress={_handleAuthorFilter}
             onOptionsPress={_handleOnOptionsPress}
             onScrollStateChange={_handleScrollStateChange}
             onVisibilityChange={({ deleteWave }) => {
@@ -309,12 +363,13 @@ const WavesScreen = () => {
     if (activeTag && tagQueryOptions) {
       return (
         <View style={styles.tabScene}>
-          {_renderTagChip}
+          {_renderFilterChip}
           <WavesFeed
             queryOptions={tagQueryOptions}
             queryKey={`tag:${activeTag}`}
             listRef={tagListRef}
             onTagPress={_handleTagFilter}
+            onAuthorPress={_handleAuthorFilter}
             onOptionsPress={_handleOnOptionsPress}
             onScrollStateChange={_handleScrollStateChange}
             onVisibilityChange={({ deleteWave }) => {
@@ -333,6 +388,7 @@ const WavesScreen = () => {
           queryKey="for-you"
           listRef={forYouListRef}
           onTagPress={_handleTagFilter}
+          onAuthorPress={_handleAuthorFilter}
           onOptionsPress={_handleOnOptionsPress}
           onScrollStateChange={_handleScrollStateChange}
           onVisibilityChange={({ deleteWave }) => {

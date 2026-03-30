@@ -126,13 +126,23 @@ const ChatsContainer = () => {
   // ============================================================================
 
   const _getUnreadMeta = useCallback((channel: any) => {
+    const _zeroUnread = {
+      unreadMentions: 0,
+      unreadMessages: 0,
+      unreadCount: 0,
+      totalUnread: 0,
+    };
+
     if (channel?.is_muted) {
-      return {
-        unreadMentions: 0,
-        unreadMessages: 0,
-        unreadCount: 0,
-        totalUnread: 0,
-      };
+      return _zeroUnread;
+    }
+
+    // Channels that have never been viewed (null/undefined) should
+    // not show unreads — prevents auto-joined channels from showing
+    // all historical messages as new
+    const lastViewed = channel?.last_viewed_at ?? channel?.last_view_at;
+    if (lastViewed == null) {
+      return _zeroUnread;
     }
 
     const unreadMentionValues = [
@@ -603,7 +613,27 @@ const ChatsContainer = () => {
 
         const joined = await joinMattermostChannel(channelId);
         const joinedId = _getChannelId(joined) || channelId;
-        const mergedChannel = { ...resolved?.resolvedChannel, ...channel, ...joined };
+
+        // Mark channel as viewed immediately after joining so historical
+        // messages don't inflate the unread count for newly joined users
+        let viewedSuccessfully = false;
+        try {
+          await markMattermostChannelViewed(joinedId);
+          viewedSuccessfully = true;
+        } catch {
+          // non-critical — channel will show unreads until manually opened
+        }
+
+        const mergedChannel = {
+          ...resolved?.resolvedChannel,
+          ...channel,
+          ...joined,
+          ...(viewedSuccessfully && {
+            unread_messages: 0,
+            unread_mentions: 0,
+            mention_count: 0,
+          }),
+        };
         const communityIdentifier = safeExtractCommunityIdentifier(mergedChannel);
 
         setChannels((prev) => {
@@ -620,6 +650,9 @@ const ChatsContainer = () => {
           }
           return [mergedChannel, ...prev];
         });
+
+        // Refresh global badge to reflect the mark-as-viewed
+        _refreshGlobalUnreadChatCount();
 
         navigation.navigate(
           ROUTES.SCREENS.CHAT_THREAD as never,
