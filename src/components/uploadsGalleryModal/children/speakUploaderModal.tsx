@@ -141,8 +141,12 @@ export const SpeakUploaderModal = forwardRef(
 
         // Notify parent with the embed URL and uploaded thumbnail URL
         onVideoUploaded?.(result.embedUrl, uploadedThumbUrl);
-      } catch (err) {
-        console.warn('Video upload failed', err);
+      } catch (err: any) {
+        // Show user-visible error if the mutation didn't already toast
+        const msg = err?.message || 'Upload failed';
+        if (!msg.includes('[3Speak]')) {
+          Alert.alert(intl.formatMessage({ id: 'alert.fail' }), msg);
+        }
       }
 
       setIsUploading(false);

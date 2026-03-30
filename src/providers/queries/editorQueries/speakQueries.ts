@@ -10,6 +10,7 @@ import { uploadVideoEmbed, setVideoThumbnail } from '../../speak/speak';
 import { VideoUploadResult } from '../../speak/speak.types';
 import { getDigitPinCode } from '../../hive/dhive';
 import { decryptKey } from '../../../utils/crypto';
+import { refreshSCToken } from '../../hive/auth';
 
 /**
  * Returns the decrypted HiveSigner access token for the current account.
@@ -47,6 +48,7 @@ export const useThreeSpeakEmbedUpload = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
   const getToken = useAccessToken();
   const [completed, setCompleted] = useState(0);
 
@@ -61,6 +63,16 @@ export const useThreeSpeakEmbedUpload = () => {
     }): Promise<VideoUploadResult> => {
       if (!currentAccount?.name) {
         throw new Error('No active account');
+      }
+
+      // Refresh the HiveSigner token before uploading to avoid
+      // expired-token failures on long-running sessions
+      const pinCode = getDigitPinCode(pinHash);
+      try {
+        await refreshSCToken(currentAccount.local, pinCode);
+      } catch {
+        // refresh failed — proceed with existing token, server
+        // will reject if it's truly expired
       }
 
       const accessToken = getToken();

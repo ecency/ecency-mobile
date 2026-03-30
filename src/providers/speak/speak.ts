@@ -101,6 +101,10 @@ export async function uploadVideoEmbed(
 
   const filename = (media as Video).filename || media.path.split('/').pop() || 'video.mp4';
 
+  if (!media.size || media.size <= 0) {
+    throw new Error('[3Speak] Unable to determine video file size');
+  }
+
   const file = {
     uri,
     size: media.size,
