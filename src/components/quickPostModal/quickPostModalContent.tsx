@@ -294,7 +294,9 @@ export const QuickPostModalContent = forwardRef(
           dispatch(removePollDraft(draftId));
           setCommentValue('');
           commentValueRef.current = '';
+          setMediaUrls([]);
           setVideoEmbedUrl(null);
+          setVideoThumbUrl(null);
           onClose();
         } else {
           _addQuickCommentIntoCache(commentValue); // add comment value into cache if there is error while posting comment
