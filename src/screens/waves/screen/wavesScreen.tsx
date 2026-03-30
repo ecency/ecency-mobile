@@ -235,7 +235,7 @@ const WavesScreen = () => {
       return;
     }
 
-    if (tab === feedType && !activeTag) {
+    if (tab === feedType && !activeTag && !activeAuthor) {
       activeListRef.current?.scrollToOffset({ offset: 0, animated: false });
       setEnableScrollTop(false);
       return;
@@ -243,6 +243,7 @@ const WavesScreen = () => {
 
     if (tab === 'following') {
       setActiveTag(null);
+      setActiveAuthor(null);
     }
 
     setEnableScrollTop(false);
@@ -252,6 +253,7 @@ const WavesScreen = () => {
   const _handleTagFilter = useCallback((tag: string) => {
     setFeedType((prev) => (prev === 'following' ? 'for-you' : prev));
     setEnableScrollTop(false);
+    setActiveAuthor(null);
     setActiveTag(tag);
   }, []);
 

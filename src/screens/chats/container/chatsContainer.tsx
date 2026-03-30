@@ -137,10 +137,11 @@ const ChatsContainer = () => {
       return _zeroUnread;
     }
 
-    // Never-viewed channels should not show unreads — prevents
-    // auto-joined channels from showing all history as new
-    const lastViewed = channel?.last_viewed_at || channel?.last_view_at || 0;
-    if (!lastViewed || lastViewed === 0) {
+    // Channels that have never been viewed (null/undefined) should
+    // not show unreads — prevents auto-joined channels from showing
+    // all historical messages as new
+    const lastViewed = channel?.last_viewed_at ?? channel?.last_view_at;
+    if (lastViewed == null) {
       return _zeroUnread;
     }
 
@@ -615,8 +616,10 @@ const ChatsContainer = () => {
 
         // Mark channel as viewed immediately after joining so historical
         // messages don't inflate the unread count for newly joined users
+        let viewedSuccessfully = false;
         try {
           await markMattermostChannelViewed(joinedId);
+          viewedSuccessfully = true;
         } catch {
           // non-critical — channel will show unreads until manually opened
         }
@@ -625,9 +628,11 @@ const ChatsContainer = () => {
           ...resolved?.resolvedChannel,
           ...channel,
           ...joined,
-          unread_messages: 0,
-          unread_mentions: 0,
-          mention_count: 0,
+          ...(viewedSuccessfully && {
+            unread_messages: 0,
+            unread_mentions: 0,
+            mention_count: 0,
+          }),
         };
         const communityIdentifier = safeExtractCommunityIdentifier(mergedChannel);
 
