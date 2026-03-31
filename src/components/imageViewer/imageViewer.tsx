@@ -160,6 +160,7 @@ export const ImageViewer = forwardRef(({}, ref) => {
       images={imageUrls.map((url) => ({ uri: url }))}
       imageIndex={selectedIndex}
       visible={visible}
+      presentationStyle="overFullScreen"
       animationType="slide"
       swipeToCloseEnabled
       doubleTapScale={1.5}
