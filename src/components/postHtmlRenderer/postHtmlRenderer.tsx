@@ -297,6 +297,18 @@ export const PostHtmlRenderer = memo(
       }
     }, []);
 
+    // Extract thumbnail from metadata for video orientation detection and comment thumbnails
+    const _metadataThumbUrl = useMemo(() => {
+      const images = metadata?.image;
+      if (Array.isArray(images) && images.length > 0) {
+        return images[0];
+      }
+      if (typeof images === 'string') {
+        return images;
+      }
+      return undefined;
+    }, [metadata]);
+
     const _anchorRenderer = useCallback(
       ({ InternalRenderer, tnode, ...props }: CustomRendererProps<TNode>) => {
         const parsedTnode = parseLinkData(tnode);
@@ -314,7 +326,7 @@ export const PostHtmlRenderer = memo(
             const imgElement = tnode.children.find(
               (child) => child.classes.indexOf('video-thumbnail') >= 0,
             );
-            const thumbUri = imgElement?.attributes?.src;
+            const thumbUri = imgElement?.attributes?.src || _metadataThumbUrl;
             return <VideoThumb contentWidth={contentWidth} uri={thumbUri} onPress={_onPress} />;
           } else {
             return (
@@ -395,7 +407,7 @@ export const PostHtmlRenderer = memo(
 
         return <InternalRenderer tnode={tnode} onPress={_onPress} {...props} />;
       },
-      [_handleOnLinkPress, isComment, contentWidth, metadata],
+      [_handleOnLinkPress, isComment, contentWidth, metadata, _metadataThumbUrl],
     );
 
     const _imageRenderer = useCallback(
@@ -495,15 +507,6 @@ export const PostHtmlRenderer = memo(
       [_minTableColWidth, contentWidth],
     );
 
-    // Extract thumbnail for 3Speak video orientation detection
-    const _speakThumbnail = useMemo(() => {
-      if (metadata?.type === '3speak/video' || metadata?.video?.info?.platform === '3speak') {
-        const images = metadata?.image;
-        return Array.isArray(images) ? images[0] : images;
-      }
-      return undefined;
-    }, [metadata]);
-
     // iframe renderer for rendering iframes in body
     const _iframeRenderer = useCallback(
       function IframeRenderer(props) {
@@ -516,7 +519,9 @@ export const PostHtmlRenderer = memo(
               handleVideoPress(iframeProps.source.uri);
             }
           };
-          return <VideoThumb contentWidth={contentWidth} onPress={_onPress} />;
+          return (
+            <VideoThumb contentWidth={contentWidth} uri={_metadataThumbUrl} onPress={_onPress} />
+          );
         } else {
           const isSpeakEmbed = /3speak\.tv/i.test(iframeProps.source.uri || '');
           return (
@@ -527,13 +532,13 @@ export const PostHtmlRenderer = memo(
                 mode="uri"
                 uri={iframeProps.source.uri}
                 contentWidth={contentWidth}
-                thumbnailUrl={isSpeakEmbed ? _speakThumbnail : undefined}
+                thumbnailUrl={isSpeakEmbed ? _metadataThumbUrl : undefined}
               />
             </View>
           );
         }
       },
-      [isComment, handleVideoPress, contentWidth, _speakThumbnail],
+      [isComment, handleVideoPress, contentWidth, _metadataThumbUrl],
     );
 
     const tagsStyles = useMemo(
