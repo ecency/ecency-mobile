@@ -156,7 +156,9 @@ const ChatsContainer = () => {
 
     const unreadMentions = unreadMentionValues.length ? Math.max(0, ...unreadMentionValues) : 0;
 
-    const unreadMessages = Number.isFinite(channel?.unread_messages)
+    const unreadMessages = Number.isFinite(channel?.message_count)
+      ? channel.message_count
+      : Number.isFinite(channel?.unread_messages)
       ? channel.unread_messages
       : Number.isFinite(channel?.unread_msg_count)
       ? channel.unread_msg_count
