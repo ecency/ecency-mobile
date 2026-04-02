@@ -1,11 +1,11 @@
-arguments=--init-script /var/folders/4n/09fh21tj1nz5pqqzh5ky5tb80000gn/T/d146c9752a26f79b52047fb6dc6ed385d064e120494f96f08ca63a317c41f94c.gradle --init-script /var/folders/4n/09fh21tj1nz5pqqzh5ky5tb80000gn/T/52cde0cfcf3e28b8b7510e992210d9614505e0911af0c190bd590d7158574963.gradle
+arguments=--init-script /var/folders/6w/pxp1zq212y56jv56dmm7qdxh0000gn/T/db3b08fc4a9ef609cb16b96b200fa13e563f396e9bb1ed0905fdab7bc3bc513b.gradle --init-script /var/folders/6w/pxp1zq212y56jv56dmm7qdxh0000gn/T/52cde0cfcf3e28b8b7510e992210d9614505e0911af0c190bd590d7158574963.gradle --init-script /var/folders/6w/pxp1zq212y56jv56dmm7qdxh0000gn/T/861a75667e10803d304a058d833cb7404195ca44013d0d61d3b653eb084379b8.gradle --init-script /var/folders/6w/pxp1zq212y56jv56dmm7qdxh0000gn/T/68eb1b6516fe21c6fbba58e63c99c3207ccfc918360613709367eecde56fa77f.gradle
 auto.sync=true
 build.scans.enabled=false
 connection.gradle.distribution=GRADLE_DISTRIBUTION(WRAPPER)
 connection.project.dir=
 eclipse.preferences.version=1
 gradle.user.home=
-java.home=/Library/Java/JavaVirtualMachines/jdk-17.0.5.jdk/Contents/Home
+java.home=/Library/Java/JavaVirtualMachines/openjdk-14.0.1.jdk/Contents/Home
 jvm.arguments=
 offline.mode=false
 override.workspace.settings=true
