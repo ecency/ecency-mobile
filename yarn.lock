@@ -1161,10 +1161,10 @@
   dependencies:
     long "~3"
 
-"@ecency/render-helper@^2.4.27":
-  version "2.4.27"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.4.27.tgz#8c106efed10e9cfd19b447fb876d9f43e3033715"
-  integrity sha512-twCyDD0IB4A37EUyx1OZmhMeHodM1zrkIDEf0azKSINWczDgbNrS2L7NLu4SgVjFEriXlD8jDSmUrZ6jFPX32A==
+"@ecency/render-helper@^2.4.28":
+  version "2.4.28"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.4.28.tgz#111b620e14746986e2fe0b018c7f09bce6fc850d"
+  integrity sha512-PQqB1v4dgmzE9KFgsY1ddJ1BgxWwoAUVH0LSu4Qf4RtqwvLrdCTKB2zoYk6sTUQ4a/NO2chaOAjinnV+Zvob1A==
   dependencies:
     "@xmldom/xmldom" "^0.9.6"
     dom-serializer "^2.0.0"
@@ -1180,10 +1180,10 @@
     url "^0.11.0"
     xss "^1.0.9"
 
-"@ecency/sdk@^2.0.34":
-  version "2.0.34"
-  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.0.34.tgz#be76ce7ef7aa37938a2779c109039a2bba3d1bd8"
-  integrity sha512-CQ/rtTMZ9kfySNUgnkT3snVvXEWgd8pyU7r/9ts5uF4Zc8msVA8LYuasZUqwoy+NAbT8nHTKzA+1zRaEoKNcVQ==
+"@ecency/sdk@^2.0.38":
+  version "2.0.38"
+  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.0.38.tgz#dc461ddee64828b373f11f15ccb8ce7d9a015252"
+  integrity sha512-RS3JBLxCNxu1pSP2YlMsuIUt/H8qNgkpfAC2LylGjvgoQ+vFR9Z4jnEZJA+SRiKy0KQVsO/YCdJi7UXvyXbIPw==
 
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
@@ -2006,10 +2006,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hiveio/dhive@^1.3.5":
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/@hiveio/dhive/-/dhive-1.3.5.tgz#39943562ae434d2119367073efefc3424dad3752"
-  integrity sha512-hROy9qm/8O5EE5H2hnoZ1Kgcx3H1Uc2AMbfYgrAHyMXMYcEFoNcYeK8R5mHl/GanrypOt9bMJ7J/BaeaTMAqNw==
+"@hiveio/dhive@^1.3.6":
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/@hiveio/dhive/-/dhive-1.3.6.tgz#f1dddde42486a5f56acf9fbf931be159b9102493"
+  integrity sha512-d+uNzuIArqoI30IKGpV93JRU/p3LPUY3pmrQqmNb8Iiowd5KxCZ4LIT8gIFQw16OoGKuQ2tY3LXkUBxNb1gWhQ==
   dependencies:
     "@ecency/bytebuffer" "^6.0.0"
     bigi "^1.4.2"
