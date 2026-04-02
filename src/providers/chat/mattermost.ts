@@ -1,6 +1,6 @@
 import axios from 'axios';
 import get from 'lodash/get';
-import chatApi from '../../config/chatApi';
+import chatApi, { setChatApiToken } from '../../config/chatApi';
 import { getDigitPinCode } from '../hive/dhive';
 import { decryptKey } from '../../utils/crypto';
 import { getSCAccount } from '../../realm/realm';
@@ -42,6 +42,13 @@ export const bootstrapMattermostSession = async (
 ): Promise<any> => {
   const payload = await resolveMattermostTokens(currentAccount, pinCode);
   const { data } = await chatApi.post('/api/mattermost/bootstrap', payload);
+
+  // Store token explicitly so subsequent requests don't depend on
+  // the async cookie jar — prevents race conditions on cold start
+  if (data?.token) {
+    setChatApiToken(data.token);
+  }
+
   return data;
 };
 

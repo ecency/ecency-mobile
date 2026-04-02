@@ -11,6 +11,20 @@ const chatApi = axios.create({
   withCredentials: true,
 });
 
+/**
+ * Store the Mattermost personal access token so every subsequent
+ * request carries it in the X-MM-Token header. This avoids reliance
+ * on the httpOnly cookie which can be unreliable on React Native
+ * (async cookie-jar updates cause race conditions on cold start).
+ */
+export const setChatApiToken = (token: string | null) => {
+  if (token) {
+    chatApi.defaults.headers.common['X-MM-Token'] = token;
+  } else {
+    delete chatApi.defaults.headers.common['X-MM-Token'];
+  }
+};
+
 chatApi.interceptors.request.use((request) => request);
 chatApi.interceptors.response.use(
   (response) => response,

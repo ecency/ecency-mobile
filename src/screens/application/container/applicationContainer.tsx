@@ -50,6 +50,7 @@ import {
   bootstrapMattermostSession,
   calculateGlobalUnreadTotal,
 } from '../../../providers/chat/mattermost';
+import { setChatApiToken } from '../../../config/chatApi';
 
 // Actions
 import {
@@ -411,6 +412,7 @@ class ApplicationContainer extends Component {
     const { dispatch, isLoggedIn, isConnected, currentAccount, pinCode } = this.props;
 
     if (!isLoggedIn || !currentAccount?.name) {
+      setChatApiToken(null);
       dispatch(updateUnreadChatCount(0));
       return;
     }
