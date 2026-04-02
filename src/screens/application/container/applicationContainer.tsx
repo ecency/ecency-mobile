@@ -50,7 +50,7 @@ import {
   bootstrapMattermostSession,
   calculateGlobalUnreadTotal,
 } from '../../../providers/chat/mattermost';
-import { setChatApiToken } from '../../../config/chatApi';
+import { setChatApiToken, getChatApiTokenOwner } from '../../../config/chatApi';
 
 // Actions
 import {
@@ -410,8 +410,9 @@ class ApplicationContainer extends Component {
 
   _refreshUnreadChats = async () => {
     const { dispatch, isLoggedIn, isConnected, currentAccount, pinCode } = this.props;
+    const username = currentAccount?.name;
 
-    if (!isLoggedIn || !currentAccount?.name) {
+    if (!isLoggedIn || !username) {
       setChatApiToken(null);
       dispatch(updateUnreadChatCount(0));
       return;
@@ -423,6 +424,14 @@ class ApplicationContainer extends Component {
 
     try {
       await bootstrapMattermostSession(currentAccount, pinCode);
+
+      // Guard: after bootstrap completes, verify the token still belongs
+      // to this user. If another account's bootstrap ran concurrently and
+      // overwrote the token, skip the unread fetch to prevent contamination.
+      if (getChatApiTokenOwner() !== username) {
+        return;
+      }
+
       const unreadTotal = await calculateGlobalUnreadTotal();
       dispatch(updateUnreadChatCount(unreadTotal));
     } catch (error) {
