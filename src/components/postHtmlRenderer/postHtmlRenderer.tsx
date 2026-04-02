@@ -485,7 +485,7 @@ export const PostHtmlRenderer = memo(
           }
         };
 
-        const styleOverride = isInsideGrid ? styles.pLi : isInsideLi ? styles.pLi : styles.p;
+        const styleOverride = isInsideGrid || isInsideLi ? styles.pLi : styles.p;
         props.style = { ...props.style, ...styleOverride };
         const _onPress = props.onPress || handleOnContentPress;
 
