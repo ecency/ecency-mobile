@@ -43,10 +43,11 @@ export const bootstrapMattermostSession = async (
   const payload = await resolveMattermostTokens(currentAccount, pinCode);
   const { data } = await chatApi.post('/api/mattermost/bootstrap', payload);
 
-  // Store token explicitly so subsequent requests don't depend on
-  // the async cookie jar — prevents race conditions on cold start
+  // Store token explicitly with the username so subsequent requests
+  // don't depend on the async cookie jar, and multi-account switches
+  // can't contaminate each other's channels
   if (data?.token) {
-    setChatApiToken(data.token);
+    setChatApiToken(data.token, payload.username);
   }
 
   return data;

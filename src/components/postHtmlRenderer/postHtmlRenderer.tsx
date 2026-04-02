@@ -118,6 +118,13 @@ export const PostHtmlRenderer = memo(
               video.thumbUrl = metaImages;
             }
           }
+
+          // Group adjacent image-only <p> tags into a grid wrapper
+          // so the image grid renderer can display them side by side
+          processed = processed.replace(
+            /(<p[^>]*>\s*<img[^>]*\/?\s*>\s*<\/p>\s*){2,}/gi,
+            (match) => `<div class="wave-image-grid">${match}</div>`,
+          );
         }
       }
       return { processedBody: processed, extractedVideo: video };
@@ -421,6 +428,24 @@ export const PostHtmlRenderer = memo(
         const isVideoThumb = tnode.classes?.indexOf('video-thumbnail') >= 0;
         const isAnchored = tnode.parent?.tagName === 'a';
 
+        // Inside a wave-image-grid, render images at half width with cover fit
+        const isInGrid = !!tnode.parent?.parent?.classes?.includes('wave-image-grid');
+        if (isInGrid) {
+          const halfWidth = Math.floor((contentWidth - 2) / 2);
+          return (
+            <AutoHeightImage
+              contentWidth={halfWidth}
+              imgUrl={imgUrl}
+              metadata={metadata}
+              isAnchored={false}
+              aspectRatio={4 / 3}
+              lockWidth={true}
+              onPress={_onPress}
+              enableViewabilityTracker={enableViewabilityTracker}
+            />
+          );
+        }
+
         if (isVideoThumb) {
           return <VideoThumb contentWidth={contentWidth} uri={imgUrl} />;
         } else {
@@ -450,6 +475,7 @@ export const PostHtmlRenderer = memo(
       ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
         const { tnode } = props;
         const isInsideLi = tnode.parent?.tagName === 'li';
+        const isInsideGrid = tnode.parent?.classes?.includes('wave-image-grid');
 
         const handleLongPress = () => {
           const paragraphText = domNodeToHTMLString(tnode.domNode);
@@ -459,7 +485,7 @@ export const PostHtmlRenderer = memo(
           }
         };
 
-        const styleOverride = isInsideLi ? styles.pLi : styles.p;
+        const styleOverride = isInsideGrid || isInsideLi ? styles.pLi : styles.p;
         props.style = { ...props.style, ...styleOverride };
         const _onPress = props.onPress || handleOnContentPress;
 
@@ -580,6 +606,14 @@ export const PostHtmlRenderer = memo(
         'align-center': { alignSelf: 'center' as const },
         'align-left': { alignSelf: 'flex-start' as const },
         'align-right': { alignSelf: 'flex-end' as const },
+        'wave-image-grid': {
+          flexDirection: 'row' as const,
+          flexWrap: 'wrap' as const,
+          gap: 2,
+          borderRadius: 12,
+          overflow: 'hidden' as const,
+          marginTop: 4,
+        },
       }),
       [],
     );

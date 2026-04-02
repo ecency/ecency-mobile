@@ -12,18 +12,36 @@ const chatApi = axios.create({
 });
 
 /**
+ * Track which user the current token belongs to. This prevents
+ * multi-account race conditions where one account's bootstrap
+ * overwrites another's token on the shared axios instance.
+ */
+let _currentTokenOwner: string | null = null;
+
+/**
  * Store the Mattermost personal access token so every subsequent
  * request carries it in the X-MM-Token header. This avoids reliance
  * on the httpOnly cookie which can be unreliable on React Native
  * (async cookie-jar updates cause race conditions on cold start).
+ *
+ * @param token - The PAT to set, or null to clear
+ * @param username - The Hive username this token belongs to
  */
-export const setChatApiToken = (token: string | null) => {
-  if (token) {
+export const setChatApiToken = (token: string | null, username?: string) => {
+  if (token && username) {
     chatApi.defaults.headers.common['X-MM-Token'] = token;
+    _currentTokenOwner = username;
   } else {
     delete chatApi.defaults.headers.common['X-MM-Token'];
+    _currentTokenOwner = null;
   }
 };
+
+/**
+ * Returns the username that owns the currently set token,
+ * or null if no token is set.
+ */
+export const getChatApiTokenOwner = (): string | null => _currentTokenOwner;
 
 chatApi.interceptors.request.use((request) => request);
 chatApi.interceptors.response.use(
