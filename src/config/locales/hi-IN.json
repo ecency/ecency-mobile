@@ -1,4 +1,8 @@
 {
+  "waves": {
+    "for_you": "For you",
+    "following": "Following"
+  },
   "profile": {
     "havent_commented": "अभी तक कोई टिपण्णी नहीं की है",
     "full_in": "में पूरा होगा",
@@ -798,7 +802,7 @@
     "copy_link": "लिंक कापी करें",
     "wrong_link": "गलत लिंक",
     "select_action": "कार्रवाई चुनें",
-    "ecency_waves": "इसेंसी तरंगें",
+    "ecency_waves": "Waves",
     "open_thread": "खुले हुए थ्रेड",
     "cross_post": "cross post by {username} in {community}",
     "image_saved_error": "छवि सहेजने में त्रुटि",

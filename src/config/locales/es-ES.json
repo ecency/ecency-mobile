@@ -1,4 +1,8 @@
 {
+  "waves": {
+    "for_you": "Para ti",
+    "following": "Siguiendo"
+  },
   "profile": {
     "havent_commented": "no has comentado nada aún",
     "full_in": "Completo en",
@@ -293,9 +297,9 @@
     "notification": "Notificaciones",
     "this_month": "Este mes",
     "referral": "se unieron con tu enlace de referido, dales la bienvenida!",
-    "account_update": "Your account keys or profile were updated",
-    "weekly_earnings": "You earned ${amount} this week{breakdown}",
-    "payouts": "Payout received: ${amount}"
+    "account_update": "Tus claves de cuenta o perfil se han actualizado",
+    "weekly_earnings": "Has ganado ${amount} esta semana{breakdown}",
+    "payouts": "Pago recibido: ${amount}"
   },
   "recurrent": {
     "delete_failed": "No se pudo eliminar la transferencia recurrente, {error}",
@@ -579,7 +583,7 @@
     "cost_label": "Costo",
     "free_label": "Gratis",
     "free_remaining": "{count} gratis restante",
-    "hint": "Write your content first, then use AI Assist to polish and improve it.",
+    "hint": "Escribe primero tu contenido, luego usa ayuda de IA para pulirlo y mejorarlo.",
     "action_label": "Seleccione una acción",
     "action_improve": "Mejorar escritura",
     "action_improve_desc": "Pulir gramática, claridad y estilo",
@@ -605,7 +609,7 @@
     "error_content_policy": "El contenido viola nuestra política de contenido. Por favor, modifique su texto.",
     "error_rate_limit": "Demasiadas solicitudes. Por favor, espere un momento y vuelva a intentarlo.",
     "error_generic": "Algo salió mal. Por favor, inténtalo de nuevo.",
-    "hide_translation": "Hide translation"
+    "hide_translation": "Ocultar traducción"
   },
   "welcome": {
     "line1_body": "No censurado, inmutable, gratificante, descentralizado, que te pertenece.",
@@ -798,7 +802,7 @@
     "copy_link": "Copiar enlace",
     "wrong_link": "Enlace incorrecto",
     "select_action": "Seleccionar acción",
-    "ecency_waves": "Ondas de Ecency",
+    "ecency_waves": "Olas",
     "open_thread": "Hilo abierto",
     "cross_post": "publicación cruzada por {username} en {community}",
     "image_saved_error": "Error guardando imagen",
@@ -876,7 +880,7 @@
     "invalid_amount_desc": "Introduzca una cantidad válida en el formato adecuado",
     "open": "Abrir URL",
     "invalid_key_desc": "iniciar sesión con la clave {key} o clave maestra para realizar esta transacción",
-    "auth_transfer_confirm": "Confirm transfer to {username}?"
+    "auth_transfer_confirm": "¿Confirmar la transferencia a {username}?"
   },
   "voters_dropdown": {
     "rewards": "RECOMPENSAS",
@@ -1212,7 +1216,7 @@
     "prompt_placeholder": "Una hermosa puesta de sol sobre las montañas...",
     "chars_remaining": "{count} caracteres restantes",
     "select_aspect_ratio": "Seleccionar relación de aspecto",
-    "select_power": "Quality boost",
+    "select_power": "Mejora de calidad",
     "cost_label": "Costo",
     "balance_label": "Balance",
     "points_unit": "PUNTOS",
@@ -1394,10 +1398,10 @@
     "backup": "Administrar",
     "settings": "Ajustes",
     "server": "Servidor",
-    "image_server": "Image Server",
-    "image_server_default": "Ecency Images (Default)",
-    "image_server_hiveblog": "Hive Images (Alternative)",
-    "image_server_nocdn": "Ecency Images (No CDN)",
+    "image_server": "Servidor de imágenes",
+    "image_server_default": "Imágenes de Ecency (por defecto)",
+    "image_server_hiveblog": "Imágenes de Hive (Alternativa)",
+    "image_server_nocdn": "Imágenes de Ecency (Sin CDN)",
     "nsfw_content": "NSFW",
     "default_footer": "Pie de página predeterminado",
     "feedback_fail": "Ocurrió un error al intentar abrir el cliente del correo electrónico",

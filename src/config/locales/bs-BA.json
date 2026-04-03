@@ -1,4 +1,8 @@
 {
+  "waves": {
+    "for_you": "For you",
+    "following": "Following"
+  },
   "profile": {
     "havent_commented": "još ništa nije komentarisao",
     "full_in": "Napuniće se za",
@@ -798,7 +802,7 @@
     "copy_link": "Kopiraj vezu",
     "wrong_link": "Pogrešna veza",
     "select_action": "Select Action",
-    "ecency_waves": "Ecency Waves",
+    "ecency_waves": "Waves",
     "open_thread": "Otvori nit",
     "cross_post": "cross post by {username} in {community}",
     "image_saved_error": "Greška pri čuvanju slike",

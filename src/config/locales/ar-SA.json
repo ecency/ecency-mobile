@@ -1,4 +1,8 @@
 {
+  "waves": {
+    "for_you": "For you",
+    "following": "Following"
+  },
   "profile": {
     "havent_commented": "لم تكن قد علقت أي شيء حتى الآن",
     "full_in": "كامل في",
@@ -798,7 +802,7 @@
     "copy_link": "نسخ الرابط",
     "wrong_link": "رابط خاطئ",
     "select_action": "حدد الإجراء",
-    "ecency_waves": "موجات Ecency",
+    "ecency_waves": "Waves",
     "open_thread": "فتح الموضوع",
     "cross_post": "cross post by {username} in {community}",
     "image_saved_error": "حدث خطأ أثناء حفظ الصورة",

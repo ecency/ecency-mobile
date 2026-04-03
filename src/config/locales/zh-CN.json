@@ -1,4 +1,8 @@
 {
+  "waves": {
+    "for_you": "For you",
+    "following": "Following"
+  },
   "profile": {
     "havent_commented": "还没有任何评论",
     "full_in": "充满还需",
@@ -798,7 +802,7 @@
     "copy_link": "复制链接",
     "wrong_link": "链接错误",
     "select_action": "Select Action",
-    "ecency_waves": "Ecency Waves",
+    "ecency_waves": "Waves",
     "open_thread": "打开主题",
     "cross_post": "cross post by {username} in {community}",
     "image_saved_error": "保存图片出错",

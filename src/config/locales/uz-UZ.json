@@ -1,4 +1,8 @@
 {
+  "waves": {
+    "for_you": "For you",
+    "following": "Following"
+  },
   "profile": {
     "havent_commented": "hali izoh qoldirilmagan",
     "full_in": "Tiklanadi",
@@ -798,7 +802,7 @@
     "copy_link": "Linkni nusxalash",
     "wrong_link": "Xato ssilka",
     "select_action": "Select Action",
-    "ecency_waves": "Ecency Waves",
+    "ecency_waves": "Waves",
     "open_thread": "Ochiq mavzu",
     "cross_post": "cross post by {username} in {community}",
     "image_saved_error": "Rasmni saqlashda xatolik",
