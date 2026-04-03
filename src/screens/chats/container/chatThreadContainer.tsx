@@ -1787,7 +1787,8 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       const isSystemAdd =
         post?.type === 'system_add_to_channel' ||
         post?.type === 'system_add_to_team' ||
-        post?.type === 'system_join_team';
+        post?.type === 'system_join_team' ||
+        post?.type === 'system_join_channel';
 
       if (isSystemAdd) {
         currentGroup.push(post);
@@ -1943,7 +1944,8 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       const isSystemAddMessage =
         postItem?.type === 'system_add_to_channel' ||
         postItem?.type === 'system_add_to_team' ||
-        postItem?.type === 'system_join_team';
+        postItem?.type === 'system_join_team' ||
+        postItem?.type === 'system_join_channel';
       const authorId = postItem.user_id || postItem.user?.id;
       const isOwnMessage = authorId && bootstrapUserId === authorId;
 

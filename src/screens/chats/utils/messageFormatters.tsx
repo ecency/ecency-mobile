@@ -94,7 +94,11 @@ export const formatPostBody = (
   userLookup: Record<string, any>,
   timestamp?: number,
 ): string => {
-  if (post?.type === 'system_add_to_channel' || post?.type === 'system_add_to_team') {
+  if (
+    post?.type === 'system_add_to_channel' ||
+    post?.type === 'system_add_to_team' ||
+    post?.type === 'system_join_channel'
+  ) {
     return formatJoinedMessage(post, userLookup, timestamp);
   }
 
