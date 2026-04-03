@@ -1,8 +1,8 @@
 import { ConfigManager } from '@ecency/sdk';
 import Config from 'react-native-config';
 import { QueryClient } from '@tanstack/react-query';
-import { getServer } from '../../realm/realm';
-import { getNodes } from '../ecency/ecency';
+import { getServer } from 'realm/realm';
+import { getNodes } from 'providers/ecency/ecency';
 
 /**
  * Fetch DMCA filtering lists from Ecency server
@@ -48,7 +48,11 @@ export const initSdkConfig = async (queryClient: QueryClient) => {
   // Sync saved server preference and fetched nodes to SDK
   const savedServer = await getServer();
   const fetchedNodes = await getNodes();
-  const nodes = savedServer ? [savedServer, ...fetchedNodes] : [...fetchedNodes];
+  const hasValidServer = typeof savedServer === 'string' && savedServer.trim() !== '';
+  const nodes =
+    hasValidServer && !fetchedNodes.includes(savedServer)
+      ? [savedServer, ...fetchedNodes]
+      : [...fetchedNodes];
   ConfigManager.setHiveNodes(nodes);
 
   // Fetch and configure DMCA filters
