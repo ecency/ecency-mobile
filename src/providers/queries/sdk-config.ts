@@ -1,8 +1,8 @@
 import { ConfigManager } from '@ecency/sdk';
 import Config from 'react-native-config';
 import { QueryClient } from '@tanstack/react-query';
-import { getServer } from 'realm/realm';
-import { getNodes } from 'providers/ecency/ecency';
+import { getServer } from '../../realm/realm';
+import { getNodes } from '../ecency/ecency';
 
 /**
  * Fetch DMCA filtering lists from Ecency server
