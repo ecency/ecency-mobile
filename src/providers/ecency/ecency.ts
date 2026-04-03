@@ -2,7 +2,6 @@ import { isArray } from 'lodash';
 import * as Sentry from '@sentry/react-native';
 import ecencyApi from '../../config/ecencyApi';
 import { upload } from '../../config/imageApi';
-import serverList from '../../config/serverListApi';
 import { SERVER_LIST } from '../../constants/options/api';
 import { convertProposalMeta } from './converters';
 import { PurchaseRequestData } from './ecency.types';
@@ -126,9 +125,10 @@ export const uploadImage = async (media, username, sign, uploadProgress = null) 
 
 export const getNodes = async () => {
   try {
-    const response = await serverList.get('');
+    const response = await fetch('https://ecency.com/public-nodes.json');
+    const data = await response.json();
 
-    const nodes = response.data?.hived ?? response.data;
+    const nodes = data?.hived ?? data;
 
     if (!isArray(nodes) || nodes.length === 0) {
       throw new Error('Invalid data returned, fallback to local copy');
@@ -138,7 +138,7 @@ export const getNodes = async () => {
   } catch (error) {
     console.warn('failed to get nodes list', error);
     Sentry.captureException(error);
-    return SERVER_LIST;
+    return [...SERVER_LIST];
   }
 };
 
