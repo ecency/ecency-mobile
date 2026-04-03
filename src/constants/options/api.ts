@@ -10,12 +10,11 @@ export default API_OPTIONS;
 export const VALUE = API_OPTIONS;
 
 export const SERVER_LIST = [
-  'https://api.hive.blog',
-  'https://anyx.io',
+  'https://api.deathwing.me',
+  'https://rpc.mahdiyari.info',
   'https://techcoderx.com',
   'https://api.openhive.network',
-  'https://api.deathwing.me',
-  'https://rpc.ausbit.dev',
-  'https://hived.emre.sh',
-  'https://hive-api.arcange.eu',
+  'https://api.c0ff33a.uk',
+  'https://api.hive.blog',
+  'https://api.syncad.com',
 ] as const;

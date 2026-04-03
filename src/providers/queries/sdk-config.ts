@@ -2,7 +2,7 @@ import { ConfigManager } from '@ecency/sdk';
 import Config from 'react-native-config';
 import { QueryClient } from '@tanstack/react-query';
 import { getServer } from '../../realm/realm';
-import { SERVER_LIST } from '../../constants/options/api';
+import { getNodes } from '../ecency/ecency';
 
 /**
  * Fetch DMCA filtering lists from Ecency server
@@ -45,9 +45,10 @@ export const initSdkConfig = async (queryClient: QueryClient) => {
   // Configure image host
   ConfigManager.setImageHost(Config.NEW_IMAGE_API || 'https://images.ecency.com');
 
-  // Sync saved server preference to SDK
+  // Sync saved server preference and fetched nodes to SDK
   const savedServer = await getServer();
-  const nodes = savedServer ? [savedServer, ...SERVER_LIST] : [...SERVER_LIST];
+  const fetchedNodes = await getNodes();
+  const nodes = savedServer ? [savedServer, ...fetchedNodes] : [...fetchedNodes];
   ConfigManager.setHiveNodes(nodes);
 
   // Fetch and configure DMCA filters
