@@ -19,7 +19,7 @@ jest.mock('../screens/assetsSelect/screen/assetsSelect', () => ({
 jest.mock('react-native-config', () => ({ DEFAULT_PIN: 'test-pin', PIN_KEY: 'test-key' }));
 jest.mock('react-native-actions-sheet', () => ({ SheetManager: { show: jest.fn() } }));
 jest.mock('../providers/hive/auth', () => ({}));
-jest.mock('../providers/hive/dhive', () => ({ getDigitPinCode: jest.fn() }));
+jest.mock('../providers/hive/hive', () => ({ getDigitPinCode: jest.fn() }));
 jest.mock('../providers/queries', () => ({
   getQueryClient: jest.fn(() => ({ fetchQuery: jest.fn() })),
 }));

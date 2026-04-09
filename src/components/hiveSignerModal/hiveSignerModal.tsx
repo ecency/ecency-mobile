@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import WebView from 'react-native-webview';
 import { Platform, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Operation } from '@hiveio/dhive';
+import type { Operation } from '@ecency/sdk';
 import { hsOptions } from '../../constants/hsOptions';
 import styles from './hiveSignerModal.styles';
 import { ModalHeader } from '../modalHeader';

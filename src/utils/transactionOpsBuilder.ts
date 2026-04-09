@@ -1,6 +1,6 @@
 import { getEngineActionOpArray } from '../providers/hive-engine/hiveEngineActions';
 import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
-import { buildActiveCustomJsonOpArr } from '../providers/hive/dhive';
+import { buildActiveCustomJsonOpArr } from '../providers/hive/hive';
 import { getSpkActionJSON } from '../providers/hive-spk/hiveSpk';
 import { countDecimals } from './number';
 import TransferTypes from '../constants/transferTypes';

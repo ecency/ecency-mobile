@@ -8,7 +8,7 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 import { uploadVideoEmbed, setVideoThumbnail } from '../../speak/speak';
 import { VideoUploadResult } from '../../speak/speak.types';
-import { getDigitPinCode } from '../../hive/dhive';
+import { getDigitPinCode } from '../../hive/hive';
 import { decryptKey } from '../../../utils/crypto';
 import { refreshSCToken } from '../../hive/auth';
 

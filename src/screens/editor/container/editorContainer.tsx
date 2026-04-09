@@ -21,7 +21,7 @@ import {
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
-import { getDigitPinCode, shouldPromptPostingAuthority } from '../../../providers/hive/dhive';
+import { getDigitPinCode, shouldPromptPostingAuthority } from '../../../providers/hive/hive';
 import { decryptKey } from '../../../utils/crypto';
 
 // Constants

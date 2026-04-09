@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
 import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { NotificationFilters } from '../ecency/ecency.types';
-import { getDigitPinCode } from '../hive/dhive';
+import { getDigitPinCode } from '../hive/hive';
 import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 import { decryptKey } from '../../utils/crypto';
 import { useAuthContext } from '../sdk/useAuthContext';

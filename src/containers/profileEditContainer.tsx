@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { selectCurrentAccount, selectIsDarkTheme, selectPin } from '../redux/selectors';
 import { uploadImage } from '../providers/ecency/ecency';
 
-import { signImage } from '../providers/hive/dhive';
+import { signImage } from '../providers/hive/hive';
 import { useAccountUpdateMutation } from '../providers/sdk/mutations';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 import { setAvatarCacheStamp } from '../redux/actions/uiAction';

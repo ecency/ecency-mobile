@@ -12,7 +12,7 @@ import styles from './backupKeysScreenStyles';
 
 // redux / providers
 import { getUpdatedUserKeys } from '../../providers/hive/auth';
-import { getDigitPinCode } from '../../providers/hive/dhive';
+import { getDigitPinCode } from '../../providers/hive/hive';
 import { updateCurrentAccount } from '../../redux/actions/accountAction';
 
 // eslint-disable-next-line no-empty-pattern

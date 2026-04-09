@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Operation } from '@hiveio/dhive';
+import type { Operation } from '@ecency/sdk';
 import * as hiveuri from 'hive-uri';
 import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector } from '.';

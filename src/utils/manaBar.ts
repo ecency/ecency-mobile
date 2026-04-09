@@ -1,13 +1,6 @@
-import { Client } from '@hiveio/dhive';
-import { SERVER_LIST } from '../constants/options/api';
+import { calculateVPMana, calculateRCMana } from '@ecency/sdk';
 
 const HIVE_VOTING_MANA_REGENERATION_SECONDS = 5 * 60 * 60 * 24; // 5 days
-
-// Create dhive client for mana calculations
-const client = new Client([...SERVER_LIST], {
-  timeout: 4000,
-  failoverThreshold: 10,
-});
 
 interface Manabar {
   current_mana: string | number;
@@ -28,7 +21,7 @@ interface ManabarAccount {
 
 /**
  * Calculate voting power percentage from account data (0-100)
- * Uses dhive client's calculateVPMana to get accurate percentage
+ * Uses SDK's calculateVPMana to get accurate percentage
  */
 export const getVotingPower = (account: ManabarAccount): number => {
   if (!account || !account.voting_manabar) {
@@ -36,9 +29,7 @@ export const getVotingPower = (account: ManabarAccount): number => {
   }
 
   try {
-    // Use dhive client to calculate VP mana percentage
-    const calc = client.rc.calculateVPMana(account as any);
-    // dhive returns percentage in basis points (0..10000); normalize to 0..100
+    const calc = calculateVPMana(account as any);
     return (calc.percentage ?? 0) / 100;
   } catch (error) {
     console.warn('Failed to calculate voting power:', error);
@@ -64,8 +55,7 @@ export const getRcPower = (rcAccount: any): number => {
   }
 
   try {
-    const calc = client.rc.calculateRCMana(rcAccount);
-    // dhive returns percentage in basis points (0..10000); normalize to 0..100
+    const calc = calculateRCMana(rcAccount);
     return (calc.percentage ?? 0) / 100;
   } catch (error) {
     console.warn('Failed to calculate RC power:', error);

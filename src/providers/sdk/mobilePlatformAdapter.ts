@@ -1,16 +1,11 @@
 import { QueryClient } from '@tanstack/react-query';
 import { getAccountFullQueryOptions } from '@ecency/sdk';
 import type { PlatformAdapter } from '@ecency/sdk';
-import type { Operation, TransactionConfirmation } from '@hiveio/dhive';
+import type { Operation, TransactionConfirmation } from '@ecency/sdk';
 import * as hiveuri from 'hive-uri';
 import { store } from '../../redux/store/store';
 import { toastNotification } from '../../redux/actions/uiAction';
-import {
-  getDigitPinCode,
-  getPostingKey,
-  getActiveKey,
-  handleHiveAuthFallback,
-} from '../hive/dhive';
+import { getDigitPinCode, getPostingKey, getActiveKey, handleHiveAuthFallback } from '../hive/hive';
 import { decryptKey } from '../../utils/crypto';
 import { mapAuthTypeToLoginType } from '../../utils/authMapper';
 import RootNavigation from '../../navigation/rootNavigation';

@@ -36,7 +36,7 @@ import {
   getLastUpdateCheck,
   setLastUpdateCheck,
 } from '../../../realm/realm';
-import { getDigitPinCode, getUser } from '../../../providers/hive/dhive';
+import { getDigitPinCode, getUser } from '../../../providers/hive/hive';
 import { getQueryClient } from '../../../providers/queries';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import {
@@ -980,7 +980,7 @@ class ApplicationContainer extends Component {
         });
         setExistUser(false);
         dispatch(isPinCodeOpen(false));
-        dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_KEU, Config.PIN_KEY)));
+        dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY)));
       }
 
       removeSCAccount(username);

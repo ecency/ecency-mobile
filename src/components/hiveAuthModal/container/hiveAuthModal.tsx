@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import { useIntl } from 'react-intl';
 import ActionSheet from 'react-native-actions-sheet';
-import { Operation } from '@hiveio/dhive';
+import type { Operation } from '@ecency/sdk';
 import styles from '../styles/hiveAuthModal.styles';
 import { useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';

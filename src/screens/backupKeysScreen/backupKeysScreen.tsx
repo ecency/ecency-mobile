@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, TextBoxWithCopy } from '../../components';
 import { useAppSelector } from '../../hooks';
 import { selectCurrentAccount, selectPin } from '../../redux/selectors';
-import { getDigitPinCode } from '../../providers/hive/dhive';
+import { getDigitPinCode } from '../../providers/hive/hive';
 import AUTH_TYPE from '../../constants/authType';
 import { ImportPrivateKeyModalModal } from './importPrivateKeyModal';
 

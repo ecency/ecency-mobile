@@ -1,4 +1,4 @@
-import { cryptoUtils, PrivateKey } from '@hiveio/dhive';
+import { PrivateKey, sha256 } from '@ecency/sdk';
 import { b64uEnc } from './b64';
 
 export interface HiveSignerMessage {
@@ -25,7 +25,7 @@ export const makeHsCode = (account: string, privateKey: PrivateKey) => {
 };
 
 export const signer = (message: any, privateKey: PrivateKey) => {
-  const hash = cryptoUtils.sha256(message);
+  const hash = sha256(message);
   const key = privateKey;
   const signedKey = key.sign(hash);
   const signedStr = signedKey.toString();

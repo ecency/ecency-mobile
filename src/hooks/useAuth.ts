@@ -3,7 +3,7 @@ import Config from 'react-native-config';
 import { useAppSelector } from './index';
 import { selectCurrentAccount, selectPin } from '../redux/selectors';
 import { decryptKey } from '../utils/crypto';
-import { getDigitPinCode } from '../providers/hive/dhive';
+import { getDigitPinCode } from '../providers/hive/hive';
 
 /**
  * Global memoized auth hook that returns username and access token

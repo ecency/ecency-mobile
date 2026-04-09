@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js';
-import * as dsteem from '@esteemapp/dhive';
+import { PrivateKey } from '@ecency/hive-tx';
 import { Buffer } from 'buffer';
 import { proxifyImageSrc } from '@ecency/render-helper';
 import { store } from '../redux/store/store';
@@ -24,7 +24,7 @@ export const generateSignature = (media, privateKey) => {
   const hash = CryptoJS.SHA256(prefix, data);
   const buffer = Buffer.from(hash.toString(CryptoJS.enc.Hex), 'hex');
   const array = new Uint8Array(buffer);
-  const key = dsteem.PrivateKey.fromString(privateKey);
+  const key = PrivateKey.fromString(privateKey);
 
   return key.sign(Buffer.from(array)).toString();
 };

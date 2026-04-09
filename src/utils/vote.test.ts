@@ -4,7 +4,7 @@ import { calculateVoteRshares, calculateVoteReward } from './vote';
 import { getEstimatedAmount, calculateEstimatedRShares } from './vote';
 
 // Mock dhive's votingPower since it requires a native hive client
-jest.mock('../providers/hive/dhive', () => ({
+jest.mock('../providers/hive/hive', () => ({
   votingPower: jest.fn((account) => account._mockVotingPower ?? 100),
 }));
 

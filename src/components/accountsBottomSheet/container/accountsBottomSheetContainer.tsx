@@ -21,7 +21,7 @@ import AccountsBottomSheet, { AccountsBottomSheetRef } from '../view/accountsBot
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
-import { getDigitPinCode } from '../../../providers/hive/dhive';
+import { getDigitPinCode } from '../../../providers/hive/hive';
 import { getQueryClient } from '../../../providers/queries';
 
 import { useAppSelector } from '../../../hooks';

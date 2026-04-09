@@ -12,7 +12,7 @@ import { delay } from '../../utils/editor';
 import { ButtonTypes } from '../../components/actionModal/container/actionModalContainer';
 import parseVersionNumber from '../../utils/parseVersionNumber';
 import { decryptKey } from '../../utils/crypto';
-import { getDigitPinCode } from '../hive/dhive';
+import { getDigitPinCode } from '../hive/hive';
 import { SheetNames } from '../../navigation/sheets';
 import { selectPin, selectCurrentAccount, selectLastAppVersion } from '../../redux/selectors';
 

@@ -47,7 +47,7 @@ import {
   calculateGlobalUnreadTotal,
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
-import { signImage } from '../../../providers/hive/dhive';
+import { signImage } from '../../../providers/hive/hive';
 import { chatThreadStyles as styles } from '../styles/chatThread.styles';
 import { emojifyMessage } from '../../../utils/emoji';
 import { extractImageUrls, extractUrls } from '../../../utils/editor';

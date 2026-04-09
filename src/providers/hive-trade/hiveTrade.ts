@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/react-native';
-import { getMarketStatistics } from '../hive/dhive';
+import { getMarketStatistics } from '../hive/hive';
 import { MarketAsset, MarketStatistics } from './hiveTrade.types';
 
 export const fetchHiveMarketRate = async (asset: MarketAsset): Promise<number> => {

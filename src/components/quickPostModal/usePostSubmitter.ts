@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { useComment } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector, useStateWithRef } from '../../hooks';
-import { shouldPromptPostingAuthority, getDigitPinCode } from '../../providers/hive/dhive';
+import { shouldPromptPostingAuthority, getDigitPinCode } from '../../providers/hive/hive';
 import { extractMetadata, generateUniquePermlink, makeJsonMetadata } from '../../utils/editor';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { wavesQueries } from '../../providers/queries';

@@ -17,7 +17,7 @@ import {
   useAddFavouriteMutation,
   useDeleteFavouriteMutation,
 } from '../../../../providers/queries/bookmarkQueries';
-import { getDigitPinCode } from '../../../../providers/hive/dhive';
+import { getDigitPinCode } from '../../../../providers/hive/hive';
 import { useFollowMutation, useUnfollowMutation } from '../../../../providers/sdk/mutations';
 import { decryptKey } from '../../../../utils/crypto';
 import { getRcPower, getVotingPower } from '../../../../utils/manaBar';

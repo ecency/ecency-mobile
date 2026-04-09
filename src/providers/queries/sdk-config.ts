@@ -1,4 +1,4 @@
-import { ConfigManager } from '@ecency/sdk';
+import { ConfigManager, setHiveTxNodes } from '@ecency/sdk';
 import Config from 'react-native-config';
 import { QueryClient } from '@tanstack/react-query';
 import { getServer } from '../../realm/realm';
@@ -54,6 +54,7 @@ export const initSdkConfig = async (queryClient: QueryClient) => {
       ? [savedServer, ...fetchedNodes]
       : [...fetchedNodes];
   ConfigManager.setHiveNodes(nodes);
+  setHiveTxNodes(nodes, 4000);
 
   // Fetch and configure DMCA filters
   const dmcaLists = await fetchDmcaLists();

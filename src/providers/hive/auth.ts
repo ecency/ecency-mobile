@@ -1,4 +1,4 @@
-import * as dsteem from '@esteemapp/dhive';
+import { PrivateKey } from '@ecency/hive-tx';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
@@ -10,7 +10,7 @@ import {
   getNotificationsUnreadCountQueryOptions,
   hsTokenRenew,
 } from '@ecency/sdk';
-import { getDigitPinCode } from './dhive';
+import { getDigitPinCode } from './hive';
 import { getQueryClient } from '../queries';
 import { getPointsSummary } from '../ecency/ePoint';
 import {
@@ -583,18 +583,18 @@ export const switchAccount = (username) =>
 export const getPrivateKeys = (username, password) => {
   try {
     return {
-      activeKey: dsteem.PrivateKey.from(password),
-      memoKey: dsteem.PrivateKey.from(password),
-      ownerKey: dsteem.PrivateKey.from(password),
-      postingKey: dsteem.PrivateKey.from(password),
+      activeKey: PrivateKey.from(password),
+      memoKey: PrivateKey.from(password),
+      ownerKey: PrivateKey.from(password),
+      postingKey: PrivateKey.from(password),
       isMasterKey: false,
     };
   } catch (e) {
     return {
-      activeKey: dsteem.PrivateKey.fromLogin(username, password, 'active'),
-      memoKey: dsteem.PrivateKey.fromLogin(username, password, 'memo'),
-      ownerKey: dsteem.PrivateKey.fromLogin(username, password, 'owner'),
-      postingKey: dsteem.PrivateKey.fromLogin(username, password, 'posting'),
+      activeKey: PrivateKey.fromLogin(username, password, 'active'),
+      memoKey: PrivateKey.fromLogin(username, password, 'memo'),
+      ownerKey: PrivateKey.fromLogin(username, password, 'owner'),
+      postingKey: PrivateKey.fromLogin(username, password, 'posting'),
       isMasterKey: true,
     };
   }
