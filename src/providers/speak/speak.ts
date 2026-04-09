@@ -1,5 +1,4 @@
 import * as tus from 'tus-js-client';
-import { Platform } from 'react-native';
 import { Video, Image } from 'react-native-image-crop-picker';
 import Config from 'react-native-config';
 import { EMBED_ENDPOINT } from './constants';
@@ -90,27 +89,40 @@ export async function uploadVideoEmbed(
   const endpoint = upload_url || `${EMBED_ENDPOINT}/uploads`;
 
   // Step 2: Build file reference for React Native
-  const uri = Platform.select({
-    ios: (media as Video).sourceURL || media.path,
-    android: media.path,
-  });
+  // Always use media.path — it's a local temp file copy from the picker.
+  // On iOS, sourceURL can be ph:// or assets-library:// which XHR cannot fetch;
+  // media.path is always a file:// compatible path on both platforms.
+  const filePath = media.path;
 
-  if (!uri) {
+  if (!filePath) {
     throw new Error('[3Speak] Failed to resolve file path');
   }
 
-  const filename = (media as Video).filename || media.path.split('/').pop() || 'video.mp4';
+  const filename = (media as Video).filename || filePath.split('/').pop() || 'video.mp4';
 
   if (!media.size || media.size <= 0) {
     throw new Error('[3Speak] Unable to determine video file size');
   }
 
-  const file = {
-    uri,
-    size: media.size,
-    name: filename,
-    type: media.mime,
-  } as any;
+  // Convert the file to a Blob via RN fetch() which reliably handles both
+  // file:// and plain paths on Android (including scoped storage).
+  // tus-js-client's built-in uriToBlob uses XHR which fails on many Android
+  // devices — that's the "cannot fetch file.uri as Blob" error.
+  const fileUri = filePath.startsWith('file://') ? filePath : `file://${filePath}`;
+  let blob: Blob;
+  try {
+    const response = await fetch(fileUri);
+    blob = await response.blob();
+  } catch (e) {
+    throw new Error(`[3Speak] Failed to read video file: ${e}`);
+  }
+
+  // Attach name and size so tus-js-client builds a unique fingerprint
+  // (tus-rn/<name>/<size>/noexif/<endpoint>) for resumable upload bookkeeping.
+  // Without these, all same-sized videos would collide.
+  const file = blob as any;
+  file.name = filename;
+  file.size = media.size;
 
   // Step 3: TUS upload
   return new Promise<VideoUploadResult>((resolve, reject) => {
@@ -118,6 +130,7 @@ export async function uploadVideoEmbed(
 
     const upload = new tus.Upload(file, {
       endpoint,
+      chunkSize: 50 * 1024 * 1024, // 50MB — matches vision-next; enables resume from last chunk
       retryDelays: [0, 3000, 5000, 10000, 20000],
       headers: {
         Authorization: `Bearer ${token}`,
