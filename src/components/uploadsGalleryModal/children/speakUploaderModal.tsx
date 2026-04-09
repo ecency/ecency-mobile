@@ -61,23 +61,21 @@ export const SpeakUploaderModal = forwardRef(
 
     useImperativeHandle(ref, () => ({
       showUploader: async (_video: VideoType) => {
-        setVisible(true);
-
         if (_video) {
           if (!_video.filename) {
             _video.filename = _video.path.split('/').pop();
           }
 
-          // Enforce 60s limit for shorts
+          // Enforce 60s limit for shorts — validate before showing the modal
           if (isShort && _video.duration && _video.duration > 60000) {
             Alert.alert(
               intl.formatMessage({ id: 'alert.notice' }),
               intl.formatMessage({ id: 'video-upload.error-too-long-short' }),
             );
-            setVisible(false);
             return;
           }
 
+          setVisible(true);
           setSelectedVideo(_video);
           setSelectedThumb(null);
 

@@ -190,6 +190,8 @@ class SettingsContainer extends Component {
     });
 
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
       const resp = await fetch(server, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -199,7 +201,9 @@ class SettingsContainer extends Component {
           params: [],
           id: 1,
         }),
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
       const json = await resp.json();
       if (!json.result || json.error) {
         throw new Error(json.error?.message || 'RPC error');
