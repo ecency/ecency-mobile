@@ -60,6 +60,13 @@ const authMenuItems: MenuItem[] = [
     id: 'refer',
   },
   {
+    name: 'Docs',
+    route: '',
+    icon: 'help-circle',
+    iconType: 'Feather',
+    id: 'docs',
+  },
+  {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,
     icon: 'settings',
@@ -86,6 +93,13 @@ const noAuthMenuItems: MenuItem[] = [
     icon: 'qrcode-scan',
     iconType: 'MaterialCommunityIcons',
     id: 'qr',
+  },
+  {
+    name: 'Docs',
+    route: '',
+    icon: 'help-circle',
+    iconType: 'Feather',
+    id: 'docs',
   },
   {
     name: 'Settings',
