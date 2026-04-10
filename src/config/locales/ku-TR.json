@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "Pêşangeh",
     "cancel": "Betal",
-    "logout_text": "Bi rastî jî tu dixwazî jê derkevî?"
+    "logout_text": "Bi rastî jî tu dixwazî jê derkevî?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Herk",
