@@ -179,7 +179,8 @@
     "create_a_new_account": "Yangi akkaunt yaratish",
     "gallery": "Galereya",
     "cancel": "Bekor qilish",
-    "logout_text": "Haqiqatan ham tizimdan chiqmoqchimisiz?"
+    "logout_text": "Haqiqatan ham tizimdan chiqmoqchimisiz?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Lenta",
