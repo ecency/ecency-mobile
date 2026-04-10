@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "Bộ sưu tập",
     "cancel": "Huỷ",
-    "logout_text": "Bạn có chắc chắn muốn đăng xuất?"
+    "logout_text": "Bạn có chắc chắn muốn đăng xuất?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Nguồn cấp dữ liệu",
