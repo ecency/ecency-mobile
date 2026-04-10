@@ -179,7 +179,8 @@
     "create_a_new_account": "Vytvořit nový účet",
     "gallery": "Galerie",
     "cancel": "Zrušit",
-    "logout_text": "Opravdu se chceš odhlásit?"
+    "logout_text": "Opravdu se chceš odhlásit?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Feed",
