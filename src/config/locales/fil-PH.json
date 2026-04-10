@@ -179,7 +179,8 @@
     "create_a_new_account": "Gumawa ng bagong account",
     "gallery": "Gallery",
     "cancel": "Kansel",
-    "logout_text": "Sigurado kang gusto mong mag logout?"
+    "logout_text": "Sigurado kang gusto mong mag logout?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Feed",
