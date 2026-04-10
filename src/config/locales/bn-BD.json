@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "গ্যালারি",
     "cancel": "বাতিল করুন",
-    "logout_text": "আপনি কি নিশ্চিতভাবে লগআউট করতে চান?"
+    "logout_text": "আপনি কি নিশ্চিতভাবে লগআউট করতে চান?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "ফিড",
