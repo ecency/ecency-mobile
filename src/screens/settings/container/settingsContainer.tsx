@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, Alert, Appearance } from 'react-native';
 import { connect } from 'react-redux';
-import { Client } from '@hiveio/dhive';
+
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
 import { getMessaging } from '@react-native-firebase/messaging';
@@ -50,7 +50,7 @@ import {
   updateMattermostDmPrivacy,
   type MattermostDmPrivacy,
 } from '../../../providers/chat/mattermost';
-import { checkClient, getDigitPinCode } from '../../../providers/hive/dhive';
+import { checkClient, getDigitPinCode } from '../../../providers/hive/hive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { useGetServersQuery } from '../../../providers/queries';
 import {
@@ -183,11 +183,6 @@ class SettingsContainer extends Component {
     let serverResp;
     let isError = false;
     let alertMessage;
-    const client = new Client([server, 'https://api.hive.blog'], {
-      timeout: 4000,
-      failoverThreshold: 10,
-      consoleOnFailover: true,
-    });
     dispatch(setApi(''));
 
     this.setState({
@@ -195,7 +190,25 @@ class SettingsContainer extends Component {
     });
 
     try {
-      serverResp = await client.database.getDynamicGlobalProperties();
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      const resp = await fetch(server, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          method: 'condenser_api.get_dynamic_global_properties',
+          params: [],
+          id: 1,
+        }),
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+      const json = await resp.json();
+      if (!json.result || json.error) {
+        throw new Error(json.error?.message || 'RPC error');
+      }
+      serverResp = json.result;
     } catch (e) {
       isError = true;
       alertMessage = 'alert.connection_fail';

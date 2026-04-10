@@ -22,7 +22,7 @@ import { ASSET_IDS } from '../../../constants/defaultAssets';
 import POINTS from '../../../constants/options/points';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { claimPoints } from '../../ecency/ePoint';
-import { getAccount } from '../../hive/dhive';
+import { getAccount } from '../../hive/hive';
 import {
   useClaimRewardsMutation as useSdkClaimRewardsMutation,
   useAccountUpdateMutation,

@@ -6,7 +6,7 @@ import TokenLayers from '../constants/tokenLayers';
 jest.mock('../providers/hive-engine/hiveEngineActions', () => ({
   getEngineActionOpArray: jest.fn((...args) => [['engine_op', ...args]]),
 }));
-jest.mock('../providers/hive/dhive', () => ({
+jest.mock('../providers/hive/hive', () => ({
   buildActiveCustomJsonOpArr: jest.fn((from, type, json) => [
     ['custom_json', { from, type, json }],
   ]),

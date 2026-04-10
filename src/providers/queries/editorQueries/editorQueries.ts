@@ -20,7 +20,7 @@ import { useAppDispatch, useAppSelector, useAuth } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { uploadImage } from '../../ecency/ecency';
 import { MediaItem, Snippet } from '../../ecency/ecency.types';
-import { signImage } from '../../hive/dhive';
+import { signImage } from '../../hive/hive';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 
 /**

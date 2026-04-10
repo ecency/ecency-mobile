@@ -11,7 +11,7 @@ import {
   handleHiveUriOperation,
   resolveTransaction,
   getDigitPinCode,
-} from '../providers/hive/dhive';
+} from '../providers/hive/hive';
 import { getFormattedTx, isHiveUri, normalizeHiveUri } from '../utils/hive-uri';
 import { deepLinkParser } from '../utils/deepLinkParser';
 import showLoginAlert from '../utils/showLoginAlert';

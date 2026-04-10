@@ -4,7 +4,7 @@ import VersionNumber from 'react-native-version-number';
 import { get } from 'lodash';
 import * as Sentry from '@sentry/react-native';
 import { store } from '../redux/store/store';
-import { getDigitPinCode } from '../providers/hive/dhive';
+import { getDigitPinCode } from '../providers/hive/hive';
 import { decryptKey } from '../utils/crypto';
 import { selectIsLoggedIn } from '../redux/selectors';
 

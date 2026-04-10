@@ -8,7 +8,7 @@ import { useAppSelector } from '../../hooks';
 import { selectCurrentAccount } from '../../redux/selectors';
 import { MainButton } from '../mainButton';
 import { Icon } from '../icon';
-import { getAccount } from '../../providers/hive/dhive';
+import { getAccount } from '../../providers/hive/hive';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { useGrantPostingPermissionMutation } from '../../providers/sdk/mutations';
 import { updateCurrentAccount } from '../../redux/actions/accountAction';

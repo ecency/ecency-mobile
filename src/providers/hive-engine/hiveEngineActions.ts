@@ -1,4 +1,4 @@
-import { Operation } from '@hiveio/dhive';
+import type { Operation } from '@ecency/sdk';
 import parseToken from '../../utils/parseToken';
 import { EngineActionJSON, EngineActions, EngineContracts } from './hiveEngine.types';
 

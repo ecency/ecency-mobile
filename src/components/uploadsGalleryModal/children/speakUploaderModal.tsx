@@ -1,7 +1,14 @@
-import React, { forwardRef, useImperativeHandle, useState, useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, Alert, useWindowDimensions } from 'react-native';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Alert,
+  useWindowDimensions,
+  Modal,
+} from 'react-native';
 import { useIntl } from 'react-intl';
-import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import * as Progress from 'react-native-progress';
 import { createThumbnail, Thumbnail } from 'react-native-create-thumbnail';
@@ -21,7 +28,7 @@ import {
   useSetVideoThumbnail,
 } from '../../../providers/queries/editorQueries/speakQueries';
 import { isMediaPickerCancellation, reportMediaPickerError } from '../../../utils/mediaPickerError';
-import { signImage } from '../../../providers/hive/dhive';
+import { signImage } from '../../../providers/hive/hive';
 import { uploadImage } from '../../../providers/ecency/ecency';
 import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
@@ -38,7 +45,7 @@ interface Props {
 export const SpeakUploaderModal = forwardRef(
   ({ setIsUploading, isUploading, onVideoUploaded, isShort = false }: Props, ref) => {
     const intl = useIntl();
-    const sheetModalRef = useRef(null);
+    const [visible, setVisible] = useState(false);
     const dim = useWindowDimensions();
 
     const currentAccount = useAppSelector(selectCurrentAccount);
@@ -54,41 +61,37 @@ export const SpeakUploaderModal = forwardRef(
 
     useImperativeHandle(ref, () => ({
       showUploader: async (_video: VideoType) => {
-        if (sheetModalRef.current) {
-          sheetModalRef.current.show();
-
-          if (_video) {
-            if (!_video.filename) {
-              _video.filename = _video.path.split('/').pop();
-            }
-
-            // Enforce 60s limit for shorts
-            if (isShort && _video.duration && _video.duration > 60000) {
-              Alert.alert(
-                intl.formatMessage({ id: 'alert.notice' }),
-                intl.formatMessage({ id: 'video-upload.error-too-long-short' }),
-              );
-              sheetModalRef.current.hide();
-              return;
-            }
-
-            setSelectedVideo(_video);
-            setSelectedThumb(null);
-
-            // Generate 5 thumbnails from video
-            const thumbs = [];
-            const _diff = _video.duration / 5;
-            for (let i = 0; i < 5; i++) {
-              // eslint-disable-next-line no-await-in-loop
-              const _thumb = await createThumbnail({
-                url: _video.sourceURL || _video.path,
-                timeStamp: i * _diff,
-              });
-              thumbs.push(_thumb);
-            }
-
-            setAvailableThumbs(thumbs);
+        if (_video) {
+          if (!_video.filename) {
+            _video.filename = _video.path.split('/').pop();
           }
+
+          // Enforce 60s limit for shorts — validate before showing the modal
+          if (isShort && _video.duration && _video.duration > 60000) {
+            Alert.alert(
+              intl.formatMessage({ id: 'alert.notice' }),
+              intl.formatMessage({ id: 'video-upload.error-too-long-short' }),
+            );
+            return;
+          }
+
+          setVisible(true);
+          setSelectedVideo(_video);
+          setSelectedThumb(null);
+
+          // Generate 5 thumbnails from video
+          const thumbs = [];
+          const _diff = _video.duration / 5;
+          for (let i = 0; i < 5; i++) {
+            // eslint-disable-next-line no-await-in-loop
+            const _thumb = await createThumbnail({
+              url: _video.sourceURL || _video.path,
+              timeStamp: i * _diff,
+            });
+            thumbs.push(_thumb);
+          }
+
+          setAvailableThumbs(thumbs);
         }
       },
     }));
@@ -135,9 +138,7 @@ export const SpeakUploaderModal = forwardRef(
           }
         }
 
-        if (sheetModalRef.current) {
-          sheetModalRef.current.hide();
-        }
+        setVisible(false);
 
         // Notify parent with the embed URL and uploaded thumbnail URL
         onVideoUploaded?.(result.embedUrl, uploadedThumbUrl);
@@ -153,7 +154,7 @@ export const SpeakUploaderModal = forwardRef(
     };
 
     const _onClosePress = () => {
-      sheetModalRef.current?.hide();
+      setVisible(false);
     };
 
     const _handleOpenImagePicker = () => {
@@ -290,15 +291,14 @@ export const SpeakUploaderModal = forwardRef(
     };
 
     return (
-      <ActionSheet
-        ref={sheetModalRef}
-        gestureEnabled={true}
-        closeOnTouchBackdrop={true}
-        containerStyle={styles.sheetContent}
-        indicatorStyle={styles.sheetIndicator}
+      <Modal
+        visible={visible}
+        animationType="slide"
+        transparent={false}
+        onRequestClose={_onClosePress}
       >
-        {_renderFormContent()}
-      </ActionSheet>
+        <View style={styles.sheetContent}>{_renderFormContent()}</View>
+      </Modal>
     );
   },
 );

@@ -6,7 +6,7 @@ import { get } from 'lodash';
 import QUERIES from '../queryKeys';
 import { useAppSelector } from '../../../hooks';
 import { setRcOffer, toastNotification } from '../../../redux/actions/uiAction';
-import { getDigitPinCode } from '../../hive/dhive';
+import { getDigitPinCode } from '../../hive/hive';
 import { PointActivityIds } from '../../ecency/ecency.types';
 import { useUserActivityMutation } from '../pointQueries';
 import { makeJsonMetadata, makeOptions } from '../../../utils/editor';

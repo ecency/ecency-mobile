@@ -24,7 +24,7 @@ import {
   selectIsConnected,
   selectHidePostsThumbnails,
 } from '../redux/selectors';
-import { getDigitPinCode } from '../providers/hive/dhive';
+import { getDigitPinCode } from '../providers/hive/hive';
 import {
   useFollowMutation,
   useUnfollowMutation,

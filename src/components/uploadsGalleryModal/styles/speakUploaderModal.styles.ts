@@ -12,12 +12,9 @@ export default EStyleSheet.create({
   },
 
   sheetContent: {
+    flex: 1,
     backgroundColor: '$primaryBackgroundColor',
-    zIndex: 999,
-  },
-
-  sheetIndicator: {
-    backgroundColor: '$iconColor',
+    paddingTop: 32,
   },
 
   contentContainer: {

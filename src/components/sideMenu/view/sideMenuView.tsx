@@ -92,6 +92,14 @@ const SideMenuView = ({
       return;
     }
 
+    if (item.id === 'docs') {
+      navigateToRoute({
+        name: ROUTES.SCREENS.WEB_BROWSER,
+        params: { url: 'https://docs.ecency.com/get-started/onboarding-checklist/' },
+      });
+      return;
+    }
+
     if (item.id === 'favorites') {
       navigateToRoute({
         name: ROUTES.SCREENS.BOOKMARKS,

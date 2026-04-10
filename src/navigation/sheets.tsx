@@ -1,5 +1,5 @@
 import { registerSheet, SheetDefinition } from 'react-native-actions-sheet';
-import { Operation } from '@hiveio/dhive';
+import type { Operation } from '@ecency/sdk';
 import {
   ActionModal,
   PostTranslationModal,

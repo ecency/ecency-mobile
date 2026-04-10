@@ -14,7 +14,7 @@ import {
   refreshSCToken,
   updatePinCode,
 } from '../providers/hive/auth';
-import { getDigitPinCode } from '../providers/hive/dhive';
+import { getDigitPinCode } from '../providers/hive/hive';
 import { getQueryClient } from '../providers/queries';
 import AUTH_TYPE from '../constants/authType';
 
