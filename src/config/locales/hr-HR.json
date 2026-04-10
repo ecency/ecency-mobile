@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "Galerija",
     "cancel": "Poništi",
-    "logout_text": "Jeste li sigurni da se želite odjaviti?"
+    "logout_text": "Jeste li sigurni da se želite odjaviti?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Novosti",
