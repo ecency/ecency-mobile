@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "图库",
     "cancel": "取消",
-    "logout_text": "您确定想要退出吗？"
+    "logout_text": "您确定想要退出吗？",
+    "docs": "Docs"
   },
   "home": {
     "feed": "朋友圈",
