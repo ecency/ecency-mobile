@@ -49,6 +49,7 @@ import RootNavigation from '../../../navigation/rootNavigation';
 import {
   bootstrapMattermostSession,
   calculateGlobalUnreadTotal,
+  clearMattermostBootstrapCache,
 } from '../../../providers/chat/mattermost';
 import { setChatApiToken, getChatApiTokenOwner } from '../../../config/chatApi';
 
@@ -414,6 +415,7 @@ class ApplicationContainer extends Component {
 
     if (!isLoggedIn || !username) {
       setChatApiToken(null);
+      clearMattermostBootstrapCache();
       dispatch(updateUnreadChatCount(0));
       return;
     }
@@ -987,6 +989,15 @@ class ApplicationContainer extends Component {
       dispatch(setFeedPosts([]));
       dispatch(setInitPosts([]));
       dispatch(removeOtherAccount(username));
+
+      // Drop the shared Mattermost PAT + bootstrap cache so a request
+      // already on the wire can't resurrect the session for the logged-out
+      // user. The generation counter inside bootstrapMattermostSession
+      // makes any in-flight resolve a no-op. If another account is still
+      // logged in, its next chat access will re-bootstrap cleanly.
+      setChatApiToken(null);
+      clearMattermostBootstrapCache();
+
       dispatch(logoutDone());
     } catch (err) {
       dispatch(logoutDone());

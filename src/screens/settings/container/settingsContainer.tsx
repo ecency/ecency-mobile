@@ -46,10 +46,12 @@ import {
 import { logout, logoutDone, toastNotification } from '../../../redux/actions/uiAction';
 import { deleteAccount } from '../../../providers/ecency/ecency';
 import {
+  clearMattermostBootstrapCache,
   getMattermostDmPrivacy,
   updateMattermostDmPrivacy,
   type MattermostDmPrivacy,
 } from '../../../providers/chat/mattermost';
+import { setChatApiToken } from '../../../config/chatApi';
 import { checkClient, getDigitPinCode } from '../../../providers/hive/hive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { useGetServersQuery } from '../../../providers/queries';
@@ -575,6 +577,11 @@ class SettingsContainer extends Component {
         if (otherAccounts.length > 0) {
           otherAccounts.map((item) => dispatch(removeOtherAccount(item.username)));
         }
+        // Drop the shared Mattermost PAT and any cached/in-flight bootstrap
+        // so a request already on the wire can't resurrect the session for
+        // the user we just wiped.
+        setChatApiToken(null);
+        clearMattermostBootstrapCache();
         dispatch(logoutDone());
         dispatch(isPinCodeOpen(false));
       })

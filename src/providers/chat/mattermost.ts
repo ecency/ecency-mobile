@@ -36,21 +36,118 @@ export const resolveMattermostTokens = async (
   };
 };
 
+// ---------------------------------------------------------------------------
+// Bootstrap dedup + short-lived result cache
+// ---------------------------------------------------------------------------
+//
+// /api/mattermost/bootstrap is expensive (3–6s p95 on the backend) and a
+// single mobile user can naturally trigger 2–4 concurrent calls during a
+// cold start: applicationContainer._refreshUnreadChats fires one, then the
+// user navigates to the chats screen which fires another, then into a
+// specific thread which fires a third. Previously each of those hit the
+// backend independently, producing duplicate/retry-storm traffic and a high
+// CLOSE_WAIT count on origins when React Native later tears down orphaned
+// sockets.
+//
+// The cache below collapses those paths:
+//   - In-flight dedup: while a bootstrap is pending for a given username,
+//     subsequent callers await the same promise instead of firing their own.
+//   - TTL result cache: a successful bootstrap is reused for 30 seconds.
+//     This covers quick background→foreground cycles and cross-screen
+//     navigation. Unread counts still refresh via fetchMattermostChannels
+//     (a separate endpoint) so no staleness is user-visible.
+//
+// Keyed by username so multi-account users never cross-pollute sessions.
+const BOOTSTRAP_CACHE_TTL_MS = 30_000;
+const inFlightBootstrap = new Map<string, Promise<any>>();
+const bootstrapCache = new Map<string, { data: any; expiresAt: number }>();
+
+// Generation counter used to invalidate in-flight bootstrap requests that
+// resolve *after* the cache has been cleared (e.g. user logged out mid-flight).
+// Each time clearMattermostBootstrapCache() runs we bump the generation; any
+// pending IIFE checks its captured generation before writing the token back
+// to the shared axios instance or re-populating the TTL cache.
+let bootstrapGeneration = 0;
+
+export const clearMattermostBootstrapCache = (username?: string) => {
+  if (username) {
+    bootstrapCache.delete(username);
+    inFlightBootstrap.delete(username);
+  } else {
+    bootstrapCache.clear();
+    inFlightBootstrap.clear();
+  }
+  // Invalidate any bootstrap that was already on the wire when this cleared.
+  // Their resolved side-effects (setChatApiToken + cache.set) will be skipped.
+  bootstrapGeneration += 1;
+};
+
 export const bootstrapMattermostSession = async (
   currentAccount: any,
   pinCode: string | null,
 ): Promise<any> => {
-  const payload = await resolveMattermostTokens(currentAccount, pinCode);
-  const { data } = await chatApi.post('/api/mattermost/bootstrap', payload);
-
-  // Store token explicitly with the username so subsequent requests
-  // don't depend on the async cookie jar, and multi-account switches
-  // can't contaminate each other's channels
-  if (data?.token) {
-    setChatApiToken(data.token, payload.username);
+  const username = currentAccount?.name;
+  if (!username) {
+    throw new Error('No authenticated user found');
   }
 
-  return data;
+  // Fresh cache hit: return without hitting the network. Reapply the token
+  // to the shared axios instance in case another account's bootstrap has
+  // overwritten it since we cached this entry.
+  const cached = bootstrapCache.get(username);
+  if (cached && cached.expiresAt > Date.now()) {
+    if (cached.data?.token) {
+      setChatApiToken(cached.data.token, username);
+    }
+    return cached.data;
+  }
+
+  // In-flight dedup: await any request already on the wire for this user.
+  const existing = inFlightBootstrap.get(username);
+  if (existing) {
+    return existing;
+  }
+
+  const startGeneration = bootstrapGeneration;
+  let promise: Promise<any>;
+  const run = async () => {
+    try {
+      const payload = await resolveMattermostTokens(currentAccount, pinCode);
+      const { data } = await chatApi.post('/api/mattermost/bootstrap', payload);
+
+      // If the cache was cleared while this request was in flight (logout,
+      // account teardown, data clear), do not repopulate the shared token or
+      // TTL cache — that would silently re-authenticate the old user.
+      if (bootstrapGeneration !== startGeneration) {
+        return data;
+      }
+
+      // Store token explicitly with the username so subsequent requests
+      // don't depend on the async cookie jar, and multi-account switches
+      // can't contaminate each other's channels
+      if (data?.token) {
+        setChatApiToken(data.token, payload.username);
+      }
+
+      bootstrapCache.set(username, {
+        data,
+        expiresAt: Date.now() + BOOTSTRAP_CACHE_TTL_MS,
+      });
+
+      return data;
+    } finally {
+      // Only clear the in-flight slot if we're still the current one — a
+      // concurrent clear() may have already deleted it (and potentially
+      // started a newer request with the same key).
+      if (inFlightBootstrap.get(username) === promise) {
+        inFlightBootstrap.delete(username);
+      }
+    }
+  };
+  promise = run();
+
+  inFlightBootstrap.set(username, promise);
+  return promise;
 };
 
 export const fetchMattermostChannels = async () => {

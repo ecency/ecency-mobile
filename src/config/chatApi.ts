@@ -9,6 +9,10 @@ const chatApi = axios.create({
     'User-Agent': `${Config.USER_AGENT}/${VersionNumber.appVersion}`,
   },
   withCredentials: true,
+  // Backend p95 for /api/mattermost/bootstrap is 3–6s. 20s gives plenty of
+  // headroom while preventing indefinite hangs that leave sockets dangling
+  // in CLOSE_WAIT on the origin when React Native tears them down later.
+  timeout: 20000,
 });
 
 /**
