@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "Galéria",
     "cancel": "Elvet",
-    "logout_text": "Biztos ki szeretnél jelentkezni?"
+    "logout_text": "Biztos ki szeretnél jelentkezni?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Hírfolyam",
