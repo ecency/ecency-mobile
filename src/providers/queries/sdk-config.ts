@@ -54,7 +54,9 @@ export const initSdkConfig = async (queryClient: QueryClient) => {
       ? [savedServer, ...fetchedNodes]
       : [...fetchedNodes];
   ConfigManager.setHiveNodes(nodes);
-  setHiveTxNodes(nodes, 4000);
+  // 20 s matches hive-tx's default and gives broadcast_transaction_synchronous
+  // enough headroom; shorter values abort successful broadcasts mid-flight.
+  setHiveTxNodes(nodes, 20000);
 
   // Fetch and configure DMCA filters
   const dmcaLists = await fetchDmcaLists();
