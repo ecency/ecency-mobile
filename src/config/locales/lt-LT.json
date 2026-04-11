@@ -179,7 +179,8 @@
     "create_a_new_account": "Sukurti naują paskyrą",
     "gallery": "Galerija",
     "cancel": "Atšaukti",
-    "logout_text": "Ar tikrai norite atsijungti?"
+    "logout_text": "Ar tikrai norite atsijungti?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Pagrindinis",

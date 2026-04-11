@@ -179,7 +179,8 @@
     "create_a_new_account": "Registreeri uus kasutaja",
     "gallery": "Galerii",
     "cancel": "Tühista",
-    "logout_text": "Oled kindel, et soovid välja logida?"
+    "logout_text": "Oled kindel, et soovid välja logida?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Sein",

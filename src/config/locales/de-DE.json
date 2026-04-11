@@ -179,7 +179,8 @@
     "create_a_new_account": "Neues Konto erstellen",
     "gallery": "Galerie",
     "cancel": "Abbrechen",
-    "logout_text": "Bist du sicher, dass du dich ausloggen möchtest?"
+    "logout_text": "Bist du sicher, dass du dich ausloggen möchtest?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Feed",

@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "Gallerij",
     "cancel": "Annuleren",
-    "logout_text": "Weet je zeker dat je wilt uitloggen?"
+    "logout_text": "Weet je zeker dat je wilt uitloggen?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Feed",

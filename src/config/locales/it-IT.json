@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "Galleria",
     "cancel": "Cancella",
-    "logout_text": "Sei sicuro di voler uscire?"
+    "logout_text": "Sei sicuro di voler uscire?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Feed",

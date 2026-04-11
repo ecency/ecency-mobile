@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "Album",
     "cancel": "Batëu",
-    "logout_text": "Peu betoi neu teubit?"
+    "logout_text": "Peu betoi neu teubit?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Umpëun",

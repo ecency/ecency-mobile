@@ -179,7 +179,8 @@
     "create_a_new_account": "創建一個新帳戶",
     "gallery": "圖庫",
     "cancel": "取消",
-    "logout_text": "您確定要登出嗎？"
+    "logout_text": "您確定要登出嗎？",
+    "docs": "Docs"
   },
   "home": {
     "feed": "朋友圈",

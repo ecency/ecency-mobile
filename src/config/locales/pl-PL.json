@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "Galeria",
     "cancel": "Anuluj",
-    "logout_text": "Czy na pewno chcesz się wylogować?"
+    "logout_text": "Czy na pewno chcesz się wylogować?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Strumień",
