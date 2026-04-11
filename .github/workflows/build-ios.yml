@@ -122,6 +122,72 @@ jobs:
             cp $PROVISION ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
           done
 
+      - name: Verify signing certificate and provisioning profile expiry
+        # Fails fast and loudly when the iOS Distribution cert is missing or any
+        # provisioning profile is already expired (or expires within 7 days), so
+        # we don't bury the real cause inside a 1500-line xcodebuild log later.
+        env:
+          KEYCHAIN_PATH: ${{ runner.temp }}/app-signing.keychain-db
+          WARN_DAYS: '7'
+        run: |
+          set -euo pipefail
+
+          echo "::group::Code signing identities"
+          security find-identity -v -p codesigning "$KEYCHAIN_PATH" || true
+          echo "::endgroup::"
+
+          # Require at least one valid Apple/iPhone Distribution identity with a private key.
+          if ! security find-identity -v -p codesigning "$KEYCHAIN_PATH" \
+               | grep -E '"(Apple|iPhone) Distribution' >/dev/null; then
+            echo "::error title=Distribution certificate missing::No valid 'Apple Distribution' or 'iPhone Distribution' identity with a private key was found in the build keychain. Re-export the .p12 from a Mac that has both the cert and its private key, base64-encode it, and update the CERTIFICATES_P12 secret. Also confirm CERTIFICATE_PASSWORD matches the .p12 export password."
+            exit 1
+          fi
+
+          NOW_EPOCH=$(date -u +%s)
+          WARN_SECS=$(( WARN_DAYS * 24 * 60 * 60 ))
+          FAIL=0
+
+          echo "::group::Provisioning profile expiry"
+          for PROVISION in "$RUNNER_TEMP"/*.mobileprovision; do
+            [ -f "$PROVISION" ] || continue
+            PLIST=$(security cms -D -i "$PROVISION")
+            NAME=$(/usr/libexec/PlistBuddy -c 'Print :Name' /dev/stdin <<< "$PLIST" 2>/dev/null || echo "(unknown)")
+            UUID=$(/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<< "$PLIST" 2>/dev/null || echo "(unknown)")
+            EXPIRATION=$(/usr/libexec/PlistBuddy -c 'Print :ExpirationDate' /dev/stdin <<< "$PLIST" 2>/dev/null || echo "")
+
+            if [ -z "$EXPIRATION" ]; then
+              echo "::error title=Provisioning profile unreadable::Could not read ExpirationDate from $(basename "$PROVISION") (name='$NAME', uuid='$UUID')"
+              FAIL=1
+              continue
+            fi
+
+            # PlistBuddy prints dates like "Fri Apr 10 16:43:34 GMT 2026" — parse to epoch.
+            EXP_EPOCH=$(date -u -j -f "%a %b %d %T %Z %Y" "$EXPIRATION" +%s 2>/dev/null || echo 0)
+            if [ "$EXP_EPOCH" = "0" ]; then
+              echo "::error title=Provisioning profile date parse failed::Could not parse ExpirationDate '$EXPIRATION' for profile '$NAME'"
+              FAIL=1
+              continue
+            fi
+
+            REMAINING=$(( EXP_EPOCH - NOW_EPOCH ))
+            REMAINING_DAYS=$(( REMAINING / 86400 ))
+
+            if [ "$REMAINING" -le 0 ]; then
+              echo "::error title=Provisioning profile expired::'$NAME' (uuid=$UUID) expired on $EXPIRATION. Regenerate it in the Apple Developer portal and update the matching GitHub secret (PROVISIONING_PROFILE / EXTEN_PROVISIONING_PROFILE / NOTIFI_PROVISIONING_PROFILE)."
+              FAIL=1
+            elif [ "$REMAINING" -le "$WARN_SECS" ]; then
+              echo "::warning title=Provisioning profile expiring soon::'$NAME' expires in $REMAINING_DAYS day(s) on $EXPIRATION. Regenerate before the next build."
+            else
+              echo "OK  $NAME — $REMAINING_DAYS day(s) remaining (expires $EXPIRATION)"
+            fi
+          done
+          echo "::endgroup::"
+
+          if [ "$FAIL" -ne 0 ]; then
+            echo "::error::One or more provisioning profiles or signing certificates are invalid. See errors above."
+            exit 1
+          fi
+
       - name: Create .env file
         run: |
           echo "ACTIVITY_WEBSOCKET_URL=${{ secrets.ACTIVITY_WEBSOCKET_URL }}" >> .env
