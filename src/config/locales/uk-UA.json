@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "Галерея",
     "cancel": "Скасувати",
-    "logout_text": "Впевнені, що хочете вийти?"
+    "logout_text": "Впевнені, що хочете вийти?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Стрічка",

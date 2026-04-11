@@ -179,7 +179,8 @@
     "create_a_new_account": "Luo uusi tili",
     "gallery": "Galleria",
     "cancel": "Peruuta",
-    "logout_text": "Haluatko varmasti kirjautua ulos?"
+    "logout_text": "Haluatko varmasti kirjautua ulos?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Syöte",

@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "ギャラリー",
     "cancel": "キャンセル",
-    "logout_text": "本当にログアウトしますか？"
+    "logout_text": "本当にログアウトしますか？",
+    "docs": "Docs"
   },
   "home": {
     "feed": "フィード",

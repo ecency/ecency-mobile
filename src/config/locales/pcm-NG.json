@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "Picture",
     "cancel": "Cancel",
-    "logout_text": "You sure say you wan logout?"
+    "logout_text": "You sure say you wan logout?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Tori",

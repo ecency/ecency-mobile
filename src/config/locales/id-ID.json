@@ -179,7 +179,8 @@
     "create_a_new_account": "Buat akun baru",
     "gallery": "Album",
     "cancel": "Batal",
-    "logout_text": "Apakah Anda yakin ingin keluar?"
+    "logout_text": "Apakah Anda yakin ingin keluar?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Umpan",

@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "Galleri",
     "cancel": "Avbryt",
-    "logout_text": "Är du säker på att du vill logga ut?"
+    "logout_text": "Är du säker på att du vill logga ut?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Feed",

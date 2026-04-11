@@ -179,7 +179,8 @@
     "create_a_new_account": "Créer un nouveau compte",
     "gallery": "Gallerie",
     "cancel": "Annuler",
-    "logout_text": "Voulez-vous vraiment vous déconnecter?"
+    "logout_text": "Voulez-vous vraiment vous déconnecter?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Fil d'actualités",

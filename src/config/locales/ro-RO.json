@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "Galerie",
     "cancel": "Anulează",
-    "logout_text": "Esti sigur că vrei să te deconectezi?"
+    "logout_text": "Esti sigur că vrei să te deconectezi?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Flux",

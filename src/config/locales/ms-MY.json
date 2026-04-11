@@ -179,7 +179,8 @@
     "create_a_new_account": "Cipta akaun baharu",
     "gallery": "Galeri",
     "cancel": "Batal",
-    "logout_text": "Anda pasti mahu log keluar?"
+    "logout_text": "Anda pasti mahu log keluar?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Suapan",

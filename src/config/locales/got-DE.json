@@ -179,7 +179,8 @@
     "create_a_new_account": "Create a new account",
     "gallery": "Frisahteis",
     "cancel": "Fraqiþ",
-    "logout_text": "Wileis bi sunjai afleiþan?"
+    "logout_text": "Wileis bi sunjai afleiþan?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "Feed",

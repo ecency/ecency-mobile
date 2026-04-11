@@ -179,7 +179,8 @@
     "create_a_new_account": "새 계정 만들기",
     "gallery": "갤러리",
     "cancel": "취소",
-    "logout_text": "로그 아웃 하시겠습니까?"
+    "logout_text": "로그 아웃 하시겠습니까?",
+    "docs": "Docs"
   },
   "home": {
     "feed": "피드",
