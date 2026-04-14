@@ -64,13 +64,14 @@ import { CommunityRole, CommunityTypeId } from '../../providers/hive/hive.types'
 export interface QuickPostModalContentProps {
   mode: 'comment' | 'wave' | 'post';
   selectedPost?: any;
+  paramFiles?: any[];
   onClose: () => void;
 }
 
 const MAX_BODY_LENGTH = 250;
 
 export const QuickPostModalContent = forwardRef(
-  ({ mode, selectedPost, onClose }: QuickPostModalContentProps, ref) => {
+  ({ mode, selectedPost, paramFiles, onClose }: QuickPostModalContentProps, ref) => {
     const intl = useIntl();
     const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
@@ -178,6 +179,29 @@ export const QuickPostModalContent = forwardRef(
       // check if user can comment to community
       setCommunityToCheck(selectedPost?.community ?? null);
     }, [currentDraft, currentAccount.name, selectedPost?.community]);
+
+    // Split shared files into media items (for UploadsGalleryModal) and text
+    // items (pre-filled into the composer). Without this split, text/url shares
+    // would produce null entries in the media pipeline.
+    const sharedMediaFiles = useMemo(() => {
+      if (!paramFiles) return undefined;
+      const media = paramFiles.filter((el) => el.filePath && el.fileName);
+      return media.length > 0 ? media : undefined;
+    }, [paramFiles]);
+
+    useEffect(() => {
+      if (!paramFiles) return;
+      const textParts: string[] = [];
+      paramFiles.forEach((el) => {
+        if (el.text) textParts.push(el.text);
+        else if (el.weblink) textParts.push(el.weblink);
+      });
+      if (textParts.length > 0) {
+        const joined = textParts.join('\n');
+        commentValueRef.current = joined;
+        setCommentValue(joined);
+      }
+    }, [paramFiles]);
 
     // Check if user can comment based on community data from SDK query
     useEffect(() => {
@@ -604,6 +628,7 @@ export const QuickPostModalContent = forwardRef(
 
           <UploadsGalleryModal
             ref={uploadsGalleryModalRef}
+            paramFiles={sharedMediaFiles}
             isPreviewActive={false}
             username={currentAccount.name}
             allowMultiple={false}

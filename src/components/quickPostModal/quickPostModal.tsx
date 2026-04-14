@@ -7,7 +7,7 @@ import { SheetNames } from '../../navigation/sheets';
 
 const QuickPostModal = ({ payload }: SheetProps<SheetNames.QUICK_POST>) => {
   const modalContentRef = useRef(null);
-  const { mode, parentPost } = payload || {};
+  const { mode, parentPost, files } = payload || {};
 
   const _onClose = () => {
     SheetManager.hide(SheetNames.QUICK_POST);
@@ -31,6 +31,7 @@ const QuickPostModal = ({ payload }: SheetProps<SheetNames.QUICK_POST>) => {
           ref={modalContentRef}
           mode={mode || 'comment'}
           selectedPost={parentPost}
+          paramFiles={files}
           onClose={_onClose}
         />
       </ActionSheet>

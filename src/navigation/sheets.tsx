@@ -16,6 +16,7 @@ import {
   AuthUpgradeSheet,
   AiAssistModal,
 } from '../components';
+import { ShareIntentSheet } from '../components/shareIntentSheet';
 import { TippingDialog } from '../components/tipping';
 import { TTSSettingsSheet } from '../components/textToSpeech/ttsSettingsSheet';
 import { ActionModalPayload } from '../components/actionModal/container/actionModalContainer';
@@ -37,6 +38,7 @@ export enum SheetNames {
   EMOJI_PICKER = 'emoji_picker',
   AUTH_UPGRADE = 'auth_upgrade',
   AI_ASSIST = 'ai_assist',
+  SHARE_INTENT = 'share_intent',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -55,6 +57,7 @@ registerSheet(SheetNames.HIVE_AUTH_BROADCAST, HiveAuthBroadcastSheet);
 registerSheet(SheetNames.EMOJI_PICKER, EmojiPickerSheet);
 registerSheet(SheetNames.AUTH_UPGRADE, AuthUpgradeSheet);
 registerSheet(SheetNames.AI_ASSIST, AiAssistModal);
+registerSheet(SheetNames.SHARE_INTENT, ShareIntentSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -74,6 +77,7 @@ declare module 'react-native-actions-sheet' {
       payload: {
         mode: 'comment' | 'wave';
         parentPost?: any;
+        files?: any[];
       };
     }>;
     [SheetNames.CROSS_POST]: SheetDefinition<{
@@ -152,6 +156,12 @@ declare module 'react-native-actions-sheet' {
         username: string;
       };
       returnValue: 'key' | 'hivesigner' | 'hiveauth' | false;
+    }>;
+    [SheetNames.SHARE_INTENT]: SheetDefinition<{
+      payload: {
+        files: any[];
+      };
+      returnValue: 'blog' | 'wave' | undefined;
     }>;
     [SheetNames.AI_ASSIST]: SheetDefinition<{
       payload: {
