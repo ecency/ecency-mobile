@@ -63,6 +63,7 @@ const DelegateScreen = ({
   // --- Refs ---
   const destinationRef = useRef<any>(null);
   const amountRef = useRef<any>(null);
+  const delegationFetchId = useRef(0);
 
   // --- Computed ---
   const availableVestingShares = useMemo(() => {
@@ -95,14 +96,21 @@ const DelegateScreen = ({
   // --- Fetch existing delegation ---
   const fetchExistingDelegation = useCallback(
     async (delegatorUser: string, delegateeUser: string) => {
+      // Clear state immediately so the slider/UI doesn't use stale values
+      // while the fetch is in flight.
+      setDelegatedHP(0);
+      setDelegatedVests(0);
+      setHp(0);
+      setAmount(0);
+      setIsAmountValid(false);
+
       if (!delegatorUser || !delegateeUser) {
-        setDelegatedHP(0);
-        setDelegatedVests(0);
-        setHp(0);
-        setAmount(0);
-        setIsAmountValid(false);
         return;
       }
+
+      // Guard against stale responses: if the user changes the destination
+      // while a fetch is in flight, the earlier response must be discarded.
+      const thisRequestId = ++delegationFetchId.current;
 
       try {
         const queryClient = getQueryClient();
@@ -128,13 +136,14 @@ const DelegateScreen = ({
 
         const allDelegations = await fetchAllPages();
 
+        // Discard if a newer request has been issued while we were fetching
+        if (thisRequestId !== delegationFetchId.current) return;
+
         if (allDelegations.length) {
           const curShare = allDelegations.find((item) => item.delegatee === delegateeUser);
           if (curShare) {
             const vestShares = parseAsset(curShare.vesting_shares);
             const hpValue = parseFloat(vestsToHp(vestShares.amount, hivePerMVests).toFixed(3));
-            // Slider max must include the existing delegation since those VESTS
-            // are reclaimable — availableVestingShares excludes ALL delegations.
             const effectiveMax = availableVestingShares + vestShares.amount;
             const maxHP = parseFloat(vestsToHp(effectiveMax, hivePerMVests).toFixed(3));
             const isValid = !(Number.isNaN(hpValue) || hpValue <= 0.001 || hpValue > maxHP);
@@ -143,27 +152,13 @@ const DelegateScreen = ({
             setHp(hpValue);
             setAmount(vestShares.amount);
             setIsAmountValid(isValid);
-          } else {
-            setDelegatedHP(0);
-            setDelegatedVests(0);
-            setHp(0);
-            setAmount(0);
-            setIsAmountValid(false);
           }
-        } else {
-          setDelegatedHP(0);
-          setDelegatedVests(0);
-          setHp(0);
-          setAmount(0);
-          setIsAmountValid(false);
         }
       } catch (err) {
-        console.warn(err);
-        setDelegatedHP(0);
-        setDelegatedVests(0);
-        setHp(0);
-        setAmount(0);
-        setIsAmountValid(false);
+        // Only reset if this is still the active request
+        if (thisRequestId === delegationFetchId.current) {
+          console.warn(err);
+        }
       }
     },
     [hivePerMVests, availableVestingShares],
@@ -289,20 +284,19 @@ const DelegateScreen = ({
 
   const handleSliderChange = useCallback(
     (value: number) => {
-      const hpValue = vestsToHp(value, hivePerMVests).toFixed(3);
-      const isValid = value !== 0 && value <= effectiveMaxVests;
+      const hpValue = parseFloat(vestsToHp(value, hivePerMVests).toFixed(3));
       setAmount(value);
       setHp(hpValue);
-      setIsAmountValid(isValid);
+      setIsAmountValid(validateHP(hpValue));
     },
-    [effectiveMaxVests, hivePerMVests],
+    [hivePerMVests, validateHP],
   );
 
   const handleSetMax = useCallback(() => {
     setAmount(effectiveMaxVests);
     setHp(totalHP.toFixed(3));
-    setIsAmountValid(effectiveMaxVests > 0);
-  }, [effectiveMaxVests, totalHP]);
+    setIsAmountValid(validateHP(parseFloat(totalHP.toFixed(3))));
+  }, [effectiveMaxVests, totalHP, validateHP]);
 
   // --- Transfer ---
   const handleTransferAction = useCallback(async () => {
