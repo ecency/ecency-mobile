@@ -160,14 +160,28 @@ class ApplicationContainer extends Component {
     this._fetchApp();
 
     ReceiveSharingIntent.getReceivedFiles(
-      (files) => {
-        RootNavigation.navigate({
-          name: ROUTES.SCREENS.EDITOR,
-          params: { hasSharedIntent: true, files },
-        });
-        // files returns as JSON Array example
-        // [{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
-        ReceiveSharingIntent.clearReceivedFiles(); // clear Intents
+      async (files) => {
+        try {
+          const target = await SheetManager.show(SheetNames.SHARE_INTENT, {
+            payload: { files },
+          });
+          // Default to blog editor when user dismisses the sheet (swipe / backdrop),
+          // so an accidental dismiss doesn't silently lose the shared content.
+          const choice = target || 'blog';
+          if (choice === 'blog') {
+            RootNavigation.navigate({
+              name: ROUTES.SCREENS.EDITOR,
+              params: { hasSharedIntent: true, files },
+            });
+          } else if (choice === 'wave') {
+            SheetManager.show(SheetNames.QUICK_POST, {
+              payload: { mode: 'wave', files },
+            });
+          }
+        } catch (e) {
+          console.log('share intent sheet error :>> ', e);
+        }
+        ReceiveSharingIntent.clearReceivedFiles();
       },
       (error) => {
         console.log('error :>> ', error);
