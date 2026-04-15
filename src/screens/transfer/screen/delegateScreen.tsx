@@ -52,6 +52,7 @@ const DelegateScreen = ({
   const [hp, setHp] = useState(0.0);
   const [amount, setAmount] = useState(0); // VESTS
   const [delegatedHP, setDelegatedHP] = useState<number>(0);
+  const [delegatedVests, setDelegatedVests] = useState<number>(0);
   const [isAmountValid, setIsAmountValid] = useState(false);
   const [isTransfering, setIsTransfering] = useState(false);
   const [usersResult, setUsersResult] = useState<string[]>([]);
@@ -79,9 +80,14 @@ const DelegateScreen = ({
     );
   }, [selectedAccount]);
 
+  // The slider max must include the existing delegation to this specific user
+  // because those VESTS are reclaimable (the chain interprets the op as the
+  // new TOTAL delegation, not an incremental change).
+  const effectiveMaxVests = availableVestingShares + delegatedVests;
+
   const totalHP = useMemo(
-    () => vestsToHp(availableVestingShares, hivePerMVests),
-    [availableVestingShares, hivePerMVests],
+    () => vestsToHp(effectiveMaxVests, hivePerMVests),
+    [effectiveMaxVests, hivePerMVests],
   );
 
   const isBadActor = destination && badActors?.has(destination.trim().toLowerCase());
@@ -91,6 +97,7 @@ const DelegateScreen = ({
     async (delegatorUser: string, delegateeUser: string) => {
       if (!delegatorUser || !delegateeUser) {
         setDelegatedHP(0);
+        setDelegatedVests(0);
         setHp(0);
         setAmount(0);
         setIsAmountValid(false);
@@ -126,20 +133,26 @@ const DelegateScreen = ({
           if (curShare) {
             const vestShares = parseAsset(curShare.vesting_shares);
             const hpValue = parseFloat(vestsToHp(vestShares.amount, hivePerMVests).toFixed(3));
-            const maxHP = parseFloat(vestsToHp(availableVestingShares, hivePerMVests).toFixed(3));
+            // Slider max must include the existing delegation since those VESTS
+            // are reclaimable — availableVestingShares excludes ALL delegations.
+            const effectiveMax = availableVestingShares + vestShares.amount;
+            const maxHP = parseFloat(vestsToHp(effectiveMax, hivePerMVests).toFixed(3));
             const isValid = !(Number.isNaN(hpValue) || hpValue <= 0.001 || hpValue > maxHP);
             setDelegatedHP(hpValue);
+            setDelegatedVests(vestShares.amount);
             setHp(hpValue);
             setAmount(vestShares.amount);
             setIsAmountValid(isValid);
           } else {
             setDelegatedHP(0);
+            setDelegatedVests(0);
             setHp(0);
             setAmount(0);
             setIsAmountValid(false);
           }
         } else {
           setDelegatedHP(0);
+          setDelegatedVests(0);
           setHp(0);
           setAmount(0);
           setIsAmountValid(false);
@@ -147,6 +160,7 @@ const DelegateScreen = ({
       } catch (err) {
         console.warn(err);
         setDelegatedHP(0);
+        setDelegatedVests(0);
         setHp(0);
         setAmount(0);
         setIsAmountValid(false);
@@ -228,10 +242,10 @@ const DelegateScreen = ({
   // --- HP validation ---
   const validateHP = useCallback(
     (value: number) => {
-      const maxHP = parseFloat(vestsToHp(availableVestingShares, hivePerMVests).toFixed(3));
+      const maxHP = parseFloat(vestsToHp(effectiveMaxVests, hivePerMVests).toFixed(3));
       return !(Number.isNaN(value) || value <= 0.001 || value > maxHP);
     },
-    [availableVestingShares, hivePerMVests],
+    [effectiveMaxVests, hivePerMVests],
   );
 
   // --- Amount handlers ---
@@ -253,7 +267,7 @@ const DelegateScreen = ({
         setHp(0.0);
         setIsAmountValid(false);
       } else {
-        const maxHP = parseFloat(vestsToHp(availableVestingShares, hivePerMVests).toFixed(3));
+        const maxHP = parseFloat(vestsToHp(effectiveMaxVests, hivePerMVests).toFixed(3));
         if (parsed > maxHP) {
           setAmount(hpToVests(maxHP, hivePerMVests));
           setHp(maxHP);
@@ -272,19 +286,19 @@ const DelegateScreen = ({
   const handleSliderChange = useCallback(
     (value: number) => {
       const hpValue = vestsToHp(value, hivePerMVests).toFixed(3);
-      const isValid = value !== 0 && value <= availableVestingShares;
+      const isValid = value !== 0 && value <= effectiveMaxVests;
       setAmount(value);
       setHp(hpValue);
       setIsAmountValid(isValid);
     },
-    [availableVestingShares, hivePerMVests],
+    [effectiveMaxVests, hivePerMVests],
   );
 
   const handleSetMax = useCallback(() => {
-    setAmount(availableVestingShares);
+    setAmount(effectiveMaxVests);
     setHp(totalHP.toFixed(3));
-    setIsAmountValid(availableVestingShares > 0);
-  }, [availableVestingShares, totalHP]);
+    setIsAmountValid(effectiveMaxVests > 0);
+  }, [effectiveMaxVests, totalHP]);
 
   // --- Transfer ---
   const handleTransferAction = useCallback(async () => {
@@ -491,7 +505,7 @@ const DelegateScreen = ({
             minimumTrackTintColor="#357ce6"
             maximumTrackTintColor="#b1b1b1"
             thumbTintColor="#007ee5"
-            maximumValue={availableVestingShares}
+            maximumValue={effectiveMaxVests}
             value={amount}
             onValueChange={handleSliderChange}
           />
