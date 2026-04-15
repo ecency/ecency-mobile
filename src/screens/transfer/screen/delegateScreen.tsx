@@ -242,10 +242,14 @@ const DelegateScreen = ({
   // --- HP validation ---
   const validateHP = useCallback(
     (value: number) => {
+      if (Number.isNaN(value)) return false;
       const maxHP = parseFloat(vestsToHp(effectiveMaxVests, hivePerMVests).toFixed(3));
-      return !(Number.isNaN(value) || value <= 0.001 || value > maxHP);
+      if (value > maxHP) return false;
+      // Allow 0 only when there's an existing delegation to undelegate
+      if (value === 0) return delegatedVests > 0;
+      return value > 0.001;
     },
-    [effectiveMaxVests, hivePerMVests],
+    [effectiveMaxVests, hivePerMVests, delegatedVests],
   );
 
   // --- Amount handlers ---
