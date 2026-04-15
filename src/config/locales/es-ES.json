@@ -1498,5 +1498,12 @@
     "select_source": "Añadir vídeos",
     "record": "Grabar video",
     "choose_library": "Elegir desde Galería"
+  },
+  "share_intent": {
+    "title": "Share to...",
+    "blog_post": "Blog Post",
+    "blog_post_desc": "Create a full blog post in the editor",
+    "wave": "Wave",
+    "wave_desc": "Share a quick update"
   }
 }
