@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Text, View, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
-import Slider from '@esteemapp/react-native-slider';
+import Slider from '@react-native-community/slider';
 import get from 'lodash/get';
 import Animated, { BounceInRight } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -296,9 +296,8 @@ const PowerDownScreen = ({
       <View style={styles.sliderContainer}>
         <Slider
           style={styles.slider}
-          trackStyle={styles.track}
-          thumbStyle={styles.thumb}
           minimumTrackTintColor="#357ce6"
+          maximumTrackTintColor="#b1b1b1"
           thumbTintColor="#007ee5"
           maximumValue={availableVestingShares}
           value={amount}

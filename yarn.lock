@@ -1239,13 +1239,6 @@
   resolved "https://registry.npmjs.org/@esteemapp/react-native-multi-slider/-/react-native-multi-slider-1.1.0.tgz"
   integrity sha512-NSqnLuyrkO23oTpA2WiL9LrxR84eKYKxBp8OogsjLSmThfyaHJvG87J3GLoy+l/9xXA+BeHS4DF360brZ/lrUA==
 
-"@esteemapp/react-native-slider@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.npmjs.org/@esteemapp/react-native-slider/-/react-native-slider-0.12.0.tgz"
-  integrity sha512-lOnwyBO5Iun0Ou0rWvgA+QjSggfHdHVW488svXxn5O1hZAXnujItQOSJtm4llyclEyjmJVaQMp9+nuvGBdWxIA==
-  dependencies:
-    prop-types "^15.5.6"
-
 "@expo/cli@0.24.20":
   version "0.24.20"
   resolved "https://registry.npmjs.org/@expo/cli/-/cli-0.24.20.tgz"
@@ -2749,6 +2742,11 @@
   version "11.4.1"
   resolved "https://registry.npmjs.org/@react-native-community/netinfo/-/netinfo-11.4.1.tgz"
   integrity sha512-B0BYAkghz3Q2V09BF88RA601XursIEA111tnc2JOaN7axJWmNefmfjZqw/KdSxKZp7CZUuPpjBmz/WCR9uaHYg==
+
+"@react-native-community/slider@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/slider/-/slider-5.2.0.tgz#c154ac4ec10537160462d7a9f3e2e43098257302"
+  integrity sha512-484sH8aWEaSjxaZ7HT3YZ8CKDcNes2synko1vdEz5DFEdvKAduxKJTj22L/qBMD7rtIkfbX69DMzWDAGbOAV6w==
 
 "@react-native-firebase/app@^23.4.0":
   version "23.4.0"
@@ -10725,7 +10723,7 @@ prompts@^2.0.1, prompts@^2.3.2, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@*, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.0, prop-types@^15.8.1:
+prop-types@*, prop-types@^15.5.7, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.0, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -11350,13 +11348,6 @@ react-native-screens@~4.13.1:
     react-freeze "^1.0.0"
     react-native-is-edge-to-edge "^1.2.1"
     warn-once "^0.1.0"
-
-react-native-slider@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/react-native-slider/-/react-native-slider-0.11.0.tgz"
-  integrity sha512-jV9K87eu9uWr0uJIyrSpBLnCKvVlOySC2wynq9TFCdV9oGgjt7Niq8Q1A8R8v+5GHsuBw/s8vEj1AAkkUi+u+w==
-  dependencies:
-    prop-types "^15.5.6"
 
 react-native-svg@15.12.0:
   version "15.12.0"

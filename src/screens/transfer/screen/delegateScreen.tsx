@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { View, Text, Alert, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useIntl } from 'react-intl';
-import Slider from '@esteemapp/react-native-slider';
+import Slider from '@react-native-community/slider';
 import get from 'lodash/get';
 import { debounce } from 'lodash';
 import { FlatList } from 'react-native-gesture-handler';
@@ -488,9 +488,8 @@ const DelegateScreen = ({
         {/* --- Slider --- */}
         <View style={styles.fieldGroup}>
           <Slider
-            trackStyle={styles.track}
-            thumbStyle={styles.thumb}
             minimumTrackTintColor="#357ce6"
+            maximumTrackTintColor="#b1b1b1"
             thumbTintColor="#007ee5"
             maximumValue={availableVestingShares}
             value={amount}

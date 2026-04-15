@@ -4,7 +4,7 @@ import ActionSheet, { SheetProps, SheetManager } from 'react-native-actions-shee
 import * as Speech from 'expo-speech';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
-import Slider from '@esteemapp/react-native-slider';
+import Slider from '@react-native-community/slider';
 import { DropdownButton, MainButton, ModalHeader } from '../index';
 import { loadTTSSettings, saveTTSSettings, TTSSettings } from '../../utils/ttsSettings';
 import { detectTextLanguage } from '../../utils/textToSpeech';

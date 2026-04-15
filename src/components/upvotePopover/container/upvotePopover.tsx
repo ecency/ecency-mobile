@@ -4,7 +4,7 @@ import get from 'lodash/get';
 // Services and Actions
 import { View, TouchableOpacity, Text, useWindowDimensions } from 'react-native';
 import Popover from 'react-native-popover-view';
-import Slider from '@esteemapp/react-native-slider';
+import Slider from '@react-native-community/slider';
 import { useIntl } from 'react-intl';
 import { Placement } from 'react-native-popover-view/dist/Types';
 import { useVote } from '@ecency/sdk';
@@ -392,8 +392,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
               <Slider
                 style={styles.slider}
                 minimumTrackTintColor={sliderColor}
-                trackStyle={styles.track}
-                thumbStyle={styles.thumb}
+                maximumTrackTintColor="#b1b1b1"
                 thumbTintColor="#007ee5"
                 minimumValue={_minSliderVal}
                 maximumValue={1}

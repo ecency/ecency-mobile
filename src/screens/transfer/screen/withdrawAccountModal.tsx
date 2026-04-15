@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import Slider from '@esteemapp/react-native-slider';
+import Slider from '@react-native-community/slider';
 import { injectIntl } from 'react-intl';
 
 // Constants
@@ -83,9 +83,8 @@ class WithdrawAccountModal extends Component {
         <View style={styles.informationView}>
           <Slider
             style={styles.slider}
-            trackStyle={styles.track}
-            thumbStyle={styles.thumb}
             minimumTrackTintColor="#357ce6"
+            maximumTrackTintColor="#b1b1b1"
             thumbTintColor="#007ee5"
             maximumValue={100}
             value={percent}

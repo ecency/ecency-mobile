@@ -184,15 +184,15 @@ export const QuickPostModalContent = forwardRef(
     // items (pre-filled into the composer). Without this split, text/url shares
     // would produce null entries in the media pipeline.
     const sharedMediaFiles = useMemo(() => {
-      if (!paramFiles) return undefined;
-      const media = paramFiles.filter((el) => el.filePath && el.fileName);
-      return media.length > 0 ? media : undefined;
+      if (!Array.isArray(paramFiles)) return [];
+      return paramFiles.filter((el) => el && el.filePath && el.fileName);
     }, [paramFiles]);
 
     useEffect(() => {
-      if (!paramFiles) return;
+      if (!Array.isArray(paramFiles)) return;
       const textParts: string[] = [];
       paramFiles.forEach((el) => {
+        if (!el) return;
         if (el.text) textParts.push(el.text);
         else if (el.weblink) textParts.push(el.weblink);
       });
@@ -628,7 +628,7 @@ export const QuickPostModalContent = forwardRef(
 
           <UploadsGalleryModal
             ref={uploadsGalleryModalRef}
-            paramFiles={sharedMediaFiles}
+            paramFiles={sharedMediaFiles.length > 0 ? sharedMediaFiles : undefined}
             isPreviewActive={false}
             username={currentAccount.name}
             allowMultiple={false}
