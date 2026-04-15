@@ -194,7 +194,7 @@ export const QuickPostModalContent = forwardRef(
       paramFiles.forEach((el) => {
         if (!el) return;
         if (el.text) textParts.push(el.text);
-        else if (el.weblink) textParts.push(el.weblink);
+        if (el.weblink) textParts.push(el.weblink);
       });
       if (textParts.length > 0) {
         const joined = textParts.join('\n');
