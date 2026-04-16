@@ -1164,10 +1164,10 @@
     "@noble/hashes" "^2.0.1"
     bs58 "6.0.0"
 
-"@ecency/render-helper@^2.4.28":
-  version "2.4.28"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.4.28.tgz#111b620e14746986e2fe0b018c7f09bce6fc850d"
-  integrity sha512-PQqB1v4dgmzE9KFgsY1ddJ1BgxWwoAUVH0LSu4Qf4RtqwvLrdCTKB2zoYk6sTUQ4a/NO2chaOAjinnV+Zvob1A==
+"@ecency/render-helper@^2.4.33":
+  version "2.4.33"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.4.33.tgz#b52f5b12060097b355e29038192f15202c1251d9"
+  integrity sha512-mewc0RSSQZugvewCn98sYjZRXbQMVMRalLmaWUcNA2veb1veHS/285r1729/YrEzW0TuJ3tGfndGWkZ5Dgh6Kw==
   dependencies:
     "@xmldom/xmldom" "^0.9.6"
     dom-serializer "^2.0.0"
@@ -1183,10 +1183,10 @@
     url "^0.11.0"
     xss "^1.0.9"
 
-"@ecency/sdk@^2.1.7":
-  version "2.1.7"
-  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.1.7.tgz#84aeebeb04b8d20808573121daf3ae37b2e67387"
-  integrity sha512-9zBo3HkAmnPveJAWG8KAvCLoW0H9XP8NEruOk2m5+XbPIV1JTO2BDH5K+pioqb25S3pzkZosDtsLYnNrtGYeOQ==
+"@ecency/sdk@^2.1.9":
+  version "2.1.9"
+  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.1.9.tgz#ed2b61e4c934dd4c446da6a8e9fd66e804e4435d"
+  integrity sha512-Uw7aT+B9dNmRLhogbyAsUMIzTHRtuluAyuW7U/WDK3+nvsPK0L7DviS3RVNb1dZE6kGxwfUGxPIs0a0/OL+zqg==
   dependencies:
     "@noble/hashes" "^2.0.1"
 
