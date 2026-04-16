@@ -299,19 +299,25 @@ const DelegateScreen = ({
   }, [effectiveMaxVests, totalHP, validateHP]);
 
   // --- Transfer ---
-  const handleTransferAction = useCallback(async () => {
-    if (isTransfering) return;
-    setIsTransfering(true);
+  // NOTE: takes vestsAmount as a parameter rather than reading `amount` from
+  // state. Otherwise a React stale closure sends the pre-edit value (matching
+  // the existing delegation → delta=0 → "Wrong increase" on-chain).
+  const handleTransferAction = useCallback(
+    async (vestsAmount: number) => {
+      if (isTransfering) return;
+      setIsTransfering(true);
 
-    try {
-      await transferToAccount(from, destination, amount, '');
-      setIsTransfering(false);
-      handleOnModalClose?.();
-    } catch (error) {
-      setIsTransfering(false);
-      Alert.alert(intl.formatMessage({ id: 'alert.error' }), error.message || error.toString());
-    }
-  }, [isTransfering, from, destination, amount, transferToAccount, handleOnModalClose, intl]);
+      try {
+        await transferToAccount(from, destination, vestsAmount, '');
+        setIsTransfering(false);
+        handleOnModalClose?.();
+      } catch (error) {
+        setIsTransfering(false);
+        Alert.alert(intl.formatMessage({ id: 'alert.error' }), error.message || error.toString());
+      }
+    },
+    [isTransfering, from, destination, transferToAccount, handleOnModalClose, intl],
+  );
 
   // --- Review / Confirm ---
   const handleReview = useCallback(async () => {
@@ -375,7 +381,9 @@ const DelegateScreen = ({
       });
 
       if (action === 'confirm') {
-        handleTransferAction();
+        // Pass vestsForHp explicitly — reading `amount` from state would
+        // race with setAmount(vestsForHp) above on the stale closure path.
+        handleTransferAction(vestsForHp);
       }
     } finally {
       setConfirmModalOpen(false);
