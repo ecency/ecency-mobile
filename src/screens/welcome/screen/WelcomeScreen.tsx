@@ -22,7 +22,7 @@ const WelcomeScreen = () => {
   // NOTE: I have no logical explanation for this, but only this solution
   // makes sure first screen is renderd from stack, otherwise it's always
   // blank white screen no matter what we try.
-  require('@ecency/hive-tx');
+  require('@ecency/sdk');
 
   const intl = useIntl();
   const navigation = useNavigation();

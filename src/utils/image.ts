@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js';
-import { PrivateKey } from '@ecency/hive-tx';
+import { PrivateKey } from '@ecency/sdk';
 import { Buffer } from 'buffer';
 import { proxifyImageSrc } from '@ecency/render-helper';
 import { store } from '../redux/store/store';

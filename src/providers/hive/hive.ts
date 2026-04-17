@@ -5,19 +5,20 @@ import {
   PrivateKey,
   callRPC,
   sha256 as hiveTxSha256,
+  ConfigManager,
   calculateVPMana,
   calculateRCMana,
-  setHiveTxNodes,
   getQueryClient,
   getAccountFullQueryOptions,
   getAccountsQueryOptions,
   parseProfileMetadata,
   getDynamicPropsQueryOptions,
   getMarketStatisticsQueryOptions,
+  HiveTxTransaction,
+  callRPCBroadcast,
+  hiveTxConfig,
 } from '@ecency/sdk';
-import type { Operation, TransactionConfirmation } from '@ecency/sdk';
-import { Transaction, callRPCBroadcast } from '@ecency/hive-tx';
-import type { OperationName, OperationBody } from '@ecency/hive-tx';
+import type { Operation, TransactionConfirmation, OperationName, OperationBody } from '@ecency/sdk';
 
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
@@ -47,10 +48,12 @@ export const checkClient = async () => {
     }
   });
 
-  // 20 s matches hive-tx's default and gives broadcast_transaction_synchronous
-  // enough headroom (it blocks until the tx lands in a block, which can take
-  // 3 s of block time + several seconds of network latency on mobile).
-  setHiveTxNodes(selectedServer, 20000);
+  // Set nodes via ConfigManager (validated, deduped). 5 s timeout matches
+  // SDK 2.2.1 defaults (retry=1, timeout=5s) — fast failure for reads, and
+  // pollTransactionStatusAfterAbort recovers broadcasts that land on-chain
+  // but whose response arrives after the timeout.
+  ConfigManager.setHiveNodes(selectedServer);
+  hiveTxConfig.timeout = 5000;
 };
 
 checkClient();
@@ -283,7 +286,7 @@ const BROADCAST_FAILURE_STATES = new Set(['expired_reversible', 'expired_irrever
  * undefined if the status is still indeterminate after the poll budget.
  */
 const pollTransactionStatusAfterAbort = async (
-  tx: Transaction,
+  tx: HiveTxTransaction,
 ): Promise<string | null | undefined> => {
   // ~10 s total: 1.5 + 2 + 2.5 + 3 = 9 s of polling with a final check.
   const delaysMs = [1500, 2000, 2500, 3000];
@@ -318,7 +321,7 @@ export const sendHiveOperations = async (
   // Build and sign the transaction ourselves (mirrors @ecency/sdk's
   // broadcastOperations) so we have the local txId + expiration available
   // for post-timeout recovery via transaction_status_api.
-  const tx = new Transaction();
+  const tx = new HiveTxTransaction();
   // eslint-disable-next-line no-restricted-syntax
   for (const op of operations) {
     // eslint-disable-next-line no-await-in-loop
@@ -702,7 +705,7 @@ export const handleHiveUriOperation = async (
     // Wrap the already-resolved tx (with its TAPOS fields) rather than
     // rebuilding from scratch, so the signed output matches what
     // resolveTransaction() produced.
-    const transaction = new Transaction({ transaction: tx });
+    const transaction = new HiveTxTransaction({ transaction: tx });
     transaction.sign(privateKey);
     const result = await callRPCBroadcast('condenser_api.broadcast_transaction_synchronous', [
       transaction.transaction,

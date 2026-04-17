@@ -1,4 +1,4 @@
-import { ConfigManager, setHiveTxNodes } from '@ecency/sdk';
+import { ConfigManager, hiveTxConfig } from '@ecency/sdk';
 import Config from 'react-native-config';
 import { QueryClient } from '@tanstack/react-query';
 import { getServer } from '../../realm/realm';
@@ -54,9 +54,10 @@ export const initSdkConfig = async (queryClient: QueryClient) => {
       ? [savedServer, ...fetchedNodes]
       : [...fetchedNodes];
   ConfigManager.setHiveNodes(nodes);
-  // 20 s matches hive-tx's default and gives broadcast_transaction_synchronous
-  // enough headroom; shorter values abort successful broadcasts mid-flight.
-  setHiveTxNodes(nodes, 20000);
+  // 5 s timeout + retry=1 matches SDK 2.2.1 defaults — fast failure on
+  // reads, and pollTransactionStatusAfterAbort handles broadcast recovery.
+  ConfigManager.setHiveNodes(nodes);
+  hiveTxConfig.timeout = 5000;
 
   // Fetch and configure DMCA filters
   const dmcaLists = await fetchDmcaLists();

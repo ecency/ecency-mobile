@@ -1,4 +1,4 @@
-import { PrivateKey } from '@ecency/hive-tx';
+import { PrivateKey } from '@ecency/sdk';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
