@@ -9,6 +9,7 @@ export const useGetServersQuery = () => {
   return useQuery<string[]>({
     queryKey: [QUERIES.SETTINGS.GET_SERVERS],
     queryFn: getNodes,
-    initialData: SERVER_LIST,
+    placeholderData: [...SERVER_LIST],
+    staleTime: 0,
   });
 };
