@@ -190,7 +190,12 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
         iconStyle={{ fontSize: 16 }}
         onPress={_handleCastVote}
         text="Vote"
-        isDisable={!selection.length || mode === PollModes.PREVIEW}
+        isDisable={
+          !selection.length ||
+          mode === PollModes.PREVIEW ||
+          pollsQuery.isLoading ||
+          !pollsQuery.data
+        }
       />
     </View>
   );

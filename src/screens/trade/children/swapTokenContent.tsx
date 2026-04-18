@@ -212,6 +212,28 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
       onSuccess();
       _onSwapSuccess(_hasPending);
     } catch (err) {
+      // On timeout/abort the tx may have already landed on-chain.
+      // Check if a new pending order appeared before declaring failure.
+      const errMsg = err instanceof Error ? err.message : String(err ?? '');
+      const isAbort = errMsg === 'Aborted' || /aborted|timeout|TimeoutError/i.test(errMsg);
+
+      if (isAbort) {
+        try {
+          await delay(3000);
+          const refetchResult = await pendingRequestsQuery.refetch();
+          const _existingCount = pendingRequestsQuery.data?.length || 0;
+          const _latestCount = refetchResult.data?.length ?? _existingCount;
+          if (_latestCount !== _existingCount) {
+            // Order appeared — the broadcast actually succeeded
+            onSuccess();
+            _onSwapSuccess(_latestCount !== _existingCount);
+            return;
+          }
+        } catch (_e) {
+          // recovery check failed, fall through to error
+        }
+      }
+
       const message =
         err instanceof Error
           ? err.message
