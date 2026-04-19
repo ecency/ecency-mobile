@@ -196,6 +196,21 @@ export default EStyleSheet.create({
   },
 
   // Home search bar
+  infoBanner: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    backgroundColor: '$primaryLightBackground',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 20,
+  },
+  infoBannerText: {
+    flex: 1,
+    fontSize: 13,
+    color: '$iconColor',
+    marginLeft: 8,
+    lineHeight: 18,
+  },
   homeSearchContainer: {
     flexDirection: 'row',
     alignItems: 'center',

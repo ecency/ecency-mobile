@@ -15,6 +15,7 @@ import { WebView, WebViewNavigation } from 'react-native-webview';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { useIntl } from 'react-intl';
 import { Icon } from '../../../components/icon';
 import { HIVE_EXTENSION_BRIDGE_JS } from '../bridges/hiveExtensionBridge';
 import { useHiveBridgeHandler } from '../hooks/useHiveBridgeHandler';
@@ -160,6 +161,7 @@ type DappBrowserRoute = RouteProp<{ DappBrowser: DappBrowserParams }, 'DappBrows
 // ─── Component ────────────────────────────────────────────────
 const DappBrowser = () => {
   const navigation = useNavigation();
+  const intl = useIntl();
   const route = useRoute<DappBrowserRoute>();
   const paramUrl = route.params?.url || null;
 
@@ -337,8 +339,8 @@ const DappBrowser = () => {
       contentContainerStyle={styles.homeContent}
       keyboardShouldPersistTaps="handled"
     >
-      <Text style={styles.homeTitle}>Explore Ecosystem</Text>
-      <Text style={styles.homeSubtitle}>Browse Hive dApps with built-in wallet signing</Text>
+      <Text style={styles.homeTitle}>{intl.formatMessage({ id: 'dapp_browser.title' })}</Text>
+      <Text style={styles.homeSubtitle}>{intl.formatMessage({ id: 'dapp_browser.subtitle' })}</Text>
 
       <View style={styles.homeSearchContainer}>
         <Icon
@@ -349,7 +351,7 @@ const DappBrowser = () => {
         />
         <TextInput
           style={styles.homeSearchInput}
-          placeholder="Search or enter website URL"
+          placeholder={intl.formatMessage({ id: 'dapp_browser.search_placeholder' })}
           placeholderTextColor={EStyleSheet.value('$iconColor')}
           value={urlBarText}
           onChangeText={setUrlBarText}
@@ -361,7 +363,21 @@ const DappBrowser = () => {
         />
       </View>
 
-      <Text style={styles.homeSectionTitle}>Popular dApps</Text>
+      <View style={styles.infoBanner}>
+        <Icon
+          iconType="MaterialCommunityIcons"
+          name="information-outline"
+          size={20}
+          color={EStyleSheet.value('$primaryBlue')}
+        />
+        <Text style={styles.infoBannerText}>
+          {intl.formatMessage({ id: 'dapp_browser.signing_info' })}
+        </Text>
+      </View>
+
+      <Text style={styles.homeSectionTitle}>
+        {intl.formatMessage({ id: 'dapp_browser.popular_dapps' })}
+      </Text>
       <View style={styles.dappGrid}>
         {DAPP_DIRECTORY.map((dapp) => (
           <TouchableOpacity
@@ -474,7 +490,7 @@ const DappBrowser = () => {
               keyboardType="url"
               returnKeyType="go"
               selectTextOnFocus
-              placeholder="Search or enter URL"
+              placeholder={intl.formatMessage({ id: 'dapp_browser.search_placeholder' })}
               placeholderTextColor={EStyleSheet.value('$iconColor')}
             />
             {isUrlFocused && urlBarText.length > 0 && (
@@ -526,9 +542,11 @@ const DappBrowser = () => {
         size={64}
         color={EStyleSheet.value('$iconColor')}
       />
-      <Text style={styles.errorText}>Failed to load the page</Text>
+      <Text style={styles.errorText}>
+        {intl.formatMessage({ id: 'dapp_browser.page_load_failed' })}
+      </Text>
       <TouchableOpacity style={styles.retryButton} onPress={_onRetry}>
-        <Text style={styles.retryText}>Retry</Text>
+        <Text style={styles.retryText}>{intl.formatMessage({ id: 'dapp_browser.retry' })}</Text>
       </TouchableOpacity>
     </View>
   );
