@@ -180,7 +180,8 @@
     "gallery": "Galerie",
     "cancel": "Anulează",
     "logout_text": "Esti sigur că vrei să te deconectezi?",
-    "docs": "Docs"
+    "docs": "Docs",
+    "explore": "Explore"
   },
   "home": {
     "feed": "Flux",
