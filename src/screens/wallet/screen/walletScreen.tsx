@@ -177,7 +177,7 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
   };
 
   const _onRefresh = () => {
-    if (!walletQuery.isLoading) {
+    if (!walletQuery.isFetching) {
       _refetchData();
     }
   };

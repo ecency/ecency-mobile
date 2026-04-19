@@ -145,12 +145,7 @@ export const WalletHeader = ({
           )}
 
           {updating ? (
-            <View
-              style={[
-                styles.actionIconWrapper,
-                hpBalance >= 50 ? styles.firstActionIconWrapper : null,
-              ]}
-            >
+            <View style={[styles.actionIconWrapper, styles.firstActionIconWrapper]}>
               <ActivityIndicator size="small" color={EStyleSheet.value('$primaryBlue')} />
             </View>
           ) : (
