@@ -180,7 +180,8 @@
     "gallery": "Picture",
     "cancel": "Cancel",
     "logout_text": "You sure say you wan logout?",
-    "docs": "Docs"
+    "docs": "Docs",
+    "explore": "Explore"
   },
   "home": {
     "feed": "Tori",
