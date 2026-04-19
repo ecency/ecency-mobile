@@ -180,7 +180,8 @@
     "gallery": "Галерия",
     "cancel": "Отказ",
     "logout_text": "Сигурни ли сте, че искате да излезете?",
-    "docs": "Docs"
+    "docs": "Docs",
+    "explore": "Explore"
   },
   "home": {
     "feed": "Постове",
