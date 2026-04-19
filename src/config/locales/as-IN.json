@@ -180,7 +180,8 @@
     "gallery": "Gallery",
     "cancel": "Cancel",
     "logout_text": "Are you sure you want to logout?",
-    "docs": "Docs"
+    "docs": "Docs",
+    "explore": "Explore"
   },
   "home": {
     "feed": "Feed",
