@@ -183,6 +183,15 @@
     "docs": "Docs",
     "explore": "Explore"
   },
+  "dapp_browser": {
+    "title": "Explore Ecosystem",
+    "subtitle": "Browse Hive dApps with built-in wallet signing",
+    "search_placeholder": "Search or enter website URL",
+    "popular_dapps": "Popular dApps",
+    "signing_info": "Ecency acts as your Hive signing extension. When a dApp asks you to log in with Hive Keychain, select that option — Ecency will handle the signing securely.",
+    "page_load_failed": "Failed to load the page",
+    "retry": "Retry"
+  },
   "home": {
     "feed": "Strumień",
     "my_comments": "My Comments",
