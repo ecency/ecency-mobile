@@ -180,7 +180,8 @@
     "gallery": "Gallerie",
     "cancel": "Annuler",
     "logout_text": "Voulez-vous vraiment vous déconnecter?",
-    "docs": "Docs"
+    "docs": "Docs",
+    "explore": "Explore"
   },
   "home": {
     "feed": "Fil d'actualités",
