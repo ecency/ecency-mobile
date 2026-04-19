@@ -180,7 +180,8 @@
     "gallery": "Galleria",
     "cancel": "Peruuta",
     "logout_text": "Haluatko varmasti kirjautua ulos?",
-    "docs": "Docs"
+    "docs": "Docs",
+    "explore": "Explore"
   },
   "home": {
     "feed": "Syöte",
