@@ -65,14 +65,6 @@ const DAPP_DIRECTORY: DappEntry[] = [
     category: 'Gaming',
   },
   {
-    name: 'dCity',
-    url: 'https://dcity.io',
-    icon: 'https://www.google.com/s2/favicons?domain=dcity.io&sz=128',
-    color: '#4A90D9',
-    initial: 'dC',
-    category: 'Gaming',
-  },
-  {
     name: 'Tribaldex',
     url: 'https://tribaldex.com',
     icon: 'https://www.google.com/s2/favicons?domain=tribaldex.com&sz=128',
