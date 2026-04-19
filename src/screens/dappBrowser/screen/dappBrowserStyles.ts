@@ -171,6 +171,11 @@ export default EStyleSheet.create({
     alignItems: 'center',
     marginBottom: 6,
   },
+  dappIconImage: {
+    width: 36,
+    height: 36,
+    borderRadius: 8,
+  },
   dappIconText: {
     fontSize: 22,
     fontWeight: '700',

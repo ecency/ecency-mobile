@@ -9,6 +9,7 @@ import {
   Animated,
   Keyboard,
   ScrollView,
+  Image,
 } from 'react-native';
 import { WebView, WebViewNavigation } from 'react-native-webview';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -23,6 +24,7 @@ import styles from './dappBrowserStyles';
 interface DappEntry {
   name: string;
   url: string;
+  icon: string;
   color: string;
   initial: string;
   category: string;
@@ -32,6 +34,7 @@ const DAPP_DIRECTORY: DappEntry[] = [
   {
     name: 'Ecency',
     url: 'https://ecency.com',
+    icon: 'https://www.google.com/s2/favicons?domain=ecency.com&sz=128',
     color: '#357CE6',
     initial: 'E',
     category: 'Social',
@@ -39,6 +42,7 @@ const DAPP_DIRECTORY: DappEntry[] = [
   {
     name: 'PeakD',
     url: 'https://peakd.com',
+    icon: 'https://www.google.com/s2/favicons?domain=peakd.com&sz=128',
     color: '#E31337',
     initial: 'P',
     category: 'Social',
@@ -46,6 +50,7 @@ const DAPP_DIRECTORY: DappEntry[] = [
   {
     name: 'Hive.blog',
     url: 'https://hive.blog',
+    icon: 'https://www.google.com/s2/favicons?domain=hive.blog&sz=128',
     color: '#E31337',
     initial: 'H',
     category: 'Social',
@@ -53,6 +58,7 @@ const DAPP_DIRECTORY: DappEntry[] = [
   {
     name: 'Splinterlands',
     url: 'https://splinterlands.com',
+    icon: 'https://www.google.com/s2/favicons?domain=splinterlands.com&sz=128',
     color: '#F5A623',
     initial: 'S',
     category: 'Gaming',
@@ -60,6 +66,7 @@ const DAPP_DIRECTORY: DappEntry[] = [
   {
     name: 'dCity',
     url: 'https://dcity.io',
+    icon: 'https://www.google.com/s2/favicons?domain=dcity.io&sz=128',
     color: '#4A90D9',
     initial: 'dC',
     category: 'Gaming',
@@ -67,6 +74,7 @@ const DAPP_DIRECTORY: DappEntry[] = [
   {
     name: 'Tribaldex',
     url: 'https://tribaldex.com',
+    icon: 'https://www.google.com/s2/favicons?domain=tribaldex.com&sz=128',
     color: '#00B4D8',
     initial: 'T',
     category: 'DeFi',
@@ -74,6 +82,7 @@ const DAPP_DIRECTORY: DappEntry[] = [
   {
     name: 'LeoDex',
     url: 'https://leodex.io',
+    icon: 'https://www.google.com/s2/favicons?domain=leodex.io&sz=128',
     color: '#F5A623',
     initial: 'L',
     category: 'DeFi',
@@ -81,6 +90,7 @@ const DAPP_DIRECTORY: DappEntry[] = [
   {
     name: 'HiveEngine',
     url: 'https://hive-engine.com',
+    icon: 'https://www.google.com/s2/favicons?domain=hive-engine.com&sz=128',
     color: '#E31337',
     initial: 'HE',
     category: 'DeFi',
@@ -88,6 +98,7 @@ const DAPP_DIRECTORY: DappEntry[] = [
   {
     name: 'NFTMart',
     url: 'https://nftm.art',
+    icon: 'https://www.google.com/s2/favicons?domain=nftm.art&sz=128',
     color: '#9B59B6',
     initial: 'NM',
     category: 'NFT',
@@ -95,6 +106,7 @@ const DAPP_DIRECTORY: DappEntry[] = [
   {
     name: '3Speak',
     url: 'https://3speak.tv',
+    icon: 'https://www.google.com/s2/favicons?domain=3speak.tv&sz=128',
     color: '#E74C3C',
     initial: '3S',
     category: 'Video',
@@ -102,6 +114,7 @@ const DAPP_DIRECTORY: DappEntry[] = [
   {
     name: 'Liketu',
     url: 'https://liketu.com',
+    icon: 'https://www.google.com/s2/favicons?domain=liketu.com&sz=128',
     color: '#FF69B4',
     initial: 'Li',
     category: 'Social',
@@ -109,6 +122,7 @@ const DAPP_DIRECTORY: DappEntry[] = [
   {
     name: 'InLeo',
     url: 'https://inleo.io',
+    icon: 'https://www.google.com/s2/favicons?domain=inleo.io&sz=128',
     color: '#F5A623',
     initial: 'IL',
     category: 'Social',
@@ -357,7 +371,12 @@ const DappBrowser = () => {
             activeOpacity={0.7}
           >
             <View style={[styles.dappIconContainer, { backgroundColor: dapp.color }]}>
-              <Text style={styles.dappIconText}>{dapp.initial}</Text>
+              <Image
+                source={{ uri: dapp.icon }}
+                style={styles.dappIconImage}
+                resizeMode="contain"
+                defaultSource={undefined}
+              />
             </View>
             <Text style={styles.dappName} numberOfLines={1}>
               {dapp.name}

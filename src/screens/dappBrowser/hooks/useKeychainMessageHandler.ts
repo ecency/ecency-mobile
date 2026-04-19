@@ -3,6 +3,8 @@ import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import { SheetManager } from 'react-native-actions-sheet';
 import {
   useBroadcastMutation,
+  PrivateKey,
+  sha256,
   buildVoteOp,
   buildCommentOp,
   buildCommentOptionsOp,
@@ -24,6 +26,9 @@ import type { Operation } from '@ecency/sdk';
 import { SheetNames } from '../../../navigation/sheets';
 import { useMutationAuth } from '../../../providers/sdk/mutations/common';
 import { useAppSelector } from '../../../hooks';
+import { selectCurrentAccount } from '../../../redux/selectors';
+import { store } from '../../../redux/store/store';
+import { getDigitPinCode, getPostingKey, getActiveKey } from '../../../providers/hive/hive';
 import { hpToVests } from '../../../utils/conversions';
 import { KeychainRequest, KeychainResponse, getRequiredAuthority } from '../bridges/bridgeTypes';
 
@@ -305,9 +310,65 @@ export function useKeychainMessageHandler(webViewRef: RefObject<WebView | null>)
 
       const account = requestedUsername || username;
 
+      // Handle signBuffer (used for dApp login)
+      if (type === 'signBuffer') {
+        let domain = '';
+        try {
+          domain = new URL(data.domain || '').hostname;
+        } catch {
+          domain = data.domain || 'Unknown';
+        }
+
+        try {
+          const approved = await SheetManager.show(SheetNames.KEYCHAIN_CONFIRM, {
+            payload: { ...data, username: account, domain },
+          });
+          if (!approved) {
+            _sendError(request_id, 'User rejected the request.');
+            return;
+          }
+
+          const state = store.getState();
+          const pin = state.application?.pin;
+          if (!pin) {
+            _sendError(request_id, 'PIN not available. Please unlock the app.');
+            return;
+          }
+          const digitPin = getDigitPinCode(pin);
+          const currentAccount = selectCurrentAccount(state);
+          const local = currentAccount?.local;
+          if (!local) {
+            _sendError(request_id, 'No local account data available.');
+            return;
+          }
+
+          const method = (data.method || 'Posting').toLowerCase();
+          const keyWif =
+            method === 'active' ? getActiveKey(local, digitPin) : getPostingKey(local, digitPin);
+          if (!keyWif) {
+            _sendError(request_id, `${data.method || 'Posting'} key not available.`);
+            return;
+          }
+
+          const privateKey = PrivateKey.fromString(keyWif);
+          const messageHash = sha256(data.message);
+          const signature = privateKey.sign(messageHash).toString();
+          const publicKey = privateKey.createPublic().toString();
+
+          _sendResponse(request_id, {
+            success: true,
+            error: null,
+            result: signature,
+            publicKey,
+          });
+        } catch (err: any) {
+          _sendError(request_id, err?.message || 'Sign buffer failed.');
+        }
+        return;
+      }
+
       // Unsupported operations
       if (
-        type === 'signBuffer' ||
         type === 'signTx' ||
         type === 'encode' ||
         type === 'decode' ||
