@@ -41,6 +41,7 @@ import {
   BotComments,
   ChatThread,
   AiImageGenerator,
+  DappBrowser,
 } from '../screens';
 import { DrawerNavigator } from './drawerNavigator';
 import { HiveSignerModal } from '../components';
@@ -49,7 +50,6 @@ const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
 
 const MainStackNavigator = () => {
-  // TODO: remove initialRoute before PR
   return (
     <MainStack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
       <MainStack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />
@@ -72,6 +72,7 @@ const MainStackNavigator = () => {
       <MainStack.Screen name={ROUTES.SCREENS.EDIT_HISTORY} component={EditHistoryScreen} />
       <MainStack.Screen name={ROUTES.SCREENS.POST} component={Post} />
       <MainStack.Screen name={ROUTES.SCREENS.CHAT_THREAD} component={ChatThread} />
+      <MainStack.Screen name={ROUTES.SCREENS.DAPP_BROWSER} component={DappBrowser} />
       <MainStack.Group screenOptions={{ animation: 'slide_from_bottom' }}>
         <MainStack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs} />
         <MainStack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters} />

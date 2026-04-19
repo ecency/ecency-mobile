@@ -38,6 +38,7 @@ import BackupKeysScreen from './backupKeysScreen/backupKeysScreen';
 import PollWizardScreen from './pollWizard';
 import { BotComments } from './botComments';
 import { AiImageGenerator } from './aiImageGenerator';
+import { DappBrowser } from './dappBrowser';
 
 export {
   Bookmarks,
@@ -81,4 +82,5 @@ export {
   PollWizardScreen,
   BotComments,
   AiImageGenerator,
+  DappBrowser,
 };
