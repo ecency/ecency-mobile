@@ -10,7 +10,7 @@
  * 5. Native injects response via hive_keychain.onAnswerReceived()
  * 6. Bridge invokes stored callback with response
  */
-export const HIVE_KEYCHAIN_BRIDGE_JS = `
+export const HIVE_EXTENSION_BRIDGE_JS = `
 (function() {
   if (window.hive_keychain) return;
   if (window.location.protocol !== 'https:') return;

@@ -16,8 +16,8 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Icon } from '../../../components/icon';
-import { HIVE_KEYCHAIN_BRIDGE_JS } from '../bridges/hiveKeychainBridge';
-import { useKeychainMessageHandler } from '../hooks/useKeychainMessageHandler';
+import { HIVE_EXTENSION_BRIDGE_JS } from '../bridges/hiveExtensionBridge';
+import { useHiveBridgeHandler } from '../hooks/useHiveBridgeHandler';
 import styles from './dappBrowserStyles';
 
 // ─── dApp directory ───────────────────────────────────────────
@@ -188,7 +188,7 @@ const DappBrowser = () => {
   const activeWebViewRef = useRef<WebView | null>(null);
   activeWebViewRef.current = webViewRefs.current[activeTabId] || null;
 
-  const { handleMessage } = useKeychainMessageHandler(
+  const { handleMessage } = useHiveBridgeHandler(
     activeWebViewRef as React.RefObject<WebView | null>,
   );
 
@@ -602,7 +602,7 @@ const DappBrowser = () => {
                 source={{ uri: tab.url! }}
                 style={styles.webView}
                 injectedJavaScriptBeforeContentLoaded={
-                  isHttps ? HIVE_KEYCHAIN_BRIDGE_JS : undefined
+                  isHttps ? HIVE_EXTENSION_BRIDGE_JS : undefined
                 }
                 onMessage={isActive ? handleMessage : undefined}
                 onNavigationStateChange={isActive ? _onNavigationStateChange : undefined}

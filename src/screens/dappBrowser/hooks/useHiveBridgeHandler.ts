@@ -32,7 +32,7 @@ import { getDigitPinCode, getPostingKey, getActiveKey } from '../../../providers
 import { hpToVests } from '../../../utils/conversions';
 import { KeychainRequest, KeychainResponse, getRequiredAuthority } from '../bridges/bridgeTypes';
 
-export function useKeychainMessageHandler(webViewRef: RefObject<WebView | null>) {
+export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
   const { username, authContext } = useMutationAuth();
   const globalProps = useAppSelector((state) => state.account.globalProps);
 
@@ -320,7 +320,7 @@ export function useKeychainMessageHandler(webViewRef: RefObject<WebView | null>)
         }
 
         try {
-          const approved = await SheetManager.show(SheetNames.KEYCHAIN_CONFIRM, {
+          const approved = await SheetManager.show(SheetNames.SIGN_CONFIRM, {
             payload: { ...data, username: account, domain },
           });
           if (!approved) {
@@ -408,7 +408,7 @@ export function useKeychainMessageHandler(webViewRef: RefObject<WebView | null>)
 
       // Show confirmation sheet
       try {
-        const approved = await SheetManager.show(SheetNames.KEYCHAIN_CONFIRM, {
+        const approved = await SheetManager.show(SheetNames.SIGN_CONFIRM, {
           payload: { ...data, username: account, domain },
         });
 

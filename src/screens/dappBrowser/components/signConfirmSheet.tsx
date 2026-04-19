@@ -8,9 +8,9 @@ import { Icon } from '../../../components/icon';
 import { OPERATION_LABELS, getRequiredAuthority } from '../bridges/bridgeTypes';
 import { checkDomainBlacklist } from '../utils/domainBlacklist';
 
-const FALLBACK_SHEET_ID = 'keychain_confirm';
+const FALLBACK_SHEET_ID = 'sign_confirm';
 
-const KeychainConfirmSheet: React.FC<SheetProps<'keychain_confirm'>> = ({ sheetId, payload }) => {
+const SignConfirmSheet: React.FC<SheetProps<'sign_confirm'>> = ({ sheetId, payload }) => {
   const intl = useIntl();
   const closedRef = useRef(false);
 
@@ -218,7 +218,7 @@ const KeychainConfirmSheet: React.FC<SheetProps<'keychain_confirm'>> = ({ sheetI
   );
 };
 
-export default KeychainConfirmSheet;
+export default SignConfirmSheet;
 
 const styles = EStyleSheet.create({
   sheetContainer: {
