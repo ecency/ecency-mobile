@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
@@ -144,7 +144,16 @@ export const WalletHeader = ({
             </Animated.View>
           )}
 
-          {!updating && (
+          {updating ? (
+            <View
+              style={[
+                styles.actionIconWrapper,
+                hpBalance >= 50 ? styles.firstActionIconWrapper : null,
+              ]}
+            >
+              <ActivityIndicator size="small" color={EStyleSheet.value('$primaryBlue')} />
+            </View>
+          ) : (
             <Animated.View
               entering={ZoomIn}
               exiting={ZoomOut}
