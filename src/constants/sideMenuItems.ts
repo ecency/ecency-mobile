@@ -67,6 +67,13 @@ const authMenuItems: MenuItem[] = [
     id: 'docs',
   },
   {
+    name: 'Explore',
+    route: ROUTES.SCREENS.DAPP_BROWSER,
+    icon: 'compass-outline',
+    iconType: 'MaterialCommunityIcons',
+    id: 'explore',
+  },
+  {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,
     icon: 'settings',
@@ -100,6 +107,13 @@ const noAuthMenuItems: MenuItem[] = [
     icon: 'help-circle',
     iconType: 'Feather',
     id: 'docs',
+  },
+  {
+    name: 'Explore',
+    route: ROUTES.SCREENS.DAPP_BROWSER,
+    icon: 'compass-outline',
+    iconType: 'MaterialCommunityIcons',
+    id: 'explore',
   },
   {
     name: 'Settings',

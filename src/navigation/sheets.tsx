@@ -17,6 +17,7 @@ import {
   AiAssistModal,
 } from '../components';
 import { ShareIntentSheet } from '../components/shareIntentSheet';
+import KeychainConfirmSheet from '../screens/dappBrowser/components/keychainConfirmSheet';
 import { TippingDialog } from '../components/tipping';
 import { TTSSettingsSheet } from '../components/textToSpeech/ttsSettingsSheet';
 import { ActionModalPayload } from '../components/actionModal/container/actionModalContainer';
@@ -39,6 +40,7 @@ export enum SheetNames {
   AUTH_UPGRADE = 'auth_upgrade',
   AI_ASSIST = 'ai_assist',
   SHARE_INTENT = 'share_intent',
+  KEYCHAIN_CONFIRM = 'keychain_confirm',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -58,6 +60,7 @@ registerSheet(SheetNames.EMOJI_PICKER, EmojiPickerSheet);
 registerSheet(SheetNames.AUTH_UPGRADE, AuthUpgradeSheet);
 registerSheet(SheetNames.AI_ASSIST, AiAssistModal);
 registerSheet(SheetNames.SHARE_INTENT, ShareIntentSheet);
+registerSheet(SheetNames.KEYCHAIN_CONFIRM, KeychainConfirmSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -169,6 +172,16 @@ declare module 'react-native-actions-sheet' {
         onApply?: (output: string, action: string) => void;
         supportedActions?: string[];
       };
+    }>;
+    [SheetNames.KEYCHAIN_CONFIRM]: SheetDefinition<{
+      payload: {
+        type: string;
+        domain: string;
+        username: string;
+        method?: string;
+        [key: string]: any;
+      };
+      returnValue: boolean;
     }>;
   }
 }

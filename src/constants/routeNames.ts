@@ -44,6 +44,7 @@ const ROUTES = {
     BACKUP_KEYS: `BackupKeys${SCREEN_SUFFIX}`,
     TRADE: `Trade${SCREEN_SUFFIX}`,
     AI_IMAGE_GENERATOR: `AiImageGenerator${SCREEN_SUFFIX}`,
+    DAPP_BROWSER: `DappBrowser${SCREEN_SUFFIX}`,
   },
   MODALS: {
     ASSETS_SELECT: `AssetsSelect${MODAL_SUFFIX}`,
