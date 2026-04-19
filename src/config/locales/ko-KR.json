@@ -180,7 +180,8 @@
     "gallery": "갤러리",
     "cancel": "취소",
     "logout_text": "로그 아웃 하시겠습니까?",
-    "docs": "Docs"
+    "docs": "Docs",
+    "explore": "Explore"
   },
   "home": {
     "feed": "피드",
