@@ -180,7 +180,8 @@
     "gallery": "Galleri",
     "cancel": "Avbryt",
     "logout_text": "Är du säker på att du vill logga ut?",
-    "docs": "Docs"
+    "docs": "Docs",
+    "explore": "Explore"
   },
   "home": {
     "feed": "Feed",
