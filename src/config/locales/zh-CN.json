@@ -180,7 +180,8 @@
     "gallery": "图库",
     "cancel": "取消",
     "logout_text": "您确定想要退出吗？",
-    "docs": "Docs"
+    "docs": "Docs",
+    "explore": "Explore"
   },
   "home": {
     "feed": "朋友圈",
