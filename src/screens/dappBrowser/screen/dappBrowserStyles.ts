@@ -80,7 +80,7 @@ export default EStyleSheet.create({
     borderRadius: 20,
   },
   retryText: {
-    color: '#fff',
+    color: '$pureWhite',
     fontWeight: '600',
     fontSize: 14,
   },
@@ -174,7 +174,7 @@ export default EStyleSheet.create({
   dappIconText: {
     fontSize: 22,
     fontWeight: '700',
-    color: '#fff',
+    color: '$pureWhite',
   },
   dappName: {
     fontSize: 11,

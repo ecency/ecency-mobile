@@ -13,6 +13,7 @@
 export const HIVE_KEYCHAIN_BRIDGE_JS = `
 (function() {
   if (window.hive_keychain) return;
+  if (window.location.protocol !== 'https:') return;
 
   var hive_keychain = {
     current_id: 1,
@@ -391,27 +392,36 @@ export const HIVE_KEYCHAIN_BRIDGE_JS = `
 
     dispatchCustomEvent: function(name, data, callback) {
       data.domain = window.location.href;
-      this.requests[this.current_id] = callback;
+      if (typeof callback === 'function') {
+        this.requests[this.current_id] = callback;
+      }
       var obj = {
         name: name,
         request_id: this.current_id,
         data: data
       };
-      window.ReactNativeWebView.postMessage(JSON.stringify(obj));
+      if (window.ReactNativeWebView && typeof window.ReactNativeWebView.postMessage === 'function') {
+        window.ReactNativeWebView.postMessage(JSON.stringify(obj));
+      } else if (typeof callback === 'function') {
+        callback({ success: false, error: 'Ecency bridge not available' });
+        delete this.requests[this.current_id];
+      }
       this.current_id++;
     },
 
     onAnswerReceived: function(type, response) {
       if (type && type === 'hive_keychain_response') {
         if (response && response.request_id) {
-          if (this.requests[response.request_id]) {
-            this.requests[response.request_id](response);
-            delete this.requests[response.request_id];
+          var cb = this.requests[response.request_id];
+          if (typeof cb === 'function') {
+            cb(response);
           }
+          delete this.requests[response.request_id];
         }
       } else if (type && type === 'hive_keychain_handshake') {
-        if (this.handshake_callback) {
+        if (typeof this.handshake_callback === 'function') {
           this.handshake_callback();
+          this.handshake_callback = null;
         }
       }
     }

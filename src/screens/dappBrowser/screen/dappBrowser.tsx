@@ -170,11 +170,13 @@ const DappBrowser = () => {
 
   const activeWebView = webViewRefs.current[activeTabId];
 
-  const { handleMessage } = useKeychainMessageHandler({
-    get current() {
-      return webViewRefs.current[activeTabId] || null;
-    },
-  } as React.RefObject<WebView | null>);
+  // Stable ref that always points to the active tab's WebView
+  const activeWebViewRef = useRef<WebView | null>(null);
+  activeWebViewRef.current = webViewRefs.current[activeTabId] || null;
+
+  const { handleMessage } = useKeychainMessageHandler(
+    activeWebViewRef as React.RefObject<WebView | null>,
+  );
 
   // ─── Tab helpers ──────────────────────────────────────────
   const _updateTab = useCallback((tabId: number, updates: Partial<Tab>) => {
@@ -224,7 +226,8 @@ const DappBrowser = () => {
   const _normalizeUrl = (input: string): string => {
     const trimmed = input.trim();
     if (/^https?:\/\//i.test(trimmed)) return trimmed;
-    if (/^[a-zA-Z0-9].*\.[a-zA-Z]{2,}/.test(trimmed)) {
+    // Only treat as hostname if it looks like one (no spaces, valid chars)
+    if (/^[a-zA-Z0-9]([a-zA-Z0-9.-]*[a-zA-Z0-9])?\.[a-zA-Z]{2,}(\/.*)?$/.test(trimmed)) {
       return `https://${trimmed}`;
     }
     return `https://www.google.com/search?q=${encodeURIComponent(trimmed)}`;

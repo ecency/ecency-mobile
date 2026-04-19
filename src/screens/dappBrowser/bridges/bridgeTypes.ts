@@ -49,6 +49,8 @@ export const OPERATION_AUTHORITY: Record<string, AuthorityLevel> = {
   recurrentTransfer: 'active',
   savings: 'active',
   swap: 'active',
+  signedCall: 'posting', // typically uses posting key for API calls
+  addAccount: 'active', // requires active key to add account to keychain
   encode: 'memo',
   decode: 'memo',
 };

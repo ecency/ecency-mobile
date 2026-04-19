@@ -15,6 +15,7 @@ import {
   buildRecurrentTransferOp,
   buildTransferToSavingsOp,
   buildTransferFromSavingsOp,
+  buildCancelTransferFromSavingsOp,
   buildConvertOp,
   buildCollateralizedConvertOp,
   buildEngineOp,
@@ -22,10 +23,13 @@ import {
 import type { Operation } from '@ecency/sdk';
 import { SheetNames } from '../../../navigation/sheets';
 import { useMutationAuth } from '../../../providers/sdk/mutations/common';
+import { useAppSelector } from '../../../hooks';
+import { hpToVests } from '../../../utils/conversions';
 import { KeychainRequest, KeychainResponse, getRequiredAuthority } from '../bridges/bridgeTypes';
 
 export function useKeychainMessageHandler(webViewRef: RefObject<WebView | null>) {
   const { username, authContext } = useMutationAuth();
+  const globalProps = useAppSelector((state) => state.account.globalProps);
 
   const _sendResponse = useCallback(
     (requestId: number, response: Omit<KeychainResponse, 'request_id'>) => {
@@ -134,10 +138,23 @@ export function useKeychainMessageHandler(webViewRef: RefObject<WebView | null>)
             ),
           ];
 
-        case 'delegation':
+        case 'delegation': {
+          const unit = (data.unit || 'HP').toUpperCase();
+          if (unit === 'HP') {
+            if (!globalProps?.hivePerMVests) return null;
+            const vests = hpToVests(parseFloat(data.amount), globalProps.hivePerMVests);
+            return [
+              buildDelegateVestingSharesOp(account, data.delegatee, `${vests.toFixed(6)} VESTS`),
+            ];
+          }
           return [
-            buildDelegateVestingSharesOp(account, data.delegatee, `${data.amount} ${data.unit}`),
+            buildDelegateVestingSharesOp(
+              account,
+              data.delegatee,
+              `${parseFloat(data.amount).toFixed(6)} VESTS`,
+            ),
           ];
+        }
 
         case 'witnessVote':
           return [buildWitnessVoteOp(account, data.witness, data.vote)];
@@ -154,10 +171,11 @@ export function useKeychainMessageHandler(webViewRef: RefObject<WebView | null>)
             ),
           ];
 
-        case 'powerDown':
-          return [
-            buildWithdrawVestingOp(account, `${parseFloat(data.steem_power).toFixed(6)} VESTS`),
-          ];
+        case 'powerDown': {
+          if (!globalProps?.hivePerMVests) return null;
+          const vestsPD = hpToVests(parseFloat(data.steem_power), globalProps.hivePerMVests);
+          return [buildWithdrawVestingOp(account, `${vestsPD.toFixed(6)} VESTS`)];
+        }
 
         case 'recurrentTransfer':
           return [
@@ -172,33 +190,37 @@ export function useKeychainMessageHandler(webViewRef: RefObject<WebView | null>)
           ];
 
         case 'savings': {
+          const savingsAmount = `${parseFloat(data.amount).toFixed(3)} ${data.currency}`;
           if (data.operation === 'deposit') {
             return [
-              buildTransferToSavingsOp(
-                account,
-                data.to || account,
-                `${parseFloat(data.amount).toFixed(3)} ${data.currency}`,
-                data.memo || '',
-              ),
+              buildTransferToSavingsOp(account, data.to || account, savingsAmount, data.memo || ''),
             ];
           }
+          if (data.operation === 'withdraw_cancel') {
+            const cancelId = data.request_id || 0;
+            return [buildCancelTransferFromSavingsOp(account, cancelId)];
+          }
+          // withdraw
+          const savingsReqId = Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000);
           return [
             buildTransferFromSavingsOp(
               account,
               data.to || account,
-              `${parseFloat(data.amount).toFixed(3)} ${data.currency}`,
+              savingsAmount,
               data.memo || '',
-              Date.now() & 0xffffffff,
+              savingsReqId,
             ),
           ];
         }
 
         case 'convert': {
-          const requestId = Date.now() & 0xffffffff;
+          const convertReqId = Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000);
           if (data.collaterized) {
-            return [buildCollateralizedConvertOp(account, data.amount, requestId)];
+            const hiveAmt = `${parseFloat(data.amount).toFixed(3)} HIVE`;
+            return [buildCollateralizedConvertOp(account, hiveAmt, convertReqId)];
           }
-          return [buildConvertOp(account, data.amount, requestId)];
+          const hbdAmt = `${parseFloat(data.amount).toFixed(3)} HBD`;
+          return [buildConvertOp(account, hbdAmt, convertReqId)];
         }
 
         case 'sendToken':
@@ -215,10 +237,6 @@ export function useKeychainMessageHandler(webViewRef: RefObject<WebView | null>)
           if (Array.isArray(data.operations)) {
             return data.operations;
           }
-          return null;
-
-        case 'addAccountAuthority':
-          // Requires fetching current account authorities — not directly supported yet
           return null;
 
         default:
@@ -270,8 +288,14 @@ export function useKeychainMessageHandler(webViewRef: RefObject<WebView | null>)
       const { type } = data;
       const requestedUsername = data.username;
 
+      // Reject if not logged in
+      if (!username) {
+        _sendError(request_id, 'No account available. Please log in first.');
+        return;
+      }
+
       // Validate username matches current account
-      if (requestedUsername && username && requestedUsername !== username) {
+      if (requestedUsername && requestedUsername !== username) {
         _sendError(
           request_id,
           `Account mismatch: requested "${requestedUsername}" but logged in as "${username}"`,
@@ -280,10 +304,6 @@ export function useKeychainMessageHandler(webViewRef: RefObject<WebView | null>)
       }
 
       const account = requestedUsername || username;
-      if (!account) {
-        _sendError(request_id, 'No account available. Please log in first.');
-        return;
-      }
 
       // Unsupported operations
       if (

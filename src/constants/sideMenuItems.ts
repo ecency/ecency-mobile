@@ -8,6 +8,14 @@ interface MenuItem {
   iconType?: string;
 }
 
+const EXPLORE_MENU_ITEM: MenuItem = {
+  name: 'Explore',
+  route: ROUTES.SCREENS.DAPP_BROWSER,
+  icon: 'compass-outline',
+  iconType: 'MaterialCommunityIcons',
+  id: 'explore',
+};
+
 const authMenuItems: MenuItem[] = [
   {
     name: 'Profile',
@@ -66,13 +74,7 @@ const authMenuItems: MenuItem[] = [
     iconType: 'Feather',
     id: 'docs',
   },
-  {
-    name: 'Explore',
-    route: ROUTES.SCREENS.DAPP_BROWSER,
-    icon: 'compass-outline',
-    iconType: 'MaterialCommunityIcons',
-    id: 'explore',
-  },
+  EXPLORE_MENU_ITEM,
   {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,
@@ -108,13 +110,7 @@ const noAuthMenuItems: MenuItem[] = [
     iconType: 'Feather',
     id: 'docs',
   },
-  {
-    name: 'Explore',
-    route: ROUTES.SCREENS.DAPP_BROWSER,
-    icon: 'compass-outline',
-    iconType: 'MaterialCommunityIcons',
-    id: 'explore',
-  },
+  EXPLORE_MENU_ITEM,
   {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,

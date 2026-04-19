@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
@@ -12,11 +12,9 @@ const FALLBACK_SHEET_ID = 'keychain_confirm';
 const KeychainConfirmSheet: React.FC<SheetProps<'keychain_confirm'>> = ({ sheetId, payload }) => {
   const intl = useIntl();
   const closedRef = useRef(false);
-  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     closedRef.current = false;
-    setIsProcessing(false);
   }, [payload]);
 
   const _close = (approved: boolean) => {
@@ -156,7 +154,7 @@ const KeychainConfirmSheet: React.FC<SheetProps<'keychain_confirm'>> = ({ sheetI
     <ActionSheet
       id={sheetId || FALLBACK_SHEET_ID}
       gestureEnabled
-      closeOnTouchBackdrop={!isProcessing}
+      closeOnTouchBackdrop
       containerStyle={styles.sheetContainer}
       onClose={() => _close(false)}
     >
@@ -190,27 +188,19 @@ const KeychainConfirmSheet: React.FC<SheetProps<'keychain_confirm'>> = ({ sheetI
           {_renderOperationDetails()}
         </ScrollView>
 
-        {isProcessing ? (
-          <ActivityIndicator
-            size="large"
-            color={EStyleSheet.value('$primaryBlue')}
-            style={styles.loader}
+        <View style={styles.buttonsContainer}>
+          <MainButton
+            style={styles.confirmButton}
+            onPress={() => _close(true)}
+            text={intl.formatMessage({ id: 'alert.confirm', defaultMessage: 'Confirm' })}
           />
-        ) : (
-          <View style={styles.buttonsContainer}>
-            <MainButton
-              style={styles.confirmButton}
-              onPress={() => _close(true)}
-              text={intl.formatMessage({ id: 'alert.confirm', defaultMessage: 'Confirm' })}
-            />
-            <MainButton
-              style={styles.cancelButton}
-              onPress={() => _close(false)}
-              text={intl.formatMessage({ id: 'alert.cancel', defaultMessage: 'Cancel' })}
-              isTransparent
-            />
-          </View>
-        )}
+          <MainButton
+            style={styles.cancelButton}
+            onPress={() => _close(false)}
+            text={intl.formatMessage({ id: 'alert.cancel', defaultMessage: 'Cancel' })}
+            isTransparent
+          />
+        </View>
       </View>
     </ActionSheet>
   );
@@ -290,8 +280,5 @@ const styles = EStyleSheet.create({
   },
   cancelButton: {
     borderWidth: 0,
-  },
-  loader: {
-    marginVertical: 20,
   },
 });

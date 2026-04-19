@@ -50,7 +50,6 @@ const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
 
 const MainStackNavigator = () => {
-  // TODO: remove initialRoute before PR
   return (
     <MainStack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
       <MainStack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />
