@@ -170,6 +170,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 6,
+    backgroundColor: '$primaryLightBackground',
   },
   dappIconImage: {
     width: 36,

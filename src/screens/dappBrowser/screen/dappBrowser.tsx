@@ -370,12 +370,11 @@ const DappBrowser = () => {
             onPress={() => _navigateTo(dapp.url)}
             activeOpacity={0.7}
           >
-            <View style={[styles.dappIconContainer, { backgroundColor: dapp.color }]}>
+            <View style={styles.dappIconContainer}>
               <Image
                 source={{ uri: dapp.icon }}
                 style={styles.dappIconImage}
                 resizeMode="contain"
-                defaultSource={undefined}
               />
             </View>
             <Text style={styles.dappName} numberOfLines={1}>
