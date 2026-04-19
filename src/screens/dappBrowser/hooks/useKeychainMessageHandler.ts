@@ -243,7 +243,7 @@ export function useKeychainMessageHandler(webViewRef: RefObject<WebView | null>)
           return null;
       }
     },
-    [],
+    [globalProps?.hivePerMVests],
   );
 
   // Generic broadcast mutation for dApp operations
@@ -325,7 +325,13 @@ export function useKeychainMessageHandler(webViewRef: RefObject<WebView | null>)
       }
 
       // Build operations
-      const operations = _buildOperations(type, data, account);
+      let operations: Operation[] | null;
+      try {
+        operations = _buildOperations(type, data, account);
+      } catch (buildErr: any) {
+        _sendError(request_id, `Failed to build operations for "${type}": ${buildErr.message}`);
+        return;
+      }
       if (!operations || operations.length === 0) {
         _sendError(request_id, `Failed to build operations for "${type}".`);
         return;

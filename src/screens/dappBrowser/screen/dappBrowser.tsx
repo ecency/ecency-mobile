@@ -567,6 +567,7 @@ const DappBrowser = () => {
       .filter((tab) => tab.url)
       .map((tab) => {
         const isActive = tab.id === activeTabId;
+        const isHttps = tab.url?.startsWith('https://');
         return (
           <View
             key={tab.id}
@@ -582,7 +583,9 @@ const DappBrowser = () => {
                 }}
                 source={{ uri: tab.url! }}
                 style={styles.webView}
-                injectedJavaScriptBeforeContentLoaded={HIVE_KEYCHAIN_BRIDGE_JS}
+                injectedJavaScriptBeforeContentLoaded={
+                  isHttps ? HIVE_KEYCHAIN_BRIDGE_JS : undefined
+                }
                 onMessage={isActive ? handleMessage : undefined}
                 onNavigationStateChange={isActive ? _onNavigationStateChange : undefined}
                 onLoadProgress={isActive ? _onLoadProgress : undefined}
@@ -609,7 +612,8 @@ const DappBrowser = () => {
       <StatusBar barStyle="default" />
       {_renderHeader()}
       {!showHome && _renderProgressBar()}
-      {showHome ? _renderHome() : _renderWebViews()}
+      {_renderWebViews()}
+      {showHome && _renderHome()}
       {_renderTabBar()}
     </SafeAreaView>
   );

@@ -6,6 +6,7 @@ import { useIntl } from 'react-intl';
 import { MainButton } from '../../../components/mainButton';
 import { Icon } from '../../../components/icon';
 import { OPERATION_LABELS, getRequiredAuthority } from '../bridges/bridgeTypes';
+import { checkDomainBlacklist } from '../utils/domainBlacklist';
 
 const FALLBACK_SHEET_ID = 'keychain_confirm';
 
@@ -28,6 +29,7 @@ const KeychainConfirmSheet: React.FC<SheetProps<'keychain_confirm'>> = ({ sheetI
   const username = payload?.username || '';
   const authority = getRequiredAuthority(type, payload?.method);
   const label = OPERATION_LABELS[type] || type;
+  const blacklistedDomain = checkDomainBlacklist(domain);
 
   const _renderDetail = (detailLabel: string, value: string) => {
     if (!value) return null;
@@ -182,6 +184,16 @@ const KeychainConfirmSheet: React.FC<SheetProps<'keychain_confirm'>> = ({ sheetI
           </Text>
         </View>
 
+        {!!blacklistedDomain && (
+          <View style={styles.warningContainer}>
+            <Icon iconType="MaterialCommunityIcons" name="alert" size={18} color="#E74C3C" />
+            <Text style={styles.warningText}>
+              Warning: This domain has been flagged as a known phishing site. Proceed with extreme
+              caution.
+            </Text>
+          </View>
+        )}
+
         <ScrollView style={styles.detailsContainer} bounces={false}>
           {_renderDetail('Account', username ? `@${username}` : '—')}
           {_renderDetail('Authority', authority.toUpperCase())}
@@ -280,5 +292,20 @@ const styles = EStyleSheet.create({
   },
   cancelButton: {
     borderWidth: 0,
+  },
+  warningContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FDEDED',
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 12,
+  },
+  warningText: {
+    flex: 1,
+    fontSize: 13,
+    color: '#E74C3C',
+    fontWeight: '600',
+    marginLeft: 8,
   },
 });
