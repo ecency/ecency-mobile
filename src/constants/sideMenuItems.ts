@@ -54,6 +54,7 @@ const authMenuItems: MenuItem[] = [
     icon: 'people',
     id: 'communities',
   },
+  EXPLORE_MENU_ITEM,
   {
     name: 'QR Scan',
     route: '',
@@ -74,7 +75,6 @@ const authMenuItems: MenuItem[] = [
     iconType: 'Feather',
     id: 'docs',
   },
-  EXPLORE_MENU_ITEM,
   {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,
@@ -96,6 +96,7 @@ const noAuthMenuItems: MenuItem[] = [
     icon: 'user-follow',
     id: 'add_account',
   },
+  EXPLORE_MENU_ITEM,
   {
     name: 'QR Scan',
     route: '',
@@ -110,7 +111,6 @@ const noAuthMenuItems: MenuItem[] = [
     iconType: 'Feather',
     id: 'docs',
   },
-  EXPLORE_MENU_ITEM,
   {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,

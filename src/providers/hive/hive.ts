@@ -48,12 +48,12 @@ export const checkClient = async () => {
     }
   });
 
-  // Set nodes via ConfigManager (validated, deduped). 5 s timeout matches
-  // SDK 2.2.1 defaults (retry=1, timeout=5s) — fast failure for reads, and
-  // pollTransactionStatusAfterAbort recovers broadcasts that land on-chain
-  // but whose response arrives after the timeout.
+  // Set nodes via ConfigManager (validated, deduped). 10s timeout gives
+  // broadcast_transaction_synchronous enough time to confirm (typically 3-6s)
+  // while failing fast enough on dead nodes for SDK failover.
+  // The previous 5s was too tight and caused false "Aborted" errors.
   ConfigManager.setHiveNodes(selectedServer);
-  hiveTxConfig.timeout = 5000;
+  hiveTxConfig.timeout = 10000;
 };
 
 checkClient();

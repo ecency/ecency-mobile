@@ -1,7 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { getAccountFullQueryOptions } from '@ecency/sdk';
-import type { PlatformAdapter } from '@ecency/sdk';
-import type { Operation, TransactionConfirmation } from '@ecency/sdk';
+import type { PlatformAdapter, Operation, TransactionConfirmation } from '@ecency/sdk';
 import * as hiveuri from 'hive-uri';
 import { store } from '../../redux/store/store';
 import { toastNotification } from '../../redux/actions/uiAction';
@@ -132,7 +131,7 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
       const mapped = mapAuthTypeToLoginType(local.authType);
 
       if (mapped === 'key') {
-        // Active-key user doing an active operation → sign directly with active key
+        // Active-key user doing an active operation → sign directly with key
         if (authority === 'active' && local.activeKey) {
           return 'key';
         }

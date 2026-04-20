@@ -89,14 +89,6 @@ const DAPP_DIRECTORY: DappEntry[] = [
     category: 'DeFi',
   },
   {
-    name: 'NFTMart',
-    url: 'https://nftm.art',
-    icon: 'https://www.google.com/s2/favicons?domain=nftm.art&sz=128',
-    color: '#9B59B6',
-    initial: 'NM',
-    category: 'NFT',
-  },
-  {
     name: '3Speak',
     url: 'https://3speak.tv',
     icon: 'https://www.google.com/s2/favicons?domain=3speak.tv&sz=128',
