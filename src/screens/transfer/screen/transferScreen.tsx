@@ -48,6 +48,7 @@ interface TransferViewProps {
   recurrentTransfers?: any;
   tokenLayer?: string;
   badActors?: Set<string>;
+  setFundType?: (fundType: string) => void;
 }
 
 const TransferView = ({
@@ -70,6 +71,7 @@ const TransferView = ({
   recurrentTransfers,
   tokenLayer,
   badActors,
+  setFundType,
 }: TransferViewProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -137,6 +139,30 @@ const TransferView = ({
     transferType === TransferTypes.TRANSFER_LARYNX;
 
   const displayFundType = fundType === 'POINT' ? 'Points' : fundType;
+
+  // Token switching is only available for basic transfers
+  const canSwitchToken =
+    !!setFundType &&
+    (transferType === 'transfer_token' ||
+      transferType === TransferTypes.TRANSFER ||
+      transferType === TransferTypes.RECURRENT_TRANSFER) &&
+    !tokenLayer;
+
+  const [showTokenPicker, setShowTokenPicker] = useState(false);
+  const transferableTokens = ['HIVE', 'HBD'];
+
+  const _onFundBadgePress = () => {
+    if (!canSwitchToken) return;
+    setShowTokenPicker(true);
+  };
+
+  const _onTokenSelect = (token: string) => {
+    setShowTokenPicker(false);
+    if (token !== fundType) {
+      setFundType!(token);
+      setAmount('');
+    }
+  };
 
   // --- Validation ---
   const _debouncedValidateUsername = useCallback(
@@ -622,9 +648,23 @@ const TransferView = ({
               keyboardType="decimal-pad"
               autoCapitalize="none"
             />
-            <View style={styles.fundBadge}>
+            <TouchableOpacity
+              style={styles.fundBadge}
+              onPress={_onFundBadgePress}
+              disabled={!canSwitchToken}
+              activeOpacity={canSwitchToken ? 0.7 : 1}
+            >
               <Text style={styles.fundBadgeText}>{displayFundType}</Text>
-            </View>
+              {canSwitchToken && (
+                <Icon
+                  iconType="MaterialCommunityIcons"
+                  name="chevron-down"
+                  size={16}
+                  color="#fff"
+                  style={{ marginLeft: 4 }}
+                />
+              )}
+            </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.balanceRow} onPress={() => _handleAmountChange(balance)}>
             <Text style={styles.balanceText}>
@@ -730,6 +770,37 @@ const TransferView = ({
         >
           <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
         </Modal>
+      )}
+
+      {/* Token Picker Overlay */}
+      {showTokenPicker && (
+        <TouchableOpacity
+          style={styles.tokenPickerOverlay}
+          activeOpacity={1}
+          onPress={() => setShowTokenPicker(false)}
+        >
+          <View style={styles.tokenPickerContainer}>
+            <Text style={styles.tokenPickerTitle}>
+              {intl.formatMessage({ id: 'transfer.select_token', defaultMessage: 'Select Token' })}
+            </Text>
+            {transferableTokens.map((token) => (
+              <TouchableOpacity
+                key={token}
+                style={[styles.tokenPickerItem, token === fundType && styles.tokenPickerItemActive]}
+                onPress={() => _onTokenSelect(token)}
+              >
+                <Text
+                  style={[
+                    styles.tokenPickerItemText,
+                    token === fundType && styles.tokenPickerItemTextActive,
+                  ]}
+                >
+                  {token}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </TouchableOpacity>
       )}
     </SafeAreaView>
   );

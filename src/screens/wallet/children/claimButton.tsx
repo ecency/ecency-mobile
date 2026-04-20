@@ -27,7 +27,7 @@ export const ClaimButton = ({
         isLoading={isClaiming}
         isDisable={isDisabled || isLoading || isClaiming}
         style={styles.claimBtn}
-        height={40}
+        height={36}
         onPress={onPress}
       >
         <Fragment>

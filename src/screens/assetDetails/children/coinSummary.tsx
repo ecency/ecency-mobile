@@ -7,6 +7,8 @@ import { useAppSelector } from '../../../hooks';
 import { formatAmount } from '../../../utils/number';
 import { DataPair } from '../../../redux/reducers/walletReducer';
 import { selectCurrency } from '../../../redux/selectors';
+import { HorizontalIconList } from '../../../components';
+import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 
 export interface CoinSummaryProps {
   tokenSymbol: string;
@@ -126,6 +128,9 @@ export const CoinSummary = ({
         setShowChart={setShowChart}
       />
       <WalletActions actions={walletActions} onActionPress={onActionPress} />
+      {tokenSymbol === 'POINTS' && (
+        <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />
+      )}
     </View>
   );
 };

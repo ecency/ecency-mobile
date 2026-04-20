@@ -1,17 +1,18 @@
 import React, { useMemo } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
-import Animated, { ZoomIn, ZoomOut, FlipInEasyX, FlipOutEasyX } from 'react-native-reanimated';
+import { SheetManager } from 'react-native-actions-sheet';
 import ROUTES from '../../../constants/routeNames';
-import { IconButton } from '../../../components';
+import TransferTypes from '../../../constants/transferTypes';
+import { Icon } from '../../../components/icon';
 import { useAppSelector } from '../../../hooks';
 import { PortfolioItem } from '../../../providers/ecency/ecency.types';
 import { formatAmount } from '../../../utils/number';
-import { selectCurrentAccount } from '../../../redux/selectors';
+import { SheetNames } from '../../../navigation/sheets';
 
 import styles from './walletHeader.styles';
 
@@ -34,29 +35,44 @@ export const WalletHeader = ({
 }: WalletHeaderProps) => {
   const navigation = useNavigation<any>();
   const intl = useIntl();
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useAppSelector((state) => state.account?.currentAccount);
   const walletState = useAppSelector((state) => state.wallet);
-  const RefreshIconButton = IconButton as any;
-  const ManageIconButton = IconButton as any;
-  const BoostIconButton = IconButton as any;
 
   const _onManageTokensPress = () => {
     navigation.navigate(ROUTES.MODALS.ASSETS_SELECT);
   };
 
-  const _onBoostPress = () => {
+  const _onSendPress = () => {
     navigation.navigate({
-      name: ROUTES.SCREENS.ACCOUNT_BOOST,
+      name: ROUTES.SCREENS.TRANSFER,
+      params: { transferType: 'transfer_token', fundType: 'HIVE' },
+    });
+  };
+
+  const _onReceivePress = () => {
+    if (currentAccount?.name) {
+      SheetManager.show(SheetNames.RECEIVE_QR, {
+        payload: { username: currentAccount.name },
+      });
+    }
+  };
+
+  const _onSwapPress = () => {
+    navigation.navigate({
+      name: ROUTES.SCREENS.TRADE,
       params: {
-        username: currentAccount.name,
+        transferType: TransferTypes.SWAP_TOKEN,
+        fundType: 'HIVE',
       },
     });
   };
 
-  const hpBalance = useMemo(
-    () => assets?.find((asset) => asset.symbol?.toUpperCase?.() === 'HP')?.balance ?? 0,
-    [assets],
-  );
+  const _onGetPointsPress = () => {
+    navigation.navigate({
+      name: ROUTES.SCREENS.BOOST,
+      params: { username: currentAccount?.name },
+    });
+  };
 
   const totalBalanceLabel = useMemo(() => {
     const { locale } = intl;
@@ -89,96 +105,116 @@ export const WalletHeader = ({
 
   const effectiveLastUpdated =
     typeof lastUpdated === 'number' ? lastUpdated : walletState.updateTimestamp;
-  const isUpdating = Boolean(updating);
 
   const _lastUpdatedTime =
     typeof effectiveLastUpdated === 'number' && effectiveLastUpdated > 0
       ? moment(effectiveLastUpdated).format(moment.localeData().longDateFormat('LT'))
-      : intl.formatMessage({ id: 'wallet.last_updated_placeholder', defaultMessage: '--:--' });
+      : '--:--';
 
-  const _lastUpdateLabel = isUpdating
+  const _lastUpdateLabel = updating
     ? intl.formatMessage({ id: 'wallet.updating' })
     : intl.formatMessage(
-        { id: 'wallet.last_updated', defaultMessage: 'Last updated at {datetime}' },
         {
-          datetime: _lastUpdatedTime,
+          id: 'wallet.last_updated',
+          defaultMessage: 'Last updated at {datetime}',
         },
+        { datetime: _lastUpdatedTime },
       );
+
+  const quickActions = [
+    {
+      icon: 'arrow-up',
+      label: intl.formatMessage({
+        id: 'wallet.send',
+        defaultMessage: 'Send',
+      }),
+      onPress: _onSendPress,
+    },
+    {
+      icon: 'arrow-down',
+      label: intl.formatMessage({
+        id: 'wallet.receive',
+        defaultMessage: 'Receive',
+      }),
+      onPress: _onReceivePress,
+    },
+    {
+      icon: 'swap-horizontal',
+      label: intl.formatMessage({
+        id: 'wallet.swap',
+        defaultMessage: 'Swap',
+      }),
+      onPress: _onSwapPress,
+    },
+    {
+      icon: 'star-circle',
+      label: intl.formatMessage({
+        id: 'wallet.get_points',
+        defaultMessage: 'Get Points',
+      }),
+      onPress: _onGetPointsPress,
+    },
+  ];
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerRow}>
+      {/* Top row: label + refresh/settings */}
+      <View style={styles.topRow}>
         <Text style={styles.totalLabel}>
           {intl.formatMessage({
             id: 'wallet.estimated_balance',
             defaultMessage: 'Estimated balance',
           })}
         </Text>
-        <Text style={styles.lastUpdated}>{_lastUpdateLabel}</Text>
-      </View>
-      <View style={styles.balanceRow}>
-        <Animated.View
-          entering={FlipInEasyX.duration(200).delay(200)}
-          exiting={FlipOutEasyX.duration(200)}
-          style={styles.balanceValueContainer}
-        >
-          <Text style={styles.totalValue} numberOfLines={1} ellipsizeMode="tail">
-            {updating ? '--.--' : totalBalanceLabel}
-          </Text>
-        </Animated.View>
-        <View style={styles.balanceActions}>
-          {!updating && hpBalance < 50 && (
-            <Animated.View
-              entering={ZoomIn.delay(200)}
-              exiting={ZoomOut.delay(200)}
-              style={[styles.actionIconWrapper, styles.firstActionIconWrapper]}
-            >
-              <BoostIconButton
-                name="fire"
-                iconType="MaterialCommunityIcons"
-                size={24}
-                color={EStyleSheet.value('$primaryBlue')}
-                onPress={_onBoostPress}
-                style={styles.actionIconButton}
-              />
-            </Animated.View>
-          )}
-
+        <View style={styles.topActions}>
           {updating ? (
-            <View style={[styles.actionIconWrapper, styles.firstActionIconWrapper]}>
+            <View style={styles.topActionButton}>
               <ActivityIndicator size="small" color={EStyleSheet.value('$primaryBlue')} />
             </View>
           ) : (
-            <Animated.View
-              entering={ZoomIn}
-              exiting={ZoomOut}
-              style={[
-                styles.actionIconWrapper,
-                hpBalance >= 50 ? styles.firstActionIconWrapper : null,
-              ]}
-            >
-              <RefreshIconButton
-                name="refresh"
+            <TouchableOpacity style={styles.topActionButton} onPress={onRefresh}>
+              <Icon
                 iconType="MaterialCommunityIcons"
-                size={24}
-                color={EStyleSheet.value('$primaryBlack')}
-                onPress={onRefresh}
-                style={styles.actionIconButton}
+                name="refresh"
+                size={20}
+                color={EStyleSheet.value('$iconColor')}
               />
-            </Animated.View>
+            </TouchableOpacity>
           )}
-
-          <View style={styles.actionIconWrapper}>
-            <ManageIconButton
-              name="cog"
+          <TouchableOpacity style={styles.topActionButton} onPress={_onManageTokensPress}>
+            <Icon
               iconType="MaterialCommunityIcons"
-              size={24}
-              color={EStyleSheet.value('$primaryBlack')}
-              onPress={_onManageTokensPress}
-              style={styles.actionIconButton}
+              name="cog"
+              size={20}
+              color={EStyleSheet.value('$iconColor')}
             />
-          </View>
+          </TouchableOpacity>
         </View>
+      </View>
+
+      {/* Balance */}
+      <View style={styles.balanceContainer}>
+        <Text style={styles.totalValue} numberOfLines={1} adjustsFontSizeToFit>
+          {updating ? '--.--' : totalBalanceLabel}
+        </Text>
+        <Text style={styles.lastUpdated}>{_lastUpdateLabel}</Text>
+      </View>
+
+      {/* Quick actions */}
+      <View style={styles.quickActionsRow}>
+        {quickActions.map((action) => (
+          <TouchableOpacity
+            key={action.icon}
+            style={styles.quickActionItem}
+            onPress={action.onPress}
+            activeOpacity={0.7}
+          >
+            <View style={styles.quickActionIcon}>
+              <Icon iconType="MaterialCommunityIcons" name={action.icon} size={22} color="#fff" />
+            </View>
+            <Text style={styles.quickActionLabel}>{action.label}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   );

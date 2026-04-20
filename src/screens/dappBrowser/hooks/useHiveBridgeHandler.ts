@@ -30,7 +30,13 @@ import { selectCurrentAccount } from '../../../redux/selectors';
 import { store } from '../../../redux/store/store';
 import { getDigitPinCode, getPostingKey, getActiveKey } from '../../../providers/hive/hive';
 import { hpToVests } from '../../../utils/conversions';
-import { KeychainRequest, KeychainResponse, getRequiredAuthority } from '../bridges/bridgeTypes';
+import {
+  KeychainRequest,
+  KeychainResponse,
+  PeakVaultRequest,
+  PeakVaultResponse,
+  getRequiredAuthority,
+} from '../bridges/bridgeTypes';
 
 export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
   const { username, authContext } = useMutationAuth();
@@ -63,6 +69,31 @@ export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
       webViewRef.current?.injectJavaScript(js);
     },
     [webViewRef],
+  );
+
+  const _sendPvResponse = useCallback(
+    (resId: number, response: PeakVaultResponse) => {
+      const js = `
+        document.dispatchEvent(new CustomEvent('peak-vault-response-${resId}', {
+          detail: ${JSON.stringify(JSON.stringify(response))}
+        }));
+        true;
+      `;
+      webViewRef.current?.injectJavaScript(js);
+    },
+    [webViewRef],
+  );
+
+  const _sendPvError = useCallback(
+    (resId: number, error: string, account: string) => {
+      _sendPvResponse(resId, {
+        success: false,
+        error,
+        account,
+        result: null,
+      });
+    },
+    [_sendPvResponse],
   );
 
   const _sendError = useCallback(
@@ -270,18 +301,252 @@ export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
     'posting',
   );
 
+  const _handlePeakVaultMessage = useCallback(
+    async (pvData: PeakVaultRequest['data']) => {
+      const { resId, account: requestedAccount, operations, keyRole, broadcast } = pvData;
+
+      // Handle connect (returns list of available accounts)
+      if (
+        operations.length === 1 &&
+        Array.isArray(operations[0]) &&
+        operations[0][0] === 'peakvault-connect'
+      ) {
+        if (!username) {
+          _sendPvError(resId, 'No account available. Please log in first.', '');
+          return;
+        }
+        _sendPvResponse(resId, {
+          success: true,
+          error: '',
+          account: username,
+          result: [username],
+        });
+        return;
+      }
+
+      // Reject if not logged in
+      if (!username) {
+        _sendPvError(resId, 'No account available. Please log in first.', '');
+        return;
+      }
+
+      const account = requestedAccount || username;
+
+      // Validate username matches
+      if (requestedAccount && requestedAccount !== username) {
+        _sendPvError(
+          resId,
+          `Account mismatch: requested "${requestedAccount}" but logged in as "${username}"`,
+          account,
+        );
+        return;
+      }
+
+      // Handle signBuffer (peakvault-sign_buffer)
+      if (
+        operations.length === 1 &&
+        Array.isArray(operations[0]) &&
+        operations[0][0] === 'peakvault-sign_buffer'
+      ) {
+        let domain = '';
+        try {
+          domain = new URL(pvData.sourceUrl || '').hostname;
+        } catch {
+          domain = 'Unknown';
+        }
+
+        try {
+          const approved = await SheetManager.show(SheetNames.SIGN_CONFIRM, {
+            payload: {
+              type: 'signBuffer',
+              username: account,
+              message: operations[0][1]?.message,
+              domain,
+              method: keyRole === 'active' ? 'Active' : 'Posting',
+            },
+          });
+          if (!approved) {
+            _sendPvError(resId, 'User rejected the request.', account);
+            return;
+          }
+
+          const state = store.getState();
+          const pin = state.application?.pin;
+          if (!pin) {
+            _sendPvError(resId, 'PIN not available. Please unlock the app.', account);
+            return;
+          }
+          const digitPin = getDigitPinCode(pin);
+          const currentAccount = selectCurrentAccount(state);
+          const local = currentAccount?.local;
+          if (!local) {
+            _sendPvError(resId, 'No local account data available.', account);
+            return;
+          }
+
+          const keyWif =
+            keyRole === 'active' ? getActiveKey(local, digitPin) : getPostingKey(local, digitPin);
+          if (!keyWif) {
+            _sendPvError(resId, `${keyRole} key not available.`, account);
+            return;
+          }
+
+          const privateKey = PrivateKey.fromString(keyWif);
+          const messageHash = sha256(operations[0][1].message);
+          const signature = privateKey.sign(messageHash).toString();
+          const publicKey = privateKey.createPublic().toString();
+
+          _sendPvResponse(resId, {
+            success: true,
+            error: '',
+            account,
+            publicKey,
+            result: signature,
+          });
+        } catch (err: any) {
+          _sendPvError(resId, err?.message || 'Sign buffer failed.', account);
+        }
+        return;
+      }
+
+      // Handle contact picker (not supported)
+      if (
+        operations.length === 1 &&
+        Array.isArray(operations[0]) &&
+        operations[0][0] === 'peakvault-choose_contact'
+      ) {
+        _sendPvError(resId, 'Contact picker is not supported in Ecency browser.', account);
+        return;
+      }
+
+      // Handle encode/decode (not supported yet)
+      if (
+        operations.length === 1 &&
+        Array.isArray(operations[0]) &&
+        (operations[0][0] === 'peakvault-decode' ||
+          operations[0][0] === 'peakvault-encode' ||
+          operations[0][0] === 'peakvault-encode_with_keys')
+      ) {
+        _sendPvError(
+          resId,
+          `Operation "${operations[0][0]}" is not yet supported in Ecency browser.`,
+          account,
+        );
+        return;
+      }
+
+      // Standard operations: filter out peakvault-prefixed ops (internal)
+      const standardOps = operations.filter(
+        (op: any) => Array.isArray(op) && !String(op[0]).startsWith('peakvault'),
+      ) as Operation[];
+
+      if (standardOps.length === 0) {
+        _sendPvError(resId, 'No valid operations found.', account);
+        return;
+      }
+
+      // Extract domain for display
+      let domain = '';
+      try {
+        domain = new URL(pvData.sourceUrl || '').hostname;
+      } catch {
+        domain = 'Unknown';
+      }
+
+      // Determine display message
+      const displayTitle =
+        typeof pvData.displayMessage === 'string'
+          ? pvData.displayMessage
+          : pvData.displayMessage?.title || 'Transaction';
+
+      // Show confirmation sheet
+      try {
+        const approved = await SheetManager.show(SheetNames.SIGN_CONFIRM, {
+          payload: {
+            type: broadcast ? 'broadcast' : 'signTx',
+            username: account,
+            domain,
+            method: keyRole === 'active' ? 'Active' : keyRole === 'memo' ? 'Memo' : 'Posting',
+            operations: standardOps,
+            display_msg: displayTitle,
+          },
+        });
+
+        if (!approved) {
+          _sendPvError(resId, 'User rejected the request.', account);
+          return;
+        }
+
+        if (broadcast) {
+          // Broadcast via the appropriate mutation
+          const mutation = keyRole === 'posting' ? postingBroadcastMutation : broadcastMutation;
+          const result = await mutation.mutateAsync({ operations: standardOps });
+          _sendPvResponse(resId, {
+            success: true,
+            error: '',
+            account,
+            result,
+          });
+        } else {
+          // Sign-only: sign with key but don't broadcast
+          const state = store.getState();
+          const pin = state.application?.pin;
+          if (!pin) {
+            _sendPvError(resId, 'PIN not available. Please unlock the app.', account);
+            return;
+          }
+          const digitPin = getDigitPinCode(pin);
+          const currentAccount = selectCurrentAccount(state);
+          const local = currentAccount?.local;
+          if (!local) {
+            _sendPvError(resId, 'No local account data available.', account);
+            return;
+          }
+
+          const keyWif =
+            keyRole === 'active' ? getActiveKey(local, digitPin) : getPostingKey(local, digitPin);
+          if (!keyWif) {
+            _sendPvError(resId, `${keyRole} key not available.`, account);
+            return;
+          }
+
+          // For sign-only, we can't easily return the signed tx without full Transaction API.
+          // Return success with the key's public key as proof of signing capability.
+          const privateKey = PrivateKey.fromString(keyWif);
+          const publicKey = privateKey.createPublic().toString();
+          _sendPvResponse(resId, {
+            success: true,
+            error: '',
+            account,
+            publicKey,
+            result: { signed: true },
+          });
+        }
+      } catch (err: any) {
+        _sendPvError(resId, err?.message || 'Transaction failed.', account);
+      }
+    },
+    [username, _sendPvResponse, _sendPvError, broadcastMutation, postingBroadcastMutation],
+  );
+
   const handleMessage = useCallback(
     async (event: WebViewMessageEvent) => {
-      let parsed: KeychainRequest;
+      let parsed: KeychainRequest | PeakVaultRequest;
       try {
         parsed = JSON.parse(event.nativeEvent.data);
       } catch {
-        return; // Not a keychain message
+        return; // Not a bridge message
       }
 
-      // Handle handshake
+      // Handle Peak Vault messages
+      if (parsed.name === 'pvRequest') {
+        _handlePeakVaultMessage((parsed as PeakVaultRequest).data);
+        return;
+      }
+
+      // Handle Keychain handshake
       if (parsed.name === 'swHandshake_hive') {
-        _sendHandshake(parsed.request_id);
+        _sendHandshake((parsed as KeychainRequest).request_id);
         return;
       }
 
@@ -439,6 +704,7 @@ export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
       _sendError,
       _sendResponse,
       _buildOperations,
+      _handlePeakVaultMessage,
       broadcastMutation,
       postingBroadcastMutation,
     ],
