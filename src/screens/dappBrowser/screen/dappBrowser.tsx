@@ -588,7 +588,7 @@ const DappBrowser = () => {
       .filter((tab) => tab.url)
       .map((tab) => {
         const isActive = tab.id === activeTabId;
-        const isHttps = tab.url?.startsWith('https://');
+        const isHttps = /^https:/i.test(tab.url || '');
         return (
           <View
             key={tab.id}

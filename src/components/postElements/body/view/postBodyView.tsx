@@ -46,6 +46,7 @@ const PostBody = ({
   const [html, setHtml] = useState('');
   const [youtubeVideoId, setYoutubeVideoId] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
+  const [videoThumbUrl, setVideoThumbUrl] = useState<string | undefined>(undefined);
   const [videoStartTime, setVideoStartTime] = useState(0);
 
   const actionLink = useRef(null);
@@ -67,9 +68,10 @@ const PostBody = ({
     }
   };
 
-  const _handleVideoPress = (embedUrl) => {
+  const _handleVideoPress = (embedUrl, thumbUrl?: string) => {
     if (embedUrl && youtubePlayerRef.current) {
       setVideoUrl(embedUrl);
+      setVideoThumbUrl(thumbUrl);
       setVideoStartTime(0);
       youtubePlayerRef.current.show();
     }
@@ -201,6 +203,7 @@ const PostBody = ({
         onClose={() => {
           setYoutubeVideoId(null);
           setVideoUrl(null);
+          setVideoThumbUrl(undefined);
         }}
       >
         <VideoPlayer
@@ -208,6 +211,7 @@ const PostBody = ({
           youtubeVideoId={youtubeVideoId}
           uri={videoUrl}
           startTime={videoStartTime}
+          thumbnailUrl={videoThumbUrl}
         />
       </ActionSheetView>
 

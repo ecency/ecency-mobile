@@ -67,9 +67,8 @@ const VideoPlayer = ({
           if (w > 0 && h > 0) {
             const ratio = h / w;
             if (ratio > 1.05) {
-              // Portrait video — use 3:4 container (matching website)
-              // Cap at 4/3 so the embed player controls remain accessible
-              const cappedRatio = Math.min(ratio, 4 / 3);
+              // Portrait video — allow up to 16:9 portrait (9:16 → ratio 16/9)
+              const cappedRatio = Math.min(ratio, 16 / 9);
               setPlayerHeight(playerWidth * cappedRatio);
             }
           }
@@ -164,11 +163,15 @@ const VideoPlayer = ({
 
   const exitFullScreen = () => {
     setIsFullScreen(false);
-    if (lockedOrientation === orientations.LANDSCAPE) {
-      Orientation.lockToLandscape();
-    } else {
-      Orientation.lockToPortrait();
-    }
+    setScreenType('contain');
+    // Small delay to let native fullscreen dismissal complete before locking orientation
+    setTimeout(() => {
+      if (lockedOrientation === orientations.LANDSCAPE) {
+        Orientation.lockToLandscape();
+      } else {
+        Orientation.lockToPortrait();
+      }
+    }, 300);
   };
 
   const enterFullScreen = () => {
@@ -197,7 +200,7 @@ const VideoPlayer = ({
           onError={onError}
           paused={paused}
           ref={videoPlayer}
-          resizeMode="cover"
+          resizeMode={screenType as any}
           fullscreen={isFullScreen}
           style={styles.mediaPlayer}
           volume={10}
@@ -254,7 +257,7 @@ const VideoPlayer = ({
       if (e.data && e.data.type === '3speak-player-ready' && window.ReactNativeWebView) {
         var msg = { type: 'aspectRatio' };
         if (e.data.isVertical) {
-          msg.ratio = 4 / 3;
+          msg.ratio = 16 / 9;
         } else if (e.data.aspectRatio && Math.abs(e.data.aspectRatio - 1) < 0.1) {
           msg.ratio = 1;
         }
@@ -323,8 +326,7 @@ const VideoPlayer = ({
                 try {
                   const msg = JSON.parse(event.nativeEvent.data);
                   if (msg.type === 'aspectRatio' && msg.ratio) {
-                    // Cap at 4/3 to keep player controls accessible
-                    const cappedRatio = Math.min(msg.ratio, 4 / 3);
+                    const cappedRatio = Math.min(msg.ratio, 16 / 9);
                     setPlayerHeight(playerWidth * cappedRatio);
                   }
                 } catch {

@@ -28,7 +28,7 @@ interface PostHtmlRendererProps {
   handleOnPostPress: (permlink: string, authro: string) => void;
   handleOnUserPress: (username: string) => void;
   handleTagPress: (tag: string, filter?: string) => void;
-  handleVideoPress: (videoUrl: string) => void;
+  handleVideoPress: (videoUrl: string, thumbnailUrl?: string) => void;
   handleYoutubePress: (videoId: string, startTime: number) => void;
   handleParaSelection: (selectedText: string) => void;
   handleOnContentPress: () => void;
@@ -132,6 +132,18 @@ export const PostHtmlRenderer = memo(
 
     const _minTableColWidth = contentWidth / 3 - 12;
 
+    // Extract thumbnail from metadata for video orientation detection and comment thumbnails
+    const _metadataThumbUrl = useMemo(() => {
+      const images = metadata?.image;
+      if (Array.isArray(images) && images.length > 0) {
+        return images[0];
+      }
+      if (typeof images === 'string') {
+        return images;
+      }
+      return undefined;
+    }, [metadata]);
+
     const _handleOnLinkPress = useCallback(
       (data: LinkData) => {
         if (!data) {
@@ -177,7 +189,7 @@ export const PostHtmlRenderer = memo(
 
             case 'markdown-video-link':
               if (handleVideoPress && videoHref) {
-                handleVideoPress(videoHref);
+                handleVideoPress(videoHref, _metadataThumbUrl);
               }
               break;
             case 'markdown-video-link-youtube':
@@ -221,6 +233,7 @@ export const PostHtmlRenderer = memo(
         handleTagPress,
         handleVideoPress,
         handleYoutubePress,
+        _metadataThumbUrl,
       ],
     );
 
@@ -304,18 +317,6 @@ export const PostHtmlRenderer = memo(
       }
     }, []);
 
-    // Extract thumbnail from metadata for video orientation detection and comment thumbnails
-    const _metadataThumbUrl = useMemo(() => {
-      const images = metadata?.image;
-      if (Array.isArray(images) && images.length > 0) {
-        return images[0];
-      }
-      if (typeof images === 'string') {
-        return images;
-      }
-      return undefined;
-    }, [metadata]);
-
     const _anchorRenderer = useCallback(
       ({ InternalRenderer, tnode, ...props }: CustomRendererProps<TNode>) => {
         const parsedTnode = parseLinkData(tnode);
@@ -345,6 +346,7 @@ export const PostHtmlRenderer = memo(
                   youtubeVideoId={parsedTnode.youtubeId}
                   startTime={parsedTnode.startTime}
                   disableAutoplay={true}
+                  thumbnailUrl={_metadataThumbUrl}
                 />
               </View>
             );
@@ -542,7 +544,7 @@ export const PostHtmlRenderer = memo(
           const _onPress = () => {
             console.log('iframe thumb Pressed:', iframeProps);
             if (handleVideoPress) {
-              handleVideoPress(iframeProps.source.uri);
+              handleVideoPress(iframeProps.source.uri, _metadataThumbUrl);
             }
           };
           return (
@@ -657,7 +659,7 @@ export const PostHtmlRenderer = memo(
         return;
       }
       if (handleVideoPress) {
-        handleVideoPress(extractedVideo.embedSrc);
+        handleVideoPress(extractedVideo.embedSrc, extractedVideo.thumbUrl);
       }
     }, [extractedVideo, handleVideoPress]);
 

@@ -172,7 +172,15 @@ export const WalletHeader = ({
               <ActivityIndicator size="small" color={EStyleSheet.value('$primaryBlue')} />
             </View>
           ) : (
-            <TouchableOpacity style={styles.topActionButton} onPress={onRefresh}>
+            <TouchableOpacity
+              style={styles.topActionButton}
+              onPress={onRefresh}
+              accessibilityLabel={intl.formatMessage({
+                id: 'wallet.refresh',
+                defaultMessage: 'Refresh',
+              })}
+              accessibilityHint="Refresh balances"
+            >
               <Icon
                 iconType="MaterialCommunityIcons"
                 name="refresh"
@@ -181,7 +189,15 @@ export const WalletHeader = ({
               />
             </TouchableOpacity>
           )}
-          <TouchableOpacity style={styles.topActionButton} onPress={_onManageTokensPress}>
+          <TouchableOpacity
+            style={styles.topActionButton}
+            onPress={_onManageTokensPress}
+            accessibilityLabel={intl.formatMessage({
+              id: 'wallet.manage_tokens',
+              defaultMessage: 'Manage tokens',
+            })}
+            accessibilityHint="Open token management"
+          >
             <Icon
               iconType="MaterialCommunityIcons"
               name="cog"

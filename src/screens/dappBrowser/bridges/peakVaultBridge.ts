@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 /**
  * Injected JavaScript that creates window.peakvault object.
  * Compatible with the Peak Vault browser extension API.
@@ -36,19 +37,23 @@ export const PEAK_VAULT_BRIDGE_JS = `
       var resId = this._responseId;
       this._responseId++;
       data.resId = resId;
-      this._trigger(data);
       return new Promise(function(resolve, reject) {
         var listener = function(event) {
           document.removeEventListener('peak-vault-response-' + resId, listener);
-          var eventDetail = JSON.parse(event.detail);
-          if (eventDetail.error) {
-            reject(eventDetail);
-          } else {
-            resolve(eventDetail);
+          try {
+            var eventDetail = JSON.parse(event.detail);
+            if (eventDetail.error) {
+              reject(eventDetail);
+            } else {
+              resolve(eventDetail);
+            }
+          } catch (e) {
+            reject({ error: 'Failed to parse response' });
           }
         };
         document.addEventListener('peak-vault-response-' + resId, listener);
-      });
+        this._trigger(data);
+      }.bind(this));
     };
 
     // --- Public API Methods ---
@@ -363,3 +368,4 @@ export const PEAK_VAULT_BRIDGE_JS = `
 })();
 true;
 `;
+/* eslint-enable no-template-curly-in-string */

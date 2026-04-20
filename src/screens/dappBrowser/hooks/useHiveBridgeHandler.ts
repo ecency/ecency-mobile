@@ -384,6 +384,10 @@ export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
             return;
           }
 
+          if (keyRole === 'memo') {
+            _sendPvError(resId, 'Memo key operations are not yet supported.', account);
+            return;
+          }
           const keyWif =
             keyRole === 'active' ? getActiveKey(local, digitPin) : getPostingKey(local, digitPin);
           if (!keyWif) {
@@ -503,6 +507,10 @@ export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
             return;
           }
 
+          if (keyRole === 'memo') {
+            _sendPvError(resId, 'Memo key operations are not yet supported.', account);
+            return;
+          }
           const keyWif =
             keyRole === 'active' ? getActiveKey(local, digitPin) : getPostingKey(local, digitPin);
           if (!keyWif) {
@@ -510,17 +518,14 @@ export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
             return;
           }
 
-          // For sign-only, we can't easily return the signed tx without full Transaction API.
-          // Return success with the key's public key as proof of signing capability.
-          const privateKey = PrivateKey.fromString(keyWif);
-          const publicKey = privateKey.createPublic().toString();
-          _sendPvResponse(resId, {
-            success: true,
-            error: '',
+          // Sign-only mode cannot produce a usable signed transaction without
+          // the full Transaction API. Return error so the dApp knows to use
+          // the broadcast flow instead.
+          _sendPvError(
+            resId,
+            'Sign-only mode is not supported. Use requestSignOp to broadcast.',
             account,
-            publicKey,
-            result: { signed: true },
-          });
+          );
         }
       } catch (err: any) {
         _sendPvError(resId, err?.message || 'Transaction failed.', account);

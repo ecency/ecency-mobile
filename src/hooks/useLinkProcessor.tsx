@@ -196,7 +196,7 @@ export const useLinkProcessor = (onClose?: () => void) => {
     const callbackUrl = transferParams?.callback;
     const requestId = transferParams?.requestId || null;
 
-    if (!transferParams || !transferParams.to || !transferParams.asset || !transferParams.amount) {
+    if (!transferParams || !transferParams.to) {
       if (callbackUrl) {
         await _openCallback(callbackUrl, requestId, {
           status: 'error',
@@ -205,6 +205,14 @@ export const useLinkProcessor = (onClose?: () => void) => {
       }
       _showInvalidAlert();
       return;
+    }
+
+    // Default asset/amount for receive QR codes that only specify recipient
+    if (!transferParams.asset) {
+      transferParams.asset = 'HIVE';
+    }
+    if (!transferParams.amount) {
+      transferParams.amount = '0';
     }
 
     const { hiveUri, normalizedFrom } = _buildEcencyTransferHiveUri(transferParams);
