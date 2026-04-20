@@ -188,7 +188,7 @@
     "subtitle": "Navegar por dApps de Hive con firma de cartera incorporada",
     "search_placeholder": "Buscar o introducir la URL del sitio web",
     "popular_dapps": "Aplicaciones populares",
-    "signing_info": "Ecency acts as your Hive signing extension. When a dApp asks you to log in with a browser extension like Keychain or Keeper, select that option — Ecency will handle the signing securely.",
+    "signing_info": "Ecency actúa como la extensión de firma de tu Hive. Cuando una dApp te pida que inicies sesión con una extensión del navegador como Keychain o Keeper, selecciona esa opción — Ecency gestionará la firma de forma segura.",
     "page_load_failed": "Error al cargar la página",
     "retry": "Reintentar"
   },
