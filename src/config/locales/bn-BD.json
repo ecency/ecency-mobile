@@ -188,7 +188,7 @@
     "subtitle": "Browse Hive dApps with built-in wallet signing",
     "search_placeholder": "Search or enter website URL",
     "popular_dapps": "Popular dApps",
-    "signing_info": "Ecency acts as your Hive signing extension. When a dApp asks you to log in with a browser extension like Keychain or Keeper, select that option — Ecency will handle the signing securely.",
+    "signing_info": "Ecency acts as your Hive signing extension. When a dApp asks you to log in with a browser extension like Keychain, Keeper, or Peak Vault, select that option — Ecency will handle the signing securely.",
     "page_load_failed": "Failed to load the page",
     "retry": "Retry"
   },
@@ -1128,6 +1128,10 @@
     "referral_desc": "বন্ধুদের আমন্ত্রণ করুন এবং পয়েন্ট উপার্জন করুন",
     "nft_updateProductName": "NFT Product Name Updated",
     "updating": "Updating...",
+    "send": "Send",
+    "swap": "Swap",
+    "get_points": "Get Points",
+    "receive_desc": "Scan this QR code to send funds to this account",
     "market_cancel": "Order Canceled",
     "nft_transfer": "NFTs Transferred",
     "escrow_transfer": "এসক্রো স্থানান্তর",
@@ -1248,6 +1252,7 @@
     "dropdown_label": "AI Image"
   },
   "transfer": {
+    "select_token": "Select Token",
     "powering_down_subheading": "You are currently unstaking.",
     "power_down": "Unstake",
     "recurrence_placeholder": "Choose Recurrence",
