@@ -8,7 +8,7 @@ import { useIntl } from 'react-intl';
 import { LoggedInContainer } from '../../../containers';
 
 // Components
-import { Header, HorizontalIconList, PostCardPlaceHolder } from '../../../components';
+import { Header, PostCardPlaceHolder } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -18,7 +18,6 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { AssetCard, WalletHeader } from '../children';
 import ROUTES from '../../../constants/routeNames';
 import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
-import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 import { AssetBase, ProfileToken, TokenType } from '../../../redux/reducers/walletReducer';
 import {
   fetchCoinQuotes,
@@ -182,7 +181,7 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
     }
   };
 
-  const _renderItem = ({ item, index }: { item: PortfolioItem; index: number }) => {
+  const _renderItem = ({ item }: { item: PortfolioItem }) => {
     const unclaimedRewardsValue =
       typeof item.pendingRewards === 'number' && item.pendingRewards > 0
         ? formatAmount(item.pendingRewards, {
@@ -220,13 +219,11 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
         locale={currentLocale}
         ownedBalance={item.balance || 0}
         unclaimedRewards={unclaimedRewards}
-        enableBuy={!item.pendingRewards && item.symbol === 'POINTS'}
+        enableBuy={false}
         isClaiming={_isClaimingThis}
         onCardPress={_onCardPress}
         onClaimPress={_onClaimPress}
-        footerComponent={
-          index === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />
-        }
+        footerComponent={null}
       />
     );
   };

@@ -136,7 +136,7 @@ export const AssetCard = ({
           isClaiming={isClaiming}
           containerStyle={{
             ...styles.claimContainer,
-            marginBottom: symbol === 'POINTS' || symbol === 'HP' ? 0 : 16,
+            marginBottom: symbol === 'POINTS' || symbol === 'HP' ? 0 : 8,
           }}
           onPress={_onClaimPress}
         />

@@ -37,6 +37,7 @@ export const PostHtmlInteractionHandler = forwardRef(
     const copyModalRef = useRef(null);
 
     const [videoUrl, setVideoUrl] = useState(null);
+    const [videoThumbUrl, setVideoThumbUrl] = useState<string | undefined>(undefined);
     const [youtubeVideoId, setYoutubeVideoId] = useState(null);
     const [videoStartTime, setVideoStartTime] = useState(0);
     const [selectedLink, setSelectedLink] = useState(null);
@@ -63,9 +64,10 @@ export const PostHtmlInteractionHandler = forwardRef(
         }
       },
 
-      handleVideoPress: (embedUrl) => {
+      handleVideoPress: (embedUrl, thumbUrl?: string) => {
         if (embedUrl && youtubePlayerRef.current) {
           setVideoUrl(embedUrl);
+          setVideoThumbUrl(thumbUrl);
           setVideoStartTime(0);
           youtubePlayerRef.current.show();
         }
@@ -132,6 +134,7 @@ export const PostHtmlInteractionHandler = forwardRef(
           onClose={() => {
             setYoutubeVideoId(null);
             setVideoUrl(null);
+            setVideoThumbUrl(undefined);
           }}
         >
           <VideoPlayer
@@ -139,6 +142,7 @@ export const PostHtmlInteractionHandler = forwardRef(
             youtubeVideoId={youtubeVideoId}
             uri={videoUrl}
             startTime={videoStartTime}
+            thumbnailUrl={videoThumbUrl}
           />
         </ActionsSheet>
 

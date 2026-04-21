@@ -5,19 +5,19 @@ import { isRTL } from '../../../utils/I18nUtils';
 export default EStyleSheet.create({
   cardContainer: {
     backgroundColor: '$primaryLightBackground',
-    marginVertical: 8,
+    marginVertical: 4,
     marginHorizontal: 16,
     borderRadius: 12,
     overflow: 'hidden',
     borderWidth: 2,
     borderColor: '$primaryLightBackground',
-    paddingVertical: 16,
+    paddingVertical: 12,
   } as ViewStyle,
 
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     zIndex: 10,
   } as ViewStyle,
 
@@ -48,7 +48,7 @@ export default EStyleSheet.create({
   },
 
   claimContainer: {
-    marginTop: 16,
+    marginTop: 10,
   },
 
   chartContainer: {

@@ -181,6 +181,17 @@ class TransferContainer extends Component {
     return recTransfers;
   };
 
+  _setFundType = (newFundType: string) => {
+    const { currentAccount } = this.props;
+    this.setState({ fundType: newFundType, balance: '' }, () => {
+      this.fetchBalance(currentAccount.name);
+    });
+    // Also update route params so _transferToAccount picks up the new fundType
+    if (this.props.route?.params) {
+      this.props.route.params.fundType = newFundType;
+    }
+  };
+
   _delayedRefreshCoinsData = () => {
     const { currentAccount } = this.props;
     const queryClient = getQueryClient();
@@ -610,6 +621,7 @@ class TransferContainer extends Component {
         fetchRecurrentTransfers: this._fetchRecurrentTransfers,
         recurrentTransfers,
         tokenLayer,
+        setFundType: this._setFundType,
       })
     );
   }

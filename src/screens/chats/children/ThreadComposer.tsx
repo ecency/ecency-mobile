@@ -77,9 +77,9 @@ export const ThreadComposer: React.FC<ThreadComposerProps> = React.memo(
                   defaultMessage: 'Message',
                 })}
                 placeholderTextColor="#788187"
-                autoCorrect={false}
-                autoComplete="off"
-                spellCheck={false}
+                autoCorrect={Platform.OS === 'ios'}
+                autoComplete={Platform.OS === 'ios' ? undefined : 'off'}
+                spellCheck={Platform.OS === 'ios'}
                 value={message}
                 onChangeText={onMessageChange}
                 multiline

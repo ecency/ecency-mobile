@@ -32,17 +32,17 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: 6,
   } as ViewStyle,
 
   claimBtn: {
     flexDirection: 'row',
-    paddingHorizontal: 16,
+    paddingHorizontal: 14,
   } as ViewStyle,
 
   claimBtnTitle: {
     color: '$pureWhite',
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 'bold',
     alignSelf: 'center',
     textTransform: 'uppercase',

@@ -91,6 +91,8 @@ export default EStyleSheet.create({
     paddingVertical: 12,
     minHeight: 48,
     justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   fundBadgeText: {
     color: '#fff',
@@ -542,5 +544,53 @@ export default EStyleSheet.create({
   addressActionText: {
     color: '$white',
     fontWeight: '600',
+  },
+
+  // Token picker overlay
+  tokenPickerOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 100,
+  },
+  tokenPickerContainer: {
+    backgroundColor: '$primaryBackgroundColor',
+    borderRadius: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 8,
+    width: '80%',
+    maxWidth: 300,
+  },
+  tokenPickerTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '$primaryBlack',
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+  tokenPickerItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    marginHorizontal: 8,
+    marginVertical: 2,
+  },
+  tokenPickerItemActive: {
+    backgroundColor: '$primaryLightBackground',
+  },
+  tokenPickerItemText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '$primaryBlack',
+  },
+  tokenPickerItemTextActive: {
+    color: '$primaryBlue',
   },
 });

@@ -196,7 +196,7 @@ export const useLinkProcessor = (onClose?: () => void) => {
     const callbackUrl = transferParams?.callback;
     const requestId = transferParams?.requestId || null;
 
-    if (!transferParams || !transferParams.to || !transferParams.asset || !transferParams.amount) {
+    if (!transferParams || !transferParams.to) {
       if (callbackUrl) {
         await _openCallback(callbackUrl, requestId, {
           status: 'error',
@@ -204,6 +204,21 @@ export const useLinkProcessor = (onClose?: () => void) => {
         });
       }
       _showInvalidAlert();
+      return;
+    }
+
+    // Recipient-only deeplink (no amount/asset): open transfer screen with recipient prefilled
+    if (!transferParams.amount || !transferParams.asset) {
+      const recipient = transferParams.to.replace(/^@/, '').trim();
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.TRANSFER,
+        params: {
+          transferType: 'transfer',
+          fundType: transferParams.asset || 'HIVE',
+          assetLayer: 'hive',
+          referredUsername: recipient,
+        },
+      });
       return;
     }
 

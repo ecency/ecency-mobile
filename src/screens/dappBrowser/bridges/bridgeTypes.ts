@@ -20,6 +20,32 @@ export interface KeychainResponse {
   publicKey?: string;
 }
 
+export interface PeakVaultRequest {
+  name: 'pvRequest';
+  data: {
+    id: 'sign-request';
+    resId: number;
+    account: string;
+    operations: any[];
+    keyRole: 'posting' | 'active' | 'memo';
+    broadcast: boolean;
+    displayMessage: string | { title: string; message?: string };
+    sourceUrl?: string;
+    rpc?: string;
+    transaction?: any;
+    [key: string]: any;
+  };
+}
+
+export interface PeakVaultResponse {
+  success: boolean;
+  error: string;
+  message?: string;
+  account: string;
+  publicKey?: string;
+  result: any;
+}
+
 export type AuthorityLevel = 'posting' | 'active' | 'memo';
 
 /** Default authority for each operation type. Some types use `method` param to override. */

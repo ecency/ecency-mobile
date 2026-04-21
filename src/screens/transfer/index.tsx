@@ -39,6 +39,7 @@ const Transfer = ({ navigation, route }) => {
         fetchRecurrentTransfers,
         tokenLayer,
         tokenAddress,
+        setFundType,
       }) => {
         switch (transferType) {
           case TransferTypes.DELEGATE_VESTING_SHARES:
@@ -112,6 +113,7 @@ const Transfer = ({ navigation, route }) => {
                 fetchRecurrentTransfers={fetchRecurrentTransfers}
                 tokenLayer={tokenLayer}
                 badActors={badActors}
+                setFundType={setFundType}
               />
             );
         }
