@@ -188,7 +188,7 @@
     "subtitle": "Navegar por dApps de Hive con firma de cartera incorporada",
     "search_placeholder": "Buscar o introducir la URL del sitio web",
     "popular_dapps": "Aplicaciones populares",
-    "signing_info": "Ecency acts as your Hive signing extension. When a dApp asks you to log in with a browser extension like Keychain, Keeper, or Peak Vault, select that option — Ecency will handle the signing securely.",
+    "signing_info": "Ecency actúa como la extensión de firma de tu Hive. Cuando una dApp te pide que inicies sesión con una extensión del navegador como Keychain, Keeper o Peak Vault, selecciona esa opción — Ecency manejará la firma de forma segura.",
     "page_load_failed": "Error al cargar la página",
     "retry": "Reintentar"
   },
@@ -1128,10 +1128,10 @@
     "referral_desc": "Invita a tus amigos y consigue puntos",
     "nft_updateProductName": "Nombre del producto NFT actualizado",
     "updating": "Actualizando...",
-    "send": "Send",
-    "swap": "Swap",
-    "get_points": "Get Points",
-    "receive_desc": "Scan this QR code to send funds to this account",
+    "send": "Enviar",
+    "swap": "Intercambiar",
+    "get_points": "Obtener Puntos",
+    "receive_desc": "Escanea este código QR para enviar fondos a esta cuenta",
     "market_cancel": "Orden cancelada",
     "nft_transfer": "NFTs Transferidos",
     "escrow_transfer": "Transferencia de fideicomiso",
@@ -1252,7 +1252,7 @@
     "dropdown_label": "Imagen de IA"
   },
   "transfer": {
-    "select_token": "Select Token",
+    "select_token": "Seleccionar Token",
     "powering_down_subheading": "Actualmente, estás retirando de Estaca.",
     "power_down": "Retirar de Estaca",
     "recurrence_placeholder": "Elegir recurrencia",
