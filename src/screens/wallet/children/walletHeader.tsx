@@ -46,6 +46,14 @@ export const WalletHeader = ({
   };
 
   const _onSendPress = () => {
+    if (!currentAccount?.name) {
+      dispatch(
+        toastNotification(
+          intl.formatMessage({ id: 'alert.not_logged_in', defaultMessage: 'Please log in first' }),
+        ),
+      );
+      return;
+    }
     navigation.navigate({
       name: ROUTES.SCREENS.TRANSFER,
       params: { transferType: TransferTypes.TRANSFER, fundType: 'HIVE', assetLayer: 'hive' },
@@ -67,6 +75,14 @@ export const WalletHeader = ({
   };
 
   const _onSwapPress = () => {
+    if (!currentAccount?.name) {
+      dispatch(
+        toastNotification(
+          intl.formatMessage({ id: 'alert.not_logged_in', defaultMessage: 'Please log in first' }),
+        ),
+      );
+      return;
+    }
     navigation.navigate({
       name: ROUTES.SCREENS.TRADE,
       params: {

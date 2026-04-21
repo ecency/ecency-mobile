@@ -138,7 +138,7 @@ export const PostHtmlRenderer = memo(
     const _minTableColWidth = contentWidth / 3 - 12;
 
     // Extract thumbnail from metadata for video orientation detection and comment thumbnails
-    const _metadataThumbUrl = useMemo(() => _getFirstMetaImage(metadata?.image), [metadata]);
+    const _metadataThumbUrl = useMemo(() => _getFirstMetaImage(metadata?.image), [metadata?.image]);
 
     const _handleOnLinkPress = useCallback(
       (data: LinkData) => {
@@ -326,8 +326,8 @@ export const PostHtmlRenderer = memo(
 
         // process video link
         if (parsedTnode?.type === 'markdown-video-link') {
-          const imgElement = tnode.children.find(
-            (child) => child.classes.indexOf('video-thumbnail') >= 0,
+          const imgElement = tnode.children.find((child) =>
+            child.classes?.includes('video-thumbnail'),
           );
           const thumbUri = imgElement?.attributes?.src || _metadataThumbUrl;
 

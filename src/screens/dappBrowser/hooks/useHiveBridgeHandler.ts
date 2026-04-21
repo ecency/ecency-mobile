@@ -310,6 +310,13 @@ export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
 
       const { resId, account: requestedAccount, operations, keyRole, broadcast } = pvData;
 
+      // Validate keyRole if present (connect doesn't require it)
+      const ALLOWED_KEY_ROLES = ['posting', 'active', 'memo'];
+      if (keyRole && !ALLOWED_KEY_ROLES.includes(keyRole)) {
+        _sendPvError(resId, `Invalid keyRole: "${keyRole}"`, requestedAccount || '');
+        return;
+      }
+
       // Handle connect (returns list of available accounts)
       if (
         operations.length === 1 &&
@@ -502,31 +509,7 @@ export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
             result,
           });
         } else {
-          // Sign-only: sign with key but don't broadcast
-          const state = store.getState();
-          const pin = state.application?.pin;
-          if (!pin) {
-            _sendPvError(resId, 'PIN not available. Please unlock the app.', account);
-            return;
-          }
-          const digitPin = getDigitPinCode(pin);
-          const currentAccount = selectCurrentAccount(state);
-          const local = currentAccount?.local;
-          if (!local) {
-            _sendPvError(resId, 'No local account data available.', account);
-            return;
-          }
-
-          const keyWif =
-            keyRole === 'active' ? getActiveKey(local, digitPin) : getPostingKey(local, digitPin);
-          if (!keyWif) {
-            _sendPvError(resId, `${keyRole} key not available.`, account);
-            return;
-          }
-
-          // Sign-only mode cannot produce a usable signed transaction without
-          // the full Transaction API (ref_block_num, ref_block_prefix, expiration).
-          // Return error so the dApp knows to use the broadcast flow instead.
+          // Sign-only mode is not supported — fail immediately without touching key material.
           _sendPvError(
             resId,
             'Sign-only mode is not supported in Ecency browser. Please use requestBroadcast instead.',
