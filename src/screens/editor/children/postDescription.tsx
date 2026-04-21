@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { TextInput } from '../../../components';
 
 import styles from './styles';
@@ -24,9 +24,9 @@ const PostDescription = ({
         value={postDescription}
         onChangeText={handlePostDescriptionChange}
         autoCapitalize="none"
-        autoCorrect={false}
-        autoComplete="off"
-        spellCheck={false}
+        autoCorrect={Platform.OS === 'ios'}
+        autoComplete={Platform.OS === 'ios' ? undefined : 'off'}
+        spellCheck={Platform.OS === 'ios'}
         maxLength={255}
         placeholder={intl.formatMessage({ id: 'editor.short_desc_placeholder' })}
         editable

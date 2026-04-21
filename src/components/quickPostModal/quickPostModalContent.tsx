@@ -762,9 +762,9 @@ export const QuickPostModalContent = forwardRef(
               id: _placeholderId,
             })}
             placeholderTextColor="#c1c5c7"
-            autoCorrect={false}
-            autoComplete="off"
-            spellCheck={false}
+            autoCorrect={Platform.OS === 'ios'}
+            autoComplete={Platform.OS === 'ios' ? undefined : 'off'}
+            spellCheck={Platform.OS === 'ios'}
             style={styles.textInput}
             multiline={true}
             numberOfLines={5}

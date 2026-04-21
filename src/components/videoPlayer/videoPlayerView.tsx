@@ -48,6 +48,7 @@ const VideoPlayer = ({
   const [playerState, setPlayerState] = useState(PLAYER_STATES.PAUSED);
   const [screenType, setScreenType] = useState('contain');
   const lockedOrientation = useAppSelector((state) => state.ui.lockedOrientation);
+  const lockedOrientationRef = useRef(lockedOrientation);
 
   const playerWidth = contentWidth || dim.width;
   const [playerHeight, setPlayerHeight] = useState(playerWidth * (9 / 16));
@@ -98,18 +99,22 @@ const VideoPlayer = ({
   }, [isFullScreen, lockedOrientation]);
 
   useEffect(() => {
+    lockedOrientationRef.current = lockedOrientation;
+  }, [lockedOrientation]);
+
+  useEffect(() => {
     return () => {
       if (fullscreenTimeoutRef.current) {
         clearTimeout(fullscreenTimeoutRef.current);
         fullscreenTimeoutRef.current = null;
       }
-      if (lockedOrientation === orientations.LANDSCAPE) {
+      if (lockedOrientationRef.current === orientations.LANDSCAPE) {
         Orientation.lockToLandscape();
       } else {
         Orientation.lockToPortrait();
       }
     };
-  }, [lockedOrientation]);
+  }, []);
 
   // react-native-youtube-iframe handlers
   const [shouldPlay, setShouldPlay] = useState(false);

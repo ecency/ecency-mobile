@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { connect } from 'react-redux';
 import { selectIsDarkTheme } from '../../../../redux/selectors';
 // Constants
@@ -68,9 +68,9 @@ class TitleAreaView extends Component {
           placeholder={intl.formatMessage({
             id: 'editor.title',
           })}
-          autoCorrect={false}
-          autoComplete="off"
-          spellCheck={false}
+          autoCorrect={Platform.OS === 'ios'}
+          autoComplete={Platform.OS === 'ios' ? undefined : 'off'}
+          spellCheck={Platform.OS === 'ios'}
           multiline
           numberOfLines={2}
           onContentSizeChange={(event) => {

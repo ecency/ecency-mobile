@@ -11,6 +11,7 @@ import TransferTypes from '../../../constants/transferTypes';
 import { Icon } from '../../../components/icon';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
+import { selectCurrentAccount } from '../../../redux/selectors';
 import { PortfolioItem } from '../../../providers/ecency/ecency.types';
 import { formatAmount } from '../../../utils/number';
 import { SheetNames } from '../../../navigation/sheets';
@@ -37,7 +38,7 @@ export const WalletHeader = ({
   const navigation = useNavigation<any>();
   const intl = useIntl();
   const dispatch = useAppDispatch();
-  const currentAccount = useAppSelector((state) => state.account?.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const walletState = useAppSelector((state) => state.wallet);
 
   const _onManageTokensPress = () => {
@@ -109,7 +110,7 @@ export const WalletHeader = ({
     }
 
     return `${formattedTotal} ${currencyCode}`.trim();
-  }, [assets, currencyCode, currencySymbol]);
+  }, [assets, currencyCode, currencySymbol, intl.locale]);
 
   const effectiveLastUpdated =
     typeof lastUpdated === 'number' ? lastUpdated : walletState.updateTimestamp;

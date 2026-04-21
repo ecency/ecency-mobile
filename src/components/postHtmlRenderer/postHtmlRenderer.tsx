@@ -16,6 +16,16 @@ import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
 import { HiveLinkPreview, UserAvatar, VideoPlayer } from '..';
 
+const _getFirstMetaImage = (metadataImage: any): string | undefined => {
+  if (Array.isArray(metadataImage) && metadataImage.length > 0) {
+    return metadataImage[0];
+  }
+  if (typeof metadataImage === 'string') {
+    return metadataImage;
+  }
+  return undefined;
+};
+
 interface PostHtmlRendererProps {
   contentWidth: number;
   body: string;
@@ -111,12 +121,7 @@ export const PostHtmlRenderer = memo(
 
           // Use metadata.image as thumbnail fallback
           if (video && !video.thumbUrl) {
-            const metaImages = metadata?.image;
-            if (Array.isArray(metaImages) && metaImages.length > 0) {
-              [video.thumbUrl] = metaImages;
-            } else if (typeof metaImages === 'string') {
-              video.thumbUrl = metaImages;
-            }
+            video.thumbUrl = _getFirstMetaImage(metadata?.image);
           }
 
           // Group adjacent image-only <p> tags into a grid wrapper
@@ -133,16 +138,7 @@ export const PostHtmlRenderer = memo(
     const _minTableColWidth = contentWidth / 3 - 12;
 
     // Extract thumbnail from metadata for video orientation detection and comment thumbnails
-    const _metadataThumbUrl = useMemo(() => {
-      const images = metadata?.image;
-      if (Array.isArray(images) && images.length > 0) {
-        return images[0];
-      }
-      if (typeof images === 'string') {
-        return images;
-      }
-      return undefined;
-    }, [metadata]);
+    const _metadataThumbUrl = useMemo(() => _getFirstMetaImage(metadata?.image), [metadata]);
 
     const _handleOnLinkPress = useCallback(
       (data: LinkData) => {
