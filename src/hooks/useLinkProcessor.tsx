@@ -213,8 +213,9 @@ export const useLinkProcessor = (onClose?: () => void) => {
       RootNavigation.navigate({
         name: ROUTES.SCREENS.TRANSFER,
         params: {
-          transferType: 'transfer_token',
+          transferType: 'transfer',
           fundType: transferParams.asset || 'HIVE',
+          assetLayer: 'hive',
           referredUsername: recipient,
         },
       });

@@ -525,11 +525,11 @@ export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
           }
 
           // Sign-only mode cannot produce a usable signed transaction without
-          // the full Transaction API. Return error so the dApp knows to use
-          // the broadcast flow instead.
+          // the full Transaction API (ref_block_num, ref_block_prefix, expiration).
+          // Return error so the dApp knows to use the broadcast flow instead.
           _sendPvError(
             resId,
-            'Sign-only mode is not supported. Use requestSignOp to broadcast.',
+            'Sign-only mode is not supported in Ecency browser. Please use requestBroadcast instead.',
             account,
           );
         }
