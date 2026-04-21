@@ -56,7 +56,7 @@ export const WalletHeader = ({
     }
     navigation.navigate({
       name: ROUTES.SCREENS.TRANSFER,
-      params: { transferType: TransferTypes.TRANSFER, fundType: 'HIVE', assetLayer: 'hive' },
+      params: { transferType: 'transfer_token', fundType: 'HIVE' },
     });
   };
 

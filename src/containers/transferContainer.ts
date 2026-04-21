@@ -244,7 +244,12 @@ class TransferContainer extends Component {
 
     const transferType = route.params?.transferType ?? '';
     const fundType = route.params?.fundType ?? '';
-    const tokenLayer = route.params?.assetLayer ?? route.params?.tokenLayer ?? '';
+    let tokenLayer = route.params?.assetLayer ?? route.params?.tokenLayer ?? '';
+
+    // Default to HIVE layer for transfer_token with HIVE/HBD (wallet quick-send)
+    if (!tokenLayer && (fundType === 'HIVE' || fundType === 'HBD')) {
+      tokenLayer = TokenLayers.HIVE;
+    }
 
     const data: any = { from, destination, amount, memo, fundType };
 
