@@ -72,7 +72,9 @@ export function useTransferMutations() {
     ({ to, amount, memo }: { to: string; amount: string; memo: string }) => [
       buildTransferOp(requireUsername(), to, amount, memo),
     ],
-    async (_data, { to }) => runPostBroadcastInvalidation([to], 'transfer'),
+    (_data, { to }) => {
+      runPostBroadcastInvalidation([to], 'transfer');
+    },
     authContext,
     'active',
   );
@@ -115,7 +117,9 @@ export function useTransferMutations() {
     ({ to, amount, memo }: { to: string; amount: string; memo: string }) => [
       buildPointTransferOp(requireUsername(), to, amount, memo),
     ],
-    async (_data, { to }) => runPostBroadcastInvalidation([to], 'transferPoint'),
+    (_data, { to }) => {
+      runPostBroadcastInvalidation([to], 'transferPoint');
+    },
     authContext,
     'active',
   );
@@ -126,8 +130,9 @@ export function useTransferMutations() {
     username || '',
     ({ destinations, amount, memo }: { destinations: string[]; amount: string; memo: string }) =>
       destinations.map((dest) => buildPointTransferOp(requireUsername(), dest, amount, memo)),
-    async (_data, { destinations }) =>
-      runPostBroadcastInvalidation(destinations, 'multiPointTransfer'),
+    (_data, { destinations }) => {
+      runPostBroadcastInvalidation(destinations, 'multiPointTransfer');
+    },
     authContext,
     'active',
   );
@@ -138,7 +143,9 @@ export function useTransferMutations() {
     username || '',
     ({ destinations, amount, memo }: { destinations: string[]; amount: string; memo: string }) =>
       destinations.map((dest) => buildTransferOp(requireUsername(), dest, amount, memo)),
-    async (_data, { destinations }) => runPostBroadcastInvalidation(destinations, 'multiTransfer'),
+    (_data, { destinations }) => {
+      runPostBroadcastInvalidation(destinations, 'multiTransfer');
+    },
     authContext,
     'active',
   );
