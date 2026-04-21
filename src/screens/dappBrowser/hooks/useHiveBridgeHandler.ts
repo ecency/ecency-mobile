@@ -303,6 +303,11 @@ export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
 
   const _handlePeakVaultMessage = useCallback(
     async (pvData: PeakVaultRequest['data']) => {
+      if (!pvData || !Array.isArray(pvData.operations)) {
+        _sendPvError(pvData?.resId || 0, 'Malformed Peak Vault payload', '');
+        return;
+      }
+
       const { resId, account: requestedAccount, operations, keyRole, broadcast } = pvData;
 
       // Handle connect (returns list of available accounts)
@@ -481,6 +486,11 @@ export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
           return;
         }
 
+        if (keyRole === 'memo') {
+          _sendPvError(resId, 'Memo key operations are not supported for broadcast.', account);
+          return;
+        }
+
         if (broadcast) {
           // Broadcast via the appropriate mutation
           const mutation = keyRole === 'posting' ? postingBroadcastMutation : broadcastMutation;
@@ -507,10 +517,6 @@ export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
             return;
           }
 
-          if (keyRole === 'memo') {
-            _sendPvError(resId, 'Memo key operations are not yet supported.', account);
-            return;
-          }
           const keyWif =
             keyRole === 'active' ? getActiveKey(local, digitPin) : getPostingKey(local, digitPin);
           if (!keyWif) {

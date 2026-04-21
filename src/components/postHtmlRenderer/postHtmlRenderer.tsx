@@ -128,7 +128,7 @@ export const PostHtmlRenderer = memo(
         }
       }
       return { processedBody: processed, extractedVideo: video };
-    }, [body, isComment, metadata]);
+    }, [body, metadata]);
 
     const _minTableColWidth = contentWidth / 3 - 12;
 

@@ -207,12 +207,18 @@ export const useLinkProcessor = (onClose?: () => void) => {
       return;
     }
 
-    // Default asset/amount for receive QR codes that only specify recipient
-    if (!transferParams.asset) {
-      transferParams.asset = 'HIVE';
-    }
-    if (!transferParams.amount) {
-      transferParams.amount = '0';
+    // Recipient-only deeplink (no amount/asset): open transfer screen with recipient prefilled
+    if (!transferParams.amount || !transferParams.asset) {
+      const recipient = transferParams.to.replace(/^@/, '').trim();
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.TRANSFER,
+        params: {
+          transferType: 'transfer_token',
+          fundType: transferParams.asset || 'HIVE',
+          referredUsername: recipient,
+        },
+      });
+      return;
     }
 
     const { hiveUri, normalizedFrom } = _buildEcencyTransferHiveUri(transferParams);

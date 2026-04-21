@@ -9,7 +9,8 @@ import { SheetManager } from 'react-native-actions-sheet';
 import ROUTES from '../../../constants/routeNames';
 import TransferTypes from '../../../constants/transferTypes';
 import { Icon } from '../../../components/icon';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { toastNotification } from '../../../redux/actions/uiAction';
 import { PortfolioItem } from '../../../providers/ecency/ecency.types';
 import { formatAmount } from '../../../utils/number';
 import { SheetNames } from '../../../navigation/sheets';
@@ -35,6 +36,7 @@ export const WalletHeader = ({
 }: WalletHeaderProps) => {
   const navigation = useNavigation<any>();
   const intl = useIntl();
+  const dispatch = useAppDispatch();
   const currentAccount = useAppSelector((state) => state.account?.currentAccount);
   const walletState = useAppSelector((state) => state.wallet);
 
@@ -54,6 +56,12 @@ export const WalletHeader = ({
       SheetManager.show(SheetNames.RECEIVE_QR, {
         payload: { username: currentAccount.name },
       });
+    } else {
+      dispatch(
+        toastNotification(
+          intl.formatMessage({ id: 'alert.not_logged_in', defaultMessage: 'Please log in first' }),
+        ),
+      );
     }
   };
 
@@ -179,7 +187,10 @@ export const WalletHeader = ({
                 id: 'wallet.refresh',
                 defaultMessage: 'Refresh',
               })}
-              accessibilityHint="Refresh balances"
+              accessibilityHint={intl.formatMessage({
+                id: 'wallet.refresh_hint',
+                defaultMessage: 'Refresh balances',
+              })}
             >
               <Icon
                 iconType="MaterialCommunityIcons"
@@ -196,7 +207,10 @@ export const WalletHeader = ({
               id: 'wallet.manage_tokens',
               defaultMessage: 'Manage tokens',
             })}
-            accessibilityHint="Open token management"
+            accessibilityHint={intl.formatMessage({
+              id: 'wallet.manage_tokens_hint',
+              defaultMessage: 'Open token management',
+            })}
           >
             <Icon
               iconType="MaterialCommunityIcons"

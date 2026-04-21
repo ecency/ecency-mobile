@@ -38,6 +38,7 @@ const VideoPlayer = ({
 }: VideoPlayerProps) => {
   const dim = useWindowDimensions();
   const videoPlayer = useRef(null);
+  const fullscreenTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -98,6 +99,10 @@ const VideoPlayer = ({
 
   useEffect(() => {
     return () => {
+      if (fullscreenTimeoutRef.current) {
+        clearTimeout(fullscreenTimeoutRef.current);
+        fullscreenTimeoutRef.current = null;
+      }
       if (lockedOrientation === orientations.LANDSCAPE) {
         Orientation.lockToLandscape();
       } else {
@@ -164,8 +169,14 @@ const VideoPlayer = ({
   const exitFullScreen = () => {
     setIsFullScreen(false);
     setScreenType('contain');
+    // Clear any pending timeout before scheduling a new one
+    if (fullscreenTimeoutRef.current) {
+      clearTimeout(fullscreenTimeoutRef.current);
+      fullscreenTimeoutRef.current = null;
+    }
     // Small delay to let native fullscreen dismissal complete before locking orientation
-    setTimeout(() => {
+    fullscreenTimeoutRef.current = setTimeout(() => {
+      fullscreenTimeoutRef.current = null;
       if (lockedOrientation === orientations.LANDSCAPE) {
         Orientation.lockToLandscape();
       } else {
