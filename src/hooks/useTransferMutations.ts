@@ -77,6 +77,7 @@ export function useTransferMutations() {
     },
     authContext,
     'active',
+    { broadcastMode: 'async' },
   );
   const convert = useConvertMutation();
   const transferToSavings = useTransferToSavingsMutation();
@@ -108,6 +109,7 @@ export function useTransferMutations() {
     undefined,
     authContext,
     'active',
+    { broadcastMode: 'async' },
   );
 
   // POINTS layer
@@ -122,6 +124,7 @@ export function useTransferMutations() {
     },
     authContext,
     'active',
+    { broadcastMode: 'async' },
   );
 
   // Multi-recipient Points transfer — single broadcast for all destinations
@@ -135,6 +138,7 @@ export function useTransferMutations() {
     },
     authContext,
     'active',
+    { broadcastMode: 'async' },
   );
 
   // Multi-recipient HIVE transfer — single broadcast for all destinations
@@ -148,6 +152,7 @@ export function useTransferMutations() {
     },
     authContext,
     'active',
+    { broadcastMode: 'async' },
   );
 
   // ENGINE layer
@@ -186,6 +191,7 @@ export function useTransferMutations() {
     undefined,
     authContext,
     'active',
+    { broadcastMode: 'async' },
   );
 
   return {
