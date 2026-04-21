@@ -326,11 +326,12 @@ export const PostHtmlRenderer = memo(
 
         // process video link
         if (parsedTnode?.type === 'markdown-video-link') {
+          const imgElement = tnode.children.find(
+            (child) => child.classes.indexOf('video-thumbnail') >= 0,
+          );
+          const thumbUri = imgElement?.attributes?.src || _metadataThumbUrl;
+
           if (isComment) {
-            const imgElement = tnode.children.find(
-              (child) => child.classes.indexOf('video-thumbnail') >= 0,
-            );
-            const thumbUri = imgElement?.attributes?.src || _metadataThumbUrl;
             return <VideoThumb contentWidth={contentWidth} uri={thumbUri} onPress={_onPress} />;
           } else {
             return (
@@ -342,7 +343,7 @@ export const PostHtmlRenderer = memo(
                   youtubeVideoId={parsedTnode.youtubeId}
                   startTime={parsedTnode.startTime}
                   disableAutoplay={true}
-                  thumbnailUrl={_metadataThumbUrl}
+                  thumbnailUrl={thumbUri}
                 />
               </View>
             );

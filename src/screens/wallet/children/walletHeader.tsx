@@ -77,10 +77,18 @@ export const WalletHeader = ({
   };
 
   const _onGetPointsPress = () => {
-    navigation.navigate({
-      name: ROUTES.SCREENS.BOOST,
-      params: { username: currentAccount?.name },
-    });
+    if (currentAccount?.name) {
+      navigation.navigate({
+        name: ROUTES.SCREENS.BOOST,
+        params: { username: currentAccount.name },
+      });
+    } else {
+      dispatch(
+        toastNotification(
+          intl.formatMessage({ id: 'alert.not_logged_in', defaultMessage: 'Please log in first' }),
+        ),
+      );
+    }
   };
 
   const totalBalanceLabel = useMemo(() => {
