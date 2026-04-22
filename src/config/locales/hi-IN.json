@@ -643,6 +643,7 @@
     "unknow_error": "अज्ञात त्रुटि, कृपया support@ecency.com पर लिखें"
   },
   "alert": {
+    "not_logged_in": "Please log in first",
     "pin_not_set": "PIN is not set",
     "connection_issues": "सर्वर पहुंच योग्य नहीं है, कृपया अपने कनेक्शन की जांच करें और पुन: प्रयास करें।",
     "success_mute": "सफलता को म्यूट करें!",
@@ -1004,6 +1005,9 @@
     "outgoing_transfer_description": "",
     "engine_claim_btn": "दावा पुरस्कार ({count})",
     "manage_tokens": "Manage Tokens",
+    "manage_tokens_hint": "Open token management",
+    "refresh": "Refresh",
+    "refresh_hint": "Refresh balances",
     "delegate": "कार्यभार सौंपें",
     "nft_undelegateDone": "Undelegation Completed for NFT",
     "coin_details": "विवरण",

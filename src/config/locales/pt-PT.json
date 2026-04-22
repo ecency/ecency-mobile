@@ -643,6 +643,7 @@
     "unknow_error": "Erro desconhecido, por favor escreva para support@ecency.com"
   },
   "alert": {
+    "not_logged_in": "Please log in first",
     "pin_not_set": "PIN is not set",
     "connection_issues": "O servidor está inacessível. Por favor, verifique sua conexão e tente novamente.",
     "success_mute": "Silenciado com sucesso!",
@@ -1004,6 +1005,9 @@
     "outgoing_transfer_description": "",
     "engine_claim_btn": "Reivindicar Recompensas ({count})",
     "manage_tokens": "Manage Tokens",
+    "manage_tokens_hint": "Open token management",
+    "refresh": "Refresh",
+    "refresh_hint": "Refresh balances",
     "delegate": "Delegar",
     "nft_undelegateDone": "Cancelamento da Delegação concluído para NFT",
     "coin_details": "Detalhes",
