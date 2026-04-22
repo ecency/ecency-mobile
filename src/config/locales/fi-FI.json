@@ -643,6 +643,7 @@
     "unknow_error": "Tuntematon virhe, ota yhteyttä support@ecency.com"
   },
   "alert": {
+    "not_logged_in": "Please log in first",
     "pin_not_set": "PIN is not set",
     "connection_issues": "Palvelin ei ole tavoitettavissa, tarkista yhteytesi ja yritä uudelleen.",
     "success_mute": "Hiljentäminen onnistui!",
@@ -1004,6 +1005,9 @@
     "outgoing_transfer_description": "",
     "engine_claim_btn": "Lunasta palkkiot ({count})",
     "manage_tokens": "Hallinnoi avaimia",
+    "manage_tokens_hint": "Open token management",
+    "refresh": "Refresh",
+    "refresh_hint": "Refresh balances",
     "delegate": "Valtuuta",
     "nft_undelegateDone": "Valtuutuksen poistaminen NFT:ltä Valmistui",
     "coin_details": "Lisätiedot",
