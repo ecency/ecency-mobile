@@ -643,6 +643,7 @@
     "unknow_error": "Неизвестная ошибка. Пожалуйста, напишите на support@ecency.com"
   },
   "alert": {
+    "not_logged_in": "Please log in first",
     "pin_not_set": "PIN is not set",
     "connection_issues": "Сервер недоступен, проверьте подключение и повторите попытку.",
     "success_mute": "Успешно игнорируется!",
@@ -1004,6 +1005,9 @@
     "outgoing_transfer_description": "",
     "engine_claim_btn": "Получить награду ({count})",
     "manage_tokens": "Manage Tokens",
+    "manage_tokens_hint": "Open token management",
+    "refresh": "Refresh",
+    "refresh_hint": "Refresh balances",
     "delegate": "Делегировать",
     "nft_undelegateDone": "Отзыв NFT завершен",
     "coin_details": "Детали",
