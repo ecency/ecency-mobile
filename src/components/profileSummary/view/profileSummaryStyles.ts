@@ -1,92 +1,151 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  textWithIconWrapper: {
-    justifyContent: 'center',
-    flexDirection: 'row',
+  // --- Cover image (edge-to-edge, no margins) ---
+  coverContainer: {
+    width: '100%',
+    height: 160,
+    backgroundColor: '$primaryLightBackground',
+    marginHorizontal: 0,
+    paddingHorizontal: 0,
   },
-  textWithIconWrapperColumn: {
-    justifyContent: 'center',
-    flexDirection: 'column',
+  coverImage: {
+    width: '100%',
+    height: 160,
   },
-  longImage: {
-    borderRadius: 5,
-    height: 65,
-    marginTop: 16,
-    marginBottom: 12,
-    alignSelf: 'stretch',
-    maxWidth: '100% - 24',
-  },
-  footer: {
-    width: '100% - 14',
+
+  // --- Avatar overlapping cover ---
+  avatarSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 10,
-    height: 30,
+    alignItems: 'flex-end',
+    paddingHorizontal: 16,
+    marginTop: -40,
   },
-  leftIcons: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    height: 20,
+  avatarWrapper: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 3,
+    borderColor: '$primaryBackgroundColor',
+    backgroundColor: '$primaryBackgroundColor',
+    overflow: 'hidden',
   },
-  rightIcons: {
+  avatarImage: {
+    width: 74,
+    height: 74,
+    borderRadius: 37,
+  },
+  actionButtonsRow: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
     alignItems: 'center',
+    paddingBottom: 4,
   },
-  insetIconStyle: {
-    marginRight: 20,
+
+  // --- Identity section ---
+  identitySection: {
+    paddingHorizontal: 16,
+    marginTop: 8,
+  },
+  displayName: {
+    fontSize: 20,
+    fontWeight: 'bold',
     color: '$primaryDarkText',
   },
-  activityIndicator: {
-    marginRight: 20,
-    width: 30,
-  },
-  followCountWrapper: {
-    flexDirection: 'column',
-    marginRight: 40,
-  },
-  followCount: {
-    fontWeight: 'bold',
-    color: '$primaryDarkGray',
+  username: {
     fontSize: 14,
-    textAlign: 'center',
+    color: '$iconColor',
+    marginTop: 1,
   },
-  followText: {
-    textAlign: 'center',
-    color: '$primaryDarkGray',
-    fontSize: 9,
+  bioText: {
+    fontSize: 14,
+    color: '$primaryDarkText',
+    marginTop: 6,
+    lineHeight: 20,
+  },
+
+  // --- Metadata row (date, website, location) ---
+  metadataRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: 16,
+    marginTop: 8,
+    gap: 4,
+  },
+  metadataRowColumn: {
+    flexDirection: 'column',
+    paddingHorizontal: 16,
+    marginTop: 8,
+    gap: 2,
+  },
+
+  // --- Follower stats ---
+  statsRow: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    marginTop: 12,
+    gap: 16,
+  },
+  statItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  statCount: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    color: '$primaryDarkText',
+  },
+  statLabel: {
+    fontSize: 14,
+    color: '$iconColor',
+    marginLeft: 4,
+  },
+
+  // --- VP/RC bars ---
+  barsContainer: {
+    marginTop: 10,
+    paddingHorizontal: 12,
+  },
+
+  // --- Action buttons ---
+  followActionWrapper: {
+    borderColor: '$iconColor',
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+  },
+  editActionWrapper: {
+    borderColor: '$iconColor',
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+  },
+  actionText: {
+    alignSelf: 'center',
+    fontWeight: 'bold',
+    fontSize: 13,
+    color: '$primaryDarkText',
+  },
+  messageButton: {
+    borderColor: '$iconColor',
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    marginLeft: 8,
+  },
+  dropdownStyle: {
+    marginLeft: 8,
   },
   dropdownIconStyle: {
     width: 25,
     height: 25,
     color: '$primaryDarkGray',
   },
-  dropdownStyle: {
-    marginLeft: 12,
-  },
-  actionText: {
-    alignSelf: 'center',
-    fontWeight: 'bold',
-    color: '$primaryDarkGray',
-  },
-  followActionWrapper: {
-    borderColor: '$primaryDarkGray',
-    borderWidth: 1,
-    borderRadius: 16,
-    padding: 4,
-    paddingHorizontal: 12,
-  },
-  messageButton: {
+  activityIndicator: {
     marginLeft: 8,
-    padding: 4,
-  },
-  editActionWrapper: {
-    borderColor: '$primaryDarkGray',
-    borderWidth: 1,
-    borderRadius: 16,
-    padding: 4,
-    paddingHorizontal: 12,
-    marginRight: 12,
+    width: 30,
   },
 });

@@ -13,6 +13,7 @@ import DARK_COVER_IMAGE from '../../../assets/dark_cover_image.png';
 import { TextWithIcon } from '../../basicUIElements';
 import { PercentBar } from '../../percentBar';
 import { DropdownButton } from '../../dropdownButton';
+import { UserAvatar } from '../../userAvatar';
 
 // Utils
 import { makeCountFriendly } from '../../../utils/formatter';
@@ -24,11 +25,6 @@ import getWindowDimensions from '../../../utils/getWindowDimensions';
 const DEVICE_WIDTH = getWindowDimensions().width;
 
 class ProfileSummaryView extends PureComponent {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
-
   constructor(props) {
     super(props);
     this.state = {
@@ -36,9 +32,6 @@ class ProfileSummaryView extends PureComponent {
     };
   }
 
-  // Component Life Cycles
-
-  // Component Functions
   _handleOnPressLink = (url) => {
     if (url) {
       Linking.openURL(url);
@@ -76,165 +69,75 @@ class ProfileSummaryView extends PureComponent {
           handleReportUser();
         }
         break;
-
       default:
         Alert.alert('Action not implemented');
         break;
     }
   };
 
-  render() {
-    const { isShowPercentText } = this.state;
+  _renderCoverImage = () => {
+    const { about, isDarkTheme } = this.props;
+    const coverImage = get(about, 'cover_image', '');
+    let coverImageUrl = proxifyImageSrc(coverImage, 640, 320, 'match');
+
+    if (!coverImageUrl) {
+      coverImageUrl = isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE;
+    } else {
+      coverImageUrl = { uri: coverImageUrl };
+    }
+
+    return (
+      <View style={styles.coverContainer}>
+        <ExpoImage
+          style={styles.coverImage}
+          source={coverImageUrl}
+          contentFit="cover"
+          placeholder={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
+        />
+      </View>
+    );
+  };
+
+  _renderAvatarAndActions = () => {
     const {
-      date,
-      about,
-      followerCount,
-      followingCount,
       handleFollowUnfollowUser,
       handleMessage,
-      handleOnFollowsPress,
       handleOnPressProfileEdit,
-      handleUIChange,
-      hoursRC,
-      hoursVP,
       intl,
-      isDarkTheme,
       isFavorite,
       isFollowing,
       isLoggedIn,
       isMuted,
       isOwnProfile,
       isProfileLoading,
-      percentRC,
-      percentVP,
+      username,
     } = this.props;
-
-    let dropdownOptions = [];
-    const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
-    const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
-    const rcPowerHoursText = hoursRC && `• Full in ${hoursRC} hours`;
-    const rcPowerText = `Resource Credits: ${percentRC}% ${rcPowerHoursText || ''}`;
-    const link = get(about, 'website', '');
-    const location = get(about, 'location', '');
-    const coverImage = get(about, 'cover_image', '');
-
-    const ABOUT_DATA = [
-      { id: 1, text: date, icon: 'calendar' },
-      { id: 2, text: link, icon: 'earth', onPress: () => this._handleOnPressLink(link) },
-      { id: 3, text: location, icon: 'near-me' },
-    ];
-
-    const rowLength =
-      (location ? location.length : 0) + (link ? link.length : 0) + (date ? date.length : 0);
-    const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 7.3;
 
     const followButtonText = intl.formatMessage({
       id: !isFollowing ? 'user.follow' : 'user.unfollow',
     });
-    let coverImageUrl = proxifyImageSrc(coverImage, 360, 240, 'match');
 
-    if (!coverImageUrl) {
-      coverImageUrl = isDarkTheme
-        ? require('../../../assets/dark_cover_image.png')
-        : require('../../../assets/default_cover_image.png');
-    } else {
-      coverImageUrl = { uri: coverImageUrl };
+    let dropdownOptions = [];
+    if (isLoggedIn && !isOwnProfile) {
+      dropdownOptions = [
+        intl.formatMessage({
+          id: isFavorite ? 'user.remove_from_favourites' : 'user.add_to_favourites',
+        }),
+        intl.formatMessage({ id: 'user.delegate' }),
+        intl.formatMessage({ id: !isMuted ? 'user.mute' : 'user.unmute' }),
+        intl.formatMessage({ id: 'user.report' }),
+      ];
     }
 
-    // compile dropdown options
-    dropdownOptions = [
-      intl.formatMessage({
-        id: isFavorite ? 'user.remove_from_favourites' : 'user.add_to_favourites',
-      }),
-      intl.formatMessage({
-        id: 'user.delegate',
-      }),
-      intl.formatMessage({
-        id: !isMuted ? 'user.mute' : 'user.unmute',
-      }),
-      intl.formatMessage({
-        id: 'user.report',
-      }),
-    ];
-
     return (
-      <Fragment>
-        <View style={[isColumn ? styles.textWithIconWrapperColumn : styles.textWithIconWrapper]}>
-          {ABOUT_DATA.map((item) =>
-            get(item, 'text', null) ? (
-              <TextWithIcon
-                isClickable={get(item, 'onPress')}
-                onPress={get(item, 'onPress')}
-                key={get(item, 'id')}
-                text={item.text}
-                iconSize={14}
-                iconName={item.icon}
-                iconType="MaterialCommunityIcons"
-              />
-            ) : null,
-          )}
+      <View style={styles.avatarSection}>
+        <View style={styles.avatarWrapper}>
+          <UserAvatar username={username} disableSize style={styles.avatarImage} noAction />
         </View>
-        <ExpoImage
-          key={`${new Date()}`}
-          style={styles.longImage}
-          source={coverImageUrl}
-          contentFit="cover"
-          placeholder={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
-        />
-        <TouchableOpacity
-          onPress={() =>
-            this.setState({ isShowPercentText: !isShowPercentText }, () => {
-              handleUIChange(!isShowPercentText ? 30 : 0);
-            })
-          }
-        >
-          <PercentBar
-            isShowText={isShowPercentText}
-            percent={percentVP}
-            margin={24}
-            isTop
-            text={votingPowerText}
-          />
-          <PercentBar
-            isShowText={isShowPercentText}
-            percent={percentRC}
-            margin={24}
-            barColor={isDarkTheme ? '#333e47' : '#eafcef'}
-            barPercentColor="#11c28b"
-            textColor="#11c28b"
-            isTop={false}
-            text={rcPowerText}
-          />
-        </TouchableOpacity>
-        <View style={styles.footer}>
-          <View style={styles.leftIcons}>
-            <Fragment>
-              <TouchableOpacity onPress={() => handleOnFollowsPress(false)}>
-                <View style={styles.followCountWrapper}>
-                  <Text style={styles.followCount}>{makeCountFriendly(followerCount)}</Text>
-                  <Text style={styles.followText}>
-                    {' '}
-                    {intl.formatMessage({
-                      id: 'profile.follower',
-                    })}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleOnFollowsPress(true)}>
-                <View style={styles.followCountWrapper}>
-                  <Text style={styles.followCount}>{makeCountFriendly(followingCount)}</Text>
-                  <Text style={styles.followText}>
-                    {intl.formatMessage({
-                      id: 'profile.following',
-                    })}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </Fragment>
-          </View>
 
-          {isLoggedIn && !isOwnProfile ? (
-            <View style={styles.rightIcons}>
+        <View style={styles.actionButtonsRow}>
+          {isLoggedIn && !isOwnProfile && (
+            <Fragment>
               <TouchableOpacity
                 style={styles.followActionWrapper}
                 onPress={() => handleFollowUnfollowUser(!isFollowing)}
@@ -244,7 +147,7 @@ class ProfileSummaryView extends PureComponent {
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={{ ...styles.followActionWrapper, marginLeft: 8 }}
+                style={styles.messageButton}
                 onPress={handleMessage}
                 disabled={isProfileLoading}
               >
@@ -269,22 +172,141 @@ class ProfileSummaryView extends PureComponent {
                   options={dropdownOptions}
                 />
               )}
-            </View>
-          ) : (
-            isOwnProfile && (
-              <View style={styles.rightIcons}>
-                <TouchableOpacity
-                  style={styles.editActionWrapper}
-                  onPress={handleOnPressProfileEdit}
-                >
-                  <Text style={styles.actionText}>
-                    {intl.formatMessage({ id: 'profile.edit_label' })}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )
+            </Fragment>
+          )}
+          {isOwnProfile && (
+            <TouchableOpacity style={styles.editActionWrapper} onPress={handleOnPressProfileEdit}>
+              <Text style={styles.actionText}>
+                {intl.formatMessage({ id: 'profile.edit_label' })}
+              </Text>
+            </TouchableOpacity>
           )}
         </View>
+      </View>
+    );
+  };
+
+  _renderIdentity = () => {
+    const { about, displayName, username, reputation } = this.props;
+    const bioText = get(about, 'about', '');
+
+    return (
+      <View style={styles.identitySection}>
+        <Text style={styles.displayName} numberOfLines={1}>
+          {displayName || username}
+        </Text>
+        <Text style={styles.username}>
+          {`@${username}`}
+          {reputation ? ` (${reputation})` : ''}
+        </Text>
+        {bioText ? (
+          <Text style={styles.bioText} numberOfLines={3}>
+            {bioText}
+          </Text>
+        ) : null}
+      </View>
+    );
+  };
+
+  _renderMetadata = () => {
+    const { about, date } = this.props;
+    const link = get(about, 'website', '');
+    const location = get(about, 'location', '');
+
+    const ABOUT_DATA = [
+      { id: 1, text: date, icon: 'calendar' },
+      { id: 2, text: link, icon: 'earth', onPress: () => this._handleOnPressLink(link) },
+      { id: 3, text: location, icon: 'near-me' },
+    ];
+
+    const items = ABOUT_DATA.filter((item) => item.text);
+    if (items.length === 0) return null;
+
+    const rowLength = items.reduce((sum, item) => sum + (item.text?.length || 0), 0);
+    const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 7.3;
+
+    return (
+      <View style={isColumn ? styles.metadataRowColumn : styles.metadataRow}>
+        {items.map((item) => (
+          <TextWithIcon
+            isClickable={!!item.onPress}
+            onPress={item.onPress}
+            key={item.id}
+            text={item.text}
+            iconSize={14}
+            iconName={item.icon}
+            iconType="MaterialCommunityIcons"
+          />
+        ))}
+      </View>
+    );
+  };
+
+  _renderFollowerStats = () => {
+    const { followerCount, followingCount, handleOnFollowsPress, intl } = this.props;
+
+    return (
+      <View style={styles.statsRow}>
+        <TouchableOpacity style={styles.statItem} onPress={() => handleOnFollowsPress(false)}>
+          <Text style={styles.statCount}>{makeCountFriendly(followerCount)}</Text>
+          <Text style={styles.statLabel}>{intl.formatMessage({ id: 'profile.follower' })}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.statItem} onPress={() => handleOnFollowsPress(true)}>
+          <Text style={styles.statCount}>{makeCountFriendly(followingCount)}</Text>
+          <Text style={styles.statLabel}>{intl.formatMessage({ id: 'profile.following' })}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  _renderBars = () => {
+    const { isShowPercentText } = this.state;
+    const { handleUIChange, hoursRC, hoursVP, isDarkTheme, percentRC, percentVP } = this.props;
+
+    const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
+    const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
+    const rcPowerHoursText = hoursRC && `• Full in ${hoursRC} hours`;
+    const rcPowerText = `Resource Credits: ${percentRC}% ${rcPowerHoursText || ''}`;
+
+    return (
+      <TouchableOpacity
+        style={styles.barsContainer}
+        onPress={() =>
+          this.setState({ isShowPercentText: !isShowPercentText }, () => {
+            handleUIChange(!isShowPercentText ? 30 : 0);
+          })
+        }
+      >
+        <PercentBar
+          isShowText={isShowPercentText}
+          percent={percentVP}
+          margin={24}
+          isTop
+          text={votingPowerText}
+        />
+        <PercentBar
+          isShowText={isShowPercentText}
+          percent={percentRC}
+          margin={24}
+          barColor={isDarkTheme ? '#333e47' : '#eafcef'}
+          barPercentColor="#11c28b"
+          textColor="#11c28b"
+          isTop={false}
+          text={rcPowerText}
+        />
+      </TouchableOpacity>
+    );
+  };
+
+  render() {
+    return (
+      <Fragment>
+        {this._renderCoverImage()}
+        {this._renderAvatarAndActions()}
+        {this._renderIdentity()}
+        {this._renderMetadata()}
+        {this._renderFollowerStats()}
+        {this._renderBars()}
       </Fragment>
     );
   }
