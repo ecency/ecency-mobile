@@ -92,7 +92,7 @@ const BeneficiarySelectionContent = ({
   };
 
   const initBeneficiaries = async () => {
-    const _draftId = draftId || DEFAULT_USER_DRAFT_ID;
+    const _draftId = draftId || DEFAULT_USER_DRAFT_ID + username;
 
     let savedBeneficiareis: Beneficiary[] = [DEFAULT_BENEFICIARY, ...(encodingBeneficiaries || [])];
 
@@ -120,7 +120,9 @@ const BeneficiarySelectionContent = ({
     if (handleSaveBeneficiary) {
       handleSaveBeneficiary(filteredBeneficiaries);
     } else {
-      dispatch(setBeneficiariesAction(draftId || DEFAULT_USER_DRAFT_ID, filteredBeneficiaries));
+      dispatch(
+        setBeneficiariesAction(draftId || DEFAULT_USER_DRAFT_ID + username, filteredBeneficiaries),
+      );
     }
   };
 

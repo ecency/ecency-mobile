@@ -5,6 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import QRCode from 'react-native-qrcode-svg';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { useIntl } from 'react-intl';
+import * as hiveuri from 'hive-uri';
 import { Icon } from '../icon';
 
 const FALLBACK_SHEET_ID = 'receive_qr';
@@ -18,7 +19,10 @@ const ReceiveQrSheet: React.FC<SheetProps<'receive_qr'>> = ({ sheetId, payload }
   }, [payload]);
 
   const username = payload?.username || '';
-  const qrValue = `ecency://transfer?to=${username}`;
+  const qrValue = hiveuri.encodeOp([
+    'transfer',
+    { from: '__signer', to: username, amount: '0.001 HIVE', memo: '' },
+  ]);
 
   const _onCopy = () => {
     Clipboard.setString(username);
