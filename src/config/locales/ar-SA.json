@@ -643,6 +643,7 @@
     "unknow_error": "خطأ غير معروف، يرجى الاتصال بنا على support@ecency.com"
   },
   "alert": {
+    "not_logged_in": "Please log in first",
     "pin_not_set": "PIN is not set",
     "connection_issues": "لا يمكن الوصول إلى الخادم، يرجى التحقق من اتصالك وحاول مرة أخرى.",
     "success_mute": "تم الكتم بنجاح!",
@@ -1004,6 +1005,9 @@
     "outgoing_transfer_description": "",
     "engine_claim_btn": "الحصول على المكافآت ({count})",
     "manage_tokens": "Manage Tokens",
+    "manage_tokens_hint": "Open token management",
+    "refresh": "Refresh",
+    "refresh_hint": "Refresh balances",
     "delegate": "تفويض",
     "nft_undelegateDone": "اكتملت عملية فك التفويض للرموز الغير قابلة للاستبدال",
     "coin_details": "التفاصيل",
