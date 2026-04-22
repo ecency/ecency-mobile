@@ -643,6 +643,7 @@
     "unknow_error": "Noma'lum xatolik, support@ecency.com manziliga yozing"
   },
   "alert": {
+    "not_logged_in": "Please log in first",
     "pin_not_set": "PIN is not set",
     "connection_issues": "Serverga ulanish imkonsiz, ulanishingizni tekshiring va qaytadan urinib ko‘ring.",
     "success_mute": "Muvaffaqiyatli o'chirish!",
@@ -1004,6 +1005,9 @@
     "outgoing_transfer_description": "",
     "engine_claim_btn": "Claim Rewards ({count})",
     "manage_tokens": "Manage Tokens",
+    "manage_tokens_hint": "Open token management",
+    "refresh": "Refresh",
+    "refresh_hint": "Refresh balances",
     "delegate": "Delegatsiyalash",
     "nft_undelegateDone": "Undelegation Completed for NFT",
     "coin_details": "Tafsilotlar",
