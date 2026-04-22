@@ -242,13 +242,16 @@ class TransferContainer extends Component {
   ) => {
     const { navigation, dispatch, intl, route, mutations } = this.props;
 
-    const transferType = route.params?.transferType ?? '';
+    let transferType = route.params?.transferType ?? '';
     const fundType = route.params?.fundType ?? '';
     let tokenLayer = route.params?.assetLayer ?? route.params?.tokenLayer ?? '';
 
-    // Default to HIVE layer for transfer_token with HIVE/HBD (wallet quick-send)
-    if (!tokenLayer && (fundType === 'HIVE' || fundType === 'HBD')) {
-      tokenLayer = TokenLayers.HIVE;
+    // Normalize transfer_token to standard transfer type and default layer
+    if (transferType === 'transfer_token') {
+      transferType = TransferTypes.TRANSFER;
+      if (!tokenLayer && (fundType === 'HIVE' || fundType === 'HBD')) {
+        tokenLayer = TokenLayers.HIVE;
+      }
     }
 
     const data: any = { from, destination, amount, memo, fundType };
