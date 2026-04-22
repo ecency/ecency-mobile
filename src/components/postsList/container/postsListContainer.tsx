@@ -54,6 +54,7 @@ const postsListContainer = (
     isLoading,
     pageType,
     showQuickReplyModal,
+    refreshControl: _refreshControl,
     ...props
   }: postsListContainerProps,
   ref,

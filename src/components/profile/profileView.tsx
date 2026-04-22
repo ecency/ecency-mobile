@@ -193,7 +193,7 @@ class ProfileView extends PureComponent {
 
   _contentWalletTab = () => {
     const { currencyRate, currencySymbol, selectedUser, isOwnProfile } = this.props;
-    const { isSummaryOpen, estimatedWalletValue } = this.state;
+    const { estimatedWalletValue } = this.state;
     const displayCurrencySymbol = isOwnProfile ? currencySymbol ?? '$' : '$';
     const displayCurrencyRate = isOwnProfile && currencyRate ? currencyRate : 1;
 
@@ -210,7 +210,7 @@ class ProfileView extends PureComponent {
           <Wallet
             setEstimatedWalletValue={(value) => this.setState({ estimatedWalletValue: value })}
             selectedUser={selectedUser}
-            handleOnScroll={isSummaryOpen ? this._handleOnScroll : null}
+            handleOnScroll={this._handleOnScroll}
             forceUsdEstimate={!isOwnProfile}
           />
         ) : (

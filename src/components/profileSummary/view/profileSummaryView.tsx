@@ -81,9 +81,7 @@ class ProfileSummaryView extends PureComponent {
     let coverImageUrl = proxifyImageSrc(coverImage, 640, 320, 'match');
 
     if (!coverImageUrl) {
-      coverImageUrl = isDarkTheme
-        ? require('../../../assets/dark_cover_image.png')
-        : require('../../../assets/default_cover_image.png');
+      coverImageUrl = isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE;
     } else {
       coverImageUrl = { uri: coverImageUrl };
     }
