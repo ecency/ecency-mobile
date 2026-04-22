@@ -180,7 +180,17 @@
     "gallery": "Galleria",
     "cancel": "Peruuta",
     "logout_text": "Haluatko varmasti kirjautua ulos?",
-    "docs": "Docs"
+    "docs": "Docs",
+    "explore": "Explore"
+  },
+  "dapp_browser": {
+    "title": "Explore Ecosystem",
+    "subtitle": "Browse Hive dApps with built-in wallet signing",
+    "search_placeholder": "Search or enter website URL",
+    "popular_dapps": "Popular dApps",
+    "signing_info": "Ecency acts as your Hive signing extension. When a dApp asks you to log in with a browser extension like Keychain, Keeper, or Peak Vault, select that option — Ecency will handle the signing securely.",
+    "page_load_failed": "Failed to load the page",
+    "retry": "Retry"
   },
   "home": {
     "feed": "Syöte",
@@ -1118,6 +1128,10 @@
     "referral_desc": "Kutsu ystäviä ja ansaitse pisteitä",
     "nft_updateProductName": "NFT:n Tuotenimi Päivitetty",
     "updating": "Päivitetään...",
+    "send": "Send",
+    "swap": "Swap",
+    "get_points": "Get Points",
+    "receive_desc": "Scan this QR code to send funds to this account",
     "market_cancel": "Tilaus Peruttu",
     "nft_transfer": "Siirretyt NFT:t",
     "escrow_transfer": "Escrow-siirto",
@@ -1238,6 +1252,7 @@
     "dropdown_label": "AI Image"
   },
   "transfer": {
+    "select_token": "Select Token",
     "powering_down_subheading": "Olet poistamassa panosta.",
     "power_down": "Poista panostus",
     "recurrence_placeholder": "Valitse Toistuvuus",
@@ -1498,5 +1513,12 @@
     "select_source": "Add Video",
     "record": "Record Video",
     "choose_library": "Choose from Library"
+  },
+  "share_intent": {
+    "title": "Share to...",
+    "blog_post": "Blog Post",
+    "blog_post_desc": "Create a full blog post in the editor",
+    "wave": "Wave",
+    "wave_desc": "Share a quick update"
   }
 }
