@@ -27,6 +27,6 @@ export interface PostsTabContentProps {
   filterScrollRequest: string;
   pinnedPermlink?: string;
   onScrollRequestProcessed: () => void;
-  handleOnScroll: () => void;
+  handleOnScroll: (event?: any) => void;
   handleOnScrollBeginDrag?: () => void;
 }

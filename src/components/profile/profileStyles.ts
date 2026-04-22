@@ -72,4 +72,24 @@ export default EStyleSheet.create({
   commentsListFooter: {
     padding: 32,
   },
+  floatingBackContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 10,
+    paddingLeft: 12,
+    paddingTop: 4,
+  },
+  floatingBackButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(0,0,0,0.35)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  floatingBackIcon: {
+    fontSize: 22,
+    color: '#fff',
+  },
 });

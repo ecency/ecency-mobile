@@ -138,9 +138,9 @@ const PostsTabContent = ({
     }, 1000);
   };
 
-  const _handleOnScroll = () => {
+  const _handleOnScroll = (event) => {
     if (handleOnScroll) {
-      handleOnScroll();
+      handleOnScroll(event);
     }
   };
 

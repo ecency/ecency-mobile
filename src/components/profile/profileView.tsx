@@ -6,17 +6,21 @@ import { connect } from 'react-redux';
 
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { CollapsibleCard } from '../collapsibleCard';
 import { Header } from '../header';
 import { ProfileSummaryPlaceHolder, WalletDetailsPlaceHolder } from '../basicUIElements';
 import { ProfileSummary } from '../profileSummary';
 import { Wallet } from '../wallet';
+import { IconButton } from '../iconButton';
+import { navigationRef } from '../../navigation/rootNavigation';
 
 // Constants
 import { getDefaultFilters, getFilterMap } from '../../constants/options/filters';
 
 // Utils
 import { getFormatedCreatedDate } from '../../utils/time';
+import { parseReputation } from '../../utils/user';
 
 // Styles
 import styles from './profileStyles';
@@ -36,9 +40,17 @@ class ProfileView extends PureComponent {
     };
   }
 
-  _handleOnScroll = () => {
+  _handleOnScroll = (event) => {
     const { isSummaryOpen } = this.state;
+    const offsetY = event?.nativeEvent?.contentOffset?.y;
 
+    // Scrolled to top → re-expand profile
+    if (offsetY !== undefined && offsetY <= 0 && !isSummaryOpen) {
+      this.setState({ isSummaryOpen: true });
+      return;
+    }
+
+    // Scrolling down → collapse profile
     if (isSummaryOpen) {
       this.setState({ isSummaryOpen: false });
     }
@@ -116,23 +128,27 @@ class ProfileView extends PureComponent {
 
     const { isSummaryOpen, collapsibleMoreHeight } = this.state;
 
+    const reputation = get(selectedUser, 'reputation');
+    const displayName = get(about, 'name', '');
+
     return !isReady ? (
       <ProfileSummaryPlaceHolder />
     ) : (
       <CollapsibleCard
-        title={get(about, 'about')}
-        isTitleCenter
-        defaultTitle={intl.formatMessage({
-          id: 'profile.details',
-        })}
-        // expanded={!isOwnProfile}
+        title=""
+        defaultTitle=""
+        titleComponent={<View />}
         isExpanded={isSummaryOpen}
         handleOnExpanded={this._handleOnSummaryExpanded}
         moreHeight={collapsibleMoreHeight}
+        fitContent
+        noBorder
       >
         <ProfileSummary
           date={getFormatedCreatedDate(get(selectedUser, 'created'))}
           about={about}
+          displayName={displayName}
+          reputation={reputation ? parseReputation(reputation) : ''}
           followerCount={follows ? follows.follower_count : 0}
           followingCount={follows ? follows.following_count : 0}
           handleFollowUnfollowUser={handleFollowUnfollowUser}
@@ -257,6 +273,7 @@ class ProfileView extends PureComponent {
           pageType={pageType}
           feedUsername={username}
           handleOnScrollBeginDrag={isSummaryOpen ? this._handleOnScroll : null}
+          handleOnScroll={this._handleOnScroll}
           forceLoadPost={forceLoadPost}
           changeForceLoadPostState={changeForceLoadPostState}
           isFeedScreen={false}
@@ -284,19 +301,39 @@ class ProfileView extends PureComponent {
 
   render() {
     const { handleOnBackPress, quickProfile, reverseHeader, isMuted } = this.props;
+    const { isSummaryOpen } = this.state;
 
     return (
       <View style={styles.container}>
-        <Header
-          key={quickProfile && quickProfile.name}
-          selectedUser={quickProfile}
-          isReverse={reverseHeader}
-          handleOnBackPress={handleOnBackPress}
-        />
+        {!isSummaryOpen && (
+          <Header
+            key={quickProfile && quickProfile.name}
+            selectedUser={quickProfile}
+            isReverse={reverseHeader}
+            handleOnBackPress={handleOnBackPress}
+          />
+        )}
         <View style={styles.container}>
           {this._renderProfileContent()}
           {!isMuted ? this._renderTabs() : this._renderMutedView()}
         </View>
+        {isSummaryOpen && (
+          <SafeAreaView edges={['top']} style={styles.floatingBackContainer}>
+            <IconButton
+              style={styles.floatingBackButton}
+              iconStyle={styles.floatingBackIcon}
+              name="arrow-back"
+              onPress={() => {
+                if (handleOnBackPress) {
+                  handleOnBackPress();
+                }
+                if (navigationRef.isReady()) {
+                  navigationRef.goBack();
+                }
+              }}
+            />
+          </SafeAreaView>
+        )}
       </View>
     );
   }

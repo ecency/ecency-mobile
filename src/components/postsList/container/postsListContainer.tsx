@@ -271,18 +271,20 @@ const postsListContainer = (
         }}
         ListFooterComponent={_renderFooter}
         refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={() => {
-              if (onLoadPosts) {
-                onLoadPosts(true);
-              }
-            }}
-            progressBackgroundColor="#357CE6"
-            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-            titleColor="#fff"
-            colors={['#fff']}
-          />
+          pageType !== 'profile' && pageType !== 'ownProfile' ? (
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={() => {
+                if (onLoadPosts) {
+                  onLoadPosts(true);
+                }
+              }}
+              progressBackgroundColor="#357CE6"
+              tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+              titleColor="#fff"
+              colors={['#fff']}
+            />
+          ) : undefined
         }
         {...props}
       />
