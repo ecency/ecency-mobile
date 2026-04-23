@@ -643,7 +643,7 @@
     "unknow_error": "Error desconocido, ponte en contacto con nosotros en support@ecency.com"
   },
   "alert": {
-    "not_logged_in": "Please log in first",
+    "not_logged_in": "Por favor, inicie sesión primero",
     "pin_not_set": "PIN no establecido",
     "connection_issues": "El servidor no está disponible, por favor comprueba tu conexión e inténtalo de nuevo.",
     "success_mute": "¡Silenciado exitosamente!",
@@ -1005,9 +1005,9 @@
     "outgoing_transfer_description": "",
     "engine_claim_btn": "Reclamar recompensas ({count})",
     "manage_tokens": "Administrar tokens",
-    "manage_tokens_hint": "Open token management",
-    "refresh": "Refresh",
-    "refresh_hint": "Refresh balances",
+    "manage_tokens_hint": "Abrir administración de tokens",
+    "refresh": "Actualizar",
+    "refresh_hint": "Actualizar balances",
     "delegate": "Delegar",
     "nft_undelegateDone": "Retiro de delegación completada para NFT",
     "coin_details": "Detalles",
