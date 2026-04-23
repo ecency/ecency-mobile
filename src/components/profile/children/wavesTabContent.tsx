@@ -30,7 +30,11 @@ const WavesTabContent = ({ username, isOwnProfile, onScroll }: WavesTabContentPr
 
   const _renderListEmpty = () => {
     if (wavesQuery.isLoading) {
-      return null;
+      return (
+        <View style={styles.commentsListFooter}>
+          <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} size="large" />
+        </View>
+      );
     }
     return (
       <NoPost
@@ -54,6 +58,7 @@ const WavesTabContent = ({ username, isOwnProfile, onScroll }: WavesTabContentPr
       <Comments
         postType={PostTypes.WAVE}
         comments={wavesQuery.data}
+        handleCommentDelete={wavesQuery.deleteWave}
         isOwnProfile={isOwnProfile}
         isHideImage={isHideImage}
         flatListProps={{

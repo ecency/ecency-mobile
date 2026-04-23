@@ -89,8 +89,12 @@ class ProfileView extends PureComponent {
 
   _onTabChange = ({ i }) => {
     const { estimatedWalletValue, oldEstimatedWalletValue } = this.state;
+    const { isOwnProfile, profileTabs, ownProfileTabs } = this.props;
+    const pageType = isOwnProfile ? 'ownProfile' : 'profile';
+    const tabs = (isOwnProfile ? ownProfileTabs : profileTabs) || getDefaultFilters(pageType);
+    const walletIndex = tabs.indexOf('wallet');
 
-    if (i !== 2) {
+    if (i !== walletIndex || walletIndex === -1) {
       this.setState({
         estimatedWalletValue: 0,
         oldEstimatedWalletValue: estimatedWalletValue,

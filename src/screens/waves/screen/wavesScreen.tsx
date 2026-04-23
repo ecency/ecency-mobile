@@ -279,12 +279,7 @@ const WavesScreen = () => {
   };
 
   const _renderFilterChip = activeTag ? (
-    <WavesHeader
-      activeTag={activeTag}
-      activeAuthor={null}
-      onClearTag={_handleClearTag}
-      onClearAuthor={() => {}}
-    />
+    <WavesHeader activeTag={activeTag} onClearTag={_handleClearTag} />
   ) : null;
 
   const _renderWavesScene = ({ route }: { route: { key: string } }) => {
