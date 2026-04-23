@@ -101,7 +101,7 @@ export const parsePost = (
   // Use description from json_metadata if available, otherwise generate summary from body
   post.summary = post.json_metadata?.description || postBodySummary(post, 150, Platform.OS);
   post.max_payout = parseAsset(post.max_accepted_payout).amount || 0;
-  post.is_declined_payout = post.max_payout === 0;
+  post.is_declined_payout = !!post.max_accepted_payout && post.max_payout === 0;
 
   const totalPayout =
     parseAsset(post.pending_payout_value).amount +
@@ -271,7 +271,7 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
   comment = parseTags(comment);
 
   comment.max_payout = parseAsset(comment.max_accepted_payout).amount || 0;
-  comment.is_declined_payout = comment.max_payout === 0;
+  comment.is_declined_payout = !!comment.max_accepted_payout && comment.max_payout === 0;
 
   // calculate and set total_payout to show to user.
   const totalPayout =

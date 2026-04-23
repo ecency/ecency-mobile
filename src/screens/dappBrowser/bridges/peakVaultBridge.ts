@@ -351,7 +351,25 @@ export const PEAK_VAULT_BRIDGE_JS = `
     return PeakVault;
   })();
 
-  window.peakvault = new PeakVault();
+  var peakvault = new PeakVault();
+  window.peakvault = peakvault;
+
+  // Hive Unified Wallet Protocol
+  // Register Peak Vault on the shared window.hive namespace alongside
+  // the Keychain bridge so dApps using window.hive.providers can discover it.
+  peakvault.isVault = true;
+
+  if (!window.hive) {
+    window.hive = peakvault;
+  }
+  if (!window.hive.providers) {
+    window.hive.providers = [];
+  }
+  window.hive.providers.push({
+    name: 'Peak Vault',
+    rdns: 'com.peakd.vault',
+    provider: peakvault
+  });
 
   // Intercept peak-vault-event and forward to React Native
   document.addEventListener('peak-vault-event', function(event) {

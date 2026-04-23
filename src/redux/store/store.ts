@@ -36,7 +36,7 @@ const persistConfig = {
   key: 'root',
   // Storage Method (React Native)
   storage: AsyncStorage,
-  version: 14, // New version 14: Migrated reply/wave cache from draftsCollection to replyCache
+  version: 15, // New version 15: Added waves tab to profile/ownProfile custom tabs
   // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   transforms: [transformCacheVoteMap, transformWalkthroughMap],

@@ -45,7 +45,11 @@ import { decryptKey, encryptKey } from './crypto';
 import { delay } from './editor';
 import RootNavigation from '../navigation/rootNavigation';
 import ROUTES from '../constants/routeNames';
-import { DEFAULT_FEED_FILTERS } from '../constants/options/filters';
+import {
+  DEFAULT_FEED_FILTERS,
+  DEFAULT_PROFILE_FILTERS,
+  DEFAULT_OWN_PROFILE_FILTERS,
+} from '../constants/options/filters';
 import { SheetNames } from '../navigation/sheets';
 import { ProfileToken, TokenType } from '../screens/assetsSelect/screen/assetsSelect';
 import DEFAULT_ASSETS from '../constants/defaultAssets';
@@ -432,6 +436,29 @@ const reduxMigrations = {
       state.cache.draftsCollection = _draftsToKeep;
     }
 
+    return state;
+  },
+  15: (state) => {
+    // Add 'waves' tab to profile and own-profile custom tabs for existing users
+    const _insertWaves = (tabs, defaults) => {
+      if (!tabs || tabs.indexOf('waves') !== -1) {
+        return tabs;
+      }
+      const postsIdx = tabs.indexOf('posts');
+      const insertAt = postsIdx !== -1 ? postsIdx + 1 : defaults.indexOf('waves');
+      const updated = [...tabs];
+      updated.splice(insertAt, 0, 'waves');
+      return updated;
+    };
+
+    state.customTabs.profileTabs = _insertWaves(
+      state.customTabs.profileTabs,
+      DEFAULT_PROFILE_FILTERS,
+    );
+    state.customTabs.ownProfileTabs = _insertWaves(
+      state.customTabs.ownProfileTabs,
+      DEFAULT_OWN_PROFILE_FILTERS,
+    );
     return state;
   },
 };

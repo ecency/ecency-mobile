@@ -113,6 +113,14 @@ const DAPP_DIRECTORY: DappEntry[] = [
     initial: 'IL',
     category: 'Social',
   },
+  {
+    name: 'Altera',
+    url: 'https://altera.magi.eco',
+    icon: 'https://www.google.com/s2/favicons?domain=altera.magi.eco&sz=128',
+    color: '#6C5CE7',
+    initial: 'A',
+    category: 'AI',
+  },
 ];
 
 // ─── Tab type ─────────────────────────────────────────────────
