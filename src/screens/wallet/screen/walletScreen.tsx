@@ -252,7 +252,7 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
 
   return (
     <Fragment>
-      <Header />
+      <Header showQR={true} />
       <LoggedInContainer>
         {() => (
           <View style={styles.listWrapper}>
