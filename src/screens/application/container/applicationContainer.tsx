@@ -239,58 +239,62 @@ class ApplicationContainer extends Component {
   };
 
   _compareAndPromptForUpdate = async () => {
-    const recheckInterval = 48 * 3600 * 1000; // 2 days
-    const { intl } = this.props;
+    try {
+      const recheckInterval = 48 * 3600 * 1000; // 2 days
+      const { intl } = this.props;
 
-    const lastUpdateCheck = await getLastUpdateCheck();
+      const lastUpdateCheck = await getLastUpdateCheck();
 
-    if (lastUpdateCheck) {
-      const timeDiff = new Date().getTime() - lastUpdateCheck;
-      if (timeDiff < recheckInterval) {
-        return;
+      if (lastUpdateCheck) {
+        const timeDiff = new Date().getTime() - lastUpdateCheck;
+        if (timeDiff < recheckInterval) {
+          return;
+        }
       }
-    }
 
-    const remoteVersion = await fetchLatestAppVersion();
+      const remoteVersion = await fetchLatestAppVersion();
 
-    if (parseVersionNumber(remoteVersion) > parseVersionNumber(VersionNumber.appVersion)) {
-      const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
-        payload: {
-          title: intl.formatMessage(
-            { id: 'alert.update_available_title' },
-            { version: remoteVersion },
-          ),
-          body: intl.formatMessage({ id: 'alert.update_available_body' }),
-          buttons: [
-            {
-              text: intl.formatMessage({ id: 'alert.remind_later' }),
-              returnValue: 'later',
-            },
-            {
-              text: intl.formatMessage({ id: 'alert.update' }),
-              returnValue: 'update',
-            },
-          ],
-          headerImage: require('../../../assets/phone-holding.png'),
-        },
-      });
-
-      if (action === 'later') {
-        setLastUpdateCheck(new Date().getTime());
-      } else if (action === 'update') {
-        DeviceInfo.getInstallerPackageName().then((installerPackageName) => {
-          let _url = 'https://github.com/ecency/ecency-mobile/releases';
-          switch (installerPackageName) {
-            case 'com.android.vending':
-              _url = 'market://details?id=app.esteem.mobile.android';
-              break;
-            case 'AppStore':
-              _url = 'itms-apps://itunes.apple.com/us/app/apple-store/id1451896376?mt=8';
-              break;
-          }
-          Linking.openURL(_url);
+      if (parseVersionNumber(remoteVersion) > parseVersionNumber(VersionNumber.appVersion)) {
+        const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
+          payload: {
+            title: intl.formatMessage(
+              { id: 'alert.update_available_title' },
+              { version: remoteVersion },
+            ),
+            body: intl.formatMessage({ id: 'alert.update_available_body' }),
+            buttons: [
+              {
+                text: intl.formatMessage({ id: 'alert.remind_later' }),
+                returnValue: 'later',
+              },
+              {
+                text: intl.formatMessage({ id: 'alert.update' }),
+                returnValue: 'update',
+              },
+            ],
+            headerImage: require('../../../assets/phone-holding.png'),
+          },
         });
+
+        if (action === 'later') {
+          setLastUpdateCheck(new Date().getTime());
+        } else if (action === 'update') {
+          DeviceInfo.getInstallerPackageName().then((installerPackageName) => {
+            let _url = 'https://github.com/ecency/ecency-mobile/releases';
+            switch (installerPackageName) {
+              case 'com.android.vending':
+                _url = 'market://details?id=app.esteem.mobile.android';
+                break;
+              case 'AppStore':
+                _url = 'itms-apps://itunes.apple.com/us/app/apple-store/id1451896376?mt=8';
+                break;
+            }
+            Linking.openURL(_url);
+          });
+        }
       }
+    } catch (error) {
+      Sentry.captureException(error);
     }
   };
 

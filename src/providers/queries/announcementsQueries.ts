@@ -36,7 +36,7 @@ export const useAnnouncementsQuery = () => {
   const accessToken = encToken ? decryptKey(encToken, getDigitPinCode(pinHash)) : '';
 
   // Use SDK query options
-  const announcmentsQuery = useQuery(getAnnouncementsQueryOptions(accessToken));
+  const announcementsQuery = useQuery(getAnnouncementsQueryOptions(accessToken));
 
   useEffect(() => {
     // bypass if it's first launch after new version install/update
@@ -47,7 +47,7 @@ export const useAnnouncementsQuery = () => {
     }
 
     // bypass if logged in user is required for announcement, skip otherwise
-    const firstAnnounce = announcementsMeta.data && announcmentsQuery.data[0];
+    const firstAnnounce = announcementsQuery.data && announcementsQuery.data[0];
     if (!firstAnnounce || (firstAnnounce?.auth && !currentAccount?.username)) {
       return;
     }
@@ -63,7 +63,7 @@ export const useAnnouncementsQuery = () => {
     }
 
     _showAnnouncement(firstAnnounce, _metaId);
-  }, [announcmentsQuery.data, currentAccount.name, lastAppVersion]);
+  }, [announcementsQuery.data, currentAccount.name, lastAppVersion]);
 
   const _showAnnouncement = async (data, metaId) => {
     const _markAsSeen = () => {
