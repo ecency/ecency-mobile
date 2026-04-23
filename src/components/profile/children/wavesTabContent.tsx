@@ -67,7 +67,7 @@ const WavesTabContent = ({ username, isOwnProfile, onScroll }: WavesTabContentPr
               wavesQuery.fetchNextPage();
             }
           },
-          onScroll,
+          onScrollEndDrag: onScroll,
           ListEmptyComponent: _renderListEmpty,
           ListFooterComponent: _renderListFooter,
           onEndReachedThreshold: 1,

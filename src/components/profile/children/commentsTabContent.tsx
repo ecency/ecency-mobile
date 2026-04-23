@@ -121,7 +121,7 @@ const CommentsTabContent = ({
         isHideImage={isHideImage}
         flatListProps={{
           onEndReached: _fetchData,
-          onScroll,
+          onScrollEndDrag: onScroll,
           ListEmptyComponent: _renderListEmpty,
           ListFooterComponent: _renderListFooter,
           onEndReachedThreshold: 1,
