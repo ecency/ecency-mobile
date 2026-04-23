@@ -27,6 +27,7 @@ import styles from './profileStyles';
 
 import { TabbedPosts } from '../tabbedPosts';
 import CommentsTabContent from './children/commentsTabContent';
+import WavesTabContent from './children/wavesTabContent';
 import { Icon } from '..';
 
 class ProfileView extends PureComponent {
@@ -191,6 +192,17 @@ class ProfileView extends PureComponent {
     );
   };
 
+  _contentWavesTab = () => {
+    const { username, isOwnProfile } = this.props;
+    return (
+      <WavesTabContent
+        username={username}
+        isOwnProfile={isOwnProfile}
+        onScroll={this._handleOnScroll}
+      />
+    );
+  };
+
   _contentWalletTab = () => {
     const { currencyRate, currencySymbol, selectedUser, isOwnProfile } = this.props;
     const { estimatedWalletValue } = this.state;
@@ -259,6 +271,9 @@ class ProfileView extends PureComponent {
     }
     if (tabs.indexOf('comments') !== -1) {
       tabContentOverrides.set(tabs.indexOf('comments'), this._contentComentsTab('comments'));
+    }
+    if (tabs.indexOf('waves') !== -1) {
+      tabContentOverrides.set(tabs.indexOf('waves'), this._contentWavesTab());
     }
     if (tabs.indexOf('wallet') !== -1) {
       tabContentOverrides.set(tabs.indexOf('wallet'), this._contentWalletTab());

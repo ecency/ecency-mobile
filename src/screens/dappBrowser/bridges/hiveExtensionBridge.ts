@@ -392,6 +392,7 @@ export const HIVE_EXTENSION_BRIDGE_JS = `
 
     dispatchCustomEvent: function(name, data, callback) {
       data.domain = window.location.href;
+      data.extension_id = 'keeper';
       if (typeof callback === 'function') {
         this.requests[this.current_id] = callback;
       }
@@ -427,10 +428,27 @@ export const HIVE_EXTENSION_BRIDGE_JS = `
     }
   };
 
+  // Legacy globals (backward compatibility)
   window.hive_keychain = hive_keychain;
-  window.hive = hive_keychain;
-
   window.hive_keychain_extension = true;
+
+  // Hive Unified Wallet Protocol
+  // Sets identity flag and registers on the shared window.hive namespace
+  // so dApps can use window.hive regardless of which wallet is available.
+  // See: https://ecency.github.io/browser-extension/hive-wallet-discovery.html
+  hive_keychain.isKeeper = true;
+
+  if (!window.hive) {
+    window.hive = hive_keychain;
+  }
+  if (!window.hive.providers) {
+    window.hive.providers = [];
+  }
+  window.hive.providers.push({
+    name: 'Hive Keeper',
+    rdns: 'com.ecency.keeper',
+    provider: hive_keychain
+  });
 })();
 true;
 `;

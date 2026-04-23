@@ -1,7 +1,7 @@
 export const DEFAULT_FEED_FILTERS = ['friends', 'communities', 'trending', 'hot'];
 export const DEFAULT_COMMUNITY_FILTERS = ['trending', 'hot', 'created'];
-export const DEFAULT_PROFILE_FILTERS = ['blog', 'posts', 'comments'];
-export const DEFAULT_OWN_PROFILE_FILTERS = ['blog', 'posts', 'replies'];
+export const DEFAULT_PROFILE_FILTERS = ['blog', 'posts', 'waves', 'comments'];
+export const DEFAULT_OWN_PROFILE_FILTERS = ['blog', 'posts', 'waves', 'replies'];
 export const GUEST_FEED_FILTERS = ['trending', 'hot', 'created'];
 
 export const FEED_SCREEN_FILTER_MAP: { [key: string]: string } = {
@@ -26,6 +26,7 @@ export const COMMUNITY_SCREEN_FILTER_MAP: { [key: string]: string } = {
 export const PROFILE_SCREEN_FILTER_MAP: { [key: string]: string } = {
   blog: 'home.blog',
   posts: 'home.posts',
+  waves: 'profile.waves',
   comments: 'profile.comments',
   replies: 'profile.replies',
   wallet: 'profile.wallet',
