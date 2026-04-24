@@ -195,10 +195,11 @@ const TippingDialogContent = forwardRef<any, TippingDialogContentProps>(
         });
 
         onSuccess?.({ amount, currency });
-        onClose();
       } catch (error) {
         console.error('Tip execution error:', error);
-        // Error toast is shown by mutation hook
+        // Error toast is shown by mutation's onError callback
+      } finally {
+        onClose();
       }
     };
 
