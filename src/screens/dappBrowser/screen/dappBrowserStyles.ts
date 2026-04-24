@@ -177,6 +177,16 @@ export default EStyleSheet.create({
     height: 36,
     borderRadius: 8,
   },
+  dappIconFallback: {
+    backgroundColor: '$primaryBlue',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dappIconFallbackText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '$pureWhite',
+  },
   dappIconText: {
     fontSize: 22,
     fontWeight: '700',

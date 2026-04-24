@@ -22,6 +22,28 @@ import { PEAK_VAULT_BRIDGE_JS } from '../bridges/peakVaultBridge';
 import { useHiveBridgeHandler } from '../hooks/useHiveBridgeHandler';
 import styles from './dappBrowserStyles';
 
+// ─── dApp icon with fallback ──────────────────────────────────
+const DappIcon = ({ dapp }: { dapp: DappEntry }) => {
+  const [iconFailed, setIconFailed] = useState(false);
+
+  if (iconFailed) {
+    return (
+      <View style={[styles.dappIconImage, styles.dappIconFallback]}>
+        <Text style={styles.dappIconFallbackText}>{dapp.initial}</Text>
+      </View>
+    );
+  }
+
+  return (
+    <Image
+      source={{ uri: dapp.icon }}
+      style={styles.dappIconImage}
+      resizeMode="contain"
+      onError={() => setIconFailed(true)}
+    />
+  );
+};
+
 // ─── dApp directory ───────────────────────────────────────────
 interface DappEntry {
   name: string;
@@ -119,7 +141,7 @@ const DAPP_DIRECTORY: DappEntry[] = [
     icon: 'https://www.google.com/s2/favicons?domain=altera.magi.eco&sz=128',
     color: '#6C5CE7',
     initial: 'A',
-    category: 'AI',
+    category: 'DeFi',
   },
 ];
 
@@ -380,11 +402,7 @@ const DappBrowser = () => {
             activeOpacity={0.7}
           >
             <View style={styles.dappIconContainer}>
-              <Image
-                source={{ uri: dapp.icon }}
-                style={styles.dappIconImage}
-                resizeMode="contain"
-              />
+              <DappIcon dapp={dapp} />
             </View>
             <Text style={styles.dappName} numberOfLines={1}>
               {dapp.name}
