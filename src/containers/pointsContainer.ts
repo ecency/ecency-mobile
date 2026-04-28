@@ -65,6 +65,7 @@ const PointsContainer = ({
     undefined,
     authContext,
     'active',
+    { broadcastMode: 'async' },
   );
 
   // Use SDK query for points data

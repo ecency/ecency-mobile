@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useCrossPostMutation() {
   const { username, authContext } = useMutationAuth();
-  return useCrossPost(username, authContext);
+  return useCrossPost(username, authContext, 'async');
 }

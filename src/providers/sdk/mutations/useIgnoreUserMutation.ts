@@ -10,5 +10,6 @@ export function useIgnoreUserMutation() {
     undefined,
     authContext,
     'posting',
+    { broadcastMode: 'async' },
   );
 }

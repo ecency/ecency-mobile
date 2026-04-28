@@ -173,6 +173,7 @@ export const useClaimRewardsMutation = () => {
     undefined,
     authContext,
     'posting',
+    { broadcastMode: 'async' },
   );
 
   const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
@@ -701,6 +702,7 @@ export const useDeleteRecurrentTransferMutation = () => {
     undefined,
     authContext,
     'active',
+    { broadcastMode: 'async' },
   );
 
   const mutation = useMutation<boolean, Error, { recurrentTransfer: RecurrentTransfer }>({

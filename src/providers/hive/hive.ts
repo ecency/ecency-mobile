@@ -48,10 +48,10 @@ export const checkClient = async () => {
     }
   });
 
-  // Set nodes via ConfigManager (validated, deduped). 10s timeout gives
-  // broadcast_transaction_synchronous enough time to confirm (typically 3-6s)
-  // while failing fast enough on dead nodes for SDK failover.
-  // The previous 5s was too tight and caused false "Aborted" errors.
+  // Set nodes via ConfigManager (validated, deduped). With async broadcast
+  // (broadcast_transaction), the RPC returns once the node accepts the tx
+  // into the mempool — typically <1s — so 10s is generous headroom that still
+  // lets the SDK fail over on dead nodes.
   ConfigManager.setHiveNodes(selectedServer);
   hiveTxConfig.timeout = 10000;
 };
@@ -252,75 +252,13 @@ const _executeHiveAuthFallback = async (
   }
 };
 
-/**
- * Detect client-side aborts / timeouts that may leave a successful broadcast
- * hanging on the wire. Covers both the `AbortSignal.timeout` path (emits
- * `TimeoutError`) and generic fetch aborts (`AbortError`). On React Native /
- * Hermes the timeout path falls back to a plain `Error` tagged with
- * `name: 'TimeoutError'` (see hive-tx createTimeoutReason).
- */
-const isBroadcastAbortError = (err: unknown): boolean => {
-  if (!err || typeof err !== 'object') return false;
-  const name = String((err as { name?: string }).name ?? '');
-  const message = String((err as { message?: string }).message ?? '');
-  if (name === 'TimeoutError' || name === 'AbortError') return true;
-  return /aborted due to timeout|operation was aborted|the user aborted a request/i.test(message);
-};
-
-/**
- * Broadcast states that mean the tx is (or will be) on-chain. `within_mempool`
- * is excluded: the tx is accepted but not yet in a block, so we keep polling.
- */
-const BROADCAST_SUCCESS_STATES = new Set(['within_reversible_block', 'within_irreversible_block']);
-
-const BROADCAST_FAILURE_STATES = new Set(['expired_reversible', 'expired_irreversible', 'too_old']);
-
-/**
- * After a broadcast throws a timeout/abort error, the tx bytes may have
- * already reached the node and landed in a block (fetch abort in RN does not
- * un-send the request). Poll `transaction_status_api.find_transaction` a few
- * times before declaring failure so users don't get told "transaction aborted"
- * on a transfer/convert that actually succeeded.
- *
- * Returns the on-chain tx id when confirmed, null when confirmed expired, or
- * undefined if the status is still indeterminate after the poll budget.
- */
-const pollTransactionStatusAfterAbort = async (
-  tx: HiveTxTransaction,
-): Promise<string | null | undefined> => {
-  // ~10 s total: 1.5 + 2 + 2.5 + 3 = 9 s of polling with a final check.
-  const delaysMs = [1500, 2000, 2500, 3000];
-  // eslint-disable-next-line no-restricted-syntax
-  for (const ms of delaysMs) {
-    // eslint-disable-next-line no-await-in-loop
-    await delay(ms);
-    try {
-      // eslint-disable-next-line no-await-in-loop
-      const status = await tx.checkStatus();
-      const s = (status as { status?: string } | undefined)?.status;
-      if (s && BROADCAST_SUCCESS_STATES.has(s)) {
-        return tx.digest().txId;
-      }
-      if (s && BROADCAST_FAILURE_STATES.has(s)) {
-        return null;
-      }
-      // within_mempool / unknown: keep polling
-    } catch {
-      // transaction_status_api may be unavailable on some nodes; keep polling
-      // until the budget is exhausted and then fall through to rethrow.
-    }
-  }
-  return undefined;
-};
-
 export const sendHiveOperations = async (
   operations: Operation[],
   key: PrivateKey | PrivateKey[],
 ): Promise<TransactionConfirmation> => {
   const keys = Array.isArray(key) ? key : [key];
-  // Build and sign the transaction ourselves (mirrors @ecency/sdk's
-  // broadcastOperations) so we have the local txId + expiration available
-  // for post-timeout recovery via transaction_status_api.
+  // Build and sign the transaction ourselves so we have the local txId
+  // available — async broadcast returns no id, only an accept ack.
   const tx = new HiveTxTransaction();
   // eslint-disable-next-line no-restricted-syntax
   for (const op of operations) {
@@ -331,27 +269,13 @@ export const sendHiveOperations = async (
   const localTxId = tx.digest().txId;
 
   try {
-    const result: any = await callRPCBroadcast('condenser_api.broadcast_transaction_synchronous', [
-      tx.transaction,
-    ]);
-    return { id: result?.id || result?.tx_id || localTxId, ...result } as TransactionConfirmation;
+    // Async broadcast: returns once the node accepts the tx into the mempool.
+    // Validation errors (insufficient balance, missing auth, bad signature)
+    // still surface as RPC errors here. Block inclusion happens in the next
+    // ~3s and is observable via subsequent account/balance refetches.
+    await callRPCBroadcast('condenser_api.broadcast_transaction', [tx.transaction]);
+    return { id: localTxId } as TransactionConfirmation;
   } catch (err) {
-    // Defensive recovery: if the broadcast aborted/timed out, the tx may
-    // have already landed on-chain. Poll before declaring failure.
-    if (isBroadcastAbortError(err)) {
-      try {
-        const confirmed = await pollTransactionStatusAfterAbort(tx);
-        if (confirmed) {
-          console.log(
-            `[sendHiveOperations] recovered from broadcast timeout; tx ${confirmed} landed`,
-          );
-          return { id: confirmed } as TransactionConfirmation;
-        }
-      } catch (recoveryErr) {
-        // Swallow — fall through to the original error path below.
-        console.warn('[sendHiveOperations] status poll recovery failed', recoveryErr);
-      }
-    }
     const isDateError = isDsteemDateError(err);
     const dateDiagnostics = isDateError ? await getDateErrorDiagnostics().catch(() => null) : null;
 
@@ -707,12 +631,11 @@ export const handleHiveUriOperation = async (
     // resolveTransaction() produced.
     const transaction = new HiveTxTransaction({ transaction: tx });
     transaction.sign(privateKey);
-    const result = await callRPCBroadcast('condenser_api.broadcast_transaction_synchronous', [
-      transaction.transaction,
-    ]);
-    return { id: result?.id || result?.tx_id || '', ...result };
+    const localTxId = transaction.digest().txId;
+    await callRPCBroadcast('condenser_api.broadcast_transaction', [transaction.transaction]);
+    return { id: localTxId } as TransactionConfirmation;
   } catch (err) {
-    const errString = handleChainError(err.toString());
+    const errString = handleChainError(String((err as Error)?.message ?? err));
     captureExceptionWithRpcParams(err, { tx }, (scope) => {
       scope.setTag('context', 'handle-hive-uri-operation');
       scope.setContext('tx', tx);

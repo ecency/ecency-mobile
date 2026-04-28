@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useMutePostMutation() {
   const { username, authContext } = useMutationAuth();
-  return useMutePost(username, authContext);
+  return useMutePost(username, authContext, 'async');
 }

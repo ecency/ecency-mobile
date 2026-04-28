@@ -150,6 +150,10 @@ export default EStyleSheet.create({
     color: '$iconColor',
     marginLeft: 12,
   },
+  analyticsIcon: {
+    marginLeft: 8,
+    padding: 4,
+  },
   closeIcon: {
     color: '$iconColor',
     // paddingRight: 0

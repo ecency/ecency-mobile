@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useWitnessProxyMutation() {
   const { username, authContext } = useMutationAuth();
-  return useWitnessProxy(username, authContext);
+  return useWitnessProxy(username, authContext, 'async');
 }

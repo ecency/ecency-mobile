@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useClaimInterestMutation() {
   const { username, authContext } = useMutationAuth();
-  return useClaimInterest(username, authContext);
+  return useClaimInterest(username, authContext, 'async');
 }

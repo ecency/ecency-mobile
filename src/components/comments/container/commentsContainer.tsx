@@ -61,7 +61,7 @@ const CommentsContainer = ({
   const postsCachePrimer = postQueries.usePostsCachePrimer();
   const queryClient = useQueryClient();
   const authContext = useAuthContext();
-  const deleteCommentMutation = useDeleteComment(currentAccount?.name, authContext);
+  const deleteCommentMutation = useDeleteComment(currentAccount?.name, authContext, 'async');
 
   const [lcomments, setLComments] = useState([]);
   const [propComments, setPropComments] = useState(comments);

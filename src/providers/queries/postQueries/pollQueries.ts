@@ -2,11 +2,15 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { useBroadcastMutation } from '@ecency/sdk';
+import {
+  getPollQueryOptions,
+  usePollVote,
+  QueryKeys,
+  type Poll,
+  type PollChoice,
+} from '@ecency/sdk';
 import QUERIES from '../queryKeys';
-import { getPollData } from '../../polls/polls';
 import { PostMetadata } from '../../hive/hive.types';
-import { Poll, PollChoice } from '../../polls/polls.types';
 import { useAppSelector } from '../../../hooks';
 import parseToken from '../../../utils/parseToken';
 import { vestsToHp } from '../../../utils/conversions';
@@ -29,26 +33,8 @@ export const useGetPollQuery = (_author?: string, _permlink?: string, metadata?:
   }, [metadata]);
 
   const query = useQuery({
-    queryKey: [QUERIES.POST.GET_POLL, author, permlink],
-    queryFn: async () => {
-      if (!author || !permlink) {
-        return null;
-      }
-
-      try {
-        const pollData = await getPollData(author, permlink);
-        if (!pollData) {
-          throw new Error('Poll data unavailable');
-        }
-
-        return pollData;
-      } catch (err) {
-        console.warn('Failed to get post', err);
-        throw err;
-      }
-    },
+    ...getPollQueryOptions(author, permlink),
     initialData: _initialPollData,
-    gcTime: 30 * 60 * 1000, // keeps cache for 30 minutes
   });
 
   // TODO: use injectPollVoteCache here for simplifity and code reuseability
@@ -72,28 +58,7 @@ export function useVotePollMutation(poll: Poll | null) {
   const authContext = useAuthContext();
   const username = currentAccount?.name;
 
-  const broadcastMutation = useBroadcastMutation(
-    ['hive', 'poll-vote'],
-    username || '',
-    ({ pollTrxId, choices }: { pollTrxId: string; choices: number[] }) => [
-      [
-        'custom_json',
-        {
-          id: 'polls',
-          required_auths: [],
-          required_posting_auths: [username || ''],
-          json: JSON.stringify({
-            poll: pollTrxId,
-            action: 'vote',
-            choices,
-          }),
-        },
-      ],
-    ],
-    undefined,
-    authContext,
-    'posting',
-  );
+  const broadcastMutation = usePollVote(username, authContext);
 
   return useMutation({
     mutationKey: [QUERIES.POST.SIGN_POLL_VOTE, poll?.author, poll?.permlink],
@@ -161,7 +126,7 @@ export function useVotePollMutation(poll: Poll | null) {
       dispatch(toastNotification(`${intl.formatMessage({ id: 'alert.fail' })}. ${err.message}`));
 
       queryClient.invalidateQueries({
-        queryKey: [QUERIES.POST.GET_POLL, poll?.author, poll?.permlink],
+        queryKey: QueryKeys.polls.details(poll?.author ?? '', poll?.permlink ?? ''),
       });
     },
   });
@@ -204,10 +169,10 @@ const useInjectPollVoteCache = (pollData: Poll | null) => {
     const _cData = injectPollVoteCache(pollData, voteCache);
 
     // check if data follows old schema, migrate if nesseary
-    if (_cData.poll_voters instanceof Array && !!_cData.poll_voters[0]?.choice_num) {
+    if (_cData.poll_voters instanceof Array && !!(_cData.poll_voters[0] as any)?.choice_num) {
       _cData.poll_voters = _cData.poll_voters.map((voter) => ({
         ...voter,
-        choices: [voter.choice_num],
+        choices: [(voter as any).choice_num],
       }));
     }
 

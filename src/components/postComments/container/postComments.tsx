@@ -63,7 +63,7 @@ const PostComments = forwardRef(
     const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
     const authContext = useAuthContext();
-    const deleteCommentMutation = useDeleteComment(currentAccountName, authContext);
+    const deleteCommentMutation = useDeleteComment(currentAccountName, authContext, 'async');
     const { mutateAsync: deleteComment } = deleteCommentMutation;
 
     const discussionQuery = postQueries.useDiscussionQuery(author, permlink);

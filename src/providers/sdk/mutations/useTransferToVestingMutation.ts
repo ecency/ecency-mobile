@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useTransferToVestingMutation() {
   const { username, authContext } = useMutationAuth();
-  return useTransferToVesting(username, authContext);
+  return useTransferToVesting(username, authContext, 'async');
 }

@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useSetWithdrawVestingRouteMutation() {
   const { username, authContext } = useMutationAuth();
-  return useSetWithdrawVestingRoute(username, authContext);
+  return useSetWithdrawVestingRoute(username, authContext, 'async');
 }

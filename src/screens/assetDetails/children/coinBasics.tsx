@@ -17,6 +17,7 @@ interface CoinBasicsProps {
   showChart: boolean;
   setShowChart: (value: boolean) => void;
   onInfoPress: (id: string) => void;
+  onAnalyticsPress?: () => void;
 }
 
 export const CoinBasics = ({
@@ -30,6 +31,7 @@ export const CoinBasics = ({
   showChart,
   setShowChart,
   onInfoPress,
+  onAnalyticsPress,
 }: CoinBasicsProps) => {
   const intl = useIntl();
   const _renderCoinHeader = (
@@ -43,23 +45,37 @@ export const CoinBasics = ({
         />
         <Text style={styles.textCoinTitle}>{coinSymbol}</Text>
       </View>
-      <TouchableOpacity style={styles.percentEyeContainer} onPress={() => setShowChart(!showChart)}>
-        {apr ? (
-          <Text style={styles.textHeaderApr}>
-            {intl.formatMessage({ id: 'wallet.apr' })} {apr.toFixed(apr < 10 ? 3 : 2)}%
-          </Text>
-        ) : (
-          <View style={styles.textHeaderApr} />
+      <View style={styles.percentEyeContainer}>
+        <TouchableOpacity onPress={() => setShowChart(!showChart)}>
+          <View style={styles.percentEyeContainer}>
+            {apr ? (
+              <Text style={styles.textHeaderApr}>
+                {intl.formatMessage({ id: 'wallet.apr' })} {apr.toFixed(apr < 10 ? 3 : 2)}%
+              </Text>
+            ) : (
+              <View style={styles.textHeaderApr} />
+            )}
+            {!!isRenderChart && (
+              <Icon
+                iconType="Ionicons"
+                name={showChart ? 'eye' : 'eye-off'}
+                style={styles.eyeIcon}
+                size={20}
+              />
+            )}
+          </View>
+        </TouchableOpacity>
+        {onAnalyticsPress && (
+          <TouchableOpacity onPress={onAnalyticsPress} style={styles.analyticsIcon}>
+            <Icon
+              iconType="MaterialCommunityIcons"
+              name="chart-line"
+              style={styles.eyeIcon}
+              size={20}
+            />
+          </TouchableOpacity>
         )}
-        {!!isRenderChart && (
-          <Icon
-            iconType="Ionicons"
-            name={showChart ? 'eye' : 'eye-off'}
-            style={styles.eyeIcon}
-            size={20}
-          />
-        )}
-      </TouchableOpacity>
+      </View>
     </>
   );
 

@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useLockLarynxMutation() {
   const { username, authContext } = useMutationAuth();
-  return useLockLarynx(username, authContext);
+  return useLockLarynx(username, authContext, 'async');
 }

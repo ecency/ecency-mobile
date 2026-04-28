@@ -133,9 +133,9 @@ export function useCommentMutations() {
   const authContext = useAuthContext();
   const username = currentAccount?.name;
 
-  const commentMutation = useComment(username, authContext);
-  const updateReplyMutation = useUpdateReply(username, authContext);
-  const deleteCommentMutation = useDeleteComment(username, authContext);
+  const commentMutation = useComment(username, authContext, 'async');
+  const updateReplyMutation = useUpdateReply(username, authContext, 'async');
+  const deleteCommentMutation = useDeleteComment(username, authContext, 'async');
 
   return { commentMutation, updateReplyMutation, deleteCommentMutation };
 }

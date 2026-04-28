@@ -18,6 +18,7 @@ export interface CoinSummaryProps {
   setShowChart: (value: boolean) => void;
   onActionPress: (action: string) => void;
   onInfoPress: (dataKey: string) => void;
+  onAnalyticsPress?: () => void;
 }
 
 export const CoinSummary = ({
@@ -28,6 +29,7 @@ export const CoinSummary = ({
   setShowChart,
   onActionPress,
   onInfoPress,
+  onAnalyticsPress,
 }: CoinSummaryProps) => {
   const intl = useIntl();
   const currency = useAppSelector(selectCurrency);
@@ -126,6 +128,7 @@ export const CoinSummary = ({
         onInfoPress={onInfoPress}
         showChart={showChart}
         setShowChart={setShowChart}
+        onAnalyticsPress={onAnalyticsPress}
       />
       <WalletActions actions={walletActions} onActionPress={onActionPress} />
       {tokenSymbol === 'POINTS' && (

@@ -290,6 +290,7 @@ export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
     undefined,
     authContext,
     'active', // default; overridden per-request via the mutation call
+    { broadcastMode: 'async' },
   );
 
   const postingBroadcastMutation = useBroadcastMutation<{ operations: Operation[] }>(
@@ -299,6 +300,7 @@ export function useHiveBridgeHandler(webViewRef: RefObject<WebView | null>) {
     undefined,
     authContext,
     'posting',
+    { broadcastMode: 'async' },
   );
 
   const _handlePeakVaultMessage = useCallback(

@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useAccountUpdateMutation() {
   const { username, authContext } = useMutationAuth();
-  return useAccountUpdate(username, authContext);
+  return useAccountUpdate(username, authContext, 'async');
 }

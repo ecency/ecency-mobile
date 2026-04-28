@@ -173,6 +173,7 @@ const mapHooksToProps = (props) => {
     undefined,
     authContext,
     'active',
+    { broadcastMode: 'async' },
   );
   return (
     <RedeemContainer

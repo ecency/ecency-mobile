@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useStakeEngineTokenMutation() {
   const { username, authContext } = useMutationAuth();
-  return useStakeEngineToken(username, authContext);
+  return useStakeEngineToken(username, authContext, 'async');
 }

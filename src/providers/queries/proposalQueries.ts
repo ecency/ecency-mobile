@@ -93,6 +93,7 @@ export const useProposalVoteMutation = () => {
     () => {},
     auth,
     'active',
+    { broadcastMode: 'async' },
   );
 
   return useMutation<any, Error, { proposalId: number }>({

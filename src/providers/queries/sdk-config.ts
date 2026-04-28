@@ -54,10 +54,10 @@ export const initSdkConfig = async (queryClient: QueryClient) => {
       ? [savedServer, ...fetchedNodes]
       : [...fetchedNodes];
   ConfigManager.setHiveNodes(nodes);
-  // 5 s timeout + retry=1 matches SDK 2.2.1 defaults — fast failure on
-  // reads, and pollTransactionStatusAfterAbort handles broadcast recovery.
-  ConfigManager.setHiveNodes(nodes);
-  hiveTxConfig.timeout = 5000;
+  // 10s aligns with checkClient() in providers/hive/hive.ts. With async
+  // broadcast (broadcast_transaction) the call only awaits mempool accept,
+  // so 10s is generous headroom while still failing fast on dead nodes.
+  hiveTxConfig.timeout = 10000;
 
   // Fetch and configure DMCA filters
   const dmcaLists = await fetchDmcaLists();

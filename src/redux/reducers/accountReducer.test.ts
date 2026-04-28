@@ -165,6 +165,11 @@ describe('accountReducer', () => {
         quote: 1,
         fundRecentClaims: 1e9,
         fundRewardBalance: 1000,
+        votePowerReserveRate: 10,
+        authorRewardCurve: 'linear',
+        contentConstant: 2000000000000,
+        currentHardforkVersion: '1.28.0',
+        lastHardfork: 28,
         hbdPrintRate: 10000,
       };
       const state = accountReducer(initialState(), {

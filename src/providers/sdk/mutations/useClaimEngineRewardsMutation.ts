@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useClaimEngineRewardsMutation() {
   const { username, authContext } = useMutationAuth();
-  return useClaimEngineRewards(username, authContext);
+  return useClaimEngineRewards(username, authContext, 'async');
 }
