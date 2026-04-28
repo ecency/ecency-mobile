@@ -27,6 +27,42 @@ import { CHART_NEGATIVE_MARGIN } from '../../screens/assetDetails/children/child
 
 type Tab = 'history' | 'summary';
 
+type Granularity = 'yearly' | 'monthly' | 'daily';
+const GRANULARITIES: Granularity[] = ['yearly', 'monthly', 'daily'];
+
+// SDK 2.2.8's bundled `.d.ts` only exposes `(username, coinType)`, but the
+// upstream source already accepts a third `granularity` argument. The wrapper
+// below feeds the param through; older SDK builds silently ignore it (JS
+// allows extra args), and once the package is republished the cast can drop.
+type AggregatedQueryFn = typeof getAggregatedBalanceQueryOptions extends (...args: any[]) => infer R
+  ? (username?: string, coinType?: BalanceCoinType, granularity?: Granularity) => R
+  : never;
+const getAggregatedBalanceQueryOptionsWithGranularity =
+  getAggregatedBalanceQueryOptions as unknown as AggregatedQueryFn;
+
+// Short pill labels — kept separate from the tab's "Yearly Summary" so the
+// granularity selector reads as "Yearly | Monthly | Daily".
+const GRANULARITY_PILL_KEY: Record<Granularity, string> = {
+  yearly: 'wallet.granularity_yearly',
+  monthly: 'wallet.granularity_monthly',
+  daily: 'wallet.granularity_daily',
+};
+const CHANGE_LABEL_KEY: Record<Granularity, string> = {
+  yearly: 'wallet.year_change',
+  monthly: 'wallet.month_change',
+  daily: 'wallet.day_change',
+};
+const MIN_LABEL_KEY: Record<Granularity, string> = {
+  yearly: 'wallet.year_min',
+  monthly: 'wallet.month_min',
+  daily: 'wallet.day_min',
+};
+const MAX_LABEL_KEY: Record<Granularity, string> = {
+  yearly: 'wallet.year_max',
+  monthly: 'wallet.month_max',
+  daily: 'wallet.day_max',
+};
+
 function toHumanBalance(
   raw: number,
   coinType: BalanceCoinType,
@@ -47,6 +83,7 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
   const intl = useIntl();
   const dim = useWindowDimensions();
   const [activeTab, setActiveTab] = useState<Tab>('history');
+  const [granularity, setGranularity] = useState<Granularity>('yearly');
 
   const { data: dynamicProps, isLoading: dynamicPropsLoading } = useQuery(
     getDynamicPropsQueryOptions(),
@@ -67,9 +104,13 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
     getBalanceHistoryInfiniteQueryOptions(username, coinType as BalanceCoinType, 200),
   );
 
-  // Aggregated query
+  // Aggregated query — driven by user-selected granularity (yearly/monthly/daily).
   const { data: aggregatedData, isLoading: aggregatedLoading } = useQuery(
-    getAggregatedBalanceQueryOptions(username, coinType as BalanceCoinType),
+    getAggregatedBalanceQueryOptionsWithGranularity(
+      username,
+      coinType as BalanceCoinType,
+      granularity,
+    ),
   );
 
   const historyPages = (historyData as any)?.pages as
@@ -285,35 +326,61 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
 
     const _hasChange = summaryData.changeFormatted !== null;
     return (
-      <View style={styles.summaryGrid}>
-        <View style={styles.summaryCard}>
-          <Text style={styles.summaryLabel}>
-            {intl.formatMessage({ id: 'wallet.current_balance' })}
-          </Text>
-          <Text style={styles.summaryValue}>{summaryData.current}</Text>
+      <View>
+        <View style={styles.granularityRow}>
+          {GRANULARITIES.map((g) => {
+            const _active = g === granularity;
+            return (
+              <TouchableOpacity
+                key={g}
+                style={[styles.granularityPill, _active && styles.granularityPillActive]}
+                onPress={() => setGranularity(g)}
+                accessibilityRole="button"
+                accessibilityState={{ selected: _active }}
+              >
+                <Text
+                  style={[styles.granularityPillText, _active && styles.granularityPillTextActive]}
+                >
+                  {intl.formatMessage({ id: GRANULARITY_PILL_KEY[g] })}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
-        <View style={styles.summaryCard}>
-          <Text style={styles.summaryLabel}>
-            {intl.formatMessage({ id: 'wallet.year_change' })}
-          </Text>
-          <Text
-            style={[
-              styles.summaryValue,
-              _hasChange && (summaryData.isPositive ? styles.textPositive : styles.textNegative),
-            ]}
-          >
-            {_hasChange
-              ? `${summaryData.isPositive ? '+' : '-'}${summaryData.changeFormatted}`
-              : '—'}
-          </Text>
-        </View>
-        <View style={styles.summaryCard}>
-          <Text style={styles.summaryLabel}>{intl.formatMessage({ id: 'wallet.year_min' })}</Text>
-          <Text style={styles.summaryValue}>{summaryData.min}</Text>
-        </View>
-        <View style={styles.summaryCard}>
-          <Text style={styles.summaryLabel}>{intl.formatMessage({ id: 'wallet.year_max' })}</Text>
-          <Text style={styles.summaryValue}>{summaryData.max}</Text>
+        <View style={styles.summaryGrid}>
+          <View style={styles.summaryCard}>
+            <Text style={styles.summaryLabel}>
+              {intl.formatMessage({ id: 'wallet.current_balance' })}
+            </Text>
+            <Text style={styles.summaryValue}>{summaryData.current}</Text>
+          </View>
+          <View style={styles.summaryCard}>
+            <Text style={styles.summaryLabel}>
+              {intl.formatMessage({ id: CHANGE_LABEL_KEY[granularity] })}
+            </Text>
+            <Text
+              style={[
+                styles.summaryValue,
+                _hasChange && (summaryData.isPositive ? styles.textPositive : styles.textNegative),
+              ]}
+            >
+              {_hasChange
+                ? `${summaryData.isPositive ? '+' : '-'}${summaryData.changeFormatted}`
+                : '—'}
+            </Text>
+          </View>
+          <View style={styles.summaryCard}>
+            <Text style={styles.summaryLabel}>
+              {intl.formatMessage({ id: MIN_LABEL_KEY[granularity] })}
+            </Text>
+            <Text style={styles.summaryValue}>{summaryData.min}</Text>
+          </View>
+          <View style={styles.summaryCard}>
+            <Text style={styles.summaryLabel}>
+              {intl.formatMessage({ id: MAX_LABEL_KEY[granularity] })}
+            </Text>
+            <Text style={styles.summaryValue}>{summaryData.max}</Text>
+          </View>
         </View>
       </View>
     );
@@ -393,6 +460,29 @@ const styles = EStyleSheet.create({
   emptyText: {
     color: '$primaryDarkText',
     fontSize: 14,
+  },
+  granularityRow: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    marginBottom: 12,
+    gap: 8,
+  },
+  granularityPill: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    backgroundColor: '$primaryLightBackground',
+  },
+  granularityPillActive: {
+    backgroundColor: '$primaryBlue',
+  },
+  granularityPillText: {
+    color: '$primaryDarkText',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  granularityPillTextActive: {
+    color: '$white',
   },
   summaryGrid: {
     flexDirection: 'row',
