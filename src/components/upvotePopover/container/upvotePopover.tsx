@@ -113,11 +113,15 @@ const UpvotePopover = forwardRef(({}, ref) => {
       return '0.00';
     } else if (value >= 1) {
       return value.toFixed(2);
-    } else {
-      const _fixed = parseFloat(value.toFixed(4));
-      const _precision = _fixed < 0.001 ? 1 : 2;
-      return _fixed.toPrecision(_precision);
     }
+    // toPrecision can emit "1e-7"-style scientific notation for tiny values;
+    // floor anything below 0.001 to a stable "<0.001" string and otherwise
+    // use toFixed(4) so the result always reads as a plain decimal.
+    const _fixed = parseFloat(value.toFixed(4));
+    if (_fixed < 0.001) {
+      return value > 0 ? '<0.001' : '0.00';
+    }
+    return _fixed.toFixed(4);
   };
 
   useImperativeHandle(ref, () => ({

@@ -94,6 +94,8 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
   const {
     data: historyData,
     isLoading: historyLoading,
+    isError: historyError,
+    error: historyErrorObj,
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
@@ -104,7 +106,12 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
   // Aggregated query — driven by user-selected granularity (yearly/monthly/daily).
   // SDK 2.2.9+ already includes granularity in the queryKey, so distinct cache
   // entries are produced per granularity automatically.
-  const { data: aggregatedData, isLoading: aggregatedLoading } = useQuery(
+  const {
+    data: aggregatedData,
+    isLoading: aggregatedLoading,
+    isError: aggregatedError,
+    error: aggregatedErrorObj,
+  } = useQuery(
     getAggregatedBalanceQueryOptions(username, coinType as BalanceCoinType, granularity),
   );
 
@@ -216,6 +223,8 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
   const _renderTabs = () => (
     <View style={styles.tabContainer}>
       <TouchableOpacity
+        accessibilityRole="tab"
+        accessibilityState={{ selected: activeTab === 'history' }}
         style={[styles.tab, activeTab === 'history' && styles.tabActive]}
         onPress={() => setActiveTab('history')}
       >
@@ -224,6 +233,8 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
+        accessibilityRole="tab"
+        accessibilityState={{ selected: activeTab === 'summary' }}
         style={[styles.tab, activeTab === 'summary' && styles.tabActive]}
         onPress={() => setActiveTab('summary')}
       >
@@ -246,6 +257,17 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
       return (
         <View style={styles.loadingContainer}>
           <ActivityIndicator />
+        </View>
+      );
+    }
+
+    if (historyError) {
+      return (
+        <View style={styles.loadingContainer}>
+          <Text style={styles.emptyText}>
+            {(historyErrorObj as Error)?.message ||
+              intl.formatMessage({ id: 'alert.something_wrong' })}
+          </Text>
         </View>
       );
     }
@@ -306,11 +328,45 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
     );
   };
 
-  const _renderSummary = () => {
+  // Pills are rendered above any state branch so the user can switch
+  // granularity even when the current selection is loading/empty/errored.
+  const _renderGranularityPills = () => (
+    <View style={styles.granularityRow}>
+      {GRANULARITIES.map((g) => {
+        const _active = g === granularity;
+        return (
+          <TouchableOpacity
+            key={g}
+            style={[styles.granularityPill, _active && styles.granularityPillActive]}
+            onPress={() => setGranularity(g)}
+            accessibilityRole="button"
+            accessibilityState={{ selected: _active }}
+          >
+            <Text style={[styles.granularityPillText, _active && styles.granularityPillTextActive]}>
+              {intl.formatMessage({ id: GRANULARITY_PILL_KEY[g] })}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+
+  const _renderSummaryBody = () => {
     if (aggregatedLoading || _waitingForVestsConversion) {
       return (
         <View style={styles.loadingContainer}>
           <ActivityIndicator />
+        </View>
+      );
+    }
+
+    if (aggregatedError) {
+      return (
+        <View style={styles.loadingContainer}>
+          <Text style={styles.emptyText}>
+            {(aggregatedErrorObj as Error)?.message ||
+              intl.formatMessage({ id: 'alert.something_wrong' })}
+          </Text>
         </View>
       );
     }
@@ -325,65 +381,50 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
 
     const _hasChange = summaryData.changeFormatted !== null;
     return (
-      <View>
-        <View style={styles.granularityRow}>
-          {GRANULARITIES.map((g) => {
-            const _active = g === granularity;
-            return (
-              <TouchableOpacity
-                key={g}
-                style={[styles.granularityPill, _active && styles.granularityPillActive]}
-                onPress={() => setGranularity(g)}
-                accessibilityRole="button"
-                accessibilityState={{ selected: _active }}
-              >
-                <Text
-                  style={[styles.granularityPillText, _active && styles.granularityPillTextActive]}
-                >
-                  {intl.formatMessage({ id: GRANULARITY_PILL_KEY[g] })}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
+      <View style={styles.summaryGrid}>
+        <View style={styles.summaryCard}>
+          <Text style={styles.summaryLabel}>
+            {intl.formatMessage({ id: 'wallet.current_balance' })}
+          </Text>
+          <Text style={styles.summaryValue}>{summaryData.current}</Text>
         </View>
-        <View style={styles.summaryGrid}>
-          <View style={styles.summaryCard}>
-            <Text style={styles.summaryLabel}>
-              {intl.formatMessage({ id: 'wallet.current_balance' })}
-            </Text>
-            <Text style={styles.summaryValue}>{summaryData.current}</Text>
-          </View>
-          <View style={styles.summaryCard}>
-            <Text style={styles.summaryLabel}>
-              {intl.formatMessage({ id: CHANGE_LABEL_KEY[granularity] })}
-            </Text>
-            <Text
-              style={[
-                styles.summaryValue,
-                _hasChange && (summaryData.isPositive ? styles.textPositive : styles.textNegative),
-              ]}
-            >
-              {_hasChange
-                ? `${summaryData.isPositive ? '+' : '-'}${summaryData.changeFormatted}`
-                : '—'}
-            </Text>
-          </View>
-          <View style={styles.summaryCard}>
-            <Text style={styles.summaryLabel}>
-              {intl.formatMessage({ id: MIN_LABEL_KEY[granularity] })}
-            </Text>
-            <Text style={styles.summaryValue}>{summaryData.min}</Text>
-          </View>
-          <View style={styles.summaryCard}>
-            <Text style={styles.summaryLabel}>
-              {intl.formatMessage({ id: MAX_LABEL_KEY[granularity] })}
-            </Text>
-            <Text style={styles.summaryValue}>{summaryData.max}</Text>
-          </View>
+        <View style={styles.summaryCard}>
+          <Text style={styles.summaryLabel}>
+            {intl.formatMessage({ id: CHANGE_LABEL_KEY[granularity] })}
+          </Text>
+          <Text
+            style={[
+              styles.summaryValue,
+              _hasChange && (summaryData.isPositive ? styles.textPositive : styles.textNegative),
+            ]}
+          >
+            {_hasChange
+              ? `${summaryData.isPositive ? '+' : '-'}${summaryData.changeFormatted}`
+              : '—'}
+          </Text>
+        </View>
+        <View style={styles.summaryCard}>
+          <Text style={styles.summaryLabel}>
+            {intl.formatMessage({ id: MIN_LABEL_KEY[granularity] })}
+          </Text>
+          <Text style={styles.summaryValue}>{summaryData.min}</Text>
+        </View>
+        <View style={styles.summaryCard}>
+          <Text style={styles.summaryLabel}>
+            {intl.formatMessage({ id: MAX_LABEL_KEY[granularity] })}
+          </Text>
+          <Text style={styles.summaryValue}>{summaryData.max}</Text>
         </View>
       </View>
     );
   };
+
+  const _renderSummary = () => (
+    <View>
+      {_renderGranularityPills()}
+      {_renderSummaryBody()}
+    </View>
+  );
 
   return (
     <ActionSheet
