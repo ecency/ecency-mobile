@@ -44,9 +44,32 @@ export const CoinBasics = ({
           isEngine={isEngine}
         />
         <Text style={styles.textCoinTitle}>{coinSymbol}</Text>
+        {onAnalyticsPress && (
+          <TouchableOpacity
+            onPress={onAnalyticsPress}
+            style={styles.analyticsIcon}
+            accessibilityLabel={intl.formatMessage({ id: 'wallet.openAnalytics' })}
+          >
+            <Icon
+              iconType="MaterialCommunityIcons"
+              name="chart-line"
+              style={styles.eyeIcon}
+              size={20}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       <View style={styles.percentEyeContainer}>
-        <TouchableOpacity onPress={() => setShowChart(!showChart)}>
+        <TouchableOpacity
+          onPress={() => setShowChart(!showChart)}
+          accessibilityLabel={
+            isRenderChart
+              ? intl.formatMessage({
+                  id: showChart ? 'wallet.hideChart' : 'wallet.showChart',
+                })
+              : undefined
+          }
+        >
           <View style={styles.percentEyeContainer}>
             {apr ? (
               <Text style={styles.textHeaderApr}>
@@ -65,16 +88,6 @@ export const CoinBasics = ({
             )}
           </View>
         </TouchableOpacity>
-        {onAnalyticsPress && (
-          <TouchableOpacity onPress={onAnalyticsPress} style={styles.analyticsIcon}>
-            <Icon
-              iconType="MaterialCommunityIcons"
-              name="chart-line"
-              style={styles.eyeIcon}
-              size={20}
-            />
-          </TouchableOpacity>
-        )}
       </View>
     </>
   );

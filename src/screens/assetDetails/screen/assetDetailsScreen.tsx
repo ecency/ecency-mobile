@@ -12,7 +12,7 @@ import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import { useAppSelector } from '../../../hooks';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import { selectIsPinCodeOpen } from '../../../redux/selectors';
+import { selectCurrentAccount, selectIsPinCodeOpen } from '../../../redux/selectors';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
@@ -58,7 +58,15 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   // const quote: QuoteItem = useAppSelector((state) =>
   //   state.wallet.quotes ? state.wallet.quotes[assetSymbol] : {},
   // );
-  const username = useAppSelector((state) => state.wallet.username);
+  // state.wallet.username is only populated by the legacy SET_COINS_DATA path
+  // and is often empty; fall back to the canonical currentAccount name so the
+  // SDK balance/history queries (which short-circuit on empty username) fire.
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const username =
+    useAppSelector((state) => state.wallet.username) ||
+    currentAccount?.name ||
+    currentAccount?.username ||
+    '';
   const isPinCodeOpen = useAppSelector(selectIsPinCodeOpen);
 
   useEffect(() => {

@@ -151,8 +151,12 @@ export default EStyleSheet.create({
     marginLeft: 12,
   },
   analyticsIcon: {
-    marginLeft: 8,
-    padding: 4,
+    marginLeft: 4,
+    padding: 8,
+    minWidth: 36,
+    minHeight: 36,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   closeIcon: {
     color: '$iconColor',

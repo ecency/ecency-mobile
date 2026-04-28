@@ -9,13 +9,18 @@ export const getEstimatedAmount = (account, globalProps: GlobalProps, sliderValu
 
   if (Number.isNaN(estimatedAmount)) {
     return '0.00';
-  } else if (estimatedAmount >= 1) {
-    return estimatedAmount.toFixed(2);
-  } else {
-    const _fixed = parseFloat(estimatedAmount.toFixed(4));
-    const _precision = _fixed < 0.001 ? 1 : 2;
-    return _fixed.toPrecision(_precision);
   }
+
+  const absAmount = Math.abs(estimatedAmount);
+  const signPrefix = estimatedAmount < 0 ? '-' : '';
+
+  if (absAmount >= 1) {
+    return `${signPrefix}${absAmount.toFixed(2)}`;
+  }
+
+  const _fixed = parseFloat(absAmount.toFixed(4));
+  const _precision = _fixed < 0.001 ? 1 : 2;
+  return `${signPrefix}${_fixed.toPrecision(_precision)}`;
 };
 
 export const calculateEstimatedRShares = (

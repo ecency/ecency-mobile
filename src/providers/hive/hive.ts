@@ -252,6 +252,54 @@ const _executeHiveAuthFallback = async (
   }
 };
 
+/**
+ * Detect client-side aborts / timeouts that may leave a successful broadcast
+ * hanging on the wire. Even with async broadcast (mempool accept only), the
+ * accept response can be cut off by a network blip — the bytes already reached
+ * the node and the tx will land in the next block.
+ */
+const isBroadcastAbortError = (err: unknown): boolean => {
+  if (!err || typeof err !== 'object') return false;
+  const name = String((err as { name?: string }).name ?? '');
+  const message = String((err as { message?: string }).message ?? '');
+  if (name === 'TimeoutError' || name === 'AbortError') return true;
+  return /aborted due to timeout|operation was aborted|the user aborted a request/i.test(message);
+};
+
+const BROADCAST_SUCCESS_STATES = new Set(['within_reversible_block', 'within_irreversible_block']);
+const BROADCAST_FAILURE_STATES = new Set(['expired_reversible', 'expired_irreversible', 'too_old']);
+
+/**
+ * Poll `transaction_status_api.find_transaction` after a broadcast abort to
+ * see if the tx actually landed. Returns the txId on success, null when
+ * confirmed expired, or undefined if status remains indeterminate.
+ */
+const pollTransactionStatusAfterAbort = async (
+  tx: HiveTxTransaction,
+): Promise<string | null | undefined> => {
+  // ~9s total budget across 4 attempts, allowing for the next block to land.
+  const delaysMs = [1500, 2000, 2500, 3000];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const ms of delaysMs) {
+    // eslint-disable-next-line no-await-in-loop
+    await delay(ms);
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const status = await tx.checkStatus();
+      const s = (status as { status?: string } | undefined)?.status;
+      if (s && BROADCAST_SUCCESS_STATES.has(s)) {
+        return tx.digest().txId;
+      }
+      if (s && BROADCAST_FAILURE_STATES.has(s)) {
+        return null;
+      }
+    } catch {
+      // transaction_status_api may be unavailable on some nodes; keep polling.
+    }
+  }
+  return undefined;
+};
+
 export const sendHiveOperations = async (
   operations: Operation[],
   key: PrivateKey | PrivateKey[],
@@ -276,6 +324,19 @@ export const sendHiveOperations = async (
     await callRPCBroadcast('condenser_api.broadcast_transaction', [tx.transaction]);
     return { id: localTxId } as TransactionConfirmation;
   } catch (err) {
+    // The accept response can be cut off by a network abort even though the
+    // node already received the bytes. Poll status before declaring failure
+    // so users don't see "Aborted" on a tx that actually landed.
+    if (isBroadcastAbortError(err)) {
+      try {
+        const confirmed = await pollTransactionStatusAfterAbort(tx);
+        if (confirmed) {
+          return { id: confirmed } as TransactionConfirmation;
+        }
+      } catch (recoveryErr) {
+        console.warn('[sendHiveOperations] status poll recovery failed', recoveryErr);
+      }
+    }
     const isDateError = isDsteemDateError(err);
     const dateDiagnostics = isDateError ? await getDateErrorDiagnostics().catch(() => null) : null;
 
@@ -624,17 +685,28 @@ export const handleHiveUriOperation = async (
     return Promise.reject(new Error('chain-error.missing-authority'));
   }
 
+  // Wrap the already-resolved tx (with its TAPOS fields) rather than
+  // rebuilding from scratch, so the signed output matches what
+  // resolveTransaction() produced.
+  const privateKey = PrivateKey.fromString(key);
+  const transaction = new HiveTxTransaction({ transaction: tx });
+  transaction.sign(privateKey);
+  const localTxId = transaction.digest().txId;
+
   try {
-    const privateKey = PrivateKey.fromString(key);
-    // Wrap the already-resolved tx (with its TAPOS fields) rather than
-    // rebuilding from scratch, so the signed output matches what
-    // resolveTransaction() produced.
-    const transaction = new HiveTxTransaction({ transaction: tx });
-    transaction.sign(privateKey);
-    const localTxId = transaction.digest().txId;
     await callRPCBroadcast('condenser_api.broadcast_transaction', [transaction.transaction]);
     return { id: localTxId } as TransactionConfirmation;
   } catch (err) {
+    if (isBroadcastAbortError(err)) {
+      try {
+        const confirmed = await pollTransactionStatusAfterAbort(transaction);
+        if (confirmed) {
+          return { id: confirmed } as TransactionConfirmation;
+        }
+      } catch (recoveryErr) {
+        console.warn('[handleHiveUriOperation] status poll recovery failed', recoveryErr);
+      }
+    }
     const errString = handleChainError(String((err as Error)?.message ?? err));
     captureExceptionWithRpcParams(err, { tx }, (scope) => {
       scope.setTag('context', 'handle-hive-uri-operation');

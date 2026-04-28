@@ -1,5 +1,14 @@
-import React, { useMemo, useState } from 'react';
-import { View, Text, TouchableOpacity, useWindowDimensions, ActivityIndicator } from 'react-native';
+import React, { useMemo, useRef, useState } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  ActivityIndicator,
+  ScrollView,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+} from 'react-native';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
@@ -35,7 +44,13 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
   const hivePerMVests = dynamicProps?.hivePerMVests ?? 0;
 
   // Balance history query
-  const { data: historyData, isLoading: historyLoading } = useInfiniteQuery(
+  const {
+    data: historyData,
+    isLoading: historyLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery(
     getBalanceHistoryInfiniteQueryOptions(username, coinType as BalanceCoinType, 200),
   );
 
@@ -44,20 +59,44 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
     getAggregatedBalanceQueryOptions(username, coinType as BalanceCoinType),
   );
 
-  const historyPages = historyData?.pages as
+  const historyPages = (historyData as any)?.pages as
     | Array<{ entries: BalanceHistoryEntry[]; currentPage: number }>
     | undefined;
 
-  const chartValues = useMemo(() => {
-    if (!historyPages || (coinType === 'VESTS' && !hivePerMVests)) return [];
+  const { chartValues, chartLabels } = useMemo<{
+    chartValues: number[];
+    chartLabels: string[];
+  }>(() => {
+    if (!historyPages || (coinType === 'VESTS' && !hivePerMVests)) {
+      return { chartValues: [], chartLabels: [] };
+    }
 
-    return historyPages
+    // SDK returns desc (newest first); flip to asc so the chart renders
+    // oldest -> newest left to right, matching the web build.
+    const ordered = historyPages
       .flatMap((p) => p.entries)
-      .map((entry: BalanceHistoryEntry) =>
-        toHumanBalance(Number(entry.balance), coinType as BalanceCoinType, hivePerMVests),
-      )
-      .reverse(); // desc -> asc for chart (oldest first)
-  }, [historyPages, coinType, hivePerMVests]);
+      .slice()
+      .reverse();
+    const values = ordered.map((entry) =>
+      toHumanBalance(Number(entry.balance), coinType as BalanceCoinType, hivePerMVests),
+    );
+
+    // Sparse X-axis labels: ~6 evenly-spaced dates across the dataset so
+    // chart-kit doesn't crowd the axis. Empty strings render as no label.
+    const targetLabelCount = 6;
+    const step = Math.max(1, Math.floor(ordered.length / targetLabelCount));
+    // Include 2-digit year so multi-month/year ranges aren't ambiguous
+    // (e.g. "Feb 18 '25" instead of just "Feb 18").
+    const labels = ordered.map((entry, i) => {
+      if (i % step !== 0) return '';
+      const d = new Date(`${entry.timestamp}Z`);
+      const monthDay = intl.formatDate(d, { month: 'short', day: '2-digit' });
+      const year2 = String(d.getUTCFullYear() % 100).padStart(2, '0');
+      return `${monthDay} '${year2}`;
+    });
+
+    return { chartValues: values, chartLabels: labels };
+  }, [historyPages, coinType, hivePerMVests, intl]);
 
   const summaryData = useMemo(() => {
     if (!aggregatedData || aggregatedData.length === 0) return null;
@@ -65,8 +104,6 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
     const latest = aggregatedData[0];
     const prev = aggregatedData[1];
     const currentBal = Number(latest.balance.balance);
-    const prevBal = prev ? Number(prev.balance.balance) : 0;
-    const changeBal = currentBal - prevBal;
 
     const fmt = (raw: number) => {
       const val = toHumanBalance(raw, coinType as BalanceCoinType, hivePerMVests);
@@ -74,11 +111,24 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
       return `${intl.formatNumber(val, { maximumFractionDigits: 3 })}${suffix}`;
     };
 
+    // Only compute year change when a prior row exists; otherwise leave change
+    // fields null so the UI shows a placeholder rather than a misleading
+    // "+<full balance>" delta computed from an implicit 0.
+    let change: number | null = null;
+    let changeFormatted: string | null = null;
+    let isPositive: boolean | null = null;
+    if (prev) {
+      const prevBal = Number(prev.balance.balance);
+      change = currentBal - prevBal;
+      changeFormatted = fmt(Math.abs(change));
+      isPositive = change >= 0;
+    }
+
     return {
       current: fmt(currentBal),
-      change: changeBal,
-      changeFormatted: fmt(Math.abs(changeBal)),
-      isPositive: changeBal >= 0,
+      change,
+      changeFormatted,
+      isPositive,
       min: fmt(Number(latest.min_balance.balance)),
       max: fmt(Number(latest.max_balance.balance)),
     };
@@ -88,7 +138,31 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
     SheetManager.hide(SheetNames.BALANCE_ANALYTICS);
   };
 
-  const _chartWidth = dim.width - 32 + CHART_NEGATIVE_MARGIN;
+  // Pixel width per data point — keeps the chart denser than the viewport so
+  // the user can pan back through history. Mirrors how vision-next's
+  // lightweight-charts setup spaces points.
+  const POINT_WIDTH = 12;
+  const _viewportWidth = dim.width - 32 + CHART_NEGATIVE_MARGIN;
+  const _chartWidth = Math.max(_viewportWidth, chartValues.length * POINT_WIDTH);
+  // Width allocated to the pinned Y-axis overlay (must match chart-kit's
+  // internal label gutter so the ghost labels visually replace the
+  // scroll-clipped ones from the wide chart).
+  const _yAxisWidth = 80;
+
+  // Throttle scroll-driven fetches: we only want one in-flight fetch at a time.
+  const _scrollThrottleRef = useRef(false);
+  const _onScrollHistory = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (!hasNextPage || isFetchingNextPage || _scrollThrottleRef.current) return;
+    // Trigger when within ~200px of the leftmost edge — generous threshold so
+    // the next page is already loading by the time the user reaches the edge.
+    if (e.nativeEvent.contentOffset.x <= 200) {
+      _scrollThrottleRef.current = true;
+      fetchNextPage();
+      setTimeout(() => {
+        _scrollThrottleRef.current = false;
+      }, 800);
+    }
+  };
 
   const _renderTabs = () => (
     <View style={styles.tabContainer}>
@@ -128,15 +202,50 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
       );
     }
 
+    const _chartHeight = 220;
     return (
       <View style={styles.chartWrapper}>
-        <SimpleChart
-          data={chartValues}
-          baseWidth={_chartWidth}
-          chartHeight={200}
-          showLine={true}
-          showLabels={true}
-        />
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          onScroll={_onScrollHistory}
+          scrollEventThrottle={64}
+          // Default to the right edge (newest) so the latest balance is visible
+          // first; user pans left to load older history.
+          contentOffset={{ x: Math.max(_chartWidth - _viewportWidth, 0), y: 0 }}
+          // When older pages prepend, keep the currently-visible portion in
+          // place instead of letting the viewport drift right (iOS only).
+          maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
+        >
+          <SimpleChart
+            data={chartValues}
+            baseWidth={_chartWidth}
+            chartHeight={_chartHeight}
+            showLine={true}
+            showLabels={false}
+            labels={chartLabels}
+            showXLabels={true}
+          />
+        </ScrollView>
+        {/* Pinned Y-axis: a transparent-line ghost chart with the same data so
+            chart-kit picks the same Y range and the labels align with the
+            scrolling chart's grid. pointerEvents='none' so it doesn't block
+            scroll gestures. */}
+        <View style={styles.yAxisOverlay} pointerEvents="none">
+          <SimpleChart
+            data={chartValues}
+            baseWidth={_yAxisWidth}
+            chartHeight={_chartHeight}
+            showLine={false}
+            showLabels={true}
+            transparentLine={true}
+          />
+        </View>
+        {isFetchingNextPage && (
+          <View style={styles.fetchMoreIndicator}>
+            <ActivityIndicator size="small" />
+          </View>
+        )}
       </View>
     );
   };
@@ -150,8 +259,15 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
       );
     }
 
-    if (!summaryData) return null;
+    if (!summaryData) {
+      return (
+        <View style={styles.loadingContainer}>
+          <Text style={styles.emptyText}>{intl.formatMessage({ id: 'wallet.no_activity' })}</Text>
+        </View>
+      );
+    }
 
+    const _hasChange = summaryData.changeFormatted !== null;
     return (
       <View style={styles.summaryGrid}>
         <View style={styles.summaryCard}>
@@ -167,11 +283,12 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
           <Text
             style={[
               styles.summaryValue,
-              summaryData.isPositive ? styles.textPositive : styles.textNegative,
+              _hasChange && (summaryData.isPositive ? styles.textPositive : styles.textNegative),
             ]}
           >
-            {summaryData.isPositive ? '+' : '-'}
-            {summaryData.changeFormatted}
+            {_hasChange
+              ? `${summaryData.isPositive ? '+' : '-'}${summaryData.changeFormatted}`
+              : '—'}
           </Text>
         </View>
         <View style={styles.summaryCard}>
@@ -238,6 +355,19 @@ const styles = EStyleSheet.create({
   chartWrapper: {
     marginHorizontal: 16,
     overflow: 'hidden',
+    position: 'relative',
+  },
+  fetchMoreIndicator: {
+    position: 'absolute',
+    left: 8,
+    top: 8,
+  },
+  yAxisOverlay: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: '$primaryLightBackground',
   },
   loadingContainer: {
     height: 200,

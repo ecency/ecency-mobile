@@ -88,4 +88,10 @@ describe('getEstimatedAmount', () => {
   it('returns a negative estimate for downvotes', () => {
     expect(getEstimatedAmount(account, globalProps as any, -1)).toBe('-1');
   });
+
+  it('formats large negative downvotes with toFixed(2) (regression: |x|>=1 branch)', () => {
+    // Without abs-aware branching, -10 falls into the toPrecision branch and
+    // mis-renders. With Math.abs(estimatedAmount) >= 1 it formats as '-10.00'.
+    expect(getEstimatedAmount(account, globalProps as any, -10)).toBe('-10.00');
+  });
 });

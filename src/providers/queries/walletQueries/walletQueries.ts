@@ -423,7 +423,13 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
       return merged.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
     }
 
-    const history = chainQuery.data?.pages?.flat() || [];
+    // SDK pages have shape { entries: Transaction[], currentPage }; flatten the
+    // entries arrays so each `tx` is the normalized operation object that
+    // groomingTransactionData understands (it also tolerates the legacy array form).
+    const _chainPages = (chainQuery.data as any)?.pages as
+      | Array<{ entries?: unknown[] }>
+      | undefined;
+    const history: any[] = _chainPages?.flatMap((p) => p?.entries ?? []) || [];
     const transfers = history.filter((tx) => {
       const opType = Array.isArray(tx) ? get(tx[1], 'op[0]', false) : get(tx, 'type', false);
       return transferTypes.includes(opType);
@@ -436,7 +442,7 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
     return activities.filter((item) => item && item.value && item.value.includes(symbol));
   }, [
     pointsQuery.data?.transactions,
-    chainQuery.data?.pages,
+    (chainQuery.data as any)?.pages,
     engineQuery.data?.pages,
     isPoints,
     isEngine,

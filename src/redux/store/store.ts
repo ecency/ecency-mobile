@@ -36,7 +36,7 @@ const persistConfig = {
   key: 'root',
   // Storage Method (React Native)
   storage: AsyncStorage,
-  version: 15, // New version 15: Added waves tab to profile/ownProfile custom tabs
+  version: 16, // v16: Backfill new account.globalProps fields for vote estimation
   // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   transforms: [transformCacheVoteMap, transformWalkthroughMap],

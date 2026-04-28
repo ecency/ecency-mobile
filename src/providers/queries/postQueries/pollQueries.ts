@@ -168,12 +168,17 @@ const useInjectPollVoteCache = (pollData: Poll | null) => {
 
     const _cData = injectPollVoteCache(pollData, voteCache);
 
-    // check if data follows old schema, migrate if nesseary
-    if (_cData.poll_voters instanceof Array && !!(_cData.poll_voters[0] as any)?.choice_num) {
-      _cData.poll_voters = _cData.poll_voters.map((voter) => ({
-        ...voter,
-        choices: [(voter as any).choice_num],
-      }));
+    // Migrate per-voter: arrays may mix old (choice_num) and new (choices) shapes,
+    // so checking only the first voter could leave new-shape voters with
+    // choices: [undefined].
+    if (_cData.poll_voters instanceof Array) {
+      _cData.poll_voters = _cData.poll_voters.map((voter) => {
+        const legacyChoice = (voter as any)?.choice_num;
+        if (legacyChoice !== undefined && legacyChoice !== null) {
+          return { ...voter, choices: [legacyChoice] };
+        }
+        return voter;
+      });
     }
 
     setRetData(_cData);

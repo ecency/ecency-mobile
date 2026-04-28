@@ -3,10 +3,9 @@ import get from 'lodash/get';
 
 // Services and Actions
 import { View, TouchableOpacity, Text, useWindowDimensions } from 'react-native';
-import Popover from 'react-native-popover-view';
+import Popover, { PopoverPlacement as Placement, Rect } from 'react-native-popover-view';
 import Slider from '@react-native-community/slider';
 import { useIntl } from 'react-intl';
-import { Placement, Rect } from 'react-native-popover-view/dist/Types';
 import { useVote, votingPower as sdkVotingPower, votingRshares, votingValue } from '@ecency/sdk';
 import {
   setCommentUpvotePercent,
