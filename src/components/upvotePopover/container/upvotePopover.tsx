@@ -72,6 +72,11 @@ const UpvotePopover = forwardRef(({}, ref) => {
   const sourceRectRef = useRef<{ x: number; y: number; width: number; height: number } | null>(
     null,
   );
+  // Monotonic id incremented on every measure() call. The async measure
+  // callback captures the id at call time and only commits its result if it
+  // still matches — discards stale callbacks when showPopover() is invoked
+  // multiple times in quick succession.
+  const measureCallIdRef = useRef(0);
   const isVotingRef = useRef(false);
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -169,13 +174,19 @@ const UpvotePopover = forwardRef(({}, ref) => {
       // triggers when it measures the ref itself on complex pages (post detail with
       // rendered HTML body + comments causes ~2s freeze on iOS).
       if (_sourceRef.current?.measure) {
+        const _measureId = ++measureCallIdRef.current;
         _sourceRef.current.measure(
           (_x: number, _y: number, width: number, height: number, pageX: number, pageY: number) => {
+            // Discard if a newer showPopover() supersedes this measurement.
+            if (_measureId !== measureCallIdRef.current) return;
             sourceRectRef.current = { x: pageX, y: pageY, width, height };
             setShowPopover(true);
           },
         );
       } else {
+        // Bump so any in-flight measure callback for the previous call is
+        // ignored when it eventually fires.
+        measureCallIdRef.current += 1;
         sourceRectRef.current = null;
         setShowPopover(true);
       }
@@ -376,7 +387,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
       rshares,
       percent,
       incrementStep,
-      voter: currentAccount.name,
+      voter: currentAccount?.name || '',
       status,
     });
   };

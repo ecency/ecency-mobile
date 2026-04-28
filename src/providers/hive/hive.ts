@@ -337,10 +337,24 @@ export const sendHiveOperations = async (
     if (isBroadcastAbortError(err)) {
       try {
         const confirmed = await pollTransactionStatusAfterAbort(tx);
-        if (confirmed) {
+        if (typeof confirmed === 'string') {
           return { id: confirmed } as TransactionConfirmation;
         }
+        // null = polling confirmed the tx expired on chain. Surface a clear
+        // expiration error so callers can distinguish it from a generic
+        // network abort and surface the right message to the user.
+        if (confirmed === null) {
+          throw new Error('chain-error.transaction-expired');
+        }
+        // undefined = status indeterminate after the poll budget — fall
+        // through to throw the original abort error.
       } catch (recoveryErr) {
+        if (
+          recoveryErr instanceof Error &&
+          recoveryErr.message === 'chain-error.transaction-expired'
+        ) {
+          throw recoveryErr;
+        }
         console.warn('[sendHiveOperations] status poll recovery failed', recoveryErr);
       }
     }
@@ -707,8 +721,14 @@ export const handleHiveUriOperation = async (
     if (isBroadcastAbortError(err)) {
       try {
         const confirmed = await pollTransactionStatusAfterAbort(transaction);
-        if (confirmed) {
+        if (typeof confirmed === 'string') {
           return { id: confirmed } as TransactionConfirmation;
+        }
+        // null = chain confirms expiration. Reject with a specific error so
+        // the caller surfaces "transaction expired" rather than the generic
+        // abort/network failure path below.
+        if (confirmed === null) {
+          return Promise.reject(new Error('chain-error.transaction-expired'));
         }
       } catch (recoveryErr) {
         console.warn('[handleHiveUriOperation] status poll recovery failed', recoveryErr);

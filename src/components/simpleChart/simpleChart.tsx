@@ -32,9 +32,11 @@ export const SimpleChart = ({
     return null;
   }
 
-  // Guard against single-point datasets — `data.length - 1` would be 0 and
-  // produce Infinity, breaking layout.
-  const _chartWidth = baseWidth + baseWidth / Math.max(1, data.length - 1);
+  // Single-point datasets render at exactly baseWidth — the (length - 1)
+  // formula doubles the width when length === 1 (and divides by zero with no
+  // guard). For longer datasets the small extra pad keeps the last point
+  // visible inside the viewport.
+  const _chartWidth = data.length <= 1 ? baseWidth : baseWidth + baseWidth / (data.length - 1);
   const _chartBackgroundColor = EStyleSheet.value('$primaryLightBackground');
   const _resolvedLabels = labels && labels.length === data.length ? labels : data.map(() => '');
   return (

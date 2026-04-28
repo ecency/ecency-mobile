@@ -30,22 +30,19 @@ type Tab = 'history' | 'summary';
 type Granularity = 'yearly' | 'monthly' | 'daily';
 const GRANULARITIES: Granularity[] = ['yearly', 'monthly', 'daily'];
 
-// SDK 2.2.8's bundled `.d.ts` only exposes `(username, coinType)`, but the
-// upstream source already accepts a third `granularity` argument. The wrapper
-// below feeds the param through; older SDK builds silently ignore it (JS
-// allows extra args), and once the package is republished the cast can drop.
-type AggregatedQueryFn = typeof getAggregatedBalanceQueryOptions extends (...args: any[]) => infer R
-  ? (username?: string, coinType?: BalanceCoinType, granularity?: Granularity) => R
-  : never;
-const getAggregatedBalanceQueryOptionsWithGranularity =
-  getAggregatedBalanceQueryOptions as unknown as AggregatedQueryFn;
-
-// Short pill labels — kept separate from the tab's "Yearly Summary" so the
+// Short pill labels — kept separate from the tab's full title so the
 // granularity selector reads as "Yearly | Monthly | Daily".
 const GRANULARITY_PILL_KEY: Record<Granularity, string> = {
   yearly: 'wallet.granularity_yearly',
   monthly: 'wallet.granularity_monthly',
   daily: 'wallet.granularity_daily',
+};
+// Tab title — adapts to whichever granularity the user has selected so the
+// header reflects the dataset currently rendered inside.
+const SUMMARY_TAB_KEY: Record<Granularity, string> = {
+  yearly: 'wallet.yearly_summary',
+  monthly: 'wallet.monthly_summary',
+  daily: 'wallet.daily_summary',
 };
 const CHANGE_LABEL_KEY: Record<Granularity, string> = {
   yearly: 'wallet.year_change',
@@ -105,12 +102,10 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
   );
 
   // Aggregated query — driven by user-selected granularity (yearly/monthly/daily).
+  // SDK 2.2.9+ already includes granularity in the queryKey, so distinct cache
+  // entries are produced per granularity automatically.
   const { data: aggregatedData, isLoading: aggregatedLoading } = useQuery(
-    getAggregatedBalanceQueryOptionsWithGranularity(
-      username,
-      coinType as BalanceCoinType,
-      granularity,
-    ),
+    getAggregatedBalanceQueryOptions(username, coinType as BalanceCoinType, granularity),
   );
 
   const historyPages = (historyData as any)?.pages as
@@ -233,14 +228,18 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
         onPress={() => setActiveTab('summary')}
       >
         <Text style={[styles.tabText, activeTab === 'summary' && styles.tabTextActive]}>
-          {intl.formatMessage({ id: 'wallet.yearly_summary' })}
+          {intl.formatMessage({ id: SUMMARY_TAB_KEY[granularity] })}
         </Text>
       </TouchableOpacity>
     </View>
   );
 
-  const _waitingForVestsConversion =
-    coinType === 'VESTS' && (dynamicPropsLoading || !hivePerMVests);
+  // Distinct from missing: only true while the props query is in-flight.
+  // If the query has resolved without producing hivePerMVests (error or empty
+  // payload), we want to fall through to the empty-state UI rather than spin
+  // forever.
+  const _waitingForVestsConversion = coinType === 'VESTS' && dynamicPropsLoading && !hivePerMVests;
+  const _missingVestsConversion = coinType === 'VESTS' && !dynamicPropsLoading && !hivePerMVests;
 
   const _renderHistory = () => {
     if (historyLoading || _waitingForVestsConversion) {
@@ -316,7 +315,7 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
       );
     }
 
-    if (!summaryData) {
+    if (!summaryData || _missingVestsConversion) {
       return (
         <View style={styles.loadingContainer}>
           <Text style={styles.emptyText}>{intl.formatMessage({ id: 'wallet.no_activity' })}</Text>
