@@ -61,7 +61,11 @@ export const CoinBasics = ({
       </View>
       <View style={styles.percentEyeContainer}>
         <TouchableOpacity
-          onPress={() => setShowChart(!showChart)}
+          disabled={!isRenderChart}
+          onPress={() => {
+            if (!isRenderChart) return;
+            setShowChart(!showChart);
+          }}
           accessibilityLabel={
             isRenderChart
               ? intl.formatMessage({
@@ -71,7 +75,7 @@ export const CoinBasics = ({
           }
         >
           <View style={styles.percentEyeContainer}>
-            {apr ? (
+            {apr !== undefined && apr !== null ? (
               <Text style={styles.textHeaderApr}>
                 {intl.formatMessage({ id: 'wallet.apr' })} {apr.toFixed(apr < 10 ? 3 : 2)}%
               </Text>

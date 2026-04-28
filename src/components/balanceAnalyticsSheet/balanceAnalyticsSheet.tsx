@@ -27,8 +27,16 @@ import { CHART_NEGATIVE_MARGIN } from '../../screens/assetDetails/children/child
 
 type Tab = 'history' | 'summary';
 
-function toHumanBalance(raw: number, coinType: BalanceCoinType, hivePerMVests: number): number {
+function toHumanBalance(
+  raw: number,
+  coinType: BalanceCoinType,
+  hivePerMVests: number | undefined,
+): number {
   if (coinType === 'VESTS') {
+    // Caller is responsible for guarding the VESTS path until hivePerMVests
+    // is loaded; fall back to 0 here so we never propagate NaN if invoked
+    // accidentally.
+    if (!hivePerMVests) return 0;
     return vestsToHp(raw / 1e6, hivePerMVests);
   }
   return raw / 1000;
@@ -40,8 +48,13 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
   const dim = useWindowDimensions();
   const [activeTab, setActiveTab] = useState<Tab>('history');
 
-  const { data: dynamicProps } = useQuery(getDynamicPropsQueryOptions());
-  const hivePerMVests = dynamicProps?.hivePerMVests ?? 0;
+  const { data: dynamicProps, isLoading: dynamicPropsLoading } = useQuery(
+    getDynamicPropsQueryOptions(),
+  );
+  // Leave undefined while loading so VESTS flows can show a loading state
+  // instead of an empty/zero state — defaulting to 0 mid-load was rendering
+  // "no activity" for HP balance/summary even when data was on the way.
+  const hivePerMVests = dynamicProps?.hivePerMVests;
 
   // Balance history query
   const {
@@ -185,8 +198,11 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
     </View>
   );
 
+  const _waitingForVestsConversion =
+    coinType === 'VESTS' && (dynamicPropsLoading || !hivePerMVests);
+
   const _renderHistory = () => {
-    if (historyLoading) {
+    if (historyLoading || _waitingForVestsConversion) {
       return (
         <View style={styles.loadingContainer}>
           <ActivityIndicator />
@@ -251,7 +267,7 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
   };
 
   const _renderSummary = () => {
-    if (aggregatedLoading) {
+    if (aggregatedLoading || _waitingForVestsConversion) {
       return (
         <View style={styles.loadingContainer}>
           <ActivityIndicator />

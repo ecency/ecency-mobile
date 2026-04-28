@@ -354,13 +354,19 @@ const UpvotePopover = forwardRef(({}, ref) => {
     }
 
     const percent = Math.trunc(sliderValue * 100) * 100 * (isDownvote ? -1 : 1);
-    const rshares =
-      votingRshares(
-        currentAccount,
-        globalProps as any,
-        sdkVotingPower(currentAccount) * 100,
-        Math.abs(percent),
-      ) * (isDownvote ? -1 : 1);
+    // votingRshares can throw when account or globalProps haven't loaded —
+    // mirror the guard used for _amount so optimistic cache updates don't
+    // crash the vote flow before data is ready.
+    const _rsharesReady =
+      currentAccount && Object.entries(currentAccount).length !== 0 && globalProps;
+    const rshares = _rsharesReady
+      ? votingRshares(
+          currentAccount,
+          globalProps as any,
+          sdkVotingPower(currentAccount) * 100,
+          Math.abs(percent),
+        ) * (isDownvote ? -1 : 1)
+      : 0;
 
     const curTime = new Date().getTime();
     updateVoteInQueryCaches(author, permlink, {

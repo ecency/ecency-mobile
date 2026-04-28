@@ -86,7 +86,8 @@ describe('getEstimatedAmount', () => {
   });
 
   it('returns a negative estimate for downvotes', () => {
-    expect(getEstimatedAmount(account, globalProps as any, -1)).toBe('-1');
+    // Symmetry with positive: -1 formats with toFixed(2) like +1 does (1.00).
+    expect(getEstimatedAmount(account, globalProps as any, -1)).toBe('-1.00');
   });
 
   it('formats large negative downvotes with toFixed(2) (regression: |x|>=1 branch)', () => {

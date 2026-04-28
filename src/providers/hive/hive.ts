@@ -266,7 +266,14 @@ const isBroadcastAbortError = (err: unknown): boolean => {
   return /aborted due to timeout|operation was aborted|the user aborted a request/i.test(message);
 };
 
-const BROADCAST_SUCCESS_STATES = new Set(['within_reversible_block', 'within_irreversible_block']);
+// Treat `within_mempool` as a recovered success: async broadcast already
+// returns at mempool acceptance, so a tx in the mempool after a client-side
+// abort means the node received it and it will land in the next block.
+const BROADCAST_SUCCESS_STATES = new Set([
+  'within_mempool',
+  'within_reversible_block',
+  'within_irreversible_block',
+]);
 const BROADCAST_FAILURE_STATES = new Set(['expired_reversible', 'expired_irreversible', 'too_old']);
 
 /**
