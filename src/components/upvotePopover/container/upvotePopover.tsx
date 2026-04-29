@@ -114,14 +114,11 @@ const UpvotePopover = forwardRef(({}, ref) => {
     } else if (value >= 1) {
       return value.toFixed(2);
     }
-    // toPrecision can emit "1e-7"-style scientific notation for tiny values;
-    // floor anything below 0.001 to a stable "<0.001" string and otherwise
-    // use toFixed(4) so the result always reads as a plain decimal.
-    const _fixed = parseFloat(value.toFixed(4));
-    if (_fixed < 0.001) {
-      return value > 0 ? '<0.001' : '0.00';
-    }
-    return _fixed.toFixed(4);
+    // Always emit a plain decimal so parseFloat downstream never produces NaN.
+    // toPrecision used to emit "1e-7"-style scientific notation for very small
+    // values; toFixed avoids that. 6 decimals for tiny values keeps a useful
+    // signal without relying on a non-numeric sentinel like "<0.001".
+    return value.toFixed(value < 0.001 ? 6 : 4);
   };
 
   useImperativeHandle(ref, () => ({

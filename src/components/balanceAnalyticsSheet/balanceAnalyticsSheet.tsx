@@ -8,6 +8,7 @@ import {
   ScrollView,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  Platform,
 } from 'react-native';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -115,9 +116,13 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
     getAggregatedBalanceQueryOptions(username, coinType as BalanceCoinType, granularity),
   );
 
-  const historyPages = (historyData as any)?.pages as
-    | Array<{ entries: BalanceHistoryEntry[]; currentPage: number }>
-    | undefined;
+  // SDK's typing makes `historyData` look like a single `BalanceHistoryPage`
+  // here, but at runtime useInfiniteQuery wraps it in `InfiniteData<TPage>`.
+  // A typed narrow keeps us off `any` while matching the actual shape.
+  type BalanceHistoryInfinite = {
+    pages?: Array<{ entries: BalanceHistoryEntry[]; currentPage: number }>;
+  };
+  const historyPages = (historyData as unknown as BalanceHistoryInfinite | undefined)?.pages;
 
   const { chartValues, chartLabels } = useMemo<{
     chartValues: number[];
@@ -207,7 +212,14 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
 
   // Throttle scroll-driven fetches: we only want one in-flight fetch at a time.
   const _scrollThrottleRef = useRef(false);
+  // Track scroll position + previous content width so we can manually
+  // preserve the user's visual position on Android when older data prepends.
+  // (`maintainVisibleContentPosition` is iOS-only.)
+  const _historyScrollRef = useRef<ScrollView | null>(null);
+  const _scrollOffsetRef = useRef(0);
+  const _prevContentWidthRef = useRef(0);
   const _onScrollHistory = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    _scrollOffsetRef.current = e.nativeEvent.contentOffset.x;
     if (!hasNextPage || isFetchingNextPage || _scrollThrottleRef.current) return;
     // Trigger when within ~200px of the leftmost edge — generous threshold so
     // the next page is already loading by the time the user reaches the edge.
@@ -218,6 +230,18 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
         _scrollThrottleRef.current = false;
       }, 800);
     }
+  };
+  const _onHistoryContentSizeChange = (width: number) => {
+    const _prev = _prevContentWidthRef.current;
+    _prevContentWidthRef.current = width;
+    // Only adjust on Android (iOS handles it via maintainVisibleContentPosition)
+    // and only when content has grown (i.e., a new page prepended) — not on
+    // initial layout or shrink.
+    if (Platform.OS !== 'android' || _prev === 0 || width <= _prev) return;
+    const delta = width - _prev;
+    const newOffset = _scrollOffsetRef.current + delta;
+    _scrollOffsetRef.current = newOffset;
+    _historyScrollRef.current?.scrollTo({ x: newOffset, animated: false });
   };
 
   const _renderTabs = () => (
@@ -284,16 +308,20 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
     return (
       <View style={styles.chartWrapper}>
         <ScrollView
+          ref={_historyScrollRef}
           horizontal
           showsHorizontalScrollIndicator={false}
           onScroll={_onScrollHistory}
+          onContentSizeChange={_onHistoryContentSizeChange}
           scrollEventThrottle={64}
           // Default to the right edge (newest) so the latest balance is visible
           // first; user pans left to load older history.
           contentOffset={{ x: Math.max(_chartWidth - _viewportWidth, 0), y: 0 }}
-          // When older pages prepend, keep the currently-visible portion in
-          // place instead of letting the viewport drift right (iOS only).
-          maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
+          // iOS: native preservation. Android: handled manually via
+          // _onHistoryContentSizeChange, since this prop is iOS-only.
+          maintainVisibleContentPosition={
+            Platform.OS === 'ios' ? { minIndexForVisible: 0 } : undefined
+          }
         >
           <SimpleChart
             data={chartValues}
@@ -425,6 +453,27 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
       {_renderSummaryBody()}
     </View>
   );
+
+  // Without a username every SDK query is gated `enabled: false` and silently
+  // returns nothing — show an explicit fallback so the user knows the sheet
+  // isn't broken (instead of an indefinite "no activity" empty state).
+  if (!username) {
+    return (
+      <ActionSheet
+        gestureEnabled={true}
+        containerStyle={styles.sheetContent}
+        indicatorStyle={styles.sheetIndicator}
+        defaultOverlayOpacity={0}
+        onClose={_onClose}
+      >
+        <View style={styles.loadingContainer}>
+          <Text style={styles.emptyText}>
+            {intl.formatMessage({ id: 'alert.something_wrong' })}
+          </Text>
+        </View>
+      </ActionSheet>
+    );
+  }
 
   return (
     <ActionSheet
