@@ -727,11 +727,15 @@ export const handleHiveUriOperation = async (
         console.warn('[handleHiveUriOperation] status poll recovery failed', recoveryErr);
       }
     }
-    const errString = handleChainError(String((err as Error)?.message ?? err));
+    const rawMessage = String((err as Error)?.message ?? err);
+    const errString = handleChainError(rawMessage);
     captureExceptionWithRpcParams(err, { tx }, (scope) => {
       scope.setTag('context', 'handle-hive-uri-operation');
       scope.setContext('tx', tx);
     });
-    return Promise.reject(errString);
+    // handleChainError returns null when no known pattern matches; preserve
+    // the original error in that case so callers don't get an opaque
+    // `Promise.reject(null)`.
+    return Promise.reject(new Error(errString ?? rawMessage));
   }
 };

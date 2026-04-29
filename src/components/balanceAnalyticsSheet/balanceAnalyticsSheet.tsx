@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -82,6 +82,15 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
   const dim = useWindowDimensions();
   const [activeTab, setActiveTab] = useState<Tab>('history');
   const [granularity, setGranularity] = useState<Granularity>('yearly');
+
+  // Action sheets stay mounted between presentations (per CLAUDE.md
+  // sheet-pattern note), so reset our local view state whenever the sheet is
+  // re-opened with a new payload — otherwise the previous account/coin's tab
+  // and granularity selection leak into the new view.
+  useEffect(() => {
+    setActiveTab('history');
+    setGranularity('yearly');
+  }, [payload]);
 
   const { data: dynamicProps, isLoading: dynamicPropsLoading } = useQuery(
     getDynamicPropsQueryOptions(),
