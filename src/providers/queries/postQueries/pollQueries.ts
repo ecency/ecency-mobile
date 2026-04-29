@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import {
@@ -21,21 +21,11 @@ import { selectCurrentAccount, selectGlobalProps } from '../../../redux/selector
 import { useAuthContext } from '../../sdk/useAuthContext';
 
 /** hook used to return post poll */
-export const useGetPollQuery = (_author?: string, _permlink?: string, metadata?: PostMetadata) => {
+export const useGetPollQuery = (_author?: string, _permlink?: string, _metadata?: PostMetadata) => {
   const [author, setAuthor] = useState(_author);
   const [permlink, setPermlink] = useState(_permlink);
 
-  // post process initial post if available
-  const _initialPollData = useMemo(() => {
-    // TODO: convert metadata to Poll data;
-
-    return null;
-  }, [metadata]);
-
-  const query = useQuery({
-    ...getPollQueryOptions(author, permlink),
-    initialData: _initialPollData,
-  });
+  const query = useQuery(getPollQueryOptions(author, permlink));
 
   // TODO: use injectPollVoteCache here for simplifity and code reuseability
   const data = useInjectPollVoteCache(query.data);
@@ -133,7 +123,7 @@ export function useVotePollMutation(poll: Poll | null) {
 }
 
 // used to create, update and remove poll vote entry from votes data
-const useInjectPollVoteCache = (pollData: Poll | null) => {
+const useInjectPollVoteCache = (pollData: Poll | null | undefined) => {
   const pollVotesCollection = useAppSelector((state) => state.cache.pollVotesCollection);
   const lastUpdate = useAppSelector((state) => state.cache.lastUpdate);
   const [retData, setRetData] = useState<Poll | null>(null);
@@ -143,7 +133,7 @@ const useInjectPollVoteCache = (pollData: Poll | null) => {
       const _postPath = lastUpdate.postPath;
       const _voteCache = pollVotesCollection[_postPath];
 
-      const _comparePath = (item) => _postPath === `${item.author}/${item.permlink}`;
+      const _comparePath = (item: Poll) => _postPath === `${item.author}/${item.permlink}`;
       const _pathMatched = pollData && _comparePath(pollData);
 
       // if poll available, inject cache and update state

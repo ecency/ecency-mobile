@@ -53,8 +53,8 @@ export const CoinBasics = ({
             <Icon
               iconType="MaterialCommunityIcons"
               name="chart-line"
-              style={styles.eyeIcon}
-              size={20}
+              style={styles.analyticsChartIcon}
+              size={22}
             />
           </TouchableOpacity>
         )}

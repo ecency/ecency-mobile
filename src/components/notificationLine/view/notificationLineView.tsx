@@ -42,9 +42,39 @@ const NotificationLineView = ({
             : ' from your posts and curation.';
         return { amount: total, breakdown };
       }
+      case 'account_update': {
+        const granted: any[] = Array.isArray(notification.accounts_granted)
+          ? notification.accounts_granted
+          : [];
+        return {
+          accounts: granted.map((g: any) => `@${g.account}`).join(', '),
+        };
+      }
       default:
         return {};
     }
+  };
+
+  // Pick a more specific i18n key for account_update based on what actually changed.
+  // Falls back to the generic key if the backend didn't include the new fields.
+  const _getAccountUpdateIntlKey = () => {
+    const keys = Array.isArray(notification.keys_changed) ? notification.keys_changed : [];
+    const granted = Array.isArray(notification.accounts_granted)
+      ? notification.accounts_granted
+      : [];
+
+    if (keys.includes('owner')) return 'notification.account_update_owner_key';
+    if (keys.includes('active')) return 'notification.account_update_active_key';
+    if (keys.includes('posting')) return 'notification.account_update_posting_key';
+
+    if (granted.length) {
+      const authorities = new Set(granted.map((g: any) => g.authority));
+      if (authorities.has('owner')) return 'notification.account_update_owner_authority';
+      if (authorities.has('active')) return 'notification.account_update_active_authority';
+      return 'notification.account_update_posting_authority';
+    }
+
+    return 'notification.account_update';
   };
 
   const _messageValues = _getMessageValues();
@@ -79,9 +109,14 @@ const NotificationLineView = ({
     titleExtra = _percent;
   }
 
+  const _intlId =
+    notification.type === 'account_update'
+      ? _getAccountUpdateIntlKey()
+      : `notification.${notification.type}`;
+
   const _notificationText = intl.formatMessage(
     {
-      id: `notification.${notification.type}`,
+      id: _intlId,
       defaultMessage: notification.type?.replace(/_/g, ' ') || 'notification',
     },
     _messageValues,

@@ -158,6 +158,10 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  analyticsChartIcon: {
+    color: '$primaryBlue',
+    marginLeft: 12,
+  },
   closeIcon: {
     color: '$iconColor',
     // paddingRight: 0
