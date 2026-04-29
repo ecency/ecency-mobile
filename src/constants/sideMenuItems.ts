@@ -8,14 +8,6 @@ interface MenuItem {
   iconType?: string;
 }
 
-const EXPLORE_MENU_ITEM: MenuItem = {
-  name: 'Explore',
-  route: ROUTES.SCREENS.DAPP_BROWSER,
-  icon: 'compass-outline',
-  iconType: 'MaterialCommunityIcons',
-  id: 'explore',
-};
-
 const authMenuItems: MenuItem[] = [
   {
     name: 'Profile',
@@ -54,7 +46,13 @@ const authMenuItems: MenuItem[] = [
     icon: 'people',
     id: 'communities',
   },
-  EXPLORE_MENU_ITEM,
+  {
+    name: 'Explore',
+    route: ROUTES.SCREENS.DAPP_BROWSER,
+    icon: 'compass-outline',
+    iconType: 'MaterialCommunityIcons',
+    id: 'explore',
+  },
   {
     name: 'QR Scan',
     route: '',
@@ -96,7 +94,6 @@ const noAuthMenuItems: MenuItem[] = [
     icon: 'user-follow',
     id: 'add_account',
   },
-  EXPLORE_MENU_ITEM,
   {
     name: 'QR Scan',
     route: '',
