@@ -1,5 +1,5 @@
 import React, { useState, forwardRef, useImperativeHandle, useMemo, useEffect } from 'react';
-import { View, Text, Alert, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { useIntl } from 'react-intl';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -7,7 +7,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppSelector } from '../../../hooks';
 import { TextInput, MainButton } from '../../index';
 import { tipsQueries, walletQueries } from '../../../providers/queries';
-import { ActivityIndicator } from '../../basicUIElements';
 import { getCurrencyPrecision } from '../../../services/tippingService';
 import { selectIsLoggedIn } from '../../../redux/selectors';
 
@@ -279,7 +278,7 @@ const TippingDialogContent = forwardRef<any, TippingDialogContentProps>(
         <MainButton
           onPress={_handleSendTip}
           isLoading={sendTipMutation.isPending}
-          isDisabled={!isLoggedIn || !_isValidAmount() || sendTipMutation.isPending}
+          isDisable={!isLoggedIn || !_isValidAmount() || sendTipMutation.isPending}
           text={intl.formatMessage({ id: 'tipping.send' })}
           style={styles.button}
         />
