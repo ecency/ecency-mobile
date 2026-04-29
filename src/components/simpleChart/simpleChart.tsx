@@ -39,6 +39,20 @@ export const SimpleChart = ({
   const _chartWidth = data.length <= 1 ? baseWidth : baseWidth + baseWidth / (data.length - 1);
   const _chartBackgroundColor = EStyleSheet.value('$primaryLightBackground');
   const _resolvedLabels = labels && labels.length === data.length ? labels : data.map(() => '');
+
+  // Compact Y labels so the pinned axis gutter fits values up to billions
+  // without truncation. Mirrors Intl `compact` notation but pins to 2 decimals
+  // (e.g. 92345.72 -> "92.35k", 1034567 -> "1.03M").
+  const _formatYLabel = (raw: string) => {
+    const n = Number(raw);
+    if (!Number.isFinite(n)) return raw;
+    const abs = Math.abs(n);
+    const sign = n < 0 ? '-' : '';
+    if (abs >= 1e9) return `${sign}${(abs / 1e9).toFixed(2)}B`;
+    if (abs >= 1e6) return `${sign}${(abs / 1e6).toFixed(2)}M`;
+    if (abs >= 1e3) return `${sign}${(abs / 1e3).toFixed(2)}k`;
+    return `${sign}${abs.toFixed(2)}`;
+  };
   return (
     <LineChart
       data={{
@@ -56,6 +70,7 @@ export const SimpleChart = ({
       withHorizontalLines={false}
       withDots={false}
       withInnerLines={false}
+      formatYLabel={_formatYLabel}
       chartConfig={{
         backgroundColor: _chartBackgroundColor,
         backgroundGradientFrom: _chartBackgroundColor,

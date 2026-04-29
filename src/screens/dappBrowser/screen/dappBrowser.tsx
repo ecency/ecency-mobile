@@ -88,6 +88,14 @@ const DAPP_DIRECTORY: DappEntry[] = [
     category: 'Gaming',
   },
   {
+    name: 'Rising Star',
+    url: 'https://www.risingstargame.com',
+    icon: 'https://www.google.com/s2/favicons?domain=risingstargame.com&sz=128',
+    color: '#E91E63',
+    initial: 'R',
+    category: 'Gaming',
+  },
+  {
     name: 'Tribaldex',
     url: 'https://tribaldex.com',
     icon: 'https://www.google.com/s2/favicons?domain=tribaldex.com&sz=128',
