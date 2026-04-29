@@ -36,7 +36,7 @@ export const usePostSubmitter = () => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinHash = useAppSelector(selectPin);
   const authContext = useAuthContext();
-  const commentMutation = useComment(currentAccount?.name, authContext);
+  const commentMutation = useComment(currentAccount?.name, authContext, 'async');
   const [isSubmitting, setIsSubmitting, getIsSubmittingCurrent] = useStateWithRef(false);
   const [
     _postingAuthorityPromptShown,

@@ -3,11 +3,10 @@ import get from 'lodash/get';
 
 // Services and Actions
 import { View, TouchableOpacity, Text, useWindowDimensions } from 'react-native';
-import Popover from 'react-native-popover-view';
+import Popover, { PopoverPlacement as Placement, Rect } from 'react-native-popover-view';
 import Slider from '@react-native-community/slider';
 import { useIntl } from 'react-intl';
-import { Placement } from 'react-native-popover-view/dist/Types';
-import { useVote } from '@ecency/sdk';
+import { useVote, votingPower as sdkVotingPower, votingRshares, votingValue } from '@ecency/sdk';
 import {
   setCommentUpvotePercent,
   setPostUpvotePercent,
@@ -22,8 +21,6 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { PostTypes } from '../../../constants/postTypes';
 
 // Utils
-
-import { calculateEstimatedRShares, getEstimatedAmount } from '../../../utils/vote';
 import {
   selectIsLoggedIn,
   selectPostUpvotePercent,
@@ -72,6 +69,14 @@ const UpvotePopover = forwardRef(({}, ref) => {
 
   const onVotingStartRef = useRef<any>(null);
   const sourceRef = useRef<any>(null);
+  const sourceRectRef = useRef<{ x: number; y: number; width: number; height: number } | null>(
+    null,
+  );
+  // Monotonic id incremented on every measure() call. The async measure
+  // callback captures the id at call time and only commits its result if it
+  // still matches — discards stale callbacks when showPopover() is invoked
+  // multiple times in quick succession.
+  const measureCallIdRef = useRef(0);
   const isVotingRef = useRef(false);
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -83,7 +88,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
   const globalProps = useAppSelector(selectGlobalProps);
 
   const authContext = useAuthContext();
-  const voteMutation = useVote(currentAccount?.name, authContext);
+  const voteMutation = useVote(currentAccount?.name, authContext, 'async');
 
   const [content, setContent] = useState<any>(null);
   const [postType, setPostType] = useState<PostTypes>(PostTypes.POST);
@@ -95,6 +100,26 @@ const UpvotePopover = forwardRef(({}, ref) => {
 
   const [sliderValue, setSliderValue] = useState(1);
   const [amount, setAmount] = useState('0.00000');
+
+  // Use SDK's votingValue (same formula as vision-next web) for vote estimation
+  const _estimateVoteValue = (account: any, props: any, sliderVal: number) => {
+    const vPower = sdkVotingPower(account) * 100;
+    const weight = Math.abs(sliderVal) * 10000;
+    return votingValue(account, props, vPower, weight);
+  };
+
+  const _formatEstimate = (value: number) => {
+    if (Number.isNaN(value)) {
+      return '0.00';
+    } else if (value >= 1) {
+      return value.toFixed(2);
+    }
+    // Always emit a plain decimal so parseFloat downstream never produces NaN.
+    // toPrecision used to emit "1e-7"-style scientific notation for very small
+    // values; toFixed avoids that. 6 decimals for tiny values keeps a useful
+    // signal without relying on a non-numeric sentinel like "<0.001".
+    return value.toFixed(value < 0.001 ? 6 : 4);
+  };
 
   useImperativeHandle(ref, () => ({
     showPopover: ({
@@ -133,8 +158,8 @@ const UpvotePopover = forwardRef(({}, ref) => {
       }
 
       const _amount =
-        currentAccount && Object.entries(currentAccount).length !== 0
-          ? getEstimatedAmount(currentAccount, globalProps, _upvotePercent)
+        currentAccount && Object.entries(currentAccount).length !== 0 && globalProps
+          ? _formatEstimate(_estimateVoteValue(currentAccount, globalProps, _upvotePercent))
           : '0.00000';
 
       setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
@@ -144,14 +169,35 @@ const UpvotePopover = forwardRef(({}, ref) => {
       setPostType(resolvedPostType);
       setContent(_content);
       setShowPayoutDetails(_showPayoutDetails || false);
-      setShowPopover(true);
+
+      // Pre-measure source element position before showing popover.
+      // This avoids the expensive synchronous layout pass that react-native-popover-view
+      // triggers when it measures the ref itself on complex pages (post detail with
+      // rendered HTML body + comments causes ~2s freeze on iOS).
+      if (_sourceRef.current?.measure) {
+        const _measureId = ++measureCallIdRef.current;
+        _sourceRef.current.measure(
+          (_x: number, _y: number, width: number, height: number, pageX: number, pageY: number) => {
+            // Discard if a newer showPopover() supersedes this measurement.
+            if (_measureId !== measureCallIdRef.current) return;
+            sourceRectRef.current = { x: pageX, y: pageY, width, height };
+            setShowPopover(true);
+          },
+        );
+      } else {
+        // Bump so any in-flight measure callback for the previous call is
+        // ignored when it eventually fires.
+        measureCallIdRef.current += 1;
+        sourceRectRef.current = null;
+        setShowPopover(true);
+      }
     },
   }));
 
   // Component Functions
-  const _calculateEstimatedAmount = async (value: number = sliderValue) => {
-    if (currentAccount && Object.entries(currentAccount).length !== 0) {
-      setAmount(getEstimatedAmount(currentAccount, globalProps, value));
+  const _calculateEstimatedAmount = (value: number = sliderValue) => {
+    if (currentAccount && Object.entries(currentAccount).length !== 0 && globalProps) {
+      setAmount(_formatEstimate(_estimateVoteValue(currentAccount, globalProps, value)));
     }
   };
 
@@ -320,7 +366,19 @@ const UpvotePopover = forwardRef(({}, ref) => {
     }
 
     const percent = Math.trunc(sliderValue * 100) * 100 * (isDownvote ? -1 : 1);
-    const rshares = calculateEstimatedRShares(currentAccount, percent) * (isDownvote ? -1 : 1);
+    // votingRshares can throw when account or globalProps haven't loaded —
+    // mirror the guard used for _amount so optimistic cache updates don't
+    // crash the vote flow before data is ready.
+    const _rsharesReady =
+      currentAccount && Object.entries(currentAccount).length !== 0 && globalProps;
+    const rshares = _rsharesReady
+      ? votingRshares(
+          currentAccount,
+          globalProps as any,
+          sdkVotingPower(currentAccount) * 100,
+          Math.abs(percent),
+        ) * (isDownvote ? -1 : 1)
+      : 0;
 
     const curTime = new Date().getTime();
     updateVoteInQueryCaches(author, permlink, {
@@ -330,20 +388,21 @@ const UpvotePopover = forwardRef(({}, ref) => {
       rshares,
       percent,
       incrementStep,
-      voter: currentAccount.name,
+      voter: currentAccount?.name || '',
       status,
     });
   };
 
   const _closePopover = () => {
     setShowPopover(false);
+    sourceRectRef.current = null;
 
     setTimeout(() => {
       setShowPayoutDetails(false);
     }, 300);
   };
 
-  if (!content) {
+  if (!showPopover) {
     return null;
   }
 
@@ -360,6 +419,16 @@ const UpvotePopover = forwardRef(({}, ref) => {
   const _sliderWidth = deviceWidth - 24;
   const _sliderStyle = { ...styles.popoverSlider, width: _sliderWidth };
 
+  // Use pre-measured rect to avoid expensive synchronous layout pass
+  const _fromProp = sourceRectRef.current
+    ? new Rect(
+        sourceRectRef.current.x,
+        sourceRectRef.current.y,
+        sourceRectRef.current.width,
+        sourceRectRef.current.height,
+      )
+    : sourceRef;
+
   return (
     <Fragment>
       <Popover
@@ -370,7 +439,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
         onRequestClose={() => {
           _closePopover();
         }}
-        from={sourceRef}
+        from={_fromProp}
         placement={[Placement.TOP]}
         offset={12}
       >

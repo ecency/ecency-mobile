@@ -118,6 +118,7 @@ export const useNotificationReadMutation = () => {
     undefined,
     authContext,
     'posting',
+    { broadcastMode: 'async' },
   );
 
   // Track pending mutations to verify on error

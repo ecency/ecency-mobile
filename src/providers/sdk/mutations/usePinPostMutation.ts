@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function usePinPostMutation() {
   const { username, authContext } = useMutationAuth();
-  return usePinPost(username, authContext);
+  return usePinPost(username, authContext, 'async');
 }

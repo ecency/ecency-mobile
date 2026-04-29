@@ -19,6 +19,7 @@ import {
 import { ShareIntentSheet } from '../components/shareIntentSheet';
 import SignConfirmSheet from '../screens/dappBrowser/components/signConfirmSheet';
 import ReceiveQrSheet from '../components/receiveQrSheet/receiveQrSheet';
+import BalanceAnalyticsSheet from '../components/balanceAnalyticsSheet/balanceAnalyticsSheet';
 import { TippingDialog } from '../components/tipping';
 import { TTSSettingsSheet } from '../components/textToSpeech/ttsSettingsSheet';
 import { ActionModalPayload } from '../components/actionModal/container/actionModalContainer';
@@ -43,6 +44,7 @@ export enum SheetNames {
   SHARE_INTENT = 'share_intent',
   SIGN_CONFIRM = 'sign_confirm',
   RECEIVE_QR = 'receive_qr',
+  BALANCE_ANALYTICS = 'balance_analytics',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -64,6 +66,7 @@ registerSheet(SheetNames.AI_ASSIST, AiAssistModal);
 registerSheet(SheetNames.SHARE_INTENT, ShareIntentSheet);
 registerSheet(SheetNames.SIGN_CONFIRM, SignConfirmSheet);
 registerSheet(SheetNames.RECEIVE_QR, ReceiveQrSheet);
+registerSheet(SheetNames.BALANCE_ANALYTICS, BalanceAnalyticsSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -188,6 +191,12 @@ declare module 'react-native-actions-sheet' {
     }>;
     [SheetNames.RECEIVE_QR]: SheetDefinition<{
       payload: {
+        username: string;
+      };
+    }>;
+    [SheetNames.BALANCE_ANALYTICS]: SheetDefinition<{
+      payload: {
+        coinType: string;
         username: string;
       };
     }>;

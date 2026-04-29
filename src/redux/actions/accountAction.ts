@@ -25,6 +25,11 @@ export const fetchGlobalProperties = () => async (dispatch) => {
       quote: props.quote,
       fundRecentClaims: props.fundRecentClaims,
       fundRewardBalance: props.fundRewardBalance,
+      votePowerReserveRate: props.votePowerReserveRate,
+      authorRewardCurve: props.authorRewardCurve,
+      contentConstant: props.contentConstant,
+      currentHardforkVersion: props.currentHardforkVersion,
+      lastHardfork: props.lastHardfork,
       hbdPrintRate: props.hbdPrintRate,
     };
 

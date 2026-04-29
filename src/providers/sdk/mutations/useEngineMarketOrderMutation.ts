@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useEngineMarketOrderMutation() {
   const { username, authContext } = useMutationAuth();
-  return useEngineMarketOrder(username, authContext);
+  return useEngineMarketOrder(username, authContext, 'async');
 }

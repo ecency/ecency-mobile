@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useFollowMutation() {
   const { username, authContext } = useMutationAuth();
-  return useFollow(username, authContext);
+  return useFollow(username, authContext, 'async');
 }

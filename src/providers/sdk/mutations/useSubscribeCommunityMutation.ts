@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useSubscribeCommunityMutation() {
   const { username, authContext } = useMutationAuth();
-  return useSubscribeCommunity(username, authContext);
+  return useSubscribeCommunity(username, authContext, 'async');
 }

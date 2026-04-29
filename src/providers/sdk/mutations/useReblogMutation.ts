@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useReblogMutation() {
   const { username, authContext } = useMutationAuth();
-  return useReblog(username, authContext);
+  return useReblog(username, authContext, 'async');
 }

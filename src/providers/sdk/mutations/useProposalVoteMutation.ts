@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useProposalVoteMutation() {
   const { username, authContext } = useMutationAuth();
-  return useProposalVote(username, authContext);
+  return useProposalVote(username, authContext, 'async');
 }

@@ -93,8 +93,10 @@ export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean }
 
       return updatedResponse;
     },
-    initialData: [],
-    initialDataUpdatedAt: 0, // treat initialData as stale so it refetches immediately
+    // Cache the portfolio for 30s so quick tab re-visits paint instantly from
+    // cache instead of showing the "Updating…" skeleton on every mount.
+    // Background refresh still happens on focus/foreground when data is stale.
+    staleTime: 30 * 1000,
     enabled: !!currentAccount?.name, // Only fetch when logged in
     retry: 2,
   });
@@ -124,7 +126,7 @@ export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean }
   }, [assetsQuery.data]);
 
   const _getAssetBySymbol = (symbol: string) => {
-    return assetsQuery.data.find((asset) => asset.symbol === symbol);
+    return assetsQuery.data?.find((asset) => asset.symbol === symbol);
   };
 
   return {
@@ -173,6 +175,7 @@ export const useClaimRewardsMutation = () => {
     undefined,
     authContext,
     'posting',
+    { broadcastMode: 'async' },
   );
 
   const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
@@ -422,7 +425,17 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
       return merged.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
     }
 
-    const history = chainQuery.data?.pages?.flat() || [];
+    // SDK pages have shape { entries: Transaction[], currentPage }; flatten the
+    // entries arrays so each `tx` is the normalized operation object that
+    // groomingTransactionData understands (it also tolerates the legacy array form).
+    // Defensively handle both shapes in case a cached/legacy page is an array.
+    const _chainPages = (chainQuery.data as any)?.pages as
+      | Array<unknown[] | { entries?: unknown[] }>
+      | undefined;
+    const history: any[] =
+      _chainPages?.flatMap((p) =>
+        Array.isArray(p) ? p : (p as { entries?: unknown[] })?.entries ?? [],
+      ) || [];
     const transfers = history.filter((tx) => {
       const opType = Array.isArray(tx) ? get(tx[1], 'op[0]', false) : get(tx, 'type', false);
       return transferTypes.includes(opType);
@@ -435,7 +448,7 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
     return activities.filter((item) => item && item.value && item.value.includes(symbol));
   }, [
     pointsQuery.data?.transactions,
-    chainQuery.data?.pages,
+    (chainQuery.data as any)?.pages,
     engineQuery.data?.pages,
     isPoints,
     isEngine,
@@ -701,6 +714,7 @@ export const useDeleteRecurrentTransferMutation = () => {
     undefined,
     authContext,
     'active',
+    { broadcastMode: 'async' },
   );
 
   const mutation = useMutation<boolean, Error, { recurrentTransfer: RecurrentTransfer }>({

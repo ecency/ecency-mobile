@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useTransferPointMutation() {
   const { username, authContext } = useMutationAuth();
-  return useTransferPoint(username, authContext);
+  return useTransferPoint(username, authContext, 'async');
 }

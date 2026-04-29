@@ -4,12 +4,11 @@ import { unionBy } from 'lodash';
 import { Image } from 'react-native';
 import VersionNumber from 'react-native-version-number';
 import getSlug from 'speakingurl';
-import { getQueryClient, getPostQueryOptions } from '@ecency/sdk';
+import { getQueryClient, getPostQueryOptions, POLLS_PROTOCOL_VERSION } from '@ecency/sdk';
 import { PostTypes } from '../constants/postTypes';
 import { PollDraft } from '../providers/ecency/ecency.types';
 import { ContentType, PollMetadata, PostMetadata } from '../providers/hive/hive.types';
 import postUrlParser from './postUrlParser';
-import { POLLS_PROTOCOL_VERSION } from '../providers/polls/polls';
 
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;

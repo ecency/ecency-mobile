@@ -36,7 +36,7 @@
     "@babel/preset-typescript": "^7.26.0",
     "@babel/runtime": "^7.26.7",
     "@ecency/render-helper": "^2.4.33",
-    "@ecency/sdk": "^2.2.6",
+    "@ecency/sdk": "^2.2.9",
     "@esteemapp/react-native-autocomplete-input": "^4.2.1",
     "@esteemapp/react-native-multi-slider": "^1.1.0",
     "@native-html/iframe-plugin": "^2.6.1",

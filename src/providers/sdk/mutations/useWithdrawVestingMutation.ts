@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useWithdrawVestingMutation() {
   const { username, authContext } = useMutationAuth();
-  return useWithdrawVesting(username, authContext);
+  return useWithdrawVesting(username, authContext, 'async');
 }

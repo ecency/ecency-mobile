@@ -85,6 +85,8 @@ export function useReblogMutation(author: string, permlink: string) {
     ],
     () => {}, // onSuccess callback
     auth,
+    'posting',
+    { broadcastMode: 'async' },
   );
 
   return useMutation({
@@ -261,6 +263,8 @@ export function useCrossPostMutation() {
     },
     () => {}, // onSuccess callback
     auth,
+    'posting',
+    { broadcastMode: 'async' },
   );
 
   return useMutation({

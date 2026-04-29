@@ -21,6 +21,11 @@ export interface GlobalProps {
   quote: number;
   fundRecentClaims: number;
   fundRewardBalance: number;
+  votePowerReserveRate: number;
+  authorRewardCurve: string;
+  contentConstant: number;
+  currentHardforkVersion: string;
+  lastHardfork: number;
   hbdPrintRate: number;
 }
 export interface PrevLoggedInUsers {

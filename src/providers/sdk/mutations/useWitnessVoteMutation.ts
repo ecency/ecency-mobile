@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useWitnessVoteMutation() {
   const { username, authContext } = useMutationAuth();
-  return useWitnessVote(username, authContext);
+  return useWitnessVote(username, authContext, 'async');
 }

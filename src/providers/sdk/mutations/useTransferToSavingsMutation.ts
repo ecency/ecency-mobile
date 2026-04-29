@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useTransferToSavingsMutation() {
   const { username, authContext } = useMutationAuth();
-  return useTransferToSavings(username, authContext);
+  return useTransferToSavings(username, authContext, 'async');
 }

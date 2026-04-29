@@ -3,5 +3,5 @@ import { useMutationAuth } from './common';
 
 export function useLimitOrderCreateMutation() {
   const { username, authContext } = useMutationAuth();
-  return useLimitOrderCreate(username, authContext);
+  return useLimitOrderCreate(username, authContext, 'async');
 }

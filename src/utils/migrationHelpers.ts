@@ -461,6 +461,24 @@ const reduxMigrations = {
     );
     return state;
   },
+  16: (state) => {
+    // Backfill account.globalProps fields added later (votePowerReserveRate,
+    // authorRewardCurve, contentConstant, currentHardforkVersion, lastHardfork).
+    // Without these, vote estimation can throw on first launch after upgrade
+    // until fetchGlobalProperties() refreshes from the chain.
+    if (state.account?.globalProps) {
+      const gp = state.account.globalProps;
+      state.account.globalProps = {
+        votePowerReserveRate: 10,
+        authorRewardCurve: 'linear',
+        contentConstant: 2000000000000,
+        currentHardforkVersion: '1.28.0',
+        lastHardfork: 28,
+        ...gp,
+      };
+    }
+    return state;
+  },
 };
 
 export default {

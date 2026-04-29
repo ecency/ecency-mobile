@@ -17,6 +17,7 @@ interface CoinBasicsProps {
   showChart: boolean;
   setShowChart: (value: boolean) => void;
   onInfoPress: (id: string) => void;
+  onAnalyticsPress?: () => void;
 }
 
 export const CoinBasics = ({
@@ -30,6 +31,7 @@ export const CoinBasics = ({
   showChart,
   setShowChart,
   onInfoPress,
+  onAnalyticsPress,
 }: CoinBasicsProps) => {
   const intl = useIntl();
   const _renderCoinHeader = (
@@ -42,24 +44,55 @@ export const CoinBasics = ({
           isEngine={isEngine}
         />
         <Text style={styles.textCoinTitle}>{coinSymbol}</Text>
+        {onAnalyticsPress && (
+          <TouchableOpacity
+            onPress={onAnalyticsPress}
+            style={styles.analyticsIcon}
+            accessibilityLabel={intl.formatMessage({ id: 'wallet.openAnalytics' })}
+          >
+            <Icon
+              iconType="MaterialCommunityIcons"
+              name="chart-line"
+              style={styles.eyeIcon}
+              size={20}
+            />
+          </TouchableOpacity>
+        )}
       </View>
-      <TouchableOpacity style={styles.percentEyeContainer} onPress={() => setShowChart(!showChart)}>
-        {apr ? (
-          <Text style={styles.textHeaderApr}>
-            {intl.formatMessage({ id: 'wallet.apr' })} {apr.toFixed(apr < 10 ? 3 : 2)}%
-          </Text>
-        ) : (
-          <View style={styles.textHeaderApr} />
-        )}
-        {!!isRenderChart && (
-          <Icon
-            iconType="Ionicons"
-            name={showChart ? 'eye' : 'eye-off'}
-            style={styles.eyeIcon}
-            size={20}
-          />
-        )}
-      </TouchableOpacity>
+      <View style={styles.percentEyeContainer}>
+        <TouchableOpacity
+          disabled={!isRenderChart}
+          onPress={() => {
+            if (!isRenderChart) return;
+            setShowChart(!showChart);
+          }}
+          accessibilityLabel={
+            isRenderChart
+              ? intl.formatMessage({
+                  id: showChart ? 'wallet.hideChart' : 'wallet.showChart',
+                })
+              : undefined
+          }
+        >
+          <View style={styles.percentEyeContainer}>
+            {apr !== undefined && apr !== null ? (
+              <Text style={styles.textHeaderApr}>
+                {intl.formatMessage({ id: 'wallet.apr' })} {apr.toFixed(apr < 10 ? 3 : 2)}%
+              </Text>
+            ) : (
+              <View style={styles.textHeaderApr} />
+            )}
+            {!!isRenderChart && (
+              <Icon
+                iconType="Ionicons"
+                name={showChart ? 'eye' : 'eye-off'}
+                style={styles.eyeIcon}
+                size={20}
+              />
+            )}
+          </View>
+        </TouchableOpacity>
+      </View>
     </>
   );
 

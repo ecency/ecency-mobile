@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PortfolioItem } from 'providers/ecency/ecency.types';
+import { SheetManager } from 'react-native-actions-sheet';
 import { BasicHeader } from '../../../components';
 import { CoinSummary, ActivitiesList, RecurrentTransfersModal } from '../children';
 import styles from './screen.styles';
@@ -11,12 +12,13 @@ import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import { useAppSelector } from '../../../hooks';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import { selectIsPinCodeOpen } from '../../../redux/selectors';
+import { selectCurrentAccount, selectIsPinCodeOpen } from '../../../redux/selectors';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
 import parseAsset from '../../../utils/parseAsset';
 import TokenLayers from '../../../constants/tokenLayers';
+import { SheetNames } from '../../../navigation/sheets';
 
 export interface AssetDetailsScreenParams {
   asset: PortfolioItem;
@@ -56,7 +58,15 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   // const quote: QuoteItem = useAppSelector((state) =>
   //   state.wallet.quotes ? state.wallet.quotes[assetSymbol] : {},
   // );
-  const username = useAppSelector((state) => state.wallet.username);
+  // state.wallet.username is only populated by the legacy SET_COINS_DATA path
+  // and is often empty; fall back to the canonical currentAccount name so the
+  // SDK balance/history queries (which short-circuit on empty username) fire.
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const username =
+    useAppSelector((state) => state.wallet.username) ||
+    currentAccount?.name ||
+    currentAccount?.username ||
+    '';
   const isPinCodeOpen = useAppSelector(selectIsPinCodeOpen);
 
   useEffect(() => {
@@ -217,6 +227,19 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     _fetchDetails(true);
   };
 
+  const _coinTypeMap: Record<string, string> = {
+    HIVE: 'HIVE',
+    HBD: 'HBD',
+    HP: 'VESTS',
+  };
+
+  const _onAnalyticsPress = () => {
+    const coinType = _coinTypeMap[assetSymbol] || assetSymbol;
+    SheetManager.show(SheetNames.BALANCE_ANALYTICS, {
+      payload: { coinType, username },
+    });
+  };
+
   const _renderHeaderComponent = (
     <CoinSummary
       tokenSymbol={assetSymbol}
@@ -226,6 +249,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       onInfoPress={_onInfoPress}
       showChart={showChart}
       setShowChart={setShowChart}
+      onAnalyticsPress={_coinTypeMap[assetSymbol] ? _onAnalyticsPress : undefined}
     />
   );
 

@@ -44,7 +44,7 @@ export const useWavesQuery = (sdkQueryOptions: WavesQueryOptions, host: string) 
 
   const botAuthorsQuery = useBotAuthorsQuery();
   const authContext = useAuthContext();
-  const sdkDeleteMutation = useDeleteComment(currentAccount?.name, authContext);
+  const sdkDeleteMutation = useDeleteComment(currentAccount?.name, authContext, 'async');
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
