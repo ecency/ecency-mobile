@@ -31,12 +31,16 @@ export const userActivity = async (ty: number, tx = '', bl: string | number = ''
   }
 };
 
-export const getPointsSummary = async (username: string): Promise<EcencyUser> => {
+export const getPointsSummary = async (username: string): Promise<EcencyUser | null> => {
   try {
     const queryClient = getQueryClient();
     const response = await queryClient.fetchQuery(getPointsQueryOptions(username, 0));
     return response as EcencyUser;
   } catch (error) {
+    // 404 is expected for accounts that have not yet been provisioned in the points system
+    if (/\b404\b/.test(error?.message || '') || error?.response?.status === 404) {
+      return null;
+    }
     console.warn('Failed to get points', error);
     Sentry.captureException(error);
     throw new Error(error.response?.data?.message || error.message);

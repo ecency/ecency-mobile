@@ -68,7 +68,7 @@ class TransferContainer extends Component {
   _getUserPointsBalance = async (username) => {
     await getPointsSummary(username)
       .then((userPoints) => {
-        const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
+        const balance = Math.round(Number(get(userPoints, 'points', 0)) * 1000) / 1000;
         this.setState({ balance });
       })
       .catch((err) => {

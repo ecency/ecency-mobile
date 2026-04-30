@@ -70,17 +70,18 @@ const FormInputView = ({
   const [inputBorderColor, setInputBorderColor] = useState('#e7e7e7');
   const [_isValid, setIsValid] = useState(true);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
+  const isFocusedRef = useRef(false);
   const isIos = Platform.OS === 'ios';
 
   const _handleOnChange = (text) => {
     setValue(text);
-
     if (onChange) {
       onChange(text);
     }
   };
 
   const _handleOnFocus = () => {
+    isFocusedRef.current = true;
     setInputBorderColor('#357ce6');
     if (onFocus) {
       onFocus();
@@ -88,25 +89,32 @@ const FormInputView = ({
   };
 
   const _handleOnBlur = () => {
+    isFocusedRef.current = false;
     setInputBorderColor('#e7e7e7');
+    // Resync local mirror with parent value on blur, in case parent normalized text during typing
+    // (e.g., login username trims/lowercases) and the focused-typing branch skipped the sync.
+    if (value !== _value) {
+      setValue(value || '');
+    }
     if (onBlur) {
       onBlur();
     }
   };
 
+  // Sync from parent prop ONLY when input is not focused (avoids racing with active typing on Android)
   useEffect(() => {
-    setValue(value);
+    if (!isFocusedRef.current && value !== _value) {
+      setValue(value || '');
+    }
   }, [value]);
 
-  // TODO: Workaround for android context (copy/paste) menu, check react-navigation library
+  // Workaround for android context (copy/paste) menu glitch on empty inputs
   useEffect(() => {
-    if (!isIos) {
-      if (!value) {
-        setValue(' ');
-        setTimeout(() => {
-          setValue(value || '');
-        }, 0);
-      }
+    if (!isIos && !value) {
+      setValue(' ');
+      setTimeout(() => {
+        setValue(value || '');
+      }, 0);
     }
   }, []);
 

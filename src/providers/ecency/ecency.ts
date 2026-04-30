@@ -126,6 +126,10 @@ export const uploadImage = async (media, username, sign, uploadProgress = null) 
 export const getNodes = async () => {
   try {
     const response = await fetch('https://ecency.com/public-nodes.json');
+    if (!response.ok) {
+      console.warn(`failed to get nodes list: HTTP ${response.status}, using local fallback`);
+      return [...SERVER_LIST];
+    }
     const data = await response.json();
 
     const nodes = data?.hived ?? data;

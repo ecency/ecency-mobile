@@ -163,7 +163,9 @@ const CommentsContainer = ({
 
   const _getComments = async () => {
     if (isOwnProfile) {
-      await fetchPost();
+      if (fetchPost) {
+        await fetchPost();
+      }
       if (handleOnCommentsLoaded) {
         handleOnCommentsLoaded();
       }

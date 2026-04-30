@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback, memo } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -18,6 +18,45 @@ import { PollDraft } from '../../../providers/ecency/ecency.types';
 import { useAppSelector } from '../../../hooks';
 import { MainButton } from '../../mainButton';
 import IconButton from '../../iconButton';
+
+interface ChoiceRowProps {
+  choice: string;
+  index: number;
+  placeholder: string;
+  onChange: (index: number, text: string) => void;
+  onRemove: (index: number) => void;
+}
+
+const ChoiceRow = memo(({ choice, index, placeholder, onChange, onRemove }: ChoiceRowProps) => {
+  const handleChange = useCallback((text: string) => onChange(index, text), [onChange, index]);
+  const handleRemove = useCallback(() => onRemove(index), [onRemove, index]);
+
+  return (
+    <View style={styles.inputContainer}>
+      <FormInput
+        rightIconName="arrow-right"
+        iconType="MaterialCommunityIcons"
+        isValid={true}
+        onChange={handleChange}
+        placeholder={placeholder}
+        isEditable={true}
+        value={choice}
+        wrapperStyle={styles.inputWrapper}
+        inputStyle={styles.input}
+      />
+      {index > 1 && (
+        <IconButton
+          iconType="MaterialIcons"
+          color={EStyleSheet.value('$iconColor')}
+          size={24}
+          name="close"
+          style={styles.btnRemove}
+          onPress={handleRemove}
+        />
+      )}
+    </View>
+  );
+});
 
 const INIT_POLL_DRAFT: PollDraft = {
   title: '',
@@ -80,22 +119,21 @@ export const PollsWizardContent = ({
     });
   };
 
-  const _removeChoice = (index) => {
-    pollDraft.choices.splice(index, 1);
-    setPollDraft({
-      ...pollDraft,
-      choices: [...pollDraft.choices],
+  const _removeChoice = useCallback((index: number) => {
+    setPollDraft((prev) => {
+      const newChoices = [...prev.choices];
+      newChoices.splice(index, 1);
+      return { ...prev, choices: newChoices };
     });
-  };
+  }, []);
 
-  const handleChoiceChange = (index, value) => {
-    const newChoices = [...pollDraft.choices];
-    newChoices[index] = value;
-    setPollDraft({
-      ...pollDraft,
-      choices: newChoices,
+  const handleChoiceChange = useCallback((index: number, value: string) => {
+    setPollDraft((prev) => {
+      const newChoices = [...prev.choices];
+      newChoices[index] = value;
+      return { ...prev, choices: newChoices };
     });
-  };
+  }, []);
 
   const createPoll = () => {
     // Implement poll creation logic here
@@ -176,33 +214,18 @@ export const PollsWizardContent = ({
     );
   };
 
-  const _renderChoiceInput = (choice, index) => (
-    <View key={`poll-choice-${index}`} style={styles.inputContainer}>
-      <FormInput
-        rightIconName="arrow-right"
-        iconType="MaterialCommunityIcons"
-        isValid={true}
-        onChange={(text) => handleChoiceChange(index, text)}
-        placeholder={intl.formatMessage(
-          { id: 'post_poll.choice_placeholder' },
-          { number: index + 1 },
-        )}
-        isEditable={true}
-        value={choice}
-        wrapperStyle={styles.inputWrapper}
-        inputStyle={styles.input}
-      />
-      {index > 1 && (
-        <IconButton
-          iconType="MaterialIcons"
-          color={EStyleSheet.value('$iconColor')}
-          size={24}
-          name="close"
-          style={styles.btnRemove}
-          onPress={() => _removeChoice(index)}
-        />
+  const _renderChoiceInput = (choice: string, index: number) => (
+    <ChoiceRow
+      key={`poll-choice-${index}`}
+      choice={choice}
+      index={index}
+      placeholder={intl.formatMessage(
+        { id: 'post_poll.choice_placeholder' },
+        { number: index + 1 },
       )}
-    </View>
+      onChange={handleChoiceChange}
+      onRemove={_removeChoice}
+    />
   );
 
   return (

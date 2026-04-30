@@ -107,6 +107,10 @@ class BoostPostScreen extends PureComponent {
       const balance = Math.round(Number(get(pointsData, 'points', 0)) * 1000) / 1000;
       this.setState({ balance });
     } catch (err) {
+      if (/\b404\b/.test(err?.message || '') || err?.response?.status === 404) {
+        this.setState({ balance: 0 });
+        return;
+      }
       Alert.alert(err.message || err.toString());
     }
   };

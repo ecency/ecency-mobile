@@ -125,10 +125,7 @@ const RegisterScreen = ({ navigation, route }) => {
     }
   };
 
-  const _handleUsernameChange = ({ value }) => {
-    value = value.toLowerCase();
-    setUsername(value);
-
+  const _validateUsername = (value) => {
     if (!_isValidUsername(value)) {
       setIsUserExist(false);
       setIsUsernameValid(false);
@@ -144,7 +141,13 @@ const RegisterScreen = ({ navigation, route }) => {
       setIsUsernameValid(isValid);
     });
   };
-  const changeTextDebouncer = useCallback(debounce(_handleUsernameChange, 500), []);
+  const debouncedValidateUsername = useCallback(debounce(_validateUsername, 500), []);
+
+  const _handleUsernameChange = ({ value }) => {
+    const lower = value.toLowerCase();
+    setUsername(lower);
+    debouncedValidateUsername(lower);
+  };
 
   const _handleRefUsernameChange = ({ value }) => {
     value = value.toLowerCase();
@@ -193,7 +196,7 @@ const RegisterScreen = ({ navigation, route }) => {
             leftIconName="close"
             iconType="MaterialCommunityIcons"
             isValid={isUsernameValid}
-            onChange={(value) => changeTextDebouncer({ value })}
+            onChange={(value) => _handleUsernameChange({ value })}
             placeholder={intl.formatMessage({
               id: 'register.username',
             })}
