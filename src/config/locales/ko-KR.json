@@ -347,6 +347,7 @@
     "alert_init_body": "최근 임시보관함 열기 또는 새 게시물 작성",
     "reward_power_up": "Stake 100%",
     "open_gallery": "갤러리 열기",
+    "clipboard_no_image": "No image found in clipboard",
     "done": "완료",
     "setting_beneficiary": "수령인",
     "tag_duplicate": "Tag exists already",
@@ -523,7 +524,8 @@
     "refresh": "Refresh channels",
     "select_emoji": "Select Emoji",
     "more_emojis": "More",
-    "search_emojis": "Search emojis..."
+    "search_emojis": "Search emojis...",
+    "no_emoji_found": "No emoji found"
   },
   "free_estm": {
     "timer_text": "후에 다음 무료 스핀 기회가 주어집니다.",
