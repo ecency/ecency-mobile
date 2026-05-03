@@ -12,6 +12,7 @@ import UploadsGalleryContent from '../children/uploadsGalleryContent';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { delay, extractFilenameFromPath, extractImageUrls } from '../../../utils/editor';
 import { isMediaPickerCancellation, reportMediaPickerError } from '../../../utils/mediaPickerError';
+import { readImageFromClipboard } from '../../../utils/clipboard';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { editorQueries } from '../../../providers/queries';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
@@ -117,6 +118,29 @@ export const UploadsGalleryModal = forwardRef(
       isVisible: () => showModal,
       isScrolledTop: () => {
         return isScrolledTop;
+      },
+      pasteImageFromClipboard: async () => {
+        if (!isLoggedIn) {
+          showLoginAlert({ intl });
+          return;
+        }
+        try {
+          const clipboardImage = await readImageFromClipboard();
+          if (!clipboardImage) {
+            Alert.alert(
+              intl.formatMessage({ id: 'alert.fail' }),
+              intl.formatMessage({ id: 'editor.clipboard_no_image' }),
+            );
+            return;
+          }
+          await _handleMediaOnSelected([clipboardImage as unknown as Image], true);
+        } catch (error) {
+          Sentry.captureException(error);
+          Alert.alert(
+            intl.formatMessage({ id: 'alert.fail' }),
+            intl.formatMessage({ id: 'alert.something_wrong' }),
+          );
+        }
       },
     }));
 

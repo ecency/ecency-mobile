@@ -76,9 +76,6 @@ const MarkdownEditorView = ({
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const [selection, setSelection] = useState({ start: 0, end: 0 });
-  const [bodyText, setBodyText] = useState(draftBody || '');
-
   const inputRef = useRef<any>(null);
   const clearRef = useRef<any>(null);
   const insertLinkModalRef = useRef<any>(null);
@@ -197,11 +194,11 @@ const MarkdownEditorView = ({
 
   const _changeText = useCallback(
     (input) => {
-      setBodyText(input);
+      // Uncontrolled — only refs are updated during typing to avoid
+      // re-rendering the editor on every keystroke (was causing Android typing race).
       bodyTextRef.current = input;
 
       if (!isEditing) {
-        console.log('force setting isEditing to true', true);
         setIsEditing(true);
       }
 
@@ -212,23 +209,21 @@ const MarkdownEditorView = ({
 
   const _handleOnSelectionChange = async (event) => {
     bodySelectionRef.current = event.nativeEvent.selection;
-    setSelection(event.nativeEvent.selection);
   };
 
   const _setTextAndSelection = useCallback(
     ({ selection: _selection, text: _text }) => {
-      setBodyText(_text);
-      setSelection(_selection);
       bodySelectionRef.current = _selection;
       bodyTextRef.current = _text;
+      // Programmatic write (snippet/media/link insert, draft restore, reset).
+      // Goes straight to native to avoid the controlled-input race.
+      inputRef.current?.setNativeProps({ text: _text, selection: _selection });
 
       if (isSnippetsOpen) {
         setIsSnippetsOpen(false);
       }
 
-      // Trigger the debounced save and isEditing update
       if (!isEditing) {
-        console.log('force setting isEditing to true', true);
         setIsEditing(true);
       }
       _debouncedOnTextChange();
@@ -417,8 +412,7 @@ const MarkdownEditorView = ({
         editable={editable}
         contextMenuHidden={false}
         scrollEnabled={editorScrollEnabled}
-        value={bodyText}
-        selection={selection}
+        defaultValue={bodyTextRef.current || draftBody || ''}
       />
     </>
   );

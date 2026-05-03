@@ -45,7 +45,7 @@ class WithdrawAccountModal extends Component {
     <TextInput
       style={[isTextArea ? styles.textarea : styles.input]}
       onChangeText={(value) => this.setState({ [state]: value }, this._checkValidUsers(value))}
-      value={this.state[state]}
+      defaultValue={this.state[state]}
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
       autoCapitalize="none"

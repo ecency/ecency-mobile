@@ -72,6 +72,18 @@ const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
   const intl = useIntl();
 
   const dpRef = useRef();
+  const inputRefs = useRef<Record<string, any>>({});
+
+  const _getStateValue = (state: string) =>
+    state === 'destination'
+      ? destination
+      : state === 'amount'
+      ? amount
+      : state === 'memo'
+      ? memo
+      : state === 'executions'
+      ? executions
+      : '';
 
   const _handleOnChange = (state, val) => {
     let newValue = val.toString();
@@ -82,11 +94,14 @@ const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
     if (state === 'amount') {
       if (parseFloat(Number(newValue)) <= parseFloat(balance)) {
         setAmount(newValue);
+      } else {
+        // Reject over-balance amount: snap field back to the last accepted value.
+        // setAmount(amount) would bail out (same primitive), so write to the native
+        // field directly — the next render still has value={amount} so they stay in sync.
+        inputRefs.current[state]?.setNativeProps({ text: amount || '' });
       }
     } else if (state === 'destination') {
       getAccountsWithUsername(val).then((res) => {
-        console.log(res);
-
         const isValid = res.includes(val);
 
         setIsUsernameValid(isValid);
@@ -101,19 +116,12 @@ const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
 
   const _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
+      innerRef={(r: any) => {
+        inputRefs.current[state] = r;
+      }}
       style={[isTextArea ? styles.textarea : styles.input]}
       onChangeText={(newVal) => _handleOnChange(state, newVal)}
-      value={
-        state === 'destination'
-          ? destination
-          : state === 'amount'
-          ? amount
-          : state === 'memo'
-          ? memo
-          : state === 'executions'
-          ? executions
-          : ''
-      }
+      value={_getStateValue(state)}
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
       autoCapitalize="none"

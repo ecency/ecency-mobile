@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { TextInput as RNTextInput, View } from 'react-native';
 
 // Components
 import { IconButton } from '../../iconButton';
@@ -8,13 +8,6 @@ import { TextInput } from '../../textInput';
 // Styles
 import styles from './searchInputStyles';
 
-/* Props
- * ------------------------------------------------
- *   @prop { func }    onChangeText            - The function will trigger when input on change
- *   @prop { func }    handleOnModalClose      - Handle on click method for close button
- *   @prop { string }  placeholder             - Placeholder for input
- *   @prop { bool }    editable                - Editable value for input. Default value is true.
- */
 const SearchInputView = ({
   onChangeText,
   handleOnModalClose,
@@ -29,19 +22,37 @@ const SearchInputView = ({
   onBackPress,
   backIconName,
 }) => {
-  const [inputValue, setInputValue] = useState(value || '');
+  const inputRef = useRef<RNTextInput | null>(null);
+  const lastTextRef = useRef<string>(`${prefix}${value || ''}`);
+  const isFocusedRef = useRef(false);
 
-  useEffect(() => {
-    setInputValue(value);
-  }, [value]);
+  const _setText = (text: string) => {
+    lastTextRef.current = text;
+    inputRef.current?.setNativeProps({ text });
+  };
 
-  const _onChangeText = (text) => {
-    if (prefix !== '') {
-      text = text.replace(prefix, '');
+  const _syncFromProps = () => {
+    const next = `${prefix}${value || ''}`;
+    if (next !== lastTextRef.current) {
+      _setText(next);
     }
-    setInputValue(text);
+  };
+
+  // Sync from external value when not focused (e.g. parent reset).
+  // External changes received during focus are applied on blur instead.
+  useEffect(() => {
+    if (isFocusedRef.current) return;
+    _syncFromProps();
+  }, [value, prefix]);
+
+  const _onChangeText = (text: string) => {
+    lastTextRef.current = text;
+    let stripped = text;
+    if (prefix !== '') {
+      stripped = text.replace(prefix, '');
+    }
     if (onChangeText) {
-      onChangeText(text);
+      onChangeText(stripped);
     }
   };
 
@@ -54,6 +65,13 @@ const SearchInputView = ({
       onPress={onPress}
     />
   );
+
+  const _handleClear = () => {
+    _setText('');
+    if (onChangeText) {
+      onChangeText('');
+    }
+  };
 
   const inputWrapperFlex = { flex: backEnabled ? 16 : 1 };
 
@@ -73,18 +91,26 @@ const SearchInputView = ({
       <View style={[styles.inputWrapper, inputWrapperFlex, style]}>
         <View style={styles.inputContainer}>
           <TextInput
+            innerRef={inputRef}
             style={styles.input}
             onChangeText={_onChangeText}
+            onFocus={() => {
+              isFocusedRef.current = true;
+            }}
+            onBlur={() => {
+              isFocusedRef.current = false;
+              _syncFromProps();
+            }}
             placeholder={placeholder}
             placeholderTextColor="#c1c5c7"
             autoCapitalize="none"
             autoFocus={autoFocus}
             editable={editable}
-            value={`${prefix}${inputValue}`}
+            defaultValue={`${prefix}${value || ''}`}
           />
         </View>
         {handleOnModalClose && _renderCrossButton(() => handleOnModalClose())}
-        {showClearButton && _renderCrossButton(() => setInputValue(''))}
+        {showClearButton && _renderCrossButton(_handleClear)}
       </View>
     </View>
   );

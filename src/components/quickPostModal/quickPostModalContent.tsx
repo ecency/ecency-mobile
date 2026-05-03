@@ -160,6 +160,8 @@ export const QuickPostModalContent = forwardRef(
 
       commentValueRef.current = _value;
       setCommentValue(_value);
+      // TextInput is uncontrolled — push the loaded draft body into the native field.
+      inputRef.current?.setNativeProps({ text: _value });
 
       const cachedMedia = currentDraft?.meta?.image;
       if (Array.isArray(cachedMedia)) {
@@ -200,6 +202,7 @@ export const QuickPostModalContent = forwardRef(
         const joined = textParts.join('\n');
         commentValueRef.current = joined;
         setCommentValue(joined);
+        inputRef.current?.setNativeProps({ text: joined });
       }
     }, [paramFiles]);
 
@@ -318,6 +321,7 @@ export const QuickPostModalContent = forwardRef(
           dispatch(removePollDraft(draftId));
           setCommentValue('');
           commentValueRef.current = '';
+          inputRef.current?.setNativeProps({ text: '' });
           setMediaUrls([]);
           setVideoEmbedUrl(null);
           setVideoThumbUrl(null);
@@ -377,6 +381,10 @@ export const QuickPostModalContent = forwardRef(
         uploadsGalleryModalRef.current.toggleModal(!mediaModalVisible);
         setMediaModalVisible(!mediaModalVisible);
       }
+    };
+
+    const _handlePasteImageBtn = () => {
+      uploadsGalleryModalRef.current?.pasteImageFromClipboard?.();
     };
 
     const _handlePollBtn = async () => {
@@ -485,6 +493,7 @@ export const QuickPostModalContent = forwardRef(
             _deboucedCacheUpdate.cancel();
             commentValueRef.current = output;
             setCommentValue(output);
+            inputRef.current?.setNativeProps({ text: output });
             _addQuickCommentIntoCache(output);
           },
         },
@@ -493,6 +502,8 @@ export const QuickPostModalContent = forwardRef(
 
     const _onChangeText = (value) => {
       commentValueRef.current = value;
+      // Triggers re-render for char counter; the TextInput is uncontrolled so this
+      // does not race with native typing on Android.
       setCommentValue(value);
       _deboucedCacheUpdate(value);
     };
@@ -660,6 +671,15 @@ export const QuickPostModalContent = forwardRef(
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
           />
+          {Platform.OS === 'ios' && (
+            <IconButton
+              iconType="MaterialCommunityIcons"
+              name="content-paste"
+              onPress={_handlePasteImageBtn}
+              size={22}
+              color={EStyleSheet.value('$primaryBlack')}
+            />
+          )}
           {mode !== 'wave' && canCommentToCommunity && (
             <IconButton
               iconType="MaterialCommunityIcons"
@@ -756,7 +776,7 @@ export const QuickPostModalContent = forwardRef(
           <TextInput
             innerRef={inputRef}
             onChangeText={_onChangeText}
-            value={commentValue}
+            defaultValue={commentValueRef.current}
             autoFocus={true}
             placeholder={intl.formatMessage({
               id: _placeholderId,

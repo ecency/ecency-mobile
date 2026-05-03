@@ -17,6 +17,7 @@ import {
   Modal,
   OrDivider,
 } from '../../../components';
+import type { FormInputHandle } from '../../../components/formInput';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -39,6 +40,7 @@ const LoginScreen = ({
   const intl = useIntl();
 
   const hiveAuthModalRef = useRef();
+  const usernameInputRef = useRef<FormInputHandle>(null);
 
   const [username, setUsername] = useState(initialUsername || '');
   const [password, setPassword] = useState('');
@@ -88,6 +90,9 @@ const LoginScreen = ({
 
   const _handleUsernameChange = (username) => {
     const formattedUsername = username.trim().replace(/^@+/, '').toLowerCase();
+    if (formattedUsername !== username) {
+      usernameInputRef.current?.setText(formattedUsername);
+    }
     setUsername(formattedUsername);
   };
 
@@ -152,6 +157,7 @@ const LoginScreen = ({
         enableOnAndroid={true}
       >
         <FormInput
+          ref={usernameInputRef}
           rightIconName="at"
           leftIconName="close"
           iconType="MaterialCommunityIcons"

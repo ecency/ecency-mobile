@@ -123,7 +123,7 @@ const PostScreen = ({ route }) => {
       <IconButton
         iconStyle={styles.optionsIcon}
         iconType="MaterialCommunityIcons"
-        name="dots-vertical"
+        name="dots-horizontal"
         onPress={_onPostOptionsBtnPress}
         size={24}
       />

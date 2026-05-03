@@ -1,8 +1,8 @@
-import React, { useCallback, useMemo } from 'react';
-import { View, Text, TouchableOpacity, FlatList, Dimensions } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import { View, Text, TouchableOpacity, FlatList, Dimensions, TextInput } from 'react-native';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import { useIntl } from 'react-intl';
-import { mattermostToUnicode } from '../../../utils/emojiMapper';
+import emojiMap from '../../../constants/emojiMap.json';
 import { SheetNames } from '../../../navigation/sheets';
 import styles from '../styles/emojiPickerSheet.styles';
 
@@ -12,136 +12,58 @@ interface EmojiPickerSheetProps {
   };
 }
 
+interface EmojiItem {
+  name: string;
+  emoji: string;
+  aliases: string[];
+}
+
 const EMOJI_SIZE = 44;
 const screenWidth = Dimensions.get('window').width;
 const NUM_COLUMNS = Math.floor((screenWidth - 32) / EMOJI_SIZE);
+const ROW_HEIGHT = EMOJI_SIZE + 4;
 
-// Common emojis to show
-const COMMON_EMOJIS = [
-  'grinning',
-  'smiley',
-  'smile',
-  'grin',
-  'laughing',
-  'sweat_smile',
-  'joy',
-  'rofl',
-  'relaxed',
-  'blush',
-  'innocent',
-  'slightly_smiling_face',
-  'upside_down_face',
-  'wink',
-  'relieved',
-  'heart_eyes',
-  'kissing_heart',
-  'kissing',
-  'kissing_smiling_eyes',
-  'kissing_closed_eyes',
-  'yum',
-  'stuck_out_tongue_winking_eye',
-  'stuck_out_tongue_closed_eyes',
-  'stuck_out_tongue',
-  'thinking_face',
-  'neutral_face',
-  'expressionless',
-  'no_mouth',
-  'smirk',
-  'unamused',
-  'grimacing',
-  'lying_face',
-  'pensive',
-  'sleepy',
-  'drooling_face',
-  'sleeping',
-  'mask',
-  'face_with_thermometer',
-  'face_with_head_bandage',
-  'nauseated_face',
-  'sneezing_face',
-  'dizzy_face',
-  'exploding_head',
-  'cowboy_hat_face',
-  'partying_face',
-  'sunglasses',
-  'nerd_face',
-  'face_with_monocle',
-  'confused',
-  'worried',
-  'slightly_frowning_face',
-  'white_frowning_face',
-  'open_mouth',
-  'hushed',
-  'astonished',
-  'flushed',
-  'pleading_face',
-  'frowning',
-  'anguished',
-  'fearful',
-  'cold_sweat',
-  'disappointed_relieved',
-  'cry',
-  'sob',
-  'scream',
-  'confounded',
-  'persevere',
-  'disappointed',
-  'sweat',
-  'weary',
-  'tired_face',
-  'yawning_face',
-  'triumph',
-  'rage',
-  'angry',
-  'face_with_symbols_on_mouth',
-  'smiling_imp',
-  'imp',
-  '+1',
-  '-1',
-  'clap',
-  'raised_hands',
-  'pray',
-  'handshake',
-  'muscle',
-  'metal',
-  'ok_hand',
-  'point_up',
-  'point_down',
-  'point_left',
-  'point_right',
-  'raised_hand',
-  'wave',
-  'heart',
-  'broken_heart',
-  'two_hearts',
-  'sparkling_heart',
-  'heartpulse',
-  'heartbeat',
-  'revolving_hearts',
-  'cupid',
-  'fire',
-  'boom',
-  'star',
-  'star2',
-  'sparkles',
-  'zap',
-  'tada',
-  'confetti_ball',
-  'balloon',
-  'gift',
-  'crown',
-];
+// Build the full emoji list once at module load.
+// Dedupe by unicode (one entry per visual emoji), preferring the shortest name as canonical —
+// this matches utils/emojiMapper.ts#unicodeToMattermost so reaction names stay
+// consistent whether they come from this picker or a unicode reverse lookup.
+// Other names are kept as aliases so search can match "+1", "thumbsup", etc.
+const ALL_EMOJIS: EmojiItem[] = (() => {
+  const byUnicode = new Map<string, { name: string; names: string[] }>();
+  Object.entries(emojiMap as Record<string, string>).forEach(([name, unicode]) => {
+    if (!unicode || unicode === name) return; // skip text-fallback entries
+    const existing = byUnicode.get(unicode);
+    if (!existing) {
+      byUnicode.set(unicode, { name, names: [name] });
+      return;
+    }
+    existing.names.push(name);
+    if (name.length < existing.name.length) {
+      existing.name = name;
+    }
+  });
+  return Array.from(byUnicode.entries())
+    .map(([emoji, { name, names }]) => ({
+      name,
+      emoji,
+      aliases: names.filter((n) => n !== name),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+})();
 
 const EmojiPickerSheet = ({ payload }: EmojiPickerSheetProps) => {
   const intl = useIntl();
+  const [query, setQuery] = useState('');
 
-  // Convert emoji names to unicode characters
-  const emojiData = useMemo(() => {
-    return COMMON_EMOJIS.map((name) => ({
-      name,
-      emoji: mattermostToUnicode(name),
-    })).filter((item) => item.emoji !== item.name); // Filter out items that didn't convert
-  }, []);
+  const filteredEmojis = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return ALL_EMOJIS;
+    return ALL_EMOJIS.filter(
+      (item) =>
+        item.name.toLowerCase().includes(q) ||
+        item.aliases.some((alias) => alias.toLowerCase().includes(q)),
+    );
+  }, [query]);
 
   const handleEmojiPress = useCallback(
     (emojiName: string) => {
@@ -157,12 +79,21 @@ const EmojiPickerSheet = ({ payload }: EmojiPickerSheetProps) => {
 
   const renderEmojiItem = useCallback(
     // eslint-disable-next-line react/no-unused-prop-types
-    ({ item }: { item: { name: string; emoji: string } }) => (
+    ({ item }: { item: EmojiItem }) => (
       <TouchableOpacity style={styles.emojiButton} onPress={() => handleEmojiPress(item.name)}>
         <Text style={styles.emojiCharacter}>{item.emoji}</Text>
       </TouchableOpacity>
     ),
     [handleEmojiPress],
+  );
+
+  const getItemLayout = useCallback(
+    (_data: ArrayLike<EmojiItem> | null | undefined, index: number) => ({
+      length: ROW_HEIGHT,
+      offset: ROW_HEIGHT * Math.floor(index / NUM_COLUMNS),
+      index,
+    }),
+    [],
   );
 
   return (
@@ -175,13 +106,41 @@ const EmojiPickerSheet = ({ payload }: EmojiPickerSheetProps) => {
           </TouchableOpacity>
         </View>
 
+        <TextInput
+          style={styles.searchInput}
+          placeholder={intl.formatMessage({
+            id: 'chats.search_emojis',
+            defaultMessage: 'Search emojis...',
+          })}
+          placeholderTextColor="#999"
+          value={query}
+          onChangeText={setQuery}
+          autoCapitalize="none"
+          autoCorrect={false}
+          returnKeyType="search"
+        />
+
         <FlatList
-          data={emojiData}
+          data={filteredEmojis}
           renderItem={renderEmojiItem}
           keyExtractor={(item) => item.name}
           numColumns={NUM_COLUMNS}
           contentContainerStyle={styles.emojiList}
           showsVerticalScrollIndicator={true}
+          getItemLayout={getItemLayout}
+          initialNumToRender={NUM_COLUMNS * 8}
+          maxToRenderPerBatch={NUM_COLUMNS * 6}
+          windowSize={11}
+          removeClippedSubviews={true}
+          keyboardShouldPersistTaps="handled"
+          ListEmptyComponent={
+            <Text style={styles.emptyText}>
+              {intl.formatMessage({
+                id: 'chats.no_emoji_found',
+                defaultMessage: 'No emoji found',
+              })}
+            </Text>
+          }
         />
       </View>
     </ActionSheet>

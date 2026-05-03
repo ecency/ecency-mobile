@@ -600,7 +600,11 @@ class TransferContainer extends Component {
       recurrentTransfers,
     } = this.state;
 
-    const transferType = route.params?.transferType ?? '';
+    const rawTransferType = route.params?.transferType ?? '';
+    // Normalize legacy 'transfer_token' so the screen sees TRANSFER for memo/UI gates,
+    // while the submit path still re-normalizes from raw route params.
+    const transferType =
+      rawTransferType === 'transfer_token' ? TransferTypes.TRANSFER : rawTransferType;
     const tokenLayer = route.params?.assetLayer ?? route.params?.tokenLayer ?? '';
 
     return (

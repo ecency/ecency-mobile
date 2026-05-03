@@ -16,3 +16,4 @@ export * from './useCommunitySubscriptionAction';
 export * from './useFollowUserAction';
 export * from './useTransferMutations';
 export * from './useBadActors';
+export * from './useUncontrolledInput';

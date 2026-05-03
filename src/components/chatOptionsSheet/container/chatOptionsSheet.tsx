@@ -3,12 +3,11 @@ import { Share, Text, TouchableHighlight, TouchableOpacity, View } from 'react-n
 import { useIntl } from 'react-intl';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import { FlatList } from 'react-native-gesture-handler';
-import { EmojiPopup } from 'react-native-emoji-popup';
 
 import { writeToClipboard } from '../../../utils/clipboard';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useAppDispatch } from '../../../hooks';
-import { unicodeToMattermost } from '../../../utils/emojiMapper';
+import { SheetNames } from '../../../navigation/sheets';
 import styles from '../styles/chatOptionsSheet.styles';
 
 interface ChatReaction {
@@ -142,40 +141,34 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
     }
   }, [onUnpin]);
 
-  const _handleEmojiSelected = useCallback(
-    (emojiUnicode: string) => {
-      SheetManager.hide('chat_options');
-      if (onReaction) {
-        const emojiName = unicodeToMattermost(emojiUnicode);
-        onReaction(emojiName);
-      }
-    },
-    [onReaction],
-  );
+  const _handleMorePress = useCallback(async () => {
+    if (!onReaction) return;
+    await SheetManager.hide('chat_options');
+    SheetManager.show(SheetNames.EMOJI_PICKER, {
+      payload: {
+        onEmojiSelected: (emojiName: string) => {
+          onReaction(emojiName);
+        },
+      },
+    });
+  }, [onReaction]);
 
   const _renderReactionItem = useCallback(
     ({ item }: { item: { name: string; emoji: string; label?: string } }) => {
-      if (item.name === 'more') {
-        return (
-          <EmojiPopup onEmojiSelected={_handleEmojiSelected}>
-            <TouchableOpacity style={[styles.reactionButton, styles.moreButton]}>
-              <Text style={styles.reactionEmoji}>{item.emoji}</Text>
-              {item.label && <Text style={styles.moreButtonText}>{item.label}</Text>}
-            </TouchableOpacity>
-          </EmojiPopup>
-        );
-      }
+      const onPress =
+        item.name === 'more' ? _handleMorePress : () => _handleReactionPress(item.name);
 
       return (
         <TouchableOpacity
-          style={styles.reactionButton}
-          onPress={() => _handleReactionPress(item.name)}
+          style={[styles.reactionButton, item.name === 'more' && styles.moreButton]}
+          onPress={onPress}
         >
           <Text style={styles.reactionEmoji}>{item.emoji}</Text>
+          {item.label && <Text style={styles.moreButtonText}>{item.label}</Text>}
         </TouchableOpacity>
       );
     },
-    [_handleReactionPress, _handleEmojiSelected],
+    [_handleReactionPress, _handleMorePress],
   );
 
   const _renderOptionItem = useCallback(

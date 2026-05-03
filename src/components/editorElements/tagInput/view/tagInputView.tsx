@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform, TextInput as RNTextInput } from 'react-native';
 import { debounce } from 'lodash';
 // Constants
 
@@ -24,12 +24,11 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   const scrollRef = useRef<ScrollView>();
-  const inputRef = useRef<React.ElementRef<typeof TextInput>>(null);
+  const inputRef = useRef<RNTextInput | null>(null);
   const textRef = useRef('');
   const tagsRef = useRef<string[]>([]);
 
   const [tags, setTags] = useState<string[]>([]);
-  const [text, setText] = useState('');
   const [warning, setWarning] = useState(null);
 
   // Keep tagsRef in sync with tags state
@@ -95,8 +94,11 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
 
       setTags(updatedTags);
       const newText = inputVal || '';
-      textRef.current = newText;
-      setText(newText);
+      if (newText !== textRef.current) {
+        textRef.current = newText;
+        // Replace the field with the remaining unfinished tag fragment.
+        inputRef.current?.setNativeProps({ text: newText });
+      }
       _verifyTagsUpdate(updatedTags);
       if (handleTagChanged) {
         handleTagChanged(updatedTags);
@@ -118,9 +120,20 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   }, [_registerNewTags]);
 
   const _handleOnChange = (val: string) => {
-    textRef.current = val;
-    setText(val);
+    // val is already lowercased by the caller wrapper at the TextInput callsite.
+    if (val !== textRef.current) {
+      textRef.current = val;
+    }
     _registerNewTags(val.split(SEPARATOR_REGEX));
+  };
+
+  const _handleOnChangeRaw = (raw: string) => {
+    const lower = raw.toLowerCase();
+    if (lower !== raw) {
+      // Filter to lowercase by re-feeding sanitized text to the field.
+      inputRef.current?.setNativeProps({ text: lower });
+    }
+    _handleOnChange(lower);
   };
 
   const _handleOnEnd = () => {
@@ -180,9 +193,9 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
             ios: 'ascii-capable',
             android: 'visible-password',
           })}
-          onChangeText={(val) => _handleOnChange(val.toLowerCase())}
+          onChangeText={_handleOnChangeRaw}
           onEndEditing={_handleOnEnd}
-          value={text}
+          defaultValue=""
         />
       </ScrollView>
 

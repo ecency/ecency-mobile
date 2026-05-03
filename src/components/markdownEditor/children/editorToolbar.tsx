@@ -139,6 +139,10 @@ export const EditorToolbar = ({
     _showUploadsExtension(Modes.MODE_IMAGE);
   };
 
+  const _pasteImageFromClipboard = () => {
+    uploadsGalleryModalRef.current?.pasteImageFromClipboard?.();
+  };
+
   const _showAiAssist = () => {
     SheetManager.show(SheetNames.AI_ASSIST, {
       payload: {
@@ -367,6 +371,16 @@ export const EditorToolbar = ({
               iconType="FontAwesome"
               name="image"
             />
+            {Platform.OS === 'ios' && (
+              <IconButton
+                onPress={_pasteImageFromClipboard}
+                style={styles.rightIcons}
+                size={20}
+                iconStyle={styles.icon}
+                iconType="MaterialCommunityIcons"
+                name="content-paste"
+              />
+            )}
             <IconButton
               onPress={_showAiImageGenerator}
               style={styles.rightIcons}
