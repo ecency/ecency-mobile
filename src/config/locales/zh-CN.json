@@ -348,6 +348,8 @@
     "reward_power_up": "Stake 100%",
     "open_gallery": "打开图库",
     "clipboard_no_image": "No image found in clipboard",
+    "clipboard_image_detected": "Image in clipboard",
+    "paste_image": "Paste image",
     "done": "DONE",
     "setting_beneficiary": "受益人",
     "tag_duplicate": "Tag exists already",
