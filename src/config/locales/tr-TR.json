@@ -347,6 +347,7 @@
     "alert_init_body": "Son taslağı aç veya Yeni gönderi oluştur",
     "reward_power_up": "Stake 100%",
     "open_gallery": "Galeriyi Aç",
+    "clipboard_no_image": "No image found in clipboard",
     "done": "TAMAMLANDI",
     "setting_beneficiary": "Hak Sahibi",
     "tag_duplicate": "Tag exists already",
@@ -523,7 +524,8 @@
     "refresh": "Refresh channels",
     "select_emoji": "Select Emoji",
     "more_emojis": "More",
-    "search_emojis": "Search emojis..."
+    "search_emojis": "Search emojis...",
+    "no_emoji_found": "No emoji found"
   },
   "free_estm": {
     "timer_text": "Sıradaki ücretsiz çeviri",
