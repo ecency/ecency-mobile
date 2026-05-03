@@ -348,6 +348,8 @@
     "reward_power_up": "Stake 100%",
     "open_gallery": "Ouvrir la galerie",
     "clipboard_no_image": "No image found in clipboard",
+    "clipboard_image_detected": "Image in clipboard",
+    "paste_image": "Paste image",
     "done": "TERMINÉ",
     "setting_beneficiary": "Bénéficiaire",
     "tag_duplicate": "Le tag existe déjà",
