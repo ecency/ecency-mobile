@@ -347,6 +347,7 @@
     "alert_init_body": "Open recent draft or Create new post",
     "reward_power_up": "Stake 100%",
     "open_gallery": "باز کردن گالری",
+    "clipboard_no_image": "No image found in clipboard",
     "done": "DONE",
     "setting_beneficiary": "ذینفعان",
     "tag_duplicate": "Tag exists already",
@@ -523,7 +524,8 @@
     "refresh": "Refresh channels",
     "select_emoji": "Select Emoji",
     "more_emojis": "More",
-    "search_emojis": "Search emojis..."
+    "search_emojis": "Search emojis...",
+    "no_emoji_found": "No emoji found"
   },
   "free_estm": {
     "timer_text": "چرخش رایگان بعدی در",
