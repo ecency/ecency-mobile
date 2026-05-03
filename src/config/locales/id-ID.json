@@ -347,6 +347,7 @@
     "alert_init_body": "Buka draf terbaru atau Buatlah postingan baru",
     "reward_power_up": "Stake 100%",
     "open_gallery": "Buka Album",
+    "clipboard_no_image": "No image found in clipboard",
     "done": "SELESAI",
     "setting_beneficiary": "Penerima manfaat",
     "tag_duplicate": "Tag exists already",
@@ -523,7 +524,8 @@
     "refresh": "Refresh channels",
     "select_emoji": "Select Emoji",
     "more_emojis": "More",
-    "search_emojis": "Search emojis..."
+    "search_emojis": "Search emojis...",
+    "no_emoji_found": "No emoji found"
   },
   "free_estm": {
     "timer_text": "Spin gratis berikutnya",
