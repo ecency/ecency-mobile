@@ -335,12 +335,19 @@ export const PostHtmlRenderer = memo(
             return <VideoThumb contentWidth={contentWidth} uri={thumbUri} onPress={_onPress} />;
           } else {
             // For non-YouTube embeds (e.g. 3Speak), route taps to the fullscreen
-            // player so the play button is reliably reachable.
+            // player so the play button is reliably reachable. Forward the
+            // embed-specific poster (parsed from the <img class="video-thumbnail">)
+            // rather than the first metadata image used by _handleOnLinkPress.
             if (!parsedTnode.youtubeId) {
+              const _onVideoPress = () => {
+                if (handleVideoPress && parsedTnode.videoHref) {
+                  handleVideoPress(parsedTnode.videoHref, thumbUri);
+                }
+              };
               return (
                 <TouchableOpacity
                   activeOpacity={0.9}
-                  onPress={_onPress}
+                  onPress={_onVideoPress}
                   style={{ width: contentWidth }}
                 >
                   <View pointerEvents="none">
