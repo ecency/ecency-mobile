@@ -348,6 +348,8 @@
     "reward_power_up": "Stake 100%",
     "open_gallery": "Перейти в галерею",
     "clipboard_no_image": "No image found in clipboard",
+    "clipboard_image_detected": "Image in clipboard",
+    "paste_image": "Paste image",
     "done": "ГОТОВО",
     "setting_beneficiary": "Бенефициар",
     "tag_duplicate": "Тег уже существует",
