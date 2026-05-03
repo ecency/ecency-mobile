@@ -347,6 +347,7 @@
     "alert_init_body": "فتح المسودة الأخيرة أو إنشاء مشاركة جديدة",
     "reward_power_up": "Stake 100%",
     "open_gallery": "فتح معرض الصور",
+    "clipboard_no_image": "No image found in clipboard",
     "done": "تم",
     "setting_beneficiary": "المستفيدون",
     "tag_duplicate": "العلامة موجودة بالفعل",
@@ -523,7 +524,8 @@
     "refresh": "Refresh channels",
     "select_emoji": "Select Emoji",
     "more_emojis": "More",
-    "search_emojis": "Search emojis..."
+    "search_emojis": "Search emojis...",
+    "no_emoji_found": "No emoji found"
   },
   "free_estm": {
     "timer_text": "الدوران المجاني التالي",
