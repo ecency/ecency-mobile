@@ -348,6 +348,8 @@
     "reward_power_up": "Panosta 100%",
     "open_gallery": "Avaa Galleria",
     "clipboard_no_image": "No image found in clipboard",
+    "clipboard_image_detected": "Image in clipboard",
+    "paste_image": "Paste image",
     "done": "VALMIS",
     "setting_beneficiary": "Hyötyjä",
     "tag_duplicate": "Tunniste on jo olemassa",
