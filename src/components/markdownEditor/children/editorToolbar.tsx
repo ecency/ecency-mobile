@@ -1,5 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Keyboard, View, ViewStyle, Platform, ScrollView } from 'react-native';
+import {
+  AppState,
+  Keyboard,
+  View,
+  ViewStyle,
+  Platform,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
+import { useIntl } from 'react-intl';
 import {
   Gesture,
   GestureDetector,
@@ -66,6 +77,7 @@ export const EditorToolbar = ({
 }: Props) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+  const intl = useIntl();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pollDraft = useAppSelector(
@@ -81,6 +93,8 @@ export const EditorToolbar = ({
   const [isExtensionVisible, setIsExtensionVisible] = useState(false);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const [hasClipboardImage, setHasClipboardImage] = useState(false);
+  const dismissedClipboardRef = useRef(false);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (e) => {
@@ -98,6 +112,35 @@ export const EditorToolbar = ({
       keyboardDidHideListener.remove();
       keyboardDidShowListener.remove();
     };
+  }, []);
+
+  // iOS-only: detect images in the clipboard so we can offer a quick paste
+  // affordance without keeping a dedicated toolbar icon. Re-checks on mount
+  // and whenever the app returns to the foreground (typical copy → switch
+  // back flow). Once dismissed, stays dismissed for this composer instance.
+  useEffect(() => {
+    if (Platform.OS !== 'ios') {
+      return;
+    }
+    const checkClipboard = async () => {
+      if (dismissedClipboardRef.current) {
+        return;
+      }
+      try {
+        const has = await Clipboard.hasImage();
+        setHasClipboardImage(has);
+      } catch {
+        setHasClipboardImage(false);
+      }
+    };
+    checkClipboard();
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active') {
+        dismissedClipboardRef.current = false;
+        checkClipboard();
+      }
+    });
+    return () => sub.remove();
   }, []);
 
   const _prepareExtensionToggle = (revealWhenReady, onReady) => {
@@ -140,7 +183,14 @@ export const EditorToolbar = ({
   };
 
   const _pasteImageFromClipboard = () => {
+    setHasClipboardImage(false);
+    dismissedClipboardRef.current = true;
     uploadsGalleryModalRef.current?.pasteImageFromClipboard?.();
+  };
+
+  const _dismissClipboardChip = () => {
+    setHasClipboardImage(false);
+    dismissedClipboardRef.current = true;
   };
 
   const _showAiAssist = () => {
@@ -310,9 +360,37 @@ export const EditorToolbar = ({
     paddingBottom: !isKeyboardVisible ? insets.bottom : 0,
   };
 
+  const _renderClipboardChip = () => {
+    if (!hasClipboardImage || isPreviewActive || isExtensionVisible) {
+      return null;
+    }
+    return (
+      <View style={styles.clipboardChipWrapper}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={_pasteImageFromClipboard}
+          style={styles.clipboardChip}
+        >
+          <Text style={styles.clipboardChipText}>
+            {intl.formatMessage({ id: 'editor.clipboard_image_detected' })} ·{' '}
+            {intl.formatMessage({ id: 'editor.paste_image' })}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={_dismissClipboardChip}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          style={styles.clipboardChipClose}
+        >
+          <Text style={styles.clipboardChipText}>×</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <View style={_keyboardAdjustedStyle}>
       {_renderExtension()}
+      {_renderClipboardChip()}
 
       {!isPreviewActive && (
         <View style={_buttonsContainerStyle}>
@@ -365,22 +443,13 @@ export const EditorToolbar = ({
 
             <IconButton
               onPress={_showImageUploads}
+              onLongPress={Platform.OS === 'ios' ? _pasteImageFromClipboard : undefined}
               style={styles.rightIcons}
               size={18}
               iconStyle={styles.icon}
               iconType="FontAwesome"
               name="image"
             />
-            {Platform.OS === 'ios' && (
-              <IconButton
-                onPress={_pasteImageFromClipboard}
-                style={styles.rightIcons}
-                size={20}
-                iconStyle={styles.icon}
-                iconType="MaterialCommunityIcons"
-                name="content-paste"
-              />
-            )}
             <IconButton
               onPress={_showAiImageGenerator}
               style={styles.rightIcons}
