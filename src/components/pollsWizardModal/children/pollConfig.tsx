@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 import styles from '../styles/pollsWizardContent.styles';
 import { FormInput } from '../../formInput';
+import type { FormInputHandle } from '../../formInput';
 import SettingsItem from '../../settingsItem';
 import { PollPreferredInterpretation } from '../../../providers/hive/hive.types';
 import { PollDraft } from '../../../providers/ecency/ecency.types';
@@ -16,26 +17,41 @@ interface Props {
 export const PollConfig = ({ pollDraft, setPollDraft }: Props) => {
   const intl = useIntl();
   const _interpretations = Object.values(PollPreferredInterpretation);
+  const ageInputRef = useRef<FormInputHandle>(null);
+  const maxOptionsInputRef = useRef<FormInputHandle>(null);
 
   const _onAgeLimitChange = (text) => {
     const val = parseInt(text);
     if (val >= 0) {
+      const sanitized = `${val}`;
+      if (sanitized !== text) {
+        ageInputRef.current?.setText(sanitized);
+      }
       setPollDraft({
         ...pollDraft,
         filters: {
           accountAge: val,
         },
       });
+    } else {
+      // Reject non-numeric or negative input by re-feeding last known good value
+      ageInputRef.current?.setText(`${pollDraft.filters?.accountAge ?? ''}`);
     }
   };
 
   const _onMaxOptionsChange = (text) => {
     const val = parseInt(text);
     if (val >= 0) {
+      const sanitized = `${val}`;
+      if (sanitized !== text) {
+        maxOptionsInputRef.current?.setText(sanitized);
+      }
       setPollDraft({
         ...pollDraft,
         maxChoicesVoted: val,
       });
+    } else {
+      maxOptionsInputRef.current?.setText(`${pollDraft.maxChoicesVoted ?? ''}`);
     }
   };
 
@@ -77,6 +93,7 @@ export const PollConfig = ({ pollDraft, setPollDraft }: Props) => {
     <Animated.View entering={SlideInDown} exiting={SlideOutDown}>
       <Text style={styles.label}>{intl.formatMessage({ id: 'post_poll.config_age' })}</Text>
       <FormInput
+        ref={ageInputRef}
         rightIconName="calendar"
         iconType="MaterialCommunityIcons"
         isValid={true}
@@ -92,6 +109,7 @@ export const PollConfig = ({ pollDraft, setPollDraft }: Props) => {
       {/** TODO: use translated text */}
       <Text style={styles.label}>{intl.formatMessage({ id: 'post_poll.config_max_options' })}</Text>
       <FormInput
+        ref={maxOptionsInputRef}
         rightIconName="check-all"
         iconType="MaterialCommunityIcons"
         isValid={true}

@@ -68,7 +68,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         {isDM && onOptionsPress && (
           <TouchableOpacity style={styles.iconButton} onPress={onOptionsPress}>
             <Icon
-              name="dots-vertical"
+              name="dots-horizontal"
               iconType="MaterialCommunityIcons"
               size={20}
               color={EStyleSheet.value('$iconColor')}

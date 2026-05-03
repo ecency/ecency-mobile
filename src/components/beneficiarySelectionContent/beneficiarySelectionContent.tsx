@@ -1,5 +1,5 @@
 import { debounce, isArray } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -8,6 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import styles from './styles';
 
 import { CheckBox, FormInput, IconButton, TextButton } from '..';
+import type { FormInputHandle } from '../formInput';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setBeneficiaries as setBeneficiariesAction } from '../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID } from '../../redux/constants/constants';
@@ -49,6 +50,8 @@ const BeneficiarySelectionContent = ({
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([
     { account: username, weight: 10000, autoPowerUp: false },
   ]);
+
+  const weightInputRef = useRef<FormInputHandle>(null);
 
   const [newUsername, setNewUsername] = useState('');
   const [newWeight, setNewWeight] = useState(0);
@@ -155,8 +158,14 @@ const BeneficiarySelectionContent = ({
   };
 
   const _onWeightInputChange = (value: string) => {
-    const _value = (parseInt(value, 10) || 0) * 100;
+    const parsed = parseInt(value, 10);
+    const numericText = Number.isFinite(parsed) && parsed >= 0 ? `${parsed}` : '';
+    if (numericText !== value) {
+      // Filter out non-numeric / negative input by re-feeding sanitized value to the field.
+      weightInputRef.current?.setText(numericText);
+    }
 
+    const _value = (parsed || 0) * 100;
     const _diff = _value - newWeight;
     const newAuthorWeight = beneficiaries[0].weight - _diff;
     beneficiaries[0].weight = newAuthorWeight;
@@ -240,6 +249,7 @@ const BeneficiarySelectionContent = ({
         {powerDown && _renderCheckBox({ locked: false, isChecked: false })}
         <View style={styles.weightInput}>
           <FormInput
+            ref={weightInputRef}
             isValid={isWeightValid}
             value={`${newWeight / 100}`}
             inputStyle={styles.weightFormInput}

@@ -6,6 +6,7 @@ import { debounce } from 'lodash';
 import { lookupAccountsQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import { FormInput, InformationArea, LoginHeader, MainButton } from '../../components';
+import type { FormInputHandle } from '../../components/formInput';
 
 // Constants
 import ROUTES from '../../constants/routeNames';
@@ -22,6 +23,8 @@ const RegisterScreen = ({ navigation, route }) => {
   const queryClient = useQueryClient();
 
   const registerAccountModalRef = useRef(null);
+  const usernameInputRef = useRef<FormInputHandle>(null);
+  const refUsernameInputRef = useRef<FormInputHandle>(null);
 
   const isConnected = useAppSelector(selectIsConnected);
 
@@ -145,19 +148,25 @@ const RegisterScreen = ({ navigation, route }) => {
 
   const _handleUsernameChange = ({ value }) => {
     const lower = value.toLowerCase();
+    if (lower !== value) {
+      usernameInputRef.current?.setText(lower);
+    }
     setUsername(lower);
     debouncedValidateUsername(lower);
   };
 
   const _handleRefUsernameChange = ({ value }) => {
-    value = value.toLowerCase();
-    setRefUsername(value);
-    if (!value) {
+    const lower = value.toLowerCase();
+    if (lower !== value) {
+      refUsernameInputRef.current?.setText(lower);
+    }
+    setRefUsername(lower);
+    if (!lower) {
       setIsRefUsernameValid(true);
       return;
     }
-    _getAccountsWithUsername(value).then((res) => {
-      const isValid = res ? res.includes(value) : false;
+    _getAccountsWithUsername(lower).then((res) => {
+      const isValid = res ? res.includes(lower) : false;
       setIsRefUsernameValid(isValid);
     });
   };
@@ -192,6 +201,7 @@ const RegisterScreen = ({ navigation, route }) => {
       >
         <View style={styles.body}>
           <FormInput
+            ref={usernameInputRef}
             rightIconName="at"
             leftIconName="close"
             iconType="MaterialCommunityIcons"
@@ -224,6 +234,7 @@ const RegisterScreen = ({ navigation, route }) => {
             onFocus={() => setKeyboardIsOpen(true)}
           />
           <FormInput
+            ref={refUsernameInputRef}
             rightIconName="person"
             leftIconName="close"
             isValid={isRefUsernameValid}

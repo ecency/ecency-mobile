@@ -80,7 +80,7 @@ export const ThreadComposer: React.FC<ThreadComposerProps> = React.memo(
                 autoCorrect={Platform.OS === 'ios'}
                 autoComplete={Platform.OS === 'ios' ? undefined : 'off'}
                 spellCheck={Platform.OS === 'ios'}
-                value={message}
+                defaultValue={message}
                 onChangeText={onMessageChange}
                 multiline
               />

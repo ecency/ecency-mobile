@@ -115,7 +115,7 @@ export const ChannelListItem: React.FC<ChannelListItemProps> = React.memo(
 
         <TouchableOpacity onPress={() => onShowOptions(channel)} style={styles.channelOptions}>
           <Icon
-            name="dots-vertical"
+            name="dots-horizontal"
             iconType="MaterialCommunityIcons"
             size={20}
             color={EStyleSheet.value('$iconColor')}

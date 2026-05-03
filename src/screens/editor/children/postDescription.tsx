@@ -2,6 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Platform, Text, View } from 'react-native';
 import { TextInput } from '../../../components';
+import { useUncontrolledInput } from '../../../hooks';
 
 import styles from './styles';
 
@@ -15,14 +16,18 @@ const PostDescription = ({
   handlePostDescriptionChange,
 }: PostDescriptionProps) => {
   const intl = useIntl();
+  const { inputProps } = useUncontrolledInput(postDescription, handlePostDescriptionChange);
 
   return (
     <View style={styles.thumbSelectContainer}>
       <Text style={styles.settingLabel}>{intl.formatMessage({ id: 'editor.short_desc' })}</Text>
       <TextInput
         style={styles.input}
-        value={postDescription}
-        onChangeText={handlePostDescriptionChange}
+        innerRef={inputProps.ref}
+        defaultValue={inputProps.defaultValue}
+        onChangeText={inputProps.onChangeText}
+        onFocus={inputProps.onFocus}
+        onBlur={inputProps.onBlur}
         autoCapitalize="none"
         autoCorrect={Platform.OS === 'ios'}
         autoComplete={Platform.OS === 'ios' ? undefined : 'off'}

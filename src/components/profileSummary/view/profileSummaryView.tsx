@@ -164,7 +164,7 @@ class ProfileSummaryView extends PureComponent {
               ) : (
                 <DropdownButton
                   style={styles.dropdownStyle}
-                  iconName="more-vert"
+                  iconName="more-horiz"
                   iconStyle={styles.dropdownIconStyle}
                   isHasChildIcon
                   noHighlight

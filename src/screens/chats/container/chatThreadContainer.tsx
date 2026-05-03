@@ -324,6 +324,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           if (shouldClearComposer) {
             setMessage('');
             messageRef.current = '';
+            inputRef.current?.setNativeProps({ text: '' });
             _updateMentionState('');
             setRootPost(null);
             setLinkMeta(null);
@@ -1132,6 +1133,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     setEditingPostId(null);
     setMessage('');
     messageRef.current = '';
+    inputRef.current?.setNativeProps({ text: '' });
     setMentionQuery(null);
     setMentionStartIndex(null);
     setRootPost(null);
@@ -1162,6 +1164,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
 
       setMessage(nextMessage);
       messageRef.current = nextMessage;
+      inputRef.current?.setNativeProps({ text: nextMessage });
       _updateMentionState(nextMessage);
 
       setTimeout(() => inputRef.current?.focus(), 50);
@@ -1176,6 +1179,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       const body = formatPostBody(post, userLookup, timestamp);
       setMessage(body);
       messageRef.current = body;
+      inputRef.current?.setNativeProps({ text: body });
       _updateMentionState(body);
       setEditingPostId(post.id || null);
       setTimeout(() => inputRef.current?.focus(), 100);
@@ -1294,6 +1298,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       // WebSocket may also clear it via onNewMessage, but HTTP is the reliable path.
       setMessage('');
       messageRef.current = '';
+      inputRef.current?.setNativeProps({ text: '' });
       _updateMentionState('');
       setRootPost(null);
       setLinkMeta(null);
@@ -1380,6 +1385,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         const next = prev ? `${prev.trim()} ${uploadedUrl}` : uploadedUrl;
         setMessage(next);
         messageRef.current = next;
+        inputRef.current?.setNativeProps({ text: next });
         _updateMentionState(next);
       } else {
         setError('Unable to attach image.');

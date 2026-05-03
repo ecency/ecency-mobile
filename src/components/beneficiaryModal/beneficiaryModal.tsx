@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import { isArray, debounce } from 'lodash';
@@ -9,6 +9,7 @@ import { lookupAccountsQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { FormInput, MainButton, TextButton } from '..';
+import type { FormInputHandle } from '../formInput';
 
 import styles from './beneficiaryModalStyles';
 import IconButton from '../iconButton';
@@ -31,6 +32,8 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([
     { account: username, weight: 10000, isValid: true },
   ]);
+
+  const weightInputRef = useRef<FormInputHandle>(null);
 
   const [newUsername, setNewUsername] = useState('');
   const [newWeight, setNewWeight] = useState(0);
@@ -82,7 +85,13 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
   };
 
   const _onWeightInputChange = (value) => {
-    const _value = (parseInt(value, 10) || 0) * 100;
+    const parsed = parseInt(value, 10);
+    const numericText = Number.isFinite(parsed) && parsed >= 0 ? `${parsed}` : '';
+    if (numericText !== value) {
+      weightInputRef.current?.setText(numericText);
+    }
+
+    const _value = (parsed || 0) * 100;
     const _diff = _value - newWeight;
     beneficiaries[0].weight -= _diff;
     setNewWeight(_value);
@@ -144,6 +153,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
       <View style={styles.inputWrapper}>
         <View style={styles.weightInput}>
           <FormInput
+            ref={weightInputRef}
             isValid={isWeightValid}
             value={`${newWeight / 100}`}
             inputStyle={styles.weightFormInput}

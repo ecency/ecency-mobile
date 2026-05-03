@@ -30,9 +30,20 @@ export default EStyleSheet.create({
     fontSize: 24,
     color: '$primaryDarkGray',
   },
+  searchInput: {
+    marginHorizontal: 16,
+    marginTop: 12,
+    marginBottom: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    backgroundColor: '$primaryLightBackground',
+    color: '$primaryDarkText',
+    fontSize: 14,
+  },
   emojiList: {
     paddingHorizontal: 16,
-    paddingTop: 16,
+    paddingTop: 12,
     paddingBottom: 24,
   },
   emojiButton: {
@@ -44,5 +55,10 @@ export default EStyleSheet.create({
   },
   emojiCharacter: {
     fontSize: 32,
+  },
+  emptyText: {
+    textAlign: 'center',
+    color: '$primaryDarkGray',
+    paddingVertical: 32,
   },
 });

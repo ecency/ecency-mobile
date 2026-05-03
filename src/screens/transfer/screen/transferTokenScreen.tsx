@@ -35,6 +35,7 @@ class TransferTokenView extends Component {
       steemConnectTransfer: false,
       isTransfering: false,
     };
+    this.inputRefs = {};
   }
 
   // Component Life Cycles
@@ -56,6 +57,9 @@ class TransferTokenView extends Component {
         case 'amount':
           if (parseFloat(Number(value)) <= parseFloat(balance)) {
             this.setState({ [key]: value });
+          } else {
+            // Reject over-balance amount: snap field back to last valid state value.
+            this.inputRefs[key]?.setNativeProps({ text: this.state[key] || '' });
           }
           break;
 
@@ -90,6 +94,8 @@ class TransferTokenView extends Component {
     let _amount = amount.toString();
     if (_amount.includes(',')) {
       _amount = amount.replace(',', '.');
+      // Normalize comma → dot live by writing back to the field.
+      this.inputRefs[state]?.setNativeProps({ text: _amount });
     }
 
     this._setState(state, _amount);
@@ -97,9 +103,12 @@ class TransferTokenView extends Component {
 
   _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
+      innerRef={(r) => {
+        this.inputRefs[state] = r;
+      }}
       style={[isTextArea ? styles.textarea : styles.input]}
       onChangeText={(amount) => this._handleOnAmountChange(state, amount)}
-      value={this.state[state]}
+      defaultValue={this.state[state]}
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
       autoCapitalize="none"

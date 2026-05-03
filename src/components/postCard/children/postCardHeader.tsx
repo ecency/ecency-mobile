@@ -106,7 +106,7 @@ const PostCardHeaderComponent = ({
             style={styles.optionsIconContainer}
             iconStyle={styles.optionsIcon}
             iconType="MaterialCommunityIcons"
-            name="dots-vertical"
+            name="dots-horizontal"
             onPress={() => handleCardInteraction(PostCardActionIds.OPTIONS)}
             size={24}
           />
