@@ -347,9 +347,9 @@
     "alert_init_body": "Abrir borrador reciente o Crear nueva publicación",
     "reward_power_up": "Estacar 100%",
     "open_gallery": "Abrir galería",
-    "clipboard_no_image": "No image found in clipboard",
-    "clipboard_image_detected": "Image in clipboard",
-    "paste_image": "Paste image",
+    "clipboard_no_image": "No se encontró imagen en el portapapeles",
+    "clipboard_image_detected": "Imagen en el portapapeles",
+    "paste_image": "Pegar imagen",
     "done": "HECHO",
     "setting_beneficiary": "Beneficiario",
     "tag_duplicate": "La etiqueta ya existe",
@@ -527,7 +527,7 @@
     "select_emoji": "Escoger emoji",
     "more_emojis": "Más",
     "search_emojis": "Buscar emojis...",
-    "no_emoji_found": "No emoji found"
+    "no_emoji_found": "No se encontraron emojis"
   },
   "free_estm": {
     "timer_text": "Siguiente giro gratuito en",
