@@ -1,6 +1,7 @@
 import Clipboard from '@react-native-clipboard/clipboard';
 import { Platform } from 'react-native';
 import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const readFromClipboard = async (): Promise<string> => {
   const clipboardContent = await Clipboard.getString();
@@ -42,11 +43,16 @@ const readImageFromClipboard = async (): Promise<ClipboardImage | null> => {
     return null;
   }
 
-  // Materialize the base64 PNG to a real file URI so the upload pipeline
-  // (FormData + multipart) and HEIC/compress paths can treat it like any picked image.
-  const dataUri = `data:image/png;base64,${base64}`;
-  const rendered = await ImageManipulator.manipulate(dataUri).renderAsync();
+  // expo-image-manipulator on iOS does not reliably accept data: URIs, so
+  // first write the base64 PNG to a temp file and pass the file:// URI.
+  const timestamp = Date.now();
+  const tempPath = `${RNFetchBlob.fs.dirs.CacheDir}/pasted_${timestamp}.png`;
+  await RNFetchBlob.fs.writeFile(tempPath, base64, 'base64');
+  const fileUri = `file://${tempPath}`;
+  const rendered = await ImageManipulator.manipulate(fileUri).renderAsync();
   const result = await rendered.saveAsync({ format: SaveFormat.JPEG, compress: 0.9 });
+  // Best-effort cleanup of the intermediate PNG; ignore failures.
+  RNFetchBlob.fs.unlink(tempPath).catch(() => {});
 
   return {
     path: result.uri,

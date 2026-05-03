@@ -334,12 +334,38 @@ export const PostHtmlRenderer = memo(
           if (isComment) {
             return <VideoThumb contentWidth={contentWidth} uri={thumbUri} onPress={_onPress} />;
           } else {
+            // For non-YouTube embeds (e.g. 3Speak), route taps to the fullscreen
+            // player so the play button is reliably reachable. Forward the
+            // embed-specific poster (parsed from the <img class="video-thumbnail">)
+            // rather than the first metadata image used by _handleOnLinkPress.
+            if (!parsedTnode.youtubeId) {
+              const _onVideoPress = () => {
+                if (handleVideoPress && parsedTnode.videoHref) {
+                  handleVideoPress(parsedTnode.videoHref, thumbUri);
+                }
+              };
+              return (
+                <TouchableOpacity
+                  activeOpacity={0.9}
+                  onPress={_onVideoPress}
+                  style={{ width: contentWidth }}
+                >
+                  <View pointerEvents="none">
+                    <VideoPlayer
+                      mode="uri"
+                      contentWidth={contentWidth}
+                      uri={parsedTnode.videoHref}
+                      thumbnailUrl={thumbUri}
+                    />
+                  </View>
+                </TouchableOpacity>
+              );
+            }
             return (
               <View style={{ width: contentWidth }}>
                 <VideoPlayer
-                  mode={parsedTnode.youtubeId ? 'youtube' : 'uri'}
+                  mode="youtube"
                   contentWidth={contentWidth}
-                  uri={parsedTnode.videoHref}
                   youtubeVideoId={parsedTnode.youtubeId}
                   startTime={parsedTnode.startTime}
                   disableAutoplay={true}
@@ -549,16 +575,40 @@ export const PostHtmlRenderer = memo(
           );
         } else {
           const isSpeakEmbed = /3speak\.tv/i.test(iframeProps.source.uri || '');
+          // For 3Speak embeds, route taps to the fullscreen player so the play
+          // button is reliably reachable; the inline WebView's iframe controls
+          // are not always tappable on device.
+          if (isSpeakEmbed) {
+            const _onPress = () => {
+              if (handleVideoPress) {
+                handleVideoPress(iframeProps.source.uri, _metadataThumbUrl);
+              }
+            };
+            return (
+              <TouchableOpacity
+                activeOpacity={0.9}
+                onPress={_onPress}
+                style={[
+                  styles.embeddedVideoWrapper,
+                  { width: contentWidth, maxWidth: contentWidth },
+                ]}
+              >
+                <View pointerEvents="none">
+                  <VideoPlayer
+                    mode="uri"
+                    uri={iframeProps.source.uri}
+                    contentWidth={contentWidth}
+                    thumbnailUrl={_metadataThumbUrl}
+                  />
+                </View>
+              </TouchableOpacity>
+            );
+          }
           return (
             <View
               style={[styles.embeddedVideoWrapper, { width: contentWidth, maxWidth: contentWidth }]}
             >
-              <VideoPlayer
-                mode="uri"
-                uri={iframeProps.source.uri}
-                contentWidth={contentWidth}
-                thumbnailUrl={isSpeakEmbed ? _metadataThumbUrl : undefined}
-              />
+              <VideoPlayer mode="uri" uri={iframeProps.source.uri} contentWidth={contentWidth} />
             </View>
           );
         }

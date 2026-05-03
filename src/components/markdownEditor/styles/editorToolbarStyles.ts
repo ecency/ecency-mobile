@@ -105,4 +105,29 @@ export default EStyleSheet.create({
     fontWeight: '800',
     lineHeight: 10,
   },
+  clipboardChipWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginHorizontal: 12,
+    marginTop: 6,
+    marginBottom: 4,
+    paddingLeft: 12,
+    paddingRight: 4,
+    paddingVertical: 6,
+    borderRadius: 16,
+    backgroundColor: '$primaryLightBackground',
+  } as ViewStyle,
+  clipboardChip: {
+    flexShrink: 1,
+  } as ViewStyle,
+  clipboardChipClose: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  } as ViewStyle,
+  clipboardChipText: {
+    color: '$primaryDarkText',
+    fontSize: 12,
+    fontWeight: '600',
+  },
 });
