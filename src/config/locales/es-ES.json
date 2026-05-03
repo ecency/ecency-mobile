@@ -348,6 +348,8 @@
     "reward_power_up": "Estacar 100%",
     "open_gallery": "Abrir galería",
     "clipboard_no_image": "No image found in clipboard",
+    "clipboard_image_detected": "Image in clipboard",
+    "paste_image": "Paste image",
     "done": "HECHO",
     "setting_beneficiary": "Beneficiario",
     "tag_duplicate": "La etiqueta ya existe",
