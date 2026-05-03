@@ -348,7 +348,6 @@ export const PostHtmlRenderer = memo(
                       mode="uri"
                       contentWidth={contentWidth}
                       uri={parsedTnode.videoHref}
-                      disableAutoplay={true}
                       thumbnailUrl={thumbUri}
                     />
                   </View>

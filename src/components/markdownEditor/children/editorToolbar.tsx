@@ -136,7 +136,6 @@ export const EditorToolbar = ({
     checkClipboard();
     const sub = AppState.addEventListener('change', (state) => {
       if (state === 'active') {
-        dismissedClipboardRef.current = false;
         checkClipboard();
       }
     });
@@ -380,6 +379,8 @@ export const EditorToolbar = ({
           onPress={_dismissClipboardChip}
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           style={styles.clipboardChipClose}
+          accessibilityRole="button"
+          accessibilityLabel={intl.formatMessage({ id: 'alert.cancel' })}
         >
           <Text style={styles.clipboardChipText}>×</Text>
         </TouchableOpacity>
