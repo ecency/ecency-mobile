@@ -348,6 +348,8 @@
     "reward_power_up": "Stake 100%",
     "open_gallery": "갤러리 열기",
     "clipboard_no_image": "No image found in clipboard",
+    "clipboard_image_detected": "Image in clipboard",
+    "paste_image": "Paste image",
     "done": "완료",
     "setting_beneficiary": "수령인",
     "tag_duplicate": "Tag exists already",
