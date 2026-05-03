@@ -348,6 +348,8 @@
     "reward_power_up": "Stake 100%",
     "open_gallery": "Atidaryti Galeriją",
     "clipboard_no_image": "No image found in clipboard",
+    "clipboard_image_detected": "Image in clipboard",
+    "paste_image": "Paste image",
     "done": "ATLIKTA",
     "setting_beneficiary": "Pelno gavėjai",
     "tag_duplicate": "Tag exists already",
