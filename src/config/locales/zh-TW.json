@@ -347,6 +347,7 @@
     "alert_init_body": "打開最後儲存 或 建立新內容",
     "reward_power_up": "Stake 100%",
     "open_gallery": "打開圖庫",
+    "clipboard_no_image": "No image found in clipboard",
     "done": "DONE",
     "setting_beneficiary": "受益人",
     "tag_duplicate": "Tag exists already",
@@ -523,7 +524,8 @@
     "refresh": "Refresh channels",
     "select_emoji": "Select Emoji",
     "more_emojis": "More",
-    "search_emojis": "Search emojis..."
+    "search_emojis": "Search emojis...",
+    "no_emoji_found": "No emoji found"
   },
   "free_estm": {
     "timer_text": "下次轉盤抽獎機會出現在",
