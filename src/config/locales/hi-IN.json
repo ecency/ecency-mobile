@@ -348,6 +348,8 @@
     "reward_power_up": "Stake 100%",
     "open_gallery": "गैलरी खोलें",
     "clipboard_no_image": "No image found in clipboard",
+    "clipboard_image_detected": "Image in clipboard",
+    "paste_image": "Paste image",
     "done": "हो गया",
     "setting_beneficiary": "लाभार्थी",
     "tag_duplicate": "टैग पहले से मौजूद है",
