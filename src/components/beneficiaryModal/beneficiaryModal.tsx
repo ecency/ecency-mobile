@@ -91,7 +91,8 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
       weightInputRef.current?.setText(numericText);
     }
 
-    const _value = (parsed || 0) * 100;
+    const sanitized = numericText === '' ? 0 : parseInt(numericText, 10);
+    const _value = sanitized * 100;
     const _diff = _value - newWeight;
     beneficiaries[0].weight -= _diff;
     setNewWeight(_value);

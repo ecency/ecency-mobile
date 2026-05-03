@@ -142,13 +142,12 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
   }, [onUnpin]);
 
   const _handleMorePress = useCallback(async () => {
+    if (!onReaction) return;
     await SheetManager.hide('chat_options');
     SheetManager.show(SheetNames.EMOJI_PICKER, {
       payload: {
         onEmojiSelected: (emojiName: string) => {
-          if (onReaction) {
-            onReaction(emojiName);
-          }
+          onReaction(emojiName);
         },
       },
     });

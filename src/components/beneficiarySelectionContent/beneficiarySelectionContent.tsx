@@ -165,7 +165,8 @@ const BeneficiarySelectionContent = ({
       weightInputRef.current?.setText(numericText);
     }
 
-    const _value = (parsed || 0) * 100;
+    const sanitized = numericText === '' ? 0 : parseInt(numericText, 10);
+    const _value = sanitized * 100;
     const _diff = _value - newWeight;
     const newAuthorWeight = beneficiaries[0].weight - _diff;
     beneficiaries[0].weight = newAuthorWeight;

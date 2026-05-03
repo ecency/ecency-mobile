@@ -31,13 +31,18 @@ const SearchInputView = ({
     inputRef.current?.setNativeProps({ text });
   };
 
-  // Sync from external value when not focused (e.g. parent reset).
-  useEffect(() => {
-    if (isFocusedRef.current) return;
+  const _syncFromProps = () => {
     const next = `${prefix}${value || ''}`;
     if (next !== lastTextRef.current) {
       _setText(next);
     }
+  };
+
+  // Sync from external value when not focused (e.g. parent reset).
+  // External changes received during focus are applied on blur instead.
+  useEffect(() => {
+    if (isFocusedRef.current) return;
+    _syncFromProps();
   }, [value, prefix]);
 
   const _onChangeText = (text: string) => {
@@ -94,6 +99,7 @@ const SearchInputView = ({
             }}
             onBlur={() => {
               isFocusedRef.current = false;
+              _syncFromProps();
             }}
             placeholder={placeholder}
             placeholderTextColor="#c1c5c7"

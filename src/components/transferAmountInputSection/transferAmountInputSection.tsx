@@ -90,14 +90,14 @@ const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
 
     if (newValue.includes(',')) {
       newValue = val.replace(',', '.');
-      // Normalize comma → dot live by writing back to the field.
-      inputRefs.current[state]?.setNativeProps({ text: newValue });
     }
     if (state === 'amount') {
       if (parseFloat(Number(newValue)) <= parseFloat(balance)) {
         setAmount(newValue);
       } else {
-        // Reject over-balance amount: snap back to last accepted value.
+        // Reject over-balance amount: snap field back to the last accepted value.
+        // setAmount(amount) would bail out (same primitive), so write to the native
+        // field directly — the next render still has value={amount} so they stay in sync.
         inputRefs.current[state]?.setNativeProps({ text: amount || '' });
       }
     } else if (state === 'destination') {
@@ -121,7 +121,7 @@ const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
       }}
       style={[isTextArea ? styles.textarea : styles.input]}
       onChangeText={(newVal) => _handleOnChange(state, newVal)}
-      defaultValue={_getStateValue(state)}
+      value={_getStateValue(state)}
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
       autoCapitalize="none"

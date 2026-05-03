@@ -493,6 +493,7 @@ export const QuickPostModalContent = forwardRef(
             _deboucedCacheUpdate.cancel();
             commentValueRef.current = output;
             setCommentValue(output);
+            inputRef.current?.setNativeProps({ text: output });
             _addQuickCommentIntoCache(output);
           },
         },
