@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 // Constants
 import { useDispatch } from 'react-redux';
-import { useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
 import { SheetManager } from 'react-native-actions-sheet';
 import FILTER_OPTIONS from '../../../constants/options/leaderboard';
@@ -11,7 +10,6 @@ import FILTER_OPTIONS from '../../../constants/options/leaderboard';
 import LeaderboardView from '../view/leaderboardView';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { leaderboardQuries } from '../../../providers/queries';
-import QUERIES from '../../../providers/queries/queryKeys';
 import { SheetNames } from '../../../navigation/sheets';
 
 /*
@@ -23,30 +21,25 @@ import { SheetNames } from '../../../navigation/sheets';
 const LeaderboardContainer = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const queryClient = useQueryClient();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [duration, setDuration] = useState(FILTER_OPTIONS[selectedIndex]);
-  const [refreshing, setRefreshing] = useState(false);
 
   const leaderboardQuery = leaderboardQuries.useGetLeaderboardQuery(duration);
 
-  // update failure handler
+  // surface fetch errors as a toast
   useEffect(() => {
-    if (!leaderboardQuery.isFetching) {
-      setRefreshing(false);
-      if (leaderboardQuery.error) {
-        dispatch(
-          toastNotification(
-            intl.formatMessage(
-              { id: 'alert.something_wrong_msg' },
-              { message: leaderboardQuery.error.message },
-            ),
+    if (!leaderboardQuery.isFetching && leaderboardQuery.error) {
+      dispatch(
+        toastNotification(
+          intl.formatMessage(
+            { id: 'alert.something_wrong_msg' },
+            { message: leaderboardQuery.error.message },
           ),
-        );
-      }
+        ),
+      );
     }
-  }, [leaderboardQuery.error, leaderboardQuery.isFetching]);
+  }, [leaderboardQuery.error, leaderboardQuery.isFetching, dispatch, intl]);
 
   const _handleOnUserPress = (username) => {
     SheetManager.show(SheetNames.QUICK_PROFILE, {
@@ -56,13 +49,13 @@ const LeaderboardContainer = () => {
     });
   };
 
-  const _fetchLeaderBoard = async (selectedFilter, index) => {
-    // condition for detecting refresh
+  const _fetchLeaderBoard = (selectedFilter, index) => {
+    // pull-to-refresh: no args → refetch the active query directly so its
+    // isFetching cycle drives the spinner. The previous code invalidated a
+    // mismatched key so isFetching never flipped and the spinner stuck.
     if (index === undefined || !selectedFilter) {
-      index = selectedIndex;
-      selectedFilter = FILTER_OPTIONS[index];
-      queryClient.invalidateQueries({ queryKey: [QUERIES.LEADERBOARD.GET, selectedFilter] });
-      setRefreshing(true);
+      leaderboardQuery.refetch();
+      return;
     }
 
     // tab change state update
@@ -73,7 +66,7 @@ const LeaderboardContainer = () => {
   return (
     <LeaderboardView
       users={leaderboardQuery.data}
-      refreshing={leaderboardQuery.isLoading || refreshing}
+      refreshing={leaderboardQuery.isFetching}
       fetchLeaderBoard={_fetchLeaderBoard}
       handleOnUserPress={_handleOnUserPress}
       selectedIndex={selectedIndex}

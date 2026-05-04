@@ -19,9 +19,10 @@ interface EmojiItem {
 }
 
 const EMOJI_SIZE = 44;
-const screenWidth = Dimensions.get('window').width;
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const NUM_COLUMNS = Math.floor((screenWidth - 32) / EMOJI_SIZE);
 const ROW_HEIGHT = EMOJI_SIZE + 4;
+const SHEET_HEIGHT = Math.round(screenHeight * 0.7);
 
 // Build the full emoji list once at module load.
 // Dedupe by unicode (one entry per visual emoji), preferring the shortest name as canonical —
@@ -98,7 +99,7 @@ const EmojiPickerSheet = ({ payload }: EmojiPickerSheetProps) => {
 
   return (
     <ActionSheet gestureEnabled={true} containerStyle={styles.sheetContent}>
-      <View style={styles.container}>
+      <View style={[styles.container, { height: SHEET_HEIGHT }]}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>{intl.formatMessage({ id: 'chats.select_emoji' })}</Text>
           <TouchableOpacity onPress={handleClose} style={styles.closeButton}>

@@ -5,6 +5,7 @@ import 'react-native-url-polyfill/auto';
 import 'intl';
 import 'intl/locale-data/jsonp/en-US';
 import 'react-native-get-random-values';
+import './src/utils/abortSignalPolyfill';
 
 import EcencyApp from './App';
 
