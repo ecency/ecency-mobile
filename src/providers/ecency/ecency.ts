@@ -100,12 +100,16 @@ export const deleteAccount = async (username: string, data: string) => {
 
 export const uploadImage = async (media, username, sign, uploadProgress = null) => {
   try {
-    const file = {
+    const file: { uri: string; type: string; name: string; size?: number } = {
       uri: media.path,
       type: media.mime,
       name: media.filename || `img_${Math.random()}.jpg`,
-      size: media.size,
     };
+
+    const mediaSize = Number(media.size || 0);
+    if (mediaSize > 0) {
+      file.size = mediaSize;
+    }
 
     const fData = new FormData();
     fData.append('file', file);

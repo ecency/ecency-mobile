@@ -345,20 +345,7 @@ export const PostHtmlRenderer = memo(
                 }
               };
               return (
-                <TouchableOpacity
-                  activeOpacity={0.9}
-                  onPress={_onVideoPress}
-                  style={{ width: contentWidth }}
-                >
-                  <View pointerEvents="none">
-                    <VideoPlayer
-                      mode="uri"
-                      contentWidth={contentWidth}
-                      uri={parsedTnode.videoHref}
-                      thumbnailUrl={thumbUri}
-                    />
-                  </View>
-                </TouchableOpacity>
+                <VideoThumb contentWidth={contentWidth} uri={thumbUri} onPress={_onVideoPress} />
               );
             }
             return (
@@ -585,23 +572,7 @@ export const PostHtmlRenderer = memo(
               }
             };
             return (
-              <TouchableOpacity
-                activeOpacity={0.9}
-                onPress={_onPress}
-                style={[
-                  styles.embeddedVideoWrapper,
-                  { width: contentWidth, maxWidth: contentWidth },
-                ]}
-              >
-                <View pointerEvents="none">
-                  <VideoPlayer
-                    mode="uri"
-                    uri={iframeProps.source.uri}
-                    contentWidth={contentWidth}
-                    thumbnailUrl={_metadataThumbUrl}
-                  />
-                </View>
-              </TouchableOpacity>
+              <VideoThumb contentWidth={contentWidth} uri={_metadataThumbUrl} onPress={_onPress} />
             );
           }
           return (

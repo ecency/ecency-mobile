@@ -53,7 +53,8 @@ const VideoPlayer = ({
   const playerWidth = contentWidth || dim.width;
   const [playerHeight, setPlayerHeight] = useState(playerWidth * (9 / 16));
   const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
-  const isExtensionType = mode === 'uri' ? uri.match(checkSrcRegex) : false;
+  const isExtensionType = mode === 'uri' && uri ? uri.match(checkSrcRegex) : false;
+  const isThreeSpeakUri = mode === 'uri' && !!uri && /3speak\.tv/i.test(uri);
 
   // Reset height when URI changes; detect portrait from thumbnail if available
   useEffect(() => {
@@ -246,6 +247,8 @@ const VideoPlayer = ({
   const _sanitizeUri = (raw: string) =>
     raw.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+  const _getBaseUrl = (raw: string) => raw.match(/^https?:\/\/[^/?#]+/i)?.[0];
+
   const htmlIframeVideoPlayer = (_uri: string) =>
     `<!DOCTYPE html>
 <html>
@@ -327,13 +330,20 @@ const VideoPlayer = ({
               onLoadStart={() => {
                 setIsLoading(true);
               }}
-              source={{ html: htmlIframeVideoPlayer(uri) }}
+              source={
+                isThreeSpeakUri
+                  ? { uri }
+                  : { html: htmlIframeVideoPlayer(uri), baseUrl: _getBaseUrl(uri) }
+              }
               style={[styles.barkBackground, { width: playerWidth, height: playerHeight }]}
               startInLoadingState={true}
               onShouldStartLoadWithRequest={() => true}
               mediaPlaybackRequiresUserAction={false}
               allowsInlineMediaPlayback={true}
               allowsFullscreenVideo={true}
+              allowsProtectedMedia={true}
+              thirdPartyCookiesEnabled={true}
+              sharedCookiesEnabled={true}
               useWebKit={true}
               domStorageEnabled
               mixedContentMode="compatibility"

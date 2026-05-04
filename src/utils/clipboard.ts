@@ -60,7 +60,7 @@ const readImageFromClipboard = async (): Promise<ClipboardImage | null> => {
       return null;
     }
     raw = data;
-    const mimeMatch = data.match(/^data:(image\/[a-z+]+);base64,/i);
+    const mimeMatch = data.match(/^data:(image\/[a-z0-9.+-]+);base64,/i);
     if (mimeMatch) {
       mimeFromUri = mimeMatch[1].toLowerCase();
     }
@@ -71,13 +71,15 @@ const readImageFromClipboard = async (): Promise<ClipboardImage | null> => {
   }
 
   // Strip an optional data: URI prefix; we only want the raw base64 to write.
-  const rawBase64 = raw.replace(/^data:image\/[a-z+]+;base64,/i, '');
+  const rawBase64 = raw.replace(/^data:image\/[a-z0-9.+-]+;base64,/i, '').replace(/\s/g, '');
 
   const ext = mimeFromUri === 'image/jpeg' || mimeFromUri === 'image/jpg' ? 'jpg' : 'png';
   const timestamp = Date.now();
   const filename = `pasted_${timestamp}.${ext}`;
   const tempPath = `${RNFetchBlob.fs.dirs.CacheDir}/${filename}`;
   await RNFetchBlob.fs.writeFile(tempPath, rawBase64, 'base64');
+  const stat = await RNFetchBlob.fs.stat(tempPath).catch(() => null);
+  const size = Number(stat?.size || 0);
   const fileUri = `file://${tempPath}`;
 
   const { width, height } = await new Promise<{ width: number; height: number }>(
@@ -96,7 +98,7 @@ const readImageFromClipboard = async (): Promise<ClipboardImage | null> => {
     filename,
     width,
     height,
-    size: 0,
+    size,
   };
 };
 
