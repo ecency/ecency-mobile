@@ -64,6 +64,7 @@ const FormInputView = forwardRef<FormInputHandle, Props>(
       onChange,
       isValid,
       value,
+      defaultValue,
       rightInfoIcon,
       errorInfo,
       onBlur,
@@ -81,10 +82,23 @@ const FormInputView = forwardRef<FormInputHandle, Props>(
     const isFocusedRef = useRef(false);
     // Tracks the most recent text the native field is showing — either typed by the user
     // or written via setNativeProps. Used to decide if parent prop sync is needed.
-    const lastTextRef = useRef<string>(value || '');
+    const isValueControlled = value !== undefined;
+    const initialText = value ?? defaultValue ?? '';
+    const lastTextRef = useRef<string>(initialText);
+    const hasTextRef = useRef(initialText.length > 0);
+    const [hasText, setHasText] = useState(hasTextRef.current);
+
+    const _setHasTextFromValue = (text: string) => {
+      const nextHasText = text.length > 0;
+      if (hasTextRef.current !== nextHasText) {
+        hasTextRef.current = nextHasText;
+        setHasText(nextHasText);
+      }
+    };
 
     const _setText = (text: string) => {
       lastTextRef.current = text;
+      _setHasTextFromValue(text);
       inputRef.current?.setNativeProps({ text });
     };
 
@@ -96,6 +110,7 @@ const FormInputView = forwardRef<FormInputHandle, Props>(
 
     const _handleOnChange = (text: string) => {
       lastTextRef.current = text;
+      _setHasTextFromValue(text);
       if (onChange) {
         onChange(text);
       }
@@ -114,9 +129,11 @@ const FormInputView = forwardRef<FormInputHandle, Props>(
       setInputBorderColor('#e7e7e7');
       // If parent normalized text during typing (e.g. login lowercases username)
       // and the field still shows the user's raw input, snap it to the parent value.
-      const parentValue = value || '';
-      if (parentValue !== lastTextRef.current) {
-        _setText(parentValue);
+      if (isValueControlled) {
+        const parentValue = value || '';
+        if (parentValue !== lastTextRef.current) {
+          _setText(parentValue);
+        }
       }
       if (onBlur) {
         onBlur();
@@ -126,12 +143,13 @@ const FormInputView = forwardRef<FormInputHandle, Props>(
     // Sync from parent prop when input is not focused — covers async hydration,
     // form resets, and programmatic value changes from outside.
     useEffect(() => {
+      if (!isValueControlled) return;
       if (isFocusedRef.current) return;
       const parentValue = value || '';
       if (parentValue !== lastTextRef.current) {
         _setText(parentValue);
       }
-    }, [value]);
+    }, [isValueControlled, value]);
 
     const _handleInfoPress = () => {
       Keyboard.dismiss();
@@ -212,7 +230,7 @@ const FormInputView = forwardRef<FormInputHandle, Props>(
             editable={isEditable}
             textContentType={type}
             onChangeText={_handleOnChange}
-            defaultValue={value || ''}
+            defaultValue={initialText}
             placeholderTextColor={isDarkTheme ? '#526d91' : '#788187'}
             autoCorrect={false}
             contextMenuHidden={false}
@@ -221,7 +239,7 @@ const FormInputView = forwardRef<FormInputHandle, Props>(
         </View>
         {rightInfoIcon && !isValid ? (
           _renderInfoIconWithPopover()
-        ) : value && value.length > 0 ? (
+        ) : leftIconName && hasText ? (
           <Icon
             iconType={iconType || 'MaterialIcons'}
             onPress={_handleClearPress}

@@ -310,6 +310,9 @@ export const UploadsGalleryModal = forwardRef(
             element.width = result.width;
             element.height = result.height;
             element.mime = 'image/jpeg';
+            if (element.filename) {
+              element.filename = element.filename.replace(/\.[^.]+$/, '.jpg');
+            }
             media[i] = element;
           }
         }

@@ -30,17 +30,27 @@ const SnippetEditorModal = ({}, ref) => {
   const [titleHeight, setTitleHeight] = useState(0);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
+  const _setTitleText = (text: string) => {
+    setTitle(text);
+    titleInputRef.current?.setNativeProps({ text });
+  };
+
+  const _setBodyText = (text: string) => {
+    setBody(text);
+    bodyInputRef.current?.setNativeProps({ text });
+  };
+
   useImperativeHandle(ref, () => ({
     showNewModal: () => {
-      setTitle('');
-      setBody('');
+      _setTitleText('');
+      _setBodyText('');
       setIsNewSnippet(true);
       setShowModal(true);
     },
     showEditModal: (snippet: Snippet) => {
       setSnippetId(snippet.id);
-      setTitle(snippet.title);
-      setBody(snippet.body);
+      _setTitleText(snippet.title);
+      _setBodyText(snippet.body);
       setIsNewSnippet(false);
       setShowModal(true);
     },
@@ -67,7 +77,7 @@ const SnippetEditorModal = ({}, ref) => {
   const _renderContent = (
     <KeyboardAvoidingView
       style={styles.container}
-      keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : null}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <View style={styles.inputContainer}>
@@ -83,18 +93,19 @@ const SnippetEditorModal = ({}, ref) => {
             multiline
             numberOfLines={2}
             onContentSizeChange={(event) => {
-              setTitleHeight(event.nativeEvent.contentSize.height);
+              const nextHeight = event.nativeEvent.contentSize.height;
+              setTitleHeight((prev) => (prev === nextHeight ? prev : nextHeight));
             }}
             onChangeText={setTitle}
-            value={title}
+            defaultValue={title}
           />
         </View>
 
         <TextInput
           multiline
           autoCorrect={true}
-          value={body}
           onChangeText={setBody}
+          defaultValue={body}
           placeholder={intl.formatMessage({ id: 'snippets.placeholder_body' })}
           placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
           selectionColor="#357ce6"

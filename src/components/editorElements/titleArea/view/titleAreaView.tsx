@@ -21,7 +21,6 @@ class TitleAreaView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: props.value || null,
       height: 0,
     };
     this.inputRef = React.createRef();
@@ -30,18 +29,30 @@ class TitleAreaView extends Component {
 
   // Component Life Cycles
   componentDidUpdate(prevProps) {
-    if (prevProps.value !== this.props.value && this.props.value !== this.state.text) {
-      this.setState({ text: this.props.value });
-      this.textRef = this.props.value;
+    const { value } = this.props;
+    const { value: prevValue } = prevProps;
+
+    if (prevValue !== value && value !== this.textRef) {
+      const nextText = value || '';
+      this.textRef = nextText;
+      this.inputRef.current?.setNativeProps({ text: nextText });
     }
   }
 
   // Component Functions
+  _handleContentSizeChange = (event) => {
+    const nextHeight = event.nativeEvent.contentSize.height;
+    const { height } = this.state;
+
+    if (nextHeight !== height) {
+      this.setState({ height: nextHeight });
+    }
+  };
+
   _handleOnChange = (text) => {
     const { onChange, handleIsValid, componentID } = this.props;
 
     this.textRef = text;
-    this.setState({ text });
 
     if (onChange) {
       onChange(text);
@@ -54,7 +65,7 @@ class TitleAreaView extends Component {
 
   render() {
     const { intl, isPreviewActive, autoFocus } = this.props;
-    const { text, height } = this.state;
+    const { height } = this.state;
     const maxHeight = isAndroidOreo() ? 24 : 35;
     const { isDarkTheme } = this.props;
     return (
@@ -73,12 +84,10 @@ class TitleAreaView extends Component {
           spellCheck={Platform.OS === 'ios'}
           multiline
           numberOfLines={2}
-          onContentSizeChange={(event) => {
-            this.setState({ height: event.nativeEvent.contentSize.height });
-          }}
+          onContentSizeChange={this._handleContentSizeChange}
           autoFocus={autoFocus}
           onChangeText={(textT) => this._handleOnChange(textT)}
-          value={text}
+          defaultValue={this.textRef}
         />
       </View>
     );

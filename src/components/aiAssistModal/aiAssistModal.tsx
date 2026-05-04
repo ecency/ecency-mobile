@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -37,6 +37,7 @@ const getMinInput = (action: AiAssistAction | null) => {
 export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => {
   const intl = useIntl();
   const { username, code } = useAuth();
+  const textInputRef = useRef<TextInput>(null);
 
   const initialText = payload?.text?.slice(0, MAX_INPUT) || '';
   const availableActions = useMemo(() => {
@@ -55,6 +56,7 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
   useEffect(() => {
     const newText = payload?.text?.slice(0, MAX_INPUT) || '';
     setText(newText);
+    textInputRef.current?.setNativeProps({ text: newText });
     setSelectedAction(null);
     setResult(null);
     setSelectedTitleIndex(0);
@@ -404,8 +406,9 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
             {intl.formatMessage({ id: 'ai_assist.text_label' })}
           </Text>
           <TextInput
+            ref={textInputRef}
             style={styles.textInput}
-            value={text}
+            defaultValue={text}
             onChangeText={(v) => setText(v.slice(0, MAX_INPUT))}
             placeholder={intl.formatMessage({ id: 'ai_assist.text_placeholder' })}
             multiline

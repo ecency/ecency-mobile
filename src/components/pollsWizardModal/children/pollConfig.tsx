@@ -11,7 +11,7 @@ import { PollDraft } from '../../../providers/ecency/ecency.types';
 
 interface Props {
   pollDraft: PollDraft;
-  setPollDraft: (meta: PollDraft) => void;
+  setPollDraft: (meta: PollDraft | ((draft: PollDraft) => PollDraft)) => void;
 }
 
 export const PollConfig = ({ pollDraft, setPollDraft }: Props) => {
@@ -27,12 +27,12 @@ export const PollConfig = ({ pollDraft, setPollDraft }: Props) => {
       if (sanitized !== text) {
         ageInputRef.current?.setText(sanitized);
       }
-      setPollDraft({
-        ...pollDraft,
+      setPollDraft((prev) => ({
+        ...prev,
         filters: {
           accountAge: val,
         },
-      });
+      }));
     } else {
       // Reject non-numeric or negative input by re-feeding last known good value
       ageInputRef.current?.setText(`${pollDraft.filters?.accountAge ?? ''}`);
@@ -46,10 +46,10 @@ export const PollConfig = ({ pollDraft, setPollDraft }: Props) => {
       if (sanitized !== text) {
         maxOptionsInputRef.current?.setText(sanitized);
       }
-      setPollDraft({
-        ...pollDraft,
+      setPollDraft((prev) => ({
+        ...prev,
         maxChoicesVoted: val,
-      });
+      }));
     } else {
       maxOptionsInputRef.current?.setText(`${pollDraft.maxChoicesVoted ?? ''}`);
     }
@@ -61,32 +61,32 @@ export const PollConfig = ({ pollDraft, setPollDraft }: Props) => {
     // TODO: handle token selection later
     const token = interpretation === PollPreferredInterpretation.TOKENS ? 'HIVE:HP' : undefined;
 
-    setPollDraft({
-      ...pollDraft,
+    setPollDraft((prev) => ({
+      ...prev,
       interpretation,
       token,
-    });
+    }));
   };
 
   const _onShowVotesChange = (val: boolean) => {
-    setPollDraft({
-      ...pollDraft,
+    setPollDraft((prev) => ({
+      ...prev,
       hideVotes: !val,
-    });
+    }));
   };
 
   const _onVoteChangeUpdate = (val: boolean) => {
-    setPollDraft({
-      ...pollDraft,
+    setPollDraft((prev) => ({
+      ...prev,
       voteChange: val,
-    });
+    }));
   };
 
   const _onHideResultsChange = (val: boolean) => {
-    setPollDraft({
-      ...pollDraft,
+    setPollDraft((prev) => ({
+      ...prev,
       hideResults: val,
-    });
+    }));
   };
 
   return (
