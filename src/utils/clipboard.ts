@@ -1,6 +1,5 @@
 import Clipboard from '@react-native-clipboard/clipboard';
-import { Platform } from 'react-native';
-import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
+import { Image, Platform } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 const readFromClipboard = async (): Promise<string> => {
@@ -27,41 +26,78 @@ export interface ClipboardImage {
   size: number;
 }
 
-// iOS-only: hasImage/getImagePNG return false/empty on Android in this lib version.
+// iOS uses hasImage()/getImagePNG(). Android has no hasImage(), but getImage()
+// returns a data: URI when an image is on the clipboard (or "" when not).
+// Detection helper for the auto-paste chip; on Android we have to actually
+// fetch the image to know — callers should treat false as "unknown" and still
+// allow the manual paste button.
+const hasClipboardImage = async (): Promise<boolean> => {
+  try {
+    if (Platform.OS === 'ios') {
+      return await Clipboard.hasImage();
+    }
+    const data = await Clipboard.getImage();
+    return !!data && data.startsWith('data:image/');
+  } catch {
+    return false;
+  }
+};
+
 const readImageFromClipboard = async (): Promise<ClipboardImage | null> => {
-  if (Platform.OS !== 'ios') {
+  let raw: string | null = null;
+  let mimeFromUri = 'image/png';
+
+  if (Platform.OS === 'ios') {
+    const hasImage = await Clipboard.hasImage();
+    if (!hasImage) {
+      return null;
+    }
+    raw = await Clipboard.getImagePNG();
+  } else {
+    // Android getImage returns "data:<mime>;base64,<payload>" or "" if none.
+    const data = await Clipboard.getImage();
+    if (!data) {
+      return null;
+    }
+    raw = data;
+    const mimeMatch = data.match(/^data:(image\/[a-z+]+);base64,/i);
+    if (mimeMatch) {
+      mimeFromUri = mimeMatch[1].toLowerCase();
+    }
+  }
+
+  if (!raw) {
     return null;
   }
 
-  const hasImage = await Clipboard.hasImage();
-  if (!hasImage) {
-    return null;
-  }
+  // Strip an optional data: URI prefix; we only want the raw base64 to write.
+  const rawBase64 = raw.replace(/^data:image\/[a-z+]+;base64,/i, '');
 
-  const base64 = await Clipboard.getImagePNG();
-  if (!base64) {
-    return null;
-  }
-
-  // expo-image-manipulator on iOS does not reliably accept data: URIs, so
-  // first write the base64 PNG to a temp file and pass the file:// URI.
+  const ext = mimeFromUri === 'image/jpeg' || mimeFromUri === 'image/jpg' ? 'jpg' : 'png';
   const timestamp = Date.now();
-  const tempPath = `${RNFetchBlob.fs.dirs.CacheDir}/pasted_${timestamp}.png`;
-  await RNFetchBlob.fs.writeFile(tempPath, base64, 'base64');
+  const filename = `pasted_${timestamp}.${ext}`;
+  const tempPath = `${RNFetchBlob.fs.dirs.CacheDir}/${filename}`;
+  await RNFetchBlob.fs.writeFile(tempPath, rawBase64, 'base64');
   const fileUri = `file://${tempPath}`;
-  const rendered = await ImageManipulator.manipulate(fileUri).renderAsync();
-  const result = await rendered.saveAsync({ format: SaveFormat.JPEG, compress: 0.9 });
-  // Best-effort cleanup of the intermediate PNG; ignore failures.
-  RNFetchBlob.fs.unlink(tempPath).catch(() => {});
+
+  const { width, height } = await new Promise<{ width: number; height: number }>(
+    (resolve, reject) => {
+      Image.getSize(
+        fileUri,
+        (w, h) => resolve({ width: w, height: h }),
+        (err) => reject(err),
+      );
+    },
+  );
 
   return {
-    path: result.uri,
-    mime: 'image/jpeg',
-    filename: `pasted_${Date.now()}.jpg`,
-    width: result.width,
-    height: result.height,
+    path: fileUri,
+    mime: mimeFromUri,
+    filename,
+    width,
+    height,
     size: 0,
   };
 };
 
-export { writeToClipboard, readFromClipboard, readImageFromClipboard };
+export { writeToClipboard, readFromClipboard, readImageFromClipboard, hasClipboardImage };

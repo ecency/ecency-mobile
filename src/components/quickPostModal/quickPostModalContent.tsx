@@ -11,6 +11,7 @@ import React, {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {
   Alert,
+  AppState,
   View,
   Text,
   TouchableOpacity,
@@ -41,6 +42,7 @@ import {
   UserAvatar,
 } from '..';
 import { delay } from '../../utils/editor';
+import { hasClipboardImage as detectClipboardImage } from '../../utils/clipboard';
 import { deleteReplyCacheEntry, updateReplyCache } from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
 import RootNavigation from '../../navigation/rootNavigation';
@@ -100,6 +102,8 @@ export const QuickPostModalContent = forwardRef(
     const [canCommentToCommunity, setCanCommentToCommunity] = useState(true);
     const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
     const [communityToCheck, setCommunityToCheck] = useState<string | null>(null);
+    const [hasClipboardImage, setHasClipboardImage] = useState(false);
+    const dismissedClipboardRef = useRef(false);
 
     const parentAuthor = selectedPost ? selectedPost.author : '';
     const parentPermlink = selectedPost ? selectedPost.permlink : '';
@@ -384,8 +388,36 @@ export const QuickPostModalContent = forwardRef(
     };
 
     const _handlePasteImageBtn = () => {
+      setHasClipboardImage(false);
+      dismissedClipboardRef.current = true;
       uploadsGalleryModalRef.current?.pasteImageFromClipboard?.();
     };
+
+    const _dismissClipboardChip = () => {
+      setHasClipboardImage(false);
+      dismissedClipboardRef.current = true;
+    };
+
+    // Detect images in the clipboard so we can offer a quick paste affordance
+    // without keeping a dedicated toolbar icon. Re-checks on mount and whenever
+    // the app returns to the foreground. Once dismissed, stays dismissed for
+    // this composer instance.
+    useEffect(() => {
+      const checkClipboard = async () => {
+        if (dismissedClipboardRef.current) {
+          return;
+        }
+        const has = await detectClipboardImage();
+        setHasClipboardImage(has);
+      };
+      checkClipboard();
+      const sub = AppState.addEventListener('change', (state) => {
+        if (state === 'active') {
+          checkClipboard();
+        }
+      });
+      return () => sub.remove();
+    }, []);
 
     const _handlePollBtn = async () => {
       Keyboard.dismiss();
@@ -668,18 +700,10 @@ export const QuickPostModalContent = forwardRef(
             iconType="MaterialsIcons"
             name="image-outline"
             onPress={_handleMediaBtn}
+            onLongPress={_handlePasteImageBtn}
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
           />
-          {Platform.OS === 'ios' && (
-            <IconButton
-              iconType="MaterialCommunityIcons"
-              name="content-paste"
-              onPress={_handlePasteImageBtn}
-              size={22}
-              color={EStyleSheet.value('$primaryBlack')}
-            />
-          )}
           {mode !== 'wave' && canCommentToCommunity && (
             <IconButton
               iconType="MaterialCommunityIcons"
@@ -793,6 +817,30 @@ export const QuickPostModalContent = forwardRef(
         </View>
 
         {_renderMediaPanel()}
+
+        {hasClipboardImage && (
+          <View style={styles.clipboardChipWrapper}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={_handlePasteImageBtn}
+              style={styles.clipboardChip}
+            >
+              <Text style={styles.clipboardChipText}>
+                {intl.formatMessage({ id: 'editor.clipboard_image_detected' })} ·{' '}
+                {intl.formatMessage({ id: 'editor.paste_image' })}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={_dismissClipboardChip}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              style={styles.clipboardChipClose}
+              accessibilityRole="button"
+              accessibilityLabel={intl.formatMessage({ id: 'alert.cancel' })}
+            >
+              <Text style={styles.clipboardChipText}>×</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         <View style={styles.footer}>
           {_renderExpandBtn()}

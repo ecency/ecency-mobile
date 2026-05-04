@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native';
-import Clipboard from '@react-native-clipboard/clipboard';
 import { useIntl } from 'react-intl';
 import {
   Gesture,
@@ -29,6 +28,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
 import { IconButton, UploadsGalleryModal } from '../..';
+import { hasClipboardImage as detectClipboardImage } from '../../../utils/clipboard';
 import { useAppSelector } from '../../../hooks';
 import { SheetNames } from '../../../navigation/sheets';
 import {
@@ -114,24 +114,17 @@ export const EditorToolbar = ({
     };
   }, []);
 
-  // iOS-only: detect images in the clipboard so we can offer a quick paste
-  // affordance without keeping a dedicated toolbar icon. Re-checks on mount
-  // and whenever the app returns to the foreground (typical copy → switch
-  // back flow). Once dismissed, stays dismissed for this composer instance.
+  // Detect images in the clipboard so we can offer a quick paste affordance
+  // without keeping a dedicated toolbar icon. Re-checks on mount and whenever
+  // the app returns to the foreground (typical copy → switch back flow).
+  // Once dismissed, stays dismissed for this composer instance.
   useEffect(() => {
-    if (Platform.OS !== 'ios') {
-      return;
-    }
     const checkClipboard = async () => {
       if (dismissedClipboardRef.current) {
         return;
       }
-      try {
-        const has = await Clipboard.hasImage();
-        setHasClipboardImage(has);
-      } catch {
-        setHasClipboardImage(false);
-      }
+      const has = await detectClipboardImage();
+      setHasClipboardImage(has);
     };
     checkClipboard();
     const sub = AppState.addEventListener('change', (state) => {
@@ -444,7 +437,7 @@ export const EditorToolbar = ({
 
             <IconButton
               onPress={_showImageUploads}
-              onLongPress={Platform.OS === 'ios' ? _pasteImageFromClipboard : undefined}
+              onLongPress={_pasteImageFromClipboard}
               style={styles.rightIcons}
               size={18}
               iconStyle={styles.icon}

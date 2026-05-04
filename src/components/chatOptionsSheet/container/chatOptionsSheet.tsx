@@ -141,16 +141,20 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
     }
   }, [onUnpin]);
 
-  const _handleMorePress = useCallback(async () => {
+  const _handleMorePress = useCallback(() => {
     if (!onReaction) return;
-    await SheetManager.hide('chat_options');
-    SheetManager.show(SheetNames.EMOJI_PICKER, {
-      payload: {
-        onEmojiSelected: (emojiName: string) => {
-          onReaction(emojiName);
+    SheetManager.hide('chat_options');
+    // Defer so the previous sheet has time to dismiss before the next one
+    // is presented; back-to-back hide/show is unreliable on iOS.
+    setTimeout(() => {
+      SheetManager.show(SheetNames.EMOJI_PICKER, {
+        payload: {
+          onEmojiSelected: (emojiName: string) => {
+            onReaction(emojiName);
+          },
         },
-      },
-    });
+      });
+    }, 300);
   }, [onReaction]);
 
   const _renderReactionItem = useCallback(

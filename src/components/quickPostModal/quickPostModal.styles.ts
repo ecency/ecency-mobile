@@ -152,6 +152,30 @@ export default EStyleSheet.create({
     alignItems: 'center',
     gap: 12,
   } as ViewStyle,
+  clipboardChipWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginHorizontal: 12,
+    marginTop: 4,
+    paddingLeft: 12,
+    paddingRight: 4,
+    paddingVertical: 6,
+    borderRadius: 16,
+    backgroundColor: '$primaryLightBackground',
+  } as ViewStyle,
+  clipboardChip: {
+    flexShrink: 1,
+  } as ViewStyle,
+  clipboardChipClose: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  } as ViewStyle,
+  clipboardChipText: {
+    color: '$primaryDarkText',
+    fontSize: 12,
+    fontWeight: '600',
+  },
   toolbarSpacer: {
     marginLeft: 8,
   } as ViewStyle,
