@@ -20,8 +20,7 @@ interface EmojiItem {
 
 const EMOJI_SIZE = 44;
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
-const NUM_COLUMNS = Math.floor((screenWidth - 32) / EMOJI_SIZE);
-const ROW_HEIGHT = EMOJI_SIZE + 4;
+const NUM_COLUMNS = Math.max(1, Math.floor((screenWidth - 32) / EMOJI_SIZE));
 const SHEET_HEIGHT = Math.round(screenHeight * 0.7);
 
 // Build the full emoji list once at module load.
@@ -88,17 +87,9 @@ const EmojiPickerSheet = ({ payload }: EmojiPickerSheetProps) => {
     [handleEmojiPress],
   );
 
-  const getItemLayout = useCallback(
-    (_data: ArrayLike<EmojiItem> | null | undefined, index: number) => ({
-      length: ROW_HEIGHT,
-      offset: ROW_HEIGHT * Math.floor(index / NUM_COLUMNS),
-      index,
-    }),
-    [],
-  );
-
+  const sheetContainerStyle = { ...styles.sheetContent, height: SHEET_HEIGHT };
   return (
-    <ActionSheet gestureEnabled={true} containerStyle={styles.sheetContent}>
+    <ActionSheet gestureEnabled={true} containerStyle={sheetContainerStyle}>
       <View style={[styles.container, { height: SHEET_HEIGHT }]}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>{intl.formatMessage({ id: 'chats.select_emoji' })}</Text>
@@ -121,28 +112,28 @@ const EmojiPickerSheet = ({ payload }: EmojiPickerSheetProps) => {
           returnKeyType="search"
         />
 
-        <FlatList
-          data={filteredEmojis}
-          renderItem={renderEmojiItem}
-          keyExtractor={(item) => item.name}
-          numColumns={NUM_COLUMNS}
-          contentContainerStyle={styles.emojiList}
-          showsVerticalScrollIndicator={true}
-          getItemLayout={getItemLayout}
-          initialNumToRender={NUM_COLUMNS * 8}
-          maxToRenderPerBatch={NUM_COLUMNS * 6}
-          windowSize={11}
-          removeClippedSubviews={true}
-          keyboardShouldPersistTaps="handled"
-          ListEmptyComponent={
-            <Text style={styles.emptyText}>
-              {intl.formatMessage({
-                id: 'chats.no_emoji_found',
-                defaultMessage: 'No emoji found',
-              })}
-            </Text>
-          }
-        />
+        {/* Wrapper View with flex:1 is required so the FlatList has a bounded
+            height inside the column; setting flex:1 on the FlatList alone
+            collapsed it inside ActionSheet's children. */}
+        <View style={styles.emojiListContainer}>
+          <FlatList
+            data={filteredEmojis}
+            renderItem={renderEmojiItem}
+            keyExtractor={(item) => item.name}
+            numColumns={NUM_COLUMNS}
+            contentContainerStyle={styles.emojiList}
+            showsVerticalScrollIndicator={true}
+            keyboardShouldPersistTaps="handled"
+            ListEmptyComponent={
+              <Text style={styles.emptyText}>
+                {intl.formatMessage({
+                  id: 'chats.no_emoji_found',
+                  defaultMessage: 'No emoji found',
+                })}
+              </Text>
+            }
+          />
+        </View>
       </View>
     </ActionSheet>
   );

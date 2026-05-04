@@ -2,11 +2,9 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   sheetContent: {
-    height: '90%',
     backgroundColor: '$primaryBackgroundColor',
   },
   container: {
-    flex: 1,
     backgroundColor: '$primaryBackgroundColor',
   },
   header: {
@@ -34,12 +32,16 @@ export default EStyleSheet.create({
     marginHorizontal: 16,
     marginTop: 12,
     marginBottom: 4,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    minHeight: 44,
+    borderRadius: 10,
     backgroundColor: '$primaryLightBackground',
     color: '$primaryDarkText',
-    fontSize: 14,
+    fontSize: 16,
+  },
+  emojiListContainer: {
+    flex: 1,
   },
   emojiList: {
     paddingHorizontal: 16,
