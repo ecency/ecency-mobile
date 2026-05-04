@@ -38,6 +38,7 @@ export default EStyleSheet.create({
     height: 44,
   } as ViewStyle,
   input: {
+    flex: 1,
     color: '$primaryDarkText',
   } as TextStyle,
   btnRemove: {

@@ -23,20 +23,24 @@ interface ChoiceRowProps {
   choice: string;
   index: number;
   placeholder: string;
-  inputRef: (input: FormInputHandle | null) => void;
+  assignInputRef: (index: number, input: FormInputHandle | null) => void;
   onChange: (index: number, text: string) => void;
   onRemove: (index: number) => void;
 }
 
 const ChoiceRow = memo(
-  ({ choice, index, placeholder, inputRef, onChange, onRemove }: ChoiceRowProps) => {
+  ({ choice, index, placeholder, assignInputRef, onChange, onRemove }: ChoiceRowProps) => {
     const handleChange = useCallback((text: string) => onChange(index, text), [onChange, index]);
     const handleRemove = useCallback(() => onRemove(index), [onRemove, index]);
+    const handleInputRef = useCallback(
+      (input: FormInputHandle | null) => assignInputRef(index, input),
+      [assignInputRef, index],
+    );
 
     return (
       <View style={styles.inputContainer}>
         <FormInput
-          ref={inputRef}
+          ref={handleInputRef}
           rightIconName="arrow-right"
           iconType="MaterialCommunityIcons"
           isValid={true}
@@ -182,6 +186,10 @@ export const PollsWizardContent = ({
     [updatePollDraftRef],
   );
 
+  const assignChoiceInputRef = useCallback((index: number, input: FormInputHandle | null) => {
+    choiceInputRefs.current[index] = input;
+  }, []);
+
   const createPoll = () => {
     // Implement poll creation logic here
     console.log('Poll created!');
@@ -203,12 +211,15 @@ export const PollsWizardContent = ({
     dispatch(removePollDraft(draftId || DEFAULT_USER_DRAFT_ID));
   };
 
-  const _onQuestionChange = (text) => {
-    updatePollDraftRef((prev) => ({
-      ...prev,
-      title: text,
-    }));
-  };
+  const _onQuestionChange = useCallback(
+    (text: string) => {
+      updatePollDraftRef((prev) => ({
+        ...prev,
+        title: text,
+      }));
+    },
+    [updatePollDraftRef],
+  );
 
   const _onExpiryDateChange = (date: Date) => {
     updatePollDraftState({
@@ -279,9 +290,7 @@ export const PollsWizardContent = ({
         { id: 'post_poll.choice_placeholder' },
         { number: index + 1 },
       )}
-      inputRef={(input) => {
-        choiceInputRefs.current[index] = input;
-      }}
+      assignInputRef={assignChoiceInputRef}
       onChange={handleChoiceChange}
       onRemove={_removeChoice}
     />

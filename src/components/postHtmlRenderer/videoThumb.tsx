@@ -8,16 +8,24 @@ interface Props {
   contentWidth: number;
   uri?: string;
   onPress?: () => void;
+  heightRatio?: number;
+  resizeMode?: 'cover' | 'contain';
 }
 
-const VideoThumb = ({ contentWidth, uri, onPress }: Props) => {
+const VideoThumb = ({
+  contentWidth,
+  uri,
+  onPress,
+  heightRatio = 9 / 16,
+  resizeMode = 'cover',
+}: Props) => {
   return (
     <TouchableHighlight onPress={onPress} disabled={!onPress}>
       <View pointerEvents="none">
         <ImageBackground
           source={{ uri }}
-          style={{ ...styles.videoThumb, width: contentWidth, height: (contentWidth * 9) / 16 }}
-          resizeMode="cover"
+          style={{ ...styles.videoThumb, width: contentWidth, height: contentWidth * heightRatio }}
+          resizeMode={resizeMode}
         >
           <IconButton
             style={styles.playButton}

@@ -252,4 +252,4 @@ const FormInputView = forwardRef<FormInputHandle, Props>(
   },
 );
 
-export default FormInputView;
+export default React.memo(FormInputView);

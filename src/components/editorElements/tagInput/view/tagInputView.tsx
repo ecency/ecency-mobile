@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { View, Text, Platform, TextInput as RNTextInput } from 'react-native';
-import { debounce } from 'lodash';
 // Constants
 
 // Components
@@ -24,11 +23,12 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   const scrollRef = useRef<ScrollView>();
-  const inputRef = useRef<RNTextInput | null>(null);
+  const inputRef = useRef<RNTextInput>(null);
   const textRef = useRef('');
   const tagsRef = useRef<string[]>([]);
 
   const [tags, setTags] = useState<string[]>([]);
+  const [text, setText] = useState('');
   const [warning, setWarning] = useState(null);
 
   // Keep tagsRef in sync with tags state
@@ -39,32 +39,38 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   useEffect(() => {
     // read and add tag items
     const _tags = (typeof value === 'string' ? value.split(' ') : value).filter((t) => !!t);
+    tagsRef.current = _tags;
     setTags(_tags);
     _verifyTagsUpdate(_tags);
   }, [value]);
 
-  const _verifyTagsUpdate = (tags: string[]) => {
-    if (tags.length > 0) {
-      tags.length > 10
+  const _verifyTagsUpdate = (nextTags: string[]) => {
+    if (nextTags.length > 0) {
+      nextTags.length > 10
         ? setWarning(intl.formatMessage({ id: 'editor.limited_tags' }))
-        : tags.find((c) => c.length > 24)
+        : nextTags.find((c) => c.length > 24)
         ? setWarning(intl.formatMessage({ id: 'editor.limited_length' }))
-        : tags.find((c) => c.split('-').length > 2)
+        : nextTags.find((c) => c.split('-').length > 2)
         ? setWarning(intl.formatMessage({ id: 'editor.limited_dash' }))
-        : tags.find((c) => c.indexOf(',') >= 0)
+        : nextTags.find((c) => c.indexOf(',') >= 0)
         ? setWarning(intl.formatMessage({ id: 'editor.limited_space' }))
-        : tags.find((c) => /[A-Z]/.test(c))
+        : nextTags.find((c) => /[A-Z]/.test(c))
         ? setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' }))
-        : tags.find((c) => !/^[a-z0-9-#]+$/.test(c))
+        : nextTags.find((c) => !/^[a-z0-9-#]+$/.test(c))
         ? setWarning(intl.formatMessage({ id: 'editor.limited_characters' }))
-        : tags.find((c) => !/[a-z0-9]$/.test(c))
+        : nextTags.find((c) => !/[a-z0-9]$/.test(c))
         ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
         : setWarning(null);
     }
   };
 
+  const _setInputText = useCallback((nextText: string) => {
+    textRef.current = nextText;
+    setText(nextText);
+  }, []);
+
   const _registerNewTags = useCallback(
-    debounce((newTags: string[], skipLast = true) => {
+    (newTags: string[], skipLast = true) => {
       const inputVal = newTags.length > 0 && skipLast ? newTags[newTags.length - 1] : '';
       const tagsToProcess = skipLast ? newTags.slice(0, -1) : newTags;
       const updatedTags = [...tagsRef.current];
@@ -92,13 +98,12 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
         }
       });
 
+      tagsRef.current = updatedTags;
       setTags(updatedTags);
       const newText = inputVal || '';
-      if (newText !== textRef.current) {
-        textRef.current = newText;
-        // Replace the field with the remaining unfinished tag fragment.
-        inputRef.current?.setNativeProps({ text: newText });
-      }
+      // Replace the field with the remaining unfinished tag fragment. Always write it:
+      // on Android/iOS a stale native event can otherwise leave the tokenized tag visible.
+      _setInputText(newText);
       _verifyTagsUpdate(updatedTags);
       if (handleTagChanged) {
         handleTagChanged(updatedTags);
@@ -108,30 +113,25 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
           scrollRef.current.scrollToEnd();
         }
       }, 100);
-    }, 500),
-    [dispatch, intl, setCommunity, handleTagChanged],
+    },
+    [dispatch, intl, setCommunity, handleTagChanged, _setInputText],
   );
-
-  // Cancel pending debounce on cleanup
-  useEffect(() => {
-    return () => {
-      _registerNewTags.cancel();
-    };
-  }, [_registerNewTags]);
 
   const _handleOnChange = (val: string) => {
     // val is already lowercased by the caller wrapper at the TextInput callsite.
-    if (val !== textRef.current) {
-      textRef.current = val;
+    if (SEPARATOR_REGEX.test(val)) {
+      _registerNewTags(val.split(SEPARATOR_REGEX));
+      return;
     }
-    _registerNewTags(val.split(SEPARATOR_REGEX));
+    textRef.current = val;
+    setText(val);
   };
 
   const _handleOnChangeRaw = (raw: string) => {
     const lower = raw.toLowerCase();
     if (lower !== raw) {
       // Filter to lowercase by re-feeding sanitized text to the field.
-      inputRef.current?.setNativeProps({ text: lower });
+      _setInputText(lower);
     }
     _handleOnChange(lower);
   };
@@ -146,6 +146,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
     const _onPress = () => {
       const updatedTags = [...tags];
       updatedTags.splice(index, 1);
+      tagsRef.current = updatedTags;
       setTags(updatedTags);
       _verifyTagsUpdate(updatedTags);
       if (handleTagChanged) {
@@ -176,6 +177,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
       >
         {tags.map(_renderTag)}
         <TextInput
+          key="tag-input"
           innerRef={inputRef}
           style={styles.textInput}
           placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
@@ -195,7 +197,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
           })}
           onChangeText={_handleOnChangeRaw}
           onEndEditing={_handleOnEnd}
-          defaultValue=""
+          value={text}
         />
       </ScrollView>
 

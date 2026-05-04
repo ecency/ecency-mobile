@@ -14,6 +14,11 @@ import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
 import Orientation from 'react-native-orientation-locker';
 import { orientations } from '../../redux/constants/orientationsConstants';
 import { useAppSelector } from '../../hooks';
+import {
+  THREE_SPEAK_MOBILE_LAYOUT_RATIO,
+  isThreeSpeakUrl,
+  withThreeSpeakMobileLayout,
+} from '../../providers/speak/embed';
 
 interface VideoPlayerProps {
   mode: 'uri' | 'youtube';
@@ -53,15 +58,19 @@ const VideoPlayer = ({
   const playerWidth = contentWidth || dim.width;
   const [playerHeight, setPlayerHeight] = useState(playerWidth * (9 / 16));
   const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
-  const isExtensionType = mode === 'uri' && uri ? uri.match(checkSrcRegex) : false;
-  const isThreeSpeakUri = mode === 'uri' && !!uri && /3speak\.tv/i.test(uri);
+  const playerUri = mode === 'uri' ? withThreeSpeakMobileLayout(uri) : uri || '';
+  const isExtensionType = mode === 'uri' && playerUri ? playerUri.match(checkSrcRegex) : false;
+  const isThreeSpeakUri = mode === 'uri' && isThreeSpeakUrl(playerUri);
 
-  // Reset height when URI changes; detect portrait from thumbnail if available
+  // Reset height when URI changes; detect portrait from thumbnail if available.
+  // 3Speak's mobile layout is documented as 3:4, so use that instead of
+  // inferring orientation from thumbnails which may be cropped.
   useEffect(() => {
     let isActive = true;
-    setPlayerHeight(playerWidth * (9 / 16));
+    const defaultRatio = isThreeSpeakUri ? THREE_SPEAK_MOBILE_LAYOUT_RATIO : 9 / 16;
+    setPlayerHeight(playerWidth * defaultRatio);
 
-    if (thumbnailUrl) {
+    if (!isThreeSpeakUri && thumbnailUrl) {
       // Load the thumbnail to detect portrait/square orientation
       RNImage.getSize(
         thumbnailUrl,
@@ -84,7 +93,7 @@ const VideoPlayer = ({
     return () => {
       isActive = false;
     };
-  }, [uri, playerWidth, thumbnailUrl]);
+  }, [playerUri, playerWidth, thumbnailUrl, isThreeSpeakUri]);
 
   useEffect(() => {
     if (isFullScreen) {
@@ -208,7 +217,7 @@ const VideoPlayer = ({
       <View style={{ flex: 1 }}>
         <Video
           source={{
-            uri,
+            uri: playerUri,
           }}
           onEnd={onEnd}
           onLoad={onLoad}
@@ -332,8 +341,8 @@ const VideoPlayer = ({
               }}
               source={
                 isThreeSpeakUri
-                  ? { uri }
-                  : { html: htmlIframeVideoPlayer(uri), baseUrl: _getBaseUrl(uri) }
+                  ? { uri: playerUri }
+                  : { html: htmlIframeVideoPlayer(playerUri), baseUrl: _getBaseUrl(playerUri) }
               }
               style={[styles.barkBackground, { width: playerWidth, height: playerHeight }]}
               startInLoadingState={true}

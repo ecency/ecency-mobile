@@ -15,6 +15,11 @@ import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
 import { HiveLinkPreview, UserAvatar, VideoPlayer } from '..';
+import {
+  THREE_SPEAK_MOBILE_LAYOUT_RATIO,
+  isThreeSpeakUrl,
+  withThreeSpeakMobileLayout,
+} from '../../providers/speak/embed';
 
 const _getFirstMetaImage = (metadataImage: any): string | undefined => {
   if (Array.isArray(metadataImage) && metadataImage.length > 0) {
@@ -25,6 +30,11 @@ const _getFirstMetaImage = (metadataImage: any): string | undefined => {
   }
   return undefined;
 };
+
+const _getVideoThumbProps = (videoUrl?: string) =>
+  isThreeSpeakUrl(videoUrl)
+    ? { heightRatio: THREE_SPEAK_MOBILE_LAYOUT_RATIO, resizeMode: 'contain' as const }
+    : {};
 
 interface PostHtmlRendererProps {
   contentWidth: number;
@@ -185,7 +195,7 @@ export const PostHtmlRenderer = memo(
 
             case 'markdown-video-link':
               if (handleVideoPress && videoHref) {
-                handleVideoPress(videoHref, _metadataThumbUrl);
+                handleVideoPress(withThreeSpeakMobileLayout(videoHref), _metadataThumbUrl);
               }
               break;
             case 'markdown-video-link-youtube':
@@ -330,9 +340,18 @@ export const PostHtmlRenderer = memo(
             child.classes?.includes('video-thumbnail'),
           );
           const thumbUri = imgElement?.attributes?.src || _metadataThumbUrl;
+          const videoHref = withThreeSpeakMobileLayout(parsedTnode.videoHref);
+          const videoThumbProps = _getVideoThumbProps(videoHref);
 
           if (isComment) {
-            return <VideoThumb contentWidth={contentWidth} uri={thumbUri} onPress={_onPress} />;
+            return (
+              <VideoThumb
+                contentWidth={contentWidth}
+                uri={thumbUri}
+                onPress={_onPress}
+                {...videoThumbProps}
+              />
+            );
           } else {
             // For non-YouTube embeds (e.g. 3Speak), route taps to the fullscreen
             // player so the play button is reliably reachable. Forward the
@@ -340,12 +359,17 @@ export const PostHtmlRenderer = memo(
             // rather than the first metadata image used by _handleOnLinkPress.
             if (!parsedTnode.youtubeId) {
               const _onVideoPress = () => {
-                if (handleVideoPress && parsedTnode.videoHref) {
-                  handleVideoPress(parsedTnode.videoHref, thumbUri);
+                if (handleVideoPress && videoHref) {
+                  handleVideoPress(videoHref, thumbUri);
                 }
               };
               return (
-                <VideoThumb contentWidth={contentWidth} uri={thumbUri} onPress={_onVideoPress} />
+                <VideoThumb
+                  contentWidth={contentWidth}
+                  uri={thumbUri}
+                  onPress={_onVideoPress}
+                  {...videoThumbProps}
+                />
               );
             }
             return (
@@ -426,7 +450,7 @@ export const PostHtmlRenderer = memo(
 
         return <InternalRenderer tnode={tnode} onPress={_onPress} {...props} />;
       },
-      [_handleOnLinkPress, isComment, contentWidth, metadata, _metadataThumbUrl],
+      [_handleOnLinkPress, isComment, contentWidth, metadata, _metadataThumbUrl, handleVideoPress],
     );
 
     const _imageRenderer = useCallback(
@@ -549,37 +573,49 @@ export const PostHtmlRenderer = memo(
     const _iframeRenderer = useCallback(
       function IframeRenderer(props) {
         const iframeProps = useHtmlIframeProps(props);
+        const iframeUri = withThreeSpeakMobileLayout(iframeProps.source.uri);
+        const videoThumbProps = _getVideoThumbProps(iframeUri);
 
         if (isComment) {
           const _onPress = () => {
             console.log('iframe thumb Pressed:', iframeProps);
             if (handleVideoPress) {
-              handleVideoPress(iframeProps.source.uri, _metadataThumbUrl);
+              handleVideoPress(iframeUri, _metadataThumbUrl);
             }
           };
           return (
-            <VideoThumb contentWidth={contentWidth} uri={_metadataThumbUrl} onPress={_onPress} />
+            <VideoThumb
+              contentWidth={contentWidth}
+              uri={_metadataThumbUrl}
+              onPress={_onPress}
+              {...videoThumbProps}
+            />
           );
         } else {
-          const isSpeakEmbed = /3speak\.tv/i.test(iframeProps.source.uri || '');
+          const isSpeakEmbed = isThreeSpeakUrl(iframeUri);
           // For 3Speak embeds, route taps to the fullscreen player so the play
           // button is reliably reachable; the inline WebView's iframe controls
           // are not always tappable on device.
           if (isSpeakEmbed) {
             const _onPress = () => {
               if (handleVideoPress) {
-                handleVideoPress(iframeProps.source.uri, _metadataThumbUrl);
+                handleVideoPress(iframeUri, _metadataThumbUrl);
               }
             };
             return (
-              <VideoThumb contentWidth={contentWidth} uri={_metadataThumbUrl} onPress={_onPress} />
+              <VideoThumb
+                contentWidth={contentWidth}
+                uri={_metadataThumbUrl}
+                onPress={_onPress}
+                {...videoThumbProps}
+              />
             );
           }
           return (
             <View
               style={[styles.embeddedVideoWrapper, { width: contentWidth, maxWidth: contentWidth }]}
             >
-              <VideoPlayer mode="uri" uri={iframeProps.source.uri} contentWidth={contentWidth} />
+              <VideoPlayer mode="uri" uri={iframeUri} contentWidth={contentWidth} />
             </View>
           );
         }
@@ -677,7 +713,10 @@ export const PostHtmlRenderer = memo(
         return;
       }
       if (handleVideoPress) {
-        handleVideoPress(extractedVideo.embedSrc, extractedVideo.thumbUrl);
+        handleVideoPress(
+          withThreeSpeakMobileLayout(extractedVideo.embedSrc),
+          extractedVideo.thumbUrl,
+        );
       }
     }, [extractedVideo, handleVideoPress]);
 
@@ -705,6 +744,7 @@ export const PostHtmlRenderer = memo(
             contentWidth={contentWidth}
             uri={extractedVideo.thumbUrl}
             onPress={_handleExtractedVideoPress}
+            {..._getVideoThumbProps(extractedVideo.embedSrc)}
           />
         )}
       </View>
