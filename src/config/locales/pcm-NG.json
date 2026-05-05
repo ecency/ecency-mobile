@@ -309,7 +309,13 @@
     "notification": "Alerts",
     "this_month": "This Month",
     "referral": "enter based on person wey send dem come, greet dem",
-    "account_update": "Your account keys or profile were updated",
+    "account_update": "Your account or profile were updated",
+    "account_update_owner_key": "Your owner key was changed. If this was not you, secure your account immediately.",
+    "account_update_active_key": "Your active key was changed. If this was not you, secure your account.",
+    "account_update_posting_key": "Your posting key was changed. If this was not you, secure your account.",
+    "account_update_owner_authority": "{accounts} was granted owner authority on your account. If this was not you, secure your account immediately.",
+    "account_update_active_authority": "{accounts} was granted active authority on your account. If you did not authorize this, revoke it.",
+    "account_update_posting_authority": "{accounts} can now post and vote on your behalf. If you did not authorize this, revoke it.",
     "weekly_earnings": "You earned ${amount} this week{breakdown}",
     "payouts": "Payout received: ${amount}"
   },
@@ -341,6 +347,9 @@
     "alert_init_body": "Open recent draft or Create new post",
     "reward_power_up": "Stake 100%",
     "open_gallery": "Open Picture",
+    "clipboard_no_image": "No image found in clipboard",
+    "clipboard_image_detected": "Image in clipboard",
+    "paste_image": "Paste image",
     "done": "DONE",
     "setting_beneficiary": "Who go get am",
     "tag_duplicate": "Tag exists already",
@@ -517,7 +526,8 @@
     "refresh": "Refresh channels",
     "select_emoji": "Select Emoji",
     "more_emojis": "More",
-    "search_emojis": "Search emojis..."
+    "search_emojis": "Search emojis...",
+    "no_emoji_found": "No emoji found"
   },
   "free_estm": {
     "timer_text": "D next spin in wey we dash",
