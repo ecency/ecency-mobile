@@ -173,6 +173,37 @@ describe('buildTransferOpsArray', () => {
       expect(ops[0][0]).toBe('engine_op');
     });
 
+    it('ENGINE layer TRANSFER splits multi-recipient by comma/space', () => {
+      const ops = buildTransferOpsArray(TransferTypes.TRANSFER, {
+        ...baseData,
+        to: 'bob, charlie dave',
+        tokenLayer: TokenLayers.ENGINE,
+      });
+      expect(ops).toHaveLength(3);
+      ops.forEach((op) => expect(op[0]).toBe('engine_op'));
+    });
+
+    it('ENGINE layer TRANSFER throws for empty recipients', () => {
+      expect(() =>
+        buildTransferOpsArray(TransferTypes.TRANSFER, {
+          ...baseData,
+          to: '',
+          tokenLayer: TokenLayers.ENGINE,
+        }),
+      ).toThrow('No valid recipients');
+    });
+
+    it('ENGINE layer TRANSFER throws for too many recipients (>50)', () => {
+      const many = Array(51).fill('user').join(',');
+      expect(() =>
+        buildTransferOpsArray(TransferTypes.TRANSFER, {
+          ...baseData,
+          to: many,
+          tokenLayer: TokenLayers.ENGINE,
+        }),
+      ).toThrow('Too many recipients');
+    });
+
     it('routes SPK layer to custom_json', () => {
       const ops = buildTransferOpsArray(TransferTypes.TRANSFER, {
         ...baseData,

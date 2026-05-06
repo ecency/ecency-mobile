@@ -26,6 +26,8 @@ import {
 import { useAuthContext } from '../providers/sdk';
 import { selectCurrentAccount } from '../redux/selectors';
 import type { RootState } from '../redux/store/store';
+import { getEngineActionOpArray } from '../providers/hive-engine/hiveEngineActions';
+import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
 
 /**
  * Bundles all transfer-related SDK mutation hooks into a single object.
@@ -162,6 +164,39 @@ export function useTransferMutations() {
   const unstakeEngine = useUnstakeEngineTokenMutation();
   const undelegateEngine = useUndelegateEngineTokenMutation();
 
+  // Multi-recipient ENGINE token transfer — single broadcast for all destinations
+  const multiEngineTransfer = useBroadcastMutation(
+    ['wallet', 'multi-transfer-engine'],
+    username || '',
+    ({
+      destinations,
+      symbol,
+      quantity,
+      memo,
+    }: {
+      destinations: string[];
+      symbol: string;
+      quantity: string;
+      memo: string;
+    }) =>
+      destinations.flatMap((dest) =>
+        getEngineActionOpArray(
+          EngineActions.TRANSFER,
+          requireUsername(),
+          dest,
+          `${quantity} ${symbol}`,
+          symbol,
+          memo,
+        ),
+      ),
+    (_data, { destinations }) => {
+      runPostBroadcastInvalidation(destinations, 'multiEngineTransfer');
+    },
+    authContext,
+    'active',
+    { broadcastMode: 'async' },
+  );
+
   // SPK layer
   const transferSpk = useTransferSpkMutation();
   const transferLarynx = useTransferLarynxMutation();
@@ -211,6 +246,7 @@ export function useTransferMutations() {
     multiTransfer,
     // ENGINE
     transferEngine,
+    multiEngineTransfer,
     stakeEngine,
     delegateEngine,
     unstakeEngine,

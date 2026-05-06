@@ -128,7 +128,8 @@ const TransferView = ({
 
   const allowMultipleDest =
     (tokenLayer === TokenLayers.HIVE && transferType === TransferTypes.TRANSFER) ||
-    (tokenLayer === TokenLayers.POINTS && transferType === TransferTypes.ECENCY_POINT_TRANSFER);
+    (tokenLayer === TokenLayers.POINTS && transferType === TransferTypes.ECENCY_POINT_TRANSFER) ||
+    (tokenLayer === TokenLayers.ENGINE && transferType === TransferTypes.TRANSFER);
 
   const showMemo =
     transferType === TransferTypes.ECENCY_POINT_TRANSFER ||
@@ -382,19 +383,44 @@ const TransferView = ({
     const destinations = destination.trim().split(/[\s,]+/);
 
     if (isEngineToken) {
-      const json = getEngineActionJSON(
-        transferType as EngineActions,
-        destination,
-        `${amount} ${fundType}`,
-        fundType,
-        memo,
-      );
-      path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
-        selectedAccount,
-        'name',
-      )}%22%5D&required_posting_auths=%5B%5D&id=ssc-mainnet-hive&json=${encodeURIComponent(
-        JSON.stringify(json),
-      )}`;
+      if (transferType === TransferTypes.TRANSFER && destinations.length > 1) {
+        path = hiveuri
+          .encodeOps(
+            destinations.map((receiver) => [
+              'custom_json',
+              {
+                required_auths: [selectedAccount.name],
+                required_posting_auths: [],
+                id: 'ssc-mainnet-hive',
+                json: JSON.stringify(
+                  getEngineActionJSON(
+                    EngineActions.TRANSFER,
+                    receiver,
+                    `${amount} ${fundType}`,
+                    fundType,
+                    memo,
+                  ),
+                ),
+              },
+            ]),
+          )
+          .replace('hive://', '');
+        path += '?authority=active';
+      } else {
+        const json = getEngineActionJSON(
+          transferType as EngineActions,
+          destination,
+          `${amount} ${fundType}`,
+          fundType,
+          memo,
+        );
+        path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
+          selectedAccount,
+          'name',
+        )}%22%5D&required_posting_auths=%5B%5D&id=ssc-mainnet-hive&json=${encodeURIComponent(
+          JSON.stringify(json),
+        )}`;
+      }
     } else if (isSpkToken) {
       const json = getSpkActionJSON(Number(amount), destination, memo);
       path = `sign/custom-json?authority=active&required_auths=%5B%22${
