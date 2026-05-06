@@ -1,4 +1,4 @@
-import React, { useDeferredValue, useMemo, useState } from 'react';
+import React, { useDeferredValue, useState } from 'react';
 import { TabView, TabBarProps } from 'react-native-tab-view';
 import { useWindowDimensions, View } from 'react-native';
 import { useIntl } from 'react-intl';
@@ -8,6 +8,12 @@ import { TabbedPostsProps } from '../types/tabbedPosts.types';
 import { FeedTabBar } from '../view/feedTabBar';
 import PostsTabContent from '../view/postsTabContent';
 import { Tag } from '../..';
+
+const styles = EStyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export const TabbedPosts = ({
   tabFilters,
@@ -22,16 +28,6 @@ export const TabbedPosts = ({
   const layoutWidth = Math.round(layout.width);
   const deferredLayoutWidth = useDeferredValue(layoutWidth);
   const intl = useIntl();
-  const styles = useMemo(
-    () =>
-      EStyleSheet.create({
-        container: {
-          flex: 1,
-          width: layoutWidth,
-        },
-      }),
-    [layoutWidth],
-  );
 
   // initialize state
   const [index, setIndex] = useState(selectedOptionIndex);
@@ -98,7 +94,7 @@ export const TabbedPosts = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width: layoutWidth }]}>
       <TabView
         key={`tab-view-${deferredLayoutWidth}`}
         animationEnabled={false}
