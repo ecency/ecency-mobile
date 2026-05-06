@@ -20,6 +20,30 @@ const DEFAULT_IMAGE =
   'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
 const NSFW_IMAGE =
   'https://images.ecency.com/DQmZ1jW4p7o5GyoqWyCib1fSLE2ftbewsMCt2GvbmT9kmoY/nsfw_3x.png';
+const DEFAULT_IMAGE_RATIO = 16 / 9;
+
+const getSafeImageRatio = (ratio?: number) =>
+  typeof ratio === 'number' && Number.isFinite(ratio) && ratio > 0 ? ratio : DEFAULT_IMAGE_RATIO;
+
+const getStableContentKey = (content?: any) => {
+  const stableId =
+    content?.id ?? content?._id ?? content?.uuid ?? content?.commentKey ?? content?.post_id;
+
+  if (stableId !== undefined && stableId !== null && `${stableId}` !== '') {
+    return `id:${stableId}`;
+  }
+
+  return [
+    content?.author || content?.root_author || content?.parent_author || 'unknown-author',
+    content?.permlink || content?.root_permlink || content?.parent_permlink || 'missing-permlink',
+    content?.created || content?.createdAt || content?.created_at,
+    content?.url,
+    content?.title,
+    content?.thumbnail || content?.image,
+  ]
+    .filter(Boolean)
+    .join(':');
+};
 
 interface Props {
   content: any;
@@ -34,9 +58,17 @@ const PostCardContentComponent = ({ content, isHideImage, nsfw, handleCardIntera
   const imgRef = useRef<ExpoImage>(null);
   // const isInViewRef = useRef(false);
 
-  const imageRatio = content?.thumbRatio;
+  const contentKey = getStableContentKey(content);
+  const initialImageRatio = getSafeImageRatio(content?.thumbRatio);
   const imgWidth = dim.width - 18;
-  const [imgHeight, setImgHeight] = useLayoutState(imageRatio ? imgWidth / imageRatio : 300);
+  const [imageLayout, setImageLayout] = useLayoutState({
+    contentKey,
+    ratio: initialImageRatio,
+  });
+  // FlashList can recycle a cell with the previous post's layout state.
+  // Discriminate by post key and fall back until this image reports its ratio.
+  const imageRatio = imageLayout.contentKey === contentKey ? imageLayout.ratio : initialImageRatio;
+  const imgHeight = imgWidth / imageRatio;
   // const [autoplay, setAutoplay] = useState(false);
   // const [isAnimated, setIsAnimated] = useState(false);
 
@@ -132,15 +164,26 @@ const PostCardContentComponent = ({ content, isHideImage, nsfw, handleCardIntera
               contentFit={resizeMode}
               autoplay={true}
               onLoad={(evt) => {
-                const _imgRatio = evt.source.width / evt.source.height;
-                const height = imgWidth / _imgRatio;
+                const loadedRatio = evt.source.width / evt.source.height;
 
-                // if new height and old height are approximately equal, skip animation
-                if (Math.abs(height - imgHeight) < 1) {
+                if (!Number.isFinite(loadedRatio) || loadedRatio <= 0) {
                   return;
                 }
 
-                setImgHeight(height);
+                // Keep the cached value width-independent so orientation changes
+                // recalculate height from the current viewport instead of reusing
+                // a previous landscape/portrait pixel height.
+                if (
+                  imageLayout.contentKey === contentKey &&
+                  Math.abs(loadedRatio - imageRatio) < 0.01
+                ) {
+                  return;
+                }
+
+                setImageLayout({
+                  contentKey,
+                  ratio: loadedRatio,
+                });
               }}
             />
             {isGif && (

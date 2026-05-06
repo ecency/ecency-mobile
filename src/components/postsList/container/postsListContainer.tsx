@@ -7,7 +7,13 @@ import React, {
   useMemo,
   useCallback,
 } from 'react';
-import { FlatListProps, RefreshControl, ActivityIndicator, View } from 'react-native';
+import {
+  FlatListProps,
+  RefreshControl,
+  ActivityIndicator,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import { SheetManager } from 'react-native-actions-sheet';
@@ -55,12 +61,15 @@ const postsListContainer = (
     pageType,
     showQuickReplyModal,
     refreshControl: _refreshControl,
+    extraData: propsExtraData,
     ...props
   }: postsListContainerProps,
   ref,
 ) => {
   const flatListRef = useRef(null);
   const intl = useIntl();
+  const { width } = useWindowDimensions();
+  const listWidth = Math.round(width);
 
   const navigation = useNavigation();
 
@@ -233,6 +242,19 @@ const postsListContainer = (
 
   const _renderSeparator = useCallback(() => <Separator style={styles.separator} />, []);
 
+  // Width participates in row rendering, so keep it in extraData for recycled
+  // cells without forcing a full FlashList remount on every dimension tick.
+  const listExtraData = useMemo(
+    () => ({
+      isHideImages,
+      listWidth,
+      nsfw,
+      pageType,
+      propsExtraData,
+    }),
+    [isHideImages, listWidth, nsfw, pageType, propsExtraData],
+  );
+
   const _renderItem = useCallback(
     ({ item }: { item: any }) => {
       return (
@@ -257,6 +279,7 @@ const postsListContainer = (
       <FlashList
         ref={flatListRef}
         data={data}
+        extraData={listExtraData}
         showsVerticalScrollIndicator={false}
         renderItem={_renderItem}
         keyExtractor={(content) => `${content.author}/${content.permlink}`}
