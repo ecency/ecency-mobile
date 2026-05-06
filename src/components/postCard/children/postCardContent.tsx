@@ -25,6 +25,26 @@ const DEFAULT_IMAGE_RATIO = 16 / 9;
 const getSafeImageRatio = (ratio?: number) =>
   typeof ratio === 'number' && Number.isFinite(ratio) && ratio > 0 ? ratio : DEFAULT_IMAGE_RATIO;
 
+const getStableContentKey = (content?: any) => {
+  const stableId =
+    content?.id ?? content?._id ?? content?.uuid ?? content?.commentKey ?? content?.post_id;
+
+  if (stableId !== undefined && stableId !== null && `${stableId}` !== '') {
+    return `id:${stableId}`;
+  }
+
+  return [
+    content?.author || content?.root_author || content?.parent_author || 'unknown-author',
+    content?.permlink || content?.root_permlink || content?.parent_permlink || 'missing-permlink',
+    content?.created || content?.createdAt || content?.created_at,
+    content?.url,
+    content?.title,
+    content?.thumbnail || content?.image,
+  ]
+    .filter(Boolean)
+    .join(':');
+};
+
 interface Props {
   content: any;
   isHideImage: boolean;
@@ -38,7 +58,7 @@ const PostCardContentComponent = ({ content, isHideImage, nsfw, handleCardIntera
   const imgRef = useRef<ExpoImage>(null);
   // const isInViewRef = useRef(false);
 
-  const contentKey = `${content?.author || ''}/${content?.permlink || ''}`;
+  const contentKey = getStableContentKey(content);
   const initialImageRatio = getSafeImageRatio(content?.thumbRatio);
   const imgWidth = dim.width - 18;
   const [imageLayout, setImageLayout] = useLayoutState({
