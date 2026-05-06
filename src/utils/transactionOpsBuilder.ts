@@ -32,6 +32,21 @@ export const buildTransferOpsArray = (
 
   // check layer and build appropriate operation
   if (tokenLayer === TokenLayers.ENGINE) {
+    if (transferType === TransferTypes.TRANSFER) {
+      const destinations = to
+        .trim()
+        .split(/[\s,]+/)
+        .filter(Boolean);
+      if (destinations.length === 0) {
+        throw new Error(`No valid recipients in: ${to}`);
+      }
+      if (destinations.length > MAX_RECIPIENTS) {
+        throw new Error(`Too many recipients (${destinations.length}), max is ${MAX_RECIPIENTS}`);
+      }
+      return destinations.flatMap((dest) =>
+        getEngineActionOpArray(EngineActions.TRANSFER, from, dest, amount, fundType, memo),
+      );
+    }
     return getEngineActionOpArray(transferType as EngineActions, from, to, amount, fundType, memo);
   } else if (tokenLayer === TokenLayers.SPK) {
     return buildActiveCustomJsonOpArr(

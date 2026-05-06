@@ -322,14 +322,34 @@ class TransferContainer extends Component {
       if (tokenLayer === TokenLayers.ENGINE) {
         const amountStr = data.amount.split(' ')[0];
         switch (transferType) {
-          case TransferTypes.TRANSFER:
-            await mutations.transferEngine.mutateAsync({
-              to: data.destination,
-              symbol: fundType,
-              quantity: amountStr,
-              memo: data.memo,
-            });
+          case TransferTypes.TRANSFER: {
+            const destinations = data.destination
+              .trim()
+              .split(/[\s,]+/)
+              .filter(Boolean);
+            if (destinations.length === 0) {
+              throw new Error('No valid transfer destinations provided');
+            }
+            if (destinations.length > 50) {
+              throw new Error(`Too many recipients (${destinations.length}), max is 50`);
+            }
+            if (destinations.length === 1) {
+              await mutations.transferEngine.mutateAsync({
+                to: destinations[0],
+                symbol: fundType,
+                quantity: amountStr,
+                memo: data.memo,
+              });
+            } else {
+              await mutations.multiEngineTransfer.mutateAsync({
+                destinations,
+                symbol: fundType,
+                quantity: amountStr,
+                memo: data.memo,
+              });
+            }
             break;
+          }
           case TransferTypes.STAKE:
             await mutations.stakeEngine.mutateAsync({
               to: data.destination || from,
