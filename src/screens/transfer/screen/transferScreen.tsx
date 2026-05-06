@@ -173,7 +173,8 @@ const TransferView = ({
         setUsersResult([]);
         return;
       }
-      if (usernames.length > 5) {
+      const maxUsernames = allowMultipleDest ? 50 : 5;
+      if (usernames.length > maxUsernames) {
         dispatch(toastNotification(intl.formatMessage({ id: 'transfer.too_many_usernames' })));
         setIsUsernameValid(false);
         setUsersResult([]);
@@ -224,7 +225,7 @@ const TransferView = ({
 
       setIsUsernameValid(validationResults.every((result) => result));
     }, 300),
-    [recurrentTransfers],
+    [recurrentTransfers, allowMultipleDest],
   );
 
   // --- Validate prefilled destination on mount ---
@@ -380,7 +381,10 @@ const TransferView = ({
   // --- HiveSigner Path ---
   let path;
   if (hsTransfer) {
-    const destinations = destination.trim().split(/[\s,]+/);
+    const destinations = destination
+      .trim()
+      .split(/[\s,]+/)
+      .filter(Boolean);
 
     if (isEngineToken) {
       if (transferType === TransferTypes.TRANSFER && destinations.length > 1) {

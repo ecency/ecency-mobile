@@ -181,6 +181,8 @@ describe('buildTransferOpsArray', () => {
       });
       expect(ops).toHaveLength(3);
       ops.forEach((op) => expect(op[0]).toBe('engine_op'));
+      // Mocked engine op shape: ['engine_op', action, from, to, amount, symbol, memo]
+      expect(ops.map((op) => op[3])).toEqual(['bob', 'charlie', 'dave']);
     });
 
     it('ENGINE layer TRANSFER throws for empty recipients', () => {
