@@ -23,6 +23,12 @@ export const isHiveUri = (uri: string) => {
   return normalizedUri.startsWith('hive://');
 };
 
+/**
+ * checks if a url uses an http(s) scheme, i.e. can be loaded inside a WebView.
+ * Non-web schemes (mailto:, tel:, etc.) must be delegated to the OS instead.
+ */
+export const isWebUrl = (url: string) => /^https?:\/\//i.test(url.trim());
+
 // check operation array is valid and is a single operation array
 const _checkOpsArray = (ops: any) => {
   return ops && isArray(ops) && ops.length === 1 && isArray(ops[0]) && ops[0].length === 2;

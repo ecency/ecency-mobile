@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { useWindowDimensions, View } from 'react-native';
+import { Linking, useWindowDimensions, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ActionSheetView, { SheetManager } from 'react-native-actions-sheet';
@@ -16,7 +16,8 @@ import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
 import { CopyModal, ImageViewer, PostHtmlRenderer, VideoPlayer } from '../../..';
 import { useAppDispatch, useLinkProcessor } from '../../../../hooks';
-import { isHiveUri } from '../../../../utils/hive-uri';
+import { isHiveUri, isWebUrl } from '../../../../utils/hive-uri';
+import showExploreLinkWarning from '../../../../utils/showExploreLinkWarning';
 import { SheetNames } from '../../../../navigation/sheets';
 
 interface PostBodyProps {
@@ -78,29 +79,62 @@ const PostBody = ({
   };
 
   const handleLinkPress = (ind) => {
-    if (ind === 1) {
-      // open link
-      if (selectedLink) {
-        navigation.navigate({
-          name: ROUTES.SCREENS.WEB_BROWSER,
-          params: {
-            url: selectedLink,
-          },
-          key: selectedLink,
-        });
-      }
+    if (!selectedLink) {
+      setSelectedLink(null);
+      return;
     }
-    if (ind === 0) {
-      // copy to clipboard
-      writeToClipboard(selectedLink).then(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.copied',
-            }),
-          ),
-        );
-      });
+
+    switch (ind) {
+      case 0:
+        // copy to clipboard
+        writeToClipboard(selectedLink).then(() => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'alert.copied',
+              }),
+            ),
+          );
+        });
+        break;
+
+      case 1:
+        // open web links inside the in-app Explore dApp browser, but warn
+        // first since Explore exposes the wallet bridge to the page
+        if (isWebUrl(selectedLink)) {
+          const link = selectedLink;
+          showExploreLinkWarning({
+            intl,
+            url: link,
+            onConfirm: () =>
+              navigation.navigate({
+                name: ROUTES.SCREENS.DAPP_BROWSER,
+                params: {
+                  url: link,
+                },
+                key: link,
+              }),
+          });
+          break;
+        }
+      // non-web scheme (mailto:, tel:, etc.) — let the OS handle it
+      // falls through
+
+      case 2:
+        // open in the device's default browser
+        Linking.openURL(selectedLink).catch(() => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'alert.something_wrong',
+              }),
+            ),
+          );
+        });
+        break;
+
+      default:
+        break;
     }
 
     setSelectedLink(null);
@@ -218,12 +252,13 @@ const PostBody = ({
       <OptionsModal
         ref={actionLink}
         options={[
-          intl.formatMessage({ id: 'post.copy_link' }),
-          intl.formatMessage({ id: 'alert.external_link' }),
+          intl.formatMessage({ id: 'post.link_copy' }),
+          intl.formatMessage({ id: 'post.link_open_explore' }),
+          intl.formatMessage({ id: 'post.link_open_system' }),
           intl.formatMessage({ id: 'alert.cancel' }),
         ]}
         title={intl.formatMessage({ id: 'post.link' })}
-        cancelButtonIndex={2}
+        cancelButtonIndex={3}
         onPress={(index) => {
           handleLinkPress(index);
         }}
