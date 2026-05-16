@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { useWindowDimensions, View } from 'react-native';
+import { Linking, useWindowDimensions, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ActionSheetView, { SheetManager } from 'react-native-actions-sheet';
@@ -78,29 +78,51 @@ const PostBody = ({
   };
 
   const handleLinkPress = (ind) => {
-    if (ind === 1) {
-      // open link
-      if (selectedLink) {
+    if (!selectedLink) {
+      setSelectedLink(null);
+      return;
+    }
+
+    switch (ind) {
+      case 0:
+        // copy to clipboard
+        writeToClipboard(selectedLink).then(() => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'alert.copied',
+              }),
+            ),
+          );
+        });
+        break;
+
+      case 1:
+        // open inside the in-app Explore dApp browser
         navigation.navigate({
-          name: ROUTES.SCREENS.WEB_BROWSER,
+          name: ROUTES.SCREENS.DAPP_BROWSER,
           params: {
             url: selectedLink,
           },
           key: selectedLink,
         });
-      }
-    }
-    if (ind === 0) {
-      // copy to clipboard
-      writeToClipboard(selectedLink).then(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.copied',
-            }),
-          ),
-        );
-      });
+        break;
+
+      case 2:
+        // open in the device's default browser
+        Linking.openURL(selectedLink).catch(() => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'alert.something_wrong',
+              }),
+            ),
+          );
+        });
+        break;
+
+      default:
+        break;
     }
 
     setSelectedLink(null);
@@ -218,12 +240,13 @@ const PostBody = ({
       <OptionsModal
         ref={actionLink}
         options={[
-          intl.formatMessage({ id: 'post.copy_link' }),
-          intl.formatMessage({ id: 'alert.external_link' }),
+          intl.formatMessage({ id: 'post.link_copy' }),
+          intl.formatMessage({ id: 'post.link_open_explore' }),
+          intl.formatMessage({ id: 'post.link_open_system' }),
           intl.formatMessage({ id: 'alert.cancel' }),
         ]}
         title={intl.formatMessage({ id: 'post.link' })}
-        cancelButtonIndex={2}
+        cancelButtonIndex={3}
         onPress={(index) => {
           handleLinkPress(index);
         }}

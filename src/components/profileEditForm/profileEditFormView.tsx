@@ -46,6 +46,7 @@ const ProfileEditFormView = ({
   ...props
 }: ProfileEditFormProps) => {
   const intl = useIntl();
+  const defaultCover = isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE;
 
   return (
     <View style={styles.container}>
@@ -66,13 +67,10 @@ const ProfileEditFormView = ({
           >
             <ExpoImage
               style={styles.coverImg}
-              source={
-                coverUrl
-                  ? { uri: getResizedImage(coverUrl, 600) }
-                  : isDarkTheme
-                  ? DARK_COVER_IMAGE
-                  : LIGHT_COVER_IMAGE
-              }
+              source={coverUrl ? { uri: getResizedImage(coverUrl, 600) } : defaultCover}
+              contentFit="cover"
+              placeholder={defaultCover}
+              placeholderContentFit="cover"
             />
             <IconButton
               color="white"

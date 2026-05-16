@@ -1,4 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState, Fragment } from 'react';
+import { Linking } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionsSheet from 'react-native-actions-sheet';
 
@@ -80,29 +81,51 @@ export const PostHtmlInteractionHandler = forwardRef(
     }));
 
     const _handleLinkOptionPress = (ind) => {
-      if (ind === 1) {
-        // open link
-        if (selectedLink) {
+      if (!selectedLink) {
+        setSelectedLink(null);
+        return;
+      }
+
+      switch (ind) {
+        case 0:
+          // copy to clipboard
+          writeToClipboard(selectedLink).then(() => {
+            dispatch(
+              toastNotification(
+                intl.formatMessage({
+                  id: 'alert.copied',
+                }),
+              ),
+            );
+          });
+          break;
+
+        case 1:
+          // open inside the in-app Explore dApp browser
           navigation.navigate({
-            name: ROUTES.SCREENS.WEB_BROWSER,
+            name: ROUTES.SCREENS.DAPP_BROWSER,
             params: {
               url: selectedLink,
             },
             key: selectedLink,
           } as never);
-        }
-      }
-      if (ind === 0) {
-        // copy to clipboard
-        writeToClipboard(selectedLink).then(() => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'alert.copied',
-              }),
-            ),
-          );
-        });
+          break;
+
+        case 2:
+          // open in the device's default browser
+          Linking.openURL(selectedLink).catch(() => {
+            dispatch(
+              toastNotification(
+                intl.formatMessage({
+                  id: 'alert.something_wrong',
+                }),
+              ),
+            );
+          });
+          break;
+
+        default:
+          break;
       }
 
       setSelectedLink(null);
@@ -115,12 +138,13 @@ export const PostHtmlInteractionHandler = forwardRef(
         <OptionsModal
           ref={actionLink}
           options={[
-            intl.formatMessage({ id: 'post.copy_link' }),
-            intl.formatMessage({ id: 'alert.external_link' }),
+            intl.formatMessage({ id: 'post.link_copy' }),
+            intl.formatMessage({ id: 'post.link_open_explore' }),
+            intl.formatMessage({ id: 'post.link_open_system' }),
             intl.formatMessage({ id: 'alert.cancel' }),
           ]}
           title={intl.formatMessage({ id: 'post.link' })}
-          cancelButtonIndex={2}
+          cancelButtonIndex={3}
           onPress={(index) => {
             _handleLinkOptionPress(index);
           }}
