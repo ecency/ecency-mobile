@@ -15,7 +15,7 @@ import { OptionsModal } from '../atoms';
 import VideoPlayer from '../videoPlayer/videoPlayerView';
 
 import { PostTypes } from '../../constants/postTypes';
-import { isHiveUri } from '../../utils/hive-uri';
+import { isHiveUri, isWebUrl } from '../../utils/hive-uri';
 import { ImageViewer } from '../imageViewer';
 import { useLinkProcessor } from '../../hooks';
 import { CopyModal } from '../copyModal';
@@ -101,15 +101,19 @@ export const PostHtmlInteractionHandler = forwardRef(
           break;
 
         case 1:
-          // open inside the in-app Explore dApp browser
-          navigation.navigate({
-            name: ROUTES.SCREENS.DAPP_BROWSER,
-            params: {
-              url: selectedLink,
-            },
-            key: selectedLink,
-          } as never);
-          break;
+          // open web links inside the in-app Explore dApp browser
+          if (isWebUrl(selectedLink)) {
+            navigation.navigate({
+              name: ROUTES.SCREENS.DAPP_BROWSER,
+              params: {
+                url: selectedLink,
+              },
+              key: selectedLink,
+            } as never);
+            break;
+          }
+        // non-web scheme (mailto:, tel:, etc.) — let the OS handle it
+        // falls through
 
         case 2:
           // open in the device's default browser

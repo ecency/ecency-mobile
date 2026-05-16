@@ -16,7 +16,7 @@ import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
 import { CopyModal, ImageViewer, PostHtmlRenderer, VideoPlayer } from '../../..';
 import { useAppDispatch, useLinkProcessor } from '../../../../hooks';
-import { isHiveUri } from '../../../../utils/hive-uri';
+import { isHiveUri, isWebUrl } from '../../../../utils/hive-uri';
 import { SheetNames } from '../../../../navigation/sheets';
 
 interface PostBodyProps {
@@ -98,15 +98,19 @@ const PostBody = ({
         break;
 
       case 1:
-        // open inside the in-app Explore dApp browser
-        navigation.navigate({
-          name: ROUTES.SCREENS.DAPP_BROWSER,
-          params: {
-            url: selectedLink,
-          },
-          key: selectedLink,
-        });
-        break;
+        // open web links inside the in-app Explore dApp browser
+        if (isWebUrl(selectedLink)) {
+          navigation.navigate({
+            name: ROUTES.SCREENS.DAPP_BROWSER,
+            params: {
+              url: selectedLink,
+            },
+            key: selectedLink,
+          });
+          break;
+        }
+      // non-web scheme (mailto:, tel:, etc.) — let the OS handle it
+      // falls through
 
       case 2:
         // open in the device's default browser
