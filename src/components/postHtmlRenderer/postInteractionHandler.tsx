@@ -16,6 +16,7 @@ import VideoPlayer from '../videoPlayer/videoPlayerView';
 
 import { PostTypes } from '../../constants/postTypes';
 import { isHiveUri, isWebUrl } from '../../utils/hive-uri';
+import showExploreLinkWarning from '../../utils/showExploreLinkWarning';
 import { ImageViewer } from '../imageViewer';
 import { useLinkProcessor } from '../../hooks';
 import { CopyModal } from '../copyModal';
@@ -101,15 +102,22 @@ export const PostHtmlInteractionHandler = forwardRef(
           break;
 
         case 1:
-          // open web links inside the in-app Explore dApp browser
+          // open web links inside the in-app Explore dApp browser, but warn
+          // first since Explore exposes the wallet bridge to the page
           if (isWebUrl(selectedLink)) {
-            navigation.navigate({
-              name: ROUTES.SCREENS.DAPP_BROWSER,
-              params: {
-                url: selectedLink,
-              },
-              key: selectedLink,
-            } as never);
+            const link = selectedLink;
+            showExploreLinkWarning({
+              intl,
+              url: link,
+              onConfirm: () =>
+                navigation.navigate({
+                  name: ROUTES.SCREENS.DAPP_BROWSER,
+                  params: {
+                    url: link,
+                  },
+                  key: link,
+                } as never),
+            });
             break;
           }
         // non-web scheme (mailto:, tel:, etc.) — let the OS handle it

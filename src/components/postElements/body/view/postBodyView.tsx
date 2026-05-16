@@ -17,6 +17,7 @@ import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters
 import { CopyModal, ImageViewer, PostHtmlRenderer, VideoPlayer } from '../../..';
 import { useAppDispatch, useLinkProcessor } from '../../../../hooks';
 import { isHiveUri, isWebUrl } from '../../../../utils/hive-uri';
+import showExploreLinkWarning from '../../../../utils/showExploreLinkWarning';
 import { SheetNames } from '../../../../navigation/sheets';
 
 interface PostBodyProps {
@@ -98,14 +99,21 @@ const PostBody = ({
         break;
 
       case 1:
-        // open web links inside the in-app Explore dApp browser
+        // open web links inside the in-app Explore dApp browser, but warn
+        // first since Explore exposes the wallet bridge to the page
         if (isWebUrl(selectedLink)) {
-          navigation.navigate({
-            name: ROUTES.SCREENS.DAPP_BROWSER,
-            params: {
-              url: selectedLink,
-            },
-            key: selectedLink,
+          const link = selectedLink;
+          showExploreLinkWarning({
+            intl,
+            url: link,
+            onConfirm: () =>
+              navigation.navigate({
+                name: ROUTES.SCREENS.DAPP_BROWSER,
+                params: {
+                  url: link,
+                },
+                key: link,
+              }),
           });
           break;
         }
