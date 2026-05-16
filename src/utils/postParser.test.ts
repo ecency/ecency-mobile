@@ -24,7 +24,7 @@ jest.mock('expo-image', () => ({
 }));
 
 jest.mock('./image', () => ({
-  getResizedAvatar: jest.fn((author) => `https://images.ecency.com/u/${author}/avatar`),
+  getResizedAvatar: jest.fn((author) => `https://i.ecency.com/u/${author}/avatar`),
 }));
 
 jest.mock('./user', () => ({
