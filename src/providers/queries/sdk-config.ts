@@ -43,7 +43,7 @@ export const initSdkConfig = async (queryClient: QueryClient) => {
   ConfigManager.setPrivateApiHost(Config.ECENCY_BACKEND_API);
 
   // Configure image host
-  ConfigManager.setImageHost(Config.NEW_IMAGE_API || 'https://images.ecency.com');
+  ConfigManager.setImageHost(Config.NEW_IMAGE_API || 'https://i.ecency.com');
 
   // Sync saved server preference and fetched nodes to SDK
   const savedServer = await getServer();

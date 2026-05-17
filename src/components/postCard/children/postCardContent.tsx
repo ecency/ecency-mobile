@@ -16,10 +16,13 @@ import ROUTES from '../../../constants/routeNames';
 import { ContentType } from '../../../providers/hive/hive.types';
 import { isCommunity } from '../../../utils/communityValidation';
 
+// i.ecency.com: same imagehoster backend as images.ecency.com on an
+// SNI-resilient hostname. These constants render directly (they do not pass
+// through proxifyImageSrc), so they must use the new host. See vision PR #791.
 const DEFAULT_IMAGE =
-  'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
+  'https://i.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
 const NSFW_IMAGE =
-  'https://images.ecency.com/DQmZ1jW4p7o5GyoqWyCib1fSLE2ftbewsMCt2GvbmT9kmoY/nsfw_3x.png';
+  'https://i.ecency.com/DQmZ1jW4p7o5GyoqWyCib1fSLE2ftbewsMCt2GvbmT9kmoY/nsfw_3x.png';
 const DEFAULT_IMAGE_RATIO = 16 / 9;
 
 const getSafeImageRatio = (ratio?: number) =>
