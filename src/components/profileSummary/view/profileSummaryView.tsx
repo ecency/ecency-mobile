@@ -93,6 +93,7 @@ class ProfileSummaryView extends PureComponent {
           source={coverImageUrl}
           contentFit="cover"
           placeholder={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
+          placeholderContentFit="cover"
         />
       </View>
     );
