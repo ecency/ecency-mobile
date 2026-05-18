@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getProposalsQueryOptions,
   getUserProposalVotesQueryOptions,
@@ -12,6 +12,18 @@ import { updateProposalVoteMeta } from '../../redux/actions/cacheActions';
 import { selectCurrentAccount } from '../../redux/selectors';
 import { useAuthContext } from '../sdk/useAuthContext';
 
+// Single source of truth for the proposal vote operation so the broadcast
+// factory and the active-key path cannot drift apart.
+const buildProposalVoteOperation = (voter: string, proposalId: number) => [
+  'update_proposal_votes',
+  {
+    voter,
+    proposal_ids: [proposalId],
+    approve: true,
+    extensions: [],
+  },
+];
+
 // query for getting active proposal meta using SDK
 // SDK returns Proposal[], but we filter for @ecency creator and map to ProposalMeta
 export const useActiveProposalMetaQuery = () => {
@@ -20,16 +32,19 @@ export const useActiveProposalMetaQuery = () => {
     select: (proposals) => {
       if (!proposals || proposals.length === 0) return undefined;
 
-      // Find latest active proposal created by @ecency account (highest ID)
+      // Surface the newest votable @ecency proposal (highest id). Hive marks
+      // not-yet-started proposals as "inactive" and running ones as "active";
+      // both are votable, only "expired" is past its end date. Restricting to
+      // "active" hid brand-new (upcoming) proposals that users can already
+      // vote for.
       const ecencyProposal = proposals
-        .filter((p) => p.creator === 'ecency' && p.status === 'active')
+        .filter((p) => p.creator === 'ecency' && p.status !== 'expired')
         .sort((a, b) => Number(b.proposal_id) - Number(a.proposal_id))[0];
 
       if (!ecencyProposal) {
         return undefined;
       }
 
-      // Map to ProposalMeta format
       const proposalMeta: ProposalMeta = {
         id: Number(ecencyProposal.proposal_id),
       };
@@ -43,24 +58,28 @@ export const useProposalVotedQuery = (proposalId?: number) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const proposalsVoteMeta = useAppSelector((state) => state.cache.proposalsVoteMeta);
 
-  // form meta id
-  const _cacheId = `${proposalId}_${currentAccount.name}`;
-  const _proposalVoteMeta: ProposalVoteMeta | null = proposalsVoteMeta[_cacheId];
+  const _username = currentAccount?.name;
 
-  // Use SDK to get user's proposal votes, then check if this proposal is voted
+  // form meta id
+  const _cacheId = `${proposalId}_${_username}`;
+  const _proposalVoteMeta: ProposalVoteMeta | null = proposalsVoteMeta?.[_cacheId];
+
+  // Use SDK to get user's proposal votes, then check if this proposal is voted.
+  // No initialData: the raw data must stay ProposalVote[] — seeding a boolean
+  // corrupts the shared query cache for every other consumer of this key.
   const query = useQuery({
-    ...getUserProposalVotesQueryOptions(currentAccount.name),
+    ...getUserProposalVotesQueryOptions(_username ?? ''),
+    enabled: !!_username,
     select: (votedProposals) => {
       if (!proposalId || !votedProposals || votedProposals.length === 0) {
         return false;
       }
-      // Normalize proposal IDs to numbers before comparing
-      const isVoted = votedProposals.some(
-        (item) => Number(item.proposal.proposal_id) === Number(proposalId),
+      // Normalize proposal IDs to numbers before comparing; `proposal` is
+      // optional on ProposalVote, so guard it to avoid throwing in select.
+      return votedProposals.some(
+        (item) => Number(item.proposal?.proposal_id) === Number(proposalId),
       );
-      return isVoted;
     },
-    initialData: false,
   });
 
   return {
@@ -72,24 +91,17 @@ export const useProposalVotedQuery = (proposalId?: number) => {
 export const useProposalVoteMutation = () => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
+  const queryClient = useQueryClient();
   const { executeOperation } = useActiveKeyOperation();
   const currentAccount = useAppSelector(selectCurrentAccount);
   const auth = useAuthContext();
 
+  const _username = currentAccount?.name;
+
   const broadcastMutation = useBroadcastMutation<{ proposalId: number }>(
     ['proposals', 'vote'],
-    currentAccount.name,
-    ({ proposalId }) => [
-      [
-        'update_proposal_votes',
-        {
-          voter: currentAccount.name,
-          proposal_ids: [proposalId],
-          approve: true,
-          extensions: [],
-        },
-      ],
-    ],
+    _username,
+    ({ proposalId }) => [buildProposalVoteOperation(_username ?? '', proposalId)],
     () => {},
     auth,
     'active',
@@ -98,18 +110,12 @@ export const useProposalVoteMutation = () => {
 
   return useMutation<any, Error, { proposalId: number }>({
     mutationFn: async ({ proposalId }) => {
-      const operation = [
-        'update_proposal_votes',
-        {
-          voter: currentAccount.name,
-          proposal_ids: [proposalId],
-          approve: true,
-          extensions: [],
-        },
-      ];
+      if (!_username) {
+        throw new Error('No active account to vote with');
+      }
 
       return executeOperation({
-        operations: [operation],
+        operations: [buildProposalVoteOperation(_username, proposalId)],
         privateKeyHandler: async () => {
           return broadcastMutation.mutateAsync({ proposalId });
         },
@@ -121,22 +127,20 @@ export const useProposalVoteMutation = () => {
       });
     },
 
-    retry: (failureCount, error) => {
-      const message = error?.message || '';
-      const lowerMessage = message.toLowerCase();
-
-      // User-driven cancellation/decline should never be auto-retried,
-      // otherwise auth-upgrade UI can re-open multiple times in a row.
-      if (lowerMessage.includes('operation cancelled by user')) return false;
-      if (lowerMessage.includes('hivesigner modal closed')) return false;
-      if (lowerMessage.includes('user declined alternate auth')) return false;
-      if (lowerMessage.includes('declined alternate auth')) return false;
-
-      return failureCount < 3;
-    },
+    // Every attempt re-runs the full signing flow (HiveSigner / HiveAuth /
+    // auth-upgrade sheet), so auto-retrying would re-prompt the user.
+    retry: false,
     onSuccess: (_, { proposalId }) => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.thankyou' })));
-      dispatch(updateProposalVoteMeta(proposalId, currentAccount.name, true));
+
+      if (_username) {
+        dispatch(updateProposalVoteMeta(proposalId, _username, true));
+        // Refresh the authoritative on-chain vote list so every other
+        // consumer reflects the new vote instead of staying stale.
+        queryClient.invalidateQueries({
+          queryKey: getUserProposalVotesQueryOptions(_username).queryKey,
+        });
+      }
     },
     onError: (error) => {
       console.error('[ProposalVote] Error:', error);

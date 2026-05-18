@@ -48,6 +48,10 @@ export const ProposalVoteRequest = () => {
   // recalculates when account data, vote status, or dismiss meta changes
   const skipRender = useMemo(() => {
     if (!isLoggedIn) return true;
+    // Keep the banner mounted right after a successful vote so the
+    // "thank you" state can render this session; meta.processed hides it
+    // on subsequent launches.
+    if (proposalVoteMutation.isSuccess) return false;
     if (!_ecencyProposalId) return true;
     if (proposalVotedQuery.data) return true;
     if (proposalVotedQuery.meta?.processed) return true;
@@ -57,7 +61,13 @@ export const ProposalVoteRequest = () => {
       if (nextRequestTime > curTime) return true;
     }
     return false;
-  }, [isLoggedIn, _ecencyProposalId, proposalVotedQuery.data, proposalVotedQuery.meta]);
+  }, [
+    isLoggedIn,
+    _ecencyProposalId,
+    proposalVotedQuery.data,
+    proposalVotedQuery.meta,
+    proposalVoteMutation.isSuccess,
+  ]);
 
   if (skipRender) {
     return null;
@@ -110,7 +120,7 @@ export const ProposalVoteRequest = () => {
           style={{ height: 40 }}
           textStyle={styles.voteBtnTitle}
           text={intl.formatMessage({ id: 'proposal.btn-vote' })}
-          isLoading={proposalVoteMutation.isLoading}
+          isLoading={proposalVoteMutation.isPending}
         />
         <TextButton
           onPress={_remindLater}
