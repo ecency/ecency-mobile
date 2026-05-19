@@ -1,4 +1,5 @@
 import React, { Fragment, useState, forwardRef, useImperativeHandle, useRef, Ref } from 'react';
+import * as Sentry from '@sentry/react-native';
 import get from 'lodash/get';
 
 // Services and Actions
@@ -46,6 +47,74 @@ import styles from '../children/upvoteStyles';
 
 import { PayoutDetailsContent } from '../children/payoutDetailsContent';
 import showLoginAlert from '../../../utils/showLoginAlert';
+
+// Transport-level failure signatures. The SDK broadcasts votes in 'async' mode,
+// which resolves before chain inclusion is confirmed, so an error matching this
+// pattern usually means the vote still landed — the request just couldn't be
+// confirmed (slow/dropped connection, broadcast timeout, garbled RPC response).
+const NETWORK_ERROR_PATTERN = new RegExp(
+  [
+    'abort',
+    'timed?\\s?out',
+    'timeout',
+    'network request failed',
+    'failed to fetch',
+    'load failed',
+    'socket hang up',
+    'JSONRPC id mismatch',
+    'ECONNREFUSED',
+    'ECONNRESET',
+    'ENOTFOUND',
+    'EHOSTUNREACH',
+    'EAI_AGAIN',
+    'ETIMEDOUT',
+  ].join('|'),
+  'i',
+);
+
+function isNetworkLevelVoteError(error: any): boolean {
+  if (!error) {
+    return false;
+  }
+  const name = String(error.name || '');
+  if (name === 'AbortError' || name === 'TimeoutError') {
+    return true;
+  }
+  const haystack = [error.message, error.code, error.cause?.message, error.cause?.code]
+    .filter(Boolean)
+    .map(String)
+    .join(' ');
+  return NETWORK_ERROR_PATTERN.test(haystack);
+}
+
+function logVoteError(
+  kind: 'upvote' | 'downvote',
+  error: any,
+  networkLevel: boolean,
+  author?: string,
+  permlink?: string,
+) {
+  const info = {
+    kind,
+    networkLevel,
+    author,
+    permlink,
+    name: error?.name,
+    code: error?.code,
+    message: error?.message,
+    jse_shortmsg: error?.jse_shortmsg,
+    error_description: error?.error_description,
+  };
+  console.warn(`[vote] ${kind} mutation rejected (networkLevel=${networkLevel})`, info);
+  Sentry.captureException(
+    error instanceof Error ? error : new Error(String(error?.message ?? error)),
+    {
+      level: networkLevel ? 'warning' : 'error',
+      tags: { feature: 'vote', voteKind: kind, voteNetworkLevel: String(networkLevel) },
+      extra: info,
+    } as any,
+  );
+}
 
 interface PopoverOptions {
   sourceRef: Ref<any>;
@@ -238,36 +307,41 @@ const UpvotePopover = forwardRef(({}, ref) => {
         setIsVoted(!!sliderValue);
       } catch (err) {
         const _error = err as any;
+        const _networkLevel = isNetworkLevelVoteError(_error);
 
-        _updateVoteCache(_author, _permlink, amount, false, 'FAILED');
-        _onVotingStart ? _onVotingStart(0) : null;
-        if (
-          _error &&
-          _error.response &&
-          _error.response.jse_shortmsg &&
-          _error.response.jse_shortmsg.includes('wait to transact')
-        ) {
-          setIsVoted(false);
-          dispatch(setRcOffer(true));
-        } else if (
-          _error &&
-          _error.jse_shortmsg &&
-          _error.jse_shortmsg.includes('wait to transact')
-        ) {
-          setIsVoted(false);
-          dispatch(setRcOffer(true));
+        if (_networkLevel) {
+          logVoteError('upvote', _error, true, _author, _permlink);
+          // Async broadcast can't confirm chain inclusion; a transport-level
+          // failure here most often means the vote still landed. Keep the
+          // optimistic state and let the next refetch reconcile a true failure
+          // rather than showing a false "Something went wrong".
+          setIsVoted(!!sliderValue);
         } else {
-          let errMsg = '';
-          if (_error?.message && _error.message.indexOf(':') > 0) {
-            [, errMsg] = _error.message.split(': ');
+          _updateVoteCache(_author, _permlink, amount, false, 'FAILED');
+          _onVotingStart ? _onVotingStart(0) : null;
+
+          const _isRcError =
+            (_error?.response?.jse_shortmsg &&
+              _error.response.jse_shortmsg.includes('wait to transact')) ||
+            (_error?.jse_shortmsg && _error.jse_shortmsg.includes('wait to transact'));
+
+          if (_isRcError) {
+            setIsVoted(false);
+            dispatch(setRcOffer(true));
           } else {
-            errMsg = _error?.jse_shortmsg || _error?.error_description || _error?.message;
+            logVoteError('upvote', _error, false, _author, _permlink);
+            let errMsg = '';
+            if (_error?.message && _error.message.indexOf(':') > 0) {
+              [, errMsg] = _error.message.split(': ');
+            } else {
+              errMsg = _error?.jse_shortmsg || _error?.error_description || _error?.message;
+            }
+            dispatch(
+              toastNotification(
+                intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: errMsg }),
+              ),
+            );
           }
-          dispatch(
-            toastNotification(
-              intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: errMsg }),
-            ),
-          );
         }
       } finally {
         isVotingRef.current = false;
@@ -314,15 +388,24 @@ const UpvotePopover = forwardRef(({}, ref) => {
         setIsDownVoted(!!sliderValue);
       } catch (err) {
         const _error = err as any;
+        const _networkLevel = isNetworkLevelVoteError(_error);
 
-        dispatch(
-          toastNotification(
-            intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: _error?.message }),
-          ),
-        );
-        _updateVoteCache(_author, _permlink, amount, true, 'FAILED');
-        setIsDownVoted(false);
-        _onVotingStart ? _onVotingStart(0) : null;
+        if (_networkLevel) {
+          logVoteError('downvote', _error, true, _author, _permlink);
+          // See upvote handler: async broadcast can't confirm inclusion, so a
+          // transport-level failure most likely still landed on chain.
+          setIsDownVoted(!!sliderValue);
+        } else {
+          logVoteError('downvote', _error, false, _author, _permlink);
+          dispatch(
+            toastNotification(
+              intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: _error?.message }),
+            ),
+          );
+          _updateVoteCache(_author, _permlink, amount, true, 'FAILED');
+          setIsDownVoted(false);
+          _onVotingStart ? _onVotingStart(0) : null;
+        }
       } finally {
         isVotingRef.current = false;
       }
