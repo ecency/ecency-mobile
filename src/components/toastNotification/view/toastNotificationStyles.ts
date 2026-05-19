@@ -9,8 +9,9 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     maxWidth: '100%',
     minWidth: '$deviceWidth / 1.9',
-    height: 44,
-    borderRadius: 30,
+    minHeight: 44,
+    paddingVertical: 8,
+    borderRadius: 22,
     backgroundColor: '$darkGrayBackground',
     margin: 5,
     shadowOffset: {
