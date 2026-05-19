@@ -376,13 +376,13 @@ class ApplicationContainer extends Component {
     firebaseOnMessageListener = getMessaging().onMessage((remoteMessage) => {
       console.log('Notification Received: foreground', remoteMessage);
 
-      const { unreadActivityCount, dispatch } = this.props;
-
       const notificationTypes = ['mention', 'reply', 'transfer', 'delegations'];
       const messageType = remoteMessage?.data?.type;
       if (notificationTypes.includes(messageType)) {
-        // Increment unread count (was only done by websocket before)
-        dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
+        // FCM and the enotify websocket can both deliver the same event, so a
+        // local +1 double-counted (e.g. daily-spin POINT transfers showed 2).
+        // Re-fetch the authoritative unread count instead.
+        this._refreshUnreadActivityCount();
       }
 
       // Show foreground notification banner
@@ -421,8 +421,9 @@ class ApplicationContainer extends Component {
         );
         dispatch(updateUnreadActivityCount(unreadActivityCount));
       } catch (error) {
+        // Keep the last-known count: this runs on every incoming notification,
+        // and intermittent mobile connectivity must not wipe the badge to 0.
         console.warn('Failed to refresh unread activity count', error);
-        dispatch(updateUnreadActivityCount(0));
       }
     }
   };
@@ -835,7 +836,7 @@ class ApplicationContainer extends Component {
       };
 
       ws.onmessage = (event) => {
-        const { activeBottomTab, unreadActivityCount, dispatch } = this.props;
+        const { activeBottomTab, dispatch } = this.props;
 
         console.log('Websocket notification received:', event.data);
 
@@ -859,8 +860,10 @@ class ApplicationContainer extends Component {
             wsData.type === 'transfer' ||
             wsData.type === 'delegations')
         ) {
-          // Update unread count only for real notifications
-          dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
+          // Re-fetch the authoritative unread count rather than a local +1:
+          // FCM may deliver the same event, and a local increment in both
+          // paths double-counted (daily-spin POINT transfers showed 2 not 1).
+          this._refreshUnreadActivityCount();
           const { type, source, target, extra } = wsData;
 
           // Build FCM-compatible notification object

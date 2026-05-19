@@ -292,7 +292,11 @@ const UpvotePopover = forwardRef(({}, ref) => {
         // to prevent any window where button state and cache are inconsistent
         _updateVoteCache(_author, _permlink, amount, false, sliderValue ? 'PUBLISHED' : 'DELETED');
 
-        const weight = sliderValue ? Math.trunc(sliderValue * 100) * 100 : 0;
+        // Math.round (not trunc) + min-1 floor: Android's float32 slider
+        // returns the 0.01 minimum as ~0.00999999977, which trunc floored to a
+        // weight of 0 → on-chain "Vote weight cannot be 0" assert despite the
+        // UI showing "1%". Keeps weight consistent with the displayed percent.
+        const weight = sliderValue ? Math.max(1, Math.round(sliderValue * 100)) * 100 : 0;
 
         console.log(`casting up vote: ${weight}`);
 
@@ -373,7 +377,9 @@ const UpvotePopover = forwardRef(({}, ref) => {
         // to prevent any window where button state and cache are inconsistent
         _updateVoteCache(_author, _permlink, amount, true, sliderValue ? 'PUBLISHED' : 'DELETED');
 
-        const weight = sliderValue ? Math.trunc(sliderValue * 100) * -100 : 0;
+        // See _upvoteContent: round + min-1 floor avoids a 0 weight from the
+        // Android float32 slider minimum (which fails the on-chain assert).
+        const weight = sliderValue ? Math.max(1, Math.round(sliderValue * 100)) * -100 : 0;
 
         console.log(`casting down vote: ${weight}`);
 
@@ -448,7 +454,9 @@ const UpvotePopover = forwardRef(({}, ref) => {
       incrementStep = 1;
     }
 
-    const percent = Math.trunc(sliderValue * 100) * 100 * (isDownvote ? -1 : 1);
+    // Round (not trunc) to stay consistent with the broadcast weight; trunc
+    // under-counted the optimistic cache by one step at the slider minimum.
+    const percent = Math.round(sliderValue * 100) * 100 * (isDownvote ? -1 : 1);
     // votingRshares can throw when account or globalProps haven't loaded —
     // mirror the guard used for _amount so optimistic cache updates don't
     // crash the vote flow before data is ready.
