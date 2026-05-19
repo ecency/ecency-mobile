@@ -421,8 +421,9 @@ class ApplicationContainer extends Component {
         );
         dispatch(updateUnreadActivityCount(unreadActivityCount));
       } catch (error) {
+        // Keep the last-known count: this runs on every incoming notification,
+        // and intermittent mobile connectivity must not wipe the badge to 0.
         console.warn('Failed to refresh unread activity count', error);
-        dispatch(updateUnreadActivityCount(0));
       }
     }
   };
