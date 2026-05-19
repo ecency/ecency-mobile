@@ -1,28 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
+  buildProposalVoteOp,
   getProposalsQueryOptions,
   getUserProposalVotesQueryOptions,
   useBroadcastMutation,
 } from '@ecency/sdk';
 import { useIntl } from 'react-intl';
 import { ProposalVoteMeta } from 'redux/reducers/cacheReducer';
+import { ProposalMeta } from '../ecency/ecency.types';
 import { useAppDispatch, useAppSelector, useActiveKeyOperation } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { updateProposalVoteMeta } from '../../redux/actions/cacheActions';
 import { selectCurrentAccount } from '../../redux/selectors';
 import { useAuthContext } from '../sdk/useAuthContext';
-
-// Single source of truth for the proposal vote operation so the broadcast
-// factory and the active-key path cannot drift apart.
-const buildProposalVoteOperation = (voter: string, proposalId: number) => [
-  'update_proposal_votes',
-  {
-    voter,
-    proposal_ids: [proposalId],
-    approve: true,
-    extensions: [],
-  },
-];
 
 // query for getting active proposal meta using SDK
 // SDK returns Proposal[], but we filter for @ecency creator and map to ProposalMeta
@@ -101,7 +91,7 @@ export const useProposalVoteMutation = () => {
   const broadcastMutation = useBroadcastMutation<{ proposalId: number }>(
     ['proposals', 'vote'],
     _username,
-    ({ proposalId }) => [buildProposalVoteOperation(_username ?? '', proposalId)],
+    ({ proposalId }) => [buildProposalVoteOp(_username ?? '', [proposalId], true)],
     () => {},
     auth,
     'active',
@@ -115,7 +105,7 @@ export const useProposalVoteMutation = () => {
       }
 
       return executeOperation({
-        operations: [buildProposalVoteOperation(_username, proposalId)],
+        operations: [buildProposalVoteOp(_username, [proposalId], true)],
         privateKeyHandler: async () => {
           return broadcastMutation.mutateAsync({ proposalId });
         },
