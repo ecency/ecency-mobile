@@ -1280,6 +1280,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const { isReply, isEdit } = this.state;
     const { intl } = this.props;
 
+    // Synchronous reentry guard. The downstream `isPostSending` state flag is
+    // set via async `setState`, so a fast double-tap can pass its check and
+    // also enqueue duplicate confirmation alerts. The ref blocks both. It is
+    // cleared in `_handleSubmitSuccess`/`_handleSubmitFailure`, and in the
+    // alert "No" callbacks below if the user cancels before submitting.
+    if (this._isSubmitting) {
+      return;
+    }
+    this._isSubmitting = true;
+
     if (isReply && !isEdit) {
       this._submitReply(form.fields);
     } else if (isEdit) {
@@ -1295,7 +1305,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             text: intl.formatMessage({
               id: 'editor.alert_btn_no',
             }),
-            onPress: () => console.log('Cancel Pressed'),
+            onPress: () => {
+              this._isSubmitting = false;
+            },
             style: 'cancel',
           },
           {
@@ -1320,7 +1332,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             text: intl.formatMessage({
               id: 'editor.alert_btn_no',
             }),
-            onPress: () => console.log('Cancel Pressed'),
+            onPress: () => {
+              this._isSubmitting = false;
+            },
             style: 'cancel',
           },
           {

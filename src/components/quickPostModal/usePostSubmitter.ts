@@ -5,7 +5,12 @@ import { useComment } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector, useStateWithRef } from '../../hooks';
 import { shouldPromptPostingAuthority, getDigitPinCode } from '../../providers/hive/hive';
-import { extractMetadata, generateUniquePermlink, makeJsonMetadata } from '../../utils/editor';
+import {
+  extractMetadata,
+  generateContentBasedPermlink,
+  generateUniquePermlink,
+  makeJsonMetadata,
+} from '../../utils/editor';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { wavesQueries } from '../../providers/queries';
 import { PollDraft } from '../../providers/ecency/ecency.types';
@@ -113,7 +118,25 @@ export const usePostSubmitter = () => {
 
       const _prefix =
         postType === PostTypes.WAVE ? postType : `re-${parentPost.author.replace(/\./g, '')}`;
-      const permlink = generateUniquePermlink(_prefix);
+      // For waves, derive the permlink from the content so an accidental
+      // resubmit (network timeout, app crash mid-publish) within the same time
+      // bucket produces the same permlink — Hive then rejects the duplicate
+      // instead of creating a second wave. Other reply types keep the
+      // timestamped form since they aren't part of the "wave duplicate" flow.
+      const permlink =
+        postType === PostTypes.WAVE
+          ? generateContentBasedPermlink(
+              _prefix,
+              [
+                currentAccount.name,
+                parentPost.author,
+                parentPost.permlink,
+                commentBody,
+                videoThumbUrls?.[0] ?? '',
+                pollDraft ? JSON.stringify(pollDraft) : '',
+              ].join('|'),
+            )
+          : generateUniquePermlink(_prefix);
 
       const author = currentAccount.name;
       const parentAuthor = parentPost.author;

@@ -380,7 +380,23 @@ const WavesScreen = () => {
 
         <ScrollTopPopup enable={enableScrollTop} onPress={_scrollTop} />
       </View>
-      <PostOptionsModal ref={postOptionsModalRef} isVisibleTranslateModal={true} isWave={true} />
+      <PostOptionsModal
+        ref={postOptionsModalRef}
+        isVisibleTranslateModal={true}
+        isWave={true}
+        onDelete={(content) => {
+          // Route the options-menu delete through the active feed's
+          // `wavesQuery.deleteWave`, which both broadcasts the delete and
+          // removes the wave from the waves infinite-query cache. The
+          // modal's default path uses `navigation.goBack()` and never
+          // updates the cache, so the wave would stay visible on the feed
+          // even after a successful delete.
+          activeDeleteWaveRef.current?.({
+            _permlink: content.permlink,
+            _parent_permlink: content.parent_permlink,
+          });
+        }}
+      />
       <FabButton bottomOffset={fabBottomOffset} onPress={_onCreatePress} />
     </View>
   );

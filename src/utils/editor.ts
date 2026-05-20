@@ -5,6 +5,7 @@ import { Image } from 'react-native';
 import VersionNumber from 'react-native-version-number';
 import getSlug from 'speakingurl';
 import { getQueryClient, getPostQueryOptions, POLLS_PROTOCOL_VERSION } from '@ecency/sdk';
+import CryptoJS from 'crypto-js';
 import { PostTypes } from '../constants/postTypes';
 import { PollDraft } from '../providers/ecency/ecency.types';
 import { ContentType, PollMetadata, PostMetadata } from '../providers/hive/hive.types';
@@ -100,6 +101,30 @@ export const generateUniquePermlink = (prefix) => {
     .toString()}${t.getMilliseconds().toString()}z`;
 
   return `${prefix}-${timeFormat}`;
+};
+
+// Default window: identical content within ~5 minutes maps to the same permlink.
+const CONTENT_PERMLINK_BUCKET_MS = 5 * 60 * 1000;
+
+/**
+ * Deterministic permlink for the same content within a time bucket.
+ *
+ * Used to make retries idempotent: when a user resubmits the same wave after a
+ * perceived failure that actually broadcast (network timeout, app crash mid-
+ * publish, etc.), the second attempt produces the same permlink and Hive
+ * rejects it as a duplicate instead of creating a second post on chain.
+ */
+export const generateContentBasedPermlink = (
+  prefix: string,
+  contentKey: string,
+  bucketMs: number = CONTENT_PERMLINK_BUCKET_MS,
+) => {
+  if (!prefix) {
+    return '';
+  }
+  const bucket = Math.floor(Date.now() / bucketMs);
+  const hash = CryptoJS.SHA256(`${contentKey}|${bucket}`).toString(CryptoJS.enc.Hex).slice(0, 16);
+  return `${prefix}-${hash}`;
 };
 
 export const makeOptions = (postObj) => {

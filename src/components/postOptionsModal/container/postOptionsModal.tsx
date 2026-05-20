@@ -56,9 +56,18 @@ interface Props {
   pageType?: string;
   isWave?: boolean;
   isVisibleTranslateModal?: boolean;
+  /**
+   * Optional delete handler. When provided, the "delete-post" action
+   * delegates entirely to this callback instead of running the local
+   * `deleteCommentMutation` + `navigation.goBack()` pair. The waves feed uses
+   * it to route through `wavesQuery.deleteWave`, which is the only path that
+   * updates the waves infinite-query cache so the deleted wave actually
+   * disappears from the feed.
+   */
+  onDelete?: (content: any) => void | Promise<void>;
 }
 
-const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, ref) => {
+const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete }: Props, ref) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
@@ -161,11 +170,16 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
     // check if post can be deleted
+    // Hive's on-chain rule is: no children AND no net positive rshares. Using
+    // `active_votes.length` was stricter than the chain (a self-vote or a
+    // downvote made the option silently disappear), which surfaced as
+    // "I can't delete this wave" when a duplicate had any vote at all.
+    const _netRshares = Number(content.net_rshares ?? 0);
     const _canDeletePost =
       currentAccount.name === content.author &&
       !content.is_paidout &&
       !content.children &&
-      !content.active_votes?.length;
+      _netRshares <= 0;
 
     // check if post is reblogged by current user
     // Priority 1: On own profile's blog page, if author != current user, it must be reblogged
@@ -335,6 +349,20 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
   const _deletePost = async () => {
     const _onConfirm = async () => {
+      // When an `onDelete` callback is provided (e.g. by wavesScreen) the
+      // caller owns the full delete pipeline — SDK mutation, cache update,
+      // toast, and any navigation. Calling `navigation.goBack()` here on the
+      // waves feed would pop the wrong screen and we'd also skip the
+      // waves-infinite-query cache update, leaving the deleted wave visible.
+      if (onDelete) {
+        try {
+          await onDelete(content);
+        } catch (err) {
+          console.warn('Failed to delete post (delegated)', err);
+        }
+        return;
+      }
+
       try {
         await deleteCommentMutation.mutateAsync({
           author: currentAccount?.name,
