@@ -68,7 +68,7 @@ const WavesFeed = ({
     }: {
       _permlink: string;
       _parent_permlink: string;
-    }) => void;
+    }) => Promise<void>;
   }) => void;
   isDarkTheme: boolean;
 }) => {
@@ -169,7 +169,7 @@ const WavesScreen = () => {
   const [enableScrollTop, setEnableScrollTop] = useState(false);
   const [lazyLoad, setLazyLoad] = useState(false);
   const activeDeleteWaveRef = useRef<
-    ((args: { _permlink: string; _parent_permlink: string }) => void) | null
+    ((args: { _permlink: string; _parent_permlink: string }) => Promise<void>) | null
   >(null);
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -385,16 +385,21 @@ const WavesScreen = () => {
         ref={postOptionsModalRef}
         isVisibleTranslateModal={true}
         isWave={true}
-        onDelete={(content) => {
+        onDelete={async (content) => {
           // Route the options-menu delete through the active feed's
           // `wavesQuery.deleteWave`, which both broadcasts the delete and
           // removes the wave from the waves infinite-query cache. The
           // modal's default path uses `navigation.goBack()` and never
           // updates the cache, so the wave would stay visible on the feed
           // even after a successful delete.
+          //
+          // Awaited so any future rejection propagates back to
+          // PostOptionsModal's onDelete try/catch (today
+          // `wavesQuery.deleteWave` swallows its own errors and shows its
+          // own toast, but the contract should stay forward-compatible).
           const deleteWave = activeDeleteWaveRef.current;
           if (deleteWave) {
-            deleteWave({
+            await deleteWave({
               _permlink: content.permlink,
               _parent_permlink: content.parent_permlink,
             });

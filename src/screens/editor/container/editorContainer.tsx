@@ -898,7 +898,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           fields.tags = ['hive-125125'];
         }
 
-        this._setScheduledPost({
+        // Awaited so that any unhandled rejection from `_setScheduledPost`
+        // (e.g., the internal catch itself throwing) propagates to the outer
+        // `_submitPost` catch, which routes through `_handleSubmitFailure`
+        // and resets `_isSubmitting`/`isPostSending`. The internal catch in
+        // `_setScheduledPost` also resets `_isSubmitting` directly.
+        await this._setScheduledPost({
           author,
           permlink,
           fields,
@@ -1485,6 +1490,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
 
       this.setState({ isPostSending: false });
+      // Clear the synchronous submit guard now — the success path uses a
+      // 3 s setTimeout before navigating away, and we must not leave the
+      // editor wedged on `_isSubmitting=true` during that window.
+      this._isSubmitting = false;
       dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
       setTimeout(() => {
@@ -1494,7 +1503,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       }, 3000);
     } catch (error) {
       console.warn('Failed to schedule post', error);
-      this.setState({ isPostSending: false });
+      // Route through `_handleSubmitFailure` so the user actually sees a
+      // toast (the previous bare `console.warn` left scheduled-post failures
+      // silent) and so `_isSubmitting`/`isPostSending` reset consistently
+      // with every other failure path in this file.
+      this._handleSubmitFailure(error);
     }
   };
 
