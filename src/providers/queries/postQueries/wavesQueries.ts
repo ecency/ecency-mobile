@@ -6,7 +6,7 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { isArray } from 'lodash';
 import { useDispatch } from 'react-redux';
@@ -90,40 +90,50 @@ export const useWavesQuery = (sdkQueryOptions: WavesQueryOptions, host: string) 
     }
   };
 
-  const deleteWave = async ({
-    _permlink,
-    _parent_permlink,
-  }: {
-    _permlink: string;
-    _parent_permlink: string;
-  }) => {
-    if (!currentAccount?.name) {
-      return;
-    }
+  // Memoized so its identity is stable across renders. WavesFeed's
+  // registration effect depends on this function; without memoization the
+  // effect re-fires on every parent render, registering/unregistering the
+  // feed's slot in the parent's deleter Map and briefly leaving the slot
+  // empty between cleanup and re-register.
+  const deleteWave = useCallback(
+    async ({ _permlink, _parent_permlink }: { _permlink: string; _parent_permlink: string }) => {
+      if (!currentAccount?.name) {
+        return;
+      }
 
-    try {
-      await sdkDeleteMutation.mutateAsync({
-        author: currentAccount.name,
-        permlink: _permlink,
-        parentAuthor: host,
-        parentPermlink: _parent_permlink,
-      });
+      try {
+        await sdkDeleteMutation.mutateAsync({
+          author: currentAccount.name,
+          permlink: _permlink,
+          parentAuthor: host,
+          parentPermlink: _parent_permlink,
+        });
 
-      // Remove deleted wave from cache
-      queryClient.setQueryData<InfiniteData<WaveEntry[]>>(sdkQueryOptions.queryKey, (oldData) => {
-        if (!oldData) return oldData;
-        return {
-          ...oldData,
-          pages: oldData.pages.map((page) => page.filter((w) => w.permlink !== _permlink)),
-        };
-      });
+        // Remove deleted wave from cache
+        queryClient.setQueryData<InfiniteData<WaveEntry[]>>(sdkQueryOptions.queryKey, (oldData) => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page) => page.filter((w) => w.permlink !== _permlink)),
+          };
+        });
 
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
-    } catch (error) {
-      console.error('Failed to delete wave:', error);
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.error' })));
-    }
-  };
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
+      } catch (error) {
+        console.error('Failed to delete wave:', error);
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.error' })));
+      }
+    },
+    [
+      currentAccount?.name,
+      host,
+      sdkDeleteMutation,
+      sdkQueryOptions.queryKey,
+      queryClient,
+      dispatch,
+      intl,
+    ],
+  );
 
   return {
     data,

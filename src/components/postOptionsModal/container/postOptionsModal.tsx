@@ -666,7 +666,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
     const isOwnProfile = !username || currentAccount?.name === username;
 
     switch (options[index]) {
-      case 'copy':
+      case 'copy': {
+        // Block-scoped so `_url` doesn't leak into sibling case clauses.
         // Mirror the canonical-form normalization used in `_share` so copied
         // links go to `/@author/permlink` instead of the legacy
         // `/<category>/@author/permlink` (which the web 302s anyway).
@@ -685,6 +686,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
           alertTimer.current = null;
         }, 300);
         break;
+      }
 
       case 'reblog':
         _reblog(false);
