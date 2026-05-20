@@ -83,9 +83,15 @@ export const usePostSubmitter = () => {
         }
 
         setPostingAuthorityPromptShown(true);
-        if (manageSubmittingState) {
-          setIsSubmitting(false);
-        }
+        // Always release the submit lock before the await, regardless of
+        // `manageSubmittingState`. If the user dismisses the prompt sheet
+        // without triggering onGranted/onSkipped/onError (swipe, app
+        // backgrounded, system kill, …), the promise stays pending forever
+        // and the outer `_submitWave`'s `finally` never runs — so without
+        // this, isSubmitting would stay true for the component lifetime,
+        // permanently wedging the publish button. Mirrors the equivalent
+        // fix in `editorContainer.tsx`'s `_submitReply`.
+        setIsSubmitting(false);
 
         try {
           await new Promise<void>((resolve, reject) => {
@@ -98,7 +104,12 @@ export const usePostSubmitter = () => {
             });
           });
 
-          // Recursive call after prompt is handled
+          // Prompt resolved: re-arm the lock before the recursive call so
+          // the actual mutation runs with the publish button disabled.
+          // The recursive call passes `manageSubmittingState` through, so
+          // when it's `false` the inner call won't set the lock itself;
+          // we do it here for both branches.
+          setIsSubmitting(true);
           return await _submitReply(
             commentBody,
             parentPost,
@@ -108,7 +119,8 @@ export const usePostSubmitter = () => {
             videoThumbUrls,
           );
         } catch (error) {
-          // Error granting posting authority - surface through outer handler
+          // Error granting posting authority - surface through outer handler.
+          // Lock is already false from above; no action needed here.
           console.warn('Failed to grant posting authority:', error);
           throw error;
         } finally {
