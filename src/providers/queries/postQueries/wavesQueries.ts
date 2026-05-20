@@ -127,7 +127,11 @@ export const useWavesQuery = (sdkQueryOptions: WavesQueryOptions, host: string) 
     [
       currentAccount?.name,
       host,
-      sdkDeleteMutation,
+      // Use `mutateAsync` (stable across renders via TanStack Query's
+      // internal ref) rather than the whole mutation result object, which
+      // gets a fresh identity on every state transition (idle → pending →
+      // success/error) and would re-rotate `deleteWave` after each delete.
+      sdkDeleteMutation.mutateAsync,
       sdkQueryOptions.queryKey,
       queryClient,
       dispatch,
