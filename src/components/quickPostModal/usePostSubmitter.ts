@@ -104,12 +104,20 @@ export const usePostSubmitter = () => {
             });
           });
 
-          // Prompt resolved: re-arm the lock before the recursive call so
-          // the actual mutation runs with the publish button disabled.
-          // The recursive call passes `manageSubmittingState` through, so
-          // when it's `false` the inner call won't set the lock itself;
-          // we do it here for both branches.
-          setIsSubmitting(true);
+          // Prompt resolved: re-arm the lock before the recursive call ONLY
+          // for the externally-managed (wave) path. The recursive call
+          // passes `manageSubmittingState` through:
+          // - manageSubmittingState=false (wave): the inner call won't set
+          //   the lock itself, so we re-arm here. The recursive entry
+          //   guard short-circuits on this branch and won't trip.
+          // - manageSubmittingState=true (quick-post comment): the inner
+          //   call's own `if (manageSubmittingState) setIsSubmitting(true)`
+          //   re-arms the lock. Re-arming here would make the recursive
+          //   call's entry guard (`manageSubmittingState && isSubmitting`)
+          //   fire and silently drop the post.
+          if (!manageSubmittingState) {
+            setIsSubmitting(true);
+          }
           return await _submitReply(
             commentBody,
             parentPost,
