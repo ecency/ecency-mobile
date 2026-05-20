@@ -119,10 +119,18 @@ export const usePostSubmitter = () => {
       const _prefix =
         postType === PostTypes.WAVE ? postType : `re-${parentPost.author.replace(/\./g, '')}`;
       // For waves, derive the permlink from the content so an accidental
-      // resubmit (network timeout, app crash mid-publish) within the same time
-      // bucket produces the same permlink — Hive then rejects the duplicate
-      // instead of creating a second wave. Other reply types keep the
-      // timestamped form since they aren't part of the "wave duplicate" flow.
+      // resubmit (network timeout, app crash mid-publish) produces the same
+      // permlink — Hive then rejects the duplicate instead of creating a
+      // second wave. Other reply types keep the timestamped form since they
+      // aren't part of the "wave duplicate" flow.
+      //
+      // Intentionally excluded from the content key:
+      // - videoThumbUrls: the 3Speak thumbnail is generated asynchronously
+      //   after upload and can change between a failed first attempt and its
+      //   retry; including it would defeat dedup for the exact case it's
+      //   meant to handle. The video itself is already captured because
+      //   `quickPostModalContent` concatenates the embed URL into the body
+      //   before calling `submitWave`.
       const permlink =
         postType === PostTypes.WAVE
           ? generateContentBasedPermlink(
@@ -132,7 +140,6 @@ export const usePostSubmitter = () => {
                 parentPost.author,
                 parentPost.permlink,
                 commentBody,
-                videoThumbUrls?.[0] ?? '',
                 pollDraft ? JSON.stringify(pollDraft) : '',
               ].join('|'),
             )
