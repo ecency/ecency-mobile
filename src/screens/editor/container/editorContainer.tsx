@@ -807,6 +807,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       return;
     }
 
+    // Re-arm the synchronous guard at function top (see matching comment in
+    // `_submitEdit`). Idempotent on initial entry; required on recursive
+    // entry after a HiveAuth prompt to undo the pre-await reset below.
+    this._isSubmitting = true;
+
     // Enforce 3Speak beneficiary if post contains an embed URL
     beneficiaries = enforceThreeSpeakBeneficiary(beneficiaries, fields.body);
 
@@ -826,6 +831,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       this._postingAuthorityPromptShown = true;
       this.setState({ isPostSending: false }); // Reset state before showing prompt
+      // Release the synchronous guard *before* the await so a dismissed-
+      // without-callback prompt sheet (swipe, app backgrounded, …) doesn't
+      // permanently wedge the publish button. The recursive call below
+      // re-arms it at function top.
+      this._isSubmitting = false;
 
       try {
         await new Promise<void>((resolve, reject) => {
@@ -838,11 +848,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           });
         });
 
-        // Recursive call after prompt is handled — eventually lands in
-        // `_handleSubmitSuccess`/`_handleSubmitFailure`, which clear `_isSubmitting`.
+        // Recursive call re-enters at function top (which re-arms
+        // `_isSubmitting`); eventually hits success/failure handlers.
         return this._submitPost({ fields, scheduleDate });
       } catch (error) {
         // Error granting posting authority - don't retry
+        // (`_isSubmitting` already false from above.)
         console.warn('Failed to grant posting authority:', error);
         this.setState({ isPostSending: false });
         this._isSubmitting = false;
@@ -1125,6 +1136,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       return;
     }
 
+    // Re-arm the synchronous guard at function top. For initial entry from
+    // `_handleSubmit`'s edit branch this is a no-op (already true). For
+    // recursive entry after a HiveAuth prompt this re-arms after the
+    // pre-await reset below — mirrors the `_submitReply` pattern so a
+    // dismissed-without-callback prompt sheet doesn't permanently wedge the
+    // publish button.
+    this._isSubmitting = true;
+
     // Check if we should prompt for posting authority (HiveAuth users without authority)
     if (shouldPromptPostingAuthority(currentAccount)) {
       // Guard against infinite recursion
@@ -1137,6 +1156,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       this._postingAuthorityPromptShown = true;
       this.setState({ isPostSending: false }); // Reset state before showing prompt
+      // Release the synchronous guard *before* the await. If the user
+      // dismisses the prompt sheet (swipe, app backgrounded, …) without
+      // triggering any of onGranted/onSkipped/onError, the promise stays
+      // pending forever — but with `_isSubmitting=false` the publish
+      // button is recoverable from the editor (tap publish again ↦
+      // `_handleSubmit` re-enters cleanly). The recursive call below
+      // re-arms the guard at function top.
+      this._isSubmitting = false;
 
       try {
         await new Promise<void>((resolve, reject) => {
@@ -1149,14 +1176,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           });
         });
 
-        // Recursive call after prompt is handled — the recursive path
-        // eventually hits `_handleSubmitSuccess`/`_handleSubmitFailure`,
-        // which is where `_isSubmitting` gets cleared.
+        // Recursive call re-enters at function top (which re-arms
+        // `_isSubmitting`); eventually hits success/failure handlers.
         return this._submitEdit(fields);
       } catch (error) {
         // Error granting posting authority - don't retry
         console.warn('Failed to grant posting authority:', error);
-        // Reset state and abort
+        // Reset state and abort (`_isSubmitting` already false from above).
         this.setState({ isPostSending: false });
         this._isSubmitting = false;
         return;
