@@ -27,7 +27,7 @@ import ROUTES from '../../../constants/routeNames';
 
 // Utilities
 import { writeToClipboard } from '../../../utils/clipboard';
-import { getPostUrl } from '../../../utils/post';
+import { getPostUrl, stripCategoryFromPostPath } from '../../../utils/post';
 
 // Component
 
@@ -292,7 +292,12 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
   };
 
   const _share = () => {
-    const _url = isWave ? `/@${content.author}/${content.permlink}` : content.url;
+    // Strip the legacy `/<category>/` prefix from SDK-supplied URLs so shared
+    // links match the canonical `/@author/permlink` form. Waves already use
+    // the canonical form directly.
+    const _url = isWave
+      ? `/@${content.author}/${content.permlink}`
+      : stripCategoryFromPostPath(content.url);
     const postUrl = getPostUrl(_url);
 
     Share.share({
@@ -662,7 +667,12 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
 
     switch (options[index]) {
       case 'copy':
-        const _url = isWave ? `/@${content.author}/${content.permlink}` : content.url;
+        // Mirror the canonical-form normalization used in `_share` so copied
+        // links go to `/@author/permlink` instead of the legacy
+        // `/<category>/@author/permlink` (which the web 302s anyway).
+        const _url = isWave
+          ? `/@${content.author}/${content.permlink}`
+          : stripCategoryFromPostPath(content.url);
         await writeToClipboard(getPostUrl(_url));
         alertTimer.current = setTimeout(() => {
           dispatch(

@@ -142,8 +142,12 @@ export const usePostSubmitter = () => {
       const parentAuthor = parentPost.author;
       const parentPermlink = parentPost.permlink;
       const parentTags = parentPost.json_metadata.tags || ['ecency'];
-      const category = parentPost.category || '';
-      const url = `/${category}/@${parentAuthor}/${parentPermlink}#@${author}/${permlink}`;
+      // Canonical ecency.com path: `/@root-author/root-permlink#@comment-author/comment-permlink`.
+      // The legacy `/<category>/…` form still 302s to this on the web, but
+      // emitting the canonical form keeps json_metadata.url consistent with
+      // share/copy output and avoids the redirect hop in any client that
+      // dereferences this field.
+      const url = `/@${parentAuthor}/${parentPermlink}#@${author}/${permlink}`;
 
       const hashtags = postType === PostTypes.WAVE ? extractHashTags(commentBody) : [];
       const tags = [...parentTags, ...hashtags];
