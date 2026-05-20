@@ -359,6 +359,17 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
           await onDelete(content);
         } catch (err) {
           console.warn('Failed to delete post (delegated)', err);
+          const detail =
+            err && typeof err === 'object' && 'message' in err
+              ? String((err as { message?: unknown }).message ?? '')
+              : '';
+          dispatch(
+            toastNotification(
+              detail
+                ? `${intl.formatMessage({ id: 'alert.fail' })}: ${detail}`
+                : intl.formatMessage({ id: 'alert.fail' }),
+            ),
+          );
         }
         return;
       }

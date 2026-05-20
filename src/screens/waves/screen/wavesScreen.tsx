@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   NativeScrollEvent,
   NativeSyntheticEvent,
   RefreshControl,
@@ -391,10 +392,23 @@ const WavesScreen = () => {
           // modal's default path uses `navigation.goBack()` and never
           // updates the cache, so the wave would stay visible on the feed
           // even after a successful delete.
-          activeDeleteWaveRef.current?.({
-            _permlink: content.permlink,
-            _parent_permlink: content.parent_permlink,
-          });
+          const deleteWave = activeDeleteWaveRef.current;
+          if (deleteWave) {
+            deleteWave({
+              _permlink: content.permlink,
+              _parent_permlink: content.parent_permlink,
+            });
+            return;
+          }
+
+          // No active feed registered its deleter yet (scene not lazy-loaded
+          // or torn down between tap and confirm). Don't silently swallow the
+          // confirmed delete — tell the user and log so we can spot it.
+          console.warn(
+            'wavesScreen: activeDeleteWaveRef is empty; cannot delete',
+            content.permlink,
+          );
+          Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
         }}
       />
       <FabButton bottomOffset={fabBottomOffset} onPress={_onCreatePress} />

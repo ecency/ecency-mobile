@@ -1280,19 +1280,21 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const { isReply, isEdit } = this.state;
     const { intl } = this.props;
 
-    // Synchronous reentry guard. The downstream `isPostSending` state flag is
-    // set via async `setState`, so a fast double-tap can pass its check and
-    // also enqueue duplicate confirmation alerts. The ref blocks both. It is
-    // cleared in `_handleSubmitSuccess`/`_handleSubmitFailure`, and in the
-    // alert "No" callbacks below if the user cancels before submitting.
-    if (this._isSubmitting) {
-      return;
-    }
-    this._isSubmitting = true;
-
     if (isReply && !isEdit) {
+      // _submitReply has its own synchronous `_isSubmitting`/`isPostSending`
+      // guard; calling it directly means we must NOT set `_isSubmitting` here
+      // or that guard would trip on the very first tap and the reply would
+      // never submit.
       this._submitReply(form.fields);
     } else if (isEdit) {
+      // Synchronous reentry guard for the edit/new-post branches only. Those
+      // paths show a confirmation Alert before submitting, so without this a
+      // fast double-tap can enqueue two alerts (and two submissions). Cleared
+      // in the Alert "No" callbacks and in `_handleSubmitSuccess`/`_handleSubmitFailure`.
+      if (this._isSubmitting) {
+        return;
+      }
+      this._isSubmitting = true;
       Alert.alert(
         intl.formatMessage({
           id: 'editor.alert_pub_edit_title',
@@ -1320,6 +1322,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         { cancelable: false },
       );
     } else {
+      // Same Alert-stacking guard as the edit branch above.
+      if (this._isSubmitting) {
+        return;
+      }
+      this._isSubmitting = true;
       Alert.alert(
         intl.formatMessage({
           id: 'editor.alert_pub_new_title',
