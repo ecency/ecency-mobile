@@ -5,7 +5,12 @@ import { useComment } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector, useStateWithRef } from '../../hooks';
 import { shouldPromptPostingAuthority, getDigitPinCode } from '../../providers/hive/hive';
-import { extractMetadata, generateUniquePermlink, makeJsonMetadata } from '../../utils/editor';
+import {
+  extractMetadata,
+  generateContentBasedPermlink,
+  generateUniquePermlink,
+  makeJsonMetadata,
+} from '../../utils/editor';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { wavesQueries } from '../../providers/queries';
 import { PollDraft } from '../../providers/ecency/ecency.types';
@@ -78,9 +83,15 @@ export const usePostSubmitter = () => {
         }
 
         setPostingAuthorityPromptShown(true);
-        if (manageSubmittingState) {
-          setIsSubmitting(false);
-        }
+        // Always release the submit lock before the await, regardless of
+        // `manageSubmittingState`. If the user dismisses the prompt sheet
+        // without triggering onGranted/onSkipped/onError (swipe, app
+        // backgrounded, system kill, …), the promise stays pending forever
+        // and the outer `_submitWave`'s `finally` never runs — so without
+        // this, isSubmitting would stay true for the component lifetime,
+        // permanently wedging the publish button. Mirrors the equivalent
+        // fix in `editorContainer.tsx`'s `_submitReply`.
+        setIsSubmitting(false);
 
         try {
           await new Promise<void>((resolve, reject) => {
@@ -93,7 +104,20 @@ export const usePostSubmitter = () => {
             });
           });
 
-          // Recursive call after prompt is handled
+          // Prompt resolved: re-arm the lock before the recursive call ONLY
+          // for the externally-managed (wave) path. The recursive call
+          // passes `manageSubmittingState` through:
+          // - manageSubmittingState=false (wave): the inner call won't set
+          //   the lock itself, so we re-arm here. The recursive entry
+          //   guard short-circuits on this branch and won't trip.
+          // - manageSubmittingState=true (quick-post comment): the inner
+          //   call's own `if (manageSubmittingState) setIsSubmitting(true)`
+          //   re-arms the lock. Re-arming here would make the recursive
+          //   call's entry guard (`manageSubmittingState && isSubmitting`)
+          //   fire and silently drop the post.
+          if (!manageSubmittingState) {
+            setIsSubmitting(true);
+          }
           return await _submitReply(
             commentBody,
             parentPost,
@@ -103,7 +127,8 @@ export const usePostSubmitter = () => {
             videoThumbUrls,
           );
         } catch (error) {
-          // Error granting posting authority - surface through outer handler
+          // Error granting posting authority - surface through outer handler.
+          // Lock is already false from above; no action needed here.
           console.warn('Failed to grant posting authority:', error);
           throw error;
         } finally {
@@ -113,14 +138,43 @@ export const usePostSubmitter = () => {
 
       const _prefix =
         postType === PostTypes.WAVE ? postType : `re-${parentPost.author.replace(/\./g, '')}`;
-      const permlink = generateUniquePermlink(_prefix);
+      // For waves, derive the permlink from the content so an accidental
+      // resubmit (network timeout, app crash mid-publish) produces the same
+      // permlink — Hive then rejects the duplicate instead of creating a
+      // second wave. Other reply types keep the timestamped form since they
+      // aren't part of the "wave duplicate" flow.
+      //
+      // Intentionally excluded from the content key:
+      // - videoThumbUrls: the 3Speak thumbnail is generated asynchronously
+      //   after upload and can change between a failed first attempt and its
+      //   retry; including it would defeat dedup for the exact case it's
+      //   meant to handle. The video itself is already captured because
+      //   `quickPostModalContent` concatenates the embed URL into the body
+      //   before calling `submitWave`.
+      const permlink =
+        postType === PostTypes.WAVE
+          ? generateContentBasedPermlink(
+              _prefix,
+              [
+                currentAccount.name,
+                parentPost.author,
+                parentPost.permlink,
+                commentBody,
+                pollDraft ? JSON.stringify(pollDraft) : '',
+              ].join('|'),
+            )
+          : generateUniquePermlink(_prefix);
 
       const author = currentAccount.name;
       const parentAuthor = parentPost.author;
       const parentPermlink = parentPost.permlink;
       const parentTags = parentPost.json_metadata.tags || ['ecency'];
-      const category = parentPost.category || '';
-      const url = `/${category}/@${parentAuthor}/${parentPermlink}#@${author}/${permlink}`;
+      // Canonical ecency.com path: `/@root-author/root-permlink#@comment-author/comment-permlink`.
+      // The legacy `/<category>/…` form still 302s to this on the web, but
+      // emitting the canonical form keeps json_metadata.url consistent with
+      // share/copy output and avoids the redirect hop in any client that
+      // dereferences this field.
+      const url = `/@${parentAuthor}/${parentPermlink}#@${author}/${permlink}`;
 
       const hashtags = postType === PostTypes.WAVE ? extractHashTags(commentBody) : [];
       const tags = [...parentTags, ...hashtags];

@@ -11,6 +11,7 @@ import { getDiscussionsQueryOptions, useDeleteComment } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';
+import { stripCategoryFromPostPath } from '../../../utils/post';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Constants
@@ -280,7 +281,11 @@ const CommentsContainer = ({
     };
 
     if (index === 0) {
-      writeToClipboard(`https://ecency.com${get(selectedComment, 'url')}`).then(_showCopiedToast);
+      // Normalize legacy `/<category>/@author/permlink…` to the canonical
+      // `/@author/permlink…` form that ecency.com now treats as canonical
+      // (the legacy form is 302'd to this one).
+      const _commentPath = stripCategoryFromPostPath(get(selectedComment, 'url'));
+      writeToClipboard(`https://ecency.com${_commentPath}`).then(_showCopiedToast);
     }
     if (index === 1) {
       const body = postBodySummary(selectedComment.markdownBody, null, Platform.OS);

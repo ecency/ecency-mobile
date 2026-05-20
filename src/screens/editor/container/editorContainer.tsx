@@ -796,52 +796,80 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const pollDraft = this._extractPollDraft();
 
     if (isPostSending) {
+      // `_handleSubmit` set `_isSubmitting=true` to gate the confirm Alert;
+      // bailing out here without clearing it would leave the editor wedged.
+      this._isSubmitting = false;
       return;
     }
 
-    if (currentAccount) {
-      // Enforce 3Speak beneficiary if post contains an embed URL
-      beneficiaries = enforceThreeSpeakBeneficiary(beneficiaries, fields.body);
+    if (!currentAccount) {
+      this._isSubmitting = false;
+      return;
+    }
 
-      this.setState({
-        isPostSending: true,
-      });
+    // Re-arm the synchronous guard at function top (see matching comment in
+    // `_submitEdit`). Idempotent on initial entry; required on recursive
+    // entry after a HiveAuth prompt to undo the pre-await reset below.
+    this._isSubmitting = true;
 
-      // Check if we should prompt for posting authority (HiveAuth users without authority)
-      if (shouldPromptPostingAuthority(currentAccount)) {
-        // Guard against infinite recursion
-        if (this._postingAuthorityPromptShown) {
-          console.warn('Posting authority prompt already shown, preventing recursion');
-          this.setState({ isPostSending: false });
-          return;
-        }
+    // Enforce 3Speak beneficiary if post contains an embed URL
+    beneficiaries = enforceThreeSpeakBeneficiary(beneficiaries, fields.body);
 
-        this._postingAuthorityPromptShown = true;
-        this.setState({ isPostSending: false }); // Reset state before showing prompt
+    this.setState({
+      isPostSending: true,
+    });
 
-        try {
-          await new Promise<void>((resolve, reject) => {
-            SheetManager.show(SheetNames.POSTING_AUTHORITY_PROMPT, {
-              payload: {
-                onGranted: () => resolve(),
-                onSkipped: () => resolve(),
-                onError: (error) => reject(error),
-              },
-            });
-          });
-
-          // Recursive call after prompt is handled - use original fields parameter
-          return this._submitPost({ fields, scheduleDate });
-        } catch (error) {
-          // Error granting posting authority - don't retry
-          console.warn('Failed to grant posting authority:', error);
-          this.setState({ isPostSending: false });
-          return;
-        } finally {
-          this._postingAuthorityPromptShown = false;
-        }
+    // Check if we should prompt for posting authority (HiveAuth users without authority)
+    if (shouldPromptPostingAuthority(currentAccount)) {
+      // Guard against infinite recursion
+      if (this._postingAuthorityPromptShown) {
+        console.warn('Posting authority prompt already shown, preventing recursion');
+        this.setState({ isPostSending: false });
+        this._isSubmitting = false;
+        return;
       }
 
+      this._postingAuthorityPromptShown = true;
+      this.setState({ isPostSending: false }); // Reset state before showing prompt
+      // Release the synchronous guard *before* the await so a dismissed-
+      // without-callback prompt sheet (swipe, app backgrounded, …) doesn't
+      // permanently wedge the publish button. The recursive call below
+      // re-arms it at function top.
+      this._isSubmitting = false;
+
+      try {
+        await new Promise<void>((resolve, reject) => {
+          SheetManager.show(SheetNames.POSTING_AUTHORITY_PROMPT, {
+            payload: {
+              onGranted: () => resolve(),
+              onSkipped: () => resolve(),
+              onError: (error) => reject(error),
+            },
+          });
+        });
+
+        // Recursive call re-enters at function top (which re-arms
+        // `_isSubmitting`); eventually hits success/failure handlers.
+        return this._submitPost({ fields, scheduleDate });
+      } catch (error) {
+        // Error granting posting authority - don't retry
+        // (`_isSubmitting` already false from above.)
+        console.warn('Failed to grant posting authority:', error);
+        this.setState({ isPostSending: false });
+        this._isSubmitting = false;
+        return;
+      } finally {
+        this._postingAuthorityPromptShown = false;
+      }
+    }
+
+    // Outer catch: route any error escaping the inner mutation try/catch
+    // (extractMetadata reject, generatePermlink throw, _setScheduledPost
+    // throw, etc.) through _handleSubmitFailure so `_isSubmitting`,
+    // `isPostSending`, and the user-visible toast are all handled
+    // consistently. Without this, an early failure would leave the editor
+    // wedged on `_isSubmitting=true` until remount.
+    try {
       const meta = await extractMetadata({
         body: fields.body,
         thumbUrl,
@@ -881,7 +909,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           fields.tags = ['hive-125125'];
         }
 
-        this._setScheduledPost({
+        // Awaited so that any unhandled rejection from `_setScheduledPost`
+        // (e.g., the internal catch itself throwing) propagates to the outer
+        // `_submitPost` catch, which routes through `_handleSubmitFailure`
+        // and resets `_isSubmitting`/`isPostSending`. The internal catch in
+        // `_setScheduledPost` also resets `_isSubmitting` directly.
+        await this._setScheduledPost({
           author,
           permlink,
           fields,
@@ -935,6 +968,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
               }),
             ),
           );
+          // Reset `_isSubmitting` synchronously on success; the screen will
+          // navigate away in 500ms and unmount, but until then the field
+          // must not stay true (or a fast in-window reentry would be
+          // blocked by `_handleSubmit`).
+          this._isSubmitting = false;
           setTimeout(() => {
             this.setState({
               isPostSending: false,
@@ -948,6 +986,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           this._handleSubmitFailure(error);
         }
       }
+    } catch (error) {
+      this._handleSubmitFailure(error);
     }
   };
 
@@ -1085,46 +1125,80 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const { post, isPostSending, thumbUrl, isReply } = this.state;
 
     if (isPostSending) {
+      // `_handleSubmit` set `_isSubmitting=true` to gate the confirm Alert;
+      // bailing out here without clearing it would leave the editor wedged.
+      this._isSubmitting = false;
       return;
     }
 
-    if (currentAccount) {
-      // Check if we should prompt for posting authority (HiveAuth users without authority)
-      if (shouldPromptPostingAuthority(currentAccount)) {
-        // Guard against infinite recursion
-        if (this._postingAuthorityPromptShown) {
-          console.warn('Posting authority prompt already shown, preventing recursion');
-          this.setState({ isPostSending: false });
-          return;
-        }
+    if (!currentAccount) {
+      this._isSubmitting = false;
+      return;
+    }
 
-        this._postingAuthorityPromptShown = true;
-        this.setState({ isPostSending: false }); // Reset state before showing prompt
+    // Re-arm the synchronous guard at function top. For initial entry from
+    // `_handleSubmit`'s edit branch this is a no-op (already true). For
+    // recursive entry after a HiveAuth prompt this re-arms after the
+    // pre-await reset below — mirrors the `_submitReply` pattern so a
+    // dismissed-without-callback prompt sheet doesn't permanently wedge the
+    // publish button.
+    this._isSubmitting = true;
 
-        try {
-          await new Promise<void>((resolve, reject) => {
-            SheetManager.show(SheetNames.POSTING_AUTHORITY_PROMPT, {
-              payload: {
-                onGranted: () => resolve(),
-                onSkipped: () => resolve(),
-                onError: (error) => reject(error),
-              },
-            });
-          });
-
-          // Recursive call after prompt is handled
-          return this._submitEdit(fields);
-        } catch (error) {
-          // Error granting posting authority - don't retry
-          console.warn('Failed to grant posting authority:', error);
-          // Reset state and abort
-          this.setState({ isPostSending: false });
-          return;
-        } finally {
-          this._postingAuthorityPromptShown = false;
-        }
+    // Check if we should prompt for posting authority (HiveAuth users without authority)
+    if (shouldPromptPostingAuthority(currentAccount)) {
+      // Guard against infinite recursion
+      if (this._postingAuthorityPromptShown) {
+        console.warn('Posting authority prompt already shown, preventing recursion');
+        this.setState({ isPostSending: false });
+        this._isSubmitting = false;
+        return;
       }
 
+      this._postingAuthorityPromptShown = true;
+      this.setState({ isPostSending: false }); // Reset state before showing prompt
+      // Release the synchronous guard *before* the await. If the user
+      // dismisses the prompt sheet (swipe, app backgrounded, …) without
+      // triggering any of onGranted/onSkipped/onError, the promise stays
+      // pending forever — but with `_isSubmitting=false` the publish
+      // button is recoverable from the editor (tap publish again ↦
+      // `_handleSubmit` re-enters cleanly). The recursive call below
+      // re-arms the guard at function top.
+      this._isSubmitting = false;
+
+      try {
+        await new Promise<void>((resolve, reject) => {
+          SheetManager.show(SheetNames.POSTING_AUTHORITY_PROMPT, {
+            payload: {
+              onGranted: () => resolve(),
+              onSkipped: () => resolve(),
+              onError: (error) => reject(error),
+            },
+          });
+        });
+
+        // Recursive call re-enters at function top (which re-arms
+        // `_isSubmitting`); eventually hits success/failure handlers.
+        return this._submitEdit(fields);
+      } catch (error) {
+        // Error granting posting authority - don't retry
+        console.warn('Failed to grant posting authority:', error);
+        // Reset state and abort (`_isSubmitting` already false from above).
+        this.setState({ isPostSending: false });
+        this._isSubmitting = false;
+        return;
+      } finally {
+        this._postingAuthorityPromptShown = false;
+      }
+    }
+
+    // Outer catch: route any error escaping the inner mutation try/catch
+    // (extractMetadata reject, createPatch / Buffer.from throw, post
+    // destructure failure on a malformed `post`, etc.) through
+    // _handleSubmitFailure so `_isSubmitting`, `isPostSending`, and the
+    // user-visible toast are all handled consistently. Without this, an
+    // early failure would leave the editor wedged on `_isSubmitting=true`
+    // until remount.
+    try {
       this.setState({
         isPostSending: true,
       });
@@ -1221,6 +1295,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       } catch (error) {
         this._handleSubmitFailure(error);
       }
+    } catch (error) {
+      this._handleSubmitFailure(error);
     }
   };
 
@@ -1281,8 +1357,20 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const { intl } = this.props;
 
     if (isReply && !isEdit) {
+      // _submitReply has its own synchronous `_isSubmitting`/`isPostSending`
+      // guard; calling it directly means we must NOT set `_isSubmitting` here
+      // or that guard would trip on the very first tap and the reply would
+      // never submit.
       this._submitReply(form.fields);
     } else if (isEdit) {
+      // Synchronous reentry guard for the edit/new-post branches only. Those
+      // paths show a confirmation Alert before submitting, so without this a
+      // fast double-tap can enqueue two alerts (and two submissions). Cleared
+      // in the Alert "No" callbacks and in `_handleSubmitSuccess`/`_handleSubmitFailure`.
+      if (this._isSubmitting) {
+        return;
+      }
+      this._isSubmitting = true;
       Alert.alert(
         intl.formatMessage({
           id: 'editor.alert_pub_edit_title',
@@ -1295,7 +1383,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             text: intl.formatMessage({
               id: 'editor.alert_btn_no',
             }),
-            onPress: () => console.log('Cancel Pressed'),
+            onPress: () => {
+              this._isSubmitting = false;
+            },
             style: 'cancel',
           },
           {
@@ -1308,6 +1398,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         { cancelable: false },
       );
     } else {
+      // Same Alert-stacking guard as the edit branch above.
+      if (this._isSubmitting) {
+        return;
+      }
+      this._isSubmitting = true;
       Alert.alert(
         intl.formatMessage({
           id: 'editor.alert_pub_new_title',
@@ -1320,7 +1415,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             text: intl.formatMessage({
               id: 'editor.alert_btn_no',
             }),
-            onPress: () => console.log('Cancel Pressed'),
+            onPress: () => {
+              this._isSubmitting = false;
+            },
             style: 'cancel',
           },
           {
@@ -1419,6 +1516,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
 
       this.setState({ isPostSending: false });
+      // Clear the synchronous submit guard now — the success path uses a
+      // 3 s setTimeout before navigating away, and we must not leave the
+      // editor wedged on `_isSubmitting=true` during that window.
+      this._isSubmitting = false;
       dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
       setTimeout(() => {
@@ -1428,7 +1529,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       }, 3000);
     } catch (error) {
       console.warn('Failed to schedule post', error);
-      this.setState({ isPostSending: false });
+      // Route through `_handleSubmitFailure` so the user actually sees a
+      // toast (the previous bare `console.warn` left scheduled-post failures
+      // silent) and so `_isSubmitting`/`isPostSending` reset consistently
+      // with every other failure path in this file.
+      this._handleSubmitFailure(error);
     }
   };
 

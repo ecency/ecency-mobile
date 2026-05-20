@@ -5,6 +5,7 @@ import { Image } from 'react-native';
 import VersionNumber from 'react-native-version-number';
 import getSlug from 'speakingurl';
 import { getQueryClient, getPostQueryOptions, POLLS_PROTOCOL_VERSION } from '@ecency/sdk';
+import CryptoJS from 'crypto-js';
 import { PostTypes } from '../constants/postTypes';
 import { PollDraft } from '../providers/ecency/ecency.types';
 import { ContentType, PollMetadata, PostMetadata } from '../providers/hive/hive.types';
@@ -100,6 +101,29 @@ export const generateUniquePermlink = (prefix) => {
     .toString()}${t.getMilliseconds().toString()}z`;
 
   return `${prefix}-${timeFormat}`;
+};
+
+/**
+ * Deterministic permlink derived purely from content.
+ *
+ * Used to make retries idempotent: when a user resubmits the same wave after a
+ * perceived failure that actually broadcast (network timeout, app crash mid-
+ * publish, etc.), the second attempt produces the same permlink and Hive
+ * rejects it as a duplicate instead of creating a second post on chain.
+ *
+ * No time component: a time bucket would re-open a duplicate window every
+ * boundary crossing. The trade-off is that intentionally re-posting the exact
+ * same body+attachments will surface as a Hive "duplicate transaction" error;
+ * for waves that is a better failure mode than two identical posts on chain.
+ * Callers scope `contentKey` by author/parent so two users (or one user under
+ * different parents) writing identical text still get distinct permlinks.
+ */
+export const generateContentBasedPermlink = (prefix: string, contentKey: string) => {
+  if (!prefix) {
+    return '';
+  }
+  const hash = CryptoJS.SHA256(contentKey).toString(CryptoJS.enc.Hex).slice(0, 16);
+  return `${prefix}-${hash}`;
 };
 
 export const makeOptions = (postObj) => {
