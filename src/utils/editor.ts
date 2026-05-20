@@ -103,27 +103,26 @@ export const generateUniquePermlink = (prefix) => {
   return `${prefix}-${timeFormat}`;
 };
 
-// Default window: identical content within ~5 minutes maps to the same permlink.
-const CONTENT_PERMLINK_BUCKET_MS = 5 * 60 * 1000;
-
 /**
- * Deterministic permlink for the same content within a time bucket.
+ * Deterministic permlink derived purely from content.
  *
  * Used to make retries idempotent: when a user resubmits the same wave after a
  * perceived failure that actually broadcast (network timeout, app crash mid-
  * publish, etc.), the second attempt produces the same permlink and Hive
  * rejects it as a duplicate instead of creating a second post on chain.
+ *
+ * No time component: a time bucket would re-open a duplicate window every
+ * boundary crossing. The trade-off is that intentionally re-posting the exact
+ * same body+attachments will surface as a Hive "duplicate transaction" error;
+ * for waves that is a better failure mode than two identical posts on chain.
+ * Callers scope `contentKey` by author/parent so two users (or one user under
+ * different parents) writing identical text still get distinct permlinks.
  */
-export const generateContentBasedPermlink = (
-  prefix: string,
-  contentKey: string,
-  bucketMs: number = CONTENT_PERMLINK_BUCKET_MS,
-) => {
+export const generateContentBasedPermlink = (prefix: string, contentKey: string) => {
   if (!prefix) {
     return '';
   }
-  const bucket = Math.floor(Date.now() / bucketMs);
-  const hash = CryptoJS.SHA256(`${contentKey}|${bucket}`).toString(CryptoJS.enc.Hex).slice(0, 16);
+  const hash = CryptoJS.SHA256(contentKey).toString(CryptoJS.enc.Hex).slice(0, 16);
   return `${prefix}-${hash}`;
 };
 
