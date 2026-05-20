@@ -45,6 +45,8 @@ import RootNavigation from '../../../navigation/rootNavigation';
 const WAVES_HOST = 'ecency.waves';
 const SCROLL_POPUP_THRESHOLD = 5000;
 
+type DeleteWaveFn = (args: { _permlink: string; _parent_permlink: string }) => Promise<void>;
+
 const WavesFeed = ({
   queryOptions,
   queryKey,
@@ -52,7 +54,8 @@ const WavesFeed = ({
   onTagPress,
   onOptionsPress,
   onScrollStateChange,
-  onVisibilityChange,
+  feedKey,
+  registerDeleter,
   isDarkTheme,
 }: {
   queryOptions: ReturnType<typeof getWavesByHostQueryOptions>;
@@ -61,15 +64,19 @@ const WavesFeed = ({
   onTagPress: (tag: string) => void;
   onOptionsPress: (content: any) => void;
   onScrollStateChange: (state: { enabled: boolean; offset: number }) => void;
-  onVisibilityChange?: (api: {
-    deleteWave: ({
-      _permlink,
-      _parent_permlink,
-    }: {
-      _permlink: string;
-      _parent_permlink: string;
-    }) => Promise<void>;
-  }) => void;
+  /**
+   * Stable identifier (e.g., "for-you" / "following" / "tag") under which
+   * this feed publishes its `deleteWave` into the parent's deleter map. Each
+   * feed owns its own slot, so simultaneously mounted feeds (TabView keeps
+   * both tabs alive once visited) don't overwrite each other's deleter.
+   */
+  feedKey: string;
+  /**
+   * Stable register/unregister callback. Must be `useCallback`-stable in the
+   * parent — otherwise this feed's registration effect would re-fire on
+   * every parent render and clobber whichever feed happens to render last.
+   */
+  registerDeleter: (key: string, deleter: DeleteWaveFn | null) => void;
   isDarkTheme: boolean;
 }) => {
   const wavesQuery = wavesQueries.useWavesQuery(queryOptions, WAVES_HOST);
@@ -126,8 +133,13 @@ const WavesFeed = ({
     wavesQuery.isRefreshing || wavesQuery.isLoading ? <View /> : <EmptyScreen />;
 
   useEffect(() => {
-    onVisibilityChange?.({ deleteWave: wavesQuery.deleteWave });
-  }, [onVisibilityChange, wavesQuery.deleteWave]);
+    // Each feed writes to its own slot in the parent's deleter map; on
+    // unmount (or feedKey change) it removes its slot. The previous design
+    // pushed into a single shared ref, which both feeds clobbered on every
+    // parent render once both tabs were mounted.
+    registerDeleter(feedKey, wavesQuery.deleteWave);
+    return () => registerDeleter(feedKey, null);
+  }, [feedKey, registerDeleter, wavesQuery.deleteWave]);
 
   return (
     <Comments
@@ -168,9 +180,20 @@ const WavesScreen = () => {
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [enableScrollTop, setEnableScrollTop] = useState(false);
   const [lazyLoad, setLazyLoad] = useState(false);
-  const activeDeleteWaveRef = useRef<
-    ((args: { _permlink: string; _parent_permlink: string }) => Promise<void>) | null
-  >(null);
+  // Map of feedKey → that feed's `deleteWave`. A Map instead of a single
+  // ref because both TabView tabs stay mounted once visited; each feed
+  // owns its own slot so simultaneously mounted feeds don't clobber each
+  // other. At delete time we look up by the *currently active* feedKey
+  // (derived below) rather than by render order.
+  const feedDeletersRef = useRef<Map<string, DeleteWaveFn>>(new Map());
+
+  const _registerFeedDeleter = useCallback((key: string, deleter: DeleteWaveFn | null) => {
+    if (deleter) {
+      feedDeletersRef.current.set(key, deleter);
+    } else {
+      feedDeletersRef.current.delete(key);
+    }
+  }, []);
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const currentAccount = useAppSelector(selectCurrentAccount);
@@ -255,9 +278,10 @@ const WavesScreen = () => {
     }
   };
 
-  useEffect(() => {
-    activeDeleteWaveRef.current = null;
-  }, [activeTag, feedType]);
+  // Each WavesFeed registers/unregisters its slot in `feedDeletersRef`
+  // via its mount/unmount effect, so no parent-level tab-change cleanup
+  // is needed — the previous code zeroed a single shared ref defensively,
+  // which is now obsolete with the per-feed Map.
 
   const _onCreatePress = () => {
     SheetManager.show(SheetNames.QUICK_POST, {
@@ -298,9 +322,8 @@ const WavesScreen = () => {
             onTagPress={_handleTagFilter}
             onOptionsPress={_handleOnOptionsPress}
             onScrollStateChange={_handleScrollStateChange}
-            onVisibilityChange={({ deleteWave }) => {
-              activeDeleteWaveRef.current = deleteWave;
-            }}
+            feedKey="following"
+            registerDeleter={_registerFeedDeleter}
             isDarkTheme={isDarkTheme}
           />
         </View>
@@ -318,9 +341,8 @@ const WavesScreen = () => {
             onTagPress={_handleTagFilter}
             onOptionsPress={_handleOnOptionsPress}
             onScrollStateChange={_handleScrollStateChange}
-            onVisibilityChange={({ deleteWave }) => {
-              activeDeleteWaveRef.current = deleteWave;
-            }}
+            feedKey="tag"
+            registerDeleter={_registerFeedDeleter}
             isDarkTheme={isDarkTheme}
           />
         </View>
@@ -336,9 +358,8 @@ const WavesScreen = () => {
           onTagPress={_handleTagFilter}
           onOptionsPress={_handleOnOptionsPress}
           onScrollStateChange={_handleScrollStateChange}
-          onVisibilityChange={({ deleteWave }) => {
-            activeDeleteWaveRef.current = deleteWave;
-          }}
+          feedKey="for-you"
+          registerDeleter={_registerFeedDeleter}
           isDarkTheme={isDarkTheme}
         />
       </View>
@@ -386,18 +407,18 @@ const WavesScreen = () => {
         isVisibleTranslateModal={true}
         isWave={true}
         onDelete={async (content) => {
-          // Route the options-menu delete through the active feed's
-          // `wavesQuery.deleteWave`, which both broadcasts the delete and
-          // removes the wave from the waves infinite-query cache. The
-          // modal's default path uses `navigation.goBack()` and never
-          // updates the cache, so the wave would stay visible on the feed
-          // even after a successful delete.
+          // Route the options-menu delete through the *currently active*
+          // feed's `wavesQuery.deleteWave`, which both broadcasts the
+          // delete and removes the wave from the waves infinite-query
+          // cache for THAT feed. The modal's default path uses
+          // `navigation.goBack()` and never updates the cache.
           //
           // Awaited so any future rejection propagates back to
-          // PostOptionsModal's onDelete try/catch (today
-          // `wavesQuery.deleteWave` swallows its own errors and shows its
-          // own toast, but the contract should stay forward-compatible).
-          const deleteWave = activeDeleteWaveRef.current;
+          // PostOptionsModal's onDelete try/catch (today the SDK delete
+          // hook swallows its own errors and shows its own toast, but the
+          // contract should stay forward-compatible).
+          const activeFeedKey = activeTag ? 'tag' : feedType;
+          const deleteWave = feedDeletersRef.current.get(activeFeedKey);
           if (deleteWave) {
             await deleteWave({
               _permlink: content.permlink,
@@ -406,11 +427,13 @@ const WavesScreen = () => {
             return;
           }
 
-          // No active feed registered its deleter yet (scene not lazy-loaded
-          // or torn down between tap and confirm). Don't silently swallow the
-          // confirmed delete — tell the user and log so we can spot it.
+          // No deleter registered for the active feed (scene not yet
+          // lazy-loaded or torn down between tap and confirm). Don't
+          // silently swallow the confirmed delete — tell the user and log
+          // so we can spot it.
           console.warn(
-            'wavesScreen: activeDeleteWaveRef is empty; cannot delete',
+            'wavesScreen: no deleter registered for active feed; cannot delete',
+            activeFeedKey,
             content.permlink,
           );
           Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
