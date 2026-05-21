@@ -12,7 +12,7 @@ import styles from '../styles/similarEntries.styles';
 const MIN_RENDER = 2;
 const MAX_RESULTS = 2;
 
-// 6-month recency window — matches the SDK contract used on web.
+// 6-month recency window — matches the search-api contract used on web.
 const SINCE_MS = 182 * 24 * 60 * 60 * 1000;
 
 // Overly broad tags worth skipping when something more specific is available.
@@ -26,6 +26,16 @@ const GENERIC_TAGS = new Set([
   'ecency',
   'esteem',
 ]);
+
+// Adult-content tags filtered client-side as a backstop to the server-side
+// default filter (server excludes `nsfw`/`dporn` + the broken `is_nsfw` flag).
+// Client-side check guards against any tag-set drift between server and client.
+const ADULT_TAGS = new Set(['nsfw', 'dporn']);
+
+// Hive tags are lowercase alphanumeric, optional hyphens, no spaces or
+// punctuation. Reject anything else so untrusted json_metadata can't inject
+// query operators (e.g. a tag containing a colon or space).
+const SAFE_TAG = /^[a-z0-9][a-z0-9-]{0,49}$/;
 
 interface Post {
   author: string;
@@ -56,31 +66,35 @@ interface SearchApiResponse {
   results: SearchApiRow[];
 }
 
+/**
+ * Returns a query string when there is at least one usable similarity signal
+ * (tags or permlink slug tokens). Returns an empty string when nothing
+ * specific is available, so the caller can disable the query rather than
+ * firing a corpus-wide `* type:post` fetch.
+ */
 function buildQuery(post: Post): string {
-  let q = '* type:post';
-
   const tagsRaw = Array.isArray(post.json_metadata?.tags) ? post.json_metadata!.tags! : [];
   const cleaned = tagsRaw
-    .filter((t): t is string => typeof t === 'string' && t !== '')
+    .filter((t): t is string => typeof t === 'string')
+    .map((t) => t.trim().toLowerCase())
+    .filter((t) => SAFE_TAG.test(t))
     .filter((t) => !t.startsWith('hive-'));
   const specific = cleaned.filter((t) => !GENERIC_TAGS.has(t));
   const chosen = (specific.length > 0 ? specific : cleaned).slice(0, 2);
 
   if (chosen.length > 0) {
-    q += ` tag:${chosen.join(',')}`;
-  } else {
-    // Fall back to permlink slug tokens when the post has no tag metadata.
-    const fromPermlink = post.permlink
-      .split('-')
-      .filter((part) => part && !/^-?\d+$/.test(part) && part.length > 2)
-      .slice(0, 2)
-      .join(',');
-    if (fromPermlink) {
-      q += ` tag:${fromPermlink}`;
-    }
+    return `* type:post tag:${chosen.join(',')}`;
   }
 
-  return q;
+  // Fall back to permlink slug tokens when the post has no tag metadata.
+  const fromPermlink = post.permlink
+    .toLowerCase()
+    .split('-')
+    .filter((part) => SAFE_TAG.test(part) && !/^-?\d+$/.test(part) && part.length > 2)
+    .slice(0, 2)
+    .join(',');
+
+  return fromPermlink ? `* type:post tag:${fromPermlink}` : '';
 }
 
 const SimilarEntries = ({ post }: Props) => {
@@ -117,17 +131,18 @@ const SimilarEntries = ({ post }: Props) => {
   const entries = useMemo(() => {
     if (!Array.isArray(data) || !post) return [];
     const seenAuthors = new Set<string>();
-    const out: SearchApiRow[] = [];
-    for (const r of data) {
-      if (!r || typeof r.author !== 'string' || typeof r.permlink !== 'string') continue;
-      if (r.permlink === post.permlink) continue;
-      if ((r.tags ?? []).indexOf('nsfw') !== -1) continue;
-      if (seenAuthors.has(r.author)) continue;
+    return data.reduce<SearchApiRow[]>((acc, r) => {
+      if (acc.length >= MAX_RESULTS) return acc;
+      if (!r || typeof r.author !== 'string' || typeof r.permlink !== 'string') return acc;
+      // The source post is uniquely identified by (author, permlink); permlinks
+      // alone can collide across authors.
+      if (r.author === post.author && r.permlink === post.permlink) return acc;
+      if ((r.tags ?? []).some((t) => ADULT_TAGS.has(t))) return acc;
+      if (seenAuthors.has(r.author)) return acc;
       seenAuthors.add(r.author);
-      out.push(r);
-      if (out.length >= MAX_RESULTS) break;
-    }
-    return out;
+      acc.push(r);
+      return acc;
+    }, []);
   }, [data, post]);
 
   if (!isTopLevel) return null;
@@ -136,7 +151,9 @@ const SimilarEntries = ({ post }: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>{intl.formatMessage({ id: 'similar_entries.title' })}</Text>
+        <Text style={styles.title}>
+          {intl.formatMessage({ id: 'similar_entries.title', defaultMessage: 'Read next' })}
+        </Text>
       </View>
       <FlatList
         horizontal
