@@ -44,11 +44,13 @@ const SimilarEntries = ({ post }: Props) => {
     enabled: isTopLevel && !!post?.author && !!post?.permlink,
   });
 
+  // Mobile shows a tighter strip than web (2 cards instead of 3) — keeps the
+  // post body above the fold on small screens. SDK still caps at 3.
   const entries = useMemo(() => {
     if (!Array.isArray(raw)) return [];
-    return (raw as SdkSimilarRow[]).filter(
-      (r) => r && typeof r.author === 'string' && typeof r.permlink === 'string',
-    );
+    return (raw as SdkSimilarRow[])
+      .filter((r) => r && typeof r.author === 'string' && typeof r.permlink === 'string')
+      .slice(0, 2);
   }, [raw]);
 
   if (!isTopLevel) return null;
