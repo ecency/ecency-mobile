@@ -329,7 +329,11 @@ export function useCrossPostMutation() {
 }
 
 export const makeCrossPostMessage = (post: any, poster: string, message: string) => {
-  const { author, permlink, category } = post;
-  const postLink = `[@${author}/${permlink}](/${category}/@${author}/${permlink})`;
+  const { author, permlink } = post;
+  // Use ecency.com's canonical post path `/@author/permlink` (no category
+  // segment). The web parser regex (`crossPostRegex` in vision-next's
+  // `cross-post.ts`) matches both legacy and canonical forms, so existing
+  // cross-posts keep rendering correctly and new ones skip the redirect.
+  const postLink = `[@${author}/${permlink}](/@${author}/${permlink})`;
   return `This is a cross post of ${postLink} by @${poster}.<br><br>${message}`;
 };

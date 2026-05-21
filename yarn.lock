@@ -1238,12 +1238,12 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@ecency/render-helper@^2.5.4":
-  version "2.5.4"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.5.4.tgz#57b0cdc75d024cbf36753a16af7ec4f6999ee6f4"
-  integrity sha512-8HxzPMP+lmmRMit0R/hhpR+KLAYnNsb8S/0yUFxDLiKs9EgDiIA2yFJJG4TLb8TxKy9FHY8JqlLP9hSf/7DtpQ==
+"@ecency/render-helper@^2.5.6":
+  version "2.5.6"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.5.6.tgz#1c6072ff4db3c5584fb0a55aa7c9543c074cb390"
+  integrity sha512-WWmMShywvzgfsNyFwT5ykJGu+FXcqECgr3YNGPnr9bdftNSoYzt8dP9BJbsNkq21jhdMxY1WlBOVml+4J2yWxA==
   dependencies:
-    "@xmldom/xmldom" "^0.9.6"
+    "@xmldom/xmldom" "^0.9.10"
     dom-serializer "^2.0.0"
     he "^1.2.0"
     htmlparser2 "^10.0.0"
@@ -3793,10 +3793,10 @@
   resolved "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.8.10.tgz"
   integrity sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==
 
-"@xmldom/xmldom@^0.9.6":
-  version "0.9.8"
-  resolved "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.9.8.tgz"
-  integrity sha512-p96FSY54r+WJ50FIOsCOjyj/wavs8921hG5+kVMmZgKcvIKxMXHTrjNJvRgWa/zuX3B6t2lijLNFaOyuxUH+2A==
+"@xmldom/xmldom@^0.9.10":
+  version "0.9.10"
+  resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.9.10.tgz#a0ad5a26fe8aa996310870726e1704977f769dee"
+  integrity sha512-A9gOqLdi6cV4ibazAjcQufGj0B1y/vDqYrcuP6d/6x8P27gRS8643Dj9o1dEKtB6O7fwxb2FgBmJS2mX7gpvdw==
 
 "@yarnpkg/lockfile@^1.0.0":
   version "1.1.0"
