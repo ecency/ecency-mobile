@@ -327,6 +327,9 @@
     "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
     "remaining_executions": "Remaining {executions} transfers"
   },
+  "similar_entries": {
+    "title": "Read next"
+  },
   "comments": {
     "read_more": "Przeczytaj więcej komentarzy",
     "more_replies": "replies",
