@@ -327,6 +327,9 @@
     "unsubscribe_confirmation": "Peru toistuva siirto käyttäjälle {username}?",
     "remaining_executions": "Jäljellä olevat {executions}-siirrot"
   },
+  "similar_entries": {
+    "title": "Read next"
+  },
   "comments": {
     "read_more": "Lue lisää kommentteja",
     "more_replies": "vastaukset",
