@@ -733,8 +733,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
             const postForExtract = { ...post, json_metadata: jsonMeta };
             // Platform.OS is wider than 'ios' | 'android' (includes web/windows/macos);
             // narrow safely so postBodySummary always gets a value it accepts.
-            const summaryPlatform: 'ios' | 'android' =
-              Platform.OS === 'ios' ? 'ios' : 'android';
+            const summaryPlatform: 'ios' | 'android' = Platform.OS === 'ios' ? 'ios' : 'android';
             const image =
               (post as any).image || catchPostImage(postForExtract, 600, 500, 'match') || '';
             const summary =
