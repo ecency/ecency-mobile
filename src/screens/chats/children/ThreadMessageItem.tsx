@@ -1,13 +1,15 @@
-import React, { useRef } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import React, { useMemo, useRef } from 'react';
+import { View, Text, TouchableOpacity, Image, useWindowDimensions } from 'react-native';
 import { useIntl } from 'react-intl';
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
-import { UserAvatar, Icon, ImageViewer } from '../../../components';
+import { UserAvatar, Icon, ImageViewer, HiveLinkPreview } from '../../../components';
 import { getHiveUsernameFromMattermostUser } from '../../../providers/chat/mattermost';
 import { ChatPost, setLinkText, renderTextWithBoldMentions } from '../utils/messageFormatters';
 import { UnreadMarker } from './UnreadMarker';
 import { chatThreadStyles as styles } from '../styles/chatThread.styles';
+import { extractImageUrls, extractUrls } from '../../../utils/editor';
+import postUrlParser from '../../../utils/postUrlParser';
 
 interface ThreadMessageItemProps {
   post: ChatPost;
@@ -74,8 +76,31 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
     const body = formatPostBody(post, timestamp);
     const { text: messageText, images: messageImages } = parseMessageContent(body);
     const imageViewerRef = useRef(null);
+    const { width: windowWidth } = useWindowDimensions();
 
     const showUnreadMarker = firstUnreadIndex !== null && index === firstUnreadIndex;
+
+    // Auto-detect Hive post URLs when sender didn't attach link_* props
+    // (e.g. message sent from web or before the composer's metadata debounce fired)
+    const detectedHiveLink = useMemo(() => {
+      if (post.props?.link_url) {
+        return null;
+      }
+      const urls = extractUrls(body);
+      if (!urls.length) {
+        return null;
+      }
+      const imageUrls = extractImageUrls({ body });
+      const firstUrl = urls.find((u) => !imageUrls.includes(u));
+      if (!firstUrl) {
+        return null;
+      }
+      const parsed = postUrlParser(firstUrl);
+      if (parsed?.author && parsed?.permlink) {
+        return { url: firstUrl, author: parsed.author, permlink: parsed.permlink };
+      }
+      return null;
+    }, [post.props?.link_url, body]);
 
     return (
       <View>
@@ -141,6 +166,15 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
                 summary: post.props?.link_summary || '',
                 image: post.props?.link_image || '',
               })}
+            {detectedHiveLink && (
+              <HiveLinkPreview
+                author={detectedHiveLink.author}
+                permlink={detectedHiveLink.permlink}
+                url={detectedHiveLink.url}
+                contentWidth={windowWidth * 0.8 - 48}
+                onPress={() => handleLink(detectedHiveLink.url)}
+              />
+            )}
             <View style={styles.timestampContainer}>
               {timestamp && (
                 <Text
