@@ -717,7 +717,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
 
           if (post && post.title) {
             // SDK Entry doesn't compute image/summary — derive them from json_metadata/body
-            let jsonMeta = post.json_metadata;
+            let jsonMeta: any = post.json_metadata;
             if (typeof jsonMeta === 'string') {
               try {
                 jsonMeta = JSON.parse(jsonMeta);
@@ -725,13 +725,22 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
                 jsonMeta = {};
               }
             }
+            // JSON.parse can yield non-objects (null, primitives) — guard against
+            // `jsonMeta?.description` blowing up downstream.
+            if (!jsonMeta || typeof jsonMeta !== 'object') {
+              jsonMeta = {};
+            }
             const postForExtract = { ...post, json_metadata: jsonMeta };
+            // Platform.OS is wider than 'ios' | 'android' (includes web/windows/macos);
+            // narrow safely so postBodySummary always gets a value it accepts.
+            const summaryPlatform: 'ios' | 'android' =
+              Platform.OS === 'ios' ? 'ios' : 'android';
             const image =
               (post as any).image || catchPostImage(postForExtract, 600, 500, 'match') || '';
             const summary =
               (post as any).summary ||
               jsonMeta?.description ||
-              postBodySummary(postForExtract, 150, Platform.OS as 'ios' | 'android') ||
+              postBodySummary(postForExtract, 150, summaryPlatform) ||
               '';
 
             setLinkMeta({

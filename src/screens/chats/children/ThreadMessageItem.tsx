@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Image, useWindowDimensions } from 'react-native';
 import { useIntl } from 'react-intl';
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
@@ -76,6 +76,7 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
     const body = formatPostBody(post, timestamp);
     const { text: messageText, images: messageImages } = parseMessageContent(body);
     const imageViewerRef = useRef(null);
+    const { width: windowWidth } = useWindowDimensions();
 
     const showUnreadMarker = firstUnreadIndex !== null && index === firstUnreadIndex;
 
@@ -165,12 +166,12 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
                 summary: post.props?.link_summary || '',
                 image: post.props?.link_image || '',
               })}
-            {!post.props?.link_url && detectedHiveLink && (
+            {detectedHiveLink && (
               <HiveLinkPreview
                 author={detectedHiveLink.author}
                 permlink={detectedHiveLink.permlink}
                 url={detectedHiveLink.url}
-                contentWidth={Dimensions.get('window').width * 0.8 - 48}
+                contentWidth={windowWidth * 0.8 - 48}
                 onPress={() => handleLink(detectedHiveLink.url)}
               />
             )}
