@@ -18,6 +18,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { SheetManager } from 'react-native-actions-sheet';
 import unionBy from 'lodash/unionBy';
+import { catchPostImage, postBodySummary } from '@ecency/render-helper';
 
 import { getCommunityQueryOptions, getPostQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
@@ -715,14 +716,32 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           );
 
           if (post && post.title) {
+            // SDK Entry doesn't compute image/summary — derive them from json_metadata/body
+            let jsonMeta = post.json_metadata;
+            if (typeof jsonMeta === 'string') {
+              try {
+                jsonMeta = JSON.parse(jsonMeta);
+              } catch {
+                jsonMeta = {};
+              }
+            }
+            const postForExtract = { ...post, json_metadata: jsonMeta };
+            const image =
+              (post as any).image || catchPostImage(postForExtract, 600, 500, 'match') || '';
+            const summary =
+              (post as any).summary ||
+              jsonMeta?.description ||
+              postBodySummary(postForExtract, 150, Platform.OS as 'ios' | 'android') ||
+              '';
+
             setLinkMeta({
               url: firstUrl,
               author: parsed.author,
               permlink: parsed.permlink,
               linkMeta: {
                 title: post.title || '',
-                summary: post.summary || '',
-                image: post.image || '',
+                summary,
+                image,
               },
             });
             setIsFetchingLinkMeta(false);
