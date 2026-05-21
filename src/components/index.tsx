@@ -33,6 +33,7 @@ import { PercentBar } from './percentBar';
 import { PinAnimatedInput } from './pinAnimatedInput';
 import { PostCard } from './postCard';
 import { PostDisplay } from './postView';
+import { SimilarEntries } from './similarEntries';
 import { PostOptionsModal } from './postOptionsModal';
 import { PostForm } from './postForm';
 import { PostHeaderDescription, PostBody, Tags } from './postElements';
@@ -204,6 +205,7 @@ export {
   PostCard,
   PostCardPlaceHolder,
   PostDisplay,
+  SimilarEntries,
   PostOptionsModal,
   PostForm,
   PostHeaderDescription,
