@@ -25,6 +25,7 @@ import { PostTypes } from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { PostComments } from '../../postComments';
+import { SimilarEntries } from '../../similarEntries';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import UpvotePopover from '../../upvotePopover';
 import { PostPoll } from '../../postPoll';
@@ -417,6 +418,7 @@ const PostDisplayView = ({
                   />
                 </View>
               )}
+              {!postBodyLoading && <SimilarEntries post={post} />}
             </View>
           )}
         </View>
