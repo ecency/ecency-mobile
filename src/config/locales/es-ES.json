@@ -327,6 +327,9 @@
     "unsubscribe_confirmation": "¿Eliminar la transferencia recurrente a {username}?",
     "remaining_executions": "{executions} Transferencias restantes"
   },
+  "similar_entries": {
+    "title": "Read next"
+  },
   "comments": {
     "read_more": "Cargar más comentarios",
     "more_replies": "respuestas",
