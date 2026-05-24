@@ -13,6 +13,7 @@ import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 // Styles
 import styles from './commentStyles';
 import { PostTypes } from '../../../constants/postTypes';
+import { isWavesHost } from '../../../constants/waves';
 
 const CommentsView = ({
   avatarSize,
@@ -80,8 +81,7 @@ const CommentsView = ({
 
   const _onUpvotePress = ({ content, sourceRef, showPayoutDetails, onVotingStart }) => {
     if (upvotePopoverRef.current) {
-      const postType =
-        content.parent_author === 'ecency.waves' ? PostTypes.WAVE : PostTypes.COMMENT;
+      const postType = isWavesHost(content.parent_author) ? PostTypes.WAVE : PostTypes.COMMENT;
 
       upvotePopoverRef.current.showPopover({
         sourceRef,

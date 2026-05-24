@@ -11,6 +11,7 @@ import styles from '../styles/postScreen.styles';
 // Component
 import { postQueries, usePlausibleTracker } from '../../../providers/queries';
 import ROUTES from '../../../constants/routeNames';
+import { isWavesHost } from '../../../constants/waves';
 import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount } from '../../../redux/selectors';
 
@@ -42,7 +43,7 @@ const PostScreen = ({ route }) => {
   });
 
   const isWavePost = useMemo(
-    () => getPostQuery.data?.parent_author === 'ecency.waves',
+    () => isWavesHost(getPostQuery.data?.parent_author),
     [getPostQuery.data],
   ); // TODO: implement a better generic way to avoid parent fetching for waves
 
