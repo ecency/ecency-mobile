@@ -16,6 +16,7 @@ import { wavesQueries } from '../../providers/queries';
 import { PollDraft } from '../../providers/ecency/ecency.types';
 import { usePublishWaveMutation } from '../../providers/queries/postQueries/wavesQueries';
 import { PostTypes } from '../../constants/postTypes';
+import { WAVES_HOSTS } from '../../constants/waves';
 import extractHashTags from '../../utils/extractHashTags';
 import { deriveDiscussionRoot } from '../../utils/discussionRoot';
 import { selectCurrentAccount, selectPin } from '../../redux/selectors';
@@ -344,8 +345,10 @@ export const usePostSubmitter = () => {
     try {
       setIsSubmitting(true);
 
-      const _wavesHost = 'ecency.waves'; // TODO: make waves host selection dynamic
-      const latestWavesPost = await wavesQueries.fetchLatestWavesContainer(_wavesHost);
+      // Post into the first host that has a live container: hive.flow when
+      // available, otherwise the legacy ecency.waves. This keeps a freshly
+      // posted wave at the top of the hive.flow-primary feed.
+      const latestWavesPost = await wavesQueries.fetchLatestWavesContainer(WAVES_HOSTS);
 
       const _cacheCommentData = await _submitReply(
         body,

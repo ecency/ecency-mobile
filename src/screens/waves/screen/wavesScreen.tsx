@@ -42,13 +42,16 @@ import {
 import ROUTES from '../../../constants/routeNames';
 import RootNavigation from '../../../navigation/rootNavigation';
 
-const WAVES_HOST = 'ecency.waves';
 const SCROLL_POPUP_THRESHOLD = 5000;
 
-type DeleteWaveFn = (args: { _permlink: string; _parent_permlink: string }) => Promise<void>;
+type DeleteWaveFn = (args: {
+  _permlink: string;
+  _parent_permlink: string;
+  _parent_author?: string;
+}) => Promise<void>;
 
 const WavesFeed = ({
-  queryOptions,
+  buildQueryOptions,
   queryKey,
   listRef,
   onTagPress,
@@ -58,7 +61,11 @@ const WavesFeed = ({
   registerDeleter,
   isDarkTheme,
 }: {
-  queryOptions: ReturnType<typeof getWavesByHostQueryOptions>;
+  /**
+   * Builds the SDK query options for a given waves container host. Invoked
+   * once per host (primary + fallback) inside `useWavesQuery`.
+   */
+  buildQueryOptions: Parameters<typeof wavesQueries.useWavesQuery>[0];
   queryKey: string;
   listRef: React.RefObject<FlatList | null>;
   onTagPress: (tag: string) => void;
@@ -79,7 +86,7 @@ const WavesFeed = ({
   registerDeleter: (key: string, deleter: DeleteWaveFn | null) => void;
   isDarkTheme: boolean;
 }) => {
-  const wavesQuery = wavesQueries.useWavesQuery(queryOptions, WAVES_HOST);
+  const wavesQuery = wavesQueries.useWavesQuery(buildQueryOptions);
   const blockPopupRef = useRef(false);
   const scrollOffsetRef = useRef(0);
 
@@ -200,14 +207,19 @@ const WavesScreen = () => {
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const insets = useSafeAreaInsets();
 
-  const forYouQueryOptions = useMemo(() => getWavesByHostQueryOptions(WAVES_HOST), []);
-  const followingQueryOptions = useMemo(
-    () =>
-      currentAccount?.name ? getWavesFollowingQueryOptions(WAVES_HOST, currentAccount.name) : null,
+  // Per-host query-option builders. `useWavesQuery` invokes each one for both
+  // the primary (hive.flow) and fallback (ecency.waves) container hosts, so
+  // each feed flavour is requested from both accounts and chained.
+  const buildForYouQueryOptions = useCallback(
+    (host: string) => getWavesByHostQueryOptions(host),
+    [],
+  );
+  const buildFollowingQueryOptions = useCallback(
+    (host: string) => getWavesFollowingQueryOptions(host, currentAccount?.name ?? ''),
     [currentAccount?.name],
   );
-  const tagQueryOptions = useMemo(
-    () => (activeTag ? getWavesByTagQueryOptions(WAVES_HOST, activeTag) : null),
+  const buildTagQueryOptions = useCallback(
+    (host: string) => getWavesByTagQueryOptions(host, activeTag ?? ''),
     [activeTag],
   );
 
@@ -309,14 +321,14 @@ const WavesScreen = () => {
 
   const _renderWavesScene = ({ route }: { route: { key: string } }) => {
     if (route.key === 'following') {
-      if (!followingQueryOptions) {
+      if (!currentAccount?.name) {
         return <View style={styles.tabScene} />;
       }
 
       return (
         <View style={styles.tabScene}>
           <WavesFeed
-            queryOptions={followingQueryOptions}
+            buildQueryOptions={buildFollowingQueryOptions}
             queryKey={`following:${currentAccount?.name}`}
             listRef={followingListRef}
             onTagPress={_handleTagFilter}
@@ -330,12 +342,12 @@ const WavesScreen = () => {
       );
     }
 
-    if (activeTag && tagQueryOptions) {
+    if (activeTag) {
       return (
         <View style={styles.tabScene}>
           {_renderFilterChip}
           <WavesFeed
-            queryOptions={tagQueryOptions}
+            buildQueryOptions={buildTagQueryOptions}
             queryKey={`tag:${activeTag}`}
             listRef={tagListRef}
             onTagPress={_handleTagFilter}
@@ -352,7 +364,7 @@ const WavesScreen = () => {
     return (
       <View style={styles.tabScene}>
         <WavesFeed
-          queryOptions={forYouQueryOptions}
+          buildQueryOptions={buildForYouQueryOptions}
           queryKey="for-you"
           listRef={forYouListRef}
           onTagPress={_handleTagFilter}
@@ -423,6 +435,7 @@ const WavesScreen = () => {
             await deleteWave({
               _permlink: content.permlink,
               _parent_permlink: content.parent_permlink,
+              _parent_author: content.parent_author,
             });
             return;
           }

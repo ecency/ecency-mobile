@@ -223,6 +223,9 @@ const CommentsContainer = ({
       handleCommentDelete({
         _permlink,
         _parent_permlink,
+        // The container account the wave lives under (hive.flow or
+        // ecency.waves); decides which host the delete is broadcast against.
+        _parent_author,
       });
       return;
     }

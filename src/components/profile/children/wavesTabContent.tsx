@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { ActivityIndicator, RefreshControl, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -10,8 +10,6 @@ import { wavesQueries } from '../../../providers/queries';
 import { PostTypes } from '../../../constants/postTypes';
 import styles from '../profileStyles';
 
-const WAVES_HOST = 'ecency.waves';
-
 interface WavesTabContentProps {
   username: string;
   isOwnProfile: boolean;
@@ -22,11 +20,11 @@ const WavesTabContent = ({ username, isOwnProfile, onScroll }: WavesTabContentPr
   const intl = useIntl();
   const isHideImage = useAppSelector(selectHidePostsThumbnails);
 
-  const queryOptions = useMemo(
-    () => getWavesByAccountQueryOptions(WAVES_HOST, username),
+  const buildQueryOptions = useCallback(
+    (host: string) => getWavesByAccountQueryOptions(host, username),
     [username],
   );
-  const wavesQuery = wavesQueries.useWavesQuery(queryOptions, WAVES_HOST);
+  const wavesQuery = wavesQueries.useWavesQuery(buildQueryOptions);
 
   const _renderListEmpty = () => {
     if (wavesQuery.isLoading) {
