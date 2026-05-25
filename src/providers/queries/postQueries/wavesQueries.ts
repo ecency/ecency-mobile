@@ -113,26 +113,30 @@ export const useWavesQuery = (
     const flatData: WaveEntry[] = [...primaryItems, ...fallbackItems];
     const botAuthors = botAuthorsQuery.data ?? [];
 
-    return flatData
-      .map((item) => parsePost(item, currentAccount?.name))
-      .filter((post) => {
-        if (!post) {
-          return false;
-        }
-        // discard wave if author is muted
-        if (isArray(mutes) && mutes.indexOf(post.author) >= 0) {
-          return false;
-        }
-        // discard if wave is downvoted or marked gray
-        if (post.isMuted) {
-          return false;
-        }
-        // discard bot authors
-        if (botAuthors.includes(post.author)) {
-          return false;
-        }
-        return true;
-      });
+    return (
+      flatData
+        // Waves are never promoted; pass the explicit `isPromoted=false` so this
+        // stays on the shared parsePost(post, currentUserName, isPromoted) contract.
+        .map((item) => parsePost(item, currentAccount?.name, false))
+        .filter((post) => {
+          if (!post) {
+            return false;
+          }
+          // discard wave if author is muted
+          if (isArray(mutes) && mutes.indexOf(post.author) >= 0) {
+            return false;
+          }
+          // discard if wave is downvoted or marked gray
+          if (post.isMuted) {
+            return false;
+          }
+          // discard bot authors
+          if (botAuthors.includes(post.author)) {
+            return false;
+          }
+          return true;
+        })
+    );
   }, [
     primaryQuery.data,
     fallbackQuery.data,
@@ -155,10 +159,13 @@ export const useWavesQuery = (
   const isFetchingNextPage =
     primaryQuery.isFetchingNextPage ||
     fallbackQuery.isFetchingNextPage ||
-    // The fallback's first page loads automatically when the primary
-    // exhausts; while primary results are already on screen, surface it as
-    // "loading more" so the footer spinner (not the full-screen loader) shows.
-    (primaryExhausted && primaryItemCount > 0 && fallbackQuery.isLoading);
+    // The fallback's first page loads automatically (via `enabled`) once the
+    // primary exhausts. Count that as "fetching" — including when the primary
+    // had zero items — so callers don't see `hasNextPage && !isFetchingNextPage`
+    // and fire a no-op `fetchNextPage()` (a no-op because the fallback has no
+    // `hasNextPage` until its first page lands). An empty FlatList raises
+    // `onEndReached` immediately, so without this it would loop on every scroll.
+    (primaryExhausted && fallbackQuery.isLoading);
 
   const isLoading =
     primaryQuery.isLoading ||
@@ -228,13 +235,17 @@ export const useWavesQuery = (
         });
 
         // The merged feed may hold the wave under either host's key, so prune
-        // both caches.
+        // both caches. Match author too — a permlink is only unique per author,
+        // so filtering on permlink alone could drop another user's wave that
+        // happens to share it.
         [primaryOptions.queryKey, fallbackOptions.queryKey].forEach((queryKey) => {
           queryClient.setQueryData<InfiniteData<WaveEntry[]>>(queryKey, (oldData) => {
             if (!oldData) return oldData;
             return {
               ...oldData,
-              pages: oldData.pages.map((page) => page.filter((w) => w.permlink !== _permlink)),
+              pages: oldData.pages.map((page) =>
+                page.filter((w) => !(w.author === currentAccount.name && w.permlink === _permlink)),
+              ),
             };
           });
         });
