@@ -21,8 +21,7 @@ const ICONS: Record<string, string> = {
 
 const TIERS = ['daily', 'weekly', 'monthly'] as const;
 
-const byId = (arr?: { id: string }[]) =>
-  Object.fromEntries((arr || []).map((q) => [q.id, q]));
+const byId = (arr?: { id: string }[]) => Object.fromEntries((arr || []).map((q) => [q.id, q]));
 
 const QuestsCard = () => {
   const intl = useIntl();
@@ -72,9 +71,7 @@ const QuestsCard = () => {
   return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{intl.formatMessage({ id: 'perks.quests_title' })}</Text>
-      <Text style={styles.cardSubtitle}>
-        {intl.formatMessage({ id: 'perks.quests_subtitle' })}
-      </Text>
+      <Text style={styles.cardSubtitle}>{intl.formatMessage({ id: 'perks.quests_subtitle' })}</Text>
 
       {!!streak && streak.current > 0 && (
         <View style={styles.streakBadge}>
