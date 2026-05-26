@@ -49,6 +49,9 @@ export default EStyleSheet.create({
   tabActive: {
     borderBottomWidth: 2,
     borderBottomColor: '$primaryBlue',
+    // pull down by the row's 1px border so the indicator sits on it (replaces the
+    // separator under the active tab instead of floating above it)
+    marginBottom: -1,
   },
   tabText: {
     fontSize: 13,
