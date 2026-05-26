@@ -73,6 +73,13 @@ export default EStyleSheet.create({
     flex: 1,
     textAlign: 'left',
   },
+  // Core navigation entries: larger + bolder + darker than utility entries
+  // so the primary actions read above the footer group.
+  listItemTextMain: {
+    color: '$primaryBlack',
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
   buttonText: {
     fontSize: 18,
     fontFamily: '$primaryFont',
