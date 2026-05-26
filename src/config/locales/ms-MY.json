@@ -318,6 +318,8 @@
     "leaderboard": "Papan Pendahulu",
     "unvote": "undi dibangkang",
     "activities": "Semua",
+    "rvotes": "Votes",
+    "follows": "Follows",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "New mention on",
     "yesterday": "Semalam",
