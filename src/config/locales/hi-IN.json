@@ -318,6 +318,8 @@
     "leaderboard": "अधिनायकपटल",
     "unvote": "डाउनवोट किया",
     "activities": "सब",
+    "rvotes": "Votes",
+    "follows": "Follows",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "नया उल्लेख चालू",
     "yesterday": "बीता कल",
