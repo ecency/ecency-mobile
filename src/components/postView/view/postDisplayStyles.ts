@@ -68,6 +68,16 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     marginVertical: 12,
   },
+  footerSourceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  ecencySourceBadge: {
+    width: 12,
+    height: 12,
+    marginLeft: 3,
+  },
   footerName: {
     color: '$primaryBlack',
     fontWeight: 'bold',

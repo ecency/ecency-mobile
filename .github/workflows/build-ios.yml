@@ -240,18 +240,24 @@ jobs:
           cp ios/main.jsbundle $RUNNER_TEMP/js/main.jsbundle
           cp ios/main.jsbundle.map $RUNNER_TEMP/js/main.jsbundle.map
 
+      # Source maps are only used for error symbolication, so a transient Sentry
+      # API error (e.g. HTTP 500) must not block the release build. The shared
+      # retry helper retries transient failures; continue-on-error lets a
+      # sustained Sentry outage degrade gracefully instead of failing the build.
       - name: Upload source maps to Sentry (iOS)
+        continue-on-error: true
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |
-          npx sentry-cli releases new "$SENTRY_RELEASE" --org ecency --project ecency-mobile
-          npx sentry-cli releases files "$SENTRY_RELEASE" upload-sourcemaps \
+          retry="$GITHUB_WORKSPACE/.github/scripts/sentry-retry.sh"
+          bash "$retry" npx sentry-cli releases new "$SENTRY_RELEASE" --org ecency --project ecency-mobile
+          bash "$retry" npx sentry-cli releases files "$SENTRY_RELEASE" upload-sourcemaps \
             --dist "$SENTRY_DIST" \
             --org ecency --project ecency-mobile \
             --rewrite \
             --strip-common-prefix \
             $RUNNER_TEMP/js/main.jsbundle $RUNNER_TEMP/js/main.jsbundle.map
-          npx sentry-cli releases finalize "$SENTRY_RELEASE" --org ecency --project ecency-mobile
+          bash "$retry" npx sentry-cli releases finalize "$SENTRY_RELEASE" --org ecency --project ecency-mobile
 
       - name: Build archive
         run: |
@@ -265,10 +271,12 @@ jobs:
           clean archive
 
       - name: Upload iOS dSYMs to Sentry
+        continue-on-error: true
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |
-          npx sentry-cli debug-files upload \
+          retry="$GITHUB_WORKSPACE/.github/scripts/sentry-retry.sh"
+          bash "$retry" npx sentry-cli debug-files upload \
             --org ecency \
             --project ecency-mobile \
             --include-sources \

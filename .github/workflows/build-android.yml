@@ -155,19 +155,25 @@ jobs:
           cd android
           ./gradlew assembleRelease
 
+      # Source maps are only used for error symbolication, so a transient Sentry
+      # API error (e.g. HTTP 500) must not block the release build. The shared
+      # retry helper retries transient failures; continue-on-error lets a
+      # sustained Sentry outage degrade gracefully instead of failing the build.
       - name: Upload source maps to Sentry (Android)
+        continue-on-error: true
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |
+          retry="$GITHUB_WORKSPACE/.github/scripts/sentry-retry.sh"
           BUNDLE_PATH=android/app/src/main/assets/index.android.bundle
           MAP_PATH=android/app/src/main/assets/index.android.bundle.map
-          npx sentry-cli releases new "$SENTRY_RELEASE" --org ecency --project ecency-mobile
-          npx sentry-cli releases files "$SENTRY_RELEASE" upload-sourcemaps \
+          bash "$retry" npx sentry-cli releases new "$SENTRY_RELEASE" --org ecency --project ecency-mobile
+          bash "$retry" npx sentry-cli releases files "$SENTRY_RELEASE" upload-sourcemaps \
             --dist "$SENTRY_DIST" \
             --org ecency --project ecency-mobile \
             --rewrite \
             "$BUNDLE_PATH" "$MAP_PATH"
-          npx sentry-cli releases finalize "$SENTRY_RELEASE" --org ecency --project ecency-mobile
+          bash "$retry" npx sentry-cli releases finalize "$SENTRY_RELEASE" --org ecency --project ecency-mobile
 
       - name: Upload APK application
         uses: actions/upload-artifact@v4
