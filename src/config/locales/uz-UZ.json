@@ -318,6 +318,8 @@
     "leaderboard": "Sardorlar ro'yhati",
     "unvote": "qarshi ovoz berdi",
     "activities": "Hammasi",
+    "rvotes": "Votes",
+    "follows": "Follows",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "Yangi eslatma",
     "yesterday": "Kecha",
