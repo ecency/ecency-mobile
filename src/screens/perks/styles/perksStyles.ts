@@ -73,7 +73,10 @@ export default EStyleSheet.create({
     marginTop: 10,
   },
   streakText: {
-    color: '$white',
+    // $primaryBlack adapts per theme (dark text in light mode, light in dark),
+    // so it stays readable on the $primaryLightBlue badge in both themes —
+    // unlike $white, which inverts to dark navy and vanishes in dark mode.
+    color: '$primaryBlack',
     fontWeight: 'bold',
     marginLeft: 6,
     fontFamily: '$primaryFont',
@@ -109,6 +112,13 @@ export default EStyleSheet.create({
   questCount: {
     fontSize: 12,
     color: '$primaryDarkGray',
+    fontFamily: '$primaryFont',
+  },
+  questsEmpty: {
+    fontSize: 13,
+    color: '$primaryDarkGray',
+    textAlign: 'center',
+    paddingVertical: 16,
     fontFamily: '$primaryFont',
   },
   track: {
