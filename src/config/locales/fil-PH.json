@@ -318,6 +318,8 @@
     "leaderboard": "Leaderboard",
     "unvote": "downvoted",
     "activities": "Lahat",
+    "rvotes": "Votes",
+    "follows": "Follows",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "New mention on",
     "yesterday": "Kahapon",
