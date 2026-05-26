@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
 import { injectIntl, useIntl } from 'react-intl';
 import VersionNumber from 'react-native-version-number';
@@ -121,30 +121,40 @@ const SideMenuView = ({
 
   const _username = currentAccount.name;
 
+  // Id of the first 'footer' (utility) item, so we can draw a single divider
+  // separating core navigation from utility entries without per-item headers.
+  const _firstFooterId = useMemo(
+    () => menuItems.find((item) => item.group === 'footer')?.id,
+    [menuItems],
+  );
+
   const _renderItem = (item) => (
-    <TouchableOpacity
-      style={styles.listItem}
-      onPress={() => {
-        _handleOnMenuItemPress(item.item);
-      }}
-    >
-      <View style={styles.itemWrapper}>
-        {item.item.icon && (
-          <Icon
-            iconType={item.item.iconType ? item.item.iconType : 'SimpleLineIcons'}
-            style={styles.listItemIcon}
-            name={item.item.icon}
-            size={20}
-          />
-        )}
-        {item.item.username && (
-          <UserAvatar noAction username={item.item.username} style={styles.otherUserAvatar} />
-        )}
-        <Text style={styles.listItemText}>
-          {intl.formatMessage({ id: `side_menu.${item.item.id}` })}
-        </Text>
-      </View>
-    </TouchableOpacity>
+    <>
+      {item.item.id === _firstFooterId && <View style={styles.groupDivider} />}
+      <TouchableOpacity
+        style={styles.listItem}
+        onPress={() => {
+          _handleOnMenuItemPress(item.item);
+        }}
+      >
+        <View style={styles.itemWrapper}>
+          {item.item.icon && (
+            <Icon
+              iconType={item.item.iconType ? item.item.iconType : 'SimpleLineIcons'}
+              style={styles.listItemIcon}
+              name={item.item.icon}
+              size={20}
+            />
+          )}
+          {item.item.username && (
+            <UserAvatar noAction username={item.item.username} style={styles.otherUserAvatar} />
+          )}
+          <Text style={styles.listItemText}>
+            {intl.formatMessage({ id: `side_menu.${item.item.id}` })}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </>
   );
 
   const _renderHeader = () => {

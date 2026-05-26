@@ -3,7 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   post: {
     paddingTop: 10,
-    marginBottom: 4,
+    marginBottom: 8,
     backgroundColor: '$primaryBackgroundColor',
   },
 
