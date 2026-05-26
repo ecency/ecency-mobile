@@ -3,6 +3,7 @@
     "header": "Perks",
     "quests_title": "Quests",
     "quests_subtitle": "Complete daily goals and keep your streak",
+    "quests_empty": "No quests here yet — check back soon.",
     "streak": "{n}-day streak",
     "daily": "Daily",
     "weekly": "Weekly",
