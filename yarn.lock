@@ -1270,10 +1270,10 @@
     url "^0.11.0"
     xss "^1.0.9"
 
-"@ecency/sdk@^2.2.21":
-  version "2.2.21"
-  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.2.21.tgz#e3cf466366513eafca817808fce0542710ba1afe"
-  integrity sha512-hcpgZoAMGCkcwyV2BNz5+8q9Dlvilkd9ebe9AG76DQB7BZQJepqknAZGDLkxxL/tFm6jq7p0aGtKRTDeBlNbig==
+"@ecency/sdk@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.3.1.tgz#84843f31bc2db4c7d05008ab8a3a1dda24e0801a"
+  integrity sha512-nfZD/6EDampHJRI3ZbbaByL6SbhJIEQW3R+er1gOL4qT0XRfMDpprnNXX3lRZ6AUsmjwwNIAJ223scgUFwSP6Q==
   dependencies:
     "@noble/ciphers" "^2.1.1"
     "@noble/curves" "^2.0.1"
