@@ -318,6 +318,8 @@
     "leaderboard": "Tabla de posiciones",
     "unvote": "downvoted",
     "activities": "Todo",
+    "rvotes": "Votes",
+    "follows": "Follows",
     "checkin": "Has comprobado {count} día{suffix} esta semana. ¡Sigue así!",
     "mention_on": "Nueva mención en",
     "yesterday": "Ayer",
