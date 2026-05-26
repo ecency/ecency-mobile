@@ -21,6 +21,7 @@ import {
   SearchResult,
   Settings,
   SpinGame,
+  Perks,
   Transfer,
   TradeScreen,
   Voters,
@@ -64,6 +65,7 @@ const MainStackNavigator = () => {
       <MainStack.Screen name={ROUTES.SCREENS.REDEEM} component={Redeem} />
       <MainStack.Screen name={ROUTES.SCREENS.AI_IMAGE_GENERATOR} component={AiImageGenerator} />
       <MainStack.Screen name={ROUTES.SCREENS.SPIN_GAME} component={SpinGame} />
+      <MainStack.Screen name={ROUTES.SCREENS.PERKS} component={Perks} />
       <MainStack.Screen name={ROUTES.SCREENS.ACCOUNT_BOOST} component={AccountBoost} />
       <MainStack.Screen name={ROUTES.SCREENS.COMMUNITY} component={Community} />
       <MainStack.Screen name={ROUTES.SCREENS.COMMUNITIES} component={Communities} />

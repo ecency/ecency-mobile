@@ -39,6 +39,7 @@ import PollWizardScreen from './pollWizard';
 import { BotComments } from './botComments';
 import { AiImageGenerator } from './aiImageGenerator';
 import { DappBrowser } from './dappBrowser';
+import { Perks } from './perks/screen/perksScreen';
 
 export {
   Bookmarks,
@@ -61,6 +62,7 @@ export {
   SearchResult,
   Settings,
   SpinGame,
+  Perks,
   HiveSigner,
   Transfer,
   TradeScreen,
