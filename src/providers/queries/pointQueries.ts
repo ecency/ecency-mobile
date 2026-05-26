@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getPointsQueryOptions } from '@ecency/sdk';
+import { getPointsQueryOptions, getQuestsQueryOptions } from '@ecency/sdk';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import {
   deletePointActivityCache,
@@ -30,6 +30,17 @@ export const useGetPointsQuery = (username?: string, filter = 0) => {
   });
 
   return queryResult;
+};
+
+/**
+ * Read-only daily/weekly/monthly quest progress for the perks dashboard.
+ * Aggregates the user's existing points activity (no minting).
+ */
+export const useGetQuestsQuery = (username?: string) => {
+  return useQuery({
+    ...getQuestsQueryOptions(username),
+    enabled: !!username,
+  });
 };
 
 export const useUserActivityMutation = () => {

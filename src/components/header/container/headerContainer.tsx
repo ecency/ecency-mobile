@@ -45,10 +45,8 @@ const HeaderContainer = ({
   };
 
   const _handleOnBoostPress = () => {
-    // navigate to boost plus screen;
-    navigation.navigate(ROUTES.SCREENS.REDEEM, {
-      redeemType: 'boost_plus',
-    });
+    // open the perks dashboard (quests + ways to spend points)
+    navigation.navigate(ROUTES.SCREENS.PERKS);
   };
 
   return (

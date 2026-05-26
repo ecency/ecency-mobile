@@ -1271,9 +1271,9 @@
     xss "^1.0.9"
 
 "@ecency/sdk@^2.3.1":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.3.1.tgz#84843f31bc2db4c7d05008ab8a3a1dda24e0801a"
-  integrity sha512-nfZD/6EDampHJRI3ZbbaByL6SbhJIEQW3R+er1gOL4qT0XRfMDpprnNXX3lRZ6AUsmjwwNIAJ223scgUFwSP6Q==
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.3.2.tgz#f418ef34ea62de617c2b9ac34239ba2d18f5a0a5"
+  integrity sha512-sFukBaRiTyh5OJTmL/YpHerstFEyHHE4xRi91GMY9oldBcyOrJOpH0c6K/NHjEC+4uczmkinMxQgUreBYq2AuQ==
   dependencies:
     "@noble/ciphers" "^2.1.1"
     "@noble/curves" "^2.0.1"

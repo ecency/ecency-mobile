@@ -12,6 +12,7 @@ const ROUTES = {
     EDITOR: `Editor${SCREEN_SUFFIX}`,
     FOLLOWS: `Follows${SCREEN_SUFFIX}`,
     SPIN_GAME: `SpinGame${SCREEN_SUFFIX}`,
+    PERKS: `Perks${SCREEN_SUFFIX}`,
     FEED: `Feed${SCREEN_SUFFIX}`,
     LOGIN: `Login${SCREEN_SUFFIX}`,
     KEYCHAIN: `Keychain${SCREEN_SUFFIX}`,
