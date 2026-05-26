@@ -318,6 +318,8 @@
     "leaderboard": "순위표",
     "unvote": "다운보팅된",
     "activities": "모든",
+    "rvotes": "Votes",
+    "follows": "Follows",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "새 언급",
     "yesterday": "어제",
