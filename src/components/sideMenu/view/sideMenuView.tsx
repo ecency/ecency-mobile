@@ -151,7 +151,9 @@ const SideMenuView = ({
           {item.item.username && (
             <UserAvatar noAction username={item.item.username} style={styles.otherUserAvatar} />
           )}
-          <Text style={styles.listItemText}>
+          <Text
+            style={[styles.listItemText, item.item.group === 'main' && styles.listItemTextMain]}
+          >
             {intl.formatMessage({ id: `side_menu.${item.item.id}` })}
           </Text>
         </View>
