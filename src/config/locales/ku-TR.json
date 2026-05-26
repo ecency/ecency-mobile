@@ -318,6 +318,8 @@
     "leaderboard": "Tabloya Lîderan",
     "unvote": "downvoted",
     "activities": "Hemû",
+    "rvotes": "Votes",
+    "follows": "Follows",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "New mention on",
     "yesterday": "Doh",
