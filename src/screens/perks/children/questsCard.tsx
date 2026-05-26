@@ -27,9 +27,9 @@ const QuestsCard = () => {
   const intl = useIntl();
   const username = useAppSelector(selectCurrentAccountName);
   const { data } = useGetQuestsQuery(username);
-  const [tier, setTier] = useState<string>('daily');
+  const [tier, setTier] = useState<(typeof TIERS)[number]>('daily');
 
-  const progressByTier: Record<string, any> = {
+  const progressByTier: Record<(typeof TIERS)[number], any> = {
     daily: byId(data?.daily),
     weekly: byId(data?.weekly),
     monthly: byId(data?.monthly),
@@ -81,7 +81,7 @@ const QuestsCard = () => {
             iconType="MaterialCommunityIcons"
             name="fire"
             size={16}
-            color={EStyleSheet.value('$white')}
+            color={EStyleSheet.value('$primaryBlack')}
           />
           <Text style={styles.streakText}>
             {intl.formatMessage({ id: 'perks.streak' }, { n: streak.current })}
@@ -103,7 +103,11 @@ const QuestsCard = () => {
         ))}
       </View>
 
-      {tierEntries.map((entry) => _renderQuest(entry))}
+      {tierEntries.length > 0 ? (
+        tierEntries.map((entry) => _renderQuest(entry))
+      ) : (
+        <Text style={styles.questsEmpty}>{intl.formatMessage({ id: 'perks.quests_empty' })}</Text>
+      )}
     </View>
   );
 };
