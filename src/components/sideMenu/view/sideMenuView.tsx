@@ -100,25 +100,6 @@ const SideMenuView = ({
       return;
     }
 
-    if (item.id === 'favorites') {
-      navigateToRoute({
-        name: ROUTES.SCREENS.BOOKMARKS,
-        params: {
-          showFavorites: true,
-        },
-      });
-      return;
-    }
-
-    if (item.id === 'schedules') {
-      navigateToRoute({
-        name: ROUTES.SCREENS.DRAFTS,
-        params: {
-          showSchedules: true,
-        },
-      });
-      return;
-    }
     // if there is any prevLoggedInUser, show account switch modal
     if (item.id === 'add_account') {
       if (prevLoggedInUsers && prevLoggedInUsers?.length > 0) {

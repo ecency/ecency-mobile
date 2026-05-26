@@ -23,22 +23,10 @@ const authMenuItems: MenuItem[] = [
     id: 'bookmarks',
   },
   {
-    name: 'Favorites',
-    route: ROUTES.SCREENS.BOOKMARKS,
-    icon: 'heart',
-    id: 'favorites',
-  },
-  {
     name: 'Drafts',
     route: ROUTES.SCREENS.DRAFTS,
     icon: 'docs',
     id: 'drafts',
-  },
-  {
-    name: 'Schedules',
-    route: ROUTES.SCREENS.DRAFTS,
-    icon: 'clock',
-    id: 'schedules',
   },
   {
     name: 'Communities',
