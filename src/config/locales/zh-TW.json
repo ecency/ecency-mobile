@@ -318,6 +318,8 @@
     "leaderboard": "排行榜",
     "unvote": "已踩",
     "activities": "全部",
+    "rvotes": "Votes",
+    "follows": "Follows",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "有人提及你",
     "yesterday": "昨天",
