@@ -318,6 +318,8 @@
     "leaderboard": "Classement",
     "unvote": "sous-vote",
     "activities": "Toutes",
+    "rvotes": "Votes",
+    "follows": "Follows",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "Nouvelle mention sur",
     "yesterday": "Hier",
