@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, useWindowDimensions } from 'react-native';
+import { View, Text, Image, useWindowDimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
@@ -20,6 +20,7 @@ import { PostReadingMetadata } from '../children/postReadingMetadata';
 
 // Styles
 import styles from './postDisplayStyles';
+import ECENCY_LOGO from '../../../assets/ecency-logo-round.png';
 import { WritePostButton } from '../../atoms';
 import { PostTypes } from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
@@ -310,6 +311,11 @@ const PostDisplayView = ({
 
   const capitalize = (appname) => appname && appname[0].toUpperCase() + appname.slice(1);
 
+  // matches the "via {appname}" label, which defaults to Ecency when no app metadata is set
+  const isFromEcency = (post?.json_metadata?.app?.split('/')[0] || 'ecency')
+    .toLowerCase()
+    .includes('ecency');
+
   const _handleOnPostBodyLoad = useCallback(() => {
     setPostBodyLoading(false);
   }, []);
@@ -411,6 +417,9 @@ const PostDisplayView = ({
                       },
                     )}
                     {formatedTime}
+                    {isFromEcency && (
+                      <Image source={ECENCY_LOGO} style={styles.ecencySourceBadge} />
+                    )}
                   </Text>
                   <WritePostButton
                     placeholderId="quick_reply.placeholder"
