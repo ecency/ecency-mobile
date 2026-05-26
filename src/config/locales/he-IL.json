@@ -1,4 +1,27 @@
 {
+  "perks": {
+    "header": "Perks",
+    "quests_title": "Quests",
+    "quests_subtitle": "Complete daily goals and keep your streak",
+    "streak": "{n}-day streak",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "checkin": "Check in",
+    "post": "Publish a post",
+    "comment": "Leave comments",
+    "vote": "Curate posts",
+    "reblog": "Reblog a post",
+    "spend_title": "Use your points",
+    "spin": "Daily spin",
+    "spin_desc": "Spin the wheel for points",
+    "boost_plus": "Boost Plus",
+    "boost_plus_desc": "Promote your account",
+    "promote": "Promote a post",
+    "promote_desc": "Get more eyes on your post",
+    "account_boost": "Account boost",
+    "account_boost_desc": "Boost any account"
+  },
   "waves": {
     "for_you": "בשבילך",
     "following": "Following"
