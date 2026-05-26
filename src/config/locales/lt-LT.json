@@ -318,6 +318,8 @@
     "leaderboard": "Lyderiai",
     "unvote": "įvertinta neigiamai",
     "activities": "Visi",
+    "rvotes": "Votes",
+    "follows": "Follows",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "Naujas paminėjimas",
     "yesterday": "Vakar",
