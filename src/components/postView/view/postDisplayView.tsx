@@ -406,21 +406,23 @@ const PostDisplayView = ({
               {!postBodyLoading && (
                 <View style={styles.footer}>
                   <Tags tags={tags} />
-                  <Text style={styles.footerText}>
-                    {intl.formatMessage(
-                      { id: 'post.posted_by' },
-                      {
-                        username: author || post.author,
-                        appname: post?.json_metadata?.app
-                          ? capitalize(post?.json_metadata?.app?.split('/')[0])
-                          : 'Ecency',
-                      },
-                    )}
-                    {formatedTime}
+                  <View style={styles.footerSourceRow}>
+                    <Text style={styles.footerText}>
+                      {intl.formatMessage(
+                        { id: 'post.posted_by' },
+                        {
+                          username: author || post.author,
+                          appname: post?.json_metadata?.app
+                            ? capitalize(post?.json_metadata?.app?.split('/')[0])
+                            : 'Ecency',
+                        },
+                      )}
+                      {formatedTime}
+                    </Text>
                     {isFromEcency && (
                       <Image source={ECENCY_LOGO} style={styles.ecencySourceBadge} />
                     )}
-                  </Text>
+                  </View>
                   <WritePostButton
                     placeholderId="quick_reply.placeholder"
                     onPress={_showQuickReplyModal}
