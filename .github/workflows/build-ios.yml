@@ -240,18 +240,34 @@ jobs:
           cp ios/main.jsbundle $RUNNER_TEMP/js/main.jsbundle
           cp ios/main.jsbundle.map $RUNNER_TEMP/js/main.jsbundle.map
 
+      # Source maps are only used for error symbolication, so a transient Sentry
+      # API error (e.g. HTTP 500) must not block the release build. Retry, then
+      # warn and continue if Sentry stays unavailable.
       - name: Upload source maps to Sentry (iOS)
+        continue-on-error: true
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |
-          npx sentry-cli releases new "$SENTRY_RELEASE" --org ecency --project ecency-mobile
-          npx sentry-cli releases files "$SENTRY_RELEASE" upload-sourcemaps \
+          retry() {
+            local attempt=1 max=3
+            until "$@"; do
+              if [ "$attempt" -ge "$max" ]; then
+                echo "::warning::Sentry command failed after $max attempts: $*"
+                return 1
+              fi
+              echo "Sentry attempt $attempt failed; retrying in $((attempt * 15))s..."
+              sleep $((attempt * 15))
+              attempt=$((attempt + 1))
+            done
+          }
+          retry npx sentry-cli releases new "$SENTRY_RELEASE" --org ecency --project ecency-mobile
+          retry npx sentry-cli releases files "$SENTRY_RELEASE" upload-sourcemaps \
             --dist "$SENTRY_DIST" \
             --org ecency --project ecency-mobile \
             --rewrite \
             --strip-common-prefix \
             $RUNNER_TEMP/js/main.jsbundle $RUNNER_TEMP/js/main.jsbundle.map
-          npx sentry-cli releases finalize "$SENTRY_RELEASE" --org ecency --project ecency-mobile
+          retry npx sentry-cli releases finalize "$SENTRY_RELEASE" --org ecency --project ecency-mobile
 
       - name: Build archive
         run: |
@@ -265,10 +281,23 @@ jobs:
           clean archive
 
       - name: Upload iOS dSYMs to Sentry
+        continue-on-error: true
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |
-          npx sentry-cli debug-files upload \
+          retry() {
+            local attempt=1 max=3
+            until "$@"; do
+              if [ "$attempt" -ge "$max" ]; then
+                echo "::warning::Sentry command failed after $max attempts: $*"
+                return 1
+              fi
+              echo "Sentry attempt $attempt failed; retrying in $((attempt * 15))s..."
+              sleep $((attempt * 15))
+              attempt=$((attempt + 1))
+            done
+          }
+          retry npx sentry-cli debug-files upload \
             --org ecency \
             --project ecency-mobile \
             --include-sources \
