@@ -128,8 +128,10 @@ const SideMenuView = ({
     [menuItems],
   );
 
+  // Single root View (not a Fragment) so FlatList/VirtualizedList can measure
+  // item height correctly; the divider renders as the first child when present.
   const _renderItem = (item) => (
-    <>
+    <View>
       {item.item.id === _firstFooterId && <View style={styles.groupDivider} />}
       <TouchableOpacity
         style={styles.listItem}
@@ -154,7 +156,7 @@ const SideMenuView = ({
           </Text>
         </View>
       </TouchableOpacity>
-    </>
+    </View>
   );
 
   const _renderHeader = () => {
