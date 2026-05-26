@@ -21,7 +21,7 @@ class LeaderboardView extends PureComponent {
 
   // Component Functions
   _renderItem = ({ item, index }) => {
-    const { handleOnUserPress, intl } = this.props;
+    const { handleOnUserPress, intl, selectedIndex } = this.props;
 
     return (
       <UserListItem
@@ -40,7 +40,7 @@ class LeaderboardView extends PureComponent {
         rightTextStyle={styles.rewardText}
         rightTooltipText={intl.formatMessage({ id: 'leaderboard.tooltip_earn' })}
         rightItemRenderer={() =>
-          get(item, 'quests_done') ? (
+          selectedIndex === 0 && get(item, 'quests_done') ? (
             <Icon
               style={styles.questBadge}
               name="check-circle"
