@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { QUEST_CATALOG } from '@ecency/sdk';
@@ -27,6 +27,7 @@ const QuestsCard = () => {
   const intl = useIntl();
   const username = useAppSelector(selectCurrentAccountName);
   const { data } = useGetQuestsQuery(username);
+  const [tier, setTier] = useState<string>('daily');
 
   const progressByTier: Record<string, any> = {
     daily: byId(data?.daily),
@@ -35,8 +36,9 @@ const QuestsCard = () => {
   };
 
   const streak = data?.streak;
+  const tierEntries = QUEST_CATALOG.filter((q) => q.tier === tier && q.id !== 'spin');
 
-  const _renderQuest = (tier: string, entry: any) => {
+  const _renderQuest = (entry: any) => {
     const item = progressByTier[tier][entry.id];
     const progress = item?.progress ?? 0;
     const { goal } = entry;
@@ -87,18 +89,21 @@ const QuestsCard = () => {
         </View>
       )}
 
-      {TIERS.map((tier) => {
-        const entries = QUEST_CATALOG.filter((q) => q.tier === tier && q.id !== 'spin');
-        if (entries.length === 0) {
-          return null;
-        }
-        return (
-          <View key={tier}>
-            <Text style={styles.sectionLabel}>{intl.formatMessage({ id: `perks.${tier}` })}</Text>
-            {entries.map((entry) => _renderQuest(tier, entry))}
-          </View>
-        );
-      })}
+      <View style={styles.tabRow}>
+        {TIERS.map((t) => (
+          <TouchableOpacity
+            key={t}
+            style={[styles.tab, t === tier && styles.tabActive]}
+            onPress={() => setTier(t)}
+          >
+            <Text style={[styles.tabText, t === tier && styles.tabTextActive]}>
+              {intl.formatMessage({ id: `perks.${t}` })}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {tierEntries.map((entry) => _renderQuest(entry))}
     </View>
   );
 };

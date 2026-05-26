@@ -263,6 +263,11 @@ export const useInitApplication = () => {
           key = push.source || 'inactive';
           break;
 
+        case 'spin':
+          // The spin reminder is now the daily streak/quests reminder -> perks dashboard.
+          routeName = ROUTES.SCREENS.PERKS;
+          break;
+
         case 'hiveuri':
           if (push.hiveUri) {
             linkProcessor.handleLink(push.hiveUri);

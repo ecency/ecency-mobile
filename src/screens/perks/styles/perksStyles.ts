@@ -34,6 +34,34 @@ export default EStyleSheet.create({
     marginBottom: 4,
     fontFamily: '$primaryFont',
   },
+  tabRow: {
+    flexDirection: 'row',
+    marginTop: 14,
+    marginBottom: 4,
+    borderBottomWidth: 1,
+    borderBottomColor: '$borderColor',
+  },
+  tab: {
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    marginRight: 4,
+  },
+  tabActive: {
+    borderBottomWidth: 2,
+    borderBottomColor: '$primaryBlue',
+    // pull down by the row's 1px border so the indicator sits on it (replaces the
+    // separator under the active tab instead of floating above it)
+    marginBottom: -1,
+  },
+  tabText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '$primaryDarkGray',
+    fontFamily: '$primaryFont',
+  },
+  tabTextActive: {
+    color: '$primaryBlue',
+  },
   streakBadge: {
     flexDirection: 'row',
     alignItems: 'center',
