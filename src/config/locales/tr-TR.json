@@ -318,6 +318,8 @@
     "leaderboard": "Liderler Tablosu",
     "unvote": "oy geri alındı",
     "activities": "Tümü",
+    "rvotes": "Votes",
+    "follows": "Follows",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "Yeni bahsetme",
     "yesterday": "Dün",
