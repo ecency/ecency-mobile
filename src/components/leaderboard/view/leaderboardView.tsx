@@ -2,8 +2,10 @@ import React, { PureComponent, Fragment } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Components
+import { Icon } from '../../icon';
 import { UserListItem, ListPlaceHolder } from '../../basicUIElements';
 import { FilterBar } from '../../filterBar';
 import FILTER_OPTIONS, { VALUE } from '../../../constants/options/leaderboard';
@@ -37,6 +39,17 @@ class LeaderboardView extends PureComponent {
         handleOnPress={() => handleOnUserPress(get(item, '_id'))}
         rightTextStyle={styles.rewardText}
         rightTooltipText={intl.formatMessage({ id: 'leaderboard.tooltip_earn' })}
+        rightItemRenderer={() =>
+          get(item, 'quests_done') ? (
+            <Icon
+              style={styles.questBadge}
+              name="check-circle"
+              iconType="MaterialCommunityIcons"
+              color={EStyleSheet.value('$primaryGreen')}
+              size={18}
+            />
+          ) : null
+        }
       />
     );
   };

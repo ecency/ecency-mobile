@@ -18,6 +18,9 @@ export default EStyleSheet.create({
   rewardText: {
     color: '$primaryBlue',
   },
+  questBadge: {
+    marginLeft: 6,
+  },
   columnTitleWrapper: {
     flexDirection: 'row',
     marginTop: 10,
