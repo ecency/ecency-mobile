@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 
 // Components
 import { LineBreak, Tag } from '../../basicUIElements';
@@ -73,7 +73,12 @@ const FilterBarView = ({
       {!isHide && (
         <LineBreak height={38}>
           <View style={styles.filterBarWrapper}>
-            <View style={styles.dropdownWrapper}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.dropdownWrapper}
+              contentContainerStyle={styles.dropdownContent}
+            >
               {options.map((item, index) => (
                 <Tag
                   key={item.toString()}
@@ -83,7 +88,7 @@ const FilterBarView = ({
                   onPress={() => onDropdownSelect(index)}
                 />
               ))}
-            </View>
+            </ScrollView>
             {_renderActionButtons()}
           </View>
         </LineBreak>

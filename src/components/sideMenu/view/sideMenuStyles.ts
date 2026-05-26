@@ -53,6 +53,14 @@ export default EStyleSheet.create({
   listItem: {
     marginVertical: 15,
   },
+  groupDivider: {
+    height: 0.5,
+    backgroundColor: '$borderColor',
+    marginLeft: 55,
+    marginRight: 24,
+    marginTop: 8,
+    marginBottom: 8,
+  },
   listItemIcon: {
     color: '$iconColor',
     marginRight: 5,

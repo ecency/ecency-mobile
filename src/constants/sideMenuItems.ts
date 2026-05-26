@@ -1,11 +1,15 @@
 import ROUTES from './routeNames';
 
+// 'main' = core navigation, 'footer' = utility/admin entries pushed below a divider
+type MenuGroup = 'main' | 'footer';
+
 interface MenuItem {
   name: string;
   route: string;
   icon: string;
   id: string;
   iconType?: string;
+  group: MenuGroup;
 }
 
 const authMenuItems: MenuItem[] = [
@@ -14,6 +18,7 @@ const authMenuItems: MenuItem[] = [
     route: ROUTES.SCREENS.PROFILE,
     icon: 'user',
     id: 'profile',
+    group: 'main',
   },
   {
     name: 'Bookmarks',
@@ -21,18 +26,21 @@ const authMenuItems: MenuItem[] = [
     icon: 'bookmarks-outline',
     iconType: 'Ionicons',
     id: 'bookmarks',
+    group: 'main',
   },
   {
     name: 'Drafts',
     route: ROUTES.SCREENS.DRAFTS,
     icon: 'docs',
     id: 'drafts',
+    group: 'main',
   },
   {
     name: 'Communities',
     route: ROUTES.SCREENS.COMMUNITIES,
     icon: 'people',
     id: 'communities',
+    group: 'main',
   },
   {
     name: 'Explore',
@@ -40,6 +48,7 @@ const authMenuItems: MenuItem[] = [
     icon: 'compass-outline',
     iconType: 'MaterialCommunityIcons',
     id: 'explore',
+    group: 'main',
   },
   {
     name: 'QR Scan',
@@ -47,12 +56,14 @@ const authMenuItems: MenuItem[] = [
     icon: 'qrcode-scan',
     iconType: 'MaterialCommunityIcons',
     id: 'qr',
+    group: 'footer',
   },
   {
     name: 'Refer $ Earn',
     route: ROUTES.SCREENS.REFER,
     icon: 'share',
     id: 'refer',
+    group: 'footer',
   },
   {
     name: 'Docs',
@@ -60,18 +71,21 @@ const authMenuItems: MenuItem[] = [
     icon: 'help-circle',
     iconType: 'Feather',
     id: 'docs',
+    group: 'footer',
   },
   {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,
     icon: 'settings',
     id: 'settings',
+    group: 'footer',
   },
   {
     name: 'Logout',
     route: '',
     icon: 'power',
     id: 'logout',
+    group: 'footer',
   },
 ];
 
@@ -81,6 +95,7 @@ const noAuthMenuItems: MenuItem[] = [
     route: ROUTES.SCREENS.LOGIN,
     icon: 'user-follow',
     id: 'add_account',
+    group: 'main',
   },
   {
     name: 'QR Scan',
@@ -88,6 +103,7 @@ const noAuthMenuItems: MenuItem[] = [
     icon: 'qrcode-scan',
     iconType: 'MaterialCommunityIcons',
     id: 'qr',
+    group: 'footer',
   },
   {
     name: 'Docs',
@@ -95,12 +111,14 @@ const noAuthMenuItems: MenuItem[] = [
     icon: 'help-circle',
     iconType: 'Feather',
     id: 'docs',
+    group: 'footer',
   },
   {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,
     icon: 'settings',
     id: 'settings',
+    group: 'footer',
   },
 ];
 

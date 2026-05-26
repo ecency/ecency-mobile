@@ -13,11 +13,16 @@ export default EStyleSheet.create({
     zIndex: 99,
   },
   dropdownWrapper: {
+    marginRight: 8,
+    flex: 1,
+  },
+  // flexGrow keeps options evenly spaced (space-around) while they fit, and lets
+  // the row scroll horizontally instead of squishing once there are more of them.
+  dropdownContent: {
+    flexGrow: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    marginRight: 8,
-    flex: 1,
   },
   filterBarWrapper: {
     flex: 1,

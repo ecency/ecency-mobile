@@ -15,10 +15,15 @@ import { useAppSelector } from '../../../hooks';
 import { selectIsDarkTheme } from '../../../redux/selectors';
 import styles from './notificationStyles';
 
+// Each `key` must match a NotificationFilters enum value (passed straight to the
+// notifications query) and have a `notification.<key>` locale string, which is
+// also the displayed label — so the key is the single source for both.
 const FILTERS = [
-  { key: 'activities', value: 'ALL' },
-  { key: 'replies', value: 'REPLIES' },
-  { key: 'mentions', value: 'MENTIONS' },
+  { key: 'activities' },
+  { key: 'replies' },
+  { key: 'mentions' },
+  { key: 'rvotes' },
+  { key: 'follows' },
 ];
 
 interface Props {

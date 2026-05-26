@@ -7,8 +7,12 @@ export default EStyleSheet.create({
   },
   content: {
     flexDirection: 'column',
-    marginLeft: 8,
-    width: '100%',
+    marginLeft: 12,
+    flex: 1,
+  },
+  avatar: {
+    alignSelf: 'flex-start',
+    marginTop: 2,
   },
   itemWrapper: {
     alignItems: 'center',

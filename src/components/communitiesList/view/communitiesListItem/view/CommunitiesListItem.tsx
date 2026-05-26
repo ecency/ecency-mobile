@@ -6,6 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './communitiesListItemStyles';
 
 import { Tag } from '../../../../basicUIElements';
+import { UserAvatar } from '../../../../userAvatar';
 
 const CommunitiesListItem = ({
   index,
@@ -35,6 +36,7 @@ const CommunitiesListItem = ({
       onPress={() => handleOnPress && handleOnPress(name)}
     >
       <View style={[styles.itemWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
+        <UserAvatar username={name} noAction style={styles.avatar} />
         <View style={styles.content}>
           <View style={styles.header}>
             <Text style={styles.title}>{title}</Text>
