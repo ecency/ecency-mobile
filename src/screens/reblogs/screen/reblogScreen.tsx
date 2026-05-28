@@ -130,8 +130,35 @@ const ReblogScreen = ({ route }) => {
         ),
       );
 
-      // Refresh reblogs list cache backing this screen so the count/list update
-      queryClient.invalidateQueries({ queryKey: [QUERIES.POST.GET_REBLOGS, author, permlink] });
+      // Optimistically update the on-screen list/count/button. The SDK broadcasts in
+      // async mode and only invalidates its own rebloggedBy key after a 4s indexer delay,
+      // which never touches this screen's overridden GET_REBLOGS cache key — so without
+      // this the count/button stay stale right after a successful reblog/unreblog.
+      const username = currentAccount?.name;
+      if (username) {
+        queryClient.setQueryData<string[]>([QUERIES.POST.GET_REBLOGS, author, permlink], (data) => {
+          const list = Array.isArray(data) ? [...data] : [];
+          const idx = list.indexOf(username);
+          if (deleteEnabled) {
+            if (idx >= 0) {
+              list.splice(idx, 1);
+            }
+          } else if (idx < 0) {
+            list.unshift(username);
+          }
+          return list;
+        });
+      }
+
+      // SDK only invalidates the account-posts "blog" filter, so refresh the "reblog"
+      // filter too, otherwise the profile Reblogs tab stays stale.
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0] === 'posts' &&
+          query.queryKey[1] === 'account-posts' &&
+          query.queryKey[2] === currentAccount?.name &&
+          query.queryKey[3] === 'reblog',
+      });
     } catch (error: any) {
       if (String(error?.jse_shortmsg ?? '').indexOf('has already reblogged') > -1) {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.already_rebloged' })));
