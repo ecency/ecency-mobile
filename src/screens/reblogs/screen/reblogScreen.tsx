@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { FlatList, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { useQueryClient } from '@tanstack/react-query';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import Animated, { BounceInRight } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -23,6 +25,9 @@ import globalStyles from '../../../globalStyles';
 import styles from '../styles/reblogScreen.styles';
 import { getTimeFromNow } from '../../../utils/time';
 import { repostQueries } from '../../../providers/queries';
+import { useReblogMutation } from '../../../providers/sdk/mutations';
+import { setRcOffer, toastNotification } from '../../../redux/actions/uiAction';
+import QUERIES from '../../../providers/queries/queryKeys';
 
 const renderUserListItem = (item, index, handleOnUserPress) => {
   // Safely handle timestamp - getTimeFromNow can return null
@@ -40,6 +45,8 @@ const renderUserListItem = (item, index, handleOnUserPress) => {
 
 const ReblogScreen = ({ route }) => {
   const intl = useIntl();
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const author = route.params?.author;
   const permlink = route.params?.permlink;
@@ -51,7 +58,7 @@ const ReblogScreen = ({ route }) => {
   const [isReblogging, setIsReblogging] = useState(false);
 
   const reblogsQuery = repostQueries.useGetReblogsQuery(author, permlink);
-  const reblogMutation = repostQueries.useReblogMutation(author, permlink);
+  const reblogMutation = useReblogMutation();
 
   // map reblogs data for account list
   const { reblogs, deleteEnabled } = useMemo(() => {
@@ -111,13 +118,30 @@ const ReblogScreen = ({ route }) => {
       return;
     }
 
-    if (isLoggedIn) {
-      setIsReblogging(true);
-      try {
-        await reblogMutation.mutateAsync({ undo: deleteEnabled });
-      } finally {
-        setIsReblogging(false);
+    setIsReblogging(true);
+    try {
+      await reblogMutation.mutateAsync({ author, permlink, deleteReblog: deleteEnabled });
+
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: deleteEnabled ? 'alert.success_reblog_deleted' : 'alert.success_rebloged',
+          }),
+        ),
+      );
+
+      // Refresh reblogs list cache backing this screen so the count/list update
+      queryClient.invalidateQueries({ queryKey: [QUERIES.POST.GET_REBLOGS, author, permlink] });
+    } catch (error: any) {
+      if (String(error?.jse_shortmsg ?? '').indexOf('has already reblogged') > -1) {
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.already_rebloged' })));
+      } else if (error?.jse_shortmsg?.split(': ')[1]?.includes('wait to transact')) {
+        dispatch(setRcOffer(true));
+      } else {
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       }
+    } finally {
+      setIsReblogging(false);
     }
   };
 
