@@ -79,7 +79,7 @@ const MB = 1024 * 1024;
  * so peak in-flight memory stays around chunkSize × parallelUploads, which
  * matters on RN where the whole file is already held in memory as a Blob.
  */
-function getUploadTuning(size: number): { chunkSize: number; parallelUploads: number } {
+export function getUploadTuning(size: number): { chunkSize: number; parallelUploads: number } {
   if (size <= 10 * MB) return { chunkSize: 5 * MB, parallelUploads: 1 };
   if (size <= 500 * MB) return { chunkSize: 10 * MB, parallelUploads: 3 };
   return { chunkSize: 20 * MB, parallelUploads: 3 };
@@ -101,12 +101,7 @@ export async function uploadVideoEmbed(
   isShort: boolean,
   progressCallback: (percentage: number) => void,
 ): Promise<VideoUploadResult> {
-  // Step 1: Get token
-  const { token, upload_url } = await requestUploadToken(owner, accessToken, isShort);
-
-  const endpoint = upload_url || `${EMBED_ENDPOINT}/uploads`;
-
-  // Step 2: Build file reference for React Native
+  // Build file reference for React Native.
   // Always use media.path — it's a local temp file copy from the picker.
   // On iOS, sourceURL can be ph:// or assets-library:// which XHR cannot fetch;
   // media.path is always a file:// compatible path on both platforms.
@@ -142,8 +137,48 @@ export async function uploadVideoEmbed(
   file.name = filename;
   file.size = media.size;
 
-  // Step 3: TUS upload — adaptive chunking + parallelism (TUS Concatenation)
+  // Adaptive chunking + parallelism (TUS Concatenation extension).
   const { chunkSize, parallelUploads } = getUploadTuning(media.size);
+
+  try {
+    return await uploadOnce(
+      file,
+      owner,
+      accessToken,
+      isShort,
+      chunkSize,
+      parallelUploads,
+      progressCallback,
+    );
+  } catch (err) {
+    if (parallelUploads > 1) {
+      // Parallel uploads require the 3Speak tusd backend to support the
+      // Concatenation extension AND return X-Embed-URL on the final concat
+      // response. If that doesn't hold, retry once on the proven sequential
+      // path (with a fresh token) rather than failing the upload.
+      console.warn('[3Speak] Parallel upload failed; retrying sequentially.', err);
+      progressCallback(0);
+      return uploadOnce(file, owner, accessToken, isShort, chunkSize, 1, progressCallback);
+    }
+    throw err;
+  }
+}
+
+/**
+ * Perform a single TUS upload attempt with an explicit chunk size / parallelism.
+ * Obtains a fresh short-lived upload token, then uploads directly to 3Speak.
+ */
+async function uploadOnce(
+  file: any,
+  owner: string,
+  accessToken: string,
+  isShort: boolean,
+  chunkSize: number,
+  parallelUploads: number,
+  progressCallback: (percentage: number) => void,
+): Promise<VideoUploadResult> {
+  const { token, upload_url } = await requestUploadToken(owner, accessToken, isShort);
+  const endpoint = upload_url || `${EMBED_ENDPOINT}/uploads`;
 
   return new Promise<VideoUploadResult>((resolve, reject) => {
     // With parallelUploads the partial creation responses each carry their own
@@ -162,7 +197,7 @@ export async function uploadVideoEmbed(
         Authorization: `Bearer ${token}`,
       },
       metadata: {
-        filename,
+        filename: file.name,
       },
       onError(error: Error) {
         reject(error);
