@@ -1,3 +1,5 @@
+import { extractPermlink, getUploadTuning, uploadVideoEmbed } from './speak';
+
 // Controllable tus-js-client mock. Must be named `mock*` so jest's hoist allows
 // referencing it from the (hoisted) jest.mock factory below.
 const mockTus = {
@@ -22,8 +24,6 @@ jest.mock('react-native-config', () => ({
   __esModule: true,
   default: { ECENCY_BACKEND_API: 'https://ecency.test' },
 }));
-
-import { extractPermlink, getUploadTuning, uploadVideoEmbed } from './speak';
 
 const MB = 1024 * 1024;
 
@@ -64,7 +64,7 @@ describe('getUploadTuning', () => {
 
 describe('uploadVideoEmbed', () => {
   const media = (size: number) =>
-    ({ path: 'file:///tmp/video.mp4', size, filename: 'video.mp4' }) as any;
+    ({ path: 'file:///tmp/video.mp4', size, filename: 'video.mp4' } as any);
 
   beforeEach(() => {
     mockTus.runUpload = () => {};
