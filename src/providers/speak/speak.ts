@@ -172,17 +172,22 @@ export async function uploadVideoEmbed(
         progressCallback(percentage);
       },
       onSuccess() {
-        const resolvedUrl = finalEmbedUrl || embedUrl;
-        // In parallel mode we expect the canonical URL on the final concat
-        // response. If it never arrived we fall back to a partial-response URL,
-        // whose permlink may be wrong — surface it so the failure is observable.
-        if (parallelUploads > 1 && !finalEmbedUrl && resolvedUrl) {
-          console.warn(
-            '[3Speak] Parallel upload completed without an X-Embed-URL on the final concatenation ' +
-              'response; falling back to a partial-response URL. The resulting permlink may be ' +
-              'incorrect — verify the concat response carries X-Embed-URL.',
+        // The canonical embed URL is the one returned by the final
+        // concatenation request (Upload-Concat: final). In parallel mode we
+        // REQUIRE it: partial creation responses carry their own non-canonical
+        // URLs, so falling back to one would link the post to a transient
+        // partial resource. The sequential path has no concat step, so the
+        // last-seen URL (the final PATCH) is canonical and used as the fallback.
+        if (parallelUploads > 1 && !finalEmbedUrl) {
+          reject(
+            new Error(
+              '[3Speak] Parallel upload finished without an X-Embed-URL on the final concatenation ' +
+                'response; refusing to fall back to a partial-upload URL.',
+            ),
           );
+          return;
         }
+        const resolvedUrl = finalEmbedUrl || embedUrl;
         if (resolvedUrl) {
           const permlink = extractPermlink(resolvedUrl);
           if (!permlink) {
