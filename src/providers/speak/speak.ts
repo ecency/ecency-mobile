@@ -200,6 +200,9 @@ async function uploadOnce(
         filename: file.name,
       },
       onError(error: Error) {
+        // Stop any still-in-flight parallel parts so they don't keep uploading
+        // while the caller retries sequentially.
+        upload.abort().catch(() => {});
         reject(error);
       },
       onProgress(bytesUploaded: number, bytesTotal: number) {

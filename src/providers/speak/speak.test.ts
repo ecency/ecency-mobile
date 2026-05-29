@@ -17,6 +17,10 @@ jest.mock('tus-js-client', () => ({
     start() {
       mockTus.runUpload(this.options);
     }
+
+    abort() {
+      return Promise.resolve();
+    }
   },
 }));
 
