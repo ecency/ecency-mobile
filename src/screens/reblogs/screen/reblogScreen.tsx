@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { FlatList, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { useQueryClient } from '@tanstack/react-query';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import Animated, { BounceInRight } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -23,6 +25,9 @@ import globalStyles from '../../../globalStyles';
 import styles from '../styles/reblogScreen.styles';
 import { getTimeFromNow } from '../../../utils/time';
 import { repostQueries } from '../../../providers/queries';
+import { useReblogMutation } from '../../../providers/sdk/mutations';
+import { setRcOffer, toastNotification } from '../../../redux/actions/uiAction';
+import QUERIES from '../../../providers/queries/queryKeys';
 
 const renderUserListItem = (item, index, handleOnUserPress) => {
   // Safely handle timestamp - getTimeFromNow can return null
@@ -40,6 +45,8 @@ const renderUserListItem = (item, index, handleOnUserPress) => {
 
 const ReblogScreen = ({ route }) => {
   const intl = useIntl();
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const author = route.params?.author;
   const permlink = route.params?.permlink;
@@ -51,7 +58,7 @@ const ReblogScreen = ({ route }) => {
   const [isReblogging, setIsReblogging] = useState(false);
 
   const reblogsQuery = repostQueries.useGetReblogsQuery(author, permlink);
-  const reblogMutation = repostQueries.useReblogMutation(author, permlink);
+  const reblogMutation = useReblogMutation();
 
   // map reblogs data for account list
   const { reblogs, deleteEnabled } = useMemo(() => {
@@ -111,13 +118,57 @@ const ReblogScreen = ({ route }) => {
       return;
     }
 
-    if (isLoggedIn) {
-      setIsReblogging(true);
-      try {
-        await reblogMutation.mutateAsync({ undo: deleteEnabled });
-      } finally {
-        setIsReblogging(false);
+    setIsReblogging(true);
+    try {
+      await reblogMutation.mutateAsync({ author, permlink, deleteReblog: deleteEnabled });
+
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: deleteEnabled ? 'alert.success_reblog_deleted' : 'alert.success_rebloged',
+          }),
+        ),
+      );
+
+      // Optimistically update the on-screen list/count/button. The SDK broadcasts in
+      // async mode and only invalidates its own rebloggedBy key after a 4s indexer delay,
+      // which never touches this screen's overridden GET_REBLOGS cache key — so without
+      // this the count/button stay stale right after a successful reblog/unreblog.
+      const username = currentAccount?.name;
+      if (username) {
+        queryClient.setQueryData<string[]>([QUERIES.POST.GET_REBLOGS, author, permlink], (data) => {
+          const list = Array.isArray(data) ? [...data] : [];
+          const idx = list.indexOf(username);
+          if (deleteEnabled) {
+            if (idx >= 0) {
+              list.splice(idx, 1);
+            }
+          } else if (idx < 0) {
+            list.unshift(username);
+          }
+          return list;
+        });
       }
+
+      // SDK only invalidates the account-posts "blog" filter, so refresh the "reblog"
+      // filter too, otherwise the profile Reblogs tab stays stale.
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0] === 'posts' &&
+          query.queryKey[1] === 'account-posts' &&
+          query.queryKey[2] === currentAccount?.name &&
+          query.queryKey[3] === 'reblog',
+      });
+    } catch (error: any) {
+      if (String(error?.jse_shortmsg ?? '').indexOf('has already reblogged') > -1) {
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.already_rebloged' })));
+      } else if (error?.jse_shortmsg?.split(': ')[1]?.includes('wait to transact')) {
+        dispatch(setRcOffer(true));
+      } else {
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      }
+    } finally {
+      setIsReblogging(false);
     }
   };
 
