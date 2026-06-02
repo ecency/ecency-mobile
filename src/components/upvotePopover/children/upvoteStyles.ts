@@ -52,11 +52,107 @@ export default EStyleSheet.create({
   percent: {
     fontWeight: 'bold',
     color: '$primaryDarkGray',
-    marginRight: 5,
   },
   slider: {
     flex: 1,
     marginHorizontal: 10,
+  },
+  // Custom drag-anywhere vote slider (replaces native Slider)
+  voteSliderRow: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 8,
+  },
+  voteSliderTrack: {
+    flex: 1,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: '$primaryLightBackground',
+    justifyContent: 'center',
+  },
+  voteSliderFill: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    borderRadius: 14,
+  },
+  voteSliderThumb: {
+    position: 'absolute',
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    borderWidth: 3,
+    backgroundColor: '$pureWhite',
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 2,
+    shadowOpacity: 0.3,
+    elevation: 3,
+  },
+  // Tappable NN% label (opens the keyboard-free keypad)
+  percentButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 5,
+  },
+  percentEditIcon: {
+    color: '$primaryDarkGray',
+    marginLeft: 3,
+  },
+  // Keyboard-free numeric keypad (percentKeypad.tsx) shown while editing
+  popoverKeypad: {
+    borderRadius: 24,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  keypadWrapper: {
+    flex: 1,
+    paddingVertical: 2,
+  },
+  keypadHeader: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
+    paddingHorizontal: 8,
+    paddingBottom: 6,
+  },
+  keypadValue: {
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  keypadAmount: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '$primaryDarkGray',
+  },
+  keypadRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  keypadKey: {
+    flex: 1,
+    height: 40,
+    marginHorizontal: 4,
+    marginVertical: 3,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '$primaryLightBackground',
+  },
+  keypadKeyText: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '$primaryBlack',
+  },
+  keypadIcon: {
+    color: '$primaryBlack',
+  },
+  keypadDoneKey: {},
+  keypadDoneIcon: {
+    color: '$pureWhite',
   },
   popoverWrapper: {
     flex: 1,
