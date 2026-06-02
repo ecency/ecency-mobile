@@ -23,6 +23,9 @@ jobs:
           upload_sources: true
           upload_translations: false
           download_translations: false
+          # Upload into the same Crowdin branch the translations live under, so
+          # sources don't fork off into a separate branchless copy.
+          crowdin_branch_name: development
         env:
           CROWDIN_PROJECT_ID: "340925"
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}

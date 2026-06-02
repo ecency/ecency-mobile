@@ -49,6 +49,9 @@ jobs:
           upload_sources: false
           upload_translations: false
           download_translations: true
+          # Strings live under a Crowdin branch (created by the old GitHub
+          # integration); without this the CLI can't match files to crowdin.yml.
+          crowdin_branch_name: development
           # Use the development checkout above as the base for l10n/crowdin.
           # Without this the action checks out the trigger PR's head ref, which
           # fails (or bases the translations PR on unrelated feature changes).
