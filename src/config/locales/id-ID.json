@@ -1,6 +1,6 @@
 {
   "perks": {
-    "header": "Perks",
+    "header": "Keuntungan",
     "quests_title": "Quest",
     "quests_subtitle": "Selesaikan tujuan harian dan pertahankan streak Anda",
     "quests_empty": "Belum ada quest di sini — periksa lagi nanti.",
@@ -164,7 +164,7 @@
     "cancel": "Batal"
   },
   "post_dropdown": {
-    "cross-post": "Cross Post",
+    "cross-post": "Posting Silang",
     "pin-blog": "Sematkan ke blog",
     "copy": "salin tautan",
     "unpin-community": "Lepaskan sematan dari komunitas",
@@ -521,7 +521,7 @@
     "no_channels": "Belum ada channel. Cari untuk bergabung atau mulai percakapan baru.",
     "reply": "Balas",
     "translate": "Terjemahkan",
-    "channel": "Channel",
+    "channel": "Saluran",
     "edited": "Diedit",
     "channel_members": "Anggota Channel",
     "members_count_with_online": "{total} anggota • {online} online",
@@ -625,12 +625,12 @@
   "cross_post": {
     "message_placeholder": "Bagikan pemikiran Anda di sini...",
     "description": "Imbalan otomatis ditolak untuk cross post dan diskusi di bawah cross post akan berbeda serta mengikuti pedoman komunitas yang berbeda.",
-    "title": "Cross Post"
+    "title": "Posting Silang"
   },
   "ai_assist": {
     "title": "Asisten Penulisan AI",
     "balance_label": "Saldo",
-    "points_unit": "POINTS",
+    "points_unit": "POIN",
     "cost_label": "Biaya",
     "free_label": "Gratis",
     "free_remaining": "{count} gratis tersisa",
@@ -799,7 +799,7 @@
     "follow": "Ikuti"
   },
   "comment_filter": {
-    "votes": "VOTE",
+    "votes": "SUARA",
     "trending": "TERATAS",
     "age": "USIA",
     "reputation": "REPUTASI",
@@ -1174,7 +1174,7 @@
     "witnesses_proposeRound": "Witnesses Mengusulkan Ronde",
     "next": "LANJUT",
     "points_activity": "Aktivitas",
-    "swap_token": "Swap Token",
+    "swap_token": "Tukar Token",
     "checkin_extra": "Bonus",
     "market_sellRemaining": "Sisa Token Ditransfer (Jual)",
     "tokens_transferFee": "Biaya Transfer Token",
@@ -1198,7 +1198,7 @@
     "nft_updateProductName": "Nama Produk NFT Diperbarui",
     "updating": "Memperbarui...",
     "send": "Kirim",
-    "swap": "Swap",
+    "swap": "Tukar",
     "get_points": "Dapatkan Points",
     "receive_desc": "Pindai kode QR ini untuk mengirim dana ke akun ini",
     "market_cancel": "Order Dibatalkan",
@@ -1303,7 +1303,7 @@
     "select_power": "Peningkatan kualitas",
     "cost_label": "Biaya",
     "balance_label": "Saldo",
-    "points_unit": "POINTS",
+    "points_unit": "POIN",
     "generate_button": "Buat Gambar",
     "generating": "Membuat gambar Anda...",
     "result_title": "Gambar yang Dihasilkan",
@@ -1413,7 +1413,7 @@
     "deep_login_alert_body": "Verifikasi login langsung menggunakan kode akses",
     "not_loggedin_alert": "Belum Login",
     "login_failed_body": "coba kunci lain atau coba lagi nanti.",
-    "username": "username",
+    "username": "nama pengguna",
     "steemconnect_description": "Jika Anda tidak ingin menyimpan kata sandi Anda dienkripsi dan disimpan di perangkat Anda, Anda dapat menggunakan Hivesigner.",
     "no_account_text": "Belum punya akun?",
     "description": "Dengan login, Anda menyetujui Ketentuan Layanan dan Kebijakan Privasi kami.",
@@ -1422,7 +1422,7 @@
     "deep_login_malformed_url": "URL login tidak valid, silakan gunakan private key atau kata sandi untuk login",
     "password": "kata sandi / private key",
     "signin_with_hiveauth": "HiveAuth / Keychain",
-    "signin": "Login",
+    "signin": "Masuk",
     "login_failed": "Login Gagal",
     "deep_login_alert_title": "Login Mudah @{username}",
     "deep_login_url_expired": "URL login kedaluwarsa, silakan gunakan private key atau kata sandi untuk login",

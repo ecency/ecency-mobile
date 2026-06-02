@@ -620,7 +620,7 @@
     }
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Boosta"
   },
   "cross_post": {
     "message_placeholder": "Dela dina tankar här...",
@@ -630,7 +630,7 @@
   "ai_assist": {
     "title": "AI-skrivassistent",
     "balance_label": "Saldo",
-    "points_unit": "POINTS",
+    "points_unit": "POÄNG",
     "cost_label": "Kostnad",
     "free_label": "Gratis",
     "free_remaining": "{count} gratis kvar",
@@ -1017,7 +1017,7 @@
     "promote": "Marknadsför",
     "undelegate_engine": "Återkalla delegering",
     "total_larynx_power": "Total Power",
-    "total_hive_power": "Total stake",
+    "total_hive_power": "Total insats",
     "checkin_extra_desc": "Konsekvent användning av appen ger dig extra chanser att tjäna fler points, var mer aktiv och tjäna mer.",
     "transfer_to_vesting": "Staka",
     "tokens_unstakeStart": "Avstakning påbörjad",
@@ -1303,7 +1303,7 @@
     "select_power": "Kvalitetshöjning",
     "cost_label": "Kostnad",
     "balance_label": "Saldo",
-    "points_unit": "POINTS",
+    "points_unit": "POÄNG",
     "generate_button": "Generera bild",
     "generating": "Genererar din bild...",
     "result_title": "Genererad bild",

@@ -859,7 +859,7 @@
     "cross_post": "keresztposzt {username} által itt: {community}",
     "image_saved_error": "Hiba a kép mentése közben",
     "removed_hint": "A tartalom nem elérhető",
-    "link": "Link",
+    "link": "Hivatkozás",
     "link_copy": "Másolás",
     "link_open_explore": "Megnyitás az Explore-ban",
     "link_open_system": "Megnyitás a rendszerböngészőben",

@@ -181,7 +181,7 @@
     "bookmarks": "הוסף\\י לסימניות",
     "translate": "תרגום",
     "voice": "קול",
-    "boost": "boost",
+    "boost": "קידום",
     "pin-community": "הצמד לקהילה",
     "pin-reply": "הצמד תגובה",
     "unpin-reply": "בטל הצמדת תגובה"
@@ -620,7 +620,7 @@
     }
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "קידום"
   },
   "cross_post": {
     "message_placeholder": "שתפו את המחשבות שלכם כאן...",
@@ -630,7 +630,7 @@
   "ai_assist": {
     "title": "עוזר הכתיבה החכם",
     "balance_label": "יתרה",
-    "points_unit": "POINTS",
+    "points_unit": "Points",
     "cost_label": "עלות",
     "free_label": "חינם",
     "free_remaining": "{count} חינמיים שנותרו",
@@ -1110,10 +1110,10 @@
     "nft_undelegate": "ביטול ההאצלה החל עבור NFT",
     "escrow_dispute": "מחלוקת נאמנות",
     "market_expire": "תוקף ההזמנה פג",
-    "boost": "Boost",
+    "boost": "קידום",
     "dropdown_transfer": "העברה",
     "dropdown_promote": "קידום",
-    "dropdown_boost": "Boost",
+    "dropdown_boost": "קידום",
     "dropdown_ai_image": "תמונת AI",
     "tokens_undelegateStart": "ביטול ההאצלה החל",
     "delegated_larynx_power": "כוח שהוענק",
@@ -1268,7 +1268,7 @@
     },
     "claim_reward_balance": "תבע תגמול ",
     "hivepegged_buy": "HIVE הופקד",
-    "boost_account": "Boost",
+    "boost_account": "קידום",
     "spkcc_send": "העברה",
     "savings_withdrawal": "משיכות בהמתנה",
     "savings": "חיסכון",
@@ -1303,7 +1303,7 @@
     "select_power": "שיפור איכות",
     "cost_label": "עלות",
     "balance_label": "יתרה",
-    "points_unit": "POINTS",
+    "points_unit": "Points",
     "generate_button": "צור תמונה",
     "generating": "יוצר את התמונה שלך...",
     "result_title": "התמונה שנוצרה",
@@ -1384,7 +1384,7 @@
     "powering_down_info": "ביטול ההקצאה הבא בעוד {days} ימים, {hp} HIVE",
     "convert": "המר HBD ל-HIVE",
     "auto_vests": "Vests אוטומטי",
-    "vests": "Vests",
+    "vests": "VESTS",
     "stop_information": "האם אתה בטוח שברצונך לעצור?",
     "amount": "סכום",
     "memo_desc": "הערה זו פומבית",

@@ -59,7 +59,7 @@
       "location": "Lokasi",
       "edit_profile": "Edit Profil"
     },
-    "edit_label": "Edit",
+    "edit_label": "Sunting",
     "unclaimed_rewards": "Ganjaran yang belum dituntut",
     "days": "hari",
     "login_to_see": "Log masuk untuk melihat",
@@ -1494,10 +1494,10 @@
     "backup_keys_modal": {
       "reveal_public": "Dedahkan Awam",
       "reveal_private": "Dedahkan Peribadi",
-      "owner_key": "Owner Key",
+      "owner_key": "Kunci Pemilik",
       "sign_input_placeholder": "Kata laluan induk atau Kunci Peribadi",
       "import_key_modal_desc": "Kunci Peribadi individu atau Kata laluan induk untuk mengimport semua kunci",
-      "active_key": "Active Key",
+      "active_key": "Kunci Aktif",
       "private": "Peribadi",
       "sign": "Tandatangan",
       "import_failed": "Import Kunci Gagal",
@@ -1505,9 +1505,9 @@
       "enter_pass": "Masukkan Kata Laluan atau Kunci Peribadi",
       "import_key": "Import Peribadi",
       "key_copied": "Kunci disalin ke papan keratan",
-      "memo_key": "Memo Key",
+      "memo_key": "Kunci Memo",
       "no_keys": "Kaedah log masuk anda ialah HiveSigner. Aplikasi tidak menyimpan sebarang kunci pada peranti. Sila log masuk dengan kata laluan induk untuk menjana kunci",
-      "posting_key": "Posting Key"
+      "posting_key": "Kunci Pos"
     },
     "biometric": "Cap Jari / Buka Kunci Wajah"
   },

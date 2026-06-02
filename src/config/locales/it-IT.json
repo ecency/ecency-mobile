@@ -16,7 +16,7 @@
     "spend_title": "Usa i tuoi punti",
     "spin": "Spin giornaliero",
     "spin_desc": "Gira la ruota per ottenere punti",
-    "boost_plus": "Boost Plus",
+    "boost_plus": "Boost+",
     "boost_plus_desc": "Promuovi il tuo account",
     "promote": "Promuovi un post",
     "promote_desc": "Ottieni più visibilità per il tuo post",
@@ -254,7 +254,7 @@
     "message_failed": "Impossibile salvare lo snippet",
     "btn_confirm": "Conferma",
     "placeholder_title": "Titolo dello snippet",
-    "btn_add": "Snippet",
+    "btn_add": "Frammento",
     "label_no_snippets": "Nessuno snippet trovato",
     "title_edit_snippet": "Modifica snippet",
     "message_incomplete": "Aggiungi titolo e corpo per lo snippet"
@@ -1451,7 +1451,7 @@
       "delegations": "Deleghe",
       "transfers": "Trasferimenti",
       "vote": "Voto",
-      "follow": "Follow",
+      "follow": "Segui",
       "fcm_unavailable": "Le notifiche push non sono supportate su questo dispositivo. Riceverai le notifiche solo quando l'app è aperta."
     },
     "keys_warning": "Informazioni sensibili dell'account!\nEcency deve essere protetto con un codice PIN prima di visualizzare le chiavi private.",

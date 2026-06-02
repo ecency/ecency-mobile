@@ -630,7 +630,7 @@
   "ai_assist": {
     "title": "AI 글쓰기 도우미",
     "balance_label": "잔액",
-    "points_unit": "POINTS",
+    "points_unit": "포인트",
     "cost_label": "비용",
     "free_label": "무료",
     "free_remaining": "무료 {count}회 남음",
@@ -1003,7 +1003,7 @@
     "estimated_value_desc": "구매 가치에 따라",
     "hive_power": {
       "name": "스테이킹된 Hive",
-      "title": "HIVE POWER"
+      "title": "Hive Power"
     },
     "conversions_requested": "요청된 전환",
     "address_unavailable": "이 자산에 대한 주소 정보를 사용할 수 없습니다.",
@@ -1303,7 +1303,7 @@
     "select_power": "품질 향상",
     "cost_label": "비용",
     "balance_label": "잔액",
-    "points_unit": "POINTS",
+    "points_unit": "포인트",
     "generate_button": "이미지 생성",
     "generating": "이미지를 생성하는 중...",
     "result_title": "생성된 이미지",
@@ -1384,7 +1384,7 @@
     "powering_down_info": "다음 언스테이킹은 {days}일 후, {hp} HIVE",
     "convert": "하이브달러를 하이브로 전환하기",
     "auto_vests": "오토 베스트",
-    "vests": "Vests",
+    "vests": "VESTS",
     "stop_information": "중단하시겠습니까?",
     "amount": "수량",
     "memo_desc": "이 메모는 누구나 볼 수 있습니다",
@@ -1494,10 +1494,10 @@
     "backup_keys_modal": {
       "reveal_public": "공개 키 표시",
       "reveal_private": "비공개 키 표시",
-      "owner_key": "Owner Key",
+      "owner_key": "소유자 키",
       "sign_input_placeholder": "마스터 비밀번호 또는 개인 키",
       "import_key_modal_desc": "모든 키를 가져오기 위한 개별 개인 키 또는 마스터 비밀번호",
-      "active_key": "Active Key",
+      "active_key": "활성 키",
       "private": "비공개",
       "sign": "서명",
       "import_failed": "키 가져오기 실패",
@@ -1505,9 +1505,9 @@
       "enter_pass": "비밀번호 또는 개인 키를 입력하세요",
       "import_key": "비공개 키 가져오기",
       "key_copied": "키가 클립보드에 복사되었습니다",
-      "memo_key": "Memo Key",
+      "memo_key": "메모 키",
       "no_keys": "로그인 방법이 hivesigner입니다. 애플리케이션에 기기에 저장된 키가 없습니다. 키를 생성하려면 마스터 비밀번호로 로그인해 주세요",
-      "posting_key": "Posting Key"
+      "posting_key": "게시 키"
     },
     "biometric": "지문 / 얼굴 인식 잠금 해제"
   },

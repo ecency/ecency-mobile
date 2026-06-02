@@ -205,7 +205,7 @@
     "gallery": "चित्रशाला",
     "cancel": "रद्द करें",
     "logout_text": "क्या आप सच में बाहर जाना चाहते हैं?",
-    "docs": "Docs",
+    "docs": "दस्तावेज़",
     "explore": "एक्सप्लोर करें"
   },
   "dapp_browser": {
@@ -1110,10 +1110,10 @@
     "nft_undelegate": "NFT के लिए अनडेलिगेशन शुरू हुआ",
     "escrow_dispute": "एस्क्रो विवाद",
     "market_expire": "आदेश समाप्त हो गया",
-    "boost": "Boost",
+    "boost": "बूस्ट",
     "dropdown_transfer": "ट्रांसफर करें",
     "dropdown_promote": "प्रमोट करें",
-    "dropdown_boost": "Boost",
+    "dropdown_boost": "बूस्ट",
     "dropdown_ai_image": "AI इमेज",
     "tokens_undelegateStart": "अनडेलिगेशन शुरू हुआ",
     "delegated_larynx_power": "प्रदत्त शक्ति",
