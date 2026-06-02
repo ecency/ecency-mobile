@@ -5,6 +5,7 @@ import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
 import expo.modules.ReactActivityDelegateWrapper;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -22,6 +23,14 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "Ecency";
+  }
+
+  // Clamp extreme system Font size / Display size before any view is created, so an
+  // accessibility setting cannot render the whole app abnormally "zoomed in". The
+  // Activity context governs view rendering. See DisplayScalingClamp for details.
+  @Override
+  protected void attachBaseContext(Context newBase) {
+    super.attachBaseContext(DisplayScalingClamp.wrap(newBase));
   }
 
   @Override

@@ -13,6 +13,7 @@ import com.facebook.react.soloader.OpenSourceMergedSoMapping
 import com.facebook.soloader.SoLoader
 
 //expo related packages
+import android.content.Context
 import android.content.res.Configuration
 import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
@@ -64,5 +65,13 @@ class MainApplication : Application(), ReactApplication {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig)
+    }
+
+    // Clamp the same extreme scaling on the application context: RN initializes its
+    // display metrics (what Dimensions.get('window') reports) from the app context, so
+    // clamping here keeps layout consistent with the rendering clamp in MainActivity.
+    // See DisplayScalingClamp for details.
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(DisplayScalingClamp.wrap(base))
     }
 }
