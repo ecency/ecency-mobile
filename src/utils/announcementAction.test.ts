@@ -1,4 +1,4 @@
-import { resolveAnnouncementAction } from './announcementAction';
+import { isProposalAnnouncement, resolveAnnouncementAction } from './announcementAction';
 
 const toUrl = (link: string) => `https://ecency.com${link}`;
 
@@ -34,5 +34,24 @@ describe('resolveAnnouncementAction', () => {
 
   it('returns none for an empty announcement', () => {
     expect(resolveAnnouncementAction({}, toUrl)).toEqual({ type: 'none' });
+  });
+});
+
+describe('isProposalAnnouncement', () => {
+  it('is true when proposal_ids has at least one id', () => {
+    expect(isProposalAnnouncement({ proposal_ids: [379] })).toBe(true);
+  });
+
+  it('is false for an empty proposal_ids array', () => {
+    expect(isProposalAnnouncement({ proposal_ids: [] })).toBe(false);
+  });
+
+  it('is false when proposal_ids is absent (plain link announcement)', () => {
+    expect(isProposalAnnouncement({ button_link: '/created/x' })).toBe(false);
+  });
+
+  it('is false for an empty announcement or undefined', () => {
+    expect(isProposalAnnouncement({})).toBe(false);
+    expect(isProposalAnnouncement(undefined)).toBe(false);
   });
 });

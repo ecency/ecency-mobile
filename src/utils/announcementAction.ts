@@ -1,9 +1,27 @@
 export interface AnnouncementActionData {
   button_link?: string;
   ops?: string;
+  proposal_ids?: number[];
 }
 
 export type AnnouncementAction = { type: 'open-link'; url: string } | { type: 'none' };
+
+/**
+ * Whether an announcement is a Hive proposal-support prompt.
+ *
+ * Proposal voting is handled natively on mobile by the in-feed
+ * `ProposalVoteRequest` card, which casts the vote in-app (within navigation,
+ * so PIN / HiveSigner / HiveAuth signing works). The announcement banner mounts
+ * ABOVE the navigation container and can't run that flow — it could only open
+ * the proposal web page in an in-app browser, a redundant and worse path. So we
+ * detect proposal announcements here and skip the banner for them, letting the
+ * native card own the experience. Mirrors the web discriminator
+ * (`proposal_ids?.length > 0`), which there votes inline instead.
+ */
+export const isProposalAnnouncement = (data?: AnnouncementActionData): boolean => {
+  const ids = data?.proposal_ids;
+  return Array.isArray(ids) && ids.length > 0;
+};
 
 /**
  * Decide what an announcement's primary button does.
