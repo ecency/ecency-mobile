@@ -31,6 +31,13 @@ export default [
   'Português',
   'Românește',
   'Tiếng Việt',
+  'Dansk',
+  'ไทย',
+  'Ελληνικά',
+  'Svenska',
+  'Nederlands',
+  'עברית',
+  'Čeština',
 ] as const;
 
 export const VALUE = [
@@ -66,4 +73,11 @@ export const VALUE = [
   'pt-PT',
   'ro-RO',
   'vi-VN',
+  'da-DK',
+  'th-TH',
+  'el-GR',
+  'sv-SE',
+  'nl-NL',
+  'he-IL',
+  'cs-CZ',
 ] as const;

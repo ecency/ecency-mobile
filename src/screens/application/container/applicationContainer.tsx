@@ -91,6 +91,7 @@ import MigrationHelpers, {
   repairOtherAccountsData,
   repairUserAccountData,
 } from '../../../utils/migrationHelpers';
+import { autoDetectLocale } from '../../../utils/autoLocale';
 import { SheetNames } from '../../../navigation/sheets';
 import {
   selectCurrentAccount,
@@ -338,9 +339,14 @@ class ApplicationContainer extends Component {
   };
 
   _fetchApp = async () => {
-    const { dispatch, settingsMigratedV2 } = this.props;
+    const { dispatch, settingsMigratedV2, selectedLanguage } = this.props;
 
     await MigrationHelpers.migrateSettings(dispatch, settingsMigratedV2);
+
+    // First-launch only: set the app language from the device locale when the
+    // user hasn't picked one yet (still on en-US default). Never overrides a
+    // manual choice and only ever sets a registered locale.
+    await autoDetectLocale(dispatch, selectedLanguage);
 
     this._refreshGlobalProps();
     await this._getUserDataFromRealm();
