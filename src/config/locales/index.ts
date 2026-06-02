@@ -30,6 +30,13 @@ import viVN from './vi-VN.json';
 import zhCN from './zh-CN.json';
 import zhTW from './zh-TW.json';
 import etEE from './et-EE.json';
+import daDK from './da-DK.json';
+import thTH from './th-TH.json';
+import elGR from './el-GR.json';
+import svSE from './sv-SE.json';
+import nlNL from './nl-NL.json';
+import heIL from './he-IL.json';
+import csCZ from './cs-CZ.json';
 
 const messages: Record<string, typeof enUS> = {
   'en-US': enUS,
@@ -64,6 +71,13 @@ const messages: Record<string, typeof enUS> = {
   'zh-CN': zhCN,
   'zh-TW': zhTW,
   'et-EE': etEE,
+  'da-DK': daDK,
+  'th-TH': thTH,
+  'el-GR': elGR,
+  'sv-SE': svSE,
+  'nl-NL': nlNL,
+  'he-IL': heIL,
+  'cs-CZ': csCZ,
 };
 
 export default messages;
@@ -101,4 +115,11 @@ export const locales = [
   { id: 'vi-VN', name: 'Vietnamese' },
   { id: 'zh-CN', name: 'Chinese-Simplified' },
   { id: 'zh-TW', name: 'Chinese-Traditional' },
+  { id: 'da-DK', name: 'Danish' },
+  { id: 'th-TH', name: 'Thai' },
+  { id: 'el-GR', name: 'Greek' },
+  { id: 'sv-SE', name: 'Swedish' },
+  { id: 'nl-NL', name: 'Dutch' },
+  { id: 'he-IL', name: 'Hebrew' },
+  { id: 'cs-CZ', name: 'Czech' },
 ];
