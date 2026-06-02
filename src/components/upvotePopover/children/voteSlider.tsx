@@ -40,14 +40,21 @@ const VoteSlider = ({ value, minValue = 0, color, onValueChange }: VoteSliderPro
   // Measured track width drives the thumb's pixel position so it stays fully
   // visible at both ends; widthRef mirrors it for the (memoised) PanResponder.
   const [trackWidth, setTrackWidth] = useState(0);
-  const widthRef = useRef(1);
+  // 0 = not yet measured (onLayout hasn't fired). Mirrors trackWidth for the
+  // memoised PanResponder; see _ratioFromX for the pre-layout guard.
+  const widthRef = useRef(0);
   const minRef = useRef(minValue);
   minRef.current = minValue;
   const onChangeRef = useRef(onValueChange);
   onChangeRef.current = onValueChange;
 
   const _ratioFromX = (locationX: number) => {
-    const ratio = locationX / (widthRef.current || 1);
+    // Ignore touches before the track is measured — dividing by a sentinel
+    // width would otherwise snap the first touch straight to 100%.
+    if (!widthRef.current) {
+      return minRef.current;
+    }
+    const ratio = locationX / widthRef.current;
     return Math.min(1, Math.max(minRef.current, ratio));
   };
 

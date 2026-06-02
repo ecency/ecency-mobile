@@ -32,7 +32,8 @@ interface PercentKeypadProps {
   value: number;
   // Lower bound (0..1): 0 when a vote exists (allows removal), else 0.01.
   minValue: number;
-  // Pre-formatted "$x.xx" estimate from the container, kept in sync via onChange.
+  // Raw numeric estimate string from the container (e.g. "0.001", "1.23") — no
+  // "$" prefix; this component renders the "$" itself, so callers must not add it.
   amount: string;
   color: string;
   onChange: (value: number) => void;
