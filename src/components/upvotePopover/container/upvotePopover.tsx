@@ -584,7 +584,12 @@ const UpvotePopover = forwardRef(({}, ref) => {
             />
           ) : (
             <Fragment>
-              <TouchableOpacity onPress={_upvoteContent} style={styles.upvoteButton}>
+              <TouchableOpacity
+                onPress={_upvoteContent}
+                style={styles.upvoteButton}
+                accessibilityRole="button"
+                accessibilityLabel="Upvote"
+              >
                 <Icon
                   size={20}
                   style={[styles.upvoteIcon, { color: '#007ee5' }]}
@@ -599,11 +604,14 @@ const UpvotePopover = forwardRef(({}, ref) => {
                 minValue={_minSliderVal}
                 value={sliderValue}
                 onValueChange={_onSliderValueChange}
+                accessibilityLabel={isDownVoted ? 'Downvote weight' : 'Upvote weight'}
               />
               <TouchableOpacity
                 style={styles.percentButton}
                 onPress={() => setIsEditingPercent(true)}
                 hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
+                accessibilityRole="button"
+                accessibilityLabel={`Edit vote percentage, currently ${_percent}`}
               >
                 <Text style={styles.percent}>{_percent}</Text>
                 <Icon
@@ -613,7 +621,12 @@ const UpvotePopover = forwardRef(({}, ref) => {
                   name="edit"
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={_downvoteContent} style={styles.upvoteButton}>
+              <TouchableOpacity
+                onPress={_downvoteContent}
+                style={styles.upvoteButton}
+                accessibilityRole="button"
+                accessibilityLabel="Downvote"
+              >
                 <Icon
                   size={20}
                   style={[styles.upvoteIcon, { color: '#ec8b88' }]}

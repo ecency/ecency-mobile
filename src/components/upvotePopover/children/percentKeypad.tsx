@@ -78,6 +78,8 @@ const PercentKeypad = ({
       style={styles.keypadKey}
       onPress={() => _pressDigit(digit)}
       activeOpacity={0.6}
+      accessibilityRole="button"
+      accessibilityLabel={String(digit)}
     >
       <Text style={styles.keypadKeyText}>{digit}</Text>
     </TouchableOpacity>
@@ -94,7 +96,13 @@ const PercentKeypad = ({
       <View style={styles.keypadRow}>{[4, 5, 6].map(_renderDigit)}</View>
       <View style={styles.keypadRow}>{[7, 8, 9].map(_renderDigit)}</View>
       <View style={styles.keypadRow}>
-        <TouchableOpacity style={styles.keypadKey} onPress={_backspace} activeOpacity={0.6}>
+        <TouchableOpacity
+          style={styles.keypadKey}
+          onPress={_backspace}
+          activeOpacity={0.6}
+          accessibilityRole="button"
+          accessibilityLabel="Delete"
+        >
           <KeyIcon iconType="MaterialIcons" name="backspace" style={styles.keypadIcon} size={20} />
         </TouchableOpacity>
         {_renderDigit(0)}
@@ -102,6 +110,8 @@ const PercentKeypad = ({
           style={[styles.keypadKey, styles.keypadDoneKey, { backgroundColor: color }]}
           onPress={_done}
           activeOpacity={0.8}
+          accessibilityRole="button"
+          accessibilityLabel="Apply percentage"
         >
           <KeyIcon iconType="AntDesign" name="check" style={styles.keypadDoneIcon} size={20} />
         </TouchableOpacity>

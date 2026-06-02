@@ -32,11 +32,21 @@ interface VoteSliderProps {
   minValue?: number;
   color: string;
   onValueChange: (value: number) => void;
+  // Spoken label for the adjustable control (e.g. "Upvote weight").
+  accessibilityLabel?: string;
 }
 
 const THUMB_SIZE = 18;
+// Step applied per VoiceOver/TalkBack increment/decrement swipe.
+const ACCESSIBILITY_STEP = 0.05;
 
-const VoteSlider = ({ value, minValue = 0, color, onValueChange }: VoteSliderProps) => {
+const VoteSlider = ({
+  value,
+  minValue = 0,
+  color,
+  onValueChange,
+  accessibilityLabel = 'Vote weight',
+}: VoteSliderProps) => {
   // Measured track width drives the thumb's pixel position so it stays fully
   // visible at both ends; widthRef mirrors it for the (memoised) PanResponder.
   const [trackWidth, setTrackWidth] = useState(0);
@@ -73,6 +83,15 @@ const VoteSlider = ({ value, minValue = 0, color, onValueChange }: VoteSliderPro
     }),
   ).current;
 
+  // VoiceOver/TalkBack adjust the value via increment/decrement swipes rather
+  // than the (gesture-only) PanResponder, so map those to a stepped change.
+  const _onAccessibilityAction = (event: { nativeEvent: { actionName: string } }) => {
+    const delta =
+      event.nativeEvent.actionName === 'increment' ? ACCESSIBILITY_STEP : -ACCESSIBILITY_STEP;
+    const next = Math.round((value + delta) * 100) / 100;
+    onValueChange(Math.min(1, Math.max(minValue, next)));
+  };
+
   const clamped = Math.min(1, Math.max(0, value));
   const fillWidth = clamped * trackWidth;
   // Center the thumb on the fill edge, clamped so it never overflows the track.
@@ -86,6 +105,16 @@ const VoteSlider = ({ value, minValue = 0, color, onValueChange }: VoteSliderPro
           widthRef.current = e.nativeEvent.layout.width;
           setTrackWidth(e.nativeEvent.layout.width);
         }}
+        accessible
+        accessibilityRole="adjustable"
+        accessibilityLabel={accessibilityLabel}
+        accessibilityValue={{
+          min: Math.round(minValue * 100),
+          max: 100,
+          now: Math.round(clamped * 100),
+        }}
+        accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
+        onAccessibilityAction={_onAccessibilityAction}
         {...panResponder.panHandlers}
       >
         <View
