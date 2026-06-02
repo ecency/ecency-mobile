@@ -3,9 +3,9 @@ import * as Sentry from '@sentry/react-native';
 import get from 'lodash/get';
 
 // Services and Actions
-import { View, TouchableOpacity, Text, useWindowDimensions } from 'react-native';
+import { View, TouchableOpacity, Text, useWindowDimensions, Platform } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Popover, { PopoverPlacement as Placement, Rect } from 'react-native-popover-view';
-import Slider from '@react-native-community/slider';
 import { useIntl } from 'react-intl';
 import { useVote, votingPower as sdkVotingPower, votingRshares, votingValue } from '@ecency/sdk';
 import {
@@ -46,6 +46,8 @@ import {
 import styles from '../children/upvoteStyles';
 
 import { PayoutDetailsContent } from '../children/payoutDetailsContent';
+import VoteSlider from '../children/voteSlider';
+import PercentKeypad from '../children/percentKeypad';
 import showLoginAlert from '../../../utils/showLoginAlert';
 
 // Transport-level failure signatures. The SDK broadcasts votes in 'async' mode,
@@ -135,6 +137,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const deviceWidth = useWindowDimensions().width;
+  const safeAreaInsets = useSafeAreaInsets();
 
   const onVotingStartRef = useRef<any>(null);
   const sourceRef = useRef<any>(null);
@@ -163,6 +166,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
   const [postType, setPostType] = useState<PostTypes>(PostTypes.POST);
   const [showPopover, setShowPopover] = useState(false);
   const [showPayoutDetails, setShowPayoutDetails] = useState(false);
+  const [isEditingPercent, setIsEditingPercent] = useState(false);
 
   const [isVoted, setIsVoted] = useState<any>(null);
   const [isDownVoted, setIsDownVoted] = useState<any>(null);
@@ -178,16 +182,19 @@ const UpvotePopover = forwardRef(({}, ref) => {
   };
 
   const _formatEstimate = (value: number) => {
-    if (Number.isNaN(value)) {
-      return '0.00';
+    if (Number.isNaN(value) || value <= 0) {
+      return '0.000';
     } else if (value >= 1) {
       return value.toFixed(2);
     }
-    // Always emit a plain decimal so parseFloat downstream never produces NaN.
-    // toPrecision used to emit "1e-7"-style scientific notation for very small
-    // values; toFixed avoids that. 6 decimals for tiny values keeps a useful
-    // signal without relying on a non-numeric sentinel like "<0.001".
-    return value.toFixed(value < 0.001 ? 6 : 4);
+    // Cap at 3 decimals and floor sub-0.001 values at "0.001": a 6-decimal
+    // string like "0.000428" is too wide and crowds the slider. Stay a plain
+    // numeric string so parseFloat(amount) downstream never produces NaN — no
+    // non-numeric "<0.001" sentinel.
+    if (value < 0.001) {
+      return '0.001';
+    }
+    return value.toFixed(3);
   };
 
   useImperativeHandle(ref, () => ({
@@ -238,6 +245,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
       setPostType(resolvedPostType);
       setContent(_content);
       setShowPayoutDetails(_showPayoutDetails || false);
+      setIsEditingPercent(false);
 
       // Pre-measure source element position before showing popover.
       // This avoids the expensive synchronous layout pass that react-native-popover-view
@@ -268,6 +276,11 @@ const UpvotePopover = forwardRef(({}, ref) => {
     if (currentAccount && Object.entries(currentAccount).length !== 0 && globalProps) {
       setAmount(_formatEstimate(_estimateVoteValue(currentAccount, globalProps, value)));
     }
+  };
+
+  const _onSliderValueChange = (value: number) => {
+    setSliderValue(value);
+    _calculateEstimatedAmount(value);
   };
 
   const _upvoteContent = async () => {
@@ -487,6 +500,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
   const _closePopover = () => {
     setShowPopover(false);
     sourceRectRef.current = null;
+    setIsEditingPercent(false);
 
     setTimeout(() => {
       setShowPayoutDetails(false);
@@ -509,6 +523,27 @@ const UpvotePopover = forwardRef(({}, ref) => {
 
   const _sliderWidth = deviceWidth - 24;
   const _sliderStyle = { ...styles.popoverSlider, width: _sliderWidth };
+  const _keypadStyle = { ...styles.popoverKeypad, width: _sliderWidth };
+
+  let _popoverStyle: any = _sliderStyle;
+  if (showPayoutDetails) {
+    _popoverStyle = styles.popoverDetails;
+  } else if (isEditingPercent) {
+    _popoverStyle = _keypadStyle;
+  }
+
+  // The keypad is much taller than the pill, so while editing allow the popover
+  // to flip BELOW the button when there isn't room above (placement=[TOP] alone
+  // never flips and the library clips the overflowing bottom row — Done key).
+  const _placement = isEditingPercent ? [Placement.TOP, Placement.BOTTOM] : [Placement.TOP];
+
+  // On Android the Modal-hosted popover spans under the translucent status bar,
+  // so a high-anchored keypad can clamp beneath the clock/battery. Inset the
+  // display area by the safe-area top there (iOS handles its own safe area).
+  const _displayAreaInsets =
+    Platform.OS === 'android'
+      ? { top: safeAreaInsets.top, left: 0, right: 0, bottom: 0 }
+      : undefined;
 
   // Use pre-measured rect to avoid expensive synchronous layout pass
   const _fromProp = sourceRectRef.current
@@ -523,7 +558,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
   return (
     <Fragment>
       <Popover
-        popoverStyle={showPayoutDetails ? styles.popoverDetails : _sliderStyle}
+        popoverStyle={_popoverStyle}
         arrowSize={showPayoutDetails ? undefined : { width: 0, height: 0 }}
         backgroundStyle={styles.overlay}
         isVisible={showPopover}
@@ -531,15 +566,30 @@ const UpvotePopover = forwardRef(({}, ref) => {
           _closePopover();
         }}
         from={_fromProp}
-        placement={[Placement.TOP]}
+        placement={_placement}
+        displayAreaInsets={_displayAreaInsets}
         offset={12}
       >
         <View style={styles.popoverWrapper}>
           {showPayoutDetails ? (
             <PayoutDetailsContent content={content} />
+          ) : isEditingPercent ? (
+            <PercentKeypad
+              value={sliderValue}
+              minValue={_minSliderVal}
+              amount={amount}
+              color={sliderColor}
+              onChange={_onSliderValueChange}
+              onDone={() => setIsEditingPercent(false)}
+            />
           ) : (
             <Fragment>
-              <TouchableOpacity onPress={_upvoteContent} style={styles.upvoteButton}>
+              <TouchableOpacity
+                onPress={_upvoteContent}
+                style={styles.upvoteButton}
+                accessibilityRole="button"
+                accessibilityLabel="Upvote"
+              >
                 <Icon
                   size={20}
                   style={[styles.upvoteIcon, { color: '#007ee5' }]}
@@ -549,21 +599,34 @@ const UpvotePopover = forwardRef(({}, ref) => {
                 />
               </TouchableOpacity>
               <Text style={styles.amount}>{_amount}</Text>
-              <Slider
-                style={styles.slider}
-                minimumTrackTintColor={sliderColor}
-                maximumTrackTintColor="#b1b1b1"
-                thumbTintColor="#007ee5"
-                minimumValue={_minSliderVal}
-                maximumValue={1}
+              <VoteSlider
+                color={sliderColor}
+                minValue={_minSliderVal}
                 value={sliderValue}
-                onValueChange={(value) => {
-                  setSliderValue(value);
-                  _calculateEstimatedAmount(value);
-                }}
+                onValueChange={_onSliderValueChange}
+                accessibilityLabel={isDownVoted ? 'Downvote weight' : 'Upvote weight'}
               />
-              <Text style={styles.percent}>{_percent}</Text>
-              <TouchableOpacity onPress={_downvoteContent} style={styles.upvoteButton}>
+              <TouchableOpacity
+                style={styles.percentButton}
+                onPress={() => setIsEditingPercent(true)}
+                hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
+                accessibilityRole="button"
+                accessibilityLabel={`Edit vote percentage, currently ${_percent}`}
+              >
+                <Text style={styles.percent}>{_percent}</Text>
+                <Icon
+                  size={11}
+                  style={styles.percentEditIcon}
+                  iconType="MaterialIcons"
+                  name="edit"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={_downvoteContent}
+                style={styles.upvoteButton}
+                accessibilityRole="button"
+                accessibilityLabel="Downvote"
+              >
                 <Icon
                   size={20}
                   style={[styles.upvoteIcon, { color: '#ec8b88' }]}
