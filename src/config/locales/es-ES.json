@@ -1,4 +1,28 @@
 {
+  "perks": {
+    "header": "Ventajas",
+    "quests_title": "Misiónes",
+    "quests_subtitle": "Completa metas diarias y mantén tu racha",
+    "quests_empty": "Aún no hay misiones aquí; vuelve pronto.",
+    "streak": "Racha de {n} días",
+    "daily": "Diariamente",
+    "weekly": "Semanalmente",
+    "monthly": "Mensual",
+    "checkin": "Registrarse",
+    "post": "Publicar una publicación",
+    "comment": "Dejar comentarios",
+    "vote": "Curar publicaciones",
+    "reblog": "Rebloguear un post",
+    "spend_title": "Usa tus puntos",
+    "spin": "Giro diario",
+    "spin_desc": "Gira la rueda por puntos",
+    "boost_plus": "Potenciar Plus",
+    "boost_plus_desc": "Promociona tu cuenta",
+    "promote": "Promociona una publicación",
+    "promote_desc": "Obtén más atención a tu publicación",
+    "account_boost": "Impulsar la cuenta",
+    "account_boost_desc": "Optimizar cualquier cuenta"
+  },
   "waves": {
     "for_you": "Para ti",
     "following": "Siguiendo"
@@ -295,6 +319,8 @@
     "leaderboard": "Tabla de posiciones",
     "unvote": "downvoted",
     "activities": "Todo",
+    "rvotes": "Votos",
+    "follows": "Seguidores",
     "checkin": "Has comprobado {count} día{suffix} esta semana. ¡Sigue así!",
     "mention_on": "Nueva mención en",
     "yesterday": "Ayer",
@@ -326,6 +352,9 @@
     "delete_success": "Transferencia recurrente eliminada correctamente",
     "unsubscribe_confirmation": "¿Eliminar la transferencia recurrente a {username}?",
     "remaining_executions": "{executions} Transferencias restantes"
+  },
+  "similar_entries": {
+    "title": "Leer siguiente"
   },
   "comments": {
     "read_more": "Cargar más comentarios",
@@ -831,6 +860,11 @@
     "image_saved_error": "Error guardando imagen",
     "removed_hint": "Contenido no disponible",
     "link": "Enlace",
+    "link_copy": "Copiar",
+    "link_open_explore": "Abrir en el explorador",
+    "link_open_system": "Abrir en el navegador del sistema",
+    "link_explore_warning_title": "¿Abrir este enlace en Explorador?",
+    "link_explore_warning_desc": "El Explorador de navegación puede acceder a su cartera Hive para firmar transacciones. Este enlace proviene del contenido del post y no es verificado por Ecency — solo continúa si confía en ello:",
     "gallery_mode": "Modo galería",
     "reblogged": "reblogueado por",
     "copy_text": "Copiar texto",

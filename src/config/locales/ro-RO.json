@@ -1,4 +1,28 @@
 {
+  "perks": {
+    "header": "Perks",
+    "quests_title": "Quests",
+    "quests_subtitle": "Complete daily goals and keep your streak",
+    "quests_empty": "No quests here yet — check back soon.",
+    "streak": "{n}-day streak",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "checkin": "Check in",
+    "post": "Publish a post",
+    "comment": "Leave comments",
+    "vote": "Curate posts",
+    "reblog": "Reblog a post",
+    "spend_title": "Use your points",
+    "spin": "Daily spin",
+    "spin_desc": "Spin the wheel for points",
+    "boost_plus": "Boost Plus",
+    "boost_plus_desc": "Promote your account",
+    "promote": "Promote a post",
+    "promote_desc": "Get more eyes on your post",
+    "account_boost": "Account boost",
+    "account_boost_desc": "Boost any account"
+  },
   "waves": {
     "for_you": "For you",
     "following": "Following"
@@ -295,6 +319,8 @@
     "leaderboard": "Clasament",
     "unvote": "downvoted",
     "activities": "Tot",
+    "rvotes": "Votes",
+    "follows": "Follows",
     "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
     "mention_on": "New mention on",
     "yesterday": "Ieri",
@@ -326,6 +352,9 @@
     "delete_success": "Recurrent transfer deleted successfully",
     "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
     "remaining_executions": "Remaining {executions} transfers"
+  },
+  "similar_entries": {
+    "title": "Read next"
   },
   "comments": {
     "read_more": "Vizualizați mai multe comentarii",
@@ -831,6 +860,11 @@
     "image_saved_error": "Eroare la salvarea imaginii",
     "removed_hint": "Content is not available",
     "link": "Legătură",
+    "link_copy": "Copy",
+    "link_open_explore": "Open in Explore",
+    "link_open_system": "Open in System browser",
+    "link_explore_warning_title": "Open this link in Explore?",
+    "link_explore_warning_desc": "The Explore browser can access your Hive wallet to sign transactions. This link comes from post content and is not verified by Ecency — only continue if you trust it:",
     "gallery_mode": "Mod galerie",
     "reblogged": "redistribuit de",
     "copy_text": "Copy text",
