@@ -8,7 +8,7 @@ import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector, useLinkProcessor } from '../../hooks';
 import { updateAnnoucementsMeta } from '../../redux/actions/cacheActions';
 import { getPostUrl } from '../../utils/post';
-import { resolveAnnouncementAction } from '../../utils/announcementAction';
+import { isProposalAnnouncement, resolveAnnouncementAction } from '../../utils/announcementAction';
 import { delay } from '../../utils/editor';
 import { ButtonTypes } from '../../components/actionModal/container/actionModalContainer';
 import parseVersionNumber from '../../utils/parseVersionNumber';
@@ -47,8 +47,13 @@ export const useAnnouncementsQuery = () => {
       return;
     }
 
+    // Skip proposal-support announcements on mobile: the native in-feed
+    // ProposalVoteRequest card already casts the vote in-app (within navigation),
+    // so surfacing the banner here would only add a redundant in-app-browser
+    // detour. Pick the first non-proposal announcement instead.
+    const firstAnnounce = announcementsQuery.data?.find((a) => !isProposalAnnouncement(a));
+
     // bypass if logged in user is required for announcement, skip otherwise
-    const firstAnnounce = announcementsQuery.data && announcementsQuery.data[0];
     if (!firstAnnounce || (firstAnnounce?.auth && !currentAccount?.username)) {
       return;
     }
