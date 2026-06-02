@@ -3,13 +3,15 @@ name: Crowdin Download
 # Pulls the latest translations from Crowdin on demand and batches them into a
 # single pull request, instead of Crowdin auto-pushing one commit per language.
 #
-# Trigger: add the "sync-translations" label to any open PR. The label is removed
-# automatically after the run, so re-adding it later triggers a fresh pull.
-# (Fork PRs cannot trigger this — they have no access to secrets. Label a PR from
-# a branch in this repo.)
+# Triggers:
+#   - add the "sync-translations" label to any same-repo PR (auto-removed after
+#     the run, so re-adding it triggers a fresh pull), or
+#   - run manually from the Actions tab (workflow_dispatch).
+# Fork PRs are skipped — they have no access to the Crowdin secret.
 on:
   pull_request:
     types: [labeled]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -17,7 +19,10 @@ permissions:
 
 jobs:
   download:
-    if: github.event.label.name == 'sync-translations'
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.label.name == 'sync-translations' &&
+       github.event.pull_request.head.repo.fork == false)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout base branch
@@ -26,6 +31,7 @@ jobs:
           ref: development
 
       - name: Remove trigger label
+        if: github.event_name == 'pull_request'
         continue-on-error: true
         uses: actions/github-script@v7
         with:
@@ -43,10 +49,14 @@ jobs:
           upload_sources: false
           upload_translations: false
           download_translations: true
+          # Use the development checkout above as the base for l10n/crowdin.
+          # Without this the action checks out the trigger PR's head ref, which
+          # fails (or bases the translations PR on unrelated feature changes).
+          skip_ref_checkout: true
           localization_branch_name: l10n/crowdin
           create_pull_request: true
           pull_request_title: 'chore(i18n): sync translations from Crowdin'
-          pull_request_body: 'Batched translation update pulled from Crowdin via the `sync-translations` label.'
+          pull_request_body: 'Batched translation update pulled from Crowdin.'
           pull_request_base_branch_name: development
           commit_message: 'chore(i18n): sync translations from Crowdin'
           github_user_name: 'github-actions[bot]'
