@@ -1007,7 +1007,7 @@
     },
     "conversions_requested": "คำขอแปลงสกุลเงิน",
     "address_unavailable": "ไม่มีข้อมูลที่อยู่สำหรับสินทรัพย์นี้",
-    "reblog": "Reblog",
+    "reblog": "รีบล็อก",
     "memo_placeholder": "ป้อนบันทึกของคุณที่นี่",
     "tokens_cancelUnstake": "ยกเลิกการ Unstake แล้ว",
     "last_updated_placeholder": "--:--:--",
@@ -1077,7 +1077,7 @@
     "hideChart": "ซ่อนกราฟราคา",
     "openAnalytics": "เปิดการวิเคราะห์ยอดคงเหลือ",
     "tokens_enableStaking": "เปิดใช้งานการ Stake",
-    "power_up_spk": "Stake",
+    "power_up_spk": "สเตค",
     "nft_addProperty": "เพิ่มคุณสมบัติให้ NFT แล้ว",
     "nft_updateMetadata": "อัปเดต Metadata ของ NFT แล้ว",
     "login_title": "Points สำหรับการเข้าสู่ระบบ",
@@ -1114,7 +1114,7 @@
     "dropdown_transfer": "โอน",
     "dropdown_promote": "โปรโมท",
     "dropdown_boost": "Boost",
-    "dropdown_ai_image": "AI Image",
+    "dropdown_ai_image": "ภาพ AI",
     "tokens_undelegateStart": "เริ่มยกเลิกการมอบหมายแล้ว",
     "delegated_larynx_power": "Power ที่ได้รับมอบ",
     "undelegate": "ยกเลิกการมอบหมาย",
@@ -1138,7 +1138,7 @@
       "buy": "รับ HBD",
       "title": "HBD"
     },
-    "stake_engine": "Stake",
+    "stake_engine": "สเตค",
     "estimated_balance": "ยอดคงเหลือโดยประมาณ",
     "withdraw_savings": "ถอนเงินออม",
     "open_orders": "คำสั่งที่เปิดอยู่",
@@ -1185,7 +1185,7 @@
     "engine_select_assets": "เลือกสินทรัพย์",
     "hive": {
       "buy": "รับ HIVE",
-      "name": "Liquid Hive",
+      "name": "Hive แบบเหลว",
       "title": "HIVE"
     },
     "checkin_extra_title": "โบนัสการใช้งาน",
@@ -1229,9 +1229,9 @@
     "incoming_transfer_description": "",
     "transfer_token": "โอน",
     "spkcc_spk_send": "โอน",
-    "stake": "Stake",
+    "stake": "สเตค",
     "fill_order": "ดำเนินการคำสั่ง",
-    "spkcc_power_up": "Stake",
+    "spkcc_power_up": "สเตค",
     "vote_value": "มูลค่าโหวต",
     "nft_burn": "เผา NFT แล้ว",
     "delegated_hive_power": "การมอบหมายที่ออกไป",
@@ -1318,7 +1318,7 @@
     "error_generic": "การสร้างภาพล้มเหลว โปรดลองอีกครั้ง",
     "error_prompt_required": "โปรดป้อนพรอมต์",
     "use_suggestion": "ใช้: \"{suggestion}\"",
-    "dropdown_label": "AI Image"
+    "dropdown_label": "ภาพ AI"
   },
   "transfer": {
     "select_token": "เลือกโทเค็น",
@@ -1346,7 +1346,7 @@
     "confirm": "ยืนยันการมอบหมาย",
     "estimated_weekly": "ประมาณการรายสัปดาห์",
     "review": "ตรวจสอบ",
-    "transfer_to_vesting": "Stake",
+    "transfer_to_vesting": "สเตค",
     "percent": "เปอร์เซ็นต์",
     "powering_down": "กำลังเลิก Stake",
     "invalid_amount": "จำนวนไม่ถูกต้อง",
@@ -1383,7 +1383,7 @@
     "transfer_engine": "โอนโทเค็น",
     "powering_down_info": "การเลิก Stake ครั้งถัดไปในอีก {days} วัน, {hp} HIVE",
     "convert": "แปลง HBD เป็น HIVE",
-    "auto_vests": "Auto Vests",
+    "auto_vests": "Vests อัตโนมัติ",
     "vests": "Vests",
     "stop_information": "คุณแน่ใจหรือไม่ที่จะหยุด?",
     "amount": "จำนวน",
@@ -1494,10 +1494,10 @@
     "backup_keys_modal": {
       "reveal_public": "แสดงคีย์สาธารณะ",
       "reveal_private": "แสดงคีย์ส่วนตัว",
-      "owner_key": "Owner Key",
+      "owner_key": "คีย์เจ้าของ (Owner Key)",
       "sign_input_placeholder": "รหัสผ่านหลักหรือคีย์ส่วนตัว",
       "import_key_modal_desc": "คีย์ส่วนตัวรายตัวหรือรหัสผ่านหลักเพื่อนำเข้าคีย์ทั้งหมด",
-      "active_key": "Active Key",
+      "active_key": "คีย์ใช้งาน (Active Key)",
       "private": "ส่วนตัว",
       "sign": "ลงนาม",
       "import_failed": "นำเข้าคีย์ล้มเหลว",
@@ -1505,9 +1505,9 @@
       "enter_pass": "ป้อนรหัสผ่านหรือคีย์ส่วนตัว",
       "import_key": "นำเข้าคีย์ส่วนตัว",
       "key_copied": "คัดลอกคีย์ไปยังคลิปบอร์ดแล้ว",
-      "memo_key": "Memo Key",
+      "memo_key": "คีย์บันทึก (Memo Key)",
       "no_keys": "วิธีเข้าสู่ระบบของคุณคือ HiveSigner แอปพลิเคชันไม่มีคีย์ใดเก็บไว้ในอุปกรณ์ กรุณาเข้าสู่ระบบด้วยรหัสผ่านหลักเพื่อสร้างคีย์",
-      "posting_key": "Posting Key"
+      "posting_key": "คีย์โพสต์ (Posting Key)"
     },
     "biometric": "ลายนิ้วมือ / ปลดล็อกด้วยใบหน้า"
   },

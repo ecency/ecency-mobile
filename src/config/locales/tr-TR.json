@@ -348,7 +348,7 @@
   "recurrent": {
     "delete_failed": "Tekrarlanan transfer silinemedi, {error}",
     "title": "Tekrarlanan Transferler ({total})",
-    "transfer_in": "Transfer {time}",
+    "transfer_in": "{time} sonra transfer",
     "delete_success": "Tekrarlanan transfer başarıyla silindi",
     "unsubscribe_confirmation": "{username} kullanıcısına tekrarlanan transfer aboneliği iptal edilsin mi?",
     "remaining_executions": "Kalan {executions} transfer"
@@ -630,7 +630,7 @@
   "ai_assist": {
     "title": "Yapay Zekâ Yazma Asistanı",
     "balance_label": "Bakiye",
-    "points_unit": "POINTS",
+    "points_unit": "PUAN",
     "cost_label": "Maliyet",
     "free_label": "Ücretsiz",
     "free_remaining": "{count} ücretsiz hak kaldı",
@@ -1303,7 +1303,7 @@
     "select_power": "Kalite artışı",
     "cost_label": "Maliyet",
     "balance_label": "Bakiye",
-    "points_unit": "POINTS",
+    "points_unit": "PUAN",
     "generate_button": "Görsel Oluştur",
     "generating": "Görseliniz oluşturuluyor...",
     "result_title": "Oluşturulan Görsel",

@@ -198,7 +198,7 @@
     "refer": "Verwijzen & verdienen",
     "favorites": "Favorieten",
     "schedules": "Schema’s",
-    "communities": "Communities",
+    "communities": "Community's",
     "accounts": "Accounts",
     "bookmarks": "Bladwijzers",
     "create_a_new_account": "Een nieuw account aanmaken",
@@ -227,7 +227,7 @@
     "top": "Top",
     "posts": "Artikelen",
     "blog": "Blog",
-    "communities": "Communities",
+    "communities": "Community's",
     "hot": "Hot",
     "popular": "Populair",
     "new": "Nieuw",
@@ -560,7 +560,7 @@
   },
   "free_estm": {
     "timer_text": "Volgende gratis Spin over",
-    "button": "SPIN & WIN",
+    "button": "DRAAIEN & WINNEN",
     "get_spin": "5 SPINS",
     "spin_right": "Spin resterend",
     "title": "Gratis Points"
@@ -887,7 +887,7 @@
     "title": "Promoten",
     "days": "dagen",
     "user": "Gebruiker",
-    "permlink": "Post"
+    "permlink": "Bericht"
   },
   "refer": {
     "earned": "Verdiende Points",
@@ -916,7 +916,7 @@
     "warn_zero_payout": "Bedrag moet $0,02 bereiken voor uitbetaling"
   },
   "search": {
-    "posts": "Posts",
+    "posts": "Berichten",
     "comments": "Reacties"
   },
   "qr": {

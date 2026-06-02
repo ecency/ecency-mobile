@@ -181,7 +181,7 @@
     "bookmarks": "thêm vào dấu trang",
     "translate": "Dịch",
     "voice": "Giọng nói",
-    "boost": "boost",
+    "boost": "tăng cường",
     "pin-community": "Ghim vào cộng đồng",
     "pin-reply": "Ghim bình luận",
     "unpin-reply": "Bỏ ghim bình luận"
@@ -1384,7 +1384,7 @@
     "powering_down_info": "Lần hủy đặt cọc tiếp theo sau {days} ngày, {hp} HIVE",
     "convert": "Chuyển đổi HBD sang HIVE",
     "auto_vests": "Vests tự động",
-    "vests": "Vests",
+    "vests": "VESTS",
     "stop_information": "Bạn có chắc chắn muốn dừng?",
     "amount": "Số lượng",
     "memo_desc": "Bản ghi nhớ này được công khai",
@@ -1494,10 +1494,10 @@
     "backup_keys_modal": {
       "reveal_public": "Hiện khóa công khai",
       "reveal_private": "Hiện khóa riêng tư",
-      "owner_key": "Owner Key",
+      "owner_key": "Khóa Owner",
       "sign_input_placeholder": "Mật khẩu chính hoặc khóa riêng tư",
       "import_key_modal_desc": "Khóa riêng tư riêng lẻ hoặc mật khẩu chính để nhập tất cả các khóa",
-      "active_key": "Active Key",
+      "active_key": "Khóa Active",
       "private": "Riêng tư",
       "sign": "Ký",
       "import_failed": "Nhập khóa thất bại",
@@ -1505,9 +1505,9 @@
       "enter_pass": "Nhập mật khẩu hoặc khóa riêng tư",
       "import_key": "Nhập khóa riêng tư",
       "key_copied": "Đã sao chép khóa vào bộ nhớ tạm",
-      "memo_key": "Memo Key",
+      "memo_key": "Khóa Memo",
       "no_keys": "Phương thức đăng nhập của bạn là hivesigner. Ứng dụng không lưu trữ khóa nào trên thiết bị. Vui lòng đăng nhập bằng mật khẩu chính để tạo khóa",
-      "posting_key": "Posting Key"
+      "posting_key": "Khóa Posting"
     },
     "biometric": "Vân tay / Mở khóa khuôn mặt"
   },
