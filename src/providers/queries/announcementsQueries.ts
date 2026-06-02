@@ -8,6 +8,7 @@ import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector, useLinkProcessor } from '../../hooks';
 import { updateAnnoucementsMeta } from '../../redux/actions/cacheActions';
 import { getPostUrl } from '../../utils/post';
+import { resolveAnnouncementAction } from '../../utils/announcementAction';
 import { delay } from '../../utils/editor';
 import { ButtonTypes } from '../../components/actionModal/container/actionModalContainer';
 import parseVersionNumber from '../../utils/parseVersionNumber';
@@ -71,13 +72,13 @@ export const useAnnouncementsQuery = () => {
     };
 
     const _onActionPress = () => {
-      if (data.ops) {
-        linkProcessor.handleLink(data.ops);
-      } else if (data.button_link) {
-        const _url = data.button_link.startsWith('https://')
-          ? data.button_link
-          : getPostUrl(data.button_link);
-        linkProcessor.handleLink(_url);
+      // Deliberately ignore the server-provided `ops` (hive://sign/op/...) blob:
+      // a banner tap must never sign an arbitrary server operation. Proposal
+      // voting happens through the in-app, user-reviewed flow on the linked page.
+      const action = resolveAnnouncementAction(data, getPostUrl);
+
+      if (action.type === 'open-link') {
+        linkProcessor.handleLink(action.url);
       }
 
       // mark as processed
