@@ -15,7 +15,6 @@ import com.facebook.soloader.SoLoader
 //expo related packages
 import android.content.Context
 import android.content.res.Configuration
-import android.util.DisplayMetrics
 import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
 
@@ -68,31 +67,11 @@ class MainApplication : Application(), ReactApplication {
         ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig)
     }
 
-    // Clamp extreme system "Font size" (fontScale) and "Display size" (densityDpi)
-    // on the application context too. RN initializes its display metrics (what
-    // Dimensions.get('window') reports) from the app context, so clamping here keeps
-    // layout math consistent with the clamped rendering done via MainActivity. See
-    // MainActivity.attachBaseContext for the matching clamp and rationale.
+    // Clamp the same extreme scaling on the application context: RN initializes its
+    // display metrics (what Dimensions.get('window') reports) from the app context, so
+    // clamping here keeps layout consistent with the rendering clamp in MainActivity.
+    // See DisplayScalingClamp for details.
     override fun attachBaseContext(base: Context) {
-        val config = Configuration(base.resources.configuration)
-        var changed = false
-
-        if (config.fontScale > MAX_FONT_SCALE) {
-            config.fontScale = MAX_FONT_SCALE
-            changed = true
-        }
-
-        val maxDpi = Math.round(DisplayMetrics.DENSITY_DEVICE_STABLE * MAX_DENSITY_SCALE)
-        if (config.densityDpi > maxDpi) {
-            config.densityDpi = maxDpi
-            changed = true
-        }
-
-        super.attachBaseContext(if (changed) base.createConfigurationContext(config) else base)
-    }
-
-    companion object {
-        private const val MAX_FONT_SCALE = 1.3f     // ~Android "Large" font step
-        private const val MAX_DENSITY_SCALE = 1.15f // relative to device default density
+        super.attachBaseContext(DisplayScalingClamp.wrap(base))
     }
 }

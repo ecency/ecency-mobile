@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import com.zoontek.rnbootsplash.RNBootSplash;
 
 import com.facebook.react.ReactApplication;
@@ -26,42 +25,12 @@ public class MainActivity extends ReactActivity {
     return "Ecency";
   }
 
-  // Upper bounds for system accessibility scaling. Beyond these the entire UI
-  // (text, images, icons) renders abnormally "zoomed in" and overflows layouts.
-  // We honor scaling up to these caps (preserving accessibility) and clamp past.
-  private static final float MAX_FONT_SCALE = 1.3f;     // ~Android "Large" font step
-  private static final float MAX_DENSITY_SCALE = 1.15f; // relative to device default density
-
-  // Clamp extreme system "Font size" (fontScale) and "Display size" (densityDpi)
-  // at the resource layer before any view is created. This is the primary fix for
-  // the abnormal-zoom reports: a user with a very large Display size / Font size
-  // would otherwise get the whole app scaled up with content overflowing the screen.
-  //
-  // NOTE: density/fontScale are intentionally NOT added to AndroidManifest
-  // configChanges. That way an in-session Display-size/Font-size change recreates
-  // the Activity, which re-runs this clamp. Declaring them in configChanges would
-  // suppress the recreation and bypass the clamp until the next app launch.
+  // Clamp extreme system Font size / Display size before any view is created, so an
+  // accessibility setting cannot render the whole app abnormally "zoomed in". The
+  // Activity context governs view rendering. See DisplayScalingClamp for details.
   @Override
   protected void attachBaseContext(Context newBase) {
-    Configuration config = new Configuration(newBase.getResources().getConfiguration());
-    boolean changed = false;
-
-    if (config.fontScale > MAX_FONT_SCALE) {
-      config.fontScale = MAX_FONT_SCALE;
-      changed = true;
-    }
-
-    int defaultDpi = DisplayMetrics.DENSITY_DEVICE_STABLE; // device "Default" Display size dpi
-    int maxDpi = Math.round(defaultDpi * MAX_DENSITY_SCALE);
-    if (config.densityDpi > maxDpi) {
-      config.densityDpi = maxDpi;
-      changed = true;
-    }
-
-    if (changed) {
-      newBase = newBase.createConfigurationContext(config);
-    }
-    super.attachBaseContext(newBase);
+    super.attachBaseContext(DisplayScalingClamp.wrap(newBase));
   }
 
   @Override

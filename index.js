@@ -17,10 +17,24 @@ LogBox.ignoreLogs(['Require cycle:', 'Remote debugger']);
 // Cap accessibility font scaling app-wide so a large system "Font size" cannot
 // blow up text and overflow layouts. 1.3 keeps a meaningful accessibility boost
 // (matches Android's common "Large" step) while preventing the abnormal zoom.
-// Native density/fontScale are additionally clamped on Android in MainActivity.
-Text.defaultProps = Text.defaultProps || {};
-Text.defaultProps.maxFontSizeMultiplier = 1.3;
-TextInput.defaultProps = TextInput.defaultProps || {};
-TextInput.defaultProps.maxFontSizeMultiplier = 1.3;
+// Android additionally clamps fontScale/density natively (MainActivity/MainApplication);
+// this is the cross-platform cap and the primary guard on iOS.
+//
+// React 19 ignores `defaultProps` on function components, so instead we wrap each
+// component's forwardRef render and inject maxFontSizeMultiplier into its props.
+// Explicit per-component maxFontSizeMultiplier values still take precedence.
+const MAX_FONT_SIZE_MULTIPLIER = 1.3;
+const capFontScaling = (Component) => {
+  const baseRender = Component && Component.render;
+  if (typeof baseRender !== 'function' || baseRender.__fontCapped) {
+    return;
+  }
+  const cappedRender = (props, ref) =>
+    baseRender({ maxFontSizeMultiplier: MAX_FONT_SIZE_MULTIPLIER, ...props }, ref);
+  cappedRender.__fontCapped = true;
+  Component.render = cappedRender;
+};
+capFontScaling(Text);
+capFontScaling(TextInput);
 
 AppRegistry.registerComponent(appName, () => EcencyApp);
