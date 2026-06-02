@@ -1,0 +1,28 @@
+name: Crowdin Upload Sources
+
+# Pushes new/changed English source strings to Crowdin whenever the base locale
+# changes on development. One-way (repo -> Crowdin); creates no commits in the repo.
+on:
+  push:
+    branches: [development]
+    paths:
+      - 'src/config/locales/en-US.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Upload sources to Crowdin
+        uses: crowdin/github-action@v2
+        with:
+          upload_sources: true
+          upload_translations: false
+          download_translations: false
+        env:
+          CROWDIN_PROJECT_ID: "340925"
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
