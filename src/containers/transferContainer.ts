@@ -20,7 +20,7 @@ import { getUserDataWithUsername } from '../realm/realm';
 import { getPointsSummary } from '../providers/ecency/ePoint';
 
 // Utils
-import { countDecimals } from '../utils/number';
+import { getAssetPrecision, toFixedNoExp, formatTokenQuantity } from '../utils/number';
 import { fetchTokenBalances } from '../providers/hive-engine/hiveEngine';
 import TransferTypes from '../constants/transferTypes';
 import { fetchSpkMarkets } from '../providers/hive-spk/hiveSpk';
@@ -263,11 +263,15 @@ class TransferContainer extends Component {
       data.executions = +executions;
     }
 
-    if (countDecimals(Number(data.amount)) < 3) {
-      data.amount = Number(data.amount).toFixed(3);
-    }
+    // Normalize to the asset's on-chain precision before building the op: HIVE/HBD/
+    // POINTS need exactly 3 decimals, VESTS 6; Hive-Engine tokens use their own
+    // precision (no scientific notation). Over-precise amounts are otherwise rejected.
+    const amountValue =
+      tokenLayer === TokenLayers.ENGINE
+        ? formatTokenQuantity(data.amount)
+        : toFixedNoExp(data.amount, getAssetPrecision(fundType));
 
-    data.amount = `${data.amount} ${fundType}`;
+    data.amount = `${amountValue} ${fundType}`;
 
     const _onSuccess = () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));

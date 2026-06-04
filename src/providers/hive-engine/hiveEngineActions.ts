@@ -1,5 +1,6 @@
 import type { Operation } from '@ecency/sdk';
 import parseToken from '../../utils/parseToken';
+import { formatTokenQuantity } from '../../utils/number';
 import { EngineActionJSON, EngineActions, EngineContracts } from './hiveEngine.types';
 
 export const getEngineActionJSON = (
@@ -15,7 +16,7 @@ export const getEngineActionJSON = (
     contractPayload: {
       symbol,
       to,
-      quantity: parseToken(amount).toString(),
+      quantity: formatTokenQuantity(parseToken(amount)),
       memo: action === EngineActions.TRANSFER ? memo : undefined,
     },
   };

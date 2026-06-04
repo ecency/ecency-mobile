@@ -26,6 +26,63 @@ export const getDecimalPlaces = (value: number) => {
   return match ? match[0].length : 0;
 };
 
+// Required on-chain decimal precision per native Hive asset. HIVE/HBD/POINTS are
+// exactly 3 decimals; VESTS is 6. Used to normalize broadcast amounts so the
+// chain does not reject them for a precision mismatch.
+const NATIVE_ASSET_PRECISION: Record<string, number> = {
+  HIVE: 3,
+  HBD: 3,
+  HP: 3,
+  POINT: 3,
+  POINTS: 3,
+  SPK: 3,
+  LARYNX: 3,
+  TESTS: 3,
+  TBD: 3,
+  VESTS: 6,
+};
+
+export const getAssetPrecision = (symbol?: string): number => {
+  if (!symbol) {
+    return 3;
+  }
+  return NATIVE_ASSET_PRECISION[symbol.trim().toUpperCase()] ?? 3;
+};
+
+// Format an amount to exactly `precision` decimals as a plain decimal string.
+// Unlike `Number.toString()` (which yields an invalid `1e-7`-style value for tiny
+// amounts), toFixed renders a plain decimal across the on-chain magnitude range and
+// rounds the float representation correctly.
+export const toFixedNoExp = (value: number | string, precision: number): string => {
+  const num = typeof value === 'number' ? value : parseFloat(String(value));
+  if (!Number.isFinite(num)) {
+    return (0).toFixed(precision);
+  }
+  return num.toFixed(precision);
+};
+
+// Format a Hive-Engine token quantity: fixed-point (never scientific notation),
+// capped at the token precision (default 8 — the engine maximum), with trailing
+// zeros and any dangling decimal point stripped so the quantity string is clean.
+export const formatTokenQuantity = (value: number | string, precision = 8): string => {
+  const num = typeof value === 'number' ? value : parseFloat(String(value));
+  if (!Number.isFinite(num)) {
+    return '0';
+  }
+  const fixed = num.toFixed(Math.max(0, Math.min(precision, 8)));
+  return fixed.indexOf('.') === -1 ? fixed : fixed.replace(/\.?0+$/, '');
+};
+
+// Convert a human SPK/LARYNX amount to integer milli-units. SPK custom_json ops
+// expect an integer; a raw `value * 1000` float yields e.g. 1004.9999999999999.
+export const toMilliUnits = (value: number | string): number => {
+  const num = typeof value === 'number' ? value : parseFloat(String(value));
+  if (!Number.isFinite(num)) {
+    return 0;
+  }
+  return Math.round(num * 1000);
+};
+
 export const formatNumberInputStr = (text: string, precision = 10) => {
   if (text.includes(',')) {
     text = text.replace(',', '.');

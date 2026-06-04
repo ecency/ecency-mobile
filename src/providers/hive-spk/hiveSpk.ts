@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toMilliUnits } from '../../utils/number';
 import { Markets, SpkApiWallet, SpkMarkets } from './hiveSpk.types';
 
 export const SPK_NODE_ECENCY = 'good-karma.spk';
@@ -76,7 +77,7 @@ export const fetchSpkMarkets = async (): Promise<Markets> => {
 
 export const getSpkActionJSON = (amount: number, to?: string, memo?: string) => {
   return {
-    amount: amount * 1000,
+    amount: toMilliUnits(amount),
     ...(to ? { to } : {}),
     ...(memo ? { memo } : {}),
   };

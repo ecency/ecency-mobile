@@ -28,6 +28,7 @@ import { selectCurrentAccount } from '../redux/selectors';
 import type { RootState } from '../redux/store/store';
 import { getEngineActionOpArray } from '../providers/hive-engine/hiveEngineActions';
 import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
+import { toMilliUnits } from '../utils/number';
 
 /**
  * Bundles all transfer-related SDK mutation hooks into a single object.
@@ -209,7 +210,7 @@ export function useTransferMutations() {
     ({ destination, amount }: { destination: string; amount: number }) => {
       const json = {
         to: destination,
-        amount: amount * 1000,
+        amount: toMilliUnits(amount),
       };
       return [
         [
