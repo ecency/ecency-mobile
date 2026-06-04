@@ -27,7 +27,7 @@ const buildHtml = (sitekey: string) => `<!DOCTYPE html>
         data-sitekey="${sitekey}"
         data-callback="onVerify"
         data-expired-callback="onExpire"
-        data-error-callback="onExpire"
+        data-error-callback="onError"
       ></div>
     </div>
     <script>
@@ -42,6 +42,9 @@ const buildHtml = (sitekey: string) => `<!DOCTYPE html>
       window.onExpire = function () {
         post('expire');
       };
+      window.onError = function () {
+        post('error');
+      };
     </script>
   </body>
 </html>`;
@@ -49,10 +52,11 @@ const buildHtml = (sitekey: string) => `<!DOCTYPE html>
 interface Props {
   onVerify: (token: string) => void;
   onExpire: () => void;
+  onError?: () => void;
   height?: number;
 }
 
-const TurnstileWebView = ({ onVerify, onExpire, height = 76 }: Props) => {
+const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) => {
   const html = useMemo(() => buildHtml(TURNSTILE_SITEKEY), []);
 
   const _onMessage = (event: { nativeEvent: { data: string } }) => {
@@ -62,6 +66,8 @@ const TurnstileWebView = ({ onVerify, onExpire, height = 76 }: Props) => {
         onVerify(data.token);
       } else if (data.type === 'expire') {
         onExpire();
+      } else if (data.type === 'error') {
+        onError?.();
       }
     } catch (_err) {
       // ignore malformed bridge messages
@@ -72,7 +78,7 @@ const TurnstileWebView = ({ onVerify, onExpire, height = 76 }: Props) => {
     <View style={[styles.container, { height }]}>
       <WebView
         source={{ html, baseUrl: BASE_URL }}
-        originWhitelist={['*']}
+        originWhitelist={['https://*', 'about:blank']}
         javaScriptEnabled
         domStorageEnabled
         scrollEnabled={false}

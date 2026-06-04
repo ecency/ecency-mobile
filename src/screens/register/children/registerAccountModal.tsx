@@ -51,6 +51,8 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
       setIsRegistered(false);
       setIsRegistering(false);
       setDisableFree(purchaseOnly);
+      // Start each modal session with a fresh challenge — never reuse a prior token.
+      _resetCaptcha();
     },
   }));
 
@@ -197,9 +199,10 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
                 key={captchaKey}
                 onVerify={setCaptchaToken}
                 onExpire={() => setCaptchaToken('')}
+                onError={_resetCaptcha}
               />
             ),
-            disabled: isRegistering || !captchaToken,
+            disabled: !captchaToken,
           })}
 
         {productList.map((product) =>
