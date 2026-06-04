@@ -515,7 +515,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
   const downVoteIconName = 'downcircleo';
 
   const _percent = `${isDownVoted ? '-' : ''}${(sliderValue * 100).toFixed(0)}%`;
-  const _amount = `$${amount}`;
+  const _amount = `${isDownVoted ? '-' : ''}$${amount}`;
 
   const sliderColor = isDownVoted ? '#ec8b88' : '#357ce6';
 

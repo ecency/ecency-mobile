@@ -62,11 +62,13 @@ export const autoDetectLocale = async (dispatch: any, currentLanguage: string) =
     if (alreadyDetected || currentLanguage !== 'en-US') {
       return;
     }
-    await AsyncStorage.setItem(GUARD_KEY, '1');
     const mapped = mapToRegisteredLocale(getLocale());
     if (mapped && mapped !== 'en-US') {
       dispatch(setLanguage(mapped));
     }
+    // Persist the guard only AFTER dispatching the language, so a force-kill in the
+    // gap re-runs detection next launch instead of locking the user on English.
+    await AsyncStorage.setItem(GUARD_KEY, '1');
   } catch (_err) {
     // Auto-detection is best-effort; failures must never block app startup.
   }

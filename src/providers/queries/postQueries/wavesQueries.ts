@@ -117,7 +117,9 @@ export const useWavesQuery = (
       flatData
         // Waves are never promoted; pass the explicit `isPromoted=false` so this
         // stays on the shared parsePost(post, currentUserName, isPromoted) contract.
-        .map((item) => parsePost(item, currentAccount?.name, false))
+        // Shallow-copy before parsing: parsePost mutates its argument, and `flatData`
+        // holds the SDK query cache objects (mutating re-renders the body each refetch).
+        .map((item) => parsePost({ ...item }, currentAccount?.name, false))
         .filter((post) => {
           if (!post) {
             return false;

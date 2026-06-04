@@ -85,7 +85,10 @@ const CommentsContainer = ({
   // Component Functions
 
   const _sortComments = (sortOrder = 'trending', _comments) => {
-    const sortedComments = _comments || lcomments;
+    const _source = _comments || lcomments;
+    // Guard against non-array inputs (discussion map / undefined) reaching .sort —
+    // was a top Sentry crash ("undefined is not a function").
+    const sortedComments = Array.isArray(_source) ? _source : [];
 
     const absNegative = (a) => a.net_rshares < 0;
 

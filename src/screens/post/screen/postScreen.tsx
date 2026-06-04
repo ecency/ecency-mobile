@@ -80,7 +80,7 @@ const PostScreen = ({ route }) => {
 
   // // Component Functions
   const _loadPost = async (_author = null, _permlink = null) => {
-    if (_author && _permlink && _author !== author && _permlink !== _permlink) {
+    if (_author && _permlink && (_author !== author || _permlink !== permlink)) {
       setAuthor(_author);
       setPermlink(_permlink);
     }

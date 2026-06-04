@@ -85,6 +85,13 @@ export const convertDraft = (rawData: any) => {
 };
 
 export const convertLatestQuotes = (rawData: any, currencyRate: number) => {
+  // Defensive guard: a null/partial market payload previously crashed here with
+  // "Cannot read property 'quotes' of null". Throw (don't return null) so the
+  // caller's existing try/catch keeps the prior quotes instead of spreading
+  // `{...null}` === `{}` and wiping the store.
+  if (!rawData?.hive?.quotes || !rawData?.hbd?.quotes || !rawData?.estm?.quotes) {
+    throw new Error('Invalid currency rate payload: missing quotes');
+  }
   return {
     [ASSET_IDS.HIVE]: convertQuoteItem(rawData.hive.quotes.usd, currencyRate),
     [ASSET_IDS.HP]: convertQuoteItem(rawData.hive.quotes.usd, currencyRate),

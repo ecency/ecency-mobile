@@ -106,8 +106,11 @@ export const useFeedQuery = ({
 
           const nsfwFiltered = nsfw !== '0' ? filterNsfwPost(page, nsfw) : page;
 
+          // Shallow-copy before parsing: parsePost mutates its argument in place and
+          // `nsfwFiltered` holds React Query cache objects — mutating them defeats
+          // structural sharing and re-parses already-parsed data on every refetch.
           return nsfwFiltered.map((post) =>
-            parsePost(post, currentAccount?.name, false, true, false),
+            parsePost({ ...post }, currentAccount?.name, false, true, false),
           );
         });
 
