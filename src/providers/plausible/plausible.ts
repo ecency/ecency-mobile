@@ -24,6 +24,11 @@ const plausibleApi = axios.create({
 
 export const recordPlausibleEvent = async (urlPath: string, eventName?: string): Promise<void> => {
   try {
+    // Guard against undefined/empty paths reaching .replace (top Sentry crash:
+    // "Cannot read property 'replace' of undefined").
+    if (!urlPath) {
+      return;
+    }
     // form plausible recordable url
     const normalizedPath = urlPath.replace(/^\//, '');
     const url = `app://${Platform.OS}.${SITE_ID}/${normalizedPath}`;
@@ -46,9 +51,10 @@ export const recordPlausibleEvent = async (urlPath: string, eventName?: string):
 
     console.log(`Event "${eventName}" recorded successfully.`);
   } catch (error) {
+    // Analytics is fire-and-forget: report but do not rethrow, otherwise the
+    // failure surfaces as an unhandled rejection from callers.
     Sentry.captureException(error);
     console.error(`Failed to record event "${eventName}":`, error);
-    throw error;
   }
 };
 

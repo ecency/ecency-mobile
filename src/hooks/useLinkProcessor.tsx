@@ -572,7 +572,10 @@ export const useLinkProcessor = (onClose?: () => void) => {
           },
         });
       } else {
-        _handleHiveUriTransaction(uri, options);
+        // Must await: _handleHiveUriTransaction is async and hiveuri.decode() throws
+        // synchronously on a malformed URI. Without await the rejection escapes this
+        // try/catch as an unhandled promise rejection and _showInvalidAlert never fires.
+        await _handleHiveUriTransaction(uri, options);
       }
     } catch (err) {
       _showInvalidAlert();

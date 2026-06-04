@@ -217,7 +217,7 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
         throw new Error('Pin decryption failed');
       }
       _userAccount = await login(username, _key);
-      console.log('successfully repair key based account data', username, _key);
+      console.log('successfully repair key based account data', username);
     }
 
     dispatch(updateCurrentAccount({ ..._userAccount }));

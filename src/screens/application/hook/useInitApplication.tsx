@@ -10,7 +10,7 @@ import {
   useColorScheme,
 } from 'react-native';
 import notifee from '@notifee/react-native';
-import { isEmpty, some, get } from 'lodash';
+import { some, get } from 'lodash';
 import { getMessaging } from '@react-native-firebase/messaging';
 import BackgroundTimer from 'react-native-background-timer';
 import { Image as ExpoImage } from 'expo-image';
@@ -283,7 +283,11 @@ export const useInitApplication = () => {
         markNotificationsReadMutation.mutate(activity_id);
       }
 
-      if (!some(params, isEmpty)) {
+      // Only an empty *string* param (e.g. missing author/permlink) should block
+      // navigation. lodash isEmpty(2) is true for numbers, which previously stopped
+      // transfer notifications (params { activePage: 2 }) from opening the wallet.
+      const _hasEmptyStringParam = some(params, (v) => typeof v === 'string' && v.trim() === '');
+      if (routeName && !_hasEmptyStringParam) {
         if (isPinCodeOpen) {
           RootNavigation.navigate({
             name: ROUTES.SCREENS.PINCODE,

@@ -719,13 +719,13 @@ class ApplicationContainer extends Component {
         Sentry.captureException(
           new Error(
             `Reporting missing access token in other accounts section: account:${
-              account.name
-            } with local data ${JSON.stringify(account?.local)}`,
+              account?.name ?? '<unknown>'
+            } with local keys: ${Object.keys(account?.local || {}).join(',')}`,
           ),
         );
 
         // fallback to current account access token to register atleast logged in account
-        if (currentAccount.name === account.name) {
+        if (currentAccount?.name && currentAccount.name === account?.name) {
           _enabledNotificationForAccount(currentAccount);
         }
       }

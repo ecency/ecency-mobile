@@ -54,12 +54,12 @@ export const useAnnouncementsQuery = () => {
     const firstAnnounce = announcementsQuery.data?.find((a) => !isProposalAnnouncement(a));
 
     // bypass if logged in user is required for announcement, skip otherwise
-    if (!firstAnnounce || (firstAnnounce?.auth && !currentAccount?.username)) {
+    if (!firstAnnounce || (firstAnnounce?.auth && !currentAccount?.name)) {
       return;
     }
 
     // prepare annoucmnet data
-    const _metaId = `${firstAnnounce.id}_${currentAccount?.username || 'guest'}`;
+    const _metaId = `${firstAnnounce.id}_${currentAccount?.name || 'guest'}`;
     const _meta = announcementsMeta && announcementsMeta[_metaId];
     const curTime = new Date().getTime();
 
@@ -69,7 +69,7 @@ export const useAnnouncementsQuery = () => {
     }
 
     _showAnnouncement(firstAnnounce, _metaId);
-  }, [announcementsQuery.data, currentAccount.name, lastAppVersion]);
+  }, [announcementsQuery.data, currentAccount?.name, lastAppVersion]);
 
   const _showAnnouncement = async (data, metaId) => {
     const _markAsSeen = () => {
