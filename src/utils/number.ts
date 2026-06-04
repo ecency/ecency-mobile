@@ -49,28 +49,41 @@ export const getAssetPrecision = (symbol?: string): number => {
   return NATIVE_ASSET_PRECISION[symbol.trim().toUpperCase()] ?? 3;
 };
 
-// Format an amount to exactly `precision` decimals as a plain decimal string.
-// Unlike `Number.toString()` (which yields an invalid `1e-7`-style value for tiny
-// amounts), toFixed renders a plain decimal across the on-chain magnitude range and
-// rounds the float representation correctly.
+// Truncate `value` toward zero to exactly `precision` decimals, as a plain decimal
+// string. The value is formatted with extra precision first so binary-float
+// artifacts (e.g. 10.123 * 1000 === 10122.999999999998) cannot corrupt the result,
+// then sliced. Unlike `toFixed`, this never rounds the amount UP past what the user
+// holds (keeping it consistent with the input cap), and never emits scientific
+// notation (which `Number.toString()` would, as an invalid `1e-7`-style value).
+const truncateToPrecision = (num: number, precision: number): string => {
+  const fixed = Math.abs(num).toFixed(precision + 4);
+  const dot = fixed.indexOf('.');
+  const cut = precision > 0 ? fixed.slice(0, dot + 1 + precision) : fixed.slice(0, dot);
+  const sign = num < 0 && Number(cut) !== 0 ? '-' : '';
+  return sign + cut;
+};
+
+// Format an amount to exactly `precision` decimals, truncating excess precision
+// toward zero (so the broadcast never inflates past the user's balance) and padding
+// when under-precise.
 export const toFixedNoExp = (value: number | string, precision: number): string => {
   const num = typeof value === 'number' ? value : parseFloat(String(value));
   if (!Number.isFinite(num)) {
     return (0).toFixed(precision);
   }
-  return num.toFixed(precision);
+  return truncateToPrecision(num, precision);
 };
 
-// Format a Hive-Engine token quantity: fixed-point (never scientific notation),
-// capped at the token precision (default 8 — the engine maximum), with trailing
-// zeros and any dangling decimal point stripped so the quantity string is clean.
+// Format a Hive-Engine token quantity: truncated to the token precision (default 8 —
+// the engine maximum), never scientific notation, with trailing zeros and any
+// dangling decimal point stripped so the quantity string is clean.
 export const formatTokenQuantity = (value: number | string, precision = 8): string => {
   const num = typeof value === 'number' ? value : parseFloat(String(value));
   if (!Number.isFinite(num)) {
     return '0';
   }
-  const fixed = num.toFixed(Math.max(0, Math.min(precision, 8)));
-  return fixed.indexOf('.') === -1 ? fixed : fixed.replace(/\.?0+$/, '');
+  const truncated = truncateToPrecision(num, Math.max(0, Math.min(precision, 8)));
+  return truncated.indexOf('.') === -1 ? truncated : truncated.replace(/\.?0+$/, '');
 };
 
 // Convert a human SPK/LARYNX amount to integer milli-units. SPK custom_json ops

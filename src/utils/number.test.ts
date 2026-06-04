@@ -223,9 +223,11 @@ describe('toFixedNoExp', () => {
     expect(toFixedNoExp(1.5, 3)).toBe('1.500');
   });
 
-  it('normalizes over-precise amounts down to the asset precision', () => {
+  it('truncates over-precise amounts toward zero (never rounds up past balance)', () => {
     expect(toFixedNoExp('10.12345', 3)).toBe('10.123');
-    expect(toFixedNoExp('1.23456789', 6)).toBe('1.234568');
+    expect(toFixedNoExp('1.23456789', 6)).toBe('1.234567');
+    expect(toFixedNoExp('10.9995', 3)).toBe('10.999');
+    expect(toFixedNoExp('0.9999', 3)).toBe('0.999');
   });
 
   it('never emits scientific notation for tiny values', () => {
