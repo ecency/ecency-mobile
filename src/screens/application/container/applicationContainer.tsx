@@ -1079,7 +1079,7 @@ class ApplicationContainer extends Component {
       }
 
       const token = await getMessaging().getToken();
-      console.log('FCM Token:', token);
+      console.log('FCM Token obtained:', !!token);
       saveNotificationSetting(
         accessToken,
         username,
