@@ -53,7 +53,7 @@ class FollowsScreen extends PureComponent {
     const title = intl.formatMessage({
       id: !isFollowing ? 'profile.follower' : 'profile.following',
     });
-    const headerTitle = `${title} (${count})`;
+    const headerTitle = typeof count === 'number' ? `${title} (${count})` : title;
 
     return (
       <SafeAreaView style={styles.container}>

@@ -48,6 +48,15 @@ export const deepLinkParser = async (url) => {
         url,
       };
       keey = 'WebBrowser';
+    } else if (permlink === 'followers' || permlink === 'following') {
+      routeName = ROUTES.SCREENS.FOLLOWS;
+      // No count is available at parse time; FollowsScreen omits the header count when it
+      // is not a number, and the list still loads from username + mode.
+      params = {
+        username: author,
+        isFollowingPress: permlink === 'following',
+      };
+      keey = `${author}/${permlink}`;
     } else if (permlink) {
       params = { author, permlink };
       routeName = ROUTES.SCREENS.POST;
@@ -68,6 +77,42 @@ export const deepLinkParser = async (url) => {
       filter: feedType,
     };
     keey = `${feedType}/${tag || ''}`;
+  }
+
+  // Standalone web-standard routes -> native screens. postUrlParser surfaces a bare path
+  // like /communities, /search, /bookmarks or /wallet as a feedType with no tag. params
+  // must be a truthy object: useLinkProcessor only navigates natively when name && params
+  // && key are all set, otherwise it falls back to the in-app web browser.
+  // Gate on Ecency hosts so external links (e.g. https://example.com/wallet) still open in
+  // the in-app browser instead of hijacking to a native Ecency screen.
+  const isEcencyUrl =
+    /^(ecency|esteem):\/\//i.test(url) ||
+    /^https?:\/\/(www\.)?(ecency\.com|esteem\.app|estm\.to)(\/|$)/i.test(url);
+  if (!routeName && isEcencyUrl && feedType && !tag) {
+    switch (feedType) {
+      case 'communities':
+        routeName = ROUTES.SCREENS.COMMUNITIES;
+        params = {};
+        keey = 'communities';
+        break;
+      case 'search':
+        routeName = ROUTES.SCREENS.SEARCH_RESULT;
+        params = {};
+        keey = 'search';
+        break;
+      case 'bookmarks':
+        routeName = ROUTES.SCREENS.BOOKMARKS;
+        params = {};
+        keey = 'bookmarks';
+        break;
+      case 'wallet':
+        routeName = ROUTES.TABBAR.WALLET;
+        params = {};
+        keey = 'wallet';
+        break;
+      default:
+        break;
+    }
   }
 
   // process url for authentication
