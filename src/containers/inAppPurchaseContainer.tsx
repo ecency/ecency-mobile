@@ -4,6 +4,7 @@ import { Platform, Alert, EmitterSubscription } from 'react-native';
 import * as IAP from 'react-native-iap';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Services
 import { useNavigation } from '@react-navigation/native';
@@ -17,6 +18,14 @@ import { default as ROUTES } from '../constants/routeNames';
 import { UserAvatar } from '../components';
 import { PurchaseRequestData } from '../providers/ecency/ecency.types';
 import { SheetNames } from '../navigation/sheets';
+
+// Username/email entered when a paid-account purchase is started. Persisted so a
+// purchase that Google has charged but that was not finalized (network drop, app
+// killed, or the purchase listener firing without the registration screen
+// mounted) can still be completed later -- otherwise Google auto-refunds any
+// purchase that is not acknowledged within 3 days.
+const PENDING_ACCOUNT_PURCHASE_KEY = 'pendingAccountPurchaseMeta';
+const PURCHASE_ORDER_MAX_ATTEMPTS = 3;
 
 class InAppPurchaseContainer extends Component {
   purchaseUpdateSubscription: EmitterSubscription | null = null;
@@ -84,14 +93,51 @@ class InAppPurchaseContainer extends Component {
     }
   };
 
-  // attempt to call purchase order and consumes purchased item on success
-  _consumePurchase = async (purchase) => {
+  // Resolve the account meta (username/email/referral) for a 999accounts purchase
+  // from props (registration screen) or, as a fallback, from the persisted
+  // context saved at buy time. Returns null when neither is available.
+  _resolveAccountMeta = async () => {
+    const { username, email, referral } = this.props;
+    if (username && email) {
+      return { username, email, referral: referral || '' };
+    }
+    try {
+      const raw = await AsyncStorage.getItem(PENDING_ACCOUNT_PURCHASE_KEY);
+      if (raw) {
+        return JSON.parse(raw);
+      }
+    } catch (err) {
+      Sentry.captureException(err);
+    }
+    return null;
+  };
+
+  // Post the purchase to ecency, retrying transient failures with backoff so a
+  // dropped network call does not leave a paid purchase unregistered (and later
+  // auto-refunded by Google).
+  _purchaseOrderWithRetry = async (data) => {
+    let lastErr;
+    for (let attempt = 0; attempt < PURCHASE_ORDER_MAX_ATTEMPTS; attempt += 1) {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        return await purchaseOrder(data);
+      } catch (err) {
+        lastErr = err;
+        // eslint-disable-next-line no-await-in-loop
+        await new Promise((resolve) => setTimeout(resolve, 1000 * 2 ** attempt));
+      }
+    }
+    throw lastErr;
+  };
+
+  // attempt to call purchase order and consumes purchased item on success.
+  // opts.silent suppresses the success/failure UI callbacks (used for background
+  // recovery of an interrupted purchase on a screen unrelated to that purchase).
+  _consumePurchase = async (purchase, opts = {}) => {
+    const { silent } = opts;
     const {
       currentAccount: { name },
       fetchData,
-      username,
-      email,
-      referral,
       handleOnPurchaseFailure,
       handleOnPurchaseSuccess,
     } = this.props;
@@ -102,54 +148,71 @@ class InAppPurchaseContainer extends Component {
       const token = get(purchase, 'purchaseToken');
 
       if (receipt) {
+        const isAccount = purchase.productId === '999accounts';
         const data: PurchaseRequestData = {
           platform: Platform.OS === 'android' ? 'play_store' : 'app_store',
           product: get(purchase, 'productId'),
           receipt: Platform.OS === 'android' ? token : receipt,
-          user: username || name, // username from passed in props from nav params i-e got from url qr scan
+          user: this.props.username || name, // from nav params i-e got from url qr scan
         };
 
-        // make sure item is not consumed if email and username not preset for 999accounts
-        if (purchase.productId === '999accounts' && (!email || !username)) {
-          throw new Error('Email and username are required for 999accounts consumption');
-        }
-
-        if (email && purchase.productId === '999accounts') {
-          console.log('injecting purchase account meta');
-          data.user = name || 'ecency'; // if user logged in user that name else use ecency,
+        if (isAccount) {
+          // 999accounts needs username/email; resolve from props or persisted
+          // context. Without it we cannot create the account, so leave the
+          // purchase unconsumed for a later retry rather than consuming it.
+          const meta = await this._resolveAccountMeta();
+          if (!meta || !meta.username || !meta.email) {
+            throw new Error('Email and username are required for 999accounts consumption');
+          }
+          data.user = name || 'ecency'; // if user logged in use that name else use ecency
           data.meta = {
-            username,
-            email,
-            referral,
+            username: meta.username,
+            email: meta.email,
+            referral: meta.referral || '',
           };
         }
 
-        // purhcase call to ecency on successful payment, consume iap item on success
-        await purchaseOrder(data);
+        // purchase call to ecency on successful payment, consume iap item on success
+        await this._purchaseOrderWithRetry(data);
 
+        // Entitlement is now granted server-side and the server also acknowledges
+        // the purchase, so a failed consume here is NOT fatal -- it can be retried
+        // on a later launch and must not be surfaced as a purchase failure.
+        let consumed = false;
         try {
           const ackResult = await IAP.finishTransaction({
             purchase,
             isConsumable: true,
           });
           console.info('ackResult', ackResult);
+          consumed = true;
         } catch (ackErr) {
-          console.warn('ackErr', ackErr);
-          throw new Error(`consume failed, purchase successfull, ${ackErr.message}`);
+          console.warn('finishTransaction failed (non-fatal):', ackErr);
+          Sentry.captureException(ackErr);
+        }
+
+        if (isAccount && consumed) {
+          // fully delivered and consumed -- drop the saved context. If the consume
+          // failed we keep it so the purchase can be recovered on a later launch.
+          try {
+            await AsyncStorage.removeItem(PENDING_ACCOUNT_PURCHASE_KEY);
+          } catch (err) {
+            Sentry.captureException(err);
+          }
         }
 
         this.setState({ isProcessing: false });
 
-        if (fetchData) {
+        if (!silent && fetchData) {
           fetchData();
         }
-        if (handleOnPurchaseSuccess) {
+        if (!silent && handleOnPurchaseSuccess) {
           handleOnPurchaseSuccess();
         }
       }
     } catch (err) {
       this.setState({ isProcessing: false });
-      if (handleOnPurchaseFailure) {
+      if (!silent && handleOnPurchaseFailure) {
         handleOnPurchaseFailure(err);
       }
       this._getUnconsumedPurchases();
@@ -170,9 +233,20 @@ class InAppPurchaseContainer extends Component {
         const _purchase = purchases[i];
 
         if (_purchase.productId !== '999accounts') {
-          // consume item using finishTransactionx
+          // consume item using finishTransaction
           // eslint-disable-next-line no-await-in-loop
-          await this._consumePurchase(purchases[i]);
+          await this._consumePurchase(_purchase);
+        } else {
+          // A paid-account purchase that was charged but never finalized. Recover
+          // it silently using the saved registration context so the user gets the
+          // account (and we are not auto-refunded). Skip if there is no saved
+          // context -- the user must reopen registration to provide username/email.
+          // eslint-disable-next-line no-await-in-loop
+          const meta = await this._resolveAccountMeta();
+          if (meta && meta.username && meta.email) {
+            // eslint-disable-next-line no-await-in-loop
+            await this._consumePurchase(_purchase, { silent: true });
+          }
         }
       }
     } catch (err) {
@@ -251,7 +325,7 @@ class InAppPurchaseContainer extends Component {
   };
 
   _buyItem = async (sku) => {
-    const { navigation, isLoggedIn, intl } = this.props;
+    const { navigation, isLoggedIn, intl, username, email, referral } = this.props;
     const { unconsumedPurchases } = this.state;
     // if user is not loggedIn and purchase is other than account purchase
     // add more skus here for account purchase
@@ -265,6 +339,20 @@ class InAppPurchaseContainer extends Component {
 
     if (sku !== 'freePoints') {
       this.setState({ isProcessing: true });
+
+      // Persist the registration context up front so an account purchase that is
+      // interrupted after payment can be recovered later (see _consumePurchase /
+      // _consumeAvailablePurchases) instead of being auto-refunded by Google.
+      if (sku === '999accounts' && username && email) {
+        try {
+          await AsyncStorage.setItem(
+            PENDING_ACCOUNT_PURCHASE_KEY,
+            JSON.stringify({ username, email, referral: referral || '' }),
+          );
+        } catch (err) {
+          Sentry.captureException(err);
+        }
+      }
 
       // check if sku preset in unconsumedItems
       const _unconsumedPurchase = unconsumedPurchases.find((p) => p.productId === sku);
