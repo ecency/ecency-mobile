@@ -271,10 +271,14 @@ class InAppPurchaseContainer extends Component {
     this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener(this._consumePurchase);
 
     this.purchaseErrorSubscription = IAP.purchaseErrorListener((error) => {
-      // A terminal payment error (user cancelled, declined, etc.) means there is
-      // no purchase to recover -- drop any persisted account context so it does
-      // not linger in storage until the next purchase overwrites it.
-      AsyncStorage.removeItem(PENDING_ACCOUNT_PURCHASE_KEY).catch(() => {});
+      // A terminal payment error for the account product means there is nothing
+      // to recover -- drop the persisted context so it doesn't linger. Scope to
+      // 999accounts: this listener fires for every SKU, and an unrelated failed
+      // purchase (boost/points) must NOT wipe a pending account purchase that
+      // Google may still deliver.
+      if (get(error, 'productId') === '999accounts') {
+        AsyncStorage.removeItem(PENDING_ACCOUNT_PURCHASE_KEY).catch(() => {});
+      }
 
       const { intl, handleOnPurchaseFailure } = this.props;
 
