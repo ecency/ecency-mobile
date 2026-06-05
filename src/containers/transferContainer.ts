@@ -45,6 +45,7 @@ class TransferContainer extends Component {
       initialAmount: props.route.params?.initialAmount,
       initialMemo: props.route.params?.initialMemo,
       recurrentTransfers: [],
+      tokenPrecision: undefined,
     };
   }
 
@@ -87,6 +88,7 @@ class TransferContainer extends Component {
     queryClient.fetchQuery(getAccountsQueryOptions([username])).then(async (accounts) => {
       const account = accounts[0];
       let balance;
+      let enginePrecision;
 
       const assetLayer = this.props.route.params?.assetLayer ?? this.props.route.params?.tokenLayer;
       if (assetLayer === TokenLayers.ENGINE) {
@@ -94,6 +96,7 @@ class TransferContainer extends Component {
 
         tokenBalances.forEach((tokenBalance) => {
           if (tokenBalance.symbol === fundType) {
+            enginePrecision = tokenBalance.precision;
             switch (transferType) {
               case TransferTypes.UNDELEGATE:
                 balance = tokenBalance.delegationsOut;
@@ -112,6 +115,7 @@ class TransferContainer extends Component {
             balance = '0';
           }
         });
+        this.setState({ tokenPrecision: enginePrecision });
       } else {
         if (
           (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
@@ -268,7 +272,7 @@ class TransferContainer extends Component {
     // precision (no scientific notation). Over-precise amounts are otherwise rejected.
     const amountValue =
       tokenLayer === TokenLayers.ENGINE
-        ? formatTokenQuantity(data.amount)
+        ? formatTokenQuantity(data.amount, this.state.tokenPrecision)
         : toFixedNoExp(data.amount, getAssetPrecision(fundType));
 
     data.amount = `${amountValue} ${fundType}`;
@@ -657,6 +661,7 @@ class TransferContainer extends Component {
         fetchRecurrentTransfers: this._fetchRecurrentTransfers,
         recurrentTransfers,
         tokenLayer,
+        tokenPrecision: this.state.tokenPrecision,
         setFundType: this._setFundType,
       })
     );

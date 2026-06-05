@@ -48,6 +48,7 @@ interface TransferViewProps {
   fetchRecurrentTransfers?: () => void;
   recurrentTransfers?: any;
   tokenLayer?: string;
+  tokenPrecision?: number;
   badActors?: Set<string>;
   setFundType?: (fundType: string) => void;
 }
@@ -71,6 +72,7 @@ const TransferView = ({
   fetchRecurrentTransfers,
   recurrentTransfers,
   tokenLayer,
+  tokenPrecision,
   badActors,
   setFundType,
 }: TransferViewProps) => {
@@ -294,7 +296,7 @@ const TransferView = ({
     }
     // Cap decimals to the asset's precision so an over-precise amount can never be
     // entered (HIVE/HBD/POINTS = 3, VESTS = 6; engine tokens allow up to 8).
-    const maxDecimals = isEngineToken ? 8 : getAssetPrecision(fundType);
+    const maxDecimals = isEngineToken ? tokenPrecision ?? 8 : getAssetPrecision(fundType);
     const dotIndex = newValue.indexOf('.');
     if (dotIndex !== -1 && newValue.length - dotIndex - 1 > maxDecimals) {
       newValue = newValue.slice(0, dotIndex + 1 + maxDecimals);
@@ -392,7 +394,7 @@ const TransferView = ({
     // Normalize the amount to the asset's on-chain precision before encoding the
     // hive-uri; this HiveSigner path previously sent the raw, unclamped user input.
     const hsNativeAmount = `${toFixedNoExp(amount, getAssetPrecision(fundType))} ${fundType}`;
-    const hsEngineAmount = `${formatTokenQuantity(amount)} ${fundType}`;
+    const hsEngineAmount = `${formatTokenQuantity(amount, tokenPrecision)} ${fundType}`;
     const destinations = destination
       .trim()
       .split(/[\s,]+/)

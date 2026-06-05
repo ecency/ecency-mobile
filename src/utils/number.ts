@@ -49,16 +49,26 @@ export const getAssetPrecision = (symbol?: string): number => {
   return NATIVE_ASSET_PRECISION[symbol.trim().toUpperCase()] ?? 3;
 };
 
-// Truncate `value` toward zero to exactly `precision` decimals, as a plain decimal
-// string. The value is formatted with extra precision first so binary-float
-// artifacts (e.g. 10.123 * 1000 === 10122.999999999998) cannot corrupt the result,
-// then sliced. Unlike `toFixed`, this never rounds the amount UP past what the user
-// holds (keeping it consistent with the input cap), and never emits scientific
-// notation (which `Number.toString()` would, as an invalid `1e-7`-style value).
+// Truncate `num` toward zero to exactly `precision` decimals, returned as a plain
+// decimal string. It slices the decimal-string representation rather than using
+// `toFixed`, which rounds and can carry on a run of 9s (e.g. 1.999999999 -> 2.000),
+// breaking the "never exceed the user's balance" guarantee. `Number.toString()` gives
+// the shortest round-trip form (so 0.3 stays "0.3", not "0.2999…"); scientific-
+// notation values (tiny magnitudes) are expanded via toFixed, where their
+// sub-precision digits truncate to zero anyway.
 const truncateToPrecision = (num: number, precision: number): string => {
-  const fixed = Math.abs(num).toFixed(precision + 4);
-  const dot = fixed.indexOf('.');
-  const cut = precision > 0 ? fixed.slice(0, dot + 1 + precision) : fixed.slice(0, dot);
+  let s = Math.abs(num).toString();
+  if (s.indexOf('e') !== -1 || s.indexOf('E') !== -1) {
+    s = Math.abs(num).toFixed(precision);
+  }
+  const dot = s.indexOf('.');
+  let cut: string;
+  if (dot === -1) {
+    cut = precision > 0 ? `${s}.${'0'.repeat(precision)}` : s;
+  } else {
+    const frac = `${s.slice(dot + 1)}${'0'.repeat(precision)}`.slice(0, precision);
+    cut = precision > 0 ? `${s.slice(0, dot)}.${frac}` : s.slice(0, dot);
+  }
   const sign = num < 0 && Number(cut) !== 0 ? '-' : '';
   return sign + cut;
 };

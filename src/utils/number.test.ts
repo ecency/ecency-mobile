@@ -228,6 +228,15 @@ describe('toFixedNoExp', () => {
     expect(toFixedNoExp('1.23456789', 6)).toBe('1.234567');
     expect(toFixedNoExp('10.9995', 3)).toBe('10.999');
     expect(toFixedNoExp('0.9999', 3)).toBe('0.999');
+    // A run of 9s must not carry/round up (regression guard)
+    expect(toFixedNoExp('1.999999999', 3)).toBe('1.999');
+    expect(toFixedNoExp('0.9999999', 6)).toBe('0.999999');
+  });
+
+  it('keeps float-error values exact (0.3 stays 0.300, not 0.299)', () => {
+    expect(toFixedNoExp(0.3, 3)).toBe('0.300');
+    expect(toFixedNoExp(0.1, 3)).toBe('0.100');
+    expect(toFixedNoExp(0.1 + 0.2, 3)).toBe('0.300');
   });
 
   it('never emits scientific notation for tiny values', () => {
