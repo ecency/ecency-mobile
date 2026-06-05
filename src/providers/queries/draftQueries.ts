@@ -138,7 +138,9 @@ export const useUpdateDraftMutation = () => {
  * which stores data under ["posts", "drafts", "infinite", username, limit].
  * We invalidate the infinite query on success so the list updates.
  */
-export const useDraftDeleteMutation = () => {
+export const useDraftDeleteMutation = ({
+  showErrorToast = true,
+}: { showErrorToast?: boolean } = {}) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const { username, code } = useAuth();
@@ -152,7 +154,13 @@ export const useDraftDeleteMutation = () => {
       queryClient.invalidateQueries({ queryKey: draftsInfiniteQueryKey(username) });
     },
     () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      // Best-effort callers (e.g. deleting a published post's source draft after
+      // the user has already navigated away) suppress this toast so a failure
+      // doesn't surface a context-free error on an unrelated screen. The SDK
+      // still rolls the draft back into the cached list, so it isn't lost.
+      if (showErrorToast) {
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      }
     },
   );
 };

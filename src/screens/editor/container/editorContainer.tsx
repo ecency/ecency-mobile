@@ -1744,9 +1744,11 @@ const useEditorQueryProps = () => ({
   reblogMutation: useReblogMutation(),
   grantPostingPermissionMutation: useGrantPostingPermissionMutation(),
   addScheduleMutation: useAddScheduleMutation(),
-  // Used to delete a published post's source draft, but only after the user
-  // confirms — never silently (see the publish-success prompt).
-  deleteDraftMutation: useDraftDeleteMutation(),
+  // Deletes a published post's source draft, but only after the user confirms
+  // (see the publish-success prompt) — never silently. Best-effort: by the time
+  // it resolves the user has navigated away, so the failure toast is suppressed
+  // (a failed delete just leaves the draft, which reappears in the drafts list).
+  deleteDraftMutation: useDraftDeleteMutation({ showErrorToast: false }),
 });
 
 export default gestureHandlerRootHOC(
