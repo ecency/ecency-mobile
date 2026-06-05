@@ -307,9 +307,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   }
 
   _handleAppStateChange = (nextAppState: AppStateStatus) => {
-    // iOS emits 'inactive' when backgrounding; Android emits 'background'. Handle
-    // both so unsaved draft content is not lost when an Android user backgrounds.
-    if (this._appState.match(/active|forground/) && nextAppState.match(/inactive|background/)) {
+    // iOS emits 'inactive' when backgrounding; Android emits 'background'. Use exact
+    // equality — a regex like /active/ also matches 'inactive', which would save
+    // twice on iOS (active->inactive, then inactive->background). Only save when
+    // there are pending edits, since _saveCurrentDraft dereferences the fields.
+    const wasForeground = this._appState === 'active';
+    const movingToBackground = nextAppState === 'inactive' || nextAppState === 'background';
+    if (wasForeground && movingToBackground && this._updatedDraftFields) {
       this._saveCurrentDraft(this._updatedDraftFields);
     }
     this._appState = nextAppState;
