@@ -555,9 +555,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
-    // After a successful publish the source draft is deleted and its caches are
-    // cleared; skip any further save (e.g. the unmount autosave) so it isn't
-    // recreated locally or on the server.
+    // Once a post is published, skip any further draft save (e.g. the unmount
+    // autosave) so the source draft is never silently re-written or recreated;
+    // the user decides whether to delete it via the publish-success prompt.
     if (this._isPublished) {
       return;
     }
@@ -979,14 +979,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
           if (draftId) {
             dispatch(removeEditorCache(draftId));
-            // The post is published, so remove the server-side draft it was
-            // composed from (a loaded draft or one created by autosave) — these
-            // would otherwise pile up in the user's drafts list. Fire-and-forget:
-            // the publish already succeeded, so a cleanup failure must not block
-            // navigation or surface as an error (toast suppressed in the hook).
-            this.props.deleteDraftMutation
-              .mutateAsync({ draftId })
-              .catch((err) => console.warn('Failed to delete published draft', err));
           }
 
           dispatch(
@@ -997,15 +989,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             ),
           );
           // Reset `_isSubmitting` synchronously on success; the screen will
-          // navigate away in 500ms and unmount, but until then the field
-          // must not stay true (or a fast in-window reentry would be
-          // blocked by `_handleSubmit`).
+          // navigate away and unmount shortly, but until then the field must
+          // not stay true (or a fast in-window reentry would be blocked by
+          // `_handleSubmit`).
           this._isSubmitting = false;
-          // Mark published before the unmount so the draft save triggered by
-          // `componentWillUnmount` is skipped and the just-deleted draft isn't
-          // recreated.
+          // Mark published before the unmount so the draft autosave triggered by
+          // `componentWillUnmount` is skipped and never re-writes the source
+          // draft (the user decides its fate via the prompt below).
           this._isPublished = true;
-          setTimeout(() => {
+
+          const _navigateToProfile = () => {
             this.setState({
               isPostSending: false,
             });
@@ -1013,7 +1006,37 @@ class EditorContainer extends Component<EditorContainerProps, any> {
               username: get(currentAccount, 'name'),
               key: get(currentAccount, 'name'),
             });
-          }, 500);
+          };
+
+          if (draftId) {
+            // The post was published from a saved draft. Offer to remove that
+            // server draft so drafts don't pile up — but never delete it
+            // without explicit confirmation. Either choice then navigates away.
+            Alert.alert(
+              intl.formatMessage({ id: 'editor.published_draft_delete_title' }),
+              intl.formatMessage({ id: 'editor.published_draft_delete_body' }),
+              [
+                {
+                  text: intl.formatMessage({ id: 'editor.published_draft_keep' }),
+                  style: 'cancel',
+                  onPress: _navigateToProfile,
+                },
+                {
+                  text: intl.formatMessage({ id: 'alert.delete' }),
+                  style: 'destructive',
+                  onPress: () => {
+                    this.props.deleteDraftMutation
+                      .mutateAsync({ draftId })
+                      .catch((err) => console.warn('Failed to delete published draft', err));
+                    _navigateToProfile();
+                  },
+                },
+              ],
+              { cancelable: false },
+            );
+          } else {
+            setTimeout(_navigateToProfile, 500);
+          }
         } catch (error) {
           this._handleSubmitFailure(error);
         }
@@ -1721,8 +1744,10 @@ const useEditorQueryProps = () => ({
   reblogMutation: useReblogMutation(),
   grantPostingPermissionMutation: useGrantPostingPermissionMutation(),
   addScheduleMutation: useAddScheduleMutation(),
-  // Background cleanup of a published post's source draft; suppress the failure
-  // toast so it never surfaces as an error after a successful publish.
+  // Deletes a published post's source draft, but only after the user confirms
+  // (see the publish-success prompt) — never silently. Best-effort: by the time
+  // it resolves the user has navigated away, so the failure toast is suppressed
+  // (a failed delete just leaves the draft, which reappears in the drafts list).
   deleteDraftMutation: useDraftDeleteMutation({ showErrorToast: false }),
 });
 

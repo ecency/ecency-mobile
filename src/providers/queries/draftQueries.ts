@@ -154,9 +154,10 @@ export const useDraftDeleteMutation = ({
       queryClient.invalidateQueries({ queryKey: draftsInfiniteQueryKey(username) });
     },
     () => {
-      // Callers that delete as a background cleanup (e.g. removing the draft a
-      // just-published post was composed from) suppress the toast so a cleanup
-      // failure doesn't surface as an error after a successful action.
+      // Best-effort callers (e.g. deleting a published post's source draft after
+      // the user has already navigated away) suppress this toast so a failure
+      // doesn't surface a context-free error on an unrelated screen. The SDK
+      // still rolls the draft back into the cached list, so it isn't lost.
       if (showErrorToast) {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       }
