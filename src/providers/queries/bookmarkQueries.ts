@@ -84,7 +84,9 @@ export const useAddBookmarkMutation = () => {
     username,
     code,
     () => {
-      queryClient.invalidateQueries({ queryKey: ['bookmarks'] });
+      // SDK keys bookmarks under the 'accounts' namespace; a ['bookmarks'] prefix
+      // does not match ['accounts','bookmarks',…] so the list would stay stale.
+      queryClient.invalidateQueries({ queryKey: ['accounts', 'bookmarks'] });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
     },
     () => {
@@ -107,7 +109,9 @@ export const useDeleteBookmarkMutation = () => {
     username,
     code,
     () => {
-      queryClient.invalidateQueries({ queryKey: ['bookmarks'] });
+      // SDK keys bookmarks under the 'accounts' namespace; a ['bookmarks'] prefix
+      // does not match ['accounts','bookmarks',…] so the list would stay stale.
+      queryClient.invalidateQueries({ queryKey: ['accounts', 'bookmarks'] });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
     },
     () => {
@@ -130,7 +134,9 @@ export const useAddFavouriteMutation = () => {
     username,
     code,
     () => {
-      queryClient.invalidateQueries({ queryKey: ['favorites'] });
+      // SDK keys favorites under the 'accounts' namespace; a ['favorites'] prefix
+      // does not match ['accounts','favorites',…] so the list would stay stale.
+      queryClient.invalidateQueries({ queryKey: ['accounts', 'favorites'] });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
     },
     () => {
@@ -153,7 +159,9 @@ export const useDeleteFavouriteMutation = () => {
     username,
     code,
     () => {
-      queryClient.invalidateQueries({ queryKey: ['favorites'] });
+      // SDK keys favorites under the 'accounts' namespace; a ['favorites'] prefix
+      // does not match ['accounts','favorites',…] so the list would stay stale.
+      queryClient.invalidateQueries({ queryKey: ['accounts', 'favorites'] });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
     },
     () => {
