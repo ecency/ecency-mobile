@@ -1,8 +1,8 @@
 diff --git a/node_modules/react-native-vision-camera/ios/Core/CameraSession+Photo.swift b/node_modules/react-native-vision-camera/ios/Core/CameraSession+Photo.swift
-index 12f5c07..fcbc758 100644
+index 12f5c07..61ee0a2 100644
 --- a/node_modules/react-native-vision-camera/ios/Core/CameraSession+Photo.swift
 +++ b/node_modules/react-native-vision-camera/ios/Core/CameraSession+Photo.swift
-@@ -17,6 +17,46 @@ extension CameraSession {
+@@ -17,6 +17,53 @@ extension CameraSession {
    func takePhoto(options: TakePhotoOptions, promise: Promise) {
      // Run on Camera Queue
      CameraQueues.cameraQueue.async {
@@ -25,6 +25,13 @@ index 12f5c07..fcbc758 100644
 +        self.captureSession.beginConfiguration()
 +        self.captureSession.removeOutput(photoOutput)
 +        let newPhotoOutput = AVCapturePhotoOutput()
++        // addOutput is a no-op if the output can't be added; guard so we never
++        // leave self.photoOutput pointing to an output not attached to the session.
++        guard self.captureSession.canAddOutput(newPhotoOutput) else {
++          self.captureSession.commitConfiguration()
++          promise.reject(error: .session(.cameraNotReady))
++          return
++        }
 +        self.captureSession.addOutput(newPhotoOutput)
 +        self.photoOutput = newPhotoOutput
 +        if self.captureSession.canSetSessionPreset(.photo) {
