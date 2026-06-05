@@ -13,6 +13,7 @@ import { InAppPurchaseContainer } from '../../../containers';
 import { Icon, MainButton, Modal, PostCardPlaceHolder, TextButton } from '../../../components';
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 import ROUTES from '../../../constants/routeNames';
+import TurnstileWebView from './turnstileWebView';
 
 type Props = {
   username: string;
@@ -35,6 +36,14 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   const [disableFree, setDisableFree] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState('');
+  // Bump to remount the Turnstile widget for a fresh (single-use) token after a failure.
+  const [captchaKey, setCaptchaKey] = useState(0);
+
+  const _resetCaptcha = () => {
+    setCaptchaToken('');
+    setCaptchaKey((k) => k + 1);
+  };
 
   useImperativeHandle(ref, () => ({
     showModal: ({ purchaseOnly }: { purchaseOnly: boolean } = { purchaseOnly: false }) => {
@@ -42,6 +51,8 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
       setIsRegistered(false);
       setIsRegistering(false);
       setDisableFree(purchaseOnly);
+      // Start each modal session with a fresh challenge — never reuse a prior token.
+      _resetCaptcha();
     },
   }));
 
@@ -54,7 +65,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
     setIsRegistering(true);
 
     try {
-      const result = await signUp(_username, email, refUsername);
+      const result = await signUp(_username, email, refUsername, captchaToken);
       if (result?.status >= 200 && result?.status < 300) {
         setIsRegistered(true);
       } else {
@@ -63,6 +74,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
           intl.formatMessage({ id: 'alert.unknow_error' }),
         );
         setIsRegistered(false);
+        _resetCaptcha();
       }
     } catch (err) {
       const title = intl.formatMessage({ id: 'alert.fail' });
@@ -77,6 +89,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
         body = intl.formatMessage({ id: 'register.error_message' }, { message });
       }
       Alert.alert(title, body);
+      _resetCaptcha();
     } finally {
       setIsRegistering(false);
     }
@@ -143,7 +156,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
     </View>
   );
 
-  const _renderCard = ({ titleId, descriptionId, btnTitle, onPress }) => {
+  const _renderCard = ({ titleId, descriptionId, btnTitle, onPress, extra, disabled }) => {
     return (
       <View style={styles.cardContainer}>
         <Text style={styles.title}>
@@ -158,11 +171,12 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
             })}
           </Text>
         </View>
+        {extra}
         <TextButton
           textStyle={styles.buttonText}
           onPress={onPress}
           style={styles.button}
-          disabled={isRegistering}
+          disabled={disabled !== undefined ? disabled : isRegistering}
           text={btnTitle}
         />
       </View>
@@ -178,9 +192,17 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
           _renderCard({
             titleId: 'free_account.title',
             descriptionId: 'free_account.desc',
-
             btnTitle: intl.formatMessage({ id: 'free_account.btn_register' }),
             onPress: _handleOnPressRegister,
+            extra: (
+              <TurnstileWebView
+                key={captchaKey}
+                onVerify={setCaptchaToken}
+                onExpire={() => setCaptchaToken('')}
+                onError={_resetCaptcha}
+              />
+            ),
+            disabled: !captchaToken,
           })}
 
         {productList.map((product) =>
