@@ -24,6 +24,17 @@ export enum PostCardActionIds {
 }
 
 const PostCard = ({ intl, content, isHideImage, nsfw, pageType, handleCardInteraction }) => {
+  // Inject this card's `content` into the (stable) parent handler so children
+  // receive a referentially-stable callback. The list passes a stable
+  // handleCardInteraction; wrapping it here (instead of a fresh inline arrow in
+  // the list's renderItem) keeps the memo comparator below from re-rendering
+  // every card on each list re-render.
+  const handleInteraction = React.useCallback(
+    (id: PostCardActionIds, payload: any, onCallback?: any) =>
+      handleCardInteraction(id, payload, content, onCallback),
+    [handleCardInteraction, content],
+  );
+
   return (
     <View style={styles.post}>
       <PostCardHeader
@@ -31,15 +42,15 @@ const PostCard = ({ intl, content, isHideImage, nsfw, pageType, handleCardIntera
         content={content}
         pageType={pageType}
         isHideImage={isHideImage}
-        handleCardInteraction={handleCardInteraction}
+        handleCardInteraction={handleInteraction}
       />
       <PostCardContent
         content={content}
         isHideImage={isHideImage}
         nsfw={nsfw}
-        handleCardInteraction={handleCardInteraction}
+        handleCardInteraction={handleInteraction}
       />
-      <PostCardActionsPanel content={content} handleCardInteraction={handleCardInteraction} />
+      <PostCardActionsPanel content={content} handleCardInteraction={handleInteraction} />
     </View>
   );
 };

@@ -142,8 +142,6 @@ const postsListContainer = (
   const hasInitiallyScrolled = useRef(false);
 
   useEffect(() => {
-    console.log('Scroll Position: ', scrollPosition);
-
     // Only restore scroll position once on initial mount, not during pagination
     // Only set the flag after we actually restore a position with data present
     if (!hasInitiallyScrolled.current && scrollPosition !== undefined && scrollPosition > 0) {
@@ -265,9 +263,7 @@ const postsListContainer = (
           pageType={pageType}
           isHideImage={isHideImages}
           nsfw={nsfw}
-          handleCardInteraction={(id: PostCardActionIds, payload: any, onCallback) =>
-            _handleCardInteraction(id, payload, item, onCallback)
-          }
+          handleCardInteraction={_handleCardInteraction}
         />
       );
     },

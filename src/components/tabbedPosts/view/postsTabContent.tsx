@@ -190,20 +190,25 @@ const PostsTabContent = ({
     }
   };
 
-  // show quick reply modal
-  const _showQuickReplyModal = (post: any) => {
-    if (isLoggedIn) {
-      SheetManager.show(SheetNames.QUICK_POST, {
-        payload: {
-          mode: 'comment',
-          parentPost: post,
-        },
-      });
-    } else {
-      // TODO: show proper alert message
-      console.log('Not LoggedIn');
-    }
-  };
+  // show quick reply modal. Memoized so it (and the _handleCardInteraction /
+  // PostCard memo chain that depends on it) stays referentially stable across
+  // renders, only changing when login state changes.
+  const _showQuickReplyModal = useCallback(
+    (post: any) => {
+      if (isLoggedIn) {
+        SheetManager.show(SheetNames.QUICK_POST, {
+          payload: {
+            mode: 'comment',
+            parentPost: post,
+          },
+        });
+      } else {
+        // TODO: show proper alert message
+        console.log('Not LoggedIn');
+      }
+    },
+    [isLoggedIn],
+  );
 
   return (
     <>
