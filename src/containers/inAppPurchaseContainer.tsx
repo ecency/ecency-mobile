@@ -122,9 +122,18 @@ class InAppPurchaseContainer extends Component {
         // eslint-disable-next-line no-await-in-loop
         return await purchaseOrder(data);
       } catch (err) {
+        // 409 means the receipt is already recorded server-side (duplicate) --
+        // effectively success. Stop retrying so the purchase can be finalized and
+        // the saved context cleared, instead of looping on every launch.
+        if (get(err, 'response.status') === 409) {
+          return undefined;
+        }
         lastErr = err;
-        // eslint-disable-next-line no-await-in-loop
-        await new Promise((resolve) => setTimeout(resolve, 1000 * 2 ** attempt));
+        // Don't sleep after the final attempt -- there is nothing left to retry.
+        if (attempt < PURCHASE_ORDER_MAX_ATTEMPTS - 1) {
+          // eslint-disable-next-line no-await-in-loop
+          await new Promise((resolve) => setTimeout(resolve, 1000 * 2 ** attempt));
+        }
       }
     }
     throw lastErr;
@@ -175,30 +184,31 @@ class InAppPurchaseContainer extends Component {
         // purchase call to ecency on successful payment, consume iap item on success
         await this._purchaseOrderWithRetry(data);
 
-        // Entitlement is now granted server-side and the server also acknowledges
-        // the purchase, so a failed consume here is NOT fatal -- it can be retried
-        // on a later launch and must not be surfaced as a purchase failure.
-        let consumed = false;
+        if (isAccount) {
+          // The order is now recorded server-side (the account will be created and
+          // the purchase is acknowledged server-side), so the saved context is no
+          // longer needed. Clear it here -- NOT gated on the consume below -- so a
+          // permanently failing finishTransaction can't keep re-running recovery
+          // every launch (a re-POST of the same receipt just returns 409).
+          try {
+            await AsyncStorage.removeItem(PENDING_ACCOUNT_PURCHASE_KEY);
+          } catch (err) {
+            Sentry.captureException(err);
+          }
+        }
+
+        // Entitlement is granted and acknowledged server-side, so a failed consume
+        // here is NOT fatal -- it can be retried on a later launch and must not be
+        // surfaced as a purchase failure.
         try {
           const ackResult = await IAP.finishTransaction({
             purchase,
             isConsumable: true,
           });
           console.info('ackResult', ackResult);
-          consumed = true;
         } catch (ackErr) {
           console.warn('finishTransaction failed (non-fatal):', ackErr);
           Sentry.captureException(ackErr);
-        }
-
-        if (isAccount && consumed) {
-          // fully delivered and consumed -- drop the saved context. If the consume
-          // failed we keep it so the purchase can be recovered on a later launch.
-          try {
-            await AsyncStorage.removeItem(PENDING_ACCOUNT_PURCHASE_KEY);
-          } catch (err) {
-            Sentry.captureException(err);
-          }
         }
 
         this.setState({ isProcessing: false });
