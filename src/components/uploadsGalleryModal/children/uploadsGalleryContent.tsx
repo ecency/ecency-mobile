@@ -324,7 +324,6 @@ const UploadsGalleryContent = ({
         visibleMap[viewable.index] = viewable.isViewable;
       }
     });
-    console.log('Visible items', JSON.stringify(visibleMap));
     setViewableItemsMap(visibleMap);
   };
 
