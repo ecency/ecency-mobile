@@ -307,7 +307,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   }
 
   _handleAppStateChange = (nextAppState: AppStateStatus) => {
-    if (this._appState.match(/active|forground/) && nextAppState === 'inactive') {
+    // iOS emits 'inactive' when backgrounding; Android emits 'background'. Handle
+    // both so unsaved draft content is not lost when an Android user backgrounds.
+    if (this._appState.match(/active|forground/) && nextAppState.match(/inactive|background/)) {
       this._saveCurrentDraft(this._updatedDraftFields);
     }
     this._appState = nextAppState;
@@ -1046,27 +1048,45 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         isPostSending: true,
       });
 
-      const { post } = this.state;
+      let permlink;
+      let parentAuthor;
+      let parentPermlink;
+      let draftId;
+      let jsonMetadata;
+      let author;
+      let rootAuthor;
+      let rootPermlink;
 
-      const _prefix = `re-${post.author.replace(/\./g, '')}`;
-      const permlink = generateUniquePermlink(_prefix);
+      try {
+        const { post } = this.state;
 
-      const parentAuthor = post.author;
-      const parentPermlink = post.permlink;
-      const parentTags = post.json_metadata.tags;
-      const draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`;
+        const _prefix = `re-${post.author.replace(/\./g, '')}`;
+        permlink = generateUniquePermlink(_prefix);
 
-      const meta = await extractMetadata({
-        body: fields.body,
-        fetchRatios: true,
-        postType: PostTypes.COMMENT,
-      });
-      const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency']);
+        parentAuthor = post.author;
+        parentPermlink = post.permlink;
+        const parentTags = post.json_metadata.tags;
+        draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`;
 
-      const author = currentAccount.name;
+        const meta = await extractMetadata({
+          body: fields.body,
+          fetchRatios: true,
+          postType: PostTypes.COMMENT,
+        });
+        jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency']);
 
-      // Derive root author/permlink for proper cache invalidation and optimistic updates
-      const { rootAuthor, rootPermlink } = deriveDiscussionRoot(post, parentAuthor, parentPermlink);
+        author = currentAccount.name;
+
+        // Derive root author/permlink for proper cache invalidation and optimistic updates
+        ({ rootAuthor, rootPermlink } = deriveDiscussionRoot(post, parentAuthor, parentPermlink));
+      } catch (error) {
+        // Building the reply (metadata fetch, malformed parent post, …) failed —
+        // reset the sending flags so the reply editor isn't left permanently wedged.
+        this._isSubmitting = false;
+        this.setState({ isPostSending: false });
+        this._handleSubmitFailure(error);
+        return;
+      }
 
       try {
         // Add optimistic entry to discussions cache for immediate UI feedback
