@@ -493,8 +493,9 @@ export const updatePinCode = (data) =>
                 currentUser = updatedUserData;
               }
             });
-            resolve(currentUser);
           }
+          // Resolve even when there are no users so an awaiting caller cannot hang.
+          resolve(currentUser);
         })
         .catch((err) => {
           reject(err);

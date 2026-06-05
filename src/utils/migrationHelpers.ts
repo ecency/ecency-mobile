@@ -19,7 +19,7 @@ import { getQueryClient } from '../providers/queries';
 import AUTH_TYPE from '../constants/authType';
 
 // Services
-import { getSCAccount, getSettings, getUserDataWithUsername, removeUserData } from '../realm/realm';
+import { getSCAccount, getSettings, removeUserData } from '../realm/realm';
 import { updateCurrentAccount, updateOtherAccount } from '../redux/actions/accountAction';
 
 import {
@@ -104,9 +104,10 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
   const oldPinCode = decryptKey(encUserPin, Config.PIN_KEY);
 
   if (oldPinCode === undefined || oldPinCode === Config.DEFAULT_PIN) {
-    return;
+    return true;
   }
 
+  let migratedLocal;
   try {
     const pinData = {
       pinCode: Config.DEFAULT_PIN,
@@ -114,10 +115,19 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
       oldPinCode,
     };
 
-    const response = updatePinCode(pinData);
+    migratedLocal = await updatePinCode(pinData);
+
+    // updatePinCode resolves with no record when storage has no matching user.
+    // Bail BEFORE mutating PIN/account state so a retry starts from a clean state —
+    // otherwise local is nulled and the app PIN is already switched to DEFAULT_PIN,
+    // and the user can no longer pass PIN verification on the next unlock.
+    if (!migratedLocal) {
+      onFailure(new Error('PIN migration produced no account data'));
+      return false;
+    }
 
     const _currentAccount = currentAccount;
-    _currentAccount.local = response;
+    _currentAccount.local = migratedLocal;
 
     dispatch(
       updateCurrentAccount({
@@ -128,24 +138,32 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
     const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
     dispatch(setPinCode(encryptedPin));
   } catch (err) {
+    // Re-encryption to DEFAULT_PIN failed. Do NOT mark the migration complete
+    // (setEncryptedUnlockPin) below — otherwise the keys stay encrypted with the
+    // old PIN while the app expects DEFAULT_PIN, silently locking the user out of
+    // signing. Surface the failure (offers re-login) and abort so it can retry on
+    // the next unlock.
     console.warn('pin update failure: ', err);
+    onFailure(err);
+    return false;
   }
 
   dispatch(setEncryptedUnlockPin(encUserPin));
 
-  const realmData = await getUserDataWithUsername(currentAccount.name);
-
+  // Reuse the freshly re-encrypted record returned by updatePinCode instead of
+  // re-reading realm: the AsyncStorage write inside updatePinCode is not awaited,
+  // so a disk re-read here can race it and return stale, old-PIN-encrypted keys.
   let _currentAccount = currentAccount;
   _currentAccount.username = _currentAccount.name;
-  [_currentAccount.local] = realmData;
+  _currentAccount.local = migratedLocal;
 
   try {
     const pinHash = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
     // migration script for previously mast key based logged in user not having access token
-    if (realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT && realmData[0].accessToken === '') {
+    if (migratedLocal.authType !== AUTH_TYPE.STEEM_CONNECT && migratedLocal.accessToken === '') {
       _currentAccount = await migrateToMasterKeyWithAccessToken(
         _currentAccount,
-        realmData[0],
+        migratedLocal,
         pinHash,
       );
     }
@@ -179,6 +197,7 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
 
   dispatch(updateCurrentAccount({ ..._currentAccount }));
   dispatch(fetchSubscribedCommunities(_currentAccount.name));
+  return true;
 };
 
 export const repairUserAccountData = async (username, dispatch, intl, accounts, pinHash) => {
@@ -481,9 +500,35 @@ const reduxMigrations = {
   },
 };
 
+// Wrap every migration so a throw degrades to "skip this migration" and keep the
+// rest of the persisted state, instead of rejecting rehydration — which makes
+// redux-persist drop ALL persisted state (silent logout + loss of local drafts).
+const safeReduxMigrations = Object.keys(reduxMigrations).reduce((acc, version) => {
+  const migrate = (reduxMigrations as any)[version];
+  acc[version] = (state: any) => {
+    // Migrations mutate `state` in place, so snapshot the (JSON-serializable,
+    // persisted) state first and roll back to it on a throw — this is a true
+    // "skip", not a partially-applied mutation. The persisted state to migrate is
+    // small relative to rehydration cost, and only the versions actually behind run.
+    let snapshot;
+    try {
+      snapshot = state ? JSON.parse(JSON.stringify(state)) : state;
+    } catch (_cloneErr) {
+      snapshot = state;
+    }
+    try {
+      return migrate(state);
+    } catch (err) {
+      console.warn(`redux-persist migration ${version} failed, rolling back:`, err);
+      return snapshot;
+    }
+  };
+  return acc;
+}, {} as Record<string, (state: any) => any>);
+
 export default {
   migrateSettings,
   migrateUserEncryption,
   migrateSelectedTokens,
-  reduxMigrations,
+  reduxMigrations: safeReduxMigrations,
 };

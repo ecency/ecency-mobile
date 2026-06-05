@@ -309,4 +309,36 @@ describe('reduxMigrations', () => {
       expect(result.cache.replyCache).toEqual({});
     });
   });
+
+  describe('failure isolation', () => {
+    it('rolls back a throwing migration and preserves the rest of the state', () => {
+      // v1 writes state.application.notificationDetails.favoriteNotification; with
+      // notificationDetails absent the migration throws. The wrapper must swallow
+      // that so redux-persist does not drop ALL persisted state on rehydration.
+      const state = { application: {}, account: { keep: 'me' } } as any;
+      let result;
+      expect(() => {
+        result = reduxMigrations[1](state);
+      }).not.toThrow();
+      // unrelated persisted state survives
+      expect(result.account.keep).toBe('me');
+      // the failed migration's partial change is not applied
+      expect(result.application.notificationDetails).toBeUndefined();
+    });
+
+    it('returns a clean snapshot (not a partially-mutated object) on a mid-migration throw', () => {
+      // v13 mutates state.wallet before it touches state.cache; with cache absent
+      // it throws after the wallet mutation. The rollback must discard that partial
+      // wallet mutation, not bake it in.
+      const state = {
+        wallet: { selectedCoins: [{ symbol: 'BTC' }] },
+        account: { keep: 'me' },
+      } as any;
+      const result = reduxMigrations[13](state);
+      expect(result.account.keep).toBe('me');
+      // selectedCoins was NOT deleted (rolled back), selectedAssets was NOT added
+      expect(result.wallet.selectedCoins).toBeDefined();
+      expect(result.wallet.selectedAssets).toBeUndefined();
+    });
+  });
 });
