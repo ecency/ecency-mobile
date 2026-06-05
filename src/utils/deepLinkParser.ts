@@ -50,10 +50,11 @@ export const deepLinkParser = async (url) => {
       keey = 'WebBrowser';
     } else if (permlink === 'followers' || permlink === 'following') {
       routeName = ROUTES.SCREENS.FOLLOWS;
+      // No count is available at parse time; FollowsScreen omits the header count when it
+      // is not a number, and the list still loads from username + mode.
       params = {
         username: author,
         isFollowingPress: permlink === 'following',
-        count: 0,
       };
       keey = `${author}/${permlink}`;
     } else if (permlink) {
@@ -82,7 +83,12 @@ export const deepLinkParser = async (url) => {
   // like /communities, /search, /bookmarks or /wallet as a feedType with no tag. params
   // must be a truthy object: useLinkProcessor only navigates natively when name && params
   // && key are all set, otherwise it falls back to the in-app web browser.
-  if (!routeName && feedType && !tag) {
+  // Gate on Ecency hosts so external links (e.g. https://example.com/wallet) still open in
+  // the in-app browser instead of hijacking to a native Ecency screen.
+  const isEcencyUrl =
+    /^(ecency|esteem):\/\//i.test(url) ||
+    /^https?:\/\/(www\.)?(ecency\.com|esteem\.app|estm\.to)(\/|$)/i.test(url);
+  if (!routeName && isEcencyUrl && feedType && !tag) {
     switch (feedType) {
       case 'communities':
         routeName = ROUTES.SCREENS.COMMUNITIES;

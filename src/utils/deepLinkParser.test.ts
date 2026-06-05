@@ -142,7 +142,13 @@ describe('deepLinkParser', () => {
     it('routes /@user/following to the follows screen (following)', async () => {
       const result = await deepLinkParser('https://ecency.com/@alice/following');
       expect(result.name).toBe(ROUTES.SCREENS.FOLLOWS);
+      expect(result.params.username).toBe('alice');
       expect(result.params.isFollowingPress).toBe(true);
+    });
+
+    it('does not native-route web paths on non-Ecency hosts', async () => {
+      const result = await deepLinkParser('https://example.com/wallet');
+      expect(result.name).toBeUndefined();
     });
   });
 
