@@ -34,4 +34,13 @@ export default EStyleSheet.create({
     alignItems: 'center',
     marginTop: 8,
   } as ViewStyle,
+  body: {
+    flex: 1,
+  } as ViewStyle,
+  actionBtn: {
+    height: 40,
+  } as ViewStyle,
+  dismissBtn: {
+    marginLeft: 8,
+  } as ViewStyle,
 });

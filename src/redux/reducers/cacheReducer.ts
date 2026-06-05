@@ -309,7 +309,7 @@ const cacheReducer = (state = initialState, action) => {
         ...state, // spread operator in requried here, otherwise persist do not register change
       };
 
-    case UPDATE_SPOTLIGHT_META:
+    case UPDATE_SPOTLIGHT_META: {
       if (!state.spotlightMeta) {
         state.spotlightMeta = {};
       }
@@ -326,6 +326,7 @@ const cacheReducer = (state = initialState, action) => {
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
       };
+    }
 
     case PURGE_EXPIRED_CACHE:
       const currentTime = new Date().getTime();

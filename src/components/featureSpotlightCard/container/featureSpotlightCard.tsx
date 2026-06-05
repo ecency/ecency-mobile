@@ -9,9 +9,7 @@ import { MainButton } from '../../mainButton';
 import { TextButton } from '../../buttons';
 import { useAppSelector, useLinkProcessor } from '../../../hooks';
 import { updateSpotlightMeta } from '../../../redux/actions/cacheActions';
-import { selectIsLoggedIn, selectCurrentAccount, selectPin } from '../../../redux/selectors';
-import { decryptKey } from '../../../utils/crypto';
-import { getDigitPinCode } from '../../../providers/hive/hive';
+import { selectCurrentAccount } from '../../../redux/selectors';
 import { getPostUrl } from '../../../utils/post';
 
 export const FeatureSpotlightCard = () => {
@@ -19,19 +17,16 @@ export const FeatureSpotlightCard = () => {
   const dispatch = useDispatch();
   const linkProcessor = useLinkProcessor();
 
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinHash = useAppSelector(selectPin);
   const spotlightMeta = useAppSelector((state) => state.cache.spotlightMeta);
 
-  const encToken = currentAccount?.local?.accessToken;
-  const accessToken = encToken ? decryptKey(encToken, getDigitPinCode(pinHash)) : '';
-
-  const spotlightsQuery = useQuery(getSpotlightsQueryOptions(accessToken));
+  // The /private-api/spotlights endpoint is anonymous, so no access token is needed.
+  const spotlightsQuery = useQuery(getSpotlightsQueryOptions());
 
   // Apply the client-side rules the server leaves to clients: platform (mobile),
-  // auth (default logged-in only), and per-id dismissal; then pick the highest weight
-  // (tie-break: earliest start). `path` is a web-routing concept and is ignored here.
+  // auth (default logged-in only; auth:false also shows to guests), and per-id
+  // dismissal; then pick the highest weight (tie-break: earliest start). `path` is a
+  // web-routing concept and is ignored here.
   const spotlight = useMemo(() => {
     const username = currentAccount?.name;
     const candidates = (spotlightsQuery.data ?? [])
@@ -55,7 +50,7 @@ export const FeatureSpotlightCard = () => {
     });
   }, [spotlightsQuery.data, currentAccount?.name, spotlightMeta]);
 
-  if (!isLoggedIn || !spotlight) {
+  if (!spotlight) {
     return null;
   }
 
@@ -67,6 +62,8 @@ export const FeatureSpotlightCard = () => {
   };
 
   const _action = () => {
+    // Tapping the CTA counts as engagement, so always dismiss. `button_link` is a
+    // required field, so a link is always present to open.
     const link = spotlight.button_link;
     if (link) {
       const url = /^https?:\/\//.test(link) ? link : getPostUrl(link);
@@ -78,17 +75,17 @@ export const FeatureSpotlightCard = () => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <View style={{ flex: 1 }}>
+        <View style={styles.body}>
           <Text style={styles.label}>{intl.formatMessage({ id: 'feature.spotlight.label' })}</Text>
           <Text style={styles.title}>{copy.title}</Text>
           <Text style={styles.description}>{copy.description}</Text>
         </View>
       </View>
       <View style={styles.actionPanel}>
-        <MainButton onPress={_action} style={{ height: 40 }} text={copy.button_text} />
+        <MainButton onPress={_action} style={styles.actionBtn} text={copy.button_text} />
         <TextButton
           onPress={_dismiss}
-          style={{ marginLeft: 8 }}
+          style={styles.dismissBtn}
           text={intl.formatMessage({ id: 'feature.spotlight.dismiss' })}
         />
       </View>

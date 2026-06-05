@@ -145,10 +145,10 @@ const PostsTabContent = ({
   };
 
   const _renderHeader = useMemo(() => {
-    if (isLoggedIn && pageType === 'main' && isInitialTab) {
+    if (pageType === 'main' && isInitialTab) {
       return (
         <>
-          <ProposalVoteRequest />
+          {isLoggedIn && <ProposalVoteRequest />}
           <FeatureSpotlightCard />
         </>
       );
