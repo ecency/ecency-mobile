@@ -117,6 +117,15 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
 
     migratedLocal = await updatePinCode(pinData);
 
+    // updatePinCode resolves with no record when storage has no matching user.
+    // Bail BEFORE mutating PIN/account state so a retry starts from a clean state —
+    // otherwise local is nulled and the app PIN is already switched to DEFAULT_PIN,
+    // and the user can no longer pass PIN verification on the next unlock.
+    if (!migratedLocal) {
+      onFailure(new Error('PIN migration produced no account data'));
+      return false;
+    }
+
     const _currentAccount = currentAccount;
     _currentAccount.local = migratedLocal;
 
@@ -136,13 +145,6 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
     // the next unlock.
     console.warn('pin update failure: ', err);
     onFailure(err);
-    return false;
-  }
-
-  // updatePinCode resolves with no record when storage has no matching user;
-  // abort rather than mark the migration complete with missing/old-PIN keys.
-  if (!migratedLocal) {
-    onFailure(new Error('PIN migration produced no account data'));
     return false;
   }
 
@@ -504,11 +506,21 @@ const reduxMigrations = {
 const safeReduxMigrations = Object.keys(reduxMigrations).reduce((acc, version) => {
   const migrate = (reduxMigrations as any)[version];
   acc[version] = (state: any) => {
+    // Migrations mutate `state` in place, so snapshot the (JSON-serializable,
+    // persisted) state first and roll back to it on a throw — this is a true
+    // "skip", not a partially-applied mutation. The persisted state to migrate is
+    // small relative to rehydration cost, and only the versions actually behind run.
+    let snapshot;
+    try {
+      snapshot = state ? JSON.parse(JSON.stringify(state)) : state;
+    } catch (_cloneErr) {
+      snapshot = state;
+    }
     try {
       return migrate(state);
     } catch (err) {
-      console.warn(`redux-persist migration ${version} failed, skipping:`, err);
-      return state;
+      console.warn(`redux-persist migration ${version} failed, rolling back:`, err);
+      return snapshot;
     }
   };
   return acc;
