@@ -48,6 +48,14 @@ export const deepLinkParser = async (url) => {
         url,
       };
       keey = 'WebBrowser';
+    } else if (permlink === 'followers' || permlink === 'following') {
+      routeName = ROUTES.SCREENS.FOLLOWS;
+      params = {
+        username: author,
+        isFollowingPress: permlink === 'following',
+        count: 0,
+      };
+      keey = `${author}/${permlink}`;
     } else if (permlink) {
       params = { author, permlink };
       routeName = ROUTES.SCREENS.POST;
@@ -68,6 +76,37 @@ export const deepLinkParser = async (url) => {
       filter: feedType,
     };
     keey = `${feedType}/${tag || ''}`;
+  }
+
+  // Standalone web-standard routes -> native screens. postUrlParser surfaces a bare path
+  // like /communities, /search, /bookmarks or /wallet as a feedType with no tag. params
+  // must be a truthy object: useLinkProcessor only navigates natively when name && params
+  // && key are all set, otherwise it falls back to the in-app web browser.
+  if (!routeName && feedType && !tag) {
+    switch (feedType) {
+      case 'communities':
+        routeName = ROUTES.SCREENS.COMMUNITIES;
+        params = {};
+        keey = 'communities';
+        break;
+      case 'search':
+        routeName = ROUTES.SCREENS.SEARCH_RESULT;
+        params = {};
+        keey = 'search';
+        break;
+      case 'bookmarks':
+        routeName = ROUTES.SCREENS.BOOKMARKS;
+        params = {};
+        keey = 'bookmarks';
+        break;
+      case 'wallet':
+        routeName = ROUTES.TABBAR.WALLET;
+        params = {};
+        keey = 'wallet';
+        break;
+      default:
+        break;
+    }
   }
 
   // process url for authentication

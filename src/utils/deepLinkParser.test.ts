@@ -111,6 +111,41 @@ describe('deepLinkParser', () => {
     });
   });
 
+  describe('native web-standard routes', () => {
+    it('routes /communities to the communities directory', async () => {
+      const result = await deepLinkParser('https://ecency.com/communities');
+      expect(result.name).toBe(ROUTES.SCREENS.COMMUNITIES);
+    });
+
+    it('routes /search to the search screen', async () => {
+      const result = await deepLinkParser('https://ecency.com/search');
+      expect(result.name).toBe(ROUTES.SCREENS.SEARCH_RESULT);
+    });
+
+    it('routes /bookmarks to the bookmarks screen', async () => {
+      const result = await deepLinkParser('https://ecency.com/bookmarks');
+      expect(result.name).toBe(ROUTES.SCREENS.BOOKMARKS);
+    });
+
+    it('routes /wallet to the wallet tab', async () => {
+      const result = await deepLinkParser('https://ecency.com/wallet');
+      expect(result.name).toBe(ROUTES.TABBAR.WALLET);
+    });
+
+    it('routes /@user/followers to the follows screen (followers)', async () => {
+      const result = await deepLinkParser('https://ecency.com/@alice/followers');
+      expect(result.name).toBe(ROUTES.SCREENS.FOLLOWS);
+      expect(result.params.username).toBe('alice');
+      expect(result.params.isFollowingPress).toBe(false);
+    });
+
+    it('routes /@user/following to the follows screen (following)', async () => {
+      const result = await deepLinkParser('https://ecency.com/@alice/following');
+      expect(result.name).toBe(ROUTES.SCREENS.FOLLOWS);
+      expect(result.params.isFollowingPress).toBe(true);
+    });
+  });
+
   describe('auth URLs', () => {
     it('parses signup URL', async () => {
       const result = await deepLinkParser('https://ecency.com/signup?referral=alice');
