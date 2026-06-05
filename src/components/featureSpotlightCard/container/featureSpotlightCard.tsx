@@ -24,14 +24,14 @@ export const FeatureSpotlightCard = () => {
   const spotlightsQuery = useQuery(getSpotlightsQueryOptions());
 
   // Apply the client-side rules the server leaves to clients: platform (mobile),
-  // auth (default logged-in only; auth:false also shows to guests), and per-id
+  // audience (logged-in by default; guestsOnly shows to signed-out visitors), and per-id
   // dismissal; then pick the highest weight (tie-break: earliest start). `path` is a
   // web-routing concept and is ignored here.
   const spotlight = useMemo(() => {
     const username = currentAccount?.name;
     const candidates = (spotlightsQuery.data ?? [])
       .filter((s) => !s.platforms || s.platforms.includes('mobile'))
-      .filter((s) => (s.auth === false ? true : !!username))
+      .filter((s) => (s.guestsOnly ? !username : !!username))
       .filter((s) => !spotlightMeta?.[`${s.id}_${username || 'guest'}`]?.dismissed);
 
     if (candidates.length === 0) {
