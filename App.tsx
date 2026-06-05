@@ -21,6 +21,41 @@ const redactSecrets = (value: unknown): any => {
   return value.replace(HIVE_WIF_KEY, '<redacted-key>').replace(BEARER_TOKEN, '$1 <redacted>');
 };
 
+// Deep-redact every string inside a value. Sentry stores raw console arguments
+// under breadcrumb.data (e.g. data.arguments[1]), so scrubbing the message alone
+// is not enough. Mutates objects/arrays in place; depth-guarded.
+const redactDeep = (value: any, depth = 0): any => {
+  if (value == null || depth > 6) {
+    return value;
+  }
+  if (typeof value === 'string') {
+    return redactSecrets(value);
+  }
+  if (Array.isArray(value)) {
+    for (let i = 0; i < value.length; i += 1) {
+      value[i] = redactDeep(value[i], depth + 1);
+    }
+    return value;
+  }
+  if (typeof value === 'object') {
+    Object.keys(value).forEach((key) => {
+      value[key] = redactDeep(value[key], depth + 1);
+    });
+  }
+  return value;
+};
+
+const redactBreadcrumb = (breadcrumb: any) => {
+  if (!breadcrumb) {
+    return breadcrumb;
+  }
+  if (typeof breadcrumb.message === 'string') {
+    breadcrumb.message = redactSecrets(breadcrumb.message);
+  }
+  breadcrumb.data = redactDeep(breadcrumb.data);
+  return breadcrumb;
+};
+
 Sentry.init({
   dsn: 'https://a7b0c5a49bdeae965767e2967411b7b0@o4507985141956608.ingest.de.sentry.io/4509786252116048',
 
@@ -35,10 +70,7 @@ Sentry.init({
   integrations,
 
   beforeBreadcrumb(breadcrumb) {
-    if (typeof breadcrumb.message === 'string') {
-      breadcrumb.message = redactSecrets(breadcrumb.message);
-    }
-    return breadcrumb;
+    return redactBreadcrumb(breadcrumb);
   },
 
   beforeSend(event) {
@@ -50,6 +82,12 @@ Sentry.init({
         value.value = redactSecrets(value.value);
       }
     });
+    // Breadcrumbs already on the event (data included, in case any predate the
+    // beforeBreadcrumb scrub). event.breadcrumbs may be an array or {values:[]}.
+    const breadcrumbs: any = (event.breadcrumbs as any)?.values ?? event.breadcrumbs;
+    if (Array.isArray(breadcrumbs)) {
+      breadcrumbs.forEach((breadcrumb) => redactBreadcrumb(breadcrumb));
+    }
     return event;
   },
 
