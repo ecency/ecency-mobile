@@ -49,7 +49,6 @@ export const useThreeSpeakEmbedUpload = () => {
   const dispatch = useAppDispatch();
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinHash = useAppSelector(selectPin);
-  const getToken = useAccessToken();
   const [completed, setCompleted] = useState(0);
 
   const mutation = useMutation({
@@ -65,19 +64,26 @@ export const useThreeSpeakEmbedUpload = () => {
         throw new Error('No active account');
       }
 
-      // Refresh the HiveSigner token before uploading to avoid
-      // expired-token failures on long-running sessions
+      // Refresh the HiveSigner token before uploading to avoid expired-token
+      // failures on long-running sessions. refreshSCToken returns the (possibly
+      // refreshed) ENCRYPTED token re-encrypted with this pin — use its return,
+      // not the render-captured Redux account, which would be the stale,
+      // pre-refresh token.
       const pinCode = getDigitPinCode(pinHash);
+      let encryptedToken = currentAccount.local?.accessToken;
       try {
-        await refreshSCToken(currentAccount.local, pinCode);
+        encryptedToken = await refreshSCToken(currentAccount.local, pinCode);
       } catch {
-        // refresh failed — proceed with existing token, server
-        // will reject if it's truly expired
+        // refresh failed and the token is expired — fall back to the stored
+        // token; the server will reject if it is truly expired.
       }
 
-      const accessToken = getToken();
-      if (!accessToken) {
+      if (!encryptedToken) {
         throw new Error('No access token available');
+      }
+      const accessToken = decryptKey(encryptedToken, pinCode as string);
+      if (!accessToken) {
+        throw new Error('Failed to decrypt access token');
       }
 
       try {
