@@ -13,6 +13,7 @@ import {
   UPDATE_CLAIM_CACHE,
   DELETE_CLAIM_CACHE_ENTRY,
   UPDATE_ANNOUNCEMENTS_META,
+  UPDATE_SPOTLIGHT_META,
   UPDATE_POLL_VOTE_CACHE,
   UPDATE_PROPOSALS_VOTE_META,
 } from '../constants/constants';
@@ -114,6 +115,14 @@ export const updateAnnoucementsMeta = (id: string, processed: boolean) => ({
     processed,
   },
   type: UPDATE_ANNOUNCEMENTS_META,
+});
+
+export const updateSpotlightMeta = (id: string, dismissed: boolean) => ({
+  payload: {
+    id,
+    dismissed,
+  },
+  type: UPDATE_SPOTLIGHT_META,
 });
 
 /**
