@@ -64,7 +64,10 @@ import {
   useReblogMutation,
   useGrantPostingPermissionMutation,
 } from '../../../providers/sdk/mutations';
-import { useAddScheduleMutation } from '../../../providers/queries/draftQueries';
+import {
+  useAddScheduleMutation,
+  useDraftDeleteMutation,
+} from '../../../providers/queries/draftQueries';
 import { PostTypes } from '../../../constants/postTypes';
 
 import { enforceThreeSpeakBeneficiary } from '../../../providers/speak/beneficiary';
@@ -965,6 +968,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
           if (draftId) {
             dispatch(removeEditorCache(draftId));
+            // The post is published, so remove the server-side draft it was
+            // composed from (a loaded draft or one created by autosave) — these
+            // would otherwise pile up in the user's drafts list. Fire-and-forget:
+            // the publish already succeeded, so a cleanup failure must not block
+            // navigation or surface as an error (toast suppressed in the hook).
+            this.props.deleteDraftMutation
+              .mutateAsync({ draftId })
+              .catch((err) => console.warn('Failed to delete published draft', err));
           }
 
           dispatch(
@@ -1695,6 +1706,9 @@ const useEditorQueryProps = () => ({
   reblogMutation: useReblogMutation(),
   grantPostingPermissionMutation: useGrantPostingPermissionMutation(),
   addScheduleMutation: useAddScheduleMutation(),
+  // Background cleanup of a published post's source draft; suppress the failure
+  // toast so it never surfaces as an error after a successful publish.
+  deleteDraftMutation: useDraftDeleteMutation({ showErrorToast: false }),
 });
 
 export default gestureHandlerRootHOC(
