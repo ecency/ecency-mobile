@@ -64,7 +64,10 @@ import {
   useReblogMutation,
   useGrantPostingPermissionMutation,
 } from '../../../providers/sdk/mutations';
-import { useAddScheduleMutation } from '../../../providers/queries/draftQueries';
+import {
+  useAddScheduleMutation,
+  useDraftDeleteMutation,
+} from '../../../providers/queries/draftQueries';
 import { PostTypes } from '../../../constants/postTypes';
 
 import { enforceThreeSpeakBeneficiary } from '../../../providers/speak/beneficiary';
@@ -92,6 +95,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   _appState = AppState.currentState;
 
   _isSubmitting = false;
+
+  // Set once a post is published so the unmount/autosave draft write is skipped
+  // and can't recreate the server draft the publish flow just deleted.
+  _isPublished = false;
 
   _postingAuthorityPromptShown = false;
 
@@ -548,6 +555,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
+    // After a successful publish the source draft is deleted and its caches are
+    // cleared; skip any further save (e.g. the unmount autosave) so it isn't
+    // recreated locally or on the server.
+    if (this._isPublished) {
+      return;
+    }
+
     const { isDraftSaved, draftId, thumbUrl, isReply, rewardType, postDescription } = this.state;
     const { currentAccount, dispatch, intl, queryClient, pinCode } = this.props;
 
@@ -965,6 +979,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
           if (draftId) {
             dispatch(removeEditorCache(draftId));
+            // The post is published, so remove the server-side draft it was
+            // composed from (a loaded draft or one created by autosave) — these
+            // would otherwise pile up in the user's drafts list. Fire-and-forget:
+            // the publish already succeeded, so a cleanup failure must not block
+            // navigation or surface as an error (toast suppressed in the hook).
+            this.props.deleteDraftMutation
+              .mutateAsync({ draftId })
+              .catch((err) => console.warn('Failed to delete published draft', err));
           }
 
           dispatch(
@@ -979,6 +1001,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           // must not stay true (or a fast in-window reentry would be
           // blocked by `_handleSubmit`).
           this._isSubmitting = false;
+          // Mark published before the unmount so the draft save triggered by
+          // `componentWillUnmount` is skipped and the just-deleted draft isn't
+          // recreated.
+          this._isPublished = true;
           setTimeout(() => {
             this.setState({
               isPostSending: false,
@@ -1695,6 +1721,9 @@ const useEditorQueryProps = () => ({
   reblogMutation: useReblogMutation(),
   grantPostingPermissionMutation: useGrantPostingPermissionMutation(),
   addScheduleMutation: useAddScheduleMutation(),
+  // Background cleanup of a published post's source draft; suppress the failure
+  // toast so it never surfaces as an error after a successful publish.
+  deleteDraftMutation: useDraftDeleteMutation({ showErrorToast: false }),
 });
 
 export default gestureHandlerRootHOC(
