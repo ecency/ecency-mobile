@@ -309,4 +309,19 @@ describe('reduxMigrations', () => {
       expect(result.cache.replyCache).toEqual({});
     });
   });
+
+  describe('failure isolation', () => {
+    it('skips a throwing migration and preserves state instead of wiping it', () => {
+      // v1 writes state.application.notificationDetails.favoriteNotification; with
+      // notificationDetails absent the migration throws. The wrapper must swallow
+      // that so redux-persist does not drop ALL persisted state on rehydration.
+      const state = { application: {}, account: { keep: 'me' } } as any;
+      let result;
+      expect(() => {
+        result = reduxMigrations[1](state);
+      }).not.toThrow();
+      expect(result).toBe(state);
+      expect(result.account.keep).toBe('me');
+    });
+  });
 });

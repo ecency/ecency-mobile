@@ -266,12 +266,18 @@ class PinCodeContainer extends Component {
 
     // migrate data to default pin if encUnlockPin is not set.
     if (!encUnlockPin) {
-      await MigrationHelpers.migrateUserEncryption(
+      const migrated = await MigrationHelpers.migrateUserEncryption(
         dispatch,
         currentAccount,
         applicationPinCode,
         this._onRefreshTokenFailed,
       );
+      // Migration failed — keys are still on the old PIN, so any signing the
+      // caller would trigger next will fail. _onRefreshTokenFailed has already
+      // surfaced the error/re-login; do not advance into the requested operation.
+      if (!migrated) {
+        return false;
+      }
     }
 
     // on successful code verification run requested operation passed as props
