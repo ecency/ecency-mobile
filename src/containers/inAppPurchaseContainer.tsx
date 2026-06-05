@@ -143,7 +143,7 @@ class InAppPurchaseContainer extends Component {
   // opts.silent suppresses the success/failure UI callbacks (used for background
   // recovery of an interrupted purchase on a screen unrelated to that purchase).
   _consumePurchase = async (purchase, opts = {}) => {
-    const { silent } = opts;
+    const { silent, meta: providedMeta } = opts;
     const {
       currentAccount: { name },
       fetchData,
@@ -166,10 +166,11 @@ class InAppPurchaseContainer extends Component {
         };
 
         if (isAccount) {
-          // 999accounts needs username/email; resolve from props or persisted
-          // context. Without it we cannot create the account, so leave the
-          // purchase unconsumed for a later retry rather than consuming it.
-          const meta = await this._resolveAccountMeta();
+          // 999accounts needs username/email; use the meta the caller already
+          // resolved (recovery path) or resolve from props/persisted context.
+          // Without it we cannot create the account, so leave the purchase
+          // unconsumed for a later retry rather than consuming it.
+          const meta = providedMeta || (await this._resolveAccountMeta());
           if (!meta || !meta.username || !meta.email) {
             throw new Error('Email and username are required for 999accounts consumption');
           }
@@ -255,7 +256,7 @@ class InAppPurchaseContainer extends Component {
           const meta = await this._resolveAccountMeta();
           if (meta && meta.username && meta.email) {
             // eslint-disable-next-line no-await-in-loop
-            await this._consumePurchase(_purchase, { silent: true });
+            await this._consumePurchase(_purchase, { silent: true, meta });
           }
         }
       }
@@ -270,6 +271,11 @@ class InAppPurchaseContainer extends Component {
     this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener(this._consumePurchase);
 
     this.purchaseErrorSubscription = IAP.purchaseErrorListener((error) => {
+      // A terminal payment error (user cancelled, declined, etc.) means there is
+      // no purchase to recover -- drop any persisted account context so it does
+      // not linger in storage until the next purchase overwrites it.
+      AsyncStorage.removeItem(PENDING_ACCOUNT_PURCHASE_KEY).catch(() => {});
+
       const { intl, handleOnPurchaseFailure } = this.props;
 
       Sentry.captureException(error);
