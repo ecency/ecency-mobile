@@ -302,27 +302,30 @@ export const extractMetadata = async ({
     }
   });
 
-  const postResponses = await Promise.all(postPromises);
+  // Use allSettled so a single failed linked-post fetch can't reject the whole
+  // metadata extraction — which previously threw out of extractMetadata and could
+  // wedge the publish/reply flow.
+  const postResults = await Promise.allSettled(postPromises);
 
   // Now combine responses with original URL data
-  postResponses.forEach((linkedPost, index) => {
-    try {
-      const url = promiseUrls[index];
+  postResults.forEach((result, index) => {
+    const url = promiseUrls[index];
+    const linkedPost = result.status === 'fulfilled' ? result.value : null;
 
-      out.links_meta = {
-        ...(out.links_meta || {}),
-        [url]: linkedPost
-          ? {
-              title: linkedPost.title,
-              summary: linkedPost.summary,
-              image: linkedPost.image,
-            }
-          : null,
-      };
-    } catch (e) {
-      // Skip url if post data not returned
-      console.log('error fetching post data for url, skipping url: ', urlData[index]?.url, e);
+    if (result.status === 'rejected') {
+      console.log('error fetching post data for url, skipping url: ', url, result.reason);
     }
+
+    out.links_meta = {
+      ...(out.links_meta || {}),
+      [url]: linkedPost
+        ? {
+            title: linkedPost.title,
+            summary: linkedPost.summary,
+            image: linkedPost.image,
+          }
+        : null,
+    };
   });
 
   // sort based on thumbUrl if provided
