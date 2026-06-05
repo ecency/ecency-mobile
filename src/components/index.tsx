@@ -45,6 +45,7 @@ import { SearchModal } from './searchModal';
 import { SettingsItem } from './settingsItem';
 import { SideMenu } from './sideMenu';
 import { ProposalVoteRequest } from './proposalVoteRequest';
+import { FeatureSpotlightCard } from './featureSpotlightCard';
 import { StatsPanel } from './statsPanel';
 
 import CommunityCard from './communityCard';
@@ -288,6 +289,7 @@ export {
   ImageViewer,
   WalkthroughMarker,
   ProposalVoteRequest,
+  FeatureSpotlightCard,
   HiveAuthModal,
   LinkPreview,
   HiveLinkPreview,

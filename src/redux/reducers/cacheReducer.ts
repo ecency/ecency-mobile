@@ -13,6 +13,7 @@ import {
   UPDATE_CLAIM_CACHE,
   DELETE_CLAIM_CACHE_ENTRY,
   UPDATE_ANNOUNCEMENTS_META,
+  UPDATE_SPOTLIGHT_META,
   UPDATE_POLL_VOTE_CACHE,
   UPDATE_PROPOSALS_VOTE_META,
 } from '../constants/constants';
@@ -77,6 +78,11 @@ export interface AnnouncementMeta {
   processed: boolean;
 }
 
+export interface SpotlightMeta {
+  lastSeen: number;
+  dismissed: boolean;
+}
+
 export interface ProposalVoteMeta {
   dismissedAt: number;
   processed: boolean;
@@ -97,6 +103,7 @@ interface State {
   subscribedCommunities: Map<string, SubscribedCommunity>;
   pointActivities: Map<string, PointActivity>;
   announcementsMeta: { [key: string]: AnnouncementMeta };
+  spotlightMeta: { [key: string]: SpotlightMeta };
   proposalsVoteMeta: { [key: string]: ProposalVoteMeta }; // proposal cache id: [proposalId]_[username]
   lastUpdate: LastUpdateMeta;
 }
@@ -108,6 +115,7 @@ const initialState: State = {
   replyCache: {},
   claimsCollection: {},
   announcementsMeta: {},
+  spotlightMeta: {},
   proposalsVoteMeta: {},
   subscribedCommunities: new Map(),
   pointActivities: new Map(),
@@ -296,6 +304,24 @@ const cacheReducer = (state = initialState, action) => {
           processed: _alreadyProcessed || payload.processed,
           lastSeen: new Date().getTime(),
         } as AnnouncementMeta,
+      };
+      return {
+        ...state, // spread operator in requried here, otherwise persist do not register change
+      };
+
+    case UPDATE_SPOTLIGHT_META:
+      if (!state.spotlightMeta) {
+        state.spotlightMeta = {};
+      }
+
+      const _alreadyDismissed = state.spotlightMeta[payload.id]?.dismissed || false;
+
+      state.spotlightMeta = {
+        ...state.spotlightMeta,
+        [payload.id]: {
+          dismissed: _alreadyDismissed || payload.dismissed,
+          lastSeen: new Date().getTime(),
+        } as SpotlightMeta,
       };
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change

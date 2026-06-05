@@ -13,6 +13,7 @@ import {
   UPDATE_CLAIM_CACHE,
   DELETE_CLAIM_CACHE_ENTRY,
   UPDATE_ANNOUNCEMENTS_META,
+  UPDATE_SPOTLIGHT_META,
   UPDATE_POLL_VOTE_CACHE,
   UPDATE_PROPOSALS_VOTE_META,
 } from '../constants/constants';
@@ -24,6 +25,7 @@ const initialState = () => ({
   replyCache: {},
   claimsCollection: {},
   announcementsMeta: {},
+  spotlightMeta: {},
   proposalsVoteMeta: {},
   subscribedCommunities: new Map(),
   pointActivities: new Map(),
@@ -276,6 +278,29 @@ describe('cacheReducer', () => {
         payload: { id: 'ann-1', processed: false },
       });
       expect(result.announcementsMeta['ann-1'].processed).toBe(true);
+    });
+  });
+
+  describe('UPDATE_SPOTLIGHT_META', () => {
+    it('adds spotlight meta', () => {
+      const state = initialState();
+      const result = cacheReducer(state, {
+        type: UPDATE_SPOTLIGHT_META,
+        payload: { id: 'spot-1', dismissed: true },
+      });
+      expect(result.spotlightMeta['spot-1']).toBeDefined();
+      expect(result.spotlightMeta['spot-1'].dismissed).toBe(true);
+      expect(result.spotlightMeta['spot-1'].lastSeen).toBeDefined();
+    });
+
+    it('preserves dismissed=true once set', () => {
+      const state = initialState();
+      state.spotlightMeta['spot-1'] = { dismissed: true, lastSeen: 1000 };
+      const result = cacheReducer(state, {
+        type: UPDATE_SPOTLIGHT_META,
+        payload: { id: 'spot-1', dismissed: false },
+      });
+      expect(result.spotlightMeta['spot-1'].dismissed).toBe(true);
     });
   });
 

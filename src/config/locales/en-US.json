@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Did you know?",
+      "dismiss": "Dismiss"
+    }
+  },
   "perks": {
     "header": "Perks",
     "quests_title": "Quests",

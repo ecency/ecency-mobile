@@ -18,7 +18,7 @@ import {
   selectIsConnected,
 } from '../../../redux/selectors';
 import { useAppSelector } from '../../../hooks';
-import { ProposalVoteRequest } from '../..';
+import { ProposalVoteRequest, FeatureSpotlightCard } from '../..';
 
 const PostsTabContent = ({
   filterKey,
@@ -146,7 +146,12 @@ const PostsTabContent = ({
 
   const _renderHeader = useMemo(() => {
     if (isLoggedIn && pageType === 'main' && isInitialTab) {
-      return <ProposalVoteRequest />;
+      return (
+        <>
+          <ProposalVoteRequest />
+          <FeatureSpotlightCard />
+        </>
+      );
     }
   }, [isLoggedIn, pageType, isInitialTab, currentAccount?.name]);
 
