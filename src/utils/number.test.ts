@@ -5,6 +5,10 @@ import {
   formatNumberInputStr,
   getAbbreviatedNumber,
   formatAmount,
+  getAssetPrecision,
+  toFixedNoExp,
+  formatTokenQuantity,
+  toMilliUnits,
 } from './number';
 
 describe('countDecimals', () => {
@@ -186,5 +190,98 @@ describe('formatAmount', () => {
       maximumFractionDigits: 2,
     });
     expect(result).toBe('1.12');
+  });
+});
+
+describe('getAssetPrecision', () => {
+  it('returns 3 for HIVE/HBD/POINTS', () => {
+    expect(getAssetPrecision('HIVE')).toBe(3);
+    expect(getAssetPrecision('HBD')).toBe(3);
+    expect(getAssetPrecision('POINT')).toBe(3);
+    expect(getAssetPrecision('POINTS')).toBe(3);
+  });
+
+  it('returns 6 for VESTS', () => {
+    expect(getAssetPrecision('VESTS')).toBe(6);
+  });
+
+  it('is case-insensitive and trims', () => {
+    expect(getAssetPrecision(' hive ')).toBe(3);
+    expect(getAssetPrecision('vests')).toBe(6);
+  });
+
+  it('defaults to 3 for unknown/missing symbols', () => {
+    expect(getAssetPrecision('SOMETOKEN')).toBe(3);
+    expect(getAssetPrecision(undefined)).toBe(3);
+    expect(getAssetPrecision('')).toBe(3);
+  });
+});
+
+describe('toFixedNoExp', () => {
+  it('pads under-precise amounts to the asset precision', () => {
+    expect(toFixedNoExp('10', 3)).toBe('10.000');
+    expect(toFixedNoExp(1.5, 3)).toBe('1.500');
+  });
+
+  it('truncates over-precise amounts toward zero (never rounds up past balance)', () => {
+    expect(toFixedNoExp('10.12345', 3)).toBe('10.123');
+    expect(toFixedNoExp('1.23456789', 6)).toBe('1.234567');
+    expect(toFixedNoExp('10.9995', 3)).toBe('10.999');
+    expect(toFixedNoExp('0.9999', 3)).toBe('0.999');
+    // A run of 9s must not carry/round up (regression guard)
+    expect(toFixedNoExp('1.999999999', 3)).toBe('1.999');
+    expect(toFixedNoExp('0.9999999', 6)).toBe('0.999999');
+  });
+
+  it('keeps float-error values exact (0.3 stays 0.300, not 0.299)', () => {
+    expect(toFixedNoExp(0.3, 3)).toBe('0.300');
+    expect(toFixedNoExp(0.1, 3)).toBe('0.100');
+    expect(toFixedNoExp(0.1 + 0.2, 3)).toBe('0.300');
+  });
+
+  it('never emits scientific notation for tiny values', () => {
+    expect(toFixedNoExp(0.0000001, 3)).toBe('0.000');
+    expect(toFixedNoExp(1e-7, 8)).toBe('0.00000010');
+    expect(toFixedNoExp(1e-7, 8)).not.toContain('e');
+  });
+
+  it('returns a zero-precision string for non-numeric input', () => {
+    expect(toFixedNoExp('abc', 3)).toBe('0.000');
+    expect(toFixedNoExp(NaN, 3)).toBe('0.000');
+  });
+});
+
+describe('formatTokenQuantity', () => {
+  it('strips trailing zeros and never pads', () => {
+    expect(formatTokenQuantity('10')).toBe('10');
+    expect(formatTokenQuantity('10.500')).toBe('10.5');
+    expect(formatTokenQuantity(1.23456789)).toBe('1.23456789');
+  });
+
+  it('avoids scientific notation for tiny token amounts', () => {
+    expect(formatTokenQuantity(0.0000001)).toBe('0.0000001');
+    expect(formatTokenQuantity(0.0000001)).not.toContain('e');
+  });
+
+  it('handles zero and invalid input', () => {
+    expect(formatTokenQuantity(0)).toBe('0');
+    expect(formatTokenQuantity('abc')).toBe('0');
+  });
+});
+
+describe('toMilliUnits', () => {
+  it('converts to integer milli-units', () => {
+    expect(toMilliUnits(1)).toBe(1000);
+    expect(toMilliUnits('1.5')).toBe(1500);
+  });
+
+  it('rounds away binary-float error (no 1004.9999999999999)', () => {
+    expect(toMilliUnits(1.005)).toBe(1005);
+    expect(Number.isInteger(toMilliUnits(0.029))).toBe(true);
+    expect(toMilliUnits(0.029)).toBe(29);
+  });
+
+  it('returns 0 for invalid input', () => {
+    expect(toMilliUnits('abc')).toBe(0);
   });
 });

@@ -22,6 +22,7 @@ import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineAc
 import { getSpkActionJSON, SPK_NODE_ECENCY } from '../../../providers/hive-spk/hiveSpk';
 import parseToken from '../../../utils/parseToken';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
+import { getAssetPrecision, toFixedNoExp, formatTokenQuantity } from '../../../utils/number';
 import { SheetNames } from '../../../navigation/sheets';
 import TokenLayers from '../../../constants/tokenLayers';
 import { EngineActions } from '../../../providers/hive-engine/hiveEngine.types';
@@ -47,6 +48,7 @@ interface TransferViewProps {
   fetchRecurrentTransfers?: () => void;
   recurrentTransfers?: any;
   tokenLayer?: string;
+  tokenPrecision?: number;
   badActors?: Set<string>;
   setFundType?: (fundType: string) => void;
 }
@@ -70,6 +72,7 @@ const TransferView = ({
   fetchRecurrentTransfers,
   recurrentTransfers,
   tokenLayer,
+  tokenPrecision,
   badActors,
   setFundType,
 }: TransferViewProps) => {
@@ -291,6 +294,13 @@ const TransferView = ({
     if (newValue.includes(',')) {
       newValue = newValue.replace(',', '.');
     }
+    // Cap decimals to the asset's precision so an over-precise amount can never be
+    // entered (HIVE/HBD/POINTS = 3, VESTS = 6; engine tokens allow up to 8).
+    const maxDecimals = isEngineToken ? tokenPrecision ?? 8 : getAssetPrecision(fundType);
+    const dotIndex = newValue.indexOf('.');
+    if (dotIndex !== -1 && newValue.length - dotIndex - 1 > maxDecimals) {
+      newValue = newValue.slice(0, dotIndex + 1 + maxDecimals);
+    }
     const parsed = parseFloat(newValue);
     if (newValue === '' || newValue === '.' || Number.isNaN(parsed)) {
       setAmount(newValue);
@@ -381,6 +391,10 @@ const TransferView = ({
   // --- HiveSigner Path ---
   let path;
   if (hsTransfer) {
+    // Normalize the amount to the asset's on-chain precision before encoding the
+    // hive-uri; this HiveSigner path previously sent the raw, unclamped user input.
+    const hsNativeAmount = `${toFixedNoExp(amount, getAssetPrecision(fundType))} ${fundType}`;
+    const hsEngineAmount = `${formatTokenQuantity(amount, tokenPrecision)} ${fundType}`;
     const destinations = destination
       .trim()
       .split(/[\s,]+/)
@@ -400,7 +414,7 @@ const TransferView = ({
                   getEngineActionJSON(
                     EngineActions.TRANSFER,
                     receiver,
-                    `${amount} ${fundType}`,
+                    hsEngineAmount,
                     fundType,
                     memo,
                   ),
@@ -414,7 +428,7 @@ const TransferView = ({
         const json = getEngineActionJSON(
           transferType as EngineActions,
           destination,
-          `${amount} ${fundType}`,
+          hsEngineAmount,
           fundType,
           memo,
         );
@@ -434,31 +448,31 @@ const TransferView = ({
       )}`;
     } else if (transferType === TransferTypes.RECURRENT_TRANSFER) {
       path = `sign/recurrent_transfer?from=${from}&to=${destination}&amount=${encodeURIComponent(
-        `${amount} ${fundType}`,
+        hsNativeAmount,
       )}&memo=${encodeURIComponent(memo)}&recurrence=${recurrence}&executions=${executions}`;
     } else if (transferType === TransferTypes.TRANSFER_TO_SAVINGS) {
       path = `sign/transfer_to_savings?from=${from}&to=${destination}&amount=${encodeURIComponent(
-        `${amount} ${fundType}`,
+        hsNativeAmount,
       )}&memo=${encodeURIComponent(memo)}`;
     } else if (transferType === TransferTypes.DELEGATE_VESTING_SHARES) {
       path = `sign/delegate_vesting_shares?delegator=${from}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
-        `${amount} ${fundType}`,
+        hsNativeAmount,
       )}`;
     } else if (transferType === TransferTypes.TRANSFER_TO_VESTING) {
       path = `sign/transfer_to_vesting?from=${from}&to=${destination}&amount=${encodeURIComponent(
-        `${amount} ${fundType}`,
+        hsNativeAmount,
       )}`;
     } else if (transferType === TransferTypes.TRANSFER_FROM_SAVINGS) {
       path = `sign/transfer_from_savings?from=${from}&to=${destination}&amount=${encodeURIComponent(
-        `${amount} ${fundType}`,
+        hsNativeAmount,
       )}&request_id=${new Date().getTime() >>> 0}`;
     } else if (transferType === TransferTypes.CONVERT) {
-      path = `sign/convert?owner=${from}&amount=${encodeURIComponent(
-        `${amount} ${fundType}`,
-      )}&requestid=${new Date().getTime() >>> 0}`;
+      path = `sign/convert?owner=${from}&amount=${encodeURIComponent(hsNativeAmount)}&requestid=${
+        new Date().getTime() >>> 0
+      }`;
     } else if (transferType === TransferTypes.WITHDRAW_VESTING) {
       path = `sign/withdraw_vesting?account=${from}&vesting_shares=${encodeURIComponent(
-        `${amount} ${fundType}`,
+        hsNativeAmount,
       )}`;
     } else if (transferType === TransferTypes.ECENCY_POINT_TRANSFER) {
       path = hiveuri
@@ -472,7 +486,7 @@ const TransferView = ({
               json: JSON.stringify({
                 sender: selectedAccount.name,
                 receiver,
-                amount: `${Number(amount).toFixed(3)} ${fundType}`,
+                amount: hsNativeAmount,
                 memo,
               }),
             },
@@ -485,7 +499,7 @@ const TransferView = ({
         .encodeOps(
           destinations.map((receiver) => [
             'transfer',
-            { from, to: receiver, amount: `${amount} ${fundType}`, memo },
+            { from, to: receiver, amount: hsNativeAmount, memo },
           ]),
         )
         .replace('hive://', '');
@@ -536,7 +550,13 @@ const TransferView = ({
     }
   };
 
-  const nextBtnDisabled = !((isEngineToken ? amount > 0 : amount >= 0.001) && isUsernameValid);
+  const nextBtnDisabled = !(
+    (isEngineToken ? amount > 0 : amount >= 0.001) &&
+    isUsernameValid &&
+    // Wait for the Engine token's precision to load so the amount can't be
+    // broadcast with the fallback 8-decimal precision before it is known.
+    (!isEngineToken || tokenPrecision !== undefined)
+  );
 
   useEffect(() => {
     if (isRecurrentTransfer) {

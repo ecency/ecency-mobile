@@ -20,7 +20,7 @@ import { getUserDataWithUsername } from '../realm/realm';
 import { getPointsSummary } from '../providers/ecency/ePoint';
 
 // Utils
-import { countDecimals } from '../utils/number';
+import { getAssetPrecision, toFixedNoExp, formatTokenQuantity } from '../utils/number';
 import { fetchTokenBalances } from '../providers/hive-engine/hiveEngine';
 import TransferTypes from '../constants/transferTypes';
 import { fetchSpkMarkets } from '../providers/hive-spk/hiveSpk';
@@ -45,6 +45,7 @@ class TransferContainer extends Component {
       initialAmount: props.route.params?.initialAmount,
       initialMemo: props.route.params?.initialMemo,
       recurrentTransfers: [],
+      tokenPrecision: undefined,
     };
   }
 
@@ -87,6 +88,7 @@ class TransferContainer extends Component {
     queryClient.fetchQuery(getAccountsQueryOptions([username])).then(async (accounts) => {
       const account = accounts[0];
       let balance;
+      let enginePrecision;
 
       const assetLayer = this.props.route.params?.assetLayer ?? this.props.route.params?.tokenLayer;
       if (assetLayer === TokenLayers.ENGINE) {
@@ -94,6 +96,7 @@ class TransferContainer extends Component {
 
         tokenBalances.forEach((tokenBalance) => {
           if (tokenBalance.symbol === fundType) {
+            enginePrecision = tokenBalance.precision;
             switch (transferType) {
               case TransferTypes.UNDELEGATE:
                 balance = tokenBalance.delegationsOut;
@@ -112,6 +115,7 @@ class TransferContainer extends Component {
             balance = '0';
           }
         });
+        this.setState({ tokenPrecision: enginePrecision });
       } else {
         if (
           (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
@@ -263,11 +267,15 @@ class TransferContainer extends Component {
       data.executions = +executions;
     }
 
-    if (countDecimals(Number(data.amount)) < 3) {
-      data.amount = Number(data.amount).toFixed(3);
-    }
+    // Normalize to the asset's on-chain precision before building the op: HIVE/HBD/
+    // POINTS need exactly 3 decimals, VESTS 6; Hive-Engine tokens use their own
+    // precision (no scientific notation). Over-precise amounts are otherwise rejected.
+    const amountValue =
+      tokenLayer === TokenLayers.ENGINE
+        ? formatTokenQuantity(data.amount, this.state.tokenPrecision)
+        : toFixedNoExp(data.amount, getAssetPrecision(fundType));
 
-    data.amount = `${data.amount} ${fundType}`;
+    data.amount = `${amountValue} ${fundType}`;
 
     const _onSuccess = () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
@@ -653,6 +661,7 @@ class TransferContainer extends Component {
         fetchRecurrentTransfers: this._fetchRecurrentTransfers,
         recurrentTransfers,
         tokenLayer,
+        tokenPrecision: this.state.tokenPrecision,
         setFundType: this._setFundType,
       })
     );

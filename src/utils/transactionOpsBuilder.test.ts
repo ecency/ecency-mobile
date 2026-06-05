@@ -29,12 +29,30 @@ describe('buildTransferOpsArray', () => {
       expect(ops[0][1].amount).toBe('10.000 HIVE');
     });
 
-    it('preserves existing decimal precision when >= 3', () => {
+    it('normalizes an over-precise amount down to the asset precision (3 dp for HIVE)', () => {
       const ops = buildTransferOpsArray(TransferTypes.TRANSFER, {
         ...baseData,
         amount: '10.12345',
       });
-      expect(ops[0][1].amount).toBe('10.12345 HIVE');
+      expect(ops[0][1].amount).toBe('10.123 HIVE');
+    });
+
+    it('uses 6 dp for VESTS amounts', () => {
+      const ops = buildTransferOpsArray(TransferTypes.DELEGATE_VESTING_SHARES, {
+        ...baseData,
+        amount: '10',
+        fundType: 'VESTS',
+      });
+      expect(ops[0][1].vesting_shares).toBe('10.000000 VESTS');
+    });
+
+    it('does not force engine-token quantities to 3 dp (mock shape: [op, action, from, to, amount, symbol, memo])', () => {
+      const ops = buildTransferOpsArray(TransferTypes.TRANSFER, {
+        ...baseData,
+        amount: '10.5',
+        tokenLayer: TokenLayers.ENGINE,
+      });
+      expect(ops[0][4]).toBe('10.5 HIVE');
     });
   });
 

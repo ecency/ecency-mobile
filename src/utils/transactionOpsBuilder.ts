@@ -2,7 +2,7 @@ import { getEngineActionOpArray } from '../providers/hive-engine/hiveEngineActio
 import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
 import { buildActiveCustomJsonOpArr } from '../providers/hive/hive';
 import { getSpkActionJSON } from '../providers/hive-spk/hiveSpk';
-import { countDecimals } from './number';
+import { getAssetPrecision, toFixedNoExp, formatTokenQuantity } from './number';
 import TransferTypes from '../constants/transferTypes';
 import parseToken from './parseToken';
 import TokenLayers from '../constants/tokenLayers';
@@ -24,11 +24,15 @@ export const buildTransferOpsArray = (
   transferType: string,
   { from, to, amount, memo, fundType, recurrence, executions, tokenLayer }: TansferData,
 ) => {
-  if (countDecimals(Number(amount)) < 3) {
-    amount = Number(amount).toFixed(3);
-  }
+  // Normalize to the asset's on-chain precision before building the op: HIVE/HBD/
+  // POINTS need exactly 3 decimals, VESTS 6; Hive-Engine tokens use their own
+  // precision (no scientific notation). Over-precise amounts are otherwise rejected.
+  const amountValue =
+    tokenLayer === TokenLayers.ENGINE
+      ? formatTokenQuantity(amount)
+      : toFixedNoExp(amount, getAssetPrecision(fundType));
 
-  amount = `${amount} ${fundType}`;
+  amount = `${amountValue} ${fundType}`;
 
   // check layer and build appropriate operation
   if (tokenLayer === TokenLayers.ENGINE) {
