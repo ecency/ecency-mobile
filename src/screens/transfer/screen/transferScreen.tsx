@@ -486,7 +486,7 @@ const TransferView = ({
               json: JSON.stringify({
                 sender: selectedAccount.name,
                 receiver,
-                amount: `${Number(amount).toFixed(3)} ${fundType}`,
+                amount: hsNativeAmount,
                 memo,
               }),
             },
@@ -550,7 +550,13 @@ const TransferView = ({
     }
   };
 
-  const nextBtnDisabled = !((isEngineToken ? amount > 0 : amount >= 0.001) && isUsernameValid);
+  const nextBtnDisabled = !(
+    (isEngineToken ? amount > 0 : amount >= 0.001) &&
+    isUsernameValid &&
+    // Wait for the Engine token's precision to load so the amount can't be
+    // broadcast with the fallback 8-decimal precision before it is known.
+    (!isEngineToken || tokenPrecision !== undefined)
+  );
 
   useEffect(() => {
     if (isRecurrentTransfer) {
