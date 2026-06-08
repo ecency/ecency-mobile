@@ -9,6 +9,7 @@ import { DataPair } from '../../../redux/reducers/walletReducer';
 import { selectCurrency } from '../../../redux/selectors';
 import { HorizontalIconList } from '../../../components';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
+import TransferTypes from '../../../constants/transferTypes';
 
 export interface CoinSummaryProps {
   tokenSymbol: string;
@@ -112,6 +113,7 @@ export const CoinSummary = ({
         ? actions
             .map((action: any) => (typeof action === 'string' ? action : action?.id))
             .filter((action): action is string => Boolean(action))
+            .filter((action) => action !== TransferTypes.RECURRENT_TRANSFER)
         : [],
     [actions],
   );

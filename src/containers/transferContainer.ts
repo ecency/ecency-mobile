@@ -25,6 +25,81 @@ import { fetchTokenBalances } from '../providers/hive-engine/hiveEngine';
 import TransferTypes from '../constants/transferTypes';
 import { fetchSpkMarkets } from '../providers/hive-spk/hiveSpk';
 import TokenLayers from '../constants/tokenLayers';
+
+const normalizeTransferType = (transferType) => {
+  switch (transferType) {
+    case 'transfer_token':
+      return TransferTypes.TRANSFER;
+    case 'withdraw_hive':
+    case 'withdraw_hbd':
+      return TransferTypes.TRANSFER_FROM_SAVINGS;
+    default:
+      return transferType;
+  }
+};
+
+const parseAccountAssetBalance = (value, fundType) => {
+  if (value === undefined || value === null || value === '') {
+    return undefined;
+  }
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : undefined;
+  }
+
+  const parsed = Number(String(value).replace(fundType, '').trim());
+  return Number.isFinite(parsed) ? parsed : undefined;
+};
+
+const getNativeAccountBalance = (account, transferType, fundType) => {
+  if (!account) {
+    return undefined;
+  }
+
+  const normalizedTransferType = normalizeTransferType(transferType);
+
+  if (fundType === 'HIVE') {
+    if (normalizedTransferType === TransferTypes.TRANSFER_FROM_SAVINGS) {
+      return parseAccountAssetBalance(
+        get(account, 'savings_balance') ?? get(account, 'savingBalance'),
+        fundType,
+      );
+    }
+
+    if (
+      normalizedTransferType === TransferTypes.TRANSFER ||
+      normalizedTransferType === TransferTypes.RECURRENT_TRANSFER ||
+      normalizedTransferType === TransferTypes.TRANSFER_TO_SAVINGS ||
+      normalizedTransferType === TransferTypes.TRANSFER_TO_VESTING ||
+      transferType === 'purchase_estm'
+    ) {
+      return parseAccountAssetBalance(get(account, 'balance'), fundType);
+    }
+  }
+
+  if (fundType === 'HBD') {
+    if (normalizedTransferType === TransferTypes.TRANSFER_FROM_SAVINGS) {
+      return parseAccountAssetBalance(
+        get(account, 'savings_hbd_balance') ?? get(account, 'savingBalanceHbd'),
+        fundType,
+      );
+    }
+
+    if (
+      normalizedTransferType === TransferTypes.TRANSFER ||
+      normalizedTransferType === TransferTypes.RECURRENT_TRANSFER ||
+      normalizedTransferType === TransferTypes.CONVERT ||
+      normalizedTransferType === TransferTypes.TRANSFER_TO_SAVINGS ||
+      transferType === 'purchase_estm'
+    ) {
+      return parseAccountAssetBalance(
+        get(account, 'hbd_balance') ?? get(account, 'hbdBalance'),
+        fundType,
+      );
+    }
+  }
+
+  return undefined;
+};
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
@@ -34,16 +109,24 @@ import TokenLayers from '../constants/tokenLayers';
 class TransferContainer extends Component {
   constructor(props) {
     super(props);
+    const routeParams = props.route.params ?? {};
+    const transferType = normalizeTransferType(routeParams.transferType ?? '');
+    const fundType = routeParams.fundType ?? '';
+    const initialBalance =
+      routeParams.balance ??
+      getNativeAccountBalance(props.currentAccount, transferType, fundType) ??
+      '';
+
     this.state = {
-      fundType: props.route.params?.fundType ?? '',
-      balance: props.route.params?.balance ?? '',
-      tokenAddress: props.route.params?.tokenAddress ?? '',
-      transferType: props.route.params?.transferType ?? '',
-      referredUsername: props.route.params?.referredUsername,
+      fundType,
+      balance: initialBalance,
+      tokenAddress: routeParams.tokenAddress ?? '',
+      transferType,
+      referredUsername: routeParams.referredUsername,
       selectedAccount: props.currentAccount,
       spkMarkets: [],
-      initialAmount: props.route.params?.initialAmount,
-      initialMemo: props.route.params?.initialMemo,
+      initialAmount: routeParams.initialAmount,
+      initialMemo: routeParams.initialMemo,
       recurrentTransfers: [],
       tokenPrecision: undefined,
     };
@@ -79,14 +162,17 @@ class TransferContainer extends Component {
       });
   };
 
-  fetchBalance = (username) => {
+  fetchBalance = async (username) => {
     const { fundType, transferType, tokenAddress } = this.state;
 
     // Fetch account using SDK
     const queryClient = getQueryClient();
 
-    queryClient.fetchQuery(getAccountsQueryOptions([username])).then(async (accounts) => {
-      const account = accounts[0];
+    try {
+      const accountQuery = getAccountsQueryOptions([username]);
+      await queryClient.invalidateQueries({ queryKey: accountQuery.queryKey, exact: true });
+      const accounts = await queryClient.fetchQuery(accountQuery);
+      const account = accounts?.[0] ?? {};
       let balance;
       let enginePrecision;
 
@@ -117,31 +203,9 @@ class TransferContainer extends Component {
         });
         this.setState({ tokenPrecision: enginePrecision });
       } else {
-        if (
-          (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
-          fundType === 'HIVE'
-        ) {
-          balance = account.balance.replace(fundType, '');
-        }
-        if (
-          (transferType === 'purchase_estm' ||
-            transferType === 'convert' ||
-            transferType === 'transfer_token') &&
-          fundType === 'HBD'
-        ) {
-          balance = account.hbd_balance.replace(fundType, '');
-        }
+        balance = getNativeAccountBalance(account, transferType, fundType);
         if (transferType === TransferTypes.ECENCY_POINT_TRANSFER && fundType === 'POINT') {
           this._getUserPointsBalance(username);
-        }
-        if (transferType === TransferTypes.TRANSFER_TO_SAVINGS && fundType === 'HIVE') {
-          balance = account.balance.replace(fundType, '');
-        }
-        if (transferType === 'transfer_to_savings' && fundType === 'HBD') {
-          balance = account.hbd_balance.replace(fundType, '');
-        }
-        if (transferType === 'transfer_to_vesting' && fundType === 'HIVE') {
-          balance = account.balance.replace(fundType, '');
         }
         if (transferType === 'address_view' && fundType === 'BTC') {
           // TODO implement transfer of custom tokens
@@ -151,14 +215,27 @@ class TransferContainer extends Component {
 
       const local = await getUserDataWithUsername(username);
 
-      if (balance) {
-        this.setState({ balance: Number(balance) });
+      // Drop the result if the user switched fund type while this request was in
+      // flight, so a stale fundType's balance can't clobber the newer selection.
+      if (this.state.fundType !== fundType) {
+        return;
+      }
+
+      // An empty/missing account yields `undefined` here (handled above), so a
+      // freshly-fetched 0 is a real on-chain balance and must be honored.
+      if (balance !== undefined && balance !== null && balance !== '') {
+        const nextBalance = Number(balance);
+        if (Number.isFinite(nextBalance)) {
+          this.setState({ balance: nextBalance });
+        }
       }
 
       this.setState({
         selectedAccount: { ...account, local: local[0] },
       });
-    });
+    } catch (error) {
+      console.warn('[TransferContainer] Failed to fetch transfer balance', error);
+    }
   };
 
   _fetchSpkMarkets = async () => {
@@ -193,6 +270,7 @@ class TransferContainer extends Component {
     // Also update route params so _transferToAccount picks up the new fundType
     if (this.props.route?.params) {
       this.props.route.params.fundType = newFundType;
+      this.props.route.params.balance = undefined;
     }
   };
 
@@ -209,6 +287,9 @@ class TransferContainer extends Component {
       // Re-invalidate portfolio as safety net for blockchain propagation
       queryClient.invalidateQueries({
         queryKey: ['wallet', 'portfolio', 'v2', currentAccount.name],
+      });
+      queryClient.invalidateQueries({
+        queryKey: getAccountsQueryOptions([currentAccount.name]).queryKey,
       });
 
       // Invalidate secondary data (lazy refetch on next view)
@@ -243,19 +324,18 @@ class TransferContainer extends Component {
     memo,
     recurrence = null,
     executions = 0,
+    overrideTransferType = null,
   ) => {
     const { navigation, dispatch, intl, route, mutations } = this.props;
 
-    let transferType = route.params?.transferType ?? '';
+    const transferType = normalizeTransferType(
+      overrideTransferType ?? route.params?.transferType ?? '',
+    );
     const fundType = route.params?.fundType ?? '';
     let tokenLayer = route.params?.assetLayer ?? route.params?.tokenLayer ?? '';
 
-    // Normalize transfer_token to standard transfer type and default layer
-    if (transferType === 'transfer_token') {
-      transferType = TransferTypes.TRANSFER;
-      if (!tokenLayer && (fundType === 'HIVE' || fundType === 'HBD')) {
-        tokenLayer = TokenLayers.HIVE;
-      }
+    if (!tokenLayer && (fundType === 'HIVE' || fundType === 'HBD')) {
+      tokenLayer = TokenLayers.HIVE;
     }
 
     const data: any = { from, destination, amount, memo, fundType };
@@ -629,11 +709,12 @@ class TransferContainer extends Component {
     } = this.state;
 
     const rawTransferType = route.params?.transferType ?? '';
-    // Normalize legacy 'transfer_token' so the screen sees TRANSFER for memo/UI gates,
-    // while the submit path still re-normalizes from raw route params.
-    const transferType =
-      rawTransferType === 'transfer_token' ? TransferTypes.TRANSFER : rawTransferType;
-    const tokenLayer = route.params?.assetLayer ?? route.params?.tokenLayer ?? '';
+    // Normalize legacy route aliases so the screen and submit path use operation names.
+    const transferType = normalizeTransferType(rawTransferType);
+    const tokenLayer =
+      route.params?.assetLayer ??
+      route.params?.tokenLayer ??
+      (fundType === 'HIVE' || fundType === 'HBD' ? TokenLayers.HIVE : '');
 
     return (
       children &&

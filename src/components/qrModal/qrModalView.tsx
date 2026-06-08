@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Alert, PermissionsAndroid, Platform, View, useWindowDimensions } from 'react-native';
-import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
+import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 import { useCameraDevice, Camera, useCodeScanner } from 'react-native-vision-camera';
@@ -8,26 +8,40 @@ import styles from './qrModalStyles';
 import { SheetNames } from '../../navigation/sheets';
 import { useLinkProcessor } from '../../hooks';
 
-export const QRModal = () => {
+export const QRModal = ({ sheetId, payload }: SheetProps<SheetNames.QR_SCAN>) => {
   const dim = useWindowDimensions();
   const linkProcessor = useLinkProcessor(() => SheetManager.hide(SheetNames.QR_SCAN));
 
   const device = useCameraDevice('back');
   const [isScannerActive, setIsScannerActive] = useState(true);
+  // Re-entry latch: vision-camera can deliver several already-queued frames before
+  // setIsScannerActive(false) deactivates the camera, so handle a scan only once.
+  const handledRef = useRef(false);
 
   const codeScanner = useCodeScanner({
     codeTypes: ['qr'],
     onCodeScanned: (codes) => {
       console.log(`Scanned ${codes.length} codes!`, codes);
-      if (codes[0].value) {
+      const scannedValue = codes[0]?.value;
+      if (scannedValue) {
+        if (handledRef.current) {
+          return;
+        }
+        handledRef.current = true;
         setIsScannerActive(false);
-        linkProcessor.handleLink(codes[0].value);
+        if (payload?.onScan) {
+          payload.onScan(scannedValue);
+          SheetManager.hide(sheetId || SheetNames.QR_SCAN, { payload: scannedValue });
+          return;
+        }
+        linkProcessor.handleLink(scannedValue);
       }
     },
   });
 
   useEffect(() => {
     requestCameraPermission();
+    handledRef.current = false;
     setIsScannerActive(true);
 
     return () => {
@@ -92,11 +106,12 @@ export const QRModal = () => {
   };
 
   const _onClose = () => {
-    SheetManager.hide(SheetNames.QR_SCAN);
+    SheetManager.hide(sheetId || SheetNames.QR_SCAN);
   };
 
   return (
     <ActionSheet
+      id={sheetId || SheetNames.QR_SCAN}
       gestureEnabled={true}
       snapPoints={[90]}
       containerStyle={{ ...styles.sheetContent, height: dim.height }}

@@ -1330,6 +1330,10 @@
     "dropdown_label": "AI Image"
   },
   "transfer": {
+    "favorite_username_placeholder": "Username",
+    "invalid_recipient_qr": "Could not find a username in this QR code.",
+    "one_time": "One Time",
+    "schedule": "Schedule",
     "select_token": "Select Token",
     "powering_down_subheading": "You are currently unstaking.",
     "power_down": "Unstake",

@@ -26,6 +26,8 @@ import { getEstimatedAmount } from '../utils/vote';
 // Constants
 import ROUTES from '../constants/routeNames';
 import { ASSET_IDS } from '../constants/defaultAssets';
+import TransferTypes from '../constants/transferTypes';
+import TokenLayers from '../constants/tokenLayers';
 
 const HIVE_DROPDOWN = [
   'purchase_estm',
@@ -270,17 +272,27 @@ const WalletContainer = ({
 
   const _navigate = async (transferType, fundType) => {
     let balance;
+    let normalizedTransferType = transferType;
+    const isNativeAsset = fundType === 'HIVE' || fundType === 'HBD';
+
+    if (transferType === 'withdraw_hive' || transferType === 'withdraw_hbd') {
+      normalizedTransferType = TransferTypes.TRANSFER_FROM_SAVINGS;
+    }
 
     if (
-      (transferType === 'transfer_token' || transferType === 'purchase_estm') &&
+      (transferType === 'transfer_token' ||
+        transferType === 'purchase_estm' ||
+        transferType === TransferTypes.TRANSFER_TO_SAVINGS ||
+        transferType === TransferTypes.TRANSFER_TO_VESTING) &&
       fundType === 'HIVE'
     ) {
       balance = Math.round(walletData.balance * 1000) / 1000;
     }
     if (
       (transferType === 'transfer_token' ||
-        transferType === 'convert' ||
-        transferType === 'purchase_estm') &&
+        transferType === TransferTypes.CONVERT ||
+        transferType === 'purchase_estm' ||
+        transferType === TransferTypes.TRANSFER_TO_SAVINGS) &&
       fundType === 'HBD'
     ) {
       balance = Math.round(walletData.hbdBalance * 1000) / 1000;
@@ -292,18 +304,26 @@ const WalletContainer = ({
       balance = Math.round(walletData.savingBalanceHbd * 1000) / 1000;
     }
 
+    const navigateParams = {
+      transferType: normalizedTransferType,
+      fundType,
+      balance,
+      tokenAddress,
+      ...(isNativeAsset ? { assetLayer: TokenLayers.HIVE } : {}),
+    };
+
     if (isPinCodeOpen) {
       RootNavigation.navigate({
         name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo: ROUTES.SCREENS.TRANSFER,
-          navigateParams: { transferType, fundType, balance, tokenAddress },
+          navigateParams,
         },
       });
     } else {
       RootNavigation.navigate({
         name: ROUTES.SCREENS.TRANSFER,
-        params: { transferType, fundType, balance, tokenAddress },
+        params: navigateParams,
       });
     }
   };

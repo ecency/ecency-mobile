@@ -29,12 +29,62 @@ import { EngineActions } from '../../../providers/hive-engine/hiveEngine.types';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { dateToFormatted } from '../../../utils/time';
 
+const normalizeScannedUsername = (value?: string) =>
+  (value || '').trim().replace(/^@/, '').toLowerCase();
+
+const extractUsernameFromScannedValue = (value: string) => {
+  const scannedValue = value.trim();
+
+  try {
+    const decoded = hiveuri.decode(scannedValue);
+    const operation = get(decoded, 'tx.operations[0]', []);
+    const operationPayload = Array.isArray(operation) ? operation[1] : null;
+    const username =
+      get(operationPayload, 'to') ||
+      get(operationPayload, 'receiver') ||
+      get(operationPayload, 'username') ||
+      get(operationPayload, 'account');
+    if (username) {
+      return normalizeScannedUsername(username);
+    }
+  } catch {
+    // Non hive-uri QR values are handled below.
+  }
+
+  const queryMatch = scannedValue.match(/[?&](?:to|username|account)=([^&#]+)/i);
+  if (queryMatch?.[1]) {
+    try {
+      return normalizeScannedUsername(decodeURIComponent(queryMatch[1]));
+    } catch {
+      return normalizeScannedUsername(queryMatch[1]);
+    }
+  }
+
+  const profileMatch =
+    scannedValue.match(/(?:^|\/)@([a-z0-9.-]+)/i) ||
+    scannedValue.match(/(?:^|\/)(?:profile|user|account)\/([a-z0-9.-]+)/i);
+  if (profileMatch?.[1]) {
+    return normalizeScannedUsername(profileMatch[1]);
+  }
+
+  const username = normalizeScannedUsername(scannedValue);
+  return /^[a-z0-9.-]{3,16}$/.test(username) ? username : '';
+};
+
 interface TransferViewProps {
   currentAccountName: string;
   transferType: string;
   getAccountsWithUsername: (username: string) => any;
   balance: number | string;
-  transferToAccount: (params: any) => void;
+  transferToAccount: (
+    from: string,
+    destination: string,
+    amount: string | number,
+    memo?: string,
+    recurrence?: string | number | null,
+    executions?: string | number | null,
+    transferType?: string,
+  ) => void;
   accountType: string;
   accounts: any[];
   handleOnModalClose: () => void;
@@ -45,7 +95,7 @@ interface TransferViewProps {
   referredUsername?: string;
   initialAmount?: string | number;
   initialMemo?: string;
-  fetchRecurrentTransfers?: () => void;
+  fetchRecurrentTransfers?: (username: string) => void;
   recurrentTransfers?: any;
   tokenLayer?: string;
   tokenPrecision?: number;
@@ -103,6 +153,9 @@ const TransferView = ({
   const [recurrence, setRecurrence] = useState('');
   const [executions, setExecutions] = useState('');
   const [startDate, setStartDate] = useState('');
+  const [isScheduledTransfer, setIsScheduledTransfer] = useState(
+    transferType === TransferTypes.RECURRENT_TRANSFER,
+  );
 
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [usersResult, setUsersResult] = useState<string[]>([]);
@@ -113,12 +166,17 @@ const TransferView = ({
   const hasInitializedRef = useRef(false);
   const dpRef = useRef();
 
-  const isRecurrentTransfer = transferType === TransferTypes.RECURRENT_TRANSFER;
+  const oneTimeTransferType =
+    transferType === TransferTypes.RECURRENT_TRANSFER ? TransferTypes.TRANSFER : transferType;
+  const isRecurrentTransfer = isScheduledTransfer;
+  const effectiveTransferType = isRecurrentTransfer
+    ? TransferTypes.RECURRENT_TRANSFER
+    : oneTimeTransferType;
   const isEngineToken = tokenLayer === TokenLayers.ENGINE;
   const isSpkToken = tokenLayer === TokenLayers.SPK;
 
   const destinationLocked = useMemo(() => {
-    switch (transferType) {
+    switch (oneTimeTransferType) {
       case TransferTypes.CONVERT:
       case TransferTypes.UNSTAKE:
       case TransferTypes.POWER_UP_SPK:
@@ -127,30 +185,50 @@ const TransferView = ({
       default:
         return false;
     }
-  }, [transferType]);
+  }, [oneTimeTransferType]);
 
   const allowMultipleDest =
-    (tokenLayer === TokenLayers.HIVE && transferType === TransferTypes.TRANSFER) ||
-    (tokenLayer === TokenLayers.POINTS && transferType === TransferTypes.ECENCY_POINT_TRANSFER) ||
-    (tokenLayer === TokenLayers.ENGINE && transferType === TransferTypes.TRANSFER);
+    !isRecurrentTransfer &&
+    ((tokenLayer === TokenLayers.HIVE && effectiveTransferType === TransferTypes.TRANSFER) ||
+      (tokenLayer === TokenLayers.POINTS &&
+        effectiveTransferType === TransferTypes.ECENCY_POINT_TRANSFER) ||
+      (tokenLayer === TokenLayers.ENGINE && effectiveTransferType === TransferTypes.TRANSFER));
 
   const showMemo =
-    transferType === TransferTypes.ECENCY_POINT_TRANSFER ||
-    transferType === TransferTypes.TRANSFER ||
-    transferType === TransferTypes.RECURRENT_TRANSFER ||
-    transferType === TransferTypes.TRANSFER_TO_SAVINGS ||
-    transferType === TransferTypes.TRANSFER_SPK ||
-    transferType === TransferTypes.TRANSFER_LARYNX;
+    effectiveTransferType === TransferTypes.ECENCY_POINT_TRANSFER ||
+    effectiveTransferType === TransferTypes.TRANSFER ||
+    effectiveTransferType === TransferTypes.RECURRENT_TRANSFER ||
+    effectiveTransferType === TransferTypes.TRANSFER_TO_SAVINGS ||
+    effectiveTransferType === TransferTypes.TRANSFER_SPK ||
+    effectiveTransferType === TransferTypes.TRANSFER_LARYNX;
 
   const displayFundType = fundType === 'POINT' ? 'Points' : fundType;
+  const isNativeTokenLayer = !tokenLayer || tokenLayer === TokenLayers.HIVE;
+  // Balance is '' (or nullish) while the container is fetching/refetching it; treat
+  // that as a loading state rather than a usable 0 so the amount field stays usable
+  // and no false low-liquidity alert fires before the real balance arrives.
+  const isBalanceLoading = balance === '' || balance === undefined || balance === null;
 
   // Token switching is only available for basic transfers
   const canSwitchToken =
     !!setFundType &&
-    (transferType === 'transfer_token' ||
-      transferType === TransferTypes.TRANSFER ||
+    (oneTimeTransferType === 'transfer_token' ||
+      oneTimeTransferType === TransferTypes.TRANSFER ||
       transferType === TransferTypes.RECURRENT_TRANSFER) &&
-    !tokenLayer;
+    isNativeTokenLayer;
+  const canScheduleTransfer =
+    isNativeTokenLayer &&
+    (oneTimeTransferType === TransferTypes.TRANSFER ||
+      transferType === TransferTypes.RECURRENT_TRANSFER) &&
+    (fundType === 'HIVE' || fundType === 'HBD');
+
+  const scheduleOptions = useMemo(
+    () => [
+      intl.formatMessage({ id: 'transfer.one_time', defaultMessage: 'One Time' }),
+      ...RECURRENCE_TYPES.map((item) => intl.formatMessage({ id: item.intlId })),
+    ],
+    [intl],
+  );
 
   const [showTokenPicker, setShowTokenPicker] = useState(false);
   const transferableTokens = ['HIVE', 'HBD'];
@@ -247,20 +325,23 @@ const TransferView = ({
   }, [destination, allowMultipleDest, _debouncedValidateUsername]);
 
   // --- Handlers ---
-  const _handleDestinationChange = (val: string) => {
-    const trimmedLowercase = val.trim().toLowerCase();
-    const usernames = trimmedLowercase ? trimmedLowercase.split(/[\s,]+/).filter(Boolean) : [];
-    setIsUsernameValid(false);
-    _debouncedValidateUsername(
-      allowMultipleDest ? usernames : trimmedLowercase ? [trimmedLowercase] : [],
-    );
-    destinationRef.current = allowMultipleDest
-      ? usernames
-      : trimmedLowercase
-      ? [trimmedLowercase]
-      : [];
-    setDestination(trimmedLowercase);
-  };
+  const _handleDestinationChange = useCallback(
+    (val: string) => {
+      const trimmedLowercase = val.trim().toLowerCase();
+      const usernames = trimmedLowercase ? trimmedLowercase.split(/[\s,]+/).filter(Boolean) : [];
+      setIsUsernameValid(false);
+      _debouncedValidateUsername(
+        allowMultipleDest ? usernames : trimmedLowercase ? [trimmedLowercase] : [],
+      );
+      destinationRef.current = allowMultipleDest
+        ? usernames
+        : trimmedLowercase
+        ? [trimmedLowercase]
+        : [];
+      setDestination(trimmedLowercase);
+    },
+    [_debouncedValidateUsername, allowMultipleDest],
+  );
 
   const _handleUserSelect = useCallback(
     (username: string) => {
@@ -278,6 +359,42 @@ const TransferView = ({
     },
     [from, intl],
   );
+
+  const _handleScannedRecipient = useCallback(
+    (value: string) => {
+      const username = extractUsernameFromScannedValue(value);
+      if (!username) {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'transfer.invalid_recipient_qr',
+              defaultMessage: 'Could not find a username in this QR code.',
+            }),
+          ),
+        );
+        return;
+      }
+      _handleDestinationChange(username);
+    },
+    [dispatch, intl, _handleDestinationChange],
+  );
+
+  const _openQrScanner = useCallback(() => {
+    SheetManager.show(SheetNames.QR_SCAN, {
+      payload: {
+        onScan: _handleScannedRecipient,
+      },
+    });
+  }, [_handleScannedRecipient]);
+
+  const _openFavorites = useCallback(async () => {
+    const username = await SheetManager.show(SheetNames.TRANSFER_FAVORITES, {
+      payload: { limit: 50 },
+    });
+    if (username) {
+      _handleDestinationChange(username);
+    }
+  }, [_handleDestinationChange]);
 
   const _renderSuggestionItem = useCallback(
     ({ item: username }) => (
@@ -304,25 +421,57 @@ const TransferView = ({
     const parsed = parseFloat(newValue);
     if (newValue === '' || newValue === '.' || Number.isNaN(parsed)) {
       setAmount(newValue);
-    } else if (parsed <= parseFloat(String(balance))) {
+    } else if (isBalanceLoading || parsed <= parseFloat(String(balance))) {
       setAmount(newValue);
     }
   };
 
-  const [recurrenceIndex, setRecurrenceIndex] = useState(
-    RECURRENCE_TYPES.findIndex((r) => r.hours === recurrence),
-  );
+  // Derived from `recurrence` (the single source of truth) — RECURRENCE_TYPES.hours
+  // is numeric, so coerce the string state with +recurrence before matching.
+  const recurrenceIndex = RECURRENCE_TYPES.findIndex((r) => r.hours === +recurrence);
+  const scheduleSelectedIndex = isRecurrentTransfer ? Math.max(recurrenceIndex + 1, 1) : 0;
 
   useEffect(() => {
     const newSelectedIndex = RECURRENCE_TYPES.findIndex((r) => r.hours === +recurrence);
-    setRecurrenceIndex(newSelectedIndex);
     if (newSelectedIndex > -1) {
-      setRecurrence(RECURRENCE_TYPES[newSelectedIndex].hours);
+      setRecurrence(`${RECURRENCE_TYPES[newSelectedIndex].hours}`);
     }
     if (dpRef?.current) {
-      dpRef.current.select(newSelectedIndex);
+      dpRef.current.select(isRecurrentTransfer ? Math.max(newSelectedIndex + 1, 1) : 0);
     }
-  }, [recurrence]);
+  }, [recurrence, isRecurrentTransfer]);
+
+  useEffect(() => {
+    if (!isRecurrentTransfer) return;
+    if (!recurrence) {
+      setRecurrence(`${RECURRENCE_TYPES[0].hours}`);
+    }
+    if (!executions) {
+      setExecutions('2');
+    }
+  }, [executions, isRecurrentTransfer, recurrence]);
+
+  const _handleScheduleSelect = useCallback(
+    (index: number) => {
+      if (index === 0) {
+        setIsScheduledTransfer(false);
+        setRecurrence('');
+        setExecutions('');
+        setStartDate('');
+        return;
+      }
+
+      const selectedRecurrence = RECURRENCE_TYPES[index - 1];
+      if (!selectedRecurrence) return;
+
+      setIsScheduledTransfer(true);
+      setRecurrence(`${selectedRecurrence.hours}`);
+      if (!executions) {
+        setExecutions('2');
+      }
+    },
+    [executions],
+  );
 
   // --- Transfer Actions ---
   const _handleTransferAction = debounce(
@@ -333,7 +482,7 @@ const TransferView = ({
       if (accountType === AUTH_TYPE.STEEM_CONNECT) {
         setHsTransfer(true);
       } else if (accountType === AUTH_TYPE.HIVE_AUTH) {
-        const opArray = buildTransferOpsArray(transferType, {
+        const opArray = buildTransferOpsArray(effectiveTransferType, {
           from,
           to: destination,
           amount,
@@ -368,6 +517,7 @@ const TransferView = ({
           memo,
           isRecurrentTransfer ? recurrence : null,
           isRecurrentTransfer ? executions : null,
+          effectiveTransferType,
         );
       }
     },
@@ -381,7 +531,7 @@ const TransferView = ({
       if (accountType === AUTH_TYPE.STEEM_CONNECT) {
         setHsTransfer(true);
       } else {
-        transferToAccount(from, destination, '0', memo, 24, 2);
+        transferToAccount(from, destination, '0', memo, 24, 2, TransferTypes.RECURRENT_TRANSFER);
       }
     },
     300,
@@ -401,7 +551,7 @@ const TransferView = ({
       .filter(Boolean);
 
     if (isEngineToken) {
-      if (transferType === TransferTypes.TRANSFER && destinations.length > 1) {
+      if (effectiveTransferType === TransferTypes.TRANSFER && destinations.length > 1) {
         path = hiveuri
           .encodeOps(
             destinations.map((receiver) => [
@@ -426,7 +576,7 @@ const TransferView = ({
         path += '?authority=active';
       } else {
         const json = getEngineActionJSON(
-          transferType as EngineActions,
+          effectiveTransferType as EngineActions,
           destination,
           hsEngineAmount,
           fundType,
@@ -443,38 +593,38 @@ const TransferView = ({
       const json = getSpkActionJSON(Number(amount), destination, memo);
       path = `sign/custom-json?authority=active&required_auths=%5B%22${
         selectedAccount.name
-      }%22%5D&required_posting_auths=%5B%5D&id=${transferType}&json=${encodeURIComponent(
+      }%22%5D&required_posting_auths=%5B%5D&id=${effectiveTransferType}&json=${encodeURIComponent(
         JSON.stringify(json),
       )}`;
-    } else if (transferType === TransferTypes.RECURRENT_TRANSFER) {
+    } else if (effectiveTransferType === TransferTypes.RECURRENT_TRANSFER) {
       path = `sign/recurrent_transfer?from=${from}&to=${destination}&amount=${encodeURIComponent(
         hsNativeAmount,
       )}&memo=${encodeURIComponent(memo)}&recurrence=${recurrence}&executions=${executions}`;
-    } else if (transferType === TransferTypes.TRANSFER_TO_SAVINGS) {
+    } else if (effectiveTransferType === TransferTypes.TRANSFER_TO_SAVINGS) {
       path = `sign/transfer_to_savings?from=${from}&to=${destination}&amount=${encodeURIComponent(
         hsNativeAmount,
       )}&memo=${encodeURIComponent(memo)}`;
-    } else if (transferType === TransferTypes.DELEGATE_VESTING_SHARES) {
+    } else if (effectiveTransferType === TransferTypes.DELEGATE_VESTING_SHARES) {
       path = `sign/delegate_vesting_shares?delegator=${from}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
         hsNativeAmount,
       )}`;
-    } else if (transferType === TransferTypes.TRANSFER_TO_VESTING) {
+    } else if (effectiveTransferType === TransferTypes.TRANSFER_TO_VESTING) {
       path = `sign/transfer_to_vesting?from=${from}&to=${destination}&amount=${encodeURIComponent(
         hsNativeAmount,
       )}`;
-    } else if (transferType === TransferTypes.TRANSFER_FROM_SAVINGS) {
+    } else if (effectiveTransferType === TransferTypes.TRANSFER_FROM_SAVINGS) {
       path = `sign/transfer_from_savings?from=${from}&to=${destination}&amount=${encodeURIComponent(
         hsNativeAmount,
       )}&request_id=${new Date().getTime() >>> 0}`;
-    } else if (transferType === TransferTypes.CONVERT) {
+    } else if (effectiveTransferType === TransferTypes.CONVERT) {
       path = `sign/convert?owner=${from}&amount=${encodeURIComponent(hsNativeAmount)}&requestid=${
         new Date().getTime() >>> 0
       }`;
-    } else if (transferType === TransferTypes.WITHDRAW_VESTING) {
+    } else if (effectiveTransferType === TransferTypes.WITHDRAW_VESTING) {
       path = `sign/withdraw_vesting?account=${from}&vesting_shares=${encodeURIComponent(
         hsNativeAmount,
       )}`;
-    } else if (transferType === TransferTypes.ECENCY_POINT_TRANSFER) {
+    } else if (effectiveTransferType === TransferTypes.ECENCY_POINT_TRANSFER) {
       path = hiveuri
         .encodeOps(
           destinations.map((receiver) => [
@@ -535,7 +685,7 @@ const TransferView = ({
     if (allowMultipleDest && parsedDestinations.length === 0) {
       return false;
     }
-    if (balance < amount * recipientCount) {
+    if (!isBalanceLoading && balance < amount * recipientCount) {
       Alert.alert(intl.formatMessage({ id: 'wallet.low_liquidity' }));
       return false;
     }
@@ -553,16 +703,19 @@ const TransferView = ({
   const nextBtnDisabled = !(
     (isEngineToken ? amount > 0 : amount >= 0.001) &&
     isUsernameValid &&
+    // Don't allow submit until the real balance has loaded (it is '' while fetching).
+    !isBalanceLoading &&
     // Wait for the Engine token's precision to load so the amount can't be
     // broadcast with the fallback 8-decimal precision before it is known.
-    (!isEngineToken || tokenPrecision !== undefined)
+    (!isEngineToken || tokenPrecision !== undefined) &&
+    (!isRecurrentTransfer || (!!recurrence && Number(executions) >= 2))
   );
 
   useEffect(() => {
     if (isRecurrentTransfer) {
-      fetchRecurrentTransfers(currentAccountName);
+      fetchRecurrentTransfers?.(currentAccountName);
     }
-  }, [isRecurrentTransfer]);
+  }, [currentAccountName, fetchRecurrentTransfers, isRecurrentTransfer]);
 
   const _findRecurrentTransferOfUser = useCallback(
     (userToFind) => {
@@ -570,30 +723,25 @@ const TransferView = ({
         return false;
       }
 
-      const existingRecurrentTransfer = recurrentTransfers.find((rt) => rt.to === userToFind);
+      const existingRecurrentTransfer = (recurrentTransfers || []).find(
+        (rt) => rt.to === userToFind,
+      );
 
-      let newMemo,
-        newAmount,
-        newRecurrence,
-        newStartDate,
-        newExecutions = '';
-
-      if (existingRecurrentTransfer) {
-        newMemo = existingRecurrentTransfer.memo;
-        newAmount = parseToken(existingRecurrentTransfer.amount).toString();
-        newRecurrence = existingRecurrentTransfer.recurrence.toString();
-        newExecutions = `${existingRecurrentTransfer.remaining_executions}`;
-        newStartDate = existingRecurrentTransfer.trigger_date;
+      if (!existingRecurrentTransfer) {
+        setStartDate('');
+        return false;
       }
-      setMemo(newMemo);
-      setAmount(newAmount);
-      setRecurrence(newRecurrence);
-      setExecutions(newExecutions);
-      setStartDate(newStartDate);
+
+      setIsScheduledTransfer(true);
+      setMemo(existingRecurrentTransfer.memo);
+      setAmount(parseToken(existingRecurrentTransfer.amount).toString());
+      setRecurrence(existingRecurrentTransfer.recurrence.toString());
+      setExecutions(`${existingRecurrentTransfer.remaining_executions}`);
+      setStartDate(existingRecurrentTransfer.trigger_date);
 
       return existingRecurrentTransfer;
     },
-    [recurrentTransfers],
+    [isRecurrentTransfer, recurrentTransfers],
   );
 
   const badActorUsername = useMemo(() => {
@@ -609,7 +757,7 @@ const TransferView = ({
   return (
     <SafeAreaView style={styles.container}>
       <BasicHeader
-        title={intl.formatMessage({ id: `wallet.${transferType}` })}
+        title={intl.formatMessage({ id: `wallet.${oneTimeTransferType}` })}
         backIconName="close"
       />
 
@@ -619,6 +767,26 @@ const TransferView = ({
         extraScrollHeight={80}
         contentContainerStyle={styles.scrollContent}
       >
+        {canScheduleTransfer && (
+          <View style={styles.scheduleSection}>
+            <Text style={styles.fieldLabel}>
+              {intl.formatMessage({ id: 'transfer.schedule', defaultMessage: 'Schedule' })}
+            </Text>
+            <DropdownButton
+              dropdownButtonStyle={styles.scheduleButton}
+              rowTextStyle={styles.dropdownRowText}
+              style={styles.dropdownWrapper}
+              dropdownStyle={styles.dropdownMenu}
+              textStyle={styles.scheduleButtonText}
+              options={scheduleOptions}
+              defaultText={scheduleOptions[0]}
+              selectedOptionIndex={scheduleSelectedIndex}
+              onSelect={_handleScheduleSelect}
+              dropdownRef={dpRef}
+            />
+          </View>
+        )}
+
         {/* --- Recipient Section --- */}
         {!destinationLocked && (
           <View style={styles.recipientSection}>
@@ -652,15 +820,43 @@ const TransferView = ({
                     onSelect={(_index, value) => _handleDestinationChange(value)}
                   />
                 ) : (
-                  <TextInput
-                    style={styles.inputField}
-                    onChangeText={_handleDestinationChange}
-                    value={destination}
-                    placeholder={intl.formatMessage({ id: 'transfer.to_placeholder' })}
-                    placeholderTextColor="#c1c5c7"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
+                  <View style={styles.recipientInputControl}>
+                    <TextInput
+                      style={[styles.inputField, styles.recipientTextInput]}
+                      onChangeText={_handleDestinationChange}
+                      value={destination}
+                      placeholder={intl.formatMessage({ id: 'transfer.to_placeholder' })}
+                      placeholderTextColor="#c1c5c7"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    <View style={styles.recipientActionButtons}>
+                      <TouchableOpacity
+                        style={styles.recipientActionButton}
+                        onPress={_openFavorites}
+                        activeOpacity={0.7}
+                      >
+                        <Icon
+                          iconType="MaterialCommunityIcons"
+                          name="account-circle-outline"
+                          size={22}
+                          color="#8d969e"
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.recipientActionButton}
+                        onPress={_openQrScanner}
+                        activeOpacity={0.7}
+                      >
+                        <Icon
+                          iconType="MaterialCommunityIcons"
+                          name="qrcode-scan"
+                          size={20}
+                          color="#8d969e"
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
                 )}
 
                 {destination !== '' && usersResult.length > 0 && !isUsernameValid && (
@@ -736,24 +932,6 @@ const TransferView = ({
               </TouchableOpacity>
             )}
             <Text style={styles.fieldLabel}>
-              {intl.formatMessage({ id: 'transfer.recurrence' })}
-            </Text>
-            <DropdownButton
-              dropdownButtonStyle={styles.inputField}
-              rowTextStyle={styles.dropdownRowText}
-              style={styles.dropdownWrapper}
-              dropdownStyle={styles.dropdownMenu}
-              textStyle={styles.inputText}
-              options={RECURRENCE_TYPES.map((k) => intl.formatMessage({ id: k.intlId }))}
-              defaultText={intl.formatMessage({ id: 'transfer.recurrence_placeholder' })}
-              selectedOptionIndex={recurrenceIndex}
-              onSelect={(index) => {
-                setRecurrenceIndex(index);
-                setRecurrence(RECURRENCE_TYPES[index].hours);
-              }}
-              dropdownRef={dpRef}
-            />
-            <Text style={[styles.fieldLabel, { marginTop: 12 }]}>
               {intl.formatMessage({ id: 'transfer.executions' })}
             </Text>
             <TextInput
@@ -787,7 +965,7 @@ const TransferView = ({
         )}
 
         {/* --- Convert Description --- */}
-        {transferType === TransferTypes.CONVERT && (
+        {effectiveTransferType === TransferTypes.CONVERT && (
           <View style={styles.fieldGroup}>
             <Text style={styles.convertDesc}>
               {intl.formatMessage({ id: 'transfer.convert_desc' })}

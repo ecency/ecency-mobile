@@ -44,6 +44,27 @@ export default EStyleSheet.create({
     color: '$iconColor',
     marginHorizontal: 8,
   },
+  recipientInputControl: {
+    position: 'relative',
+  },
+  recipientTextInput: {
+    paddingRight: 88,
+  },
+  recipientActionButtons: {
+    position: 'absolute',
+    top: 0,
+    right: 6,
+    bottom: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  recipientActionButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 
   // --- Fields ---
   fieldGroup: {
@@ -71,6 +92,25 @@ export default EStyleSheet.create({
     fontSize: 16,
     color: '$primaryBlack',
     paddingHorizontal: 14,
+  },
+
+  // --- Schedule ---
+  scheduleSection: {
+    marginBottom: 16,
+  },
+  scheduleButton: {
+    borderWidth: 1,
+    borderColor: '$borderColor',
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    backgroundColor: '$primaryLightBackground',
+    minHeight: 48,
+  },
+  scheduleButtonText: {
+    fontSize: 16,
+    color: '$primaryBlack',
+    paddingHorizontal: 0,
   },
 
   // --- Amount ---
