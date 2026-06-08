@@ -212,8 +212,7 @@ const TransferView = ({
   // Token switching is only available for basic transfers
   const canSwitchToken =
     !!setFundType &&
-    (oneTimeTransferType === 'transfer_token' ||
-      oneTimeTransferType === TransferTypes.TRANSFER ||
+    (oneTimeTransferType === TransferTypes.TRANSFER ||
       transferType === TransferTypes.RECURRENT_TRANSFER) &&
     isNativeTokenLayer;
   const canScheduleTransfer =
@@ -615,7 +614,7 @@ const TransferView = ({
     } else if (effectiveTransferType === TransferTypes.TRANSFER_FROM_SAVINGS) {
       path = `sign/transfer_from_savings?from=${from}&to=${destination}&amount=${encodeURIComponent(
         hsNativeAmount,
-      )}&request_id=${new Date().getTime() >>> 0}`;
+      )}&memo=${encodeURIComponent(memo ?? '')}&request_id=${new Date().getTime() >>> 0}`;
     } else if (effectiveTransferType === TransferTypes.CONVERT) {
       path = `sign/convert?owner=${from}&amount=${encodeURIComponent(hsNativeAmount)}&requestid=${
         new Date().getTime() >>> 0
@@ -743,6 +742,17 @@ const TransferView = ({
     },
     [isRecurrentTransfer, recurrentTransfers],
   );
+
+  // When Schedule is enabled after a recipient is already validated, hydrate any
+  // existing on-chain recurrent transfer for that recipient. The username-validation
+  // autofill only runs while already in scheduled mode, so a user who picks the
+  // recipient first and toggles Schedule afterwards would otherwise see the existing
+  // schedule's executions/start date stay blank.
+  useEffect(() => {
+    if (isRecurrentTransfer && isUsernameValid && destination && !allowMultipleDest) {
+      _findRecurrentTransferOfUser(destination);
+    }
+  }, [isRecurrentTransfer, recurrentTransfers]);
 
   const badActorUsername = useMemo(() => {
     if (!destination || !badActors) return null;

@@ -10,7 +10,7 @@ import { useLinkProcessor } from '../../hooks';
 
 export const QRModal = ({ sheetId, payload }: SheetProps<SheetNames.QR_SCAN>) => {
   const dim = useWindowDimensions();
-  const linkProcessor = useLinkProcessor(() => SheetManager.hide(SheetNames.QR_SCAN));
+  const linkProcessor = useLinkProcessor(() => SheetManager.hide(sheetId || SheetNames.QR_SCAN));
 
   const device = useCameraDevice('back');
   const [isScannerActive, setIsScannerActive] = useState(true);
