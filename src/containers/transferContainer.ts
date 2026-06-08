@@ -152,6 +152,11 @@ class TransferContainer extends Component {
   _getUserPointsBalance = async (username) => {
     await getPointsSummary(username)
       .then((userPoints) => {
+        // Ignore a late points response if the fund type changed while it was in
+        // flight, so it can't clobber the newly-selected asset's balance.
+        if (this.state.fundType !== 'POINT') {
+          return;
+        }
         const balance = Math.round(Number(get(userPoints, 'points', 0)) * 1000) / 1000;
         this.setState({ balance });
       })

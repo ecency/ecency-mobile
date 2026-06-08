@@ -165,6 +165,9 @@ const TransferView = ({
   const destinationRef = useRef<string[]>([]);
   const hasInitializedRef = useRef(false);
   const dpRef = useRef();
+  // Tracks the recipient whose existing on-chain schedule we last autofilled, so a
+  // different recipient without a schedule can be reset without wiping manual input.
+  const lastHydratedRecipientRef = useRef<string | null>(null);
 
   const oneTimeTransferType =
     transferType === TransferTypes.RECURRENT_TRANSFER ? TransferTypes.TRANSFER : transferType;
@@ -727,10 +730,22 @@ const TransferView = ({
       );
 
       if (!existingRecurrentTransfer) {
+        // This recipient has no on-chain schedule. If the fields were autofilled
+        // from a *different* recipient's existing schedule, reset them to a fresh
+        // schedule so that recipient's amount/memo/cadence don't bleed onto this
+        // one. Manually entered values (no prior autofill) are left untouched.
+        if (lastHydratedRecipientRef.current && lastHydratedRecipientRef.current !== userToFind) {
+          setMemo('');
+          setAmount('');
+          setRecurrence(`${RECURRENCE_TYPES[0].hours}`);
+          setExecutions('2');
+        }
+        lastHydratedRecipientRef.current = null;
         setStartDate('');
         return false;
       }
 
+      lastHydratedRecipientRef.current = userToFind;
       setIsScheduledTransfer(true);
       setMemo(existingRecurrentTransfer.memo);
       setAmount(parseToken(existingRecurrentTransfer.amount).toString());
