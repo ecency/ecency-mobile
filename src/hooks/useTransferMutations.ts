@@ -45,6 +45,7 @@ export function useTransferMutations() {
     return username;
   };
   const getWalletInvalidationKeys = (account: string) => [
+    QueryKeys.accounts.list(account),
     QueryKeys.accounts.full(account),
     ['ecency-wallets', 'asset-info', account],
     ['wallet', 'portfolio', 'v2', account],

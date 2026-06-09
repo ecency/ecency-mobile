@@ -15,6 +15,7 @@ import {
   EmojiPickerSheet,
   AuthUpgradeSheet,
   AiAssistModal,
+  TransferFavoritesSheet,
 } from '../components';
 import { ShareIntentSheet } from '../components/shareIntentSheet';
 import SignConfirmSheet from '../screens/dappBrowser/components/signConfirmSheet';
@@ -45,6 +46,7 @@ export enum SheetNames {
   SIGN_CONFIRM = 'sign_confirm',
   RECEIVE_QR = 'receive_qr',
   BALANCE_ANALYTICS = 'balance_analytics',
+  TRANSFER_FAVORITES = 'transfer_favorites',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -67,6 +69,7 @@ registerSheet(SheetNames.SHARE_INTENT, ShareIntentSheet);
 registerSheet(SheetNames.SIGN_CONFIRM, SignConfirmSheet);
 registerSheet(SheetNames.RECEIVE_QR, ReceiveQrSheet);
 registerSheet(SheetNames.BALANCE_ANALYTICS, BalanceAnalyticsSheet);
+registerSheet(SheetNames.TRANSFER_FAVORITES, TransferFavoritesSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -99,7 +102,12 @@ declare module 'react-native-actions-sheet' {
       returnValue: string | undefined;
     }>;
     [SheetNames.ACCOUNTS_SHEET]: SheetDefinition;
-    [SheetNames.QR_SCAN]: SheetDefinition;
+    [SheetNames.QR_SCAN]: SheetDefinition<{
+      payload?: {
+        onScan?: (value: string) => void;
+      };
+      returnValue: string | undefined;
+    }>;
     [SheetNames.CHAT_OPTIONS]: SheetDefinition<{
       payload: {
         post: any;
@@ -199,6 +207,12 @@ declare module 'react-native-actions-sheet' {
         coinType: string;
         username: string;
       };
+    }>;
+    [SheetNames.TRANSFER_FAVORITES]: SheetDefinition<{
+      payload?: {
+        limit?: number;
+      };
+      returnValue: string | undefined;
     }>;
   }
 }
