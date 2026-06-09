@@ -3,9 +3,11 @@ import { ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View } 
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
 import { Icon } from '../icon';
 import { UserAvatar } from '../userAvatar';
 import { useAddFavouriteMutation, useGetFavouritesQuery } from '../../providers/queries';
+import { toastNotification } from '../../redux/actions/uiAction';
 
 const FALLBACK_SHEET_ID = 'transfer_favorites';
 
@@ -18,6 +20,7 @@ const TransferFavoritesSheet: React.FC<SheetProps<'transfer_favorites'>> = ({
   payload,
 }) => {
   const intl = useIntl();
+  const dispatch = useDispatch();
   const closedRef = useRef(false);
   const [search, setSearch] = useState('');
   const [isAdding, setIsAdding] = useState(false);
@@ -60,6 +63,14 @@ const TransferFavoritesSheet: React.FC<SheetProps<'transfer_favorites'>> = ({
       refetch();
     } catch (error) {
       console.warn('[TransferFavoritesSheet] Failed to add favorite', error);
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'favorites.add_error',
+            defaultMessage: 'Could not add favorite',
+          }),
+        ),
+      );
     }
   };
 

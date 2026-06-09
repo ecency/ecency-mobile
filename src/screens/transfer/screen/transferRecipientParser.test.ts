@@ -40,6 +40,22 @@ describe('extractUsernameFromScannedValue', () => {
       expect(extractUsernameFromScannedValue(uri)).toBe('bob');
     });
 
+    it('extracts the recipient from a transfer_to_savings op', () => {
+      const uri = encode([
+        'transfer_to_savings',
+        { from: '__signer', to: 'savings-user', amount: '1.000 HIVE', memo: '' },
+      ]);
+      expect(extractUsernameFromScannedValue(uri)).toBe('savings-user');
+    });
+
+    it('extracts the recipient from a transfer_to_vesting op', () => {
+      const uri = encode([
+        'transfer_to_vesting',
+        { from: '__signer', to: 'vesting-user', amount: '1.000 HIVE' },
+      ]);
+      expect(extractUsernameFromScannedValue(uri)).toBe('vesting-user');
+    });
+
     it('does NOT mine a recipient from create_proposal.receiver', () => {
       const uri = encode([
         'create_proposal',

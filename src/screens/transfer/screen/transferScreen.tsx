@@ -759,7 +759,14 @@ const TransferView = ({
     if (isRecurrentTransfer && isUsernameValid && destination && !allowMultipleDest) {
       _findRecurrentTransferOfUser(destination);
     }
-  }, [isRecurrentTransfer, recurrentTransfers]);
+  }, [
+    isRecurrentTransfer,
+    recurrentTransfers,
+    isUsernameValid,
+    destination,
+    allowMultipleDest,
+    _findRecurrentTransferOfUser,
+  ]);
 
   const badActorUsername = useMemo(() => {
     if (!destination || !badActors) return null;

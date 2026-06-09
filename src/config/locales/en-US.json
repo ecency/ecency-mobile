@@ -114,6 +114,7 @@
   },
   "favorites": {
     "add": "Add a favorite",
+    "add_error": "Could not add favorite",
     "cancel_add": "Cancel adding favorite",
     "confirm_add": "Save favorite",
     "empty_list": "Nothing here",
