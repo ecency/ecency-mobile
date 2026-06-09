@@ -21,7 +21,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   const postsCacherPrimer = postQueries.usePostsCachePrimer();
 
   const [data, setData] = useState<any>([]);
-  const [sort] = useState('newest');
+  const [sort] = useState('relevance');
   const [scrollId, setScrollId] = useState('');
   const [noResult, setNoResult] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);

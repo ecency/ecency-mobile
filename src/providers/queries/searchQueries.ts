@@ -21,7 +21,7 @@ export const getSearchQueryOptions =
  */
 export const useSearchQuery = (
   query: string,
-  sort: string = 'newest',
+  sort: string = 'relevance',
   hideLowRated: boolean = false,
 ) => {
   return useQuery({
