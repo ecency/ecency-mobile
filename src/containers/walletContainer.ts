@@ -28,6 +28,7 @@ import ROUTES from '../constants/routeNames';
 import { ASSET_IDS } from '../constants/defaultAssets';
 import TransferTypes from '../constants/transferTypes';
 import TokenLayers from '../constants/tokenLayers';
+import { normalizeTransferType } from '../utils/transferBalance';
 
 const HIVE_DROPDOWN = [
   'purchase_estm',
@@ -272,12 +273,8 @@ const WalletContainer = ({
 
   const _navigate = async (transferType, fundType) => {
     let balance;
-    let normalizedTransferType = transferType;
+    const normalizedTransferType = normalizeTransferType(transferType);
     const isNativeAsset = fundType === 'HIVE' || fundType === 'HBD';
-
-    if (transferType === 'withdraw_hive' || transferType === 'withdraw_hbd') {
-      normalizedTransferType = TransferTypes.TRANSFER_FROM_SAVINGS;
-    }
 
     if (
       (transferType === 'transfer_token' ||

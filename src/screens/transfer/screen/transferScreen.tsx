@@ -9,6 +9,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as hiveuri from 'hive-uri';
 import { SheetManager } from 'react-native-actions-sheet';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { hsOptions } from '../../../constants/hsOptions';
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -17,6 +18,7 @@ import DropdownButton from '../../../components/dropdownButton';
 import { RECURRENCE_TYPES } from '../../../components/transferAmountInputSection/transferAmountInputSection';
 
 import styles from './transferStyles';
+import { extractUsernameFromScannedValue } from './transferRecipientParser';
 import TransferTypes from '../../../constants/transferTypes';
 import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
 import { getSpkActionJSON, SPK_NODE_ECENCY } from '../../../providers/hive-spk/hiveSpk';
@@ -29,47 +31,8 @@ import { EngineActions } from '../../../providers/hive-engine/hiveEngine.types';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { dateToFormatted } from '../../../utils/time';
 
-const normalizeScannedUsername = (value?: string) =>
-  (value || '').trim().replace(/^@/, '').toLowerCase();
-
-const extractUsernameFromScannedValue = (value: string) => {
-  const scannedValue = value.trim();
-
-  try {
-    const decoded = hiveuri.decode(scannedValue);
-    const operation = get(decoded, 'tx.operations[0]', []);
-    const operationPayload = Array.isArray(operation) ? operation[1] : null;
-    const username =
-      get(operationPayload, 'to') ||
-      get(operationPayload, 'receiver') ||
-      get(operationPayload, 'username') ||
-      get(operationPayload, 'account');
-    if (username) {
-      return normalizeScannedUsername(username);
-    }
-  } catch {
-    // Non hive-uri QR values are handled below.
-  }
-
-  const queryMatch = scannedValue.match(/[?&](?:to|username|account)=([^&#]+)/i);
-  if (queryMatch?.[1]) {
-    try {
-      return normalizeScannedUsername(decodeURIComponent(queryMatch[1]));
-    } catch {
-      return normalizeScannedUsername(queryMatch[1]);
-    }
-  }
-
-  const profileMatch =
-    scannedValue.match(/(?:^|\/)@([a-z0-9.-]+)/i) ||
-    scannedValue.match(/(?:^|\/)(?:profile|user|account)\/([a-z0-9.-]+)/i);
-  if (profileMatch?.[1]) {
-    return normalizeScannedUsername(profileMatch[1]);
-  }
-
-  const username = normalizeScannedUsername(scannedValue);
-  return /^[a-z0-9.-]{3,16}$/.test(username) ? username : '';
-};
+// Hive's recurrent_transfer operation requires at least 2 executions.
+const MIN_RECURRENT_EXECUTIONS = 2;
 
 interface TransferViewProps {
   currentAccountName: string;
@@ -120,7 +83,7 @@ const TransferView = ({
   initialAmount,
   initialMemo,
   fetchRecurrentTransfers,
-  recurrentTransfers,
+  recurrentTransfers = [],
   tokenLayer,
   tokenPrecision,
   badActors,
@@ -212,25 +175,47 @@ const TransferView = ({
   // and no false low-liquidity alert fires before the real balance arrives.
   const isBalanceLoading = balance === '' || balance === undefined || balance === null;
 
-  // Token switching is only available for basic transfers
+  // Token switching is only available for basic transfers. `oneTimeTransferType`
+  // already collapses RECURRENT_TRANSFER -> TRANSFER, so no separate clause is needed.
   const canSwitchToken =
-    !!setFundType &&
-    (oneTimeTransferType === TransferTypes.TRANSFER ||
-      transferType === TransferTypes.RECURRENT_TRANSFER) &&
-    isNativeTokenLayer;
+    !!setFundType && oneTimeTransferType === TransferTypes.TRANSFER && isNativeTokenLayer;
   const canScheduleTransfer =
     isNativeTokenLayer &&
-    (oneTimeTransferType === TransferTypes.TRANSFER ||
-      transferType === TransferTypes.RECURRENT_TRANSFER) &&
+    oneTimeTransferType === TransferTypes.TRANSFER &&
     (fundType === 'HIVE' || fundType === 'HBD');
 
-  const scheduleOptions = useMemo(
-    () => [
+  // Index of the current recurrence among the preset cadences (-1 when the schedule was
+  // created off-app with a non-preset interval, e.g. 48h). `recurrence` is string state,
+  // so coerce with +recurrence before matching the numeric RECURRENCE_TYPES.hours.
+  const recurrenceIndex = RECURRENCE_TYPES.findIndex((r) => r.hours === +recurrence);
+  const isOffGridRecurrence = isRecurrentTransfer && !!recurrence && recurrenceIndex === -1;
+
+  const scheduleOptions = useMemo(() => {
+    const options = [
       intl.formatMessage({ id: 'transfer.one_time', defaultMessage: 'One Time' }),
       ...RECURRENCE_TYPES.map((item) => intl.formatMessage({ id: item.intlId })),
-    ],
-    [intl],
-  );
+    ];
+    if (isOffGridRecurrence) {
+      // Surface the real (non-preset) cadence instead of mislabeling it as the first
+      // preset; selecting it is a no-op so the on-chain interval is preserved.
+      options.push(
+        intl.formatMessage(
+          { id: 'transfer.custom_schedule', defaultMessage: 'Custom ({hours}h)' },
+          { hours: recurrence },
+        ),
+      );
+    }
+    return options;
+  }, [intl, isOffGridRecurrence, recurrence]);
+
+  // 0 = One Time; 1..N = preset cadences; last = the synthetic Custom option (when shown).
+  const scheduleSelectedIndex = !isRecurrentTransfer
+    ? 0
+    : recurrenceIndex > -1
+    ? recurrenceIndex + 1
+    : isOffGridRecurrence
+    ? scheduleOptions.length - 1
+    : 1;
 
   const [showTokenPicker, setShowTokenPicker] = useState(false);
   const transferableTokens = ['HIVE', 'HBD'];
@@ -428,18 +413,14 @@ const TransferView = ({
     }
   };
 
-  // Derived from `recurrence` (the single source of truth) — RECURRENCE_TYPES.hours
-  // is numeric, so coerce the string state with +recurrence before matching.
-  const recurrenceIndex = RECURRENCE_TYPES.findIndex((r) => r.hours === +recurrence);
-  const scheduleSelectedIndex = isRecurrentTransfer ? Math.max(recurrenceIndex + 1, 1) : 0;
-
+  // Keep `recurrence` normalized to a canonical preset value and sync the dropdown
+  // highlight. Reuses the render-scope recurrenceIndex/scheduleSelectedIndex.
   useEffect(() => {
-    const newSelectedIndex = RECURRENCE_TYPES.findIndex((r) => r.hours === +recurrence);
-    if (newSelectedIndex > -1) {
-      setRecurrence(`${RECURRENCE_TYPES[newSelectedIndex].hours}`);
+    if (recurrenceIndex > -1) {
+      setRecurrence(`${RECURRENCE_TYPES[recurrenceIndex].hours}`);
     }
     if (dpRef?.current) {
-      dpRef.current.select(isRecurrentTransfer ? Math.max(newSelectedIndex + 1, 1) : 0);
+      dpRef.current.select(scheduleSelectedIndex);
     }
   }, [recurrence, isRecurrentTransfer]);
 
@@ -448,10 +429,12 @@ const TransferView = ({
     if (!recurrence) {
       setRecurrence(`${RECURRENCE_TYPES[0].hours}`);
     }
+    // Seed executions only when entering scheduled mode / changing cadence — deliberately
+    // NOT keyed on `executions`, so clearing the field to edit it doesn't snap it back.
     if (!executions) {
-      setExecutions('2');
+      setExecutions(`${MIN_RECURRENT_EXECUTIONS}`);
     }
-  }, [executions, isRecurrentTransfer, recurrence]);
+  }, [isRecurrentTransfer, recurrence]);
 
   const _handleScheduleSelect = useCallback(
     (index: number) => {
@@ -469,7 +452,7 @@ const TransferView = ({
       setIsScheduledTransfer(true);
       setRecurrence(`${selectedRecurrence.hours}`);
       if (!executions) {
-        setExecutions('2');
+        setExecutions(`${MIN_RECURRENT_EXECUTIONS}`);
       }
     },
     [executions],
@@ -533,7 +516,15 @@ const TransferView = ({
       if (accountType === AUTH_TYPE.STEEM_CONNECT) {
         setHsTransfer(true);
       } else {
-        transferToAccount(from, destination, '0', memo, 24, 2, TransferTypes.RECURRENT_TRANSFER);
+        transferToAccount(
+          from,
+          destination,
+          '0',
+          memo,
+          RECURRENCE_TYPES[0].hours,
+          MIN_RECURRENT_EXECUTIONS,
+          TransferTypes.RECURRENT_TRANSFER,
+        );
       }
     },
     300,
@@ -710,7 +701,10 @@ const TransferView = ({
     // Wait for the Engine token's precision to load so the amount can't be
     // broadcast with the fallback 8-decimal precision before it is known.
     (!isEngineToken || tokenPrecision !== undefined) &&
-    (!isRecurrentTransfer || (!!recurrence && Number(executions) >= 2))
+    (!isRecurrentTransfer ||
+      (!!recurrence &&
+        Number.isInteger(Number(executions)) &&
+        Number(executions) >= MIN_RECURRENT_EXECUTIONS))
   );
 
   useEffect(() => {
@@ -725,9 +719,7 @@ const TransferView = ({
         return false;
       }
 
-      const existingRecurrentTransfer = (recurrentTransfers || []).find(
-        (rt) => rt.to === userToFind,
-      );
+      const existingRecurrentTransfer = recurrentTransfers.find((rt) => rt.to === userToFind);
 
       if (!existingRecurrentTransfer) {
         // This recipient has no on-chain schedule. If the fields were autofilled
@@ -738,7 +730,7 @@ const TransferView = ({
           setMemo('');
           setAmount('');
           setRecurrence(`${RECURRENCE_TYPES[0].hours}`);
-          setExecutions('2');
+          setExecutions(`${MIN_RECURRENT_EXECUTIONS}`);
         }
         lastHydratedRecipientRef.current = null;
         setStartDate('');
@@ -860,24 +852,34 @@ const TransferView = ({
                         style={styles.recipientActionButton}
                         onPress={_openFavorites}
                         activeOpacity={0.7}
+                        accessibilityRole="button"
+                        accessibilityLabel={intl.formatMessage({
+                          id: 'transfer.pick_from_favorites',
+                          defaultMessage: 'Choose recipient from favorites',
+                        })}
                       >
                         <Icon
                           iconType="MaterialCommunityIcons"
                           name="account-circle-outline"
                           size={22}
-                          color="#8d969e"
+                          color={EStyleSheet.value('$iconColor')}
                         />
                       </TouchableOpacity>
                       <TouchableOpacity
                         style={styles.recipientActionButton}
                         onPress={_openQrScanner}
                         activeOpacity={0.7}
+                        accessibilityRole="button"
+                        accessibilityLabel={intl.formatMessage({
+                          id: 'transfer.scan_qr_recipient',
+                          defaultMessage: 'Scan a QR code for the recipient',
+                        })}
                       >
                         <Icon
                           iconType="MaterialCommunityIcons"
                           name="qrcode-scan"
                           size={20}
-                          color="#8d969e"
+                          color={EStyleSheet.value('$iconColor')}
                         />
                       </TouchableOpacity>
                     </View>

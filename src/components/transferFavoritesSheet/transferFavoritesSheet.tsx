@@ -79,6 +79,12 @@ const TransferFavoritesSheet: React.FC<SheetProps<'transfer_favorites'>> = ({
             style={styles.iconButton}
             onPress={() => setIsAdding((value) => !value)}
             activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel={intl.formatMessage(
+              isAdding
+                ? { id: 'favorites.cancel_add', defaultMessage: 'Cancel adding favorite' }
+                : { id: 'favorites.add', defaultMessage: 'Add a favorite' },
+            )}
           >
             <Icon
               iconType="MaterialCommunityIcons"
@@ -108,6 +114,11 @@ const TransferFavoritesSheet: React.FC<SheetProps<'transfer_favorites'>> = ({
               onPress={_handleAddFavorite}
               activeOpacity={0.7}
               disabled={isAddFavoritePending || !normalizeUsername(newFavorite)}
+              accessibilityRole="button"
+              accessibilityLabel={intl.formatMessage({
+                id: 'favorites.confirm_add',
+                defaultMessage: 'Save favorite',
+              })}
             >
               <Icon iconType="MaterialCommunityIcons" name="check" size={22} color="#fff" />
             </TouchableOpacity>

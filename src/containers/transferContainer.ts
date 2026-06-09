@@ -25,81 +25,8 @@ import { fetchTokenBalances } from '../providers/hive-engine/hiveEngine';
 import TransferTypes from '../constants/transferTypes';
 import { fetchSpkMarkets } from '../providers/hive-spk/hiveSpk';
 import TokenLayers from '../constants/tokenLayers';
+import { normalizeTransferType, getNativeAccountBalance } from '../utils/transferBalance';
 
-const normalizeTransferType = (transferType) => {
-  switch (transferType) {
-    case 'transfer_token':
-      return TransferTypes.TRANSFER;
-    case 'withdraw_hive':
-    case 'withdraw_hbd':
-      return TransferTypes.TRANSFER_FROM_SAVINGS;
-    default:
-      return transferType;
-  }
-};
-
-const parseAccountAssetBalance = (value, fundType) => {
-  if (value === undefined || value === null || value === '') {
-    return undefined;
-  }
-  if (typeof value === 'number') {
-    return Number.isFinite(value) ? value : undefined;
-  }
-
-  const parsed = Number(String(value).replace(fundType, '').trim());
-  return Number.isFinite(parsed) ? parsed : undefined;
-};
-
-const getNativeAccountBalance = (account, transferType, fundType) => {
-  if (!account) {
-    return undefined;
-  }
-
-  const normalizedTransferType = normalizeTransferType(transferType);
-
-  if (fundType === 'HIVE') {
-    if (normalizedTransferType === TransferTypes.TRANSFER_FROM_SAVINGS) {
-      return parseAccountAssetBalance(
-        get(account, 'savings_balance') ?? get(account, 'savingBalance'),
-        fundType,
-      );
-    }
-
-    if (
-      normalizedTransferType === TransferTypes.TRANSFER ||
-      normalizedTransferType === TransferTypes.RECURRENT_TRANSFER ||
-      normalizedTransferType === TransferTypes.TRANSFER_TO_SAVINGS ||
-      normalizedTransferType === TransferTypes.TRANSFER_TO_VESTING ||
-      transferType === 'purchase_estm'
-    ) {
-      return parseAccountAssetBalance(get(account, 'balance'), fundType);
-    }
-  }
-
-  if (fundType === 'HBD') {
-    if (normalizedTransferType === TransferTypes.TRANSFER_FROM_SAVINGS) {
-      return parseAccountAssetBalance(
-        get(account, 'savings_hbd_balance') ?? get(account, 'savingBalanceHbd'),
-        fundType,
-      );
-    }
-
-    if (
-      normalizedTransferType === TransferTypes.TRANSFER ||
-      normalizedTransferType === TransferTypes.RECURRENT_TRANSFER ||
-      normalizedTransferType === TransferTypes.CONVERT ||
-      normalizedTransferType === TransferTypes.TRANSFER_TO_SAVINGS ||
-      transferType === 'purchase_estm'
-    ) {
-      return parseAccountAssetBalance(
-        get(account, 'hbd_balance') ?? get(account, 'hbdBalance'),
-        fundType,
-      );
-    }
-  }
-
-  return undefined;
-};
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
