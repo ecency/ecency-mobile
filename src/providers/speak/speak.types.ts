@@ -10,4 +10,12 @@ export interface VideoUploadResult {
 export interface UploadTokenResponse {
   token: string;
   upload_url?: string;
+  /**
+   * Video permlink assigned by the backend at token issuance. When present the
+   * client knows the embed URL before uploading, so it never needs to read the
+   * X-Embed-URL response header (unreliable for parallel/Concatenation uploads).
+   */
+  permlink?: string;
+  /** Canonical embed URL, returned alongside `permlink` by newer backends. */
+  embed_url?: string;
 }

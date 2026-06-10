@@ -66,80 +66,125 @@ describe('getUploadTuning', () => {
   });
 });
 
-describe('uploadVideoEmbed', () => {
-  const media = (size: number) =>
-    ({ path: 'file:///tmp/video.mp4', size, filename: 'video.mp4' } as any);
+const media = (size: number) =>
+  ({ path: 'file:///tmp/video.mp4', size, filename: 'video.mp4' } as any);
 
+// Token request returns a usable token (+ optional permlink/embed_url); the
+// local-file fetch (used to build the Blob) returns a minimal blob-like object.
+function stubFetch(tokenExtra: Record<string, unknown> = {}) {
+  global.fetch = jest.fn((url: any) => {
+    if (String(url).includes('/api/threespeak/upload-token')) {
+      return Promise.resolve({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            token: 'tok',
+            upload_url: 'https://embed.test/uploads',
+            ...tokenExtra,
+          }),
+      });
+    }
+    return Promise.resolve({ blob: () => Promise.resolve({ size: 0 }) });
+  }) as any;
+}
+
+describe('uploadVideoEmbed with a token-bound permlink (preferred path)', () => {
   beforeEach(() => {
     mockTus.runUpload = () => {};
-    // Token request returns a usable token + endpoint; the local-file fetch
-    // (used to build the Blob) returns a minimal blob-like object.
-    global.fetch = jest.fn((url: any) => {
-      if (String(url).includes('/api/threespeak/upload-token')) {
-        return Promise.resolve({
-          ok: true,
-          json: () => Promise.resolve({ token: 'tok', upload_url: 'https://embed.test/uploads' }),
-        });
-      }
-      return Promise.resolve({ blob: () => Promise.resolve({ size: 0 }) });
-    }) as any;
+    stubFetch({ permlink: 'TOK12345', embed_url: 'https://play.3speak.tv/embed?v=a/TOK12345' });
   });
 
-  it('falls back to sequential when the parallel attempt has no final-concat URL', async () => {
+  it('keeps parallel uploads on for big files and resolves with the token URL', async () => {
+    let seenParallel = -1;
     mockTus.runUpload = (options: any) => {
-      if (options.parallelUploads > 1) {
-        // Parallel attempt: only a partial-creation URL, no final concat -> rejects.
-        options.onAfterResponse(
-          mockReq('partial'),
-          mockRes('https://play.3speak.tv/embed?v=a/PART01'),
-        );
-        options.onSuccess();
-      } else {
-        // Sequential retry: backend returns a usable embed URL.
-        options.onAfterResponse(mockReq(), mockRes('https://play.3speak.tv/embed?v=a/SEQFALL01'));
-        options.onSuccess();
-      }
-    };
-    await expect(uploadVideoEmbed(media(11 * MB), 'a', 'token', false, () => {})).resolves.toEqual({
-      embedUrl: 'https://play.3speak.tv/embed?v=a/SEQFALL01',
-      permlink: 'SEQFALL01',
-    });
-  });
-
-  it('resolves a parallel upload to the final-concat embed URL', async () => {
-    mockTus.runUpload = (options: any) => {
-      options.onAfterResponse(
-        mockReq('partial'),
-        mockRes('https://play.3speak.tv/embed?v=a/PART01'),
-      );
-      options.onAfterResponse(
-        mockReq('final;https://embed.test/a https://embed.test/b'),
-        mockRes('https://play.3speak.tv/embed?v=a/FINAL567'),
-      );
+      seenParallel = options.parallelUploads;
       options.onSuccess();
     };
     await expect(uploadVideoEmbed(media(11 * MB), 'a', 'token', false, () => {})).resolves.toEqual({
-      embedUrl: 'https://play.3speak.tv/embed?v=a/FINAL567',
-      permlink: 'FINAL567',
+      embedUrl: 'https://play.3speak.tv/embed?v=a/TOK12345',
+      permlink: 'TOK12345',
     });
+    expect(seenParallel).toBe(3);
   });
 
-  it('uses the last-seen embed URL for a sequential upload (no concat step)', async () => {
+  it('uploads small files sequentially and resolves with the token URL', async () => {
+    let seenParallel = -1;
     mockTus.runUpload = (options: any) => {
-      options.onAfterResponse(mockReq(), mockRes('https://play.3speak.tv/embed?v=a/SEQ12345'));
+      seenParallel = options.parallelUploads;
       options.onSuccess();
     };
     await expect(uploadVideoEmbed(media(1024), 'a', 'token', false, () => {})).resolves.toEqual({
-      embedUrl: 'https://play.3speak.tv/embed?v=a/SEQ12345',
-      permlink: 'SEQ12345',
+      embedUrl: 'https://play.3speak.tv/embed?v=a/TOK12345',
+      permlink: 'TOK12345',
     });
+    expect(seenParallel).toBe(1);
   });
 
-  it('propagates the error when both the parallel and sequential attempts fail', async () => {
+  it('never re-uploads: a failed upload rejects without a second attempt', async () => {
+    let attempts = 0;
     mockTus.runUpload = (options: any) => {
+      attempts += 1;
       options.onError(new Error('network down'));
     };
     await expect(uploadVideoEmbed(media(11 * MB), 'a', 'token', false, () => {})).rejects.toThrow(
+      /network down/,
+    );
+    expect(attempts).toBe(1);
+  });
+});
+
+describe('uploadVideoEmbed against a legacy backend (header fallback)', () => {
+  beforeEach(() => {
+    mockTus.runUpload = () => {};
+    stubFetch(); // no permlink/embed_url in the token response
+  });
+
+  it('uploads sequentially even for big files and reads the X-Embed-URL header', async () => {
+    let seenParallel = -1;
+    mockTus.runUpload = (options: any) => {
+      seenParallel = options.parallelUploads;
+      options.onAfterResponse(mockReq(), mockRes('https://play.3speak.tv/embed?v=a/SEQ12345'));
+      options.onSuccess();
+    };
+    await expect(uploadVideoEmbed(media(11 * MB), 'a', 'token', false, () => {})).resolves.toEqual({
+      embedUrl: 'https://play.3speak.tv/embed?v=a/SEQ12345',
+      permlink: 'SEQ12345',
+    });
+    // Legacy path must avoid the racy parallel/concat header delivery.
+    expect(seenParallel).toBe(1);
+  });
+
+  it('falls back to the header path when the token carries only a permlink', async () => {
+    // Partial token response (permlink but no embed_url) must not be used as the
+    // result — it should fall through to the sequential header path.
+    stubFetch({ permlink: 'TOK12345' });
+    let seenParallel = -1;
+    mockTus.runUpload = (options: any) => {
+      seenParallel = options.parallelUploads;
+      options.onAfterResponse(mockReq(), mockRes('https://play.3speak.tv/embed?v=a/SEQ99999'));
+      options.onSuccess();
+    };
+    await expect(uploadVideoEmbed(media(11 * MB), 'a', 'token', false, () => {})).resolves.toEqual({
+      embedUrl: 'https://play.3speak.tv/embed?v=a/SEQ99999',
+      permlink: 'SEQ99999',
+    });
+    expect(seenParallel).toBe(1);
+  });
+
+  it('rejects when the backend returns no embed URL header', async () => {
+    mockTus.runUpload = (options: any) => {
+      options.onSuccess();
+    };
+    await expect(uploadVideoEmbed(media(1024), 'a', 'token', false, () => {})).rejects.toThrow(
+      /no embed URL was returned/,
+    );
+  });
+
+  it('propagates the upload error', async () => {
+    mockTus.runUpload = (options: any) => {
+      options.onError(new Error('network down'));
+    };
+    await expect(uploadVideoEmbed(media(1024), 'a', 'token', false, () => {})).rejects.toThrow(
       /network down/,
     );
   });
