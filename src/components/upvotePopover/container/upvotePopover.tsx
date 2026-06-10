@@ -598,7 +598,9 @@ const UpvotePopover = forwardRef(({}, ref) => {
                   name={iconName}
                 />
               </TouchableOpacity>
-              <Text style={styles.amount}>{_amount}</Text>
+              <Text style={styles.amount} numberOfLines={1}>
+                {_amount}
+              </Text>
               <VoteSlider
                 color={sliderColor}
                 minValue={_minSliderVal}
@@ -613,7 +615,9 @@ const UpvotePopover = forwardRef(({}, ref) => {
                 accessibilityRole="button"
                 accessibilityLabel={`Edit vote percentage, currently ${_percent}`}
               >
-                <Text style={styles.percent}>{_percent}</Text>
+                <Text style={styles.percent} numberOfLines={1}>
+                  {_percent}
+                </Text>
                 <Icon
                   size={11}
                   style={styles.percentEditIcon}
