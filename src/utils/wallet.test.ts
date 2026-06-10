@@ -51,6 +51,50 @@ describe('groomingTransactionData', () => {
       expect(result!.memo).toBe('test memo');
     });
 
+    it('parses recurrent_transfer with cadence and execution count', () => {
+      const tx = {
+        type: 'recurrent_transfer',
+        timestamp: '2024-01-01T00:00:00',
+        num: 21,
+        amount: '1.000 HIVE',
+        memo: 'rent',
+        from: 'alice',
+        to: 'bob',
+        recurrence: 24,
+        executions: 3,
+      };
+      const result = groomingTransactionData(tx, hivePerMVests);
+      expect(result!.textKey).toBe('recurrent_transfer');
+      expect(result!.value).toBe('1.000 HIVE');
+      expect(result!.icon).toBe('autorenew');
+      expect(result!.details).toBe('@alice to @bob');
+      expect(result!.sender).toBe('alice');
+      expect(result!.receiver).toBe('bob');
+      expect(result!.memo).toBe('rent');
+      expect(result!.recurrence).toBe('24');
+      expect(result!.executions).toBe('3');
+    });
+
+    it('parses fill_recurrent_transfer with remaining executions', () => {
+      const tx = {
+        type: 'fill_recurrent_transfer',
+        timestamp: '2024-01-02T00:00:00',
+        num: 22,
+        amount: '1.000 HIVE',
+        memo: 'rent',
+        from: 'alice',
+        to: 'bob',
+        remaining_executions: 2,
+      };
+      const result = groomingTransactionData(tx, hivePerMVests);
+      expect(result!.textKey).toBe('fill_recurrent_transfer');
+      expect(result!.value).toBe('1.000 HIVE');
+      expect(result!.icon).toBe('autorenew');
+      expect(result!.details).toBe('@alice to @bob');
+      expect(result!.executions).toBe('2');
+      expect(result!.recurrence).toBe('');
+    });
+
     it('parses transfer_to_savings', () => {
       const tx = {
         type: 'transfer_to_savings',

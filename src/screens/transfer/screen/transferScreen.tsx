@@ -4,6 +4,7 @@ import { WebView } from 'react-native-webview';
 import { useIntl } from 'react-intl';
 import { get, debounce } from 'lodash';
 import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -13,7 +14,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { hsOptions } from '../../../constants/hsOptions';
 import AUTH_TYPE from '../../../constants/authType';
 
-import { BasicHeader, MainButton, Modal, TextInput, UserAvatar, Icon } from '../../../components';
+import { MainButton, Modal, TextInput, UserAvatar, Icon } from '../../../components';
 import DropdownButton from '../../../components/dropdownButton';
 import { RECURRENCE_TYPES } from '../../../components/transferAmountInputSection/transferAmountInputSection';
 
@@ -33,6 +34,12 @@ import { dateToFormatted } from '../../../utils/time';
 
 // Hive's recurrent_transfer operation requires at least 2 executions.
 const MIN_RECURRENT_EXECUTIONS = 2;
+
+// The preset cadence labels reuse the shared leaderboard.* strings, which are ALL CAPS
+// (e.g. "DAILY"). Title-case them so the compact header pill reads "Daily" alongside the
+// title-cased "One Time"/"Custom" entries instead of a jarring "DAILY".
+const toTitleCase = (value: string) =>
+  value.replace(/\S+/g, (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
 
 interface TransferViewProps {
   currentAccountName: string;
@@ -91,6 +98,7 @@ const TransferView = ({
 }: TransferViewProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const [from] = useState(currentAccountName);
   const [destination, setDestination] = useState(
@@ -119,6 +127,7 @@ const TransferView = ({
   const [isScheduledTransfer, setIsScheduledTransfer] = useState(
     transferType === TransferTypes.RECURRENT_TRANSFER,
   );
+  const [showScheduleMenu, setShowScheduleMenu] = useState(false);
 
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [usersResult, setUsersResult] = useState<string[]>([]);
@@ -127,7 +136,6 @@ const TransferView = ({
 
   const destinationRef = useRef<string[]>([]);
   const hasInitializedRef = useRef(false);
-  const dpRef = useRef();
   // Tracks the recipient whose existing on-chain schedule we last autofilled, so a
   // different recipient without a schedule can be reset without wiping manual input.
   const lastHydratedRecipientRef = useRef<string | null>(null);
@@ -193,7 +201,7 @@ const TransferView = ({
   const scheduleOptions = useMemo(() => {
     const options = [
       intl.formatMessage({ id: 'transfer.one_time', defaultMessage: 'One Time' }),
-      ...RECURRENCE_TYPES.map((item) => intl.formatMessage({ id: item.intlId })),
+      ...RECURRENCE_TYPES.map((item) => toTitleCase(intl.formatMessage({ id: item.intlId }))),
     ];
     if (isOffGridRecurrence) {
       // Surface the real (non-preset) cadence instead of mislabeling it as the first
@@ -413,16 +421,14 @@ const TransferView = ({
     }
   };
 
-  // Keep `recurrence` normalized to a canonical preset value and sync the dropdown
-  // highlight. Reuses the render-scope recurrenceIndex/scheduleSelectedIndex.
+  // Keep `recurrence` normalized to a canonical preset value. The schedule pill in the
+  // header reads scheduleOptions[scheduleSelectedIndex] directly, so it stays in sync
+  // without any imperative dropdown handle.
   useEffect(() => {
     if (recurrenceIndex > -1) {
       setRecurrence(`${RECURRENCE_TYPES[recurrenceIndex].hours}`);
     }
-    if (dpRef?.current) {
-      dpRef.current.select(scheduleSelectedIndex);
-    }
-  }, [recurrence, isRecurrentTransfer]);
+  }, [recurrence]);
 
   useEffect(() => {
     if (!isRecurrentTransfer) return;
@@ -780,10 +786,47 @@ const TransferView = ({
 
   return (
     <SafeAreaView style={styles.container}>
-      <BasicHeader
-        title={intl.formatMessage({ id: `wallet.${oneTimeTransferType}` })}
-        backIconName="close"
-      />
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.headerSide}
+          onPress={() => navigation.goBack()}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          accessibilityRole="button"
+          accessibilityLabel={intl.formatMessage({ id: 'transfer.close', defaultMessage: 'Close' })}
+        >
+          <Icon iconType="MaterialIcons" name="close" size={26} style={styles.headerCloseIcon} />
+        </TouchableOpacity>
+
+        <View style={styles.headerCenter}>
+          <Text style={styles.headerTitle} numberOfLines={1}>
+            {intl.formatMessage({ id: `wallet.${oneTimeTransferType}` })}
+          </Text>
+          {canScheduleTransfer && (
+            <TouchableOpacity
+              style={styles.scheduleTrigger}
+              onPress={() => setShowScheduleMenu((prev) => !prev)}
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityState={{ expanded: showScheduleMenu }}
+              accessibilityLabel={`${intl.formatMessage({ id: 'transfer.schedule' })}, ${
+                scheduleOptions[scheduleSelectedIndex]
+              }`}
+            >
+              <Text style={styles.scheduleTriggerText} numberOfLines={1}>
+                {scheduleOptions[scheduleSelectedIndex]}
+              </Text>
+              <Icon
+                iconType="MaterialCommunityIcons"
+                name={showScheduleMenu ? 'chevron-up' : 'chevron-down'}
+                size={18}
+                style={styles.scheduleChevron}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+
+        <View style={styles.headerSide} />
+      </View>
 
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="always"
@@ -791,26 +834,6 @@ const TransferView = ({
         extraScrollHeight={80}
         contentContainerStyle={styles.scrollContent}
       >
-        {canScheduleTransfer && (
-          <View style={styles.scheduleSection}>
-            <Text style={styles.fieldLabel}>
-              {intl.formatMessage({ id: 'transfer.schedule', defaultMessage: 'Schedule' })}
-            </Text>
-            <DropdownButton
-              dropdownButtonStyle={styles.scheduleButton}
-              rowTextStyle={styles.dropdownRowText}
-              style={styles.dropdownWrapper}
-              dropdownStyle={styles.dropdownMenu}
-              textStyle={styles.scheduleButtonText}
-              options={scheduleOptions}
-              defaultText={scheduleOptions[0]}
-              selectedOptionIndex={scheduleSelectedIndex}
-              onSelect={_handleScheduleSelect}
-              dropdownRef={dpRef}
-            />
-          </View>
-        )}
-
         {/* --- Recipient Section --- */}
         {!destinationLocked && (
           <View style={styles.recipientSection}>
@@ -1061,6 +1084,50 @@ const TransferView = ({
                 </Text>
               </TouchableOpacity>
             ))}
+          </View>
+        </TouchableOpacity>
+      )}
+
+      {/* Schedule Dropdown Menu (drops from the header title area) */}
+      {showScheduleMenu && (
+        <TouchableOpacity
+          style={styles.scheduleMenuOverlay}
+          activeOpacity={1}
+          onPress={() => setShowScheduleMenu(false)}
+        >
+          <View style={styles.scheduleMenuCard}>
+            {scheduleOptions.map((option, index) => {
+              const isActive = index === scheduleSelectedIndex;
+              return (
+                <TouchableOpacity
+                  key={option}
+                  style={[styles.scheduleMenuItem, isActive && styles.scheduleMenuItemActive]}
+                  onPress={() => {
+                    setShowScheduleMenu(false);
+                    _handleScheduleSelect(index);
+                  }}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: isActive }}
+                >
+                  <Text
+                    style={[
+                      styles.scheduleMenuItemText,
+                      isActive && styles.scheduleMenuItemTextActive,
+                    ]}
+                  >
+                    {option}
+                  </Text>
+                  {isActive && (
+                    <Icon
+                      iconType="MaterialCommunityIcons"
+                      name="check"
+                      size={18}
+                      style={styles.scheduleMenuCheck}
+                    />
+                  )}
+                </TouchableOpacity>
+              );
+            })}
           </View>
         </TouchableOpacity>
       )}
