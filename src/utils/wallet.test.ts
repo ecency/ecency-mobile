@@ -92,6 +92,7 @@ describe('groomingTransactionData', () => {
       expect(result!.icon).toBe('autorenew');
       expect(result!.details).toBe('@alice to @bob');
       expect(result!.executions).toBe('2');
+      expect(result!.recurrence).toBe('');
     });
 
     it('parses transfer_to_savings', () => {

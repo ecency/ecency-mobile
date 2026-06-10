@@ -149,6 +149,8 @@ export const groomingTransactionData = (transaction, hivePerMVests): CoinActivit
       result.sender = frtFrom;
       result.receiver = frtTo;
       result.memo = frtMemo || null;
+      // A fill op carries no cadence; keep the field present so the CoinActivity shape stays consistent.
+      result.recurrence = '';
       result.executions =
         opData.remaining_executions != null ? `${opData.remaining_executions}` : '';
       break;

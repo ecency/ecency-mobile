@@ -428,7 +428,7 @@ const TransferView = ({
     if (recurrenceIndex > -1) {
       setRecurrence(`${RECURRENCE_TYPES[recurrenceIndex].hours}`);
     }
-  }, [recurrence, isRecurrentTransfer]);
+  }, [recurrence]);
 
   useEffect(() => {
     if (!isRecurrentTransfer) return;

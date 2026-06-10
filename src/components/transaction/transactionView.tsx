@@ -23,7 +23,7 @@ const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress
   // Recurrent-transfer rows carry their cadence/remaining count instead of a plain
   // timestamp, mirroring how the schedule reads on the web wallet.
   const recurrentSubtitle =
-    item.textKey === 'recurrent_transfer'
+    item.textKey === 'recurrent_transfer' && item.executions && item.recurrence
       ? intl.formatMessage(
           {
             id: 'recurrent.schedule_summary',
@@ -31,7 +31,7 @@ const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress
           },
           { executions: item.executions, hours: item.recurrence },
         )
-      : item.textKey === 'fill_recurrent_transfer'
+      : item.textKey === 'fill_recurrent_transfer' && item.executions
       ? intl.formatMessage(
           { id: 'recurrent.remaining_executions' },
           { executions: item.executions },
