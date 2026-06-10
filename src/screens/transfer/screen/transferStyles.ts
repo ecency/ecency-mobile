@@ -314,6 +314,20 @@ export default EStyleSheet.create({
     marginTop: 8,
     textAlign: 'center',
   },
+  // Advisory (non-blocking) exchange notice, e.g. recurring sends to an exchange.
+  exchangeWarning: {
+    color: '#e6a819',
+    fontSize: 12,
+    marginTop: 8,
+    textAlign: 'center',
+  },
+  // Blocking exchange notice, e.g. a missing memo that would lose the deposit.
+  exchangeBlockingWarning: {
+    color: '$primaryRed',
+    fontSize: 12,
+    marginTop: 8,
+    textAlign: 'center',
+  },
 
   // --- Recurrent Transfer ---
   deleteRecurrentText: {
