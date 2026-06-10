@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 // Constants
 import { useDispatch } from 'react-redux';
@@ -26,6 +26,21 @@ const LeaderboardContainer = () => {
   const [duration, setDuration] = useState(FILTER_OPTIONS[selectedIndex]);
 
   const leaderboardQuery = leaderboardQuries.useGetLeaderboardQuery(duration);
+
+  // On the daily board, float users who completed their quests to the top so
+  // they're more visible. Stable partition — relative (point) order within each
+  // group is preserved. quests_done only exists on the daily duration, so the
+  // weekly/monthly boards stay in their original ranking.
+  const users = useMemo(() => {
+    const { data } = leaderboardQuery;
+    if (selectedIndex !== 0 || !Array.isArray(data)) {
+      return data;
+    }
+    const done = [];
+    const rest = [];
+    data.forEach((item) => (item?.quests_done ? done : rest).push(item));
+    return [...done, ...rest];
+  }, [leaderboardQuery.data, selectedIndex]);
 
   // surface fetch errors as a toast
   useEffect(() => {
@@ -65,7 +80,7 @@ const LeaderboardContainer = () => {
 
   return (
     <LeaderboardView
-      users={leaderboardQuery.data}
+      users={users}
       refreshing={leaderboardQuery.isFetching}
       fetchLeaderBoard={_fetchLeaderBoard}
       handleOnUserPress={_handleOnUserPress}
