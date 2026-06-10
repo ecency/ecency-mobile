@@ -746,7 +746,9 @@ const TransferView = ({
 
   // Exchanges settle recurrent_transfer through fill_recurrent_transfer virtual ops, which
   // their deposit systems don't watch — advise (without blocking) switching to one-time.
-  const exchangeRecurrentWarning = isRecurrentTransfer && !!exchangeDestination;
+  // Scheduling is only reachable for native HIVE/HBD, but gate on isNativeFund anyway so
+  // the notice can never surface for a non-native token.
+  const exchangeRecurrentWarning = isRecurrentTransfer && isNativeFund && !!exchangeDestination;
 
   const nextBtnDisabled = !(
     (isEngineToken ? amount > 0 : amount >= 0.001) &&
