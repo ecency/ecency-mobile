@@ -228,6 +228,8 @@ async function uploadFromHeader(
       headers: { Authorization: `Bearer ${token}` },
       metadata: { filename: file.name },
       onError(error: Error) {
+        // Cancel any in-progress retry before rejecting, mirroring runTusUpload.
+        upload.abort().catch(() => {});
         reject(error);
       },
       onProgress(bytesUploaded: number, bytesTotal: number) {
