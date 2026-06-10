@@ -22,6 +22,8 @@ export const transferTypes = [
   'comment_benefactor_reward',
   'claim_reward_balance',
   'transfer',
+  'recurrent_transfer',
+  'fill_recurrent_transfer',
   'transfer_to_savings',
   'transfer_from_savings',
   'transfer_to_vesting',
@@ -122,6 +124,35 @@ export const groomingTransactionData = (transaction, hivePerMVests): CoinActivit
       result.receiver = to;
       result.memo = memo || null;
       break;
+    case 'recurrent_transfer': {
+      // The on-chain operation that sets up a schedule. `recurrence` is the gap between
+      // executions in hours and `executions` is the total scheduled count; both are
+      // surfaced as the row subtitle by the transaction view.
+      const { amount: rtAmount, memo: rtMemo, from: rtFrom, to: rtTo } = opData;
+      result.value = `${rtAmount}`;
+      result.icon = 'autorenew';
+      result.details = rtFrom && rtTo ? `@${rtFrom} to @${rtTo}` : null;
+      result.sender = rtFrom;
+      result.receiver = rtTo;
+      result.memo = rtMemo || null;
+      result.recurrence = opData.recurrence != null ? `${opData.recurrence}` : '';
+      result.executions = opData.executions != null ? `${opData.executions}` : '';
+      break;
+    }
+    case 'fill_recurrent_transfer': {
+      // Virtual operation emitted on each scheduled execution. It only carries how many
+      // executions remain, which we keep in `executions` for the "Remaining N" subtitle.
+      const { amount: frtAmount, memo: frtMemo, from: frtFrom, to: frtTo } = opData;
+      result.value = `${frtAmount}`;
+      result.icon = 'autorenew';
+      result.details = frtFrom && frtTo ? `@${frtFrom} to @${frtTo}` : null;
+      result.sender = frtFrom;
+      result.receiver = frtTo;
+      result.memo = frtMemo || null;
+      result.executions =
+        opData.remaining_executions != null ? `${opData.remaining_executions}` : '';
+      break;
+    }
     case 'withdraw_vesting':
       const { acc } = opData;
       let { vesting_shares: opVestingShares } = opData;

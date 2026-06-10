@@ -13,6 +13,53 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
 
+  // --- Header (close + centered title with schedule subtitle) ---
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  headerSide: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerCloseIcon: {
+    fontSize: 26,
+    color: '$iconColor',
+  },
+  headerCenter: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerTitle: {
+    fontSize: 17,
+    fontWeight: '700',
+    color: '$primaryBlack',
+    textAlign: 'center',
+  },
+  scheduleTrigger: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 2,
+    paddingVertical: 2,
+    paddingHorizontal: 4,
+  },
+  scheduleTriggerText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '$iconColor',
+  },
+  scheduleChevron: {
+    color: '$iconColor',
+    marginLeft: 2,
+  },
+
   // --- Recipient Section ---
   recipientSection: {
     paddingVertical: 16,
@@ -94,23 +141,55 @@ export default EStyleSheet.create({
     paddingHorizontal: 14,
   },
 
-  // --- Schedule ---
-  scheduleSection: {
-    marginBottom: 16,
+  // --- Schedule dropdown menu (anchored under the header title) ---
+  scheduleMenuOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 64,
+    zIndex: 100,
   },
-  scheduleButton: {
+  scheduleMenuCard: {
+    backgroundColor: '$primaryBackgroundColor',
+    borderRadius: 14,
+    paddingVertical: 6,
+    minWidth: 220,
     borderWidth: 1,
     borderColor: '$borderColor',
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    backgroundColor: '$primaryLightBackground',
-    minHeight: 48,
+    shadowColor: '$shadowColor',
+    shadowOpacity: 0.18,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 12,
+    elevation: 8,
   },
-  scheduleButtonText: {
-    fontSize: 16,
+  scheduleMenuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    borderRadius: 10,
+    marginHorizontal: 6,
+  },
+  scheduleMenuItemActive: {
+    backgroundColor: '$primaryLightBackground',
+  },
+  scheduleMenuItemText: {
+    fontSize: 15,
+    fontWeight: '500',
     color: '$primaryBlack',
-    paddingHorizontal: 0,
+  },
+  scheduleMenuItemTextActive: {
+    color: '$primaryBlue',
+    fontWeight: '700',
+  },
+  scheduleMenuCheck: {
+    color: '$primaryBlue',
+    marginLeft: 16,
   },
 
   // --- Amount ---

@@ -361,7 +361,8 @@
     "transfer_in": "Transfer {time}",
     "delete_success": "Recurrent transfer deleted successfully",
     "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
-    "remaining_executions": "Remaining {executions} transfers"
+    "remaining_executions": "Remaining {executions} transfers",
+    "schedule_summary": "{executions} transfers, each every {hours} hours"
   },
   "similar_entries": {
     "title": "Read next"
@@ -1232,6 +1233,7 @@
     "steemconnect_title": "Hivesigner Transfer",
     "hivepegged_withdraw": "HIVE Withdrawn",
     "recurrent_transfer": "Recurrent Transfer",
+    "fill_recurrent_transfer": "Recurrent Transfer Occurred",
     "delegations_in": "Delegations In",
     "withdraw_hive": "Withdraw Savings",
     "reblog_desc": "Share what post you like with your friends and earn points.",
@@ -1335,6 +1337,7 @@
   },
   "transfer": {
     "custom_schedule": "Custom ({hours}h)",
+    "close": "Close",
     "favorite_username_placeholder": "Username",
     "invalid_recipient_qr": "Could not find a username in this QR code.",
     "one_time": "One Time",
