@@ -88,11 +88,16 @@ export function getUploadTuning(size: number): { chunkSize: number; parallelUplo
 /**
  * Upload a video file using the new 3Speak embed architecture.
  *
- * Flow:
- * 1. Request a short-lived upload token from the Ecency proxy.
- * 2. Upload the file via the TUS resumable protocol.
- * 3. Read the embed URL from the `x-embed-url` response header.
- * 4. Return { embedUrl, permlink }.
+ * The upload token carries the video's permlink and canonical embed URL
+ * (assigned by the backend at token issuance), so the result no longer depends
+ * on reading an X-Embed-URL response header. That is what makes parallel (TUS
+ * Concatenation) uploads reliable: previously, when the final-concat response
+ * didn't surface that header, the client treated a completed upload as a
+ * failure and re-uploaded the whole file, producing duplicate uploads.
+ *
+ * Against an older backend that doesn't return a permlink with the token, we
+ * fall back to a sequential, header-based upload. Neither path ever re-uploads,
+ * so duplicates can't happen.
  */
 export async function uploadVideoEmbed(
   media: Video | Image,
@@ -137,118 +142,116 @@ export async function uploadVideoEmbed(
   file.name = filename;
   file.size = media.size;
 
-  // Adaptive chunking + parallelism (TUS Concatenation extension).
-  const { chunkSize, parallelUploads } = getUploadTuning(media.size);
+  const { token, upload_url, permlink, embed_url } = await requestUploadToken(
+    owner,
+    accessToken,
+    isShort,
+  );
+  const endpoint = upload_url || `${EMBED_ENDPOINT}/uploads`;
 
-  try {
-    return await uploadOnce(
-      file,
-      owner,
-      accessToken,
-      isShort,
-      chunkSize,
-      parallelUploads,
-      progressCallback,
-    );
-  } catch (err) {
-    if (parallelUploads > 1) {
-      // Parallel uploads require the 3Speak tusd backend to support the
-      // Concatenation extension AND return X-Embed-URL on the final concat
-      // response. If that doesn't hold, retry once on the proven sequential
-      // path (with a fresh token) rather than failing the upload.
-      console.warn('[3Speak] Parallel upload failed; retrying sequentially.', err);
-      progressCallback(0);
-      return uploadOnce(file, owner, accessToken, isShort, chunkSize, 1, progressCallback);
-    }
-    throw err;
+  // Preferred path: the backend assigned the permlink/embed URL up front, so we
+  // run a single upload (parallel for files > 10MB) and resolve with the known
+  // URL on success — no header to capture, no re-upload.
+  if (permlink && embed_url) {
+    const { chunkSize, parallelUploads } = getUploadTuning(media.size);
+    await runTusUpload(file, token, endpoint, chunkSize, parallelUploads, progressCallback);
+    return { embedUrl: embed_url, permlink };
   }
+
+  // Legacy backend: the embed URL only comes back via the X-Embed-URL header.
+  // Use the sequential path — its single create→response keeps the header
+  // reliable, and because it never re-uploads, a missing header surfaces as an
+  // error instead of silently duplicating the upload.
+  const { chunkSize } = getUploadTuning(media.size);
+  return uploadFromHeader(file, token, endpoint, chunkSize, progressCallback);
 }
 
+const TUS_RETRY_DELAYS = [0, 3000, 5000, 10000, 20000];
+
 /**
- * Perform a single TUS upload attempt with an explicit chunk size / parallelism.
- * Obtains a fresh short-lived upload token, then uploads directly to 3Speak.
+ * Run a TUS upload to completion. Resolves on success, rejects on error.
+ * Aborts in-flight parts on error so a failed parallel upload doesn't keep
+ * pushing bytes in the background.
  */
-async function uploadOnce(
+async function runTusUpload(
   file: any,
-  owner: string,
-  accessToken: string,
-  isShort: boolean,
+  token: string,
+  endpoint: string,
   chunkSize: number,
   parallelUploads: number,
   progressCallback: (percentage: number) => void,
-): Promise<VideoUploadResult> {
-  const { token, upload_url } = await requestUploadToken(owner, accessToken, isShort);
-  const endpoint = upload_url || `${EMBED_ENDPOINT}/uploads`;
-
-  return new Promise<VideoUploadResult>((resolve, reject) => {
-    // With parallelUploads the partial creation responses each carry their own
-    // X-Embed-URL; the canonical one is on the final concatenation request
-    // (Upload-Concat: final). Prefer it, falling back to the last-seen URL so
-    // the sequential path (parallelUploads = 1) keeps its previous behaviour.
-    let embedUrl = '';
-    let finalEmbedUrl = '';
-
+): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
     const upload = new tus.Upload(file, {
       endpoint,
       chunkSize,
       parallelUploads,
-      retryDelays: [0, 3000, 5000, 10000, 20000],
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      metadata: {
-        filename: file.name,
-      },
+      retryDelays: TUS_RETRY_DELAYS,
+      headers: { Authorization: `Bearer ${token}` },
+      metadata: { filename: file.name },
       onError(error: Error) {
-        // Stop any still-in-flight parallel parts so they don't keep uploading
-        // while the caller retries sequentially.
         upload.abort().catch(() => {});
         reject(error);
       },
       onProgress(bytesUploaded: number, bytesTotal: number) {
-        const percentage = Number(((bytesUploaded / bytesTotal) * 100).toFixed(2));
-        progressCallback(percentage);
+        progressCallback(Number(((bytesUploaded / bytesTotal) * 100).toFixed(2)));
       },
       onSuccess() {
-        // The canonical embed URL is the one returned by the final
-        // concatenation request (Upload-Concat: final). In parallel mode we
-        // REQUIRE it: partial creation responses carry their own non-canonical
-        // URLs, so falling back to one would link the post to a transient
-        // partial resource. The sequential path has no concat step, so the
-        // last-seen URL (the final PATCH) is canonical and used as the fallback.
-        if (parallelUploads > 1 && !finalEmbedUrl) {
-          reject(
-            new Error(
-              '[3Speak] Parallel upload finished without an X-Embed-URL on the final concatenation ' +
-                'response; refusing to fall back to a partial-upload URL.',
-            ),
-          );
-          return;
-        }
-        const resolvedUrl = finalEmbedUrl || embedUrl;
-        if (resolvedUrl) {
-          const permlink = extractPermlink(resolvedUrl);
-          if (!permlink) {
-            reject(new Error('[3Speak] Upload succeeded but permlink could not be extracted'));
-            return;
-          }
-          resolve({ embedUrl: resolvedUrl, permlink });
-        } else {
-          reject(new Error('[3Speak] Upload succeeded but no embed URL was returned'));
-        }
+        resolve();
       },
-      onAfterResponse(req: any, res: any) {
-        const headerUrl = res.getHeader?.('x-embed-url') || res.getHeader?.('X-Embed-URL');
-        if (!headerUrl) {
+    });
+
+    upload.start();
+  });
+}
+
+/**
+ * Legacy fallback for backends that don't return a permlink with the token.
+ * Uploads sequentially (parallelUploads = 1) and reads the embed URL from the
+ * X-Embed-URL header on the create response.
+ */
+async function uploadFromHeader(
+  file: any,
+  token: string,
+  endpoint: string,
+  chunkSize: number,
+  progressCallback: (percentage: number) => void,
+): Promise<VideoUploadResult> {
+  return new Promise<VideoUploadResult>((resolve, reject) => {
+    let embedUrl = '';
+
+    const upload = new tus.Upload(file, {
+      endpoint,
+      chunkSize,
+      parallelUploads: 1,
+      retryDelays: TUS_RETRY_DELAYS,
+      headers: { Authorization: `Bearer ${token}` },
+      metadata: { filename: file.name },
+      onError(error: Error) {
+        // Cancel any in-progress retry before rejecting, mirroring runTusUpload.
+        upload.abort().catch(() => {});
+        reject(error);
+      },
+      onProgress(bytesUploaded: number, bytesTotal: number) {
+        progressCallback(Number(((bytesUploaded / bytesTotal) * 100).toFixed(2)));
+      },
+      onSuccess() {
+        if (!embedUrl) {
+          reject(new Error('[3Speak] Upload succeeded but no embed URL was returned'));
           return;
         }
-        // Prefer the embed URL from the final concatenation request; partial
-        // creation responses (Upload-Concat: partial) may carry their own.
-        const concat = String(req.getHeader?.('Upload-Concat') ?? '');
-        if (concat.startsWith('final')) {
-          finalEmbedUrl = headerUrl;
+        const permlink = extractPermlink(embedUrl);
+        if (!permlink) {
+          reject(new Error('[3Speak] Upload succeeded but permlink could not be extracted'));
+          return;
         }
-        embedUrl = headerUrl;
+        resolve({ embedUrl, permlink });
+      },
+      onAfterResponse(_req: any, res: any) {
+        const headerUrl = res.getHeader?.('x-embed-url') || res.getHeader?.('X-Embed-URL');
+        if (headerUrl) {
+          embedUrl = headerUrl;
+        }
       },
     });
 
