@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View, PanResponder, GestureResponderEvent } from 'react-native';
+import { View, PanResponder, GestureResponderEvent, PanResponderGestureState } from 'react-native';
 
 import styles from './upvoteStyles';
 
@@ -9,9 +9,9 @@ import styles from './upvoteStyles';
  * Replaces the thin native @react-native-community/slider (a ~16px thumb on a
  * 2px track, which many users struggled to grab precisely) with a fat
  * drag-anywhere fill bar: tapping or dragging anywhere along the track sets the
- * value from the finger's absolute X position, giving the whole bar height as a
- * touch target. A colored fill (blue for upvote, red for downvote) grows from
- * the left and a thumb sits at the fill edge as an affordance.
+ * value from the finger's position, giving the whole bar height as a touch
+ * target. A colored fill (blue for upvote, red for downvote) grows from the
+ * left and a thumb sits at the fill edge as an affordance.
  *
  * This handles the easy/coarse case. For an exact value, the popover's NN%
  * label is tappable and opens a keyboard-free numeric keypad (see
@@ -22,6 +22,16 @@ import styles from './upvoteStyles';
  * Built on PanResponder rather than react-native-gesture-handler because the
  * popover renders inside a React Native Modal, where gesture-handler needs its
  * own GestureHandlerRootView; PanResponder works there with no extra setup.
+ *
+ * Finger position is mapped from the gesture's ABSOLUTE window X
+ * (gestureState.moveX) against the track's measured window-left, NOT from the
+ * per-event `evt.nativeEvent.locationX`. On Android, locationX on move events
+ * intermittently arrives relative to a parent/window origin instead of the
+ * track itself; dividing that by the track width overshot the value by exactly
+ * trackLeft/trackWidth (~0.56) and clamped it to 100%, so the thumb visibly
+ * "slipped" forward and stuck there while the finger stayed mid-track. moveX
+ * and measureInWindow() share the same window coordinate space, so the ratio is
+ * unambiguous regardless of which native view the OS hit-tests under the finger.
  */
 
 interface VoteSliderProps {
@@ -51,20 +61,48 @@ const VoteSlider = ({
   // visible at both ends; widthRef mirrors it for the (memoised) PanResponder.
   const [trackWidth, setTrackWidth] = useState(0);
   // 0 = not yet measured (onLayout hasn't fired). Mirrors trackWidth for the
-  // memoised PanResponder; see _ratioFromX for the pre-layout guard.
+  // memoised PanResponder; see _ratioFromPageX for the pre-layout guard.
   const widthRef = useRef(0);
+  // Track's left edge in WINDOW coordinates — the origin the absolute-X gesture
+  // mapping subtracts from gestureState.moveX. Refreshed on layout and at each
+  // gesture start so it stays correct even as the row reflows (the $estimate and
+  // NN% labels are variable-width siblings of this flex track and change width
+  // as the user votes).
+  const trackLeftRef = useRef(0);
+  const trackRef = useRef<View>(null);
   const minRef = useRef(minValue);
   minRef.current = minValue;
   const onChangeRef = useRef(onValueChange);
   onChangeRef.current = onValueChange;
 
-  const _ratioFromX = (locationX: number) => {
+  // Cache the track's window geometry from a fresh native measurement, then run
+  // `after` once it has been applied — so a caller (gesture grant) can map the
+  // touch from up-to-date geometry rather than the last onLayout. Falls back to
+  // running `after` immediately when the native measure isn't available.
+  const _measureTrack = (after?: () => void) => {
+    const node = trackRef.current;
+    if (!node?.measureInWindow) {
+      after?.();
+      return;
+    }
+    node.measureInWindow((x: number, _y: number, w: number) => {
+      if (typeof x === 'number') {
+        trackLeftRef.current = x;
+      }
+      if (w > 0) {
+        widthRef.current = w;
+      }
+      after?.();
+    });
+  };
+
+  const _ratioFromPageX = (pageX: number) => {
     // Ignore touches before the track is measured — dividing by a sentinel
     // width would otherwise snap the first touch straight to 100%.
     if (!widthRef.current) {
       return minRef.current;
     }
-    const ratio = locationX / widthRef.current;
+    const ratio = (pageX - trackLeftRef.current) / widthRef.current;
     return Math.min(1, Math.max(minRef.current, ratio));
   };
 
@@ -74,11 +112,17 @@ const VoteSlider = ({
       onMoveShouldSetPanResponder: () => true,
       // Keep the gesture even if an ancestor scroll view wants it.
       onPanResponderTerminationRequest: () => false,
-      onPanResponderGrant: (evt: GestureResponderEvent) => {
-        onChangeRef.current(_ratioFromX(evt.nativeEvent.locationX));
+      onPanResponderGrant: (
+        _evt: GestureResponderEvent,
+        gestureState: PanResponderGestureState,
+      ) => {
+        // Map the tap-down from within a fresh measurement so the initial
+        // position uses up-to-date geometry, not just the last onLayout — x0 is
+        // the grant's absolute window X (== moveX at grant).
+        _measureTrack(() => onChangeRef.current(_ratioFromPageX(gestureState.x0)));
       },
-      onPanResponderMove: (evt: GestureResponderEvent) => {
-        onChangeRef.current(_ratioFromX(evt.nativeEvent.locationX));
+      onPanResponderMove: (_evt: GestureResponderEvent, gestureState: PanResponderGestureState) => {
+        onChangeRef.current(_ratioFromPageX(gestureState.moveX));
       },
     }),
   ).current;
@@ -100,10 +144,13 @@ const VoteSlider = ({
   return (
     <View style={styles.voteSliderRow}>
       <View
+        ref={trackRef}
         style={styles.voteSliderTrack}
         onLayout={(e) => {
           widthRef.current = e.nativeEvent.layout.width;
           setTrackWidth(e.nativeEvent.layout.width);
+          // layout.x is parent-relative; capture the window-left for the gesture.
+          _measureTrack();
         }}
         accessible
         accessibilityRole="adjustable"

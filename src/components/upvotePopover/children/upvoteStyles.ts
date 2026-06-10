@@ -43,15 +43,25 @@ export default EStyleSheet.create({
     shadowOpacity: 0.35,
     elevation: 3,
   },
+  // minWidth keeps the estimate from reflowing the flex slider track as the
+  // value changes while dragging (the track width/origin feeds the gesture
+  // math in voteSlider.tsx); left-aligned so it still reads naturally.
   amount: {
     fontSize: 10,
     fontWeight: 'bold',
     color: '$primaryDarkGray',
     marginLeft: 8,
+    minWidth: 42,
+    textAlign: 'left',
   },
+  // Fixed-width readout: the percent label is the slider track's right-hand
+  // sibling, so a stable width ("-100%" is the widest value) stops the track
+  // from resizing mid-drag and keeps the ✎ pencil from jittering.
   percent: {
     fontWeight: 'bold',
     color: '$primaryDarkGray',
+    minWidth: 44,
+    textAlign: 'center',
   },
   slider: {
     flex: 1,
