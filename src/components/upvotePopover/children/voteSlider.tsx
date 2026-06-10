@@ -75,15 +75,24 @@ const VoteSlider = ({
   const onChangeRef = useRef(onValueChange);
   onChangeRef.current = onValueChange;
 
-  // Cache the track's window geometry from a fresh native measurement.
-  const _measureTrack = () => {
-    trackRef.current?.measureInWindow((x: number, _y: number, w: number) => {
+  // Cache the track's window geometry from a fresh native measurement, then run
+  // `after` once it has been applied — so a caller (gesture grant) can map the
+  // touch from up-to-date geometry rather than the last onLayout. Falls back to
+  // running `after` immediately when the native measure isn't available.
+  const _measureTrack = (after?: () => void) => {
+    const node = trackRef.current;
+    if (!node?.measureInWindow) {
+      after?.();
+      return;
+    }
+    node.measureInWindow((x: number, _y: number, w: number) => {
       if (typeof x === 'number') {
         trackLeftRef.current = x;
       }
-      if (w) {
+      if (w > 0) {
         widthRef.current = w;
       }
+      after?.();
     });
   };
 
@@ -107,10 +116,10 @@ const VoteSlider = ({
         _evt: GestureResponderEvent,
         gestureState: PanResponderGestureState,
       ) => {
-        // Re-measure at touch-down for the freshest origin, then map the initial
-        // touch — x0 is the grant's absolute window X (== moveX at grant).
-        _measureTrack();
-        onChangeRef.current(_ratioFromPageX(gestureState.x0));
+        // Map the tap-down from within a fresh measurement so the initial
+        // position uses up-to-date geometry, not just the last onLayout — x0 is
+        // the grant's absolute window X (== moveX at grant).
+        _measureTrack(() => onChangeRef.current(_ratioFromPageX(gestureState.x0)));
       },
       onPanResponderMove: (_evt: GestureResponderEvent, gestureState: PanResponderGestureState) => {
         onChangeRef.current(_ratioFromPageX(gestureState.moveX));
