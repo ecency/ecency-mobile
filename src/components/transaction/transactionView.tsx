@@ -21,9 +21,14 @@ const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress
     : getHumanReadableKeyString(item.textKey);
 
   // Recurrent-transfer rows carry their cadence/remaining count instead of a plain
-  // timestamp, mirroring how the schedule reads on the web wallet.
+  // timestamp, mirroring how the schedule reads on the web wallet. A real schedule needs
+  // a positive cadence and run count; treat 0/blank (e.g. a cancellation, which grooms
+  // executions to '0') as "no schedule" and fall back to the timestamp rather than
+  // rendering "0 transfers, each every N hours".
   const recurrentSubtitle =
-    item.textKey === 'recurrent_transfer' && item.executions && item.recurrence
+    item.textKey === 'recurrent_transfer' &&
+    Number(item.executions) > 0 &&
+    Number(item.recurrence) > 0
       ? intl.formatMessage(
           {
             id: 'recurrent.schedule_summary',
