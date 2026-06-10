@@ -726,13 +726,21 @@ export const useDeleteRecurrentTransferMutation = () => {
         .trim()
         .split(/\s+/);
       const amountSymbol = amountParts[1] || 'HIVE';
+      // A recurrent transfer is cancelled by broadcasting it again with a zero
+      // amount. Hive's recurrent_transfer_operation::validate() still runs and
+      // requires recurrence >= 24 and executions >= 2 *unconditionally* (even
+      // when amount is 0), so sending executions: 0 made the node reject the op
+      // — the cancellation never landed and the schedule kept showing in the
+      // wallet. Once amount is 0 the evaluator just deletes the schedule, so
+      // these counts only need to pass validation; their values are otherwise
+      // ignored.
       await recurrentTransferBroadcast.mutateAsync({
         from: recurrentTransfer.from,
         to: recurrentTransfer.to,
         amount: `0.000 ${amountSymbol}`,
         memo: recurrentTransfer.memo || '',
-        recurrence: recurrentTransfer.recurrence || 0,
-        executions: 0,
+        recurrence: Math.max(24, recurrentTransfer.recurrence || 0),
+        executions: 2,
       });
       return true;
     },
