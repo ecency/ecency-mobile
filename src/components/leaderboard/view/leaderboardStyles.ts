@@ -21,7 +21,7 @@ export default EStyleSheet.create({
   // Fixed-width left slot so the avatar column lines up uniformly whether the
   // row shows a checkmark (quest done) or a rank number of any digit count.
   rankWrapper: {
-    width: 22,
+    width: 28,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 13,
