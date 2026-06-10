@@ -31,6 +31,7 @@ import TokenLayers from '../../../constants/tokenLayers';
 import { EngineActions } from '../../../providers/hive-engine/hiveEngine.types';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { dateToFormatted } from '../../../utils/time';
+import { isExchangeAccount } from '../../../constants/exchangeAccounts';
 
 // Hive's recurrent_transfer operation requires at least 2 executions.
 const MIN_RECURRENT_EXECUTIONS = 2;
@@ -119,7 +120,7 @@ const TransferView = ({
 
   const [amount, setAmount] = useState(initialAmount != null ? `${initialAmount}` : '');
   const [memo, setMemo] = useState(
-    transferType === 'purchase_estm' ? 'estm-purchase' : initialMemo,
+    transferType === 'purchase_estm' ? 'estm-purchase' : initialMemo ?? '',
   );
   const [recurrence, setRecurrence] = useState('');
   const [executions, setExecutions] = useState('');
@@ -676,6 +677,22 @@ const TransferView = ({
   };
 
   const _onNextPress = async () => {
+    // Defense-in-depth: nextBtnDisabled already blocks this, but never broadcast a
+    // memo-less HIVE/HBD send to an exchange (the deposit is lost) regardless of which
+    // signing path _handleTransferAction takes.
+    if (exchangeMemoRequired) {
+      Alert.alert(
+        intl.formatMessage(
+          {
+            id: 'transfer.exchange_memo_required',
+            defaultMessage:
+              'Sending to {exchange} requires a memo. Without the exchange-provided memo your funds may be lost.',
+          },
+          { exchange: exchangeDestination },
+        ),
+      );
+      return false;
+    }
     const parsedDestinations = destination
       .trim()
       .split(/[\s,]+/)
@@ -699,6 +716,40 @@ const TransferView = ({
     }
   };
 
+  const destinationUsernames = useMemo(
+    () =>
+      destination
+        .trim()
+        .toLowerCase()
+        .split(/[\s,]+/)
+        .filter(Boolean),
+    [destination],
+  );
+
+  const badActorUsername = useMemo(
+    () => (badActors ? destinationUsernames.find((u) => badActors.has(u)) ?? null : null),
+    [destinationUsernames, badActors],
+  );
+
+  // First known exchange deposit account among the recipients, if any. Exchanges credit
+  // only plain `transfer` operations identified by a memo, which drives the two
+  // recipient-specific notices below.
+  const exchangeDestination = useMemo(
+    () => destinationUsernames.find((u) => isExchangeAccount(u)) ?? null,
+    [destinationUsernames],
+  );
+
+  // Sending HIVE/HBD to an exchange without a memo means the deposit can't be attributed
+  // and is typically lost — block submit until a memo is added (parity with ecency web).
+  const isNativeFund = fundType === 'HIVE' || fundType === 'HBD';
+  const exchangeMemoRequired = !!exchangeDestination && isNativeFund && !memo?.trim();
+
+  // Exchanges settle recurrent_transfer through fill_recurrent_transfer virtual ops, which
+  // their deposit systems don't watch — advise (without blocking) switching to one-time.
+  // Scheduling is only reachable for native HIVE/HBD, but gate on isNativeFund anyway so
+  // the notice can never surface for a non-native token.
+  const exchangeRecurrentWarning = isRecurrentTransfer && isNativeFund && !!exchangeDestination;
+
   const nextBtnDisabled = !(
     (isEngineToken ? amount > 0 : amount >= 0.001) &&
     isUsernameValid &&
@@ -707,6 +758,8 @@ const TransferView = ({
     // Wait for the Engine token's precision to load so the amount can't be
     // broadcast with the fallback 8-decimal precision before it is known.
     (!isEngineToken || tokenPrecision !== undefined) &&
+    // A HIVE/HBD send to an exchange must carry a memo or the deposit is lost.
+    !exchangeMemoRequired &&
     (!isRecurrentTransfer ||
       (!!recurrence &&
         Number.isInteger(Number(executions)) &&
@@ -773,16 +826,6 @@ const TransferView = ({
     allowMultipleDest,
     _findRecurrentTransferOfUser,
   ]);
-
-  const badActorUsername = useMemo(() => {
-    if (!destination || !badActors) return null;
-    const usernames = destination
-      .trim()
-      .toLowerCase()
-      .split(/[\s,]+/)
-      .filter(Boolean);
-    return usernames.find((u) => badActors.has(u)) || null;
-  }, [destination, badActors]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -933,6 +976,32 @@ const TransferView = ({
             {badActorUsername && (
               <Text style={styles.badActorWarning}>
                 {intl.formatMessage({ id: 'transfer.to_bad_actor' })}
+              </Text>
+            )}
+
+            {exchangeRecurrentWarning && (
+              <Text style={styles.exchangeWarning}>
+                {intl.formatMessage(
+                  {
+                    id: 'transfer.exchange_recurrent_warning',
+                    defaultMessage:
+                      '{exchange} is an exchange and may not support recurring transfers — funds sent on a schedule can be lost. Use a one-time transfer instead.',
+                  },
+                  { exchange: exchangeDestination },
+                )}
+              </Text>
+            )}
+
+            {exchangeMemoRequired && (
+              <Text style={styles.exchangeBlockingWarning}>
+                {intl.formatMessage(
+                  {
+                    id: 'transfer.exchange_memo_required',
+                    defaultMessage:
+                      'Sending to {exchange} requires a memo. Without the exchange-provided memo your funds may be lost.',
+                  },
+                  { exchange: exchangeDestination },
+                )}
               </Text>
             )}
           </View>

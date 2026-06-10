@@ -1426,7 +1426,9 @@
     "power_up_spk": "Stake LARYNX",
     "amount_select_desc_limit": " and must be greater than 0.001",
     "undelegate_engine": "Undelegate Token",
-    "to_bad_actor": "Use caution sending to this account. Please double check your spelling for possible phishing."
+    "to_bad_actor": "Use caution sending to this account. Please double check your spelling for possible phishing.",
+    "exchange_recurrent_warning": "{exchange} is an exchange and may not support recurring transfers — funds sent on a schedule can be lost. Use a one-time transfer instead.",
+    "exchange_memo_required": "Sending to {exchange} requires a memo. Without the exchange-provided memo your funds may be lost."
   },
   "login": {
     "cancel": "cancel",
