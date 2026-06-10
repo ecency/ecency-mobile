@@ -35,21 +35,23 @@ class LeaderboardView extends PureComponent {
         rightText={get(item, 'points')}
         middleText={get(item, 'count')}
         isLoggedIn
-        itemIndex={index + 1}
         handleOnPress={() => handleOnUserPress(get(item, '_id'))}
         rightTextStyle={styles.rewardText}
         rightTooltipText={intl.formatMessage({ id: 'leaderboard.tooltip_earn' })}
-        rightItemRenderer={() =>
-          selectedIndex === 0 && get(item, 'quests_done') ? (
-            <Icon
-              style={styles.questBadge}
-              name="check-circle"
-              iconType="MaterialCommunityIcons"
-              color={EStyleSheet.value('$primaryGreen')}
-              size={18}
-            />
-          ) : null
-        }
+        leftItemRenderer={() => (
+          <View style={styles.rankWrapper}>
+            {selectedIndex === 0 && get(item, 'quests_done') ? (
+              <Icon
+                name="check-circle"
+                iconType="MaterialCommunityIcons"
+                color={EStyleSheet.value('$primaryGreen')}
+                size={16}
+              />
+            ) : (
+              <Text style={styles.rankText}>{index + 1}</Text>
+            )}
+          </View>
+        )}
       />
     );
   };

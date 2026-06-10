@@ -18,8 +18,17 @@ export default EStyleSheet.create({
   rewardText: {
     color: '$primaryBlue',
   },
-  questBadge: {
-    marginLeft: 6,
+  // Fixed-width left slot so the avatar column lines up uniformly whether the
+  // row shows a checkmark (quest done) or a rank number of any digit count.
+  rankWrapper: {
+    width: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 13,
+  },
+  rankText: {
+    color: '$primaryDarkGray',
+    fontSize: 11,
   },
   columnTitleWrapper: {
     flexDirection: 'row',
