@@ -78,6 +78,14 @@ export const useInitApplication = () => {
     }
   }, [imageServer]);
 
+  // Count one session per real app launch. Kept mount-only (empty deps) — not in
+  // the currentAccount effect below — so switching accounts doesn't inflate the
+  // session count that gates the review prompt. Foreground returns are counted
+  // separately in _handleAppStateChange.
+  useEffect(() => {
+    dispatch(recordAppSession());
+  }, [dispatch]);
+
   useEffect(() => {
     BackgroundTimer.start(); // ref: https://github.com/ocetnik/react-native-background-timer#ios
 
@@ -96,9 +104,6 @@ export const useInitApplication = () => {
     });
 
     userActivityMutation.lazyMutatePendingActivities();
-
-    // count this app open toward review-prompt eligibility
-    dispatch(recordAppSession());
 
     // update fiat currency rate usd:fiat
     dispatch(setCurrency(currency.currency));
