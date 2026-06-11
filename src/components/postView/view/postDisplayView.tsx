@@ -31,7 +31,7 @@ import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import UpvotePopover from '../../upvotePopover';
 import { PostPoll } from '../../postPoll';
 import QUERIES from '../../../providers/queries/queryKeys';
-import { usePostStatsQuery, tipsQueries } from '../../../providers/queries';
+import { usePostStatsQuery, getPostStatsDateRange, tipsQueries } from '../../../providers/queries';
 import { PostStatsModal } from '../../organisms';
 import { getAbbreviatedNumber } from '../../../utils/number';
 import { SheetNames } from '../../../navigation/sheets';
@@ -59,7 +59,11 @@ const PostDisplayView = ({
   const queryClient = useQueryClient();
   const userActivityMutation = useUserActivityMutation();
   const dims = useWindowDimensions();
-  const postStatsQuery = usePostStatsQuery(post?.url || '');
+  // Per-render (not memoized on `created`) so the `to` bound stays current if the
+  // post screen lives across midnight; react-query value-hashes the range in the
+  // query key, so a same-day recompute doesn't trigger a refetch.
+  const postStatsDateRange = getPostStatsDateRange(post?.created);
+  const postStatsQuery = usePostStatsQuery(post?.url || '', postStatsDateRange);
   const tipsQuery = tipsQueries.usePostTipsQuery({
     author: post?.author,
     permlink: post?.permlink,
