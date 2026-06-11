@@ -1,53 +1,15 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-// Public Cloudflare Turnstile sitekey (Managed mode). The token is verified
-// server-side in onboard; the secret never reaches the client. The widget runs in a
-// WebView whose origin is forced to ecency.com via baseUrl so the sitekey's hostname
-// check passes (it is enabled for ecency.com only). The token is bridged out via
-// window.ReactNativeWebView.postMessage.
-const TURNSTILE_SITEKEY = '0x4AAAAAADe6jH7FIi9dBzgR';
-const BASE_URL = 'https://ecency.com';
-
-const buildHtml = (sitekey: string) => `<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <style>
-      html, body { margin: 0; padding: 0; background: transparent; }
-      .wrap { display: flex; justify-content: center; padding: 4px 0; }
-    </style>
-  </head>
-  <body>
-    <div class="wrap">
-      <div
-        class="cf-turnstile"
-        data-sitekey="${sitekey}"
-        data-callback="onVerify"
-        data-expired-callback="onExpire"
-        data-error-callback="onError"
-      ></div>
-    </div>
-    <script>
-      function post(type, token) {
-        if (window.ReactNativeWebView) {
-          window.ReactNativeWebView.postMessage(JSON.stringify({ type: type, token: token }));
-        }
-      }
-      window.onVerify = function (token) {
-        post('verify', token);
-      };
-      window.onExpire = function () {
-        post('expire');
-      };
-      window.onError = function () {
-        post('error');
-      };
-    </script>
-  </body>
-</html>`;
+// The Turnstile widget is served from a real ecency.com page instead of being
+// injected as an inline HTML string. A hosted top-level load gives the widget a
+// genuine first-party origin (the sitekey is enabled for ecency.com only) and a
+// normal storage partition, both of which the Cloudflare Managed challenge needs
+// to complete. An inline-HTML WebView (loadHTMLString + faked baseUrl) stalls on
+// the "Verifying…" spinner forever on iOS. The hosted page bridges the resulting
+// token back via window.ReactNativeWebView.postMessage.
+const TURNSTILE_EMBED_URL = 'https://ecency.com/embed/turnstile';
 
 interface Props {
   onVerify: (token: string) => void;
@@ -57,8 +19,6 @@ interface Props {
 }
 
 const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) => {
-  const html = useMemo(() => buildHtml(TURNSTILE_SITEKEY), []);
-
   const _onMessage = (event: { nativeEvent: { data: string } }) => {
     try {
       const data = JSON.parse(event.nativeEvent.data);
@@ -77,10 +37,12 @@ const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) =
   return (
     <View style={[styles.container, { height }]}>
       <WebView
-        source={{ html, baseUrl: BASE_URL }}
-        originWhitelist={['https://*', 'about:blank']}
+        source={{ uri: TURNSTILE_EMBED_URL }}
+        originWhitelist={['https://*']}
         javaScriptEnabled
         domStorageEnabled
+        sharedCookiesEnabled
+        thirdPartyCookiesEnabled
         scrollEnabled={false}
         androidLayerType="software"
         style={styles.webview}
