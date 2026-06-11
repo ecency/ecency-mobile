@@ -1,5 +1,6 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { useIntl } from 'react-intl';
 import { WebView } from 'react-native-webview';
 
 // The Turnstile widget is served from a real ecency.com page instead of being
@@ -19,6 +20,14 @@ interface Props {
 }
 
 const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) => {
+  const intl = useIntl();
+  // A failed load of the hosted page (network error, or a 404 while the web
+  // route is still deploying) is handled locally with a manual retry. It must
+  // NOT call onError — that remounts the WebView in the parent and would refetch
+  // the same failing URL in a tight loop. Only the Turnstile *challenge* errors
+  // (delivered over the bridge) go through onError for a fresh challenge.
+  const [loadFailed, setLoadFailed] = useState(false);
+
   const _onMessage = (event: { nativeEvent: { data: string } }) => {
     try {
       const data = JSON.parse(event.nativeEvent.data);
@@ -34,6 +43,24 @@ const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) =
     }
   };
 
+  if (loadFailed) {
+    return (
+      <View style={[styles.container, styles.center, { height }]}>
+        <Text style={styles.errorText}>
+          {intl.formatMessage({
+            id: 'dapp_browser.page_load_failed',
+            defaultMessage: 'Failed to load the page',
+          })}
+        </Text>
+        <TouchableOpacity onPress={() => setLoadFailed(false)}>
+          <Text style={styles.retryText}>
+            {intl.formatMessage({ id: 'dapp_browser.retry', defaultMessage: 'Retry' })}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
     <View style={[styles.container, { height }]}>
       <WebView
@@ -47,8 +74,8 @@ const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) =
         androidLayerType="software"
         style={styles.webview}
         onMessage={_onMessage}
-        onError={() => onError?.()}
-        onHttpError={() => onError?.()}
+        onError={() => setLoadFailed(true)}
+        onHttpError={() => setLoadFailed(true)}
       />
     </View>
   );
@@ -56,7 +83,10 @@ const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) =
 
 const styles = StyleSheet.create({
   container: { width: '100%' },
+  center: { alignItems: 'center', justifyContent: 'center' },
   webview: { backgroundColor: 'transparent' },
+  errorText: { fontSize: 13, color: '#788187', marginBottom: 6 },
+  retryText: { fontSize: 14, color: '#357ce6', fontWeight: '600' },
 });
 
 export default TurnstileWebView;
