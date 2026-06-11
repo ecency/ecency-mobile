@@ -87,6 +87,7 @@ import settingsTypes from '../../../constants/settingsTypes';
 // Utilities
 import { sendEmail } from '../../../utils/sendEmail';
 import { encryptKey, decryptKey } from '../../../utils/crypto';
+import { openStoreListing } from '../../../utils/storeReview';
 
 // Component
 import SettingsScreen from '../screen/settingsScreen';
@@ -370,6 +371,10 @@ class SettingsContainer extends Component {
 
       case 'feedback':
         this._handleSendFeedback();
+        break;
+
+      case settingsTypes.RATE_APP:
+        openStoreListing();
         break;
 
       case settingsTypes.BACKUP_PRIVATE_KEYS:

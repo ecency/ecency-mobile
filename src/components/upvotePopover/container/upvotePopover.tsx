@@ -12,6 +12,7 @@ import {
   setCommentUpvotePercent,
   setPostUpvotePercent,
   setWaveUpvotePercent,
+  maybeRequestReview,
 } from '../../../redux/actions/applicationActions';
 
 // Utils
@@ -322,6 +323,13 @@ const UpvotePopover = forwardRef(({}, ref) => {
         });
 
         setIsVoted(!!sliderValue);
+
+        // A successful upvote is a positive signal — surface the rating prompt
+        // to engaged users (gated internally by maybeRequestReview). Skip
+        // vote removals (sliderValue === 0).
+        if (sliderValue) {
+          dispatch(maybeRequestReview());
+        }
       } catch (err) {
         const _error = err as any;
         const _networkLevel = isNetworkLevelVoteError(_error);

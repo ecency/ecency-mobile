@@ -46,6 +46,7 @@ import {
   setBeneficiaries,
   setPollDraftAction,
 } from '../../../redux/actions/editorActions';
+import { maybeRequestReview } from '../../../redux/actions/applicationActions';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import {
   deleteDraftCacheEntry,
@@ -988,6 +989,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
               }),
             ),
           );
+
+          // Publishing is a strong positive signal — offer the rating prompt to
+          // engaged users (gated internally by maybeRequestReview).
+          dispatch(maybeRequestReview());
           // Reset `_isSubmitting` synchronously on success; the screen will
           // navigate away and unmount shortly, but until then the field must
           // not stay true (or a fast in-window reentry would be blocked by

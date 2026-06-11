@@ -28,7 +28,11 @@ import {
   useNotificationReadMutation,
 } from '../../../providers/queries';
 import THEME_OPTIONS from '../../../constants/options/theme';
-import { setCurrency, setIsDarkTheme } from '../../../redux/actions/applicationActions';
+import {
+  setCurrency,
+  setIsDarkTheme,
+  recordAppSession,
+} from '../../../redux/actions/applicationActions';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { selectCurrentAccount } from '../../../redux/selectors';
@@ -92,6 +96,9 @@ export const useInitApplication = () => {
     });
 
     userActivityMutation.lazyMutatePendingActivities();
+
+    // count this app open toward review-prompt eligibility
+    dispatch(recordAppSession());
 
     // update fiat currency rate usd:fiat
     dispatch(setCurrency(currency.currency));
@@ -180,6 +187,7 @@ export const useInitApplication = () => {
   const _handleAppStateChange = (nextAppState) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
       userActivityMutation.lazyMutatePendingActivities();
+      dispatch(recordAppSession());
     }
 
     appState.current = nextAppState;

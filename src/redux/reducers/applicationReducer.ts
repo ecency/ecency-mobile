@@ -36,7 +36,17 @@ import {
   SET_ENC_UNLOCK_PIN,
   SET_WAVE_UPVOTE_PERCENT,
   SET_IMAGE_SERVER,
+  UPDATE_APP_RATING_META,
 } from '../constants/constants';
+
+// Tracks app usage so the in-app store-review prompt can be gated to engaged
+// users (see redux/actions/applicationActions maybeRequestReview).
+interface AppRatingMeta {
+  firstUseTime: number | null; // epoch ms of first recorded session
+  sessionCount: number; // number of app opens / foregrounds recorded
+  hasRequestedReview: boolean; // native review prompt already requested once
+  lastPromptTime: number | null; // epoch ms the prompt was last requested
+}
 
 interface State {
   api: string;
@@ -79,6 +89,7 @@ interface State {
   isTermsAccepted: boolean;
   isBiometricEnabled: boolean;
   imageServer: string;
+  appRating: AppRatingMeta;
 }
 
 const initialState: State = {
@@ -122,6 +133,12 @@ const initialState: State = {
   isTermsAccepted: false,
   isBiometricEnabled: false,
   imageServer: DEFAULT_IMAGE_SERVER,
+  appRating: {
+    firstUseTime: null,
+    sessionCount: 0,
+    hasRequestedReview: false,
+    lastPromptTime: null,
+  },
 };
 
 const applicationReducer = (state = initialState, action): State => {
@@ -316,6 +333,15 @@ const applicationReducer = (state = initialState, action): State => {
       return {
         ...state,
         imageServer: action.payload,
+      };
+
+    case UPDATE_APP_RATING_META:
+      return {
+        ...state,
+        appRating: {
+          ...state.appRating,
+          ...action.payload,
+        },
       };
     default:
       return state;
