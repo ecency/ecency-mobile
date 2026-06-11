@@ -7,6 +7,7 @@ import styles from '../styles/postStatsModal.styles';
 import ROUTES from '../../../../constants/routeNames';
 import { useAppSelector } from '../../../../hooks';
 import { selectIsLoggedIn, selectIsPinCodeOpen } from '../../../../redux/selectors';
+import { getPostStatsDateRange } from '../../../../providers/queries';
 
 interface PostStatsModalProps {
   post: any;
@@ -21,6 +22,11 @@ export const PostStatsModal = forwardRef(({ post }: PostStatsModalProps, ref) =>
   const isPinCodeOpen = useAppSelector(selectIsPinCodeOpen);
 
   const [urlPath, setUrlPath] = useState('');
+
+  // Scope stats to the post's lifetime so ClickHouse prunes by its time index
+  // instead of scanning all history. Computed per-render (not memoized on
+  // `created`) so the `to` bound stays current if the sheet lives across midnight.
+  const dateRange = getPostStatsDateRange(post?.created);
 
   useImperativeHandle(ref, () => ({
     show(_urlPath: string) {
@@ -63,7 +69,7 @@ export const PostStatsModal = forwardRef(({ post }: PostStatsModalProps, ref) =>
       containerStyle={styles.sheetContent}
       indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
     >
-      <PostStatsContent urlPath={urlPath} onPromotePress={_onPromotePress} />
+      <PostStatsContent urlPath={urlPath} dateRange={dateRange} onPromotePress={_onPromotePress} />
     </ActionSheet>
   );
 });

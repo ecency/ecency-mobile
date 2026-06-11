@@ -12,12 +12,17 @@ import { DeviceStats } from './deviceStats';
 
 interface QuickProfileContentProps {
   urlPath: string;
+  dateRange?: [string, string];
   onPromotePress: () => void;
 }
 
-export const PostStatsContent = ({ urlPath, onPromotePress }: QuickProfileContentProps) => {
+export const PostStatsContent = ({
+  urlPath,
+  dateRange,
+  onPromotePress,
+}: QuickProfileContentProps) => {
   const intl = useIntl();
-  const statsQuery = usePostStatsQuery(urlPath);
+  const statsQuery = usePostStatsQuery(urlPath, dateRange);
 
   const insets = useSafeAreaInsets();
 
@@ -52,7 +57,7 @@ export const PostStatsContent = ({ urlPath, onPromotePress }: QuickProfileConten
   return (
     <View style={styles.modalStyle}>
       <StatsPanel data={statsData1} intermediate={statsQuery.isLoading} />
-      <DeviceStats urlPath={urlPath} />
+      <DeviceStats urlPath={urlPath} dateRange={dateRange} />
 
       {_renderActionPanel()}
     </View>

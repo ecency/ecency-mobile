@@ -6,8 +6,14 @@ import Animated, { SlideInLeft } from 'react-native-reanimated';
 import styles from '../styles/deviceStats.styles';
 import { usePostStatsByDevice } from '../../../../providers/queries';
 
-export const DeviceStats = ({ urlPath }: { urlPath: string }) => {
-  const statsByDevice = usePostStatsByDevice(urlPath);
+export const DeviceStats = ({
+  urlPath,
+  dateRange,
+}: {
+  urlPath: string;
+  dateRange?: [string, string];
+}) => {
+  const statsByDevice = usePostStatsByDevice(urlPath, dateRange);
 
   const dims = useWindowDimensions();
 
