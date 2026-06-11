@@ -47,6 +47,8 @@ const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) =
         androidLayerType="software"
         style={styles.webview}
         onMessage={_onMessage}
+        onError={() => onError?.()}
+        onHttpError={() => onError?.()}
       />
     </View>
   );
