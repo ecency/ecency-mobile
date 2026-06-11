@@ -253,11 +253,15 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 // (toast / popover close / navigation) has settled rather than on top of it.
 const REVIEW_PROMPT_DELAY_MS = 1200;
 
+// In-memory guard so two positive actions landing inside the delay window can't
+// each schedule a prompt. Kept module-level (not persisted) so a process kill
+// mid-timeout resets on next launch rather than wedging the flag forever.
+let reviewRequestInFlight = false;
+
 export const updateAppRatingMeta = (payload: {
   firstUseTime?: number | null;
   sessionCount?: number;
   hasRequestedReview?: boolean;
-  lastPromptTime?: number | null;
 }) => ({
   payload,
   type: UPDATE_APP_RATING_META,
@@ -288,7 +292,7 @@ export const maybeRequestReview = () => (dispatch, getState) => {
   const { appRating } = getState().application;
   const { firstUseTime, sessionCount, hasRequestedReview } = appRating;
 
-  if (hasRequestedReview || !firstUseTime) {
+  if (hasRequestedReview || reviewRequestInFlight || !firstUseTime) {
     return;
   }
 
@@ -297,15 +301,17 @@ export const maybeRequestReview = () => (dispatch, getState) => {
     return;
   }
 
+  // Claim the slot synchronously so a second action in the delay window bails
+  // at the guard above instead of scheduling its own prompt.
+  reviewRequestInFlight = true;
   setTimeout(async () => {
-    const requested = await requestInAppReview();
-    if (requested) {
-      dispatch(
-        updateAppRatingMeta({
-          hasRequestedReview: true,
-          lastPromptTime: Date.now(),
-        }),
-      );
+    try {
+      const requested = await requestInAppReview();
+      if (requested) {
+        dispatch(updateAppRatingMeta({ hasRequestedReview: true }));
+      }
+    } finally {
+      reviewRequestInFlight = false;
     }
   }, REVIEW_PROMPT_DELAY_MS);
 };

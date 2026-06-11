@@ -111,6 +111,8 @@ PODS:
     - Yoga
   - ExpoSpeech (13.1.7):
     - ExpoModulesCore
+  - ExpoStoreReview (8.1.5):
+    - ExpoModulesCore
   - fast_float (6.1.4)
   - FBLazyVector (0.79.5)
   - Firebase/CoreOnly (12.3.0):
@@ -2721,6 +2723,7 @@ DEPENDENCIES:
   - ExpoLocalAuthentication (from `../node_modules/expo-local-authentication/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoSpeech (from `../node_modules/expo-speech/ios`)
+  - ExpoStoreReview (from `../node_modules/expo-store-review/ios`)
   - fast_float (from `../node_modules/react-native/third-party-podspecs/fast_float.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - Firebase/Messaging
@@ -2896,6 +2899,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-modules-core"
   ExpoSpeech:
     :path: "../node_modules/expo-speech/ios"
+  ExpoStoreReview:
+    :path: "../node_modules/expo-store-review/ios"
   fast_float:
     :podspec: "../node_modules/react-native/third-party-podspecs/fast_float.podspec"
   FBLazyVector:
@@ -3135,6 +3140,7 @@ SPEC CHECKSUMS:
   ExpoLocalAuthentication: 78f74d187ee51126e1a789d73fee32d6d7e60f1f
   ExpoModulesCore: fdcc7469efc73d085a42bbe73dfb0fed21e7e836
   ExpoSpeech: fceabf6bf31aa9530ef0696e6793571edb702068
+  ExpoStoreReview: bed43bea90a5876a6a480504f95fea1521dacaa7
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: d2a9cd223302b6c9aa4aa34c1a775e9db609eb52
   Firebase: f5439b235721ceeef14ca1f327c0da8e4e8556b5

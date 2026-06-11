@@ -45,7 +45,6 @@ interface AppRatingMeta {
   firstUseTime: number | null; // epoch ms of first recorded session
   sessionCount: number; // number of app opens / foregrounds recorded
   hasRequestedReview: boolean; // native review prompt already requested once
-  lastPromptTime: number | null; // epoch ms the prompt was last requested
 }
 
 interface State {
@@ -137,7 +136,6 @@ const initialState: State = {
     firstUseTime: null,
     sessionCount: 0,
     hasRequestedReview: false,
-    lastPromptTime: null,
   },
 };
 
