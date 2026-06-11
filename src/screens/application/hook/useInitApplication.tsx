@@ -28,7 +28,11 @@ import {
   useNotificationReadMutation,
 } from '../../../providers/queries';
 import THEME_OPTIONS from '../../../constants/options/theme';
-import { setCurrency, setIsDarkTheme } from '../../../redux/actions/applicationActions';
+import {
+  setCurrency,
+  setIsDarkTheme,
+  recordAppSession,
+} from '../../../redux/actions/applicationActions';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { selectCurrentAccount } from '../../../redux/selectors';
@@ -73,6 +77,14 @@ export const useInitApplication = () => {
       ConfigManager.setImageHost(imageServer);
     }
   }, [imageServer]);
+
+  // Count one session per real app launch. Kept mount-only (empty deps) — not in
+  // the currentAccount effect below — so switching accounts doesn't inflate the
+  // session count that gates the review prompt. Foreground returns are counted
+  // separately in _handleAppStateChange.
+  useEffect(() => {
+    dispatch(recordAppSession());
+  }, [dispatch]);
 
   useEffect(() => {
     BackgroundTimer.start(); // ref: https://github.com/ocetnik/react-native-background-timer#ios
@@ -180,6 +192,7 @@ export const useInitApplication = () => {
   const _handleAppStateChange = (nextAppState) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
       userActivityMutation.lazyMutatePendingActivities();
+      dispatch(recordAppSession());
     }
 
     appState.current = nextAppState;

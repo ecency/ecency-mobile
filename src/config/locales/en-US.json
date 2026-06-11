@@ -1497,6 +1497,8 @@
       "no-one": "No one (disable DMs)"
     },
     "send_feedback": "Send Feedback",
+    "rate_app": "Rate Ecency",
+    "rate": "Rate",
     "dm-privacy-updated": "DM privacy settings updated successfully",
     "dm-privacy-failed": "Failed to update DM privacy settings",
     "feedback_success": "Email successfully open",

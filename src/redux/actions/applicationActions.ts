@@ -35,7 +35,9 @@ import {
   SET_COMMENT_UPVOTE_PERCENT,
   SET_WAVE_UPVOTE_PERCENT,
   SET_IMAGE_SERVER,
+  UPDATE_APP_RATING_META,
 } from '../constants/constants';
+import { requestInAppReview } from '../../utils/storeReview';
 
 export const login = (payload) => ({
   payload,
@@ -239,3 +241,77 @@ export const setImageServer = (server: string) => ({
   payload: server,
   type: SET_IMAGE_SERVER,
 });
+
+// ----- In-app store review prompt -----
+
+// Eligibility thresholds for the automatic review prompt. Tunable in one place:
+// bump MIN_DAYS_SINCE_FIRST_USE to 7 for a more conservative gate.
+const MIN_DAYS_SINCE_FIRST_USE = 3;
+const MIN_SESSION_COUNT = 5;
+const DAY_MS = 24 * 60 * 60 * 1000;
+// Small delay so the native sheet surfaces after the triggering action's UI
+// (toast / popover close / navigation) has settled rather than on top of it.
+const REVIEW_PROMPT_DELAY_MS = 1200;
+
+// In-memory guard so two positive actions landing inside the delay window can't
+// each schedule a prompt. Kept module-level (not persisted) so a process kill
+// mid-timeout resets on next launch rather than wedging the flag forever.
+let reviewRequestInFlight = false;
+
+export const updateAppRatingMeta = (payload: {
+  firstUseTime?: number | null;
+  sessionCount?: number;
+  hasRequestedReview?: boolean;
+}) => ({
+  payload,
+  type: UPDATE_APP_RATING_META,
+});
+
+/**
+ * Record an app session (cold start or return to foreground). Stamps the
+ * first-use time once and increments the session counter — the inputs the
+ * review prompt eligibility check relies on.
+ */
+export const recordAppSession = () => (dispatch, getState) => {
+  const { appRating } = getState().application;
+  dispatch(
+    updateAppRatingMeta({
+      firstUseTime: appRating.firstUseTime ?? Date.now(),
+      sessionCount: (appRating.sessionCount ?? 0) + 1,
+    }),
+  );
+};
+
+/**
+ * Request the OS in-app review prompt if the user looks engaged: used the app
+ * for at least a few days, opened it several times, and hasn't been prompted
+ * before. Call this only after a positive action (e.g. publishing a post or
+ * casting a vote). No-ops silently when not eligible.
+ */
+export const maybeRequestReview = () => (dispatch, getState) => {
+  const { appRating } = getState().application;
+  const { firstUseTime, sessionCount, hasRequestedReview } = appRating;
+
+  if (hasRequestedReview || reviewRequestInFlight || !firstUseTime) {
+    return;
+  }
+
+  const daysSinceFirstUse = (Date.now() - firstUseTime) / DAY_MS;
+  if (daysSinceFirstUse < MIN_DAYS_SINCE_FIRST_USE || sessionCount < MIN_SESSION_COUNT) {
+    return;
+  }
+
+  // Claim the slot synchronously so a second action in the delay window bails
+  // at the guard above instead of scheduling its own prompt.
+  reviewRequestInFlight = true;
+  setTimeout(async () => {
+    try {
+      const requested = await requestInAppReview();
+      if (requested) {
+        dispatch(updateAppRatingMeta({ hasRequestedReview: true }));
+      }
+    } finally {
+      reviewRequestInFlight = false;
+    }
+  }, REVIEW_PROMPT_DELAY_MS);
+};

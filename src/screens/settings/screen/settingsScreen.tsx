@@ -344,6 +344,17 @@ const SettingsScreen = ({
         <View style={[styles.settingsCard, styles.paddingBottom]}>
           <SettingsItem
             title={intl.formatMessage({
+              id: 'settings.rate_app',
+            })}
+            text={intl.formatMessage({
+              id: 'settings.rate',
+            })}
+            type="button"
+            actionType={settingsTypes.RATE_APP}
+            handleOnButtonPress={handleOnButtonPress}
+          />
+          <SettingsItem
+            title={intl.formatMessage({
               id: 'settings.send_feedback',
             })}
             text={intl.formatMessage({
