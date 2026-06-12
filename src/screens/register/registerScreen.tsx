@@ -17,6 +17,15 @@ import { RegisterAccountModal } from './children/registerAccountModal';
 import { ECENCY_TERMS_URL } from '../../config/ecencyApi';
 import { useAppSelector } from '../../hooks';
 import { selectIsConnected } from '../../redux/selectors';
+import { getUsernameError, UsernameValidationError } from '../../utils/usernameValidation';
+
+const USERNAME_ERROR_MESSAGE_IDS: Record<UsernameValidationError, string> = {
+  length: 'register.validation.username_length_error',
+  start_letter: 'register.validation.username_no_ascii_first_letter_error',
+  symbols: 'register.validation.username_contains_symbols_error',
+  double_hyphens: 'register.validation.username_contains_double_hyphens',
+  underscore: 'register.validation.username_contains_underscore',
+};
 
 const RegisterScreen = ({ navigation, route }) => {
   const intl = useIntl();
@@ -93,39 +102,12 @@ const RegisterScreen = ({ navigation, route }) => {
   };
 
   const _isValidUsername = (value) => {
-    if (!value || value.length <= 2 || value.length >= 16) {
-      setUsernameError(intl.formatMessage({ id: 'register.validation.username_length_error' }));
+    const errorCode = getUsernameError(value);
+    if (errorCode) {
+      setUsernameError(intl.formatMessage({ id: USERNAME_ERROR_MESSAGE_IDS[errorCode] }));
       return false;
-    } else {
-      return value.split('.').some((item) => {
-        if (item.length < 3) {
-          setUsernameError(intl.formatMessage({ id: 'register.validation.username_length_error' }));
-          return false;
-        } else if (!/^[\x00-\x7F]*$/.test(item[0])) {
-          setUsernameError(
-            intl.formatMessage({ id: 'register.validation.username_no_ascii_first_letter_error' }),
-          );
-          return false;
-        } else if (!/^([a-zA-Z0-9]|-|\.)+$/.test(item)) {
-          setUsernameError(
-            intl.formatMessage({ id: 'register.validation.username_contains_symbols_error' }),
-          );
-          return false;
-        } else if (item.includes('--')) {
-          setUsernameError(
-            intl.formatMessage({ id: 'register.validation.username_contains_double_hyphens' }),
-          );
-          return false;
-        } else if (item.includes('_')) {
-          setUsernameError(
-            intl.formatMessage({ id: 'register.validation.username_contains_underscore' }),
-          );
-          return false;
-        } else {
-          return true;
-        }
-      });
     }
+    return true;
   };
 
   const _validateUsername = (value) => {
