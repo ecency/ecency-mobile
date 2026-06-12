@@ -17,6 +17,18 @@ import { RegisterAccountModal } from './children/registerAccountModal';
 import { ECENCY_TERMS_URL } from '../../config/ecencyApi';
 import { useAppSelector } from '../../hooks';
 import { selectIsConnected } from '../../redux/selectors';
+import { getUsernameError, UsernameValidationError } from '../../utils/usernameValidation';
+
+const USERNAME_ERROR_MESSAGE_IDS: Record<UsernameValidationError, string> = {
+  length: 'register.validation.username_length_error',
+  start_letter: 'register.validation.username_no_ascii_first_letter_error',
+  symbols: 'register.validation.username_contains_symbols_error',
+  double_hyphens: 'register.validation.username_contains_double_hyphens',
+  // reuses the symbols message: a dedicated string would be missing from the
+  // 38 non-en locale files until the next translation sync
+  trailing_hyphen: 'register.validation.username_contains_symbols_error',
+  underscore: 'register.validation.username_contains_underscore',
+};
 
 const RegisterScreen = ({ navigation, route }) => {
   const intl = useIntl();
@@ -63,7 +75,10 @@ const RegisterScreen = ({ navigation, route }) => {
     if (referredUser) {
       _handleRefUsernameChange({ value: referredUser });
     }
-    if (purchaseOnly && email && username) {
+    // deep-link / purchase-recovery entry: apply the same synchronous rule
+    // check as the Continue button so a chain-invalid username can't reach
+    // the purchase modal through route params either
+    if (purchaseOnly && email && username && !getUsernameError(username.toLowerCase())) {
       registerAccountModalRef.current?.showModal({ purchaseOnly });
     }
   }, []);
@@ -93,39 +108,13 @@ const RegisterScreen = ({ navigation, route }) => {
   };
 
   const _isValidUsername = (value) => {
-    if (!value || value.length <= 2 || value.length >= 16) {
-      setUsernameError(intl.formatMessage({ id: 'register.validation.username_length_error' }));
+    const errorCode = getUsernameError(value);
+    if (errorCode) {
+      setUsernameError(intl.formatMessage({ id: USERNAME_ERROR_MESSAGE_IDS[errorCode] }));
       return false;
-    } else {
-      return value.split('.').some((item) => {
-        if (item.length < 3) {
-          setUsernameError(intl.formatMessage({ id: 'register.validation.username_length_error' }));
-          return false;
-        } else if (!/^[\x00-\x7F]*$/.test(item[0])) {
-          setUsernameError(
-            intl.formatMessage({ id: 'register.validation.username_no_ascii_first_letter_error' }),
-          );
-          return false;
-        } else if (!/^([a-zA-Z0-9]|-|\.)+$/.test(item)) {
-          setUsernameError(
-            intl.formatMessage({ id: 'register.validation.username_contains_symbols_error' }),
-          );
-          return false;
-        } else if (item.includes('--')) {
-          setUsernameError(
-            intl.formatMessage({ id: 'register.validation.username_contains_double_hyphens' }),
-          );
-          return false;
-        } else if (item.includes('_')) {
-          setUsernameError(
-            intl.formatMessage({ id: 'register.validation.username_contains_underscore' }),
-          );
-          return false;
-        } else {
-          return true;
-        }
-      });
     }
+    setUsernameError('');
+    return true;
   };
 
   const _validateUsername = (value) => {
@@ -172,6 +161,13 @@ const RegisterScreen = ({ navigation, route }) => {
   };
 
   const _onContinuePress = () => {
+    // the button's disabled state lags behind the debounced validation, so a
+    // just-typed invalid name could otherwise still reach the signup/purchase
+    // modal — re-run the synchronous rule check before opening it
+    if (!_isValidUsername(username)) {
+      setIsUsernameValid(false);
+      return;
+    }
     Keyboard.dismiss();
     registerAccountModalRef.current?.showModal();
   };

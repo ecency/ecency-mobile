@@ -76,6 +76,9 @@ const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) =
         onMessage={_onMessage}
         onError={() => setLoadFailed(true)}
         onHttpError={() => setLoadFailed(true)}
+        // iOS kills the web content process under memory pressure, leaving a
+        // permanently blank widget — surface the retry UI instead.
+        onContentProcessDidTerminate={() => setLoadFailed(true)}
       />
     </View>
   );
