@@ -498,6 +498,22 @@ const reduxMigrations = {
     }
     return state;
   },
+  17: (state) => {
+    // Backfill appRating for users upgrading from a build before the in-app
+    // review prompt. autoMergeLevel1 replaces the whole persisted `application`
+    // slice on rehydration, so a missing appRating key is NOT defaulted from
+    // initialState — and recordAppSession dereferences it on launch, crashing
+    // every existing install. (A primitive like imageServer survived this only
+    // because its reads are falsy-guarded; an object that's dereferenced is not.)
+    if (state.application && !state.application.appRating) {
+      state.application.appRating = {
+        firstUseTime: null,
+        sessionCount: 0,
+        hasRequestedReview: false,
+      };
+    }
+    return state;
+  },
 };
 
 // Wrap every migration so a throw degrades to "skip this migration" and keep the
