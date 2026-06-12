@@ -24,6 +24,9 @@ const USERNAME_ERROR_MESSAGE_IDS: Record<UsernameValidationError, string> = {
   start_letter: 'register.validation.username_no_ascii_first_letter_error',
   symbols: 'register.validation.username_contains_symbols_error',
   double_hyphens: 'register.validation.username_contains_double_hyphens',
+  // reuses the symbols message: a dedicated string would be missing from the
+  // 38 non-en locale files until the next translation sync
+  trailing_hyphen: 'register.validation.username_contains_symbols_error',
   underscore: 'register.validation.username_contains_underscore',
 };
 
@@ -154,6 +157,13 @@ const RegisterScreen = ({ navigation, route }) => {
   };
 
   const _onContinuePress = () => {
+    // the button's disabled state lags behind the debounced validation, so a
+    // just-typed invalid name could otherwise still reach the signup/purchase
+    // modal — re-run the synchronous rule check before opening it
+    if (!_isValidUsername(username)) {
+      setIsUsernameValid(false);
+      return;
+    }
     Keyboard.dismiss();
     registerAccountModalRef.current?.showModal();
   };

@@ -8,6 +8,7 @@ describe('getUsernameError', () => {
     expect(getUsernameError('user123')).toBeNull();
     expect(getUsernameError('abc1')).toBeNull();
     expect(getUsernameError('foo.barbaz')).toBeNull();
+    expect(getUsernameError('abc.def.ghi')).toBeNull(); // multi-dot segments
     expect(getUsernameError('a23456789012345b')).toBeNull(); // 16 chars
   });
 
@@ -37,7 +38,11 @@ describe('getUsernameError', () => {
     expect(getUsernameError('ab@c')).toBe('symbols');
     expect(getUsernameError('abc!')).toBe('symbols');
     expect(getUsernameError('abc def')).toBe('symbols');
-    expect(getUsernameError('abc-')).toBe('symbols'); // trailing hyphen
+  });
+
+  it('rejects trailing hyphens', () => {
+    expect(getUsernameError('abc-')).toBe('trailing_hyphen');
+    expect(getUsernameError('abc-.defg')).toBe('trailing_hyphen');
   });
 
   it('rejects double hyphens and underscores', () => {

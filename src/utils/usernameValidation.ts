@@ -7,6 +7,7 @@ export type UsernameValidationError =
   | 'start_letter'
   | 'symbols'
   | 'double_hyphens'
+  | 'trailing_hyphen'
   | 'underscore';
 
 export const getUsernameError = (value: string): UsernameValidationError | null => {
@@ -27,6 +28,9 @@ export const getUsernameError = (value: string): UsernameValidationError | null 
     }
     if (segment.includes('--')) {
       return 'double_hyphens';
+    }
+    if (segment.endsWith('-')) {
+      return 'trailing_hyphen';
     }
     if (!/^[a-z][a-z0-9-]*[a-z0-9]$/.test(segment)) {
       return 'symbols';
