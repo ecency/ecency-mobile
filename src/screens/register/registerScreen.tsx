@@ -113,6 +113,7 @@ const RegisterScreen = ({ navigation, route }) => {
       setUsernameError(intl.formatMessage({ id: USERNAME_ERROR_MESSAGE_IDS[errorCode] }));
       return false;
     }
+    setUsernameError('');
     return true;
   };
 
