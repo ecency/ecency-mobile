@@ -36,7 +36,7 @@ const persistConfig = {
   key: 'root',
   // Storage Method (React Native)
   storage: AsyncStorage,
-  version: 16, // v16: Backfill new account.globalProps fields for vote estimation
+  version: 17, // v17: Backfill application.appRating so launch can't deref undefined
   // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   transforms: [transformCacheVoteMap, transformWalkthroughMap],

@@ -273,11 +273,15 @@ export const updateAppRatingMeta = (payload: {
  * review prompt eligibility check relies on.
  */
 export const recordAppSession = () => (dispatch, getState) => {
+  // appRating can be undefined for users upgrading from a build before this
+  // feature: redux-persist's autoMergeLevel1 replaces the whole persisted
+  // `application` slice, so the new key isn't defaulted from initialState until
+  // the first write. Guard the read so this mount-time thunk can't crash launch.
   const { appRating } = getState().application;
   dispatch(
     updateAppRatingMeta({
-      firstUseTime: appRating.firstUseTime ?? Date.now(),
-      sessionCount: (appRating.sessionCount ?? 0) + 1,
+      firstUseTime: appRating?.firstUseTime ?? Date.now(),
+      sessionCount: (appRating?.sessionCount ?? 0) + 1,
     }),
   );
 };
@@ -290,7 +294,7 @@ export const recordAppSession = () => (dispatch, getState) => {
  */
 export const maybeRequestReview = () => (dispatch, getState) => {
   const { appRating } = getState().application;
-  const { firstUseTime, sessionCount, hasRequestedReview } = appRating;
+  const { firstUseTime, sessionCount = 0, hasRequestedReview } = appRating ?? {};
 
   if (hasRequestedReview || reviewRequestInFlight || !firstUseTime) {
     return;

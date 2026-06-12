@@ -310,6 +310,36 @@ describe('reduxMigrations', () => {
     });
   });
 
+  describe('v17: appRating backfill', () => {
+    it('adds a default appRating when an upgraded install lacks it', () => {
+      // Reproduces the startup crash: persisted `application` from a pre-rating
+      // build has no appRating, and recordAppSession derefs it on launch.
+      const state = { application: { imageServer: 'https://images.ecency.com' } } as any;
+      const result = reduxMigrations[17](state);
+      expect(result.application.appRating).toEqual({
+        firstUseTime: null,
+        sessionCount: 0,
+        hasRequestedReview: false,
+      });
+      // unrelated keys in the slice are preserved
+      expect(result.application.imageServer).toBe('https://images.ecency.com');
+    });
+
+    it('leaves an existing appRating untouched', () => {
+      const existing = { firstUseTime: 123, sessionCount: 7, hasRequestedReview: true };
+      const state = { application: { appRating: existing } } as any;
+      const result = reduxMigrations[17](state);
+      expect(result.application.appRating).toBe(existing);
+    });
+
+    it('no-ops when the application slice is absent', () => {
+      const state = { account: { keep: 'me' } } as any;
+      const result = reduxMigrations[17](state);
+      expect(result.account.keep).toBe('me');
+      expect(result.application).toBeUndefined();
+    });
+  });
+
   describe('failure isolation', () => {
     it('rolls back a throwing migration and preserves the rest of the state', () => {
       // v1 writes state.application.notificationDetails.favoriteNotification; with
