@@ -75,7 +75,10 @@ const RegisterScreen = ({ navigation, route }) => {
     if (referredUser) {
       _handleRefUsernameChange({ value: referredUser });
     }
-    if (purchaseOnly && email && username) {
+    // deep-link / purchase-recovery entry: apply the same synchronous rule
+    // check as the Continue button so a chain-invalid username can't reach
+    // the purchase modal through route params either
+    if (purchaseOnly && email && username && !getUsernameError(username.toLowerCase())) {
       registerAccountModalRef.current?.showModal({ purchaseOnly });
     }
   }, []);

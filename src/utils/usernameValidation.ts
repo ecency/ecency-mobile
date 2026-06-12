@@ -10,32 +10,37 @@ export type UsernameValidationError =
   | 'trailing_hyphen'
   | 'underscore';
 
+const getSegmentError = (segment: string): UsernameValidationError | null => {
+  if (segment.length < 3) {
+    return 'length';
+  }
+  if (segment.includes('_')) {
+    return 'underscore';
+  }
+  if (!/^[a-z]/.test(segment)) {
+    return 'start_letter';
+  }
+  if (segment.includes('--')) {
+    return 'double_hyphens';
+  }
+  if (segment.endsWith('-')) {
+    return 'trailing_hyphen';
+  }
+  if (!/^[a-z][a-z0-9-]*[a-z0-9]$/.test(segment)) {
+    return 'symbols';
+  }
+  return null;
+};
+
 export const getUsernameError = (value: string): UsernameValidationError | null => {
   if (!value || value.length < 3 || value.length > 16) {
     return 'length';
   }
 
-  const segments = value.split('.');
-  for (const segment of segments) {
-    if (segment.length < 3) {
-      return 'length';
-    }
-    if (segment.includes('_')) {
-      return 'underscore';
-    }
-    if (!/^[a-z]/.test(segment)) {
-      return 'start_letter';
-    }
-    if (segment.includes('--')) {
-      return 'double_hyphens';
-    }
-    if (segment.endsWith('-')) {
-      return 'trailing_hyphen';
-    }
-    if (!/^[a-z][a-z0-9-]*[a-z0-9]$/.test(segment)) {
-      return 'symbols';
-    }
-  }
-
-  return null;
+  return (
+    value
+      .split('.')
+      .map(getSegmentError)
+      .find((error) => error !== null) ?? null
+  );
 };
