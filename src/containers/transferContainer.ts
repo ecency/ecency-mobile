@@ -117,10 +117,16 @@ class TransferContainer extends Component {
         // over-precise (sidechain-rejected) quantity. Fetch both and source
         // precision from the token definition. Precision can legitimately be 0
         // (integer tokens), so keep it as-is rather than defaulting a falsy 0 away.
-        const [tokenBalances, tokens] = await Promise.all([
+        // allSettled so a failure in one leg doesn't discard the other: a token-
+        // metadata (precision) outage shouldn't hide an already-fetched balance, and
+        // a balance outage shouldn't hide precision. Each read rejects (rather than
+        // resolving []) on a real proxy failure, so a rejected leg is left unset.
+        const [balancesResult, tokensResult] = await Promise.allSettled([
           fetchTokenBalances(username),
           fetchTokens([fundType]),
         ]);
+        const tokenBalances = balancesResult.status === 'fulfilled' ? balancesResult.value : [];
+        const tokens = tokensResult.status === 'fulfilled' ? tokensResult.value : [];
 
         enginePrecision = tokens.find((t) => t.symbol === fundType)?.precision;
 

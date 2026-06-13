@@ -239,29 +239,27 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
     />
   );
 
-  // When the portfolio request fails (e.g. the Ecency proxy hiccups) the query
-  // throws and the list would otherwise render blank with no explanation. Show the
-  // failure with a Retry instead of an empty wallet. A genuine empty wallet (no
-  // error) still falls through to `null`.
-  const _renderEmptyComponent = () => {
-    if (walletQuery.isFetching) {
-      return <PostCardPlaceHolder />;
+  // When the portfolio request fails (e.g. the Ecency proxy hiccups) surface a Retry
+  // banner. It is rendered above the list rather than as ListEmptyComponent because
+  // React Query keeps the last successful data on error — so a failed *refresh* of an
+  // already-loaded wallet has a non-empty list and would otherwise show no indication
+  // the data is stale. Shown only once a fetch has actually failed and settled.
+  const _renderErrorBanner = () => {
+    if (!walletQuery.isError || walletQuery.isFetching) {
+      return null;
     }
-    if (walletQuery.isError) {
-      return (
-        <View style={styles.errorWrapper}>
-          <Text style={styles.errorText}>
-            {intl.formatMessage({ id: 'alert.wallet_refresh_failed' })}
+    return (
+      <View style={styles.errorBanner}>
+        <Text style={styles.errorText}>
+          {intl.formatMessage({ id: 'alert.wallet_refresh_failed' })}
+        </Text>
+        <TouchableOpacity style={styles.headerActionButton} onPress={_onRefresh}>
+          <Text style={styles.headerActionButtonText}>
+            {intl.formatMessage({ id: 'alert.try_again' })}
           </Text>
-          <TouchableOpacity style={styles.headerActionButton} onPress={_onRefresh}>
-            <Text style={styles.headerActionButtonText}>
-              {intl.formatMessage({ id: 'alert.try_again' })}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      );
-    }
-    return null;
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   const _renderWalletHeader = () => (
@@ -281,10 +279,11 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
       <LoggedInContainer>
         {() => (
           <View style={styles.listWrapper}>
+            {_renderErrorBanner()}
             <FlatList
               data={walletListData}
               style={globalStyles.tabBarBottom}
-              ListEmptyComponent={_renderEmptyComponent}
+              ListEmptyComponent={walletQuery.isFetching ? <PostCardPlaceHolder /> : null}
               ListHeaderComponent={_renderWalletHeader}
               renderItem={_renderItem}
               keyExtractor={(item, index) => item.symbol + index}

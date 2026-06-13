@@ -8,12 +8,9 @@ import {
   EngineRequestPayload,
   Token,
   TokenBalance,
-  TokenStatus,
-  HiveEngineToken,
-  EngineMetric,
   MarketData,
 } from './hiveEngine.types';
-import { convertEngineToken, convertRewardsStatus, convertMarketData } from './converters';
+import { convertMarketData } from './converters';
 import ecencyApi from '../../config/ecencyApi';
 
 /**
@@ -22,9 +19,6 @@ import ecencyApi from '../../config/ecencyApi';
  * proxied path for https://api.hive-engine.com/rpc/contracts
  */
 const PATH_ENGINE_CONTRACTS = '/private-api/engine-api';
-
-// proxied path for 'https://scot-api.hive-engine.com/';
-const PATH_ENGINE_REWARDS = '/private-api/engine-reward-api';
 
 // proxied path for 'https://info-api.tribaldex.com/market/ohlcv';
 const PATH_ENGINE_CHART = '/private-api/engine-chart-api';
@@ -76,11 +70,10 @@ export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => 
     id: EngineIds.ONE,
   };
 
-  return postEngineContract<TokenBalance[]>(data)
-    .then((result) => result ?? [])
-    .catch(() => {
-      return [];
-    });
+  // Resolve [] only for a genuine empty result; a transport failure (after retries)
+  // rejects so callers — the wallet list query and the transfer balance fetch — can
+  // surface an error/retry instead of mistaking a proxy outage for an empty wallet.
+  return postEngineContract<TokenBalance[]>(data).then((result) => result ?? []);
 };
 
 export const fetchTokens = (tokens: string[]): Promise<Token[]> => {
@@ -97,85 +90,10 @@ export const fetchTokens = (tokens: string[]): Promise<Token[]> => {
     id: EngineIds.ONE,
   };
 
-  return postEngineContract<Token[]>(data)
-    .then((result) => result ?? [])
-    .catch(() => {
-      return [];
-    });
-};
-
-export const fetchHiveEngineTokenBalances = async (
-  account: string,
-): Promise<Array<HiveEngineToken | null>> => {
-  try {
-    const balances = await fetchTokenBalances(account);
-    const symbols = balances.map((t) => t.symbol);
-
-    const tokens = await fetchTokens(symbols);
-    const metrices = await fetchMetics(symbols);
-    const unclaimed = await fetchUnclaimedRewards(account);
-
-    return balances.map((balance) => {
-      const token = tokens.find((t) => t.symbol == balance.symbol);
-      const metrics = metrices.find((t) => t.symbol == balance.symbol);
-      const pendingRewards = unclaimed.find((t) => t.symbol == balance.symbol);
-      return convertEngineToken(balance, token, metrics, pendingRewards);
-    });
-  } catch (err) {
-    console.warn('Failed to get engine token balances', err);
-    Sentry.captureException(err);
-    throw err;
-  }
-};
-
-export const fetchMetics = async (tokens?: string[]) => {
-  try {
-    const data = {
-      jsonrpc: JSON_RPC.RPC_2,
-      method: Methods.FIND,
-      params: {
-        contract: EngineContracts.MARKET,
-        table: EngineTables.METRICS,
-        query: {
-          symbol: { $in: tokens },
-        },
-      },
-      id: EngineIds.ONE,
-    };
-
-    const response = await ecencyApi.post(PATH_ENGINE_CONTRACTS, data);
-    if (!response.data.result) {
-      throw new Error('No metric data returned');
-    }
-
-    return response.data.result as EngineMetric[];
-  } catch (err) {
-    console.warn('Failed to get engine metrices', err);
-    Sentry.captureException(err);
-    throw err;
-  }
-};
-
-export const fetchUnclaimedRewards = async (account: string): Promise<TokenStatus[]> => {
-  try {
-    const response = await ecencyApi.get(`${PATH_ENGINE_REWARDS}/${account}`, {
-      params: { hive: 1 },
-    });
-    const rawData = Object.values(response.data);
-    if (!rawData || rawData.length === 0) {
-      throw new Error('No rewards data returned');
-    }
-
-    const data = rawData.map(convertRewardsStatus);
-    const filteredData = data.filter((item) => item && item.pendingToken > 0);
-
-    console.log('unclaimed engine rewards data', filteredData);
-    return filteredData;
-  } catch (err) {
-    console.warn('failed ot get unclaimed engine rewards', err);
-    Sentry.captureException(err);
-    return [];
-  }
+  // Resolve [] only for a genuine empty result; a transport failure (after retries)
+  // rejects so the transfer precision lookup can fall back / retry instead of
+  // silently leaving precision unset.
+  return postEngineContract<Token[]>(data).then((result) => result ?? []);
 };
 
 export const fetchEngineMarketData = async (
