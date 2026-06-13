@@ -29,6 +29,39 @@ const PATH_ENGINE_REWARDS = '/private-api/engine-reward-api';
 // proxied path for 'https://info-api.tribaldex.com/market/ohlcv';
 const PATH_ENGINE_CHART = '/private-api/engine-chart-api';
 
+// All Hive-Engine reads ride a single Ecency proxy. Unlike hive-engine.com — which
+// the web app queries directly and which fails over across nodes — this proxy has no
+// built-in retry or request timeout, so a transient timeout/5xx surfaces as an empty
+// wallet or a permanently-disabled transfer (NEXT stays greyed because token
+// precision never loads). Bound each request with a timeout and retry it a couple of
+// times with exponential backoff so a transient blip self-heals instead.
+const ENGINE_TIMEOUT_MS = 15000;
+const ENGINE_MAX_RETRIES = 2;
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const postEngineContract = async <T>(data: EngineRequestPayload): Promise<T | undefined> => {
+  let lastError: unknown;
+  // Attempts are intentionally sequential — each retry waits for the previous one to
+  // fail before backing off, so the await-in-loop is by design here.
+  for (let attempt = 0; attempt <= ENGINE_MAX_RETRIES; attempt += 1) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const response = await ecencyApi.post(PATH_ENGINE_CONTRACTS, data, {
+        timeout: ENGINE_TIMEOUT_MS,
+      });
+      return response.data.result as T;
+    } catch (err) {
+      lastError = err;
+      if (attempt < ENGINE_MAX_RETRIES) {
+        // eslint-disable-next-line no-await-in-loop
+        await sleep(500 * 2 ** attempt);
+      }
+    }
+  }
+  throw lastError;
+};
+
 export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => {
   const data: EngineRequestPayload = {
     jsonrpc: JSON_RPC.RPC_2,
@@ -43,9 +76,8 @@ export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => 
     id: EngineIds.ONE,
   };
 
-  return ecencyApi
-    .post(PATH_ENGINE_CONTRACTS, data)
-    .then((r) => r.data.result)
+  return postEngineContract<TokenBalance[]>(data)
+    .then((result) => result ?? [])
     .catch(() => {
       return [];
     });
@@ -65,9 +97,8 @@ export const fetchTokens = (tokens: string[]): Promise<Token[]> => {
     id: EngineIds.ONE,
   };
 
-  return ecencyApi
-    .post(PATH_ENGINE_CONTRACTS, data)
-    .then((r) => r.data.result)
+  return postEngineContract<Token[]>(data)
+    .then((result) => result ?? [])
     .catch(() => {
       return [];
     });

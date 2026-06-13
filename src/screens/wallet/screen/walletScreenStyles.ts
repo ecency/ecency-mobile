@@ -40,4 +40,16 @@ export default EStyleSheet.create({
     flex: 1,
     paddingTop: 8,
   },
+  errorWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 32,
+    paddingVertical: 48,
+  },
+  errorText: {
+    color: '$primaryDarkText',
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 16,
+  },
 });

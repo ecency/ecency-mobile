@@ -99,6 +99,10 @@ export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean }
     staleTime: 30 * 1000,
     enabled: !!currentAccount?.name, // Only fetch when logged in
     retry: 2,
+    // Cap the backoff so a flaky proxy can't leave the wallet on the skeleton for
+    // the default ~exponential delay (which climbs toward 30s) before surfacing the
+    // error/retry state.
+    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 4000),
   });
 
   const selectedData = useMemo(() => {

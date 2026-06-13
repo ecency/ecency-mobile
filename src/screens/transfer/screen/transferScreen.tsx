@@ -481,6 +481,7 @@ const TransferView = ({
           fundType,
           memo,
           tokenLayer,
+          precision: tokenPrecision,
           recurrence: isRecurrentTransfer ? +recurrence : null,
           executions: isRecurrentTransfer ? +executions : null,
         });

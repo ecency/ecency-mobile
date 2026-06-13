@@ -21,7 +21,7 @@ import { getPointsSummary } from '../providers/ecency/ePoint';
 
 // Utils
 import { getAssetPrecision, toFixedNoExp, formatTokenQuantity } from '../utils/number';
-import { fetchTokenBalances } from '../providers/hive-engine/hiveEngine';
+import { fetchTokenBalances, fetchTokens } from '../providers/hive-engine/hiveEngine';
 import TransferTypes from '../constants/transferTypes';
 import { fetchSpkMarkets } from '../providers/hive-spk/hiveSpk';
 import TokenLayers from '../constants/tokenLayers';
@@ -110,11 +110,22 @@ class TransferContainer extends Component {
 
       const assetLayer = this.props.route.params?.assetLayer ?? this.props.route.params?.tokenLayer;
       if (assetLayer === TokenLayers.ENGINE) {
-        const tokenBalances = await fetchTokenBalances(username);
+        // Engine precision lives on the TOKENS table, not the balances row — the
+        // balances table carries no `precision` field, so reading it from a balance
+        // returns undefined for every token. That leaves tokenPrecision undefined,
+        // which permanently disables the NEXT button and risks broadcasting an
+        // over-precise (sidechain-rejected) quantity. Fetch both and source
+        // precision from the token definition. Precision can legitimately be 0
+        // (integer tokens), so keep it as-is rather than defaulting a falsy 0 away.
+        const [tokenBalances, tokens] = await Promise.all([
+          fetchTokenBalances(username),
+          fetchTokens([fundType]),
+        ]);
+
+        enginePrecision = tokens.find((t) => t.symbol === fundType)?.precision;
 
         tokenBalances.forEach((tokenBalance) => {
           if (tokenBalance.symbol === fundType) {
-            enginePrecision = tokenBalance.precision;
             switch (transferType) {
               case TransferTypes.UNDELEGATE:
                 balance = tokenBalance.delegationsOut;

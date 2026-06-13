@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, Fragment, useMemo } from 'react';
-import { View, AppState, AppStateStatus } from 'react-native';
+import { View, Text, TouchableOpacity, AppState, AppStateStatus } from 'react-native';
 import { isArray } from 'lodash';
 
 // Containers
@@ -239,6 +239,31 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
     />
   );
 
+  // When the portfolio request fails (e.g. the Ecency proxy hiccups) the query
+  // throws and the list would otherwise render blank with no explanation. Show the
+  // failure with a Retry instead of an empty wallet. A genuine empty wallet (no
+  // error) still falls through to `null`.
+  const _renderEmptyComponent = () => {
+    if (walletQuery.isFetching) {
+      return <PostCardPlaceHolder />;
+    }
+    if (walletQuery.isError) {
+      return (
+        <View style={styles.errorWrapper}>
+          <Text style={styles.errorText}>
+            {intl.formatMessage({ id: 'alert.wallet_refresh_failed' })}
+          </Text>
+          <TouchableOpacity style={styles.headerActionButton} onPress={_onRefresh}>
+            <Text style={styles.headerActionButtonText}>
+              {intl.formatMessage({ id: 'alert.try_again' })}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+    return null;
+  };
+
   const _renderWalletHeader = () => (
     <WalletHeader
       assets={walletQuery.data}
@@ -259,7 +284,7 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
             <FlatList
               data={walletListData}
               style={globalStyles.tabBarBottom}
-              ListEmptyComponent={walletQuery.isFetching ? <PostCardPlaceHolder /> : null}
+              ListEmptyComponent={_renderEmptyComponent}
               ListHeaderComponent={_renderWalletHeader}
               renderItem={_renderItem}
               keyExtractor={(item, index) => item.symbol + index}

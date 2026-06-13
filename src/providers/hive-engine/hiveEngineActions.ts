@@ -9,6 +9,7 @@ export const getEngineActionJSON = (
   amount: string,
   symbol: string,
   memo?: string,
+  precision?: number,
 ): EngineActionJSON => {
   return {
     contractName: EngineContracts.TOKENS,
@@ -16,7 +17,10 @@ export const getEngineActionJSON = (
     contractPayload: {
       symbol,
       to,
-      quantity: formatTokenQuantity(parseToken(amount)),
+      // Truncate to the token's on-chain precision; an over-precise quantity is
+      // silently rejected by the Engine sidechain. precision can be 0 (integer
+      // tokens), so pass it through as-is rather than defaulting a falsy 0 away.
+      quantity: formatTokenQuantity(parseToken(amount), precision),
       memo: action === EngineActions.TRANSFER ? memo : undefined,
     },
   };
@@ -29,8 +33,9 @@ export const getEngineActionOpArray = (
   amount: string,
   symbol: string,
   memo?: string,
+  precision?: number,
 ): Operation[] => {
-  const json = getEngineActionJSON(action, to, amount, symbol, memo);
+  const json = getEngineActionJSON(action, to, amount, symbol, memo, precision);
 
   const op = {
     id: 'ssc-mainnet-hive',

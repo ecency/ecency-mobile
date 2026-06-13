@@ -18,18 +18,22 @@ interface TansferData {
   tokenLayer?: string;
   recurrence?: number;
   executions?: number;
+  // Hive-Engine token precision. Required for ENGINE transfers so the quantity is
+  // truncated to the token's real precision instead of the 8-decimal fallback —
+  // an over-precise quantity is silently rejected by the Engine sidechain.
+  precision?: number;
 }
 
 export const buildTransferOpsArray = (
   transferType: string,
-  { from, to, amount, memo, fundType, recurrence, executions, tokenLayer }: TansferData,
+  { from, to, amount, memo, fundType, recurrence, executions, tokenLayer, precision }: TansferData,
 ) => {
   // Normalize to the asset's on-chain precision before building the op: HIVE/HBD/
   // POINTS need exactly 3 decimals, VESTS 6; Hive-Engine tokens use their own
   // precision (no scientific notation). Over-precise amounts are otherwise rejected.
   const amountValue =
     tokenLayer === TokenLayers.ENGINE
-      ? formatTokenQuantity(amount)
+      ? formatTokenQuantity(amount, precision)
       : toFixedNoExp(amount, getAssetPrecision(fundType));
 
   amount = `${amountValue} ${fundType}`;
@@ -48,10 +52,26 @@ export const buildTransferOpsArray = (
         throw new Error(`Too many recipients (${destinations.length}), max is ${MAX_RECIPIENTS}`);
       }
       return destinations.flatMap((dest) =>
-        getEngineActionOpArray(EngineActions.TRANSFER, from, dest, amount, fundType, memo),
+        getEngineActionOpArray(
+          EngineActions.TRANSFER,
+          from,
+          dest,
+          amount,
+          fundType,
+          memo,
+          precision,
+        ),
       );
     }
-    return getEngineActionOpArray(transferType as EngineActions, from, to, amount, fundType, memo);
+    return getEngineActionOpArray(
+      transferType as EngineActions,
+      from,
+      to,
+      amount,
+      fundType,
+      memo,
+      precision,
+    );
   } else if (tokenLayer === TokenLayers.SPK) {
     return buildActiveCustomJsonOpArr(
       from,
