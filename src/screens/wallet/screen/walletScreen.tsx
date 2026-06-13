@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, Fragment, useMemo } from 'react';
-import { View, AppState, AppStateStatus } from 'react-native';
+import { View, Text, TouchableOpacity, AppState, AppStateStatus } from 'react-native';
 import { isArray } from 'lodash';
 
 // Containers
@@ -239,6 +239,29 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
     />
   );
 
+  // When the portfolio request fails (e.g. the Ecency proxy hiccups) surface a Retry
+  // banner. It is rendered above the list rather than as ListEmptyComponent because
+  // React Query keeps the last successful data on error — so a failed *refresh* of an
+  // already-loaded wallet has a non-empty list and would otherwise show no indication
+  // the data is stale. Shown only once a fetch has actually failed and settled.
+  const _renderErrorBanner = () => {
+    if (!walletQuery.isError || walletQuery.isFetching) {
+      return null;
+    }
+    return (
+      <View style={styles.errorBanner}>
+        <Text style={styles.errorText}>
+          {intl.formatMessage({ id: 'alert.wallet_refresh_failed' })}
+        </Text>
+        <TouchableOpacity style={styles.headerActionButton} onPress={_onRefresh}>
+          <Text style={styles.headerActionButtonText}>
+            {intl.formatMessage({ id: 'alert.something_wrong_reload' })}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   const _renderWalletHeader = () => (
     <WalletHeader
       assets={walletQuery.data}
@@ -256,6 +279,7 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
       <LoggedInContainer>
         {() => (
           <View style={styles.listWrapper}>
+            {_renderErrorBanner()}
             <FlatList
               data={walletListData}
               style={globalStyles.tabBarBottom}

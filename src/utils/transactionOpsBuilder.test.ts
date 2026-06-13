@@ -56,6 +56,45 @@ describe('buildTransferOpsArray', () => {
     });
   });
 
+  // mock shape: ['engine_op', action, from, to, amount, symbol, memo, precision]
+  describe('engine token precision', () => {
+    const engineBase = {
+      from: 'alice',
+      to: 'bob',
+      fundType: 'ARCHON',
+      tokenLayer: TokenLayers.ENGINE,
+    };
+
+    it('truncates an over-precise engine amount to the token precision and threads precision through', () => {
+      const ops = buildTransferOpsArray(TransferTypes.TRANSFER, {
+        ...engineBase,
+        amount: '10.123456',
+        precision: 3,
+      });
+      expect(ops[0][4]).toBe('10.123 ARCHON');
+      expect(ops[0][7]).toBe(3);
+    });
+
+    it('supports integer (precision 0) tokens without dropping the 0', () => {
+      const ops = buildTransferOpsArray(TransferTypes.TRANSFER, {
+        ...engineBase,
+        amount: '10.9',
+        precision: 0,
+      });
+      expect(ops[0][4]).toBe('10 ARCHON');
+      expect(ops[0][7]).toBe(0);
+    });
+
+    it('falls back to 8-decimal formatting when precision is unknown', () => {
+      const ops = buildTransferOpsArray(TransferTypes.TRANSFER, {
+        ...engineBase,
+        amount: '10.123456789',
+      });
+      expect(ops[0][4]).toBe('10.12345678 ARCHON');
+      expect(ops[0][7]).toBeUndefined();
+    });
+  });
+
   describe('TRANSFER', () => {
     it('builds single transfer op', () => {
       const ops = buildTransferOpsArray(TransferTypes.TRANSFER, baseData);

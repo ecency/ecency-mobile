@@ -40,4 +40,21 @@ export default EStyleSheet.create({
     flex: 1,
     paddingTop: 8,
   },
+  errorBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginHorizontal: 16,
+    marginBottom: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
+  },
+  errorText: {
+    color: '$primaryDarkText',
+    fontSize: 13,
+    flex: 1,
+    marginRight: 12,
+  },
 });

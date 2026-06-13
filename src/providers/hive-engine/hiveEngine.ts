@@ -8,12 +8,9 @@ import {
   EngineRequestPayload,
   Token,
   TokenBalance,
-  TokenStatus,
-  HiveEngineToken,
-  EngineMetric,
   MarketData,
 } from './hiveEngine.types';
-import { convertEngineToken, convertRewardsStatus, convertMarketData } from './converters';
+import { convertMarketData } from './converters';
 import ecencyApi from '../../config/ecencyApi';
 
 /**
@@ -23,11 +20,41 @@ import ecencyApi from '../../config/ecencyApi';
  */
 const PATH_ENGINE_CONTRACTS = '/private-api/engine-api';
 
-// proxied path for 'https://scot-api.hive-engine.com/';
-const PATH_ENGINE_REWARDS = '/private-api/engine-reward-api';
-
 // proxied path for 'https://info-api.tribaldex.com/market/ohlcv';
 const PATH_ENGINE_CHART = '/private-api/engine-chart-api';
+
+// All Hive-Engine reads ride a single Ecency proxy. Unlike hive-engine.com — which
+// the web app queries directly and which fails over across nodes — this proxy has no
+// built-in retry or request timeout, so a transient timeout/5xx surfaces as an empty
+// wallet or a permanently-disabled transfer (NEXT stays greyed because token
+// precision never loads). Bound each request with a timeout and retry it a couple of
+// times with exponential backoff so a transient blip self-heals instead.
+const ENGINE_TIMEOUT_MS = 15000;
+const ENGINE_MAX_RETRIES = 2;
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const postEngineContract = async <T>(data: EngineRequestPayload): Promise<T | undefined> => {
+  let lastError: unknown;
+  // Attempts are intentionally sequential — each retry waits for the previous one to
+  // fail before backing off, so the await-in-loop is by design here.
+  for (let attempt = 0; attempt <= ENGINE_MAX_RETRIES; attempt += 1) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const response = await ecencyApi.post(PATH_ENGINE_CONTRACTS, data, {
+        timeout: ENGINE_TIMEOUT_MS,
+      });
+      return response.data.result as T;
+    } catch (err) {
+      lastError = err;
+      if (attempt < ENGINE_MAX_RETRIES) {
+        // eslint-disable-next-line no-await-in-loop
+        await sleep(500 * 2 ** attempt);
+      }
+    }
+  }
+  throw lastError;
+};
 
 export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => {
   const data: EngineRequestPayload = {
@@ -43,12 +70,10 @@ export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => 
     id: EngineIds.ONE,
   };
 
-  return ecencyApi
-    .post(PATH_ENGINE_CONTRACTS, data)
-    .then((r) => r.data.result)
-    .catch(() => {
-      return [];
-    });
+  // Resolve [] only for a genuine empty result; a transport failure (after retries)
+  // rejects so callers — the wallet list query and the transfer balance fetch — can
+  // surface an error/retry instead of mistaking a proxy outage for an empty wallet.
+  return postEngineContract<TokenBalance[]>(data).then((result) => result ?? []);
 };
 
 export const fetchTokens = (tokens: string[]): Promise<Token[]> => {
@@ -65,86 +90,10 @@ export const fetchTokens = (tokens: string[]): Promise<Token[]> => {
     id: EngineIds.ONE,
   };
 
-  return ecencyApi
-    .post(PATH_ENGINE_CONTRACTS, data)
-    .then((r) => r.data.result)
-    .catch(() => {
-      return [];
-    });
-};
-
-export const fetchHiveEngineTokenBalances = async (
-  account: string,
-): Promise<Array<HiveEngineToken | null>> => {
-  try {
-    const balances = await fetchTokenBalances(account);
-    const symbols = balances.map((t) => t.symbol);
-
-    const tokens = await fetchTokens(symbols);
-    const metrices = await fetchMetics(symbols);
-    const unclaimed = await fetchUnclaimedRewards(account);
-
-    return balances.map((balance) => {
-      const token = tokens.find((t) => t.symbol == balance.symbol);
-      const metrics = metrices.find((t) => t.symbol == balance.symbol);
-      const pendingRewards = unclaimed.find((t) => t.symbol == balance.symbol);
-      return convertEngineToken(balance, token, metrics, pendingRewards);
-    });
-  } catch (err) {
-    console.warn('Failed to get engine token balances', err);
-    Sentry.captureException(err);
-    throw err;
-  }
-};
-
-export const fetchMetics = async (tokens?: string[]) => {
-  try {
-    const data = {
-      jsonrpc: JSON_RPC.RPC_2,
-      method: Methods.FIND,
-      params: {
-        contract: EngineContracts.MARKET,
-        table: EngineTables.METRICS,
-        query: {
-          symbol: { $in: tokens },
-        },
-      },
-      id: EngineIds.ONE,
-    };
-
-    const response = await ecencyApi.post(PATH_ENGINE_CONTRACTS, data);
-    if (!response.data.result) {
-      throw new Error('No metric data returned');
-    }
-
-    return response.data.result as EngineMetric[];
-  } catch (err) {
-    console.warn('Failed to get engine metrices', err);
-    Sentry.captureException(err);
-    throw err;
-  }
-};
-
-export const fetchUnclaimedRewards = async (account: string): Promise<TokenStatus[]> => {
-  try {
-    const response = await ecencyApi.get(`${PATH_ENGINE_REWARDS}/${account}`, {
-      params: { hive: 1 },
-    });
-    const rawData = Object.values(response.data);
-    if (!rawData || rawData.length === 0) {
-      throw new Error('No rewards data returned');
-    }
-
-    const data = rawData.map(convertRewardsStatus);
-    const filteredData = data.filter((item) => item && item.pendingToken > 0);
-
-    console.log('unclaimed engine rewards data', filteredData);
-    return filteredData;
-  } catch (err) {
-    console.warn('failed ot get unclaimed engine rewards', err);
-    Sentry.captureException(err);
-    return [];
-  }
+  // Resolve [] only for a genuine empty result; a transport failure (after retries)
+  // rejects so the transfer precision lookup can fall back / retry instead of
+  // silently leaving precision unset.
+  return postEngineContract<Token[]>(data).then((result) => result ?? []);
 };
 
 export const fetchEngineMarketData = async (

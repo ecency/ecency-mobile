@@ -481,6 +481,7 @@ const TransferView = ({
           fundType,
           memo,
           tokenLayer,
+          precision: tokenPrecision,
           recurrence: isRecurrentTransfer ? +recurrence : null,
           executions: isRecurrentTransfer ? +executions : null,
         });
@@ -755,9 +756,13 @@ const TransferView = ({
     isUsernameValid &&
     // Don't allow submit until the real balance has loaded (it is '' while fetching).
     !isBalanceLoading &&
-    // Wait for the Engine token's precision to load so the amount can't be
-    // broadcast with the fallback 8-decimal precision before it is known.
-    (!isEngineToken || tokenPrecision !== undefined) &&
+    // For Engine tokens, wait for precision before broadcasting a fractional amount
+    // so it can't go out with the 8-decimal fallback (which an over-precise sidechain
+    // quantity is rejected for). A whole-number amount is precision-safe at any
+    // precision, so allow it through even if the token-metadata lookup degrades —
+    // that keeps the common case working instead of dead-buttoning NEXT. `amount` is
+    // string state, so coerce before the integer test (Number.isInteger never coerces).
+    (!isEngineToken || tokenPrecision !== undefined || Number.isInteger(Number(amount))) &&
     // A HIVE/HBD send to an exchange must carry a memo or the deposit is lost.
     !exchangeMemoRequired &&
     (!isRecurrentTransfer ||
