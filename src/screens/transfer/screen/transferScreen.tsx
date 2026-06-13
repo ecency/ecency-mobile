@@ -760,8 +760,9 @@ const TransferView = ({
     // so it can't go out with the 8-decimal fallback (which an over-precise sidechain
     // quantity is rejected for). A whole-number amount is precision-safe at any
     // precision, so allow it through even if the token-metadata lookup degrades —
-    // that keeps the common case working instead of dead-buttoning NEXT.
-    (!isEngineToken || tokenPrecision !== undefined || Number.isInteger(amount)) &&
+    // that keeps the common case working instead of dead-buttoning NEXT. `amount` is
+    // string state, so coerce before the integer test (Number.isInteger never coerces).
+    (!isEngineToken || tokenPrecision !== undefined || Number.isInteger(Number(amount))) &&
     // A HIVE/HBD send to an exchange must carry a memo or the deposit is lost.
     !exchangeMemoRequired &&
     (!isRecurrentTransfer ||

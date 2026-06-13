@@ -255,7 +255,7 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
         </Text>
         <TouchableOpacity style={styles.headerActionButton} onPress={_onRefresh}>
           <Text style={styles.headerActionButtonText}>
-            {intl.formatMessage({ id: 'alert.try_again' })}
+            {intl.formatMessage({ id: 'alert.something_wrong_reload' })}
           </Text>
         </TouchableOpacity>
       </View>
