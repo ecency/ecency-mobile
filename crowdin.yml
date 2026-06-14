@@ -1,3 +1,8 @@
+# Keep the repo path under the Crowdin branch (development/src/config/locales/en-US.json).
+# Without this the CLI flattens the path to <branch>/en-US.json and forks a second,
+# untranslated copy of every string instead of updating the existing file.
+preserve_hierarchy: true
+
 files:
   - source: /src/config/locales/en-US.json
     translation: /src/config/locales/%locale%.json
