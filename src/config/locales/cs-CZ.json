@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Věděli jste?",
+      "dismiss": "Zavřít"
+    }
+  },
   "perks": {
     "header": "Výhody",
     "quests_title": "Úkoly",
@@ -107,6 +113,10 @@
     "attach_poll": "Připojit anketu"
   },
   "favorites": {
+    "add": "Přidat oblíbenou položku",
+    "add_error": "Oblíbenou položku se nepodařilo přidat",
+    "cancel_add": "Zrušit přidávání oblíbené položky",
+    "confirm_add": "Uložit oblíbenou položku",
     "empty_list": "Tady nic není",
     "search": "Hledat v oblíbených",
     "load_error": "Oblíbené se nepodařilo načíst",
@@ -351,7 +361,8 @@
     "transfer_in": "Převod {time}",
     "delete_success": "Opakovaný převod byl úspěšně smazán",
     "unsubscribe_confirmation": "Zrušit opakovaný převod uživateli {username}?",
-    "remaining_executions": "Zbývá {executions} převodů"
+    "remaining_executions": "Zbývá {executions} převodů",
+    "schedule_summary": "{executions} převodů, každý jednou za {hours} hodin"
   },
   "similar_entries": {
     "title": "Číst dál"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Přidat do příspěvku další obrázky",
     "alert_btn_draft": "Nedávný koncept",
     "draft_save_success": "Koncept uložen",
+    "published_draft_delete_title": "Příspěvek publikován",
+    "published_draft_delete_body": "Chcete také smazat uložený koncept, ze kterého jste publikovali?",
+    "published_draft_keep": "Ponechat koncept",
     "snippets": "Úryvky",
     "community_restriction": "Příspěvek mohou publikovat pouze členové komunity {title}",
     "invalid_url_error": "Prosím vlož validní url adresu",
@@ -800,11 +814,11 @@
   },
   "comment_filter": {
     "votes": "HLASY",
-    "trending": "TOP",
+    "trending": "NEJLEPŠÍ",
     "age": "STÁŘÍ",
     "reputation": "REPUTACE",
     "time": "ČAS",
-    "top": "TOP"
+    "top": "NEJLEPŠÍ"
   },
   "schedules": {
     "error": "Chyba",
@@ -983,7 +997,7 @@
       "username_exists": "Uživatelské jméno již existuje, zkuste jiné",
       "username_length_error": "Délka by měla být mezi 3 a 16 znaky",
       "username_contains_symbols_error": "Mělo by obsahovat pouze písmena, čísla a pomlčky",
-      "username_no_ascii_first_letter_error": "První písmeno by mělo být ve formátu ASCII",
+      "username_no_ascii_first_letter_error": "Musí začínat písmenem",
       "username_contains_double_hyphens": "Nemělo by obsahovat dvojité pomlčky",
       "username_contains_underscore": "Nemělo by obsahovat podtržítko"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Převod pomocí Hivesigner",
     "hivepegged_withdraw": "Vybraný hive",
     "recurrent_transfer": "Opakovaná platba",
+    "fill_recurrent_transfer": "Proběhl opakovaný převod",
     "delegations_in": "Příchozí delegace",
     "withdraw_hive": "Vybrat ze spořícího účtu",
     "reblog_desc": "Sdílejte články ostatních se svými přáteli a vydělávejte body.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI obrázek"
   },
   "transfer": {
+    "custom_schedule": "Vlastní ({hours} h)",
+    "close": "Zavřít",
+    "favorite_username_placeholder": "Uživatelské jméno",
+    "invalid_recipient_qr": "V tomto QR kódu se nepodařilo najít uživatelské jméno.",
+    "one_time": "Jednorázově",
+    "pick_from_favorites": "Vyberte příjemce z oblíbených",
+    "scan_qr_recipient": "Naskenujte QR kód příjemce",
+    "schedule": "Naplánovat",
     "select_token": "Vyberte token",
     "powering_down_subheading": "Momentálně provádíte odstakování.",
     "power_down": "Odstakovat",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Vsadit LARYNX",
     "amount_select_desc_limit": " a musí být větší než 0,001",
     "undelegate_engine": "Zrušit delegování tokenu",
-    "to_bad_actor": "Při odesílání na tento účet buďte opatrní. Zkontrolujte prosím pravopis kvůli možnému phishingu."
+    "to_bad_actor": "Při odesílání na tento účet buďte opatrní. Zkontrolujte prosím pravopis kvůli možnému phishingu.",
+    "exchange_recurrent_warning": "{exchange} je burza a nemusí podporovat opakované převody — prostředky odeslané podle rozvrhu mohou být ztraceny. Použijte raději jednorázový převod.",
+    "exchange_memo_required": "Odeslání na {exchange} vyžaduje poznámku (memo). Bez poznámky poskytnuté burzou mohou být vaše prostředky ztraceny."
   },
   "login": {
     "cancel": "zrušit",
@@ -1427,7 +1452,7 @@
     "deep_login_alert_title": "Snadné přihlášení @{username}",
     "deep_login_url_expired": "Adresa pro přihlášení vypršela, použijte prosím k přihlášení soukromý klíč nebo heslo",
     "login": "PŘIHLÁSIT SE",
-    "steemconnect_fee_description": "info",
+    "steemconnect_fee_description": "informace",
     "or": "NEBO"
   },
   "settings": {
@@ -1472,6 +1497,8 @@
       "no-one": "Nikdo (vypnout přímé zprávy)"
     },
     "send_feedback": "Odeslat zpětnou vazbu",
+    "rate_app": "Ohodnotit Ecency",
+    "rate": "Hodnotit",
     "dm-privacy-updated": "Nastavení soukromí přímých zpráv bylo úspěšně aktualizováno",
     "dm-privacy-failed": "Nepodařilo se aktualizovat nastavení soukromí přímých zpráv",
     "feedback_success": "E-mail byl úspěšně odeslán",

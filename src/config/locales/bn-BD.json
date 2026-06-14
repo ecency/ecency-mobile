@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "আপনি কি জানতেন?",
+      "dismiss": "বন্ধ করুন"
+    }
+  },
   "perks": {
     "header": "পার্কস",
     "quests_title": "কোয়েস্ট",
@@ -107,6 +113,10 @@
     "attach_poll": "পোল সংযুক্ত করুন"
   },
   "favorites": {
+    "add": "একটি প্রিয় যোগ করুন",
+    "add_error": "প্রিয় যোগ করা যায়নি",
+    "cancel_add": "প্রিয় যোগ করা বাতিল করুন",
+    "confirm_add": "প্রিয় সংরক্ষণ করুন",
     "empty_list": "এখানে কিছু নেই",
     "search": "পছন্দসই অনুসন্ধান করুন",
     "load_error": "পছন্দসই লোড করা যায়নি",
@@ -351,7 +361,8 @@
     "transfer_in": "স্থানান্তর {time}",
     "delete_success": "পুনরাবৃত্ত স্থানান্তর সফলভাবে মুছে ফেলা হয়েছে",
     "unsubscribe_confirmation": "{username} এর কাছে পুনরাবৃত্ত স্থানান্তর আনসাবস্ক্রাইব করবেন?",
-    "remaining_executions": "বাকি {executions}টি স্থানান্তর"
+    "remaining_executions": "বাকি {executions}টি স্থানান্তর",
+    "schedule_summary": "{executions}টি স্থানান্তর, প্রতিটি প্রতি {hours} ঘণ্টা অন্তর"
   },
   "similar_entries": {
     "title": "পরবর্তী পড়ুন"
@@ -387,6 +398,9 @@
     "add_more_imgs": "পোস্টে আরও ছবি যোগ করুন",
     "alert_btn_draft": "সাম্প্রতিক খসড়া",
     "draft_save_success": "খসড়া সংরক্ষিত হয়েছে",
+    "published_draft_delete_title": "পোস্ট প্রকাশিত হয়েছে",
+    "published_draft_delete_body": "আপনি কি যে খসড়াটি থেকে প্রকাশ করেছেন সেটিও মুছে ফেলতে চান?",
+    "published_draft_keep": "খসড়া রাখুন",
     "snippets": "স্নিপেট",
     "community_restriction": "শুধুমাত্র {title} কমিউনিটির সদস্যরা পোস্ট প্রকাশ করতে পারবেন",
     "invalid_url_error": "অনুগ্রহ করে একটি বৈধ url প্রবেশ করান",
@@ -983,7 +997,7 @@
       "username_exists": "ইউজারনেম ইতিমধ্যে বিদ্যমান, একটি ভিন্ন ইউজারনেম চেষ্টা করুন",
       "username_length_error": "দৈর্ঘ্য ৩ থেকে ১৬ অক্ষরের মধ্যে হওয়া উচিত",
       "username_contains_symbols_error": "শুধুমাত্র অক্ষর, সংখ্যা, হাইফেন থাকা উচিত",
-      "username_no_ascii_first_letter_error": "প্রথম অক্ষরটি ASCII-তে হওয়া উচিত",
+      "username_no_ascii_first_letter_error": "একটি অক্ষর দিয়ে শুরু হওয়া উচিত",
       "username_contains_double_hyphens": "দ্বৈত হাইফেন থাকা উচিত নয়",
       "username_contains_underscore": "আন্ডারস্কোর থাকা উচিত নয়"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "হাইভসাইনার স্থানান্তর",
     "hivepegged_withdraw": "HIVE উত্তোলন হয়েছে",
     "recurrent_transfer": "পুনরাবৃত্ত স্থানান্তর",
+    "fill_recurrent_transfer": "পুনরাবৃত্ত স্থানান্তর সম্পন্ন হয়েছে",
     "delegations_in": "আগত ডেলিগেশন",
     "withdraw_hive": "সেভিংস উত্তোলন করুন",
     "reblog_desc": "আপনি কি পোস্ট আপনার বন্ধুদের সাথে ভাগ করুন এবং পয়েন্ট উপার্জন করুন।",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI ছবি"
   },
   "transfer": {
+    "custom_schedule": "কাস্টম ({hours}ঘণ্টা)",
+    "close": "বন্ধ করুন",
+    "favorite_username_placeholder": "ব্যবহারকারীর নাম",
+    "invalid_recipient_qr": "এই QR কোডে কোনো ব্যবহারকারীর নাম খুঁজে পাওয়া যায়নি।",
+    "one_time": "একবার",
+    "pick_from_favorites": "প্রিয় থেকে প্রাপক বেছে নিন",
+    "scan_qr_recipient": "প্রাপকের জন্য একটি QR কোড স্ক্যান করুন",
+    "schedule": "সময়সূচি",
     "select_token": "টোকেন নির্বাচন করুন",
     "powering_down_subheading": "আপনি বর্তমানে আনস্টেক করছেন।",
     "power_down": "আনস্টেক",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "LARYNX স্টেক",
     "amount_select_desc_limit": " এবং অবশ্যই ০.০০১-এর বেশি হতে হবে",
     "undelegate_engine": "টোকেন ডেলিগেশন বাতিল",
-    "to_bad_actor": "এই অ্যাকাউন্টে পাঠানোর সময় সতর্ক থাকুন। সম্ভাব্য ফিশিং এড়াতে আপনার বানান আবার যাচাই করুন।"
+    "to_bad_actor": "এই অ্যাকাউন্টে পাঠানোর সময় সতর্ক থাকুন। সম্ভাব্য ফিশিং এড়াতে আপনার বানান আবার যাচাই করুন।",
+    "exchange_recurrent_warning": "{exchange} একটি এক্সচেঞ্জ এবং এটি পুনরাবৃত্ত স্থানান্তর সমর্থন নাও করতে পারে — নির্ধারিত সময়সূচিতে পাঠানো তহবিল হারিয়ে যেতে পারে। পরিবর্তে একবারের স্থানান্তর ব্যবহার করুন।",
+    "exchange_memo_required": "{exchange}-এ পাঠাতে একটি মেমো প্রয়োজন। এক্সচেঞ্জের দেওয়া মেমো ছাড়া আপনার তহবিল হারিয়ে যেতে পারে।"
   },
   "login": {
     "cancel": "বাতিল করুন",
@@ -1472,6 +1497,8 @@
       "no-one": "কেউ নয় (DM নিষ্ক্রিয় করুন)"
     },
     "send_feedback": "মতামত পাঠানো",
+    "rate_app": "Ecency কে রেট দিন",
+    "rate": "রেট দিন",
     "dm-privacy-updated": "DM গোপনীয়তা সেটিংস সফলভাবে আপডেট হয়েছে",
     "dm-privacy-failed": "DM গোপনীয়তা সেটিংস আপডেট করতে ব্যর্থ হয়েছে",
     "feedback_success": "ইমেল সফলভাবে খোলা",

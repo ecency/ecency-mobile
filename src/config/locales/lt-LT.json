@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Ar žinojote?",
+      "dismiss": "Atmesti"
+    }
+  },
   "perks": {
     "header": "Privalumai",
     "quests_title": "Užduotys",
@@ -107,6 +113,10 @@
     "attach_poll": "Pridėti apklausą"
   },
   "favorites": {
+    "add": "Pridėti į parankinius",
+    "add_error": "Nepavyko pridėti į parankinius",
+    "cancel_add": "Atšaukti pridėjimą į parankinius",
+    "confirm_add": "Išsaugoti parankinį",
     "empty_list": "Nieko nėra",
     "search": "Ieškoti mėgstamiausiuose",
     "load_error": "Nepavyko pakrauti mėgstamiausių",
@@ -351,7 +361,8 @@
     "transfer_in": "Pervedimas {time}",
     "delete_success": "Pasikartojantis pervedimas sėkmingai ištrintas",
     "unsubscribe_confirmation": "Atšaukti pasikartojantį pervedimą gavėjui {username}?",
-    "remaining_executions": "Liko {executions} pervedimų"
+    "remaining_executions": "Liko {executions} pervedimų",
+    "schedule_summary": "{executions} pavedimų, kas {hours} val."
   },
   "similar_entries": {
     "title": "Skaityti toliau"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Pridėkite daugiau paveikslėlių prie įrašo",
     "alert_btn_draft": "Naujausi išsaugoti juodraščiai",
     "draft_save_success": "Juodraštis išsaugotas",
+    "published_draft_delete_title": "Įrašas paskelbtas",
+    "published_draft_delete_body": "Ar taip pat norite ištrinti išsaugotą juodraštį, iš kurio paskelbėte?",
+    "published_draft_keep": "Palikti juodraštį",
     "snippets": "Užrašai (iškarpos)",
     "community_restriction": "Tik {title} bendruomenės nariai gali skelbti įrašus",
     "invalid_url_error": "Prašome įvesti tinkamą tinklalapio adresą",
@@ -983,7 +997,7 @@
       "username_exists": "Toks vartotojo vardas jau egzistuoja, pabandykite kitą",
       "username_length_error": "Ilgis turi būti nuo 3 iki 16 simbolių",
       "username_contains_symbols_error": "Gali būti tik raidės, skaičiai ir brūkšnelis",
-      "username_no_ascii_first_letter_error": "Pirmoji raidė turi būti ASCII simbolis",
+      "username_no_ascii_first_letter_error": "Turi prasidėti raide",
       "username_contains_double_hyphens": "Negali būti dvigubų brūkšnelių",
       "username_contains_underscore": "Negali būti pabraukimo brūkšnio"
     },
@@ -1002,7 +1016,7 @@
     "delegations_out": "Paskyrimas iš",
     "estimated_value_desc": "Atsižvelgiant į pirkinio vertę",
     "hive_power": {
-      "name": "Staked Hive",
+      "name": "Įstatytas Hive",
       "title": "HIVE GALIA"
     },
     "conversions_requested": "Pokalbių užklausos",
@@ -1019,7 +1033,7 @@
     "total_larynx_power": "Bendra galia",
     "total_hive_power": "Bendra staked dalis",
     "checkin_extra_desc": "Reguliarus programos naudojimas duoda jums papildomų galimybių užsidirbti taškų, būkite labiau aktyvus ir uždirbkite daugiau.",
-    "transfer_to_vesting": "Stake",
+    "transfer_to_vesting": "Įstatyti",
     "tokens_unstakeStart": "Pradėtas Unstake",
     "to": "Į",
     "nftmarket_changePrice": "Pakeista užsakymo kaina",
@@ -1077,7 +1091,7 @@
     "hideChart": "Slėpti kainų grafiką",
     "openAnalytics": "Atidaryti likučio analizę",
     "tokens_enableStaking": "Staking įjungtas",
-    "power_up_spk": "Stake",
+    "power_up_spk": "Įstatyti",
     "nft_addProperty": "Savybė pridėta prie NFT",
     "nft_updateMetadata": "NFT metaduomenys atnaujinti",
     "login_title": "Taškai už prisijungimą",
@@ -1098,7 +1112,7 @@
     },
     "tokens_updatePrecision": "Žetonų tikslumo atnaujinimas",
     "tokens_transferOwnership": "Žetono nuosavybė perduota",
-    "withdraw_vesting": "Unstake",
+    "withdraw_vesting": "Išimti iš įstatymo",
     "delegate_engine": "Deleguoti",
     "market_close": "Užsakymas uždarytas",
     "nftmarket_transferFee": "Pirkimo užsakymo mokestis",
@@ -1138,7 +1152,7 @@
       "buy": "Gauti HBD",
       "title": "HBD"
     },
-    "stake_engine": "Stake",
+    "stake_engine": "Įstatyti",
     "estimated_balance": "Apytikris likutis",
     "withdraw_savings": "Išsiimti santaupas",
     "open_orders": "Atviri užsakymai",
@@ -1150,14 +1164,14 @@
     "delegate_vesting_shares": "Deleguoti",
     "ecency_point_transfer": "Pervesti",
     "comment": "Komentarai",
-    "power_down": "Unstake",
+    "power_down": "Išimti iš įstatymo",
     "vote_title": "Taškai už balsą",
     "nftmarket_buy": "Užsakymas nupirktas",
     "apr": "APR",
     "vote_desc": "Balsuodami, jūs skiriate atlygį kitiems kūrėjams ir parodote dėkingumą, atgaukite iki 0.01 x balso galios taško.",
     "curation_reward": "Kuracijos Atlygis",
     "nft_updateUrl": "NFT URL atnaujintas",
-    "unstake_engine": "Unstake",
+    "unstake_engine": "Išimti iš įstatymo",
     "savinghbd": {
       "title": "HBD santaupos"
     },
@@ -1185,7 +1199,7 @@
     "engine_select_assets": "Pasirinkite turtą",
     "hive": {
       "buy": "GAUTI HIVE",
-      "name": "Liquid Hive",
+      "name": "Likvidus Hive",
       "title": "HIVE"
     },
     "checkin_extra_title": "Naudojimosi bonusas",
@@ -1204,7 +1218,7 @@
     "market_cancel": "Užsakymas atšauktas",
     "nft_transfer": "NFT pervesti",
     "escrow_transfer": "Escrow pervedimas",
-    "spkcc_power_down": "Unstake",
+    "spkcc_power_down": "Išimti iš įstatymo",
     "nftmarket_enableMarket": "NFT simboliui įjungta rinka",
     "market_placeOrder": "Užsakymas pateiktas",
     "nft_create": "NFT simbolis sukurtas",
@@ -1215,10 +1229,11 @@
     "referral": "Pakviesti",
     "received_hive_power": "Gauti delegavimai",
     "nft_enableDelegation": "NFT delegavimas įjungtas",
-    "unstake": "Unstake",
+    "unstake": "Išimti iš įstatymo",
     "steemconnect_title": "Hivesigner pervedimas",
     "hivepegged_withdraw": "HIVE išimta",
     "recurrent_transfer": "Pasikartojantis pavedimas",
+    "fill_recurrent_transfer": "Įvyko pasikartojantis pavedimas",
     "delegations_in": "Gauti delegavimai",
     "withdraw_hive": "Išsiimti santaupas",
     "reblog_desc": "Pasidalink tau patinkančiais įrašais su draugais ir uždirbk taškų.",
@@ -1229,9 +1244,9 @@
     "incoming_transfer_description": "",
     "transfer_token": "Pervesti",
     "spkcc_spk_send": "Pervesti",
-    "stake": "Stake",
+    "stake": "Įstatyti",
     "fill_order": "Užpildyti užsakymą",
-    "spkcc_power_up": "Stake",
+    "spkcc_power_up": "Įstatyti",
     "vote_value": "Balso vertė",
     "nft_burn": "NFT sudegintas",
     "delegated_hive_power": "Išsiųsti delegavimai",
@@ -1257,7 +1272,7 @@
     "withdraw_hbd": "Išsiimti santaupas",
     "convert_request": "Konvertuoti užklausą",
     "cancel_transfer_from_savings": "Atšaukti iš Santaupų",
-    "power_down_spk": "Unstake",
+    "power_down_spk": "Išimti iš įstatymo",
     "comment_desc": "Kiekvienas jūsų komentaras padeda padidinti jūsų skaitytojų skaičių ir taip pat uždirbti iki 5 taškų.",
     "reblog_title": "Taškai už pasidalinimą",
     "power_up": "Į Teisių suteikimą",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "DI vaizdas"
   },
   "transfer": {
+    "custom_schedule": "Pasirinktinis ({hours} val.)",
+    "close": "Uždaryti",
+    "favorite_username_placeholder": "Naudotojo vardas",
+    "invalid_recipient_qr": "Šiame QR kode nepavyko rasti naudotojo vardo.",
+    "one_time": "Vienkartinis",
+    "pick_from_favorites": "Pasirinkti gavėją iš parankinių",
+    "scan_qr_recipient": "Nuskaitykite gavėjo QR kodą",
+    "schedule": "Suplanuoti",
     "select_token": "Pasirinkti žetoną",
     "powering_down_subheading": "Šiuo metu atšaukiate įkrovimą.",
     "power_down": "Atšaukti įkrovimą",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Įkrauti LARYNX",
     "amount_select_desc_limit": " ir turi būti didesnė nei 0,001",
     "undelegate_engine": "Atšaukti žetono delegavimą",
-    "to_bad_actor": "Būkite atsargūs siųsdami į šią paskyrą. Patikrinkite rašybą dėl galimo sukčiavimo."
+    "to_bad_actor": "Būkite atsargūs siųsdami į šią paskyrą. Patikrinkite rašybą dėl galimo sukčiavimo.",
+    "exchange_recurrent_warning": "{exchange} yra birža ir gali nepalaikyti pasikartojančių pavedimų — pagal grafiką išsiųstos lėšos gali būti prarastos. Verčiau naudokite vienkartinį pavedimą.",
+    "exchange_memo_required": "Siunčiant į {exchange} būtinas atminimo įrašas (memo). Be biržos pateikto atminimo įrašo jūsų lėšos gali būti prarastos."
   },
   "login": {
     "cancel": "atšaukti",
@@ -1472,6 +1497,8 @@
       "no-one": "Niekas (išjungti TŽ)"
     },
     "send_feedback": "Siųsti Atsiliepimus",
+    "rate_app": "Įvertinti Ecency",
+    "rate": "Įvertinti",
     "dm-privacy-updated": "Tiesioginių žinučių privatumo nustatymai sėkmingai atnaujinti",
     "dm-privacy-failed": "Nepavyko atnaujinti tiesioginių žinučių privatumo nustatymų",
     "feedback_success": "El. laiškas sėkmingai atidarytas",

@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Biliyor muydunuz?",
+      "dismiss": "Kapat"
+    }
+  },
   "perks": {
     "header": "Avantajlar",
     "quests_title": "Görevler",
@@ -107,6 +113,10 @@
     "attach_poll": "Anket Ekle"
   },
   "favorites": {
+    "add": "Favori ekle",
+    "add_error": "Favori eklenemedi",
+    "cancel_add": "Favori eklemeyi iptal et",
+    "confirm_add": "Favoriyi kaydet",
     "empty_list": "Burada hiçbir şey yok",
     "search": "Favorilerde ara",
     "load_error": "Beğeniler yüklenemedi",
@@ -351,7 +361,8 @@
     "transfer_in": "{time} sonra transfer",
     "delete_success": "Tekrarlanan transfer başarıyla silindi",
     "unsubscribe_confirmation": "{username} kullanıcısına tekrarlanan transfer aboneliği iptal edilsin mi?",
-    "remaining_executions": "Kalan {executions} transfer"
+    "remaining_executions": "Kalan {executions} transfer",
+    "schedule_summary": "{executions} transfer, her biri {hours} saatte bir"
   },
   "similar_entries": {
     "title": "Sonra oku"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Gönderiye daha fazla görsel ekle",
     "alert_btn_draft": "Son Taslak",
     "draft_save_success": "Taslak Kaydedildi",
+    "published_draft_delete_title": "Gönderi yayınlandı",
+    "published_draft_delete_body": "Yayınladığınız kayıtlı taslağı da silmek istiyor musunuz?",
+    "published_draft_keep": "Taslağı sakla",
     "snippets": "Snippet",
     "community_restriction": "Yalnızca {title} topluluğunun üyeleri gönderi yayınlayabilir",
     "invalid_url_error": "Lütfen geçerli bir url girin",
@@ -983,7 +997,7 @@
       "username_exists": "Bu kullanıcı adı zaten mevcut, farklı bir tane deneyin",
       "username_length_error": "Uzunluk 3 ile 16 karakter arasında olmalıdır",
       "username_contains_symbols_error": "Yalnızca harf, rakam ve tire içermelidir",
-      "username_no_ascii_first_letter_error": "İlk harf ASCII olmalıdır",
+      "username_no_ascii_first_letter_error": "Bir harfle başlamalı",
       "username_contains_double_hyphens": "Çift tire içermemelidir",
       "username_contains_underscore": "Alt çizgi içermemelidir"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Hivesigner Transferi",
     "hivepegged_withdraw": "HIVE Çekildi",
     "recurrent_transfer": "Yinelenen Transfer",
+    "fill_recurrent_transfer": "Yinelenen Transfer Gerçekleşti",
     "delegations_in": "Gelen Delegasyonlar",
     "withdraw_hive": "Tasarrufları Çek",
     "reblog_desc": "Beğendiğiniz gönderileri arkadaşlarınızla paylaşın ve puanlar kazanın.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "Yapay Zeka Görseli"
   },
   "transfer": {
+    "custom_schedule": "Özel ({hours}sa)",
+    "close": "Kapat",
+    "favorite_username_placeholder": "Kullanıcı adı",
+    "invalid_recipient_qr": "Bu QR kodunda bir kullanıcı adı bulunamadı.",
+    "one_time": "Tek Seferlik",
+    "pick_from_favorites": "Alıcıyı favorilerden seç",
+    "scan_qr_recipient": "Alıcı için bir QR kod tara",
+    "schedule": "Programla",
     "select_token": "Token Seç",
     "powering_down_subheading": "Şu anda çözme işlemi yapıyorsunuz.",
     "power_down": "Çöz",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "LARYNX Sabitle",
     "amount_select_desc_limit": " ve 0.001'den büyük olmalıdır",
     "undelegate_engine": "Token Devrini Geri Al",
-    "to_bad_actor": "Bu hesaba gönderirken dikkatli olun. Olası kimlik avına karşı yazımınızı tekrar kontrol edin."
+    "to_bad_actor": "Bu hesaba gönderirken dikkatli olun. Olası kimlik avına karşı yazımınızı tekrar kontrol edin.",
+    "exchange_recurrent_warning": "{exchange} bir borsadır ve yinelenen transferleri desteklemeyebilir — programlı olarak gönderilen paralar kaybolabilir. Bunun yerine tek seferlik transfer kullanın.",
+    "exchange_memo_required": "{exchange} adresine gönderim için bir not (memo) gereklidir. Borsanın sağladığı not olmadan paranız kaybolabilir."
   },
   "login": {
     "cancel": "geç",
@@ -1472,6 +1497,8 @@
       "no-one": "Hiç kimse (DM'leri devre dışı bırak)"
     },
     "send_feedback": "Geri Bildirim Gönder",
+    "rate_app": "Ecency'yi puanla",
+    "rate": "Puan ver",
     "dm-privacy-updated": "DM gizlilik ayarları başarıyla güncellendi",
     "dm-privacy-failed": "DM gizlilik ayarları güncellenemedi",
     "feedback_success": "E-posta başarıyla açıldı",

@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Czy wiesz, że?",
+      "dismiss": "Zamknij"
+    }
+  },
   "perks": {
     "header": "Korzyści",
     "quests_title": "Zadania",
@@ -107,6 +113,10 @@
     "attach_poll": "Dołącz ankietę"
   },
   "favorites": {
+    "add": "Dodaj do ulubionych",
+    "add_error": "Nie udało się dodać do ulubionych",
+    "cancel_add": "Anuluj dodawanie do ulubionych",
+    "confirm_add": "Zapisz ulubione",
     "empty_list": "Nic tu nie ma",
     "search": "Szukaj w ulubionych",
     "load_error": "Nie można załadować ulubionych",
@@ -351,7 +361,8 @@
     "transfer_in": "Przelew {time}",
     "delete_success": "Cykliczny przelew został pomyślnie usunięty",
     "unsubscribe_confirmation": "Anulować cykliczny przelew do {username}?",
-    "remaining_executions": "Pozostało {executions} przelewów"
+    "remaining_executions": "Pozostało {executions} przelewów",
+    "schedule_summary": "{executions} przelewów, każdy co {hours} godz."
   },
   "similar_entries": {
     "title": "Przeczytaj dalej"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Dodaj więcej obrazów do wpisu",
     "alert_btn_draft": "Ostatnia wersja robocza",
     "draft_save_success": "Zapisano wersję roboczą",
+    "published_draft_delete_title": "Post opublikowany",
+    "published_draft_delete_body": "Czy chcesz również usunąć zapisaną wersję roboczą, z której opublikowano post?",
+    "published_draft_keep": "Zachowaj wersję roboczą",
     "snippets": "Fragmenty",
     "community_restriction": "Tylko członkowie społeczności {title} mogą publikować wpisy",
     "invalid_url_error": "Wprowadź prawidłowy adres URL",
@@ -983,7 +997,7 @@
       "username_exists": "Nazwa użytkownika już istnieje, spróbuj innej",
       "username_length_error": "Długość powinna wynosić od 3 do 16 znaków",
       "username_contains_symbols_error": "Powinna zawierać tylko litery, cyfry i myślnik",
-      "username_no_ascii_first_letter_error": "Pierwsza litera powinna być w formacie ASCII",
+      "username_no_ascii_first_letter_error": "Powinno zaczynać się od litery",
       "username_contains_double_hyphens": "Nie powinna zawierać podwójnych myślników",
       "username_contains_underscore": "Nie powinna zawierać podkreślenia"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Przeniesienie Hivesigner",
     "hivepegged_withdraw": "Wypłacono HIVE",
     "recurrent_transfer": "Przelew cykliczny",
+    "fill_recurrent_transfer": "Wykonano przelew cykliczny",
     "delegations_in": "Delegacje przychodzące",
     "withdraw_hive": "Wypłać oszczędności",
     "reblog_desc": "Podziel się ulubionym postem ze swoimi znajomymi i zdobądź punkt.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "Obraz AI"
   },
   "transfer": {
+    "custom_schedule": "Niestandardowy ({hours}godz.)",
+    "close": "Zamknij",
+    "favorite_username_placeholder": "Nazwa użytkownika",
+    "invalid_recipient_qr": "Nie znaleziono nazwy użytkownika w tym kodzie QR.",
+    "one_time": "Jednorazowo",
+    "pick_from_favorites": "Wybierz odbiorcę z ulubionych",
+    "scan_qr_recipient": "Zeskanuj kod QR odbiorcy",
+    "schedule": "Zaplanuj",
     "select_token": "Wybierz token",
     "powering_down_subheading": "Obecnie wycofujesz ze stakingu.",
     "power_down": "Wycofaj ze stakingu",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Postaw LARYNX",
     "amount_select_desc_limit": " i musi być większa niż 0,001",
     "undelegate_engine": "Cofnij delegację tokenu",
-    "to_bad_actor": "Zachowaj ostrożność przy wysyłaniu na to konto. Sprawdź dokładnie pisownię ze względu na możliwy phishing."
+    "to_bad_actor": "Zachowaj ostrożność przy wysyłaniu na to konto. Sprawdź dokładnie pisownię ze względu na możliwy phishing.",
+    "exchange_recurrent_warning": "{exchange} to giełda i może nie obsługiwać przelewów cyklicznych — środki wysyłane według harmonogramu mogą zostać utracone. Zamiast tego użyj przelewu jednorazowego.",
+    "exchange_memo_required": "Wysyłka do {exchange} wymaga dopisku (memo). Bez dopisku podanego przez giełdę Twoje środki mogą zostać utracone."
   },
   "login": {
     "cancel": "anuluj",
@@ -1472,6 +1497,8 @@
       "no-one": "Nikt (wyłącz wiadomości bezpośrednie)"
     },
     "send_feedback": "Prześlij opinię",
+    "rate_app": "Oceń Ecency",
+    "rate": "Oceń",
     "dm-privacy-updated": "Ustawienia prywatności wiadomości bezpośrednich zostały zaktualizowane",
     "dm-privacy-failed": "Nie udało się zaktualizować ustawień prywatności wiadomości bezpośrednich",
     "feedback_success": "E-mail wysłany pomyślnie",

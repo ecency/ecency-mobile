@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Da li ste znali?",
+      "dismiss": "Odbaci"
+    }
+  },
   "perks": {
     "header": "Pogodnosti",
     "quests_title": "Zadaci",
@@ -107,6 +113,10 @@
     "attach_poll": "Priloži anketu"
   },
   "favorites": {
+    "add": "Dodaj omiljeno",
+    "add_error": "Nije moguće dodati omiljeno",
+    "cancel_add": "Otkaži dodavanje omiljenog",
+    "confirm_add": "Sačuvaj omiljeno",
     "empty_list": "Ovde nema ništa",
     "search": "Pretraži omiljeno",
     "load_error": "Nije moguće učitati omiljeno",
@@ -351,7 +361,8 @@
     "transfer_in": "Prenos {time}",
     "delete_success": "Ponavljajući prenos je uspešno obrisan",
     "unsubscribe_confirmation": "Otkazati ponavljajući prenos ka {username}?",
-    "remaining_executions": "Preostalo {executions} prenosa"
+    "remaining_executions": "Preostalo {executions} prenosa",
+    "schedule_summary": "{executions} prenosa, svaki na svakih {hours} sati"
   },
   "similar_entries": {
     "title": "Pročitaj sledeće"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Dodaj još slika u objavu",
     "alert_btn_draft": "Nedavni nacrt",
     "draft_save_success": "Nacrt sačuvan",
+    "published_draft_delete_title": "Objava objavljena",
+    "published_draft_delete_body": "Da li želite da obrišete i sačuvani nacrt iz kog ste objavili?",
+    "published_draft_keep": "Zadrži nacrt",
     "snippets": "Isečci",
     "community_restriction": "Samo članovi zajednice {title} mogu objaviti objavu",
     "invalid_url_error": "Unesi važeći URL",
@@ -983,7 +997,7 @@
       "username_exists": "Korisničko ime već postoji, probajte neko drugo",
       "username_length_error": "Dužina treba da bude između 3 i 16 znakova",
       "username_contains_symbols_error": "Sme da sadrži samo slova, brojeve i crticu",
-      "username_no_ascii_first_letter_error": "Prvo slovo treba da bude u ASCII formatu",
+      "username_no_ascii_first_letter_error": "Treba da počinje slovom",
       "username_contains_double_hyphens": "Ne sme da sadrži dvostruke crtice",
       "username_contains_underscore": "Ne sme da sadrži donju crtu"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Hivesigner prenos",
     "hivepegged_withdraw": "HIVE povučen",
     "recurrent_transfer": "Ponavljajući prenos",
+    "fill_recurrent_transfer": "Izvršen ponavljajući prenos",
     "delegations_in": "Dolazna delegiranja",
     "withdraw_hive": "Povuci štednju",
     "reblog_desc": "Podelite objavu koju volite sa prijateljima i zaradite poene.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI slika"
   },
   "transfer": {
+    "custom_schedule": "Prilagođeno ({hours}h)",
+    "close": "Zatvori",
+    "favorite_username_placeholder": "Korisničko ime",
+    "invalid_recipient_qr": "U ovom QR kodu nije pronađeno korisničko ime.",
+    "one_time": "Jednokratno",
+    "pick_from_favorites": "Izaberi primaoca iz omiljenih",
+    "scan_qr_recipient": "Skenirajte QR kod primaoca",
+    "schedule": "Zakaži",
     "select_token": "Izaberite token",
     "powering_down_subheading": "Trenutno povlačite ulog.",
     "power_down": "Povuci ulog",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Uloži LARYNX",
     "amount_select_desc_limit": " i mora biti veći od 0.001",
     "undelegate_engine": "Opozovi delegiranje tokena",
-    "to_bad_actor": "Budite oprezni pri slanju na ovaj nalog. Proverite ispravnost imena zbog mogućeg phishinga."
+    "to_bad_actor": "Budite oprezni pri slanju na ovaj nalog. Proverite ispravnost imena zbog mogućeg phishinga.",
+    "exchange_recurrent_warning": "{exchange} je menjačnica i možda ne podržava ponavljajuće prenose — sredstva poslata po rasporedu mogu biti izgubljena. Umesto toga koristite jednokratni prenos.",
+    "exchange_memo_required": "Slanje na {exchange} zahteva memo. Bez memo-a koji obezbeđuje menjačnica vaša sredstva mogu biti izgubljena."
   },
   "login": {
     "cancel": "otkaži",
@@ -1472,6 +1497,8 @@
       "no-one": "Niko (onemogući DM-ove)"
     },
     "send_feedback": "Pošalji Povratnu Informaciju",
+    "rate_app": "Oceni Ecency",
+    "rate": "Oceni",
     "dm-privacy-updated": "Postavke privatnosti DM-ova uspešno ažurirane",
     "dm-privacy-failed": "Ažuriranje postavki privatnosti DM-ova nije uspelo",
     "feedback_success": "Email je uspešno otvoren",

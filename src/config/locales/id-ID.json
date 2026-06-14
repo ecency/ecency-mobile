@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Tahukah Anda?",
+      "dismiss": "Tutup"
+    }
+  },
   "perks": {
     "header": "Keuntungan",
     "quests_title": "Quest",
@@ -8,7 +14,7 @@
     "daily": "Harian",
     "weekly": "Mingguan",
     "monthly": "Bulanan",
-    "checkin": "Check in",
+    "checkin": "Check-in",
     "post": "Terbitkan postingan",
     "comment": "Tinggalkan komentar",
     "vote": "Kurasi postingan",
@@ -107,6 +113,10 @@
     "attach_poll": "Lampirkan Polling"
   },
   "favorites": {
+    "add": "Tambah favorit",
+    "add_error": "Tidak dapat menambahkan favorit",
+    "cancel_add": "Batalkan penambahan favorit",
+    "confirm_add": "Simpan favorit",
     "empty_list": "Kosong",
     "search": "Cari di dalam favorit",
     "load_error": "Tidak dapat menampilkan favorit",
@@ -351,7 +361,8 @@
     "transfer_in": "Transfer {time}",
     "delete_success": "Transfer berulang berhasil dihapus",
     "unsubscribe_confirmation": "Berhenti berlangganan transfer berulang ke {username}?",
-    "remaining_executions": "Sisa {executions} transfer"
+    "remaining_executions": "Sisa {executions} transfer",
+    "schedule_summary": "{executions} transfer, masing-masing setiap {hours} jam"
   },
   "similar_entries": {
     "title": "Baca selanjutnya"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Tambahkan banyak foto dalam postingan",
     "alert_btn_draft": "Draf terbaru",
     "draft_save_success": "Draf Disimpan",
+    "published_draft_delete_title": "Pos diterbitkan",
+    "published_draft_delete_body": "Apakah Anda juga ingin menghapus draf tersimpan yang Anda terbitkan?",
+    "published_draft_keep": "Simpan draf",
     "snippets": "Cuplikan",
     "community_restriction": "Hanya anggota komunitas {title} yang dapat menerbitkan postingan",
     "invalid_url_error": "Masukkan url yang valid",
@@ -983,7 +997,7 @@
       "username_exists": "Nama pengguna sudah ada, coba yang lain",
       "username_length_error": "Panjang harus antara 3 hingga 16 karakter",
       "username_contains_symbols_error": "Hanya boleh berisi huruf, angka, dan tanda hubung",
-      "username_no_ascii_first_letter_error": "Huruf pertama harus dalam ASCII",
+      "username_no_ascii_first_letter_error": "Harus diawali dengan huruf",
       "username_contains_double_hyphens": "Tidak boleh mengandung tanda hubung ganda",
       "username_contains_underscore": "Tidak boleh mengandung garis bawah"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Transfer Hivesigner",
     "hivepegged_withdraw": "HIVE Ditarik",
     "recurrent_transfer": "Transfer Berulang",
+    "fill_recurrent_transfer": "Transfer Berulang Terjadi",
     "delegations_in": "Delegasi Masuk",
     "withdraw_hive": "Tarik Tabungan",
     "reblog_desc": "Bagikan pos yang Anda sukai dengan teman dan dapatkan poin.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "Gambar AI"
   },
   "transfer": {
+    "custom_schedule": "Kustom ({hours}j)",
+    "close": "Tutup",
+    "favorite_username_placeholder": "Nama pengguna",
+    "invalid_recipient_qr": "Tidak dapat menemukan nama pengguna dalam kode QR ini.",
+    "one_time": "Sekali",
+    "pick_from_favorites": "Pilih penerima dari favorit",
+    "scan_qr_recipient": "Pindai kode QR untuk penerima",
+    "schedule": "Jadwal",
     "select_token": "Pilih Token",
     "powering_down_subheading": "Anda sedang melepas stake.",
     "power_down": "Lepas Stake",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Stake LARYNX",
     "amount_select_desc_limit": " dan harus lebih besar dari 0,001",
     "undelegate_engine": "Batalkan Delegasi Token",
-    "to_bad_actor": "Hati-hati saat mengirim ke akun ini. Silakan periksa kembali ejaan Anda untuk kemungkinan phishing."
+    "to_bad_actor": "Hati-hati saat mengirim ke akun ini. Silakan periksa kembali ejaan Anda untuk kemungkinan phishing.",
+    "exchange_recurrent_warning": "{exchange} adalah bursa dan mungkin tidak mendukung transfer berulang — dana yang dikirim secara terjadwal bisa hilang. Gunakan transfer sekali saja sebagai gantinya.",
+    "exchange_memo_required": "Mengirim ke {exchange} memerlukan memo. Tanpa memo yang disediakan oleh bursa, dana Anda bisa hilang."
   },
   "login": {
     "cancel": "batal",
@@ -1472,6 +1497,8 @@
       "no-one": "Tidak ada (nonaktifkan DM)"
     },
     "send_feedback": "Kirim Umpan balik",
+    "rate_app": "Beri nilai Ecency",
+    "rate": "Beri nilai",
     "dm-privacy-updated": "Pengaturan privasi DM berhasil diperbarui",
     "dm-privacy-failed": "Gagal memperbarui pengaturan privasi DM",
     "feedback_success": "Email berhasil dibuka",
@@ -1484,7 +1511,7 @@
     "settings": "Pengaturan",
     "server": "Server",
     "image_server": "Server Gambar",
-    "image_server_default": "Ecency Images (Default)",
+    "image_server_default": "Ecency Images (Bawaan)",
     "image_server_hiveblog": "Hive Images (Alternatif)",
     "image_server_nocdn": "Ecency Images (Tanpa CDN)",
     "nsfw_content": "NSFW",

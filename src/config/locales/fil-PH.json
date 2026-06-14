@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Alam mo ba?",
+      "dismiss": "I-dismiss"
+    }
+  },
   "perks": {
     "header": "Mga Perk",
     "quests_title": "Mga Misyon",
@@ -107,6 +113,10 @@
     "attach_poll": "Maglakip ng Poll"
   },
   "favorites": {
+    "add": "Magdagdag ng paborito",
+    "add_error": "Hindi maidagdag ang paborito",
+    "cancel_add": "Kanselahin ang pagdaragdag ng paborito",
+    "confirm_add": "I-save ang paborito",
     "empty_list": "Walang makita dito",
     "search": "Hanapin sa mga paborito",
     "load_error": "Hindi mai-load ang mga paborito",
@@ -221,7 +231,7 @@
     "feed": "Feed",
     "my_comments": "Aking mga Komento",
     "my_posts": "Aking mga Post",
-    "trending": "Trending",
+    "trending": "Sikat ngayon",
     "scroll_top": "Mag-scroll sa Itaas",
     "popup_postfix": "Na-post",
     "top": "Tuktok",
@@ -351,7 +361,8 @@
     "transfer_in": "Ilipat {time}",
     "delete_success": "Matagumpay na natanggal ang recurrent transfer",
     "unsubscribe_confirmation": "I-unsubscribe ang recurrent transfer kay {username}?",
-    "remaining_executions": "Natitirang {executions} transfer"
+    "remaining_executions": "Natitirang {executions} transfer",
+    "schedule_summary": "{executions} na paglilipat, bawat isa kada {hours} oras"
   },
   "similar_entries": {
     "title": "Basahin susunod"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Magdagdag ng mas maraming larawan sa post",
     "alert_btn_draft": "Kamakailang Draft",
     "draft_save_success": "Na-save ang Draft",
+    "published_draft_delete_title": "Nai-publish na ang post",
+    "published_draft_delete_body": "Gusto mo rin bang burahin ang naka-save na draft na pinagmulan ng pag-publish?",
+    "published_draft_keep": "Itago ang draft",
     "snippets": "Mga Snippet",
     "community_restriction": "Mga miyembro lamang ng komunidad na {title} ang makakapaglathala ng post",
     "invalid_url_error": "Pakilagay ang wastong url",
@@ -983,7 +997,7 @@
       "username_exists": "Mayroon nang ganitong username, sumubok ng iba",
       "username_length_error": "Ang haba ay dapat nasa pagitan ng 3 hanggang 16 na simbolo",
       "username_contains_symbols_error": "Dapat maglaman lamang ng mga titik, numero, at gitling",
-      "username_no_ascii_first_letter_error": "Ang unang titik ay dapat nasa ASCII",
+      "username_no_ascii_first_letter_error": "Dapat magsimula sa isang letra",
       "username_contains_double_hyphens": "Hindi dapat maglaman ng dobleng gitling",
       "username_contains_underscore": "Hindi dapat maglaman ng underscore"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Paglilipat sa HiveSigner",
     "hivepegged_withdraw": "Na-withdraw ang HIVE",
     "recurrent_transfer": "Paulit-ulit na Paglilipat",
+    "fill_recurrent_transfer": "Naganap ang Paulit-ulit na Paglilipat",
     "delegations_in": "Mga Delegasyong Papasok",
     "withdraw_hive": "Mag-withdraw ng Savings",
     "reblog_desc": "Ibahagi ang post na gusto mo sa iyong mga kaibigan at kikita ka ng puntos.",
@@ -1300,7 +1315,7 @@
     "prompt_placeholder": "Isang magandang paglubog ng araw sa ibabaw ng mga bundok...",
     "chars_remaining": "{count} na natitirang character",
     "select_aspect_ratio": "Pumili ng aspect ratio",
-    "select_power": "Quality boost",
+    "select_power": "Pagpapahusay ng kalidad",
     "cost_label": "Halaga",
     "balance_label": "Balanse",
     "points_unit": "POINTS",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI Image"
   },
   "transfer": {
+    "custom_schedule": "Custom ({hours}h)",
+    "close": "Isara",
+    "favorite_username_placeholder": "Username",
+    "invalid_recipient_qr": "Walang nahanap na username sa QR code na ito.",
+    "one_time": "Isahan",
+    "pick_from_favorites": "Pumili ng tatanggap mula sa mga paborito",
+    "scan_qr_recipient": "Mag-scan ng QR code para sa tatanggap",
+    "schedule": "Iskedyul",
     "select_token": "Pumili ng Token",
     "powering_down_subheading": "Kasalukuyan kang nag-a-unstake.",
     "power_down": "I-unstake",
@@ -1351,7 +1374,7 @@
     "powering_down": "Ina-unstake",
     "invalid_amount": "Hindi Wastong Halaga",
     "next": "SUNOD",
-    "recurrence": "Recurrence",
+    "recurrence": "Pag-ulit",
     "amount_information": "I-drag ang slider para ma-adjust ang halaga",
     "username_alert_detail": "Mangyaring pumili ng ibang username",
     "incoming_funds": "Pondong papasok",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "I-stake ang LARYNX",
     "amount_select_desc_limit": " at dapat mas malaki sa 0.001",
     "undelegate_engine": "I-undelegate ang Token",
-    "to_bad_actor": "Mag-ingat sa pagpapadala sa account na ito. Pakisuri ulit ang baybay para sa posibleng phishing."
+    "to_bad_actor": "Mag-ingat sa pagpapadala sa account na ito. Pakisuri ulit ang baybay para sa posibleng phishing.",
+    "exchange_recurrent_warning": "Ang {exchange} ay isang exchange at maaaring hindi sumusuporta sa paulit-ulit na paglilipat — ang mga pondong ipinadala ayon sa iskedyul ay maaaring mawala. Gumamit na lang ng isahang paglilipat.",
+    "exchange_memo_required": "Ang pagpapadala sa {exchange} ay nangangailangan ng memo. Kung wala ang memo na ibinigay ng exchange, maaaring mawala ang iyong pondo."
   },
   "login": {
     "cancel": "kansel",
@@ -1472,6 +1497,8 @@
       "no-one": "Walang sinuman (i-disable ang mga DM)"
     },
     "send_feedback": "Magbigay Feedback",
+    "rate_app": "I-rate ang Ecency",
+    "rate": "I-rate",
     "dm-privacy-updated": "Matagumpay na na-update ang mga setting ng privacy ng DM",
     "dm-privacy-failed": "Nabigong i-update ang mga setting ng privacy ng DM",
     "feedback_success": "Matagumpay na nabuksan ang email",
@@ -1498,10 +1525,10 @@
       "sign_input_placeholder": "Master password o Private Key",
       "import_key_modal_desc": "Indibidwal na Private key o Master password para i-import ang lahat ng key",
       "active_key": "Active Key",
-      "private": "Private",
-      "sign": "Sign",
+      "private": "Pribado",
+      "sign": "Mag-sign",
       "import_failed": "Nabigo ang Pag-import ng Mga Key",
-      "public": "Public",
+      "public": "Pampubliko",
       "enter_pass": "Ilagay ang Password o Private Key",
       "import_key": "I-import ang Private",
       "key_copied": "Nakopya ang key sa clipboard",
@@ -1563,7 +1590,7 @@
     "title": "Kailangan ng Awtorisasyon",
     "description": "Ang operasyong ito ay nangangailangan ng {authority} authority. Piliin kung paano pipirma:",
     "key_placeholder": "Ilagay ang active private key o master password",
-    "sign_button": "Sign",
+    "sign_button": "Mag-sign",
     "hivesigner_button": "Pumirma gamit ang HiveSigner",
     "hiveauth_button": "Pumirma gamit ang HiveAuth / Keychain",
     "cancel": "Kanselahin",

@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Bạn có biết?",
+      "dismiss": "Bỏ qua"
+    }
+  },
   "perks": {
     "header": "Đặc quyền",
     "quests_title": "Nhiệm vụ",
@@ -107,6 +113,10 @@
     "attach_poll": "Đính kèm khảo sát"
   },
   "favorites": {
+    "add": "Thêm mục yêu thích",
+    "add_error": "Không thể thêm mục yêu thích",
+    "cancel_add": "Hủy thêm mục yêu thích",
+    "confirm_add": "Lưu mục yêu thích",
     "empty_list": "Không có gì ở đây",
     "search": "Tìm trong danh sách ưa thích",
     "load_error": "Không thể tải các trang ưa thích",
@@ -351,7 +361,8 @@
     "transfer_in": "Chuyển {time}",
     "delete_success": "Đã xóa giao dịch chuyển định kỳ thành công",
     "unsubscribe_confirmation": "Hủy giao dịch chuyển định kỳ đến {username}?",
-    "remaining_executions": "Còn lại {executions} lần chuyển"
+    "remaining_executions": "Còn lại {executions} lần chuyển",
+    "schedule_summary": "{executions} lần chuyển, mỗi lần cách nhau {hours} giờ"
   },
   "similar_entries": {
     "title": "Đọc tiếp"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Thêm hình ảnh vào bài viết",
     "alert_btn_draft": "Bản nháp gần đây",
     "draft_save_success": "Đã lưu bản nháp",
+    "published_draft_delete_title": "Đã đăng bài",
+    "published_draft_delete_body": "Bạn có muốn xóa luôn bản nháp đã lưu mà bạn đã đăng từ đó không?",
+    "published_draft_keep": "Giữ bản nháp",
     "snippets": "Đoạn mẫu",
     "community_restriction": "Chỉ thành viên của cộng đồng {title} mới có thể đăng bài",
     "invalid_url_error": "Vui lòng nhập url hợp lệ",
@@ -983,7 +997,7 @@
       "username_exists": "Tên người dùng đã tồn tại, hãy thử một tên khác",
       "username_length_error": "Độ dài phải từ 3 đến 16 ký tự",
       "username_contains_symbols_error": "Chỉ được chứa chữ cái, số và dấu gạch nối",
-      "username_no_ascii_first_letter_error": "Chữ cái đầu tiên phải là ký tự ASCII",
+      "username_no_ascii_first_letter_error": "Phải bắt đầu bằng một chữ cái",
       "username_contains_double_hyphens": "Không được chứa dấu gạch nối kép",
       "username_contains_underscore": "Không được chứa dấu gạch dưới"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Chuyển qua Hivesigner",
     "hivepegged_withdraw": "Đã rút HIVE",
     "recurrent_transfer": "Chuyển định kỳ",
+    "fill_recurrent_transfer": "Đã thực hiện chuyển định kỳ",
     "delegations_in": "Ủy quyền đến",
     "withdraw_hive": "Rút tiết kiệm",
     "reblog_desc": "Chia sẻ bài viết bạn thích với bạn bè và kiếm Points.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "Ảnh AI"
   },
   "transfer": {
+    "custom_schedule": "Tùy chỉnh ({hours} giờ)",
+    "close": "Đóng",
+    "favorite_username_placeholder": "Tên người dùng",
+    "invalid_recipient_qr": "Không tìm thấy tên người dùng trong mã QR này.",
+    "one_time": "Một lần",
+    "pick_from_favorites": "Chọn người nhận từ mục yêu thích",
+    "scan_qr_recipient": "Quét mã QR của người nhận",
+    "schedule": "Lên lịch",
     "select_token": "Chọn token",
     "powering_down_subheading": "Bạn hiện đang hủy đặt cọc.",
     "power_down": "Hủy đặt cọc",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Đặt cọc LARYNX",
     "amount_select_desc_limit": " và phải lớn hơn 0,001",
     "undelegate_engine": "Hủy ủy quyền token",
-    "to_bad_actor": "Hãy thận trọng khi gửi đến tài khoản này. Vui lòng kiểm tra kỹ chính tả để tránh nguy cơ lừa đảo."
+    "to_bad_actor": "Hãy thận trọng khi gửi đến tài khoản này. Vui lòng kiểm tra kỹ chính tả để tránh nguy cơ lừa đảo.",
+    "exchange_recurrent_warning": "{exchange} là một sàn giao dịch và có thể không hỗ trợ chuyển định kỳ — số tiền gửi theo lịch có thể bị mất. Hãy dùng chuyển một lần thay thế.",
+    "exchange_memo_required": "Khi gửi đến {exchange} cần có memo. Nếu thiếu memo do sàn cung cấp, bạn có thể bị mất tiền."
   },
   "login": {
     "cancel": "huỷ",
@@ -1472,6 +1497,8 @@
       "no-one": "Không ai (tắt tin nhắn trực tiếp)"
     },
     "send_feedback": "Gửi phản hồi",
+    "rate_app": "Đánh giá Ecency",
+    "rate": "Đánh giá",
     "dm-privacy-updated": "Đã cập nhật cài đặt quyền riêng tư tin nhắn trực tiếp thành công",
     "dm-privacy-failed": "Cập nhật cài đặt quyền riêng tư tin nhắn trực tiếp thất bại",
     "feedback_success": "Email đã được mở thành công",

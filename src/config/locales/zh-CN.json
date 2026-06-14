@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "你知道吗？",
+      "dismiss": "关闭"
+    }
+  },
   "perks": {
     "header": "权益",
     "quests_title": "任务",
@@ -107,6 +113,10 @@
     "attach_poll": "附加投票"
   },
   "favorites": {
+    "add": "添加收藏",
+    "add_error": "无法添加收藏",
+    "cancel_add": "取消添加收藏",
+    "confirm_add": "保存收藏",
     "empty_list": "此处无内容",
     "search": "搜索收藏夹",
     "load_error": "无法加载收藏夹",
@@ -351,7 +361,8 @@
     "transfer_in": "{time}转账",
     "delete_success": "定期转账删除成功",
     "unsubscribe_confirmation": "取消向 {username} 的定期转账？",
-    "remaining_executions": "剩余 {executions} 次转账"
+    "remaining_executions": "剩余 {executions} 次转账",
+    "schedule_summary": "{executions} 笔转账，每 {hours} 小时一次"
   },
   "similar_entries": {
     "title": "接下来阅读"
@@ -387,6 +398,9 @@
     "add_more_imgs": "向帖子添加更多图片",
     "alert_btn_draft": "最近草稿",
     "draft_save_success": "草稿已保存",
+    "published_draft_delete_title": "帖子已发布",
+    "published_draft_delete_body": "是否同时删除已发布的对应草稿？",
+    "published_draft_keep": "保留草稿",
     "snippets": "片段",
     "community_restriction": "只有 {title} 社区的成员才能发布帖子",
     "invalid_url_error": "请输入有效的网址",
@@ -983,7 +997,7 @@
       "username_exists": "用户名已存在，请换一个",
       "username_length_error": "长度应在 3 到 16 个字符之间",
       "username_contains_symbols_error": "只能包含字母、数字和连字符",
-      "username_no_ascii_first_letter_error": "首字母应为 ASCII 字符",
+      "username_no_ascii_first_letter_error": "需以字母开头",
       "username_contains_double_hyphens": "不能包含连续的连字符",
       "username_contains_underscore": "不能包含下划线"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "HiveSigner 转账",
     "hivepegged_withdraw": "HIVE 已提取",
     "recurrent_transfer": "定期转账",
+    "fill_recurrent_transfer": "已执行定期转账",
     "delegations_in": "委托入",
     "withdraw_hive": "提取储蓄",
     "reblog_desc": "  分享您喜欢的帖子给您的朋友，并赚取  esteem 点数(ESTM)。",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI 图像"
   },
   "transfer": {
+    "custom_schedule": "自定义（{hours} 小时）",
+    "close": "关闭",
+    "favorite_username_placeholder": "用户名",
+    "invalid_recipient_qr": "在此二维码中未找到用户名。",
+    "one_time": "一次性",
+    "pick_from_favorites": "从收藏中选择收款人",
+    "scan_qr_recipient": "扫描收款人的二维码",
+    "schedule": "定期",
     "select_token": "选择代币",
     "powering_down_subheading": "您当前正在解除质押。",
     "power_down": "解除质押",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "质押 LARYNX",
     "amount_select_desc_limit": "，且必须大于 0.001",
     "undelegate_engine": "取消委托代币",
-    "to_bad_actor": "向此账户转账时请谨慎。请仔细核对拼写，以防钓鱼。"
+    "to_bad_actor": "向此账户转账时请谨慎。请仔细核对拼写，以防钓鱼。",
+    "exchange_recurrent_warning": "{exchange} 是交易所，可能不支持定期转账——按计划发送的资金可能会丢失。请改用一次性转账。",
+    "exchange_memo_required": "向 {exchange} 转账需要填写备注。若缺少交易所提供的备注，您的资金可能会丢失。"
   },
   "login": {
     "cancel": "取消",
@@ -1472,6 +1497,8 @@
       "no-one": "无人（禁用私信）"
     },
     "send_feedback": "发送反馈",
+    "rate_app": "为 Ecency 评分",
+    "rate": "评分",
     "dm-privacy-updated": "私信隐私设置更新成功",
     "dm-privacy-failed": "更新私信隐私设置失败",
     "feedback_success": "成功打开电子邮件",

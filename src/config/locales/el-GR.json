@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Γνωρίζατε ότι;",
+      "dismiss": "Παράβλεψη"
+    }
+  },
   "perks": {
     "header": "Προνόμια",
     "quests_title": "Αποστολές",
@@ -107,6 +113,10 @@
     "attach_poll": "Επισύναψη δημοσκόπησης"
   },
   "favorites": {
+    "add": "Προσθήκη αγαπημένου",
+    "add_error": "Δεν ήταν δυνατή η προσθήκη του αγαπημένου",
+    "cancel_add": "Ακύρωση προσθήκης αγαπημένου",
+    "confirm_add": "Αποθήκευση αγαπημένου",
     "empty_list": "Δεν υπάρχει τίποτα εδώ",
     "search": "Αναζήτηση στα αγαπημένα",
     "load_error": "Δεν ήταν δυνατή η φόρτωση των αγαπημένων",
@@ -351,7 +361,8 @@
     "transfer_in": "Μεταφορά {time}",
     "delete_success": "Η επαναλαμβανόμενη μεταφορά διαγράφηκε με επιτυχία",
     "unsubscribe_confirmation": "Κατάργηση επαναλαμβανόμενης μεταφοράς προς {username};",
-    "remaining_executions": "Απομένουν {executions} μεταφορές"
+    "remaining_executions": "Απομένουν {executions} μεταφορές",
+    "schedule_summary": "{executions} μεταφορές, κάθε {hours} ώρες"
   },
   "similar_entries": {
     "title": "Διαβάστε στη συνέχεια"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Προσθέστε περισσότερες εικόνες στην ανάρτηση",
     "alert_btn_draft": "Πρόσφατο πρόχειρο",
     "draft_save_success": "Το πρόχειρο αποθηκεύτηκε",
+    "published_draft_delete_title": "Η ανάρτηση δημοσιεύτηκε",
+    "published_draft_delete_body": "Θέλετε επίσης να διαγράψετε το αποθηκευμένο πρόχειρο από το οποίο δημοσιεύσατε;",
+    "published_draft_keep": "Διατήρηση πρόχειρου",
     "snippets": "Αποσπάσματα",
     "community_restriction": "Μόνο τα μέλη της κοινότητας {title} μπορούν να δημοσιεύσουν ανάρτηση",
     "invalid_url_error": "Παρακαλώ εισαγάγετε έγκυρη διεύθυνση URL",
@@ -983,7 +997,7 @@
       "username_exists": "Το όνομα χρήστη υπάρχει ήδη, δοκιμάστε ένα διαφορετικό",
       "username_length_error": "Το μήκος πρέπει να είναι από 3 έως 16 σύμβολα",
       "username_contains_symbols_error": "Πρέπει να περιέχει μόνο γράμματα, αριθμούς, παύλα",
-      "username_no_ascii_first_letter_error": "Το πρώτο γράμμα πρέπει να είναι σε ASCII",
+      "username_no_ascii_first_letter_error": "Πρέπει να ξεκινά με γράμμα",
       "username_contains_double_hyphens": "Δεν πρέπει να περιέχει διπλές παύλες",
       "username_contains_underscore": "Δεν πρέπει να περιέχει κάτω παύλα"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Μεταφορά HiveSigner",
     "hivepegged_withdraw": "Έγινε ανάληψη HIVE",
     "recurrent_transfer": "Επαναλαμβανόμενη μεταφορά",
+    "fill_recurrent_transfer": "Πραγματοποιήθηκε επαναλαμβανόμενη μεταφορά",
     "delegations_in": "Εισερχόμενες αναθέσεις",
     "withdraw_hive": "Ανάληψη αποταμιεύσεων",
     "reblog_desc": "Μοιραστείτε με τους φίλους σας τις δημοσιεύσεις που σας αρέσουν και κερδίστε Points.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "Εικόνα AI"
   },
   "transfer": {
+    "custom_schedule": "Προσαρμοσμένο ({hours}ω)",
+    "close": "Κλείσιμο",
+    "favorite_username_placeholder": "Όνομα χρήστη",
+    "invalid_recipient_qr": "Δεν βρέθηκε όνομα χρήστη σε αυτόν τον κωδικό QR.",
+    "one_time": "Εφάπαξ",
+    "pick_from_favorites": "Επιλέξτε παραλήπτη από τα αγαπημένα",
+    "scan_qr_recipient": "Σαρώστε έναν κωδικό QR για τον παραλήπτη",
+    "schedule": "Προγραμματισμός",
     "select_token": "Επιλογή token",
     "powering_down_subheading": "Αυτή τη στιγμή κάνετε unstake.",
     "power_down": "Αποδέσμευση",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Στοίχιση LARYNX",
     "amount_select_desc_limit": " και πρέπει να είναι μεγαλύτερο από 0,001",
     "undelegate_engine": "Ανάκληση ανάθεσης token",
-    "to_bad_actor": "Προσοχή κατά την αποστολή σε αυτόν τον λογαριασμό. Ελέγξτε ξανά την ορθογραφία για πιθανό phishing."
+    "to_bad_actor": "Προσοχή κατά την αποστολή σε αυτόν τον λογαριασμό. Ελέγξτε ξανά την ορθογραφία για πιθανό phishing.",
+    "exchange_recurrent_warning": "Το {exchange} είναι ανταλλακτήριο και ενδέχεται να μην υποστηρίζει επαναλαμβανόμενες μεταφορές — κεφάλαια που αποστέλλονται προγραμματισμένα μπορεί να χαθούν. Χρησιμοποιήστε καλύτερα μια εφάπαξ μεταφορά.",
+    "exchange_memo_required": "Η αποστολή προς {exchange} απαιτεί memo. Χωρίς το memo που παρέχει το ανταλλακτήριο, τα κεφάλαιά σας ενδέχεται να χαθούν."
   },
   "login": {
     "cancel": "ακύρωση",
@@ -1472,6 +1497,8 @@
       "no-one": "Κανένας (απενεργοποίηση άμεσων μηνυμάτων)"
     },
     "send_feedback": "Αποστολή σχολίων",
+    "rate_app": "Αξιολογήστε το Ecency",
+    "rate": "Αξιολόγηση",
     "dm-privacy-updated": "Οι ρυθμίσεις απορρήτου άμεσων μηνυμάτων ενημερώθηκαν με επιτυχία",
     "dm-privacy-failed": "Αποτυχία ενημέρωσης των ρυθμίσεων απορρήτου άμεσων μηνυμάτων",
     "feedback_success": "Το email άνοιξε με επιτυχία",

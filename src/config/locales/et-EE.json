@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Kas teadsid?",
+      "dismiss": "Sulge"
+    }
+  },
   "perks": {
     "header": "Hüved",
     "quests_title": "Ülesanded",
@@ -107,6 +113,10 @@
     "attach_poll": "Lisa küsitlus"
   },
   "favorites": {
+    "add": "Lisa lemmik",
+    "add_error": "Lemmiku lisamine ebaõnnestus",
+    "cancel_add": "Tühista lemmiku lisamine",
+    "confirm_add": "Salvesta lemmik",
     "empty_list": "Siin pole midagi",
     "search": "Otsi lemmikute hulgast",
     "load_error": "Lemmikute laadimine ebaõnnestus",
@@ -351,7 +361,8 @@
     "transfer_in": "Ülekanne {time}",
     "delete_success": "Korduv ülekanne edukalt kustutatud",
     "unsubscribe_confirmation": "Kas tühistada korduv ülekanne kasutajale {username}?",
-    "remaining_executions": "Jäänud {executions} ülekannet"
+    "remaining_executions": "Jäänud {executions} ülekannet",
+    "schedule_summary": "{executions} ülekannet, iga {hours} tunni järel"
   },
   "similar_entries": {
     "title": "Loe järgmisena"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Lisa postitusele rohkem pilte",
     "alert_btn_draft": "Hiljutine mustand",
     "draft_save_success": "Mustand salvestatud",
+    "published_draft_delete_title": "Postitus avaldatud",
+    "published_draft_delete_body": "Kas soovid kustutada ka salvestatud mustandi, millest avaldasid?",
+    "published_draft_keep": "Säilita mustand",
     "snippets": "Katked",
     "community_restriction": "Ainult kogukonna {title} liikmed saavad postitust avaldada",
     "invalid_url_error": "Palun sisesta kehtiv URL",
@@ -983,7 +997,7 @@
       "username_exists": "Kasutajanimi on juba olemas, proovi mõnda muud",
       "username_length_error": "Pikkus peaks olema 3 kuni 16 sümbolit",
       "username_contains_symbols_error": "Tohib sisaldada ainult tähti, numbreid ja sidekriipsu",
-      "username_no_ascii_first_letter_error": "Esimene täht peaks olema ASCII-tähestikus",
+      "username_no_ascii_first_letter_error": "Peab algama tähega",
       "username_contains_double_hyphens": "Ei tohi sisaldada topeltsidekriipse",
       "username_contains_underscore": "Ei tohi sisaldada alakriipsu"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Hivesigneri ülekanne",
     "hivepegged_withdraw": "HIVE välja võetud",
     "recurrent_transfer": "Korduv ülekanne",
+    "fill_recurrent_transfer": "Korduv ülekanne toimus",
     "delegations_in": "Sissetulevad delegeerimised",
     "withdraw_hive": "Võta säästudest välja",
     "reblog_desc": "Jaga meeldivat postitust enda sõpradega ning teeni punkte.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "Tehisintellekti pilt"
   },
   "transfer": {
+    "custom_schedule": "Kohandatud ({hours} h)",
+    "close": "Sulge",
+    "favorite_username_placeholder": "Kasutajanimi",
+    "invalid_recipient_qr": "Sellest QR-koodist ei leitud kasutajanime.",
+    "one_time": "Ühekordne",
+    "pick_from_favorites": "Vali saaja lemmikute hulgast",
+    "scan_qr_recipient": "Skanni saaja QR-kood",
+    "schedule": "Ajakava",
     "select_token": "Vali token",
     "powering_down_subheading": "Sa hetkel lõpetad panustamist.",
     "power_down": "Lõpeta panustamine",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Panusta LARYNX",
     "amount_select_desc_limit": " ja peab olema suurem kui 0.001",
     "undelegate_engine": "Lõpeta tokeni delegeerimine",
-    "to_bad_actor": "Ole sellele kontole saates ettevaatlik. Palun kontrolli õigekirja üle võimaliku õngitsemise vältimiseks."
+    "to_bad_actor": "Ole sellele kontole saates ettevaatlik. Palun kontrolli õigekirja üle võimaliku õngitsemise vältimiseks.",
+    "exchange_recurrent_warning": "{exchange} on börs ja ei pruugi toetada korduvaid ülekandeid — ajakava alusel saadetud vahendid võivad kaduma minna. Kasuta selle asemel ühekordset ülekannet.",
+    "exchange_memo_required": "Saatmine aadressile {exchange} nõuab memot. Ilma börsi antud memota võivad sinu vahendid kaduma minna."
   },
   "login": {
     "cancel": "tühista",
@@ -1472,6 +1497,8 @@
       "no-one": "Mitte keegi (keela otsesõnumid)"
     },
     "send_feedback": "Saada Tagasisidet",
+    "rate_app": "Hinda Ecencyt",
+    "rate": "Hinda",
     "dm-privacy-updated": "Otsesõnumite privaatsusseaded edukalt uuendatud",
     "dm-privacy-failed": "Otsesõnumite privaatsusseadete uuendamine ebaõnnestus",
     "feedback_success": "Email edukalt avatud",

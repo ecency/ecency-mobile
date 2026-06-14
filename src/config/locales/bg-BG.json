@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Знаете ли, че?",
+      "dismiss": "Затвори"
+    }
+  },
   "perks": {
     "header": "Привилегии",
     "quests_title": "Задачи",
@@ -107,6 +113,10 @@
     "attach_poll": "Прикачи анкета"
   },
   "favorites": {
+    "add": "Добави в любими",
+    "add_error": "Неуспешно добавяне в любими",
+    "cancel_add": "Отказ от добавянето в любими",
+    "confirm_add": "Запази в любими",
     "empty_list": "Няма нищо тук",
     "search": "Търси в любими",
     "load_error": "Не може да зареди любими",
@@ -351,7 +361,8 @@
     "transfer_in": "Превод {time}",
     "delete_success": "Повтарящият се превод е изтрит успешно",
     "unsubscribe_confirmation": "Да се отмени ли повтарящият се превод към {username}?",
-    "remaining_executions": "Остават {executions} превода"
+    "remaining_executions": "Остават {executions} превода",
+    "schedule_summary": "{executions} превода, всеки на всеки {hours} часа"
   },
   "similar_entries": {
     "title": "Прочетете след това"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Качи още снимки в Поста",
     "alert_btn_draft": "Скорошни чернови",
     "draft_save_success": "Черновата е запазена",
+    "published_draft_delete_title": "Публикацията е публикувана",
+    "published_draft_delete_body": "Искате ли да изтриете и запазената чернова, от която публикувахте?",
+    "published_draft_keep": "Запази черновата",
     "snippets": "Пряк път",
     "community_restriction": "Само членове на общността {title} могат да публикуват",
     "invalid_url_error": "Моля, въведете валиден URL адрес",
@@ -983,7 +997,7 @@
       "username_exists": "Това потребителско име вече съществува, опитайте друго",
       "username_length_error": "Дължината трябва да е между 3 и 16 символа",
       "username_contains_symbols_error": "Трябва да съдържа само букви, цифри и тире",
-      "username_no_ascii_first_letter_error": "Първата буква трябва да е на ASCII",
+      "username_no_ascii_first_letter_error": "Трябва да започва с буква",
       "username_contains_double_hyphens": "Не трябва да съдържа двойни тирета",
       "username_contains_underscore": "Не трябва да съдържа долна черта"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Hivesigner транзакция",
     "hivepegged_withdraw": "HIVE е изтеглен",
     "recurrent_transfer": "Периодичен превод",
+    "fill_recurrent_transfer": "Извършен е повтарящ се превод",
     "delegations_in": "Входящи делегации",
     "withdraw_hive": "Изтегли спестяванията",
     "reblog_desc": "Споделете публикация, която харесвате с приятелите си и спечелете точки.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI изображение"
   },
   "transfer": {
+    "custom_schedule": "По избор ({hours} ч.)",
+    "close": "Затвори",
+    "favorite_username_placeholder": "Потребителско име",
+    "invalid_recipient_qr": "Не беше намерено потребителско име в този QR код.",
+    "one_time": "Еднократно",
+    "pick_from_favorites": "Изберете получател от любими",
+    "scan_qr_recipient": "Сканирайте QR код за получателя",
+    "schedule": "График",
     "select_token": "Изберете токен",
     "powering_down_subheading": "В момента изтегляте от стейк.",
     "power_down": "Изтегляне от стейк",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Стейк на LARYNX",
     "amount_select_desc_limit": " и трябва да е по-голяма от 0,001",
     "undelegate_engine": "Прекратяване на делегиране на токен",
-    "to_bad_actor": "Бъдете внимателни при изпращане към този акаунт. Моля, проверете отново правописа за възможен фишинг."
+    "to_bad_actor": "Бъдете внимателни при изпращане към този акаунт. Моля, проверете отново правописа за възможен фишинг.",
+    "exchange_recurrent_warning": "{exchange} е борса и може да не поддържа повтарящи се преводи — средства, изпратени по график, може да бъдат изгубени. Вместо това използвайте еднократен превод.",
+    "exchange_memo_required": "Изпращането към {exchange} изисква бележка (memo). Без предоставената от борсата бележка средствата ви може да бъдат изгубени."
   },
   "login": {
     "cancel": "Отказ",
@@ -1472,6 +1497,8 @@
       "no-one": "Никой (изключване на ДС)"
     },
     "send_feedback": "Изпратете отзив",
+    "rate_app": "Оцени Ecency",
+    "rate": "Оцени",
     "dm-privacy-updated": "Настройките за поверителност на директните съобщения са обновени успешно",
     "dm-privacy-failed": "Неуспешно обновяване на настройките за поверителност на директните съобщения",
     "feedback_success": "Емайл успешно отворен",

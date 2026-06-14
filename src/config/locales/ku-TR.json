@@ -1,6 +1,12 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Ma tu zanibûyî?",
+      "dismiss": "Bibe"
+    }
+  },
   "perks": {
-    "header": "Perks",
+    "header": "Feydeyên Taybet",
     "quests_title": "Erk",
     "quests_subtitle": "Armancên rojane temam bike û rêzeya xwe biparêze",
     "quests_empty": "Hîn li vir tu erk tune ne — di demek nêz de dîsa kontrol bike.",
@@ -31,7 +37,7 @@
     "havent_commented": "heta niha şîrove nehatiye kirin",
     "full_in": "Dagirtî",
     "joined": "{time} berê tevlî bû",
-    "hive_dollars": "Hive Dollars",
+    "hive_dollars": "Dolarên Hive",
     "follower": "Şopîner",
     "follow_communities": "Gava tu tevlî civatan bibî, tê şandiyên ji civatan li vir bibînî.",
     "replies": "Bersiv",
@@ -107,6 +113,10 @@
     "attach_poll": "Rapirsî Pêve Bike"
   },
   "favorites": {
+    "add": "Bijarteyekê lê zêde bike",
+    "add_error": "Bijarte nehat zêdekirin",
+    "cancel_add": "Zêdekirina bijarteyê betal bike",
+    "confirm_add": "Bijarteyê tomar bike",
     "empty_list": "Li vir ti tişt tune ye",
     "search": "Di bijardeyan de bigere",
     "load_error": "Bijarde bar nebûn",
@@ -254,7 +264,7 @@
     "message_failed": "Tomarkirina snippetê têk çû",
     "btn_confirm": "Piştrast Bike",
     "placeholder_title": "Sernavê snippetê",
-    "btn_add": "Snippet",
+    "btn_add": "Perçenivîs",
     "label_no_snippets": "Tu Snippet Nehat Dîtin",
     "title_edit_snippet": "Snippetê Biguherîne",
     "message_incomplete": "Ji kerema xwe ji bo snippetê sernav û naverokê zêde bike"
@@ -351,7 +361,8 @@
     "transfer_in": "Veguhastin {time}",
     "delete_success": "Veguhastina dubarbar bi serketî hate jêbirin",
     "unsubscribe_confirmation": "Veguhastina dubarbar a ji bo {username} betal bike?",
-    "remaining_executions": "Mayî {executions} veguhastin"
+    "remaining_executions": "Mayî {executions} veguhastin",
+    "schedule_summary": "{executions} veguhastin, her yek di her {hours} saetan de"
   },
   "similar_entries": {
     "title": "Ya din bixwîne"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Bêtir wêneyan li şandiyê zêde bike",
     "alert_btn_draft": "Reşnivîsa Dawî",
     "draft_save_success": "Reşnivîs Hate Tomarkirin",
+    "published_draft_delete_title": "Nivîs hat weşandin",
+    "published_draft_delete_body": "Tu dixwazî reşnivîsa tomarkirî ya ku te jê weşand jî jê bibî?",
+    "published_draft_keep": "Reşnivîsê biparêze",
     "snippets": "Snippet",
     "community_restriction": "Tenê endamên civata {title} dikarin şandî biweşînin",
     "invalid_url_error": "Ji kerema xwe URL'ek derbasdar têxe",
@@ -625,7 +639,7 @@
   "cross_post": {
     "message_placeholder": "Ramanên xwe li vir parve bike...",
     "description": "Xelat bixweber ji bo cross post tên redkirin û nîqaşên di bin cross post de wê cuda bin û wê li gorî rêbazên civakî yên cuda bimeşin.",
-    "title": "Cross Post"
+    "title": "Şandina Hevdem"
   },
   "ai_assist": {
     "title": "Alîkarê Nivîsandinê yê AI",
@@ -983,7 +997,7 @@
       "username_exists": "Navê bikarhêner jixwe heye, yekî din biceribîne",
       "username_length_error": "Dirêjî divê di navbera 3 û 16 sembolan de be",
       "username_contains_symbols_error": "Divê tenê tîp, hejmar û xêzika navberê hebe",
-      "username_no_ascii_first_letter_error": "Tîpa yekem divê bi ASCII be",
+      "username_no_ascii_first_letter_error": "Divê bi tîpekê dest pê bike",
       "username_contains_double_hyphens": "Divê du xêzikên navberê li pey hev nehebin",
       "username_contains_underscore": "Divê xêzika binî (underscore) nehebe"
     },
@@ -1026,7 +1040,7 @@
     "nft_updatePropertyDefinition": "Pênaseya Taybetmendiyê ji bo NFT Hat Nûkirin",
     "estimated_amount": "Rêjeya dengan",
     "delegations": "Şande",
-    "engine_title": "Hive Engine Tokens",
+    "engine_title": "Tokenên Hive Engine",
     "tokens_create": "Token Hat Çêkirin",
     "nft_delegate": "NFT Hat Wekîlkirin",
     "withdraw_to_saving": "Ji Berhevkirinan Bikişîne",
@@ -1098,7 +1112,7 @@
     },
     "tokens_updatePrecision": "Nûkirina Hûrdekariya Token",
     "tokens_transferOwnership": "Xwedîtiya Token Hat Veguhastin",
-    "withdraw_vesting": "Unstake",
+    "withdraw_vesting": "Bişkîne",
     "delegate_engine": "Wekîl bike",
     "market_close": "Ferman Hat Girtin",
     "nftmarket_transferFee": "Heqê Fermana Kirînê",
@@ -1150,14 +1164,14 @@
     "delegate_vesting_shares": "Wekîl bike",
     "ecency_point_transfer": "Veguhastin",
     "comment": "Şîrove",
-    "power_down": "Unstake",
+    "power_down": "Bişkîne",
     "vote_title": "Puanên ji dengdanê",
     "nftmarket_buy": "Ferman Hat Kirîn",
     "apr": "APR",
     "vote_desc": "Tu bi dengdanê xelatan didî afirînerên din û bi giraniya 0.01 x puananên dengdanê jî qezenc dikî.",
     "curation_reward": "Xelata Kuratorê",
     "nft_updateUrl": "URL ya NFT Hat Nûkirin",
-    "unstake_engine": "Unstake",
+    "unstake_engine": "Bişkîne",
     "savinghbd": {
       "title": "Hilanîna HBD"
     },
@@ -1204,7 +1218,7 @@
     "market_cancel": "Ferman Hat Betalkirin",
     "nft_transfer": "NFT Hatin Veguhastin",
     "escrow_transfer": "Transfera Emanetî",
-    "spkcc_power_down": "Unstake",
+    "spkcc_power_down": "Bişkîne",
     "nftmarket_enableMarket": "Bazar ji bo Sembola NFT Hat Çalakkirin",
     "market_placeOrder": "Ferman Hat Danîn",
     "nft_create": "Sembola NFT Hat Çêkirin",
@@ -1215,10 +1229,11 @@
     "referral": "Referans",
     "received_hive_power": "Wekîltiyên ketî",
     "nft_enableDelegation": "Wekîltî ji bo NFT Hat Çalakkirin",
-    "unstake": "Unstake",
+    "unstake": "Bişkîne",
     "steemconnect_title": "Veguhastina HiveSigner",
     "hivepegged_withdraw": "HIVE Hat Vekişandin",
     "recurrent_transfer": "Veguhastina Dûbare",
+    "fill_recurrent_transfer": "Veguhastina Dubarekirî Pêk Hat",
     "delegations_in": "Wekîltiyên Ketî",
     "withdraw_hive": "Hilanînê Vekişîne",
     "reblog_desc": "Şandiyên ku te eciband bi hevalên xwe re jî parve bike û puanan qezenc bike.",
@@ -1229,7 +1244,7 @@
     "incoming_transfer_description": "",
     "transfer_token": "Veguhastin",
     "spkcc_spk_send": "Veguhastin",
-    "stake": "Stake",
+    "stake": "Bisekinîne",
     "fill_order": "Fermana Transferê Bide",
     "spkcc_power_up": "Stake bike",
     "vote_value": "Nirxa dengê",
@@ -1257,7 +1272,7 @@
     "withdraw_hbd": "Hilanînê Vekişîne",
     "convert_request": "Daxwaza Veguhastinê",
     "cancel_transfer_from_savings": "Ji Berhevkirinan Betal Bike",
-    "power_down_spk": "Unstake",
+    "power_down_spk": "Bişkîne",
     "comment_desc": "Her şîroveyên ku tu dike, girseya bîner û hevalên te mezin dike, di heman demê de 5 puanan jî dide qezeckirin.",
     "reblog_title": "Puanên ji dîsweşandinê",
     "power_up": "Bo Vesting",
@@ -1321,9 +1336,17 @@
     "dropdown_label": "Wêneyê AI"
   },
   "transfer": {
+    "custom_schedule": "Taybet ({hours}st)",
+    "close": "Bigire",
+    "favorite_username_placeholder": "Navê bikarhêner",
+    "invalid_recipient_qr": "Di vê koda QR de tu navê bikarhêner nehat dîtin.",
+    "one_time": "Yekcarî",
+    "pick_from_favorites": "Wergirê ji bijarteyan hilbijêre",
+    "scan_qr_recipient": "Ji bo wergir kodeke QR bişopîne",
+    "schedule": "Bername",
     "select_token": "Token Hilbijêre",
     "powering_down_subheading": "Tu niha unstake dikî.",
-    "power_down": "Unstake",
+    "power_down": "Bişkîne",
     "recurrence_placeholder": "Dûbarebûnê Hilbijêre",
     "steemconnect_title": "Veguhastina HiveSigner",
     "purchase_estm": "Points Bikire",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Bicihkirina LARYNX",
     "amount_select_desc_limit": " û divê ji 0.001 mezintir be",
     "undelegate_engine": "Vekişandina Sipartina Token",
-    "to_bad_actor": "Di şandinê bo vî hesabî de hişyar be. Ji kerema xwe rastnivîsîna xwe ji bo fîşing a gengaz du caran kontrol bike."
+    "to_bad_actor": "Di şandinê bo vî hesabî de hişyar be. Ji kerema xwe rastnivîsîna xwe ji bo fîşing a gengaz du caran kontrol bike.",
+    "exchange_recurrent_warning": "{exchange} borsayek e û dibe ku piştgiriyê nede veguhastinên dubarekirî — pereyên ku li gor bernameyekê têne şandin dikarin winda bibin. Li şûna wê veguhastineke yekcarî bi kar bîne.",
+    "exchange_memo_required": "Şandina bo {exchange} pêwîstî bi memoyekê heye. Bê memoya ku ji aliyê borsayê ve tê dayîn dibe ku pereyên te winda bibin."
   },
   "login": {
     "cancel": "Betal",
@@ -1472,6 +1497,8 @@
       "no-one": "Kes (DMyan neçalak bike)"
     },
     "send_feedback": "Paşragihandin",
+    "rate_app": "Ecency binirxîne",
+    "rate": "Nirxandin",
     "dm-privacy-updated": "Mîhengên nehêniya DMyê bi serkeftî hatin nûkirin",
     "dm-privacy-failed": "Nûkirina mîhengên nehêniya DMyê têk çû",
     "feedback_success": "Epeyam bi serkeftî vebû",

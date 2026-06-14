@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Schon gewusst?",
+      "dismiss": "Schließen"
+    }
+  },
   "perks": {
     "header": "Vorteile",
     "quests_title": "Quests",
@@ -107,6 +113,10 @@
     "attach_poll": "Umfrage anhängen"
   },
   "favorites": {
+    "add": "Favorit hinzufügen",
+    "add_error": "Favorit konnte nicht hinzugefügt werden",
+    "cancel_add": "Hinzufügen abbrechen",
+    "confirm_add": "Favorit speichern",
     "empty_list": "Keine Einträge vorhanden",
     "search": "In Favoriten suchen",
     "load_error": "Favoriten können nicht geladen werden",
@@ -198,7 +208,7 @@
     "refer": "Empfehlen & Verdienen",
     "favorites": "Favoriten",
     "schedules": "Zeitpläne",
-    "communities": "Communities",
+    "communities": "Communitys",
     "accounts": "Konten",
     "bookmarks": "Lesezeichen",
     "create_a_new_account": "Neues Konto erstellen",
@@ -351,7 +361,8 @@
     "transfer_in": "Überweisung {time}",
     "delete_success": "Wiederkehrende Überweisung erfolgreich gelöscht",
     "unsubscribe_confirmation": "Wiederkehrende Überweisung an {username} abbestellen?",
-    "remaining_executions": "Verbleibende {executions} Überweisungen"
+    "remaining_executions": "Verbleibende {executions} Überweisungen",
+    "schedule_summary": "{executions} Überweisungen, jeweils alle {hours} Stunden"
   },
   "similar_entries": {
     "title": "Als Nächstes lesen"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Weitere Bilder zum Beitrag hinzufügen",
     "alert_btn_draft": "Aktueller Entwurf",
     "draft_save_success": "Entwurf gespeichert",
+    "published_draft_delete_title": "Beitrag veröffentlicht",
+    "published_draft_delete_body": "Möchtest du auch den gespeicherten Entwurf löschen, von dem aus du veröffentlicht hast?",
+    "published_draft_keep": "Entwurf behalten",
     "snippets": "Textbausteine",
     "community_restriction": "Nur Mitglieder der Community {title} können Beiträge veröffentlichen",
     "invalid_url_error": "Bitte gib eine gültige URL ein",
@@ -414,7 +428,7 @@
     "tags": "Tags (durch Leerzeichen getrennt)",
     "enter_label_placeholder": "Bezeichnung eingeben (Optional)",
     "select_thumb": "Vorschaubild für Beitrag auswählen",
-    "setting_reblog": "Reblog",
+    "setting_reblog": "Rebloggen",
     "link_type_text": "Linktyp",
     "draft_save_new": "Als neuen Entwurf speichern",
     "schedule_modal_title": "Beitrag planen",
@@ -983,7 +997,7 @@
       "username_exists": "Benutzername existiert bereits, probieren Sie einen anderen",
       "username_length_error": "Die Länge sollte zwischen 3 und 16 Zeichen liegen",
       "username_contains_symbols_error": "Sollte nur Buchstaben, Zahlen und Bindestriche enthalten",
-      "username_no_ascii_first_letter_error": "Der erste Buchstabe sollte ein ASCII-Zeichen sein",
+      "username_no_ascii_first_letter_error": "Sollte mit einem Buchstaben beginnen",
       "username_contains_double_hyphens": "Sollte keine doppelten Bindestriche enthalten",
       "username_contains_underscore": "Sollte keinen Unterstrich enthalten"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Hivesigner-Transfer",
     "hivepegged_withdraw": "HIVE abgehoben",
     "recurrent_transfer": "Wiederkehrende Übertragung",
+    "fill_recurrent_transfer": "Wiederkehrende Überweisung ausgeführt",
     "delegations_in": "Eingehende Delegationen",
     "withdraw_hive": "Sparguthaben abheben",
     "reblog_desc": "Teile einen Beitrag, den du magst mit deinen Freunden und erhalte Punkt.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "KI-Bild"
   },
   "transfer": {
+    "custom_schedule": "Benutzerdefiniert ({hours} Std.)",
+    "close": "Schließen",
+    "favorite_username_placeholder": "Benutzername",
+    "invalid_recipient_qr": "In diesem QR-Code konnte kein Benutzername gefunden werden.",
+    "one_time": "Einmalig",
+    "pick_from_favorites": "Empfänger aus Favoriten wählen",
+    "scan_qr_recipient": "QR-Code für den Empfänger scannen",
+    "schedule": "Zeitplan",
     "select_token": "Token auswählen",
     "powering_down_subheading": "Sie führen derzeit ein Unstake durch.",
     "power_down": "Unstaken",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "LARYNX staken",
     "amount_select_desc_limit": " und muss größer als 0,001 sein",
     "undelegate_engine": "Token-Delegation aufheben",
-    "to_bad_actor": "Seien Sie beim Senden an dieses Konto vorsichtig. Bitte überprüfen Sie die Schreibweise auf mögliches Phishing."
+    "to_bad_actor": "Seien Sie beim Senden an dieses Konto vorsichtig. Bitte überprüfen Sie die Schreibweise auf mögliches Phishing.",
+    "exchange_recurrent_warning": "{exchange} ist eine Börse und unterstützt möglicherweise keine wiederkehrenden Überweisungen — nach einem Zeitplan gesendetes Guthaben kann verloren gehen. Verwende stattdessen eine einmalige Überweisung.",
+    "exchange_memo_required": "Beim Senden an {exchange} ist eine Memo erforderlich. Ohne die von der Börse bereitgestellte Memo kann dein Guthaben verloren gehen."
   },
   "login": {
     "cancel": "Abbrechen",
@@ -1472,6 +1497,8 @@
       "no-one": "Niemand (DMs deaktivieren)"
     },
     "send_feedback": "Feedback senden",
+    "rate_app": "Ecency bewerten",
+    "rate": "Bewerten",
     "dm-privacy-updated": "DM-Datenschutzeinstellungen erfolgreich aktualisiert",
     "dm-privacy-failed": "DM-Datenschutzeinstellungen konnten nicht aktualisiert werden",
     "feedback_success": "E-Mail erfolgreich geöffnet",

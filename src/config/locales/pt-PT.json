@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Sabia que?",
+      "dismiss": "Dispensar"
+    }
+  },
   "perks": {
     "header": "Vantagens",
     "quests_title": "Missões",
@@ -107,6 +113,10 @@
     "attach_poll": "Anexar Enquete"
   },
   "favorites": {
+    "add": "Adicionar um favorito",
+    "add_error": "Não foi possível adicionar o favorito",
+    "cancel_add": "Cancelar adição de favorito",
+    "confirm_add": "Guardar favorito",
     "empty_list": "Nada aqui",
     "search": "Procurar nos Favoritos",
     "load_error": "Não foi possível carregar os favoritos",
@@ -351,7 +361,8 @@
     "transfer_in": "Transferência {time}",
     "delete_success": "Transferência recorrente eliminada com sucesso",
     "unsubscribe_confirmation": "Cancelar a transferência recorrente para {username}?",
-    "remaining_executions": "Restantes {executions} transferências"
+    "remaining_executions": "Restantes {executions} transferências",
+    "schedule_summary": "{executions} transferências, cada uma a cada {hours} horas"
   },
   "similar_entries": {
     "title": "Leia a seguir"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Adicionar mais imagens à publicação",
     "alert_btn_draft": "Rascunho Recente",
     "draft_save_success": "Rascunho Salvo",
+    "published_draft_delete_title": "Publicação publicada",
+    "published_draft_delete_body": "Também quer eliminar o rascunho guardado a partir do qual publicou?",
+    "published_draft_keep": "Manter rascunho",
     "snippets": "Trechos",
     "community_restriction": "Apenas membros da comunidade {title} podem publicar artigos",
     "invalid_url_error": "Por favor, insira um URL válido",
@@ -983,7 +997,7 @@
       "username_exists": "O nome já existe. Tente outro diferente",
       "username_length_error": "Número de caracteres deve ser entre 3 e 6",
       "username_contains_symbols_error": "Pode conter apenas letras, números e hífen",
-      "username_no_ascii_first_letter_error": "A primeira letra deve estar em ASCII",
+      "username_no_ascii_first_letter_error": "Deve começar com uma letra",
       "username_contains_double_hyphens": "Não deve conter hífens duplos",
       "username_contains_underscore": "Não pode conter sublinhado"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Transferência por Hivesigner",
     "hivepegged_withdraw": "HIVE Sacado",
     "recurrent_transfer": "Transferência Recorrente",
+    "fill_recurrent_transfer": "Transferência recorrente ocorrida",
     "delegations_in": "Delegações recebidas",
     "withdraw_hive": "Sacar da Poupança",
     "reblog_desc": "Compartilhe o post que gosta com seus amigos e ganhe ponto.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "Imagem de IA"
   },
   "transfer": {
+    "custom_schedule": "Personalizado ({hours}h)",
+    "close": "Fechar",
+    "favorite_username_placeholder": "Nome de utilizador",
+    "invalid_recipient_qr": "Não foi possível encontrar um nome de utilizador neste código QR.",
+    "one_time": "Única",
+    "pick_from_favorites": "Escolher destinatário dos favoritos",
+    "scan_qr_recipient": "Digitalizar um código QR para o destinatário",
+    "schedule": "Agendar",
     "select_token": "Selecionar token",
     "powering_down_subheading": "Você está atualmente diminuindo poder.",
     "power_down": "Diminuir Poder",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Aumentar Poder em LARYNX",
     "amount_select_desc_limit": " e deve ser maior que 0,001",
     "undelegate_engine": "Remover Delegação",
-    "to_bad_actor": "Tenha cuidado ao enviar para esta conta. Verifique a ortografia para evitar possíveis tentativas de phishing."
+    "to_bad_actor": "Tenha cuidado ao enviar para esta conta. Verifique a ortografia para evitar possíveis tentativas de phishing.",
+    "exchange_recurrent_warning": "{exchange} é uma exchange e pode não suportar transferências recorrentes — os fundos enviados de forma agendada podem ser perdidos. Em vez disso, utilize uma transferência única.",
+    "exchange_memo_required": "O envio para {exchange} requer um memo. Sem o memo fornecido pela exchange, os seus fundos podem ser perdidos."
   },
   "login": {
     "cancel": "cancelar",
@@ -1472,6 +1497,8 @@
       "no-one": "Ninguém (desativar mensagens diretas)"
     },
     "send_feedback": "Enviar feedback",
+    "rate_app": "Avaliar o Ecency",
+    "rate": "Avaliar",
     "dm-privacy-updated": "Definições de privacidade de mensagens diretas atualizadas com sucesso",
     "dm-privacy-failed": "Falha ao atualizar as definições de privacidade de mensagens diretas",
     "feedback_success": "Email aberto com sucesso",

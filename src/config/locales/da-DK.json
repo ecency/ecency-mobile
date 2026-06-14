@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Vidste du det?",
+      "dismiss": "Afvis"
+    }
+  },
   "perks": {
     "header": "Fordele",
     "quests_title": "Opgaver",
@@ -107,6 +113,10 @@
     "attach_poll": "Vedhæft afstemning"
   },
   "favorites": {
+    "add": "Tilføj en favorit",
+    "add_error": "Kunne ikke tilføje favorit",
+    "cancel_add": "Annuller tilføjelse af favorit",
+    "confirm_add": "Gem favorit",
     "empty_list": "Intet her",
     "search": "Søg i favoritter",
     "load_error": "Kunne ikke indlæse favoritter",
@@ -228,7 +238,7 @@
     "posts": "Post",
     "blog": "Blog",
     "communities": "Fællesskaber",
-    "hot": "Hot",
+    "hot": "Populært",
     "popular": "Populær",
     "new": "Ny",
     "friends": "Venner",
@@ -351,7 +361,8 @@
     "transfer_in": "Overførsel {time}",
     "delete_success": "Tilbagevendende overførsel slettet",
     "unsubscribe_confirmation": "Afmeld tilbagevendende overførsel til {username}?",
-    "remaining_executions": "Resterende {executions} overførsler"
+    "remaining_executions": "Resterende {executions} overførsler",
+    "schedule_summary": "{executions} overførsler, hver {hours} time"
   },
   "similar_entries": {
     "title": "Læs næste"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Tilføj flere billeder til indlægget",
     "alert_btn_draft": "Seneste kladde",
     "draft_save_success": "Kladde gemt",
+    "published_draft_delete_title": "Indlæg udgivet",
+    "published_draft_delete_body": "Vil du også slette den gemte kladde, du udgav fra?",
+    "published_draft_keep": "Behold kladde",
     "snippets": "Tekststykker",
     "community_restriction": "Kun medlemmer af fællesskabet {title} kan udgive indlæg",
     "invalid_url_error": "Indsæt en gyldig URL",
@@ -561,7 +575,7 @@
   "free_estm": {
     "timer_text": "Næste gratis spin om",
     "button": "SPIN & VIND",
-    "get_spin": "5 SPINS",
+    "get_spin": "5 SPIN",
     "spin_right": "Spin tilbage",
     "title": "Gratis Points"
   },
@@ -983,7 +997,7 @@
       "username_exists": "Brugernavnet findes allerede, prøv et andet",
       "username_length_error": "Længden skal være mellem 3 og 16 tegn",
       "username_contains_symbols_error": "Må kun indeholde bogstaver, tal og bindestreg",
-      "username_no_ascii_first_letter_error": "Første bogstav skal være i ASCII",
+      "username_no_ascii_first_letter_error": "Skal starte med et bogstav",
       "username_contains_double_hyphens": "Må ikke indeholde dobbelte bindestreger",
       "username_contains_underscore": "Må ikke indeholde understregningstegn"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "HiveSigner-overførsel",
     "hivepegged_withdraw": "HIVE hævet",
     "recurrent_transfer": "Tilbagevendende overførsel",
+    "fill_recurrent_transfer": "Tilbagevendende overførsel gennemført",
     "delegations_in": "Indgående delegeringer",
     "withdraw_hive": "Hæv opsparing",
     "reblog_desc": "Del de indlæg, du kan lide, med dine venner, og tjen points.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI-billede"
   },
   "transfer": {
+    "custom_schedule": "Tilpasset ({hours}t)",
+    "close": "Luk",
+    "favorite_username_placeholder": "Brugernavn",
+    "invalid_recipient_qr": "Kunne ikke finde et brugernavn i denne QR-kode.",
+    "one_time": "Én gang",
+    "pick_from_favorites": "Vælg modtager fra favoritter",
+    "scan_qr_recipient": "Scan en QR-kode for modtageren",
+    "schedule": "Tidsplan",
     "select_token": "Vælg token",
     "powering_down_subheading": "Du er i øjeblikket ved at unstake.",
     "power_down": "Fjern stake",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Stake LARYNX",
     "amount_select_desc_limit": " og skal være større end 0,001",
     "undelegate_engine": "Fjern delegering af token",
-    "to_bad_actor": "Vær forsigtig ved afsendelse til denne konto. Tjek venligst stavningen for at undgå mulig phishing."
+    "to_bad_actor": "Vær forsigtig ved afsendelse til denne konto. Tjek venligst stavningen for at undgå mulig phishing.",
+    "exchange_recurrent_warning": "{exchange} er en børs og understøtter muligvis ikke tilbagevendende overførsler — midler, der sendes efter en tidsplan, kan gå tabt. Brug en engangsoverførsel i stedet.",
+    "exchange_memo_required": "Afsendelse til {exchange} kræver et notat. Uden det notat, som børsen oplyser, kan dine midler gå tabt."
   },
   "login": {
     "cancel": "annuller",
@@ -1472,6 +1497,8 @@
       "no-one": "Ingen (deaktiver DM'er)"
     },
     "send_feedback": "Send feedback",
+    "rate_app": "Bedøm Ecency",
+    "rate": "Bedøm",
     "dm-privacy-updated": "DM-privatlivsindstillinger opdateret",
     "dm-privacy-failed": "Kunne ikke opdatere DM-privatlivsindstillinger",
     "feedback_success": "E-mail blev åbnet",

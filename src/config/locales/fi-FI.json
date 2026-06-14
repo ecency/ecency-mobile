@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Tiesitkö?",
+      "dismiss": "Hylkää"
+    }
+  },
   "perks": {
     "header": "Edut",
     "quests_title": "Tehtävät",
@@ -107,6 +113,10 @@
     "attach_poll": "Liitä Kysely"
   },
   "favorites": {
+    "add": "Lisää suosikki",
+    "add_error": "Suosikin lisääminen epäonnistui",
+    "cancel_add": "Peruuta suosikin lisääminen",
+    "confirm_add": "Tallenna suosikki",
     "empty_list": "Täällä ei ole mitään",
     "search": "Hae suosikeista",
     "load_error": "Suosikkeja ei voitu ladata",
@@ -351,7 +361,8 @@
     "transfer_in": "Siirtyy {time}",
     "delete_success": "Toistuva siirto poistettu",
     "unsubscribe_confirmation": "Peru toistuva siirto käyttäjälle {username}?",
-    "remaining_executions": "Jäljellä olevat {executions}-siirrot"
+    "remaining_executions": "Jäljellä olevat {executions}-siirrot",
+    "schedule_summary": "{executions} siirtoa, kukin {hours} tunnin välein"
   },
   "similar_entries": {
     "title": "Lue seuraavaksi"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Lisää kuvia julkaisuun",
     "alert_btn_draft": "Viimeisin Luonnos",
     "draft_save_success": "Luonnos tallennettu",
+    "published_draft_delete_title": "Julkaisu julkaistu",
+    "published_draft_delete_body": "Haluatko poistaa myös tallennetun luonnoksen, josta julkaisit?",
+    "published_draft_keep": "Säilytä luonnos",
     "snippets": "Katkelmat",
     "community_restriction": "Vain {title}-yhteisön jäsenet voivat julkaista",
     "invalid_url_error": "Syötä kelvollinen URL",
@@ -983,7 +997,7 @@
       "username_exists": "Käyttäjätunnus on jo olemassa, kokeile toista",
       "username_length_error": "Pituuden on oltava 3-16 symbolia",
       "username_contains_symbols_error": "Tulisi sisältää vain kirjaimia, numeroita ja tavuviivoja",
-      "username_no_ascii_first_letter_error": "Ensimmäinen kirjain ASCII-muodossa",
+      "username_no_ascii_first_letter_error": "Tulee alkaa kirjaimella",
       "username_contains_double_hyphens": "Ei kaksinkertaisia tavuviivoja",
       "username_contains_underscore": "Ei alaviivoja"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Hivesigner-siirto",
     "hivepegged_withdraw": "Nostettu HIVE",
     "recurrent_transfer": "Toistuva Siirto",
+    "fill_recurrent_transfer": "Toistuva siirto tapahtui",
     "delegations_in": "Valtuutukset",
     "withdraw_hive": "Kotiuta säästöihin",
     "reblog_desc": "Jaa haluamasi julkaisu ystävillesi ja saat pisteitä.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "Tekoälykuva"
   },
   "transfer": {
+    "custom_schedule": "Mukautettu ({hours} h)",
+    "close": "Sulje",
+    "favorite_username_placeholder": "Käyttäjänimi",
+    "invalid_recipient_qr": "Tästä QR-koodista ei löytynyt käyttäjänimeä.",
+    "one_time": "Kertaluonteinen",
+    "pick_from_favorites": "Valitse vastaanottaja suosikeista",
+    "scan_qr_recipient": "Skannaa vastaanottajan QR-koodi",
+    "schedule": "Aikatauluta",
     "select_token": "Valitse token",
     "powering_down_subheading": "Olet poistamassa panosta.",
     "power_down": "Poista panostus",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Panosta LARYNX",
     "amount_select_desc_limit": " ja on oltava suurempi kuin 0,001",
     "undelegate_engine": "Poista merkkien valtuutus",
-    "to_bad_actor": "Ole varovainen lähettäessäsi tälle tilille. Tarkista kirjoitusasu mahdollisen tietojenkalastelun varalta."
+    "to_bad_actor": "Ole varovainen lähettäessäsi tälle tilille. Tarkista kirjoitusasu mahdollisen tietojenkalastelun varalta.",
+    "exchange_recurrent_warning": "{exchange} on pörssi eikä välttämättä tue toistuvia siirtoja — aikataulutetut varat voivat kadota. Käytä sen sijaan kertasiirtoa.",
+    "exchange_memo_required": "Lähettäminen kohteeseen {exchange} vaatii viestin (memo). Ilman pörssin antamaa viestiä varasi voivat kadota."
   },
   "login": {
     "cancel": "peruuta",
@@ -1472,6 +1497,8 @@
       "no-one": "Ei kukaan (poista yksityisviestit käytöstä)"
     },
     "send_feedback": "Anna palautetta",
+    "rate_app": "Arvioi Ecency",
+    "rate": "Arvioi",
     "dm-privacy-updated": "Yksityisviestien tietosuoja-asetukset päivitettiin onnistuneesti",
     "dm-privacy-failed": "Yksityisviestien tietosuoja-asetusten päivitys epäonnistui",
     "feedback_success": "Sähköposti avattu onnistuneesti",

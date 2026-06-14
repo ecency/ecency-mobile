@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Tudtad?",
+      "dismiss": "Elvetés"
+    }
+  },
   "perks": {
     "header": "Előnyök",
     "quests_title": "Küldetések",
@@ -107,6 +113,10 @@
     "attach_poll": "Szavazás csatolása"
   },
   "favorites": {
+    "add": "Kedvenc hozzáadása",
+    "add_error": "A kedvenc hozzáadása nem sikerült",
+    "cancel_add": "Hozzáadás megszakítása",
+    "confirm_add": "Kedvenc mentése",
     "empty_list": "Itt nincs semmi",
     "search": "Keresés a kedvencekben",
     "load_error": "Nem sikerült betölteni a kedvenceket",
@@ -351,7 +361,8 @@
     "transfer_in": "Utalás {time}",
     "delete_success": "Az ismétlődő utalás sikeresen törölve",
     "unsubscribe_confirmation": "Leiratkozol a(z) {username} felé irányuló ismétlődő utalásról?",
-    "remaining_executions": "Hátralévő {executions} utalás"
+    "remaining_executions": "Hátralévő {executions} utalás",
+    "schedule_summary": "{executions} átutalás, mindegyik {hours} óránként"
   },
   "similar_entries": {
     "title": "Olvasd el ezt is"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Adj hozzá több képet a bejegyzéshez",
     "alert_btn_draft": "Legutóbbi piszkozat",
     "draft_save_success": "Piszkozat elmentve",
+    "published_draft_delete_title": "Bejegyzés közzétéve",
+    "published_draft_delete_body": "Szeretnéd törölni a piszkozatot is, amelyből közzétetted?",
+    "published_draft_keep": "Piszkozat megtartása",
     "snippets": "Kódrészletek",
     "community_restriction": "Csak a(z) {title} közösség tagjai tehetnek közzé bejegyzést",
     "invalid_url_error": "Kérjük, adj meg egy érvényes URL-t",
@@ -983,7 +997,7 @@
       "username_exists": "A felhasználónév már létezik, próbálj egy másikat",
       "username_length_error": "A hossznak 3 és 16 karakter között kell lennie",
       "username_contains_symbols_error": "Csak betűket, számokat és kötőjelet tartalmazhat",
-      "username_no_ascii_first_letter_error": "Az első betűnek ASCII karakternek kell lennie",
+      "username_no_ascii_first_letter_error": "Betűvel kell kezdődnie",
       "username_contains_double_hyphens": "Nem tartalmazhat dupla kötőjelet",
       "username_contains_underscore": "Nem tartalmazhat aláhúzásjelet"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Hivesigner átutalás",
     "hivepegged_withdraw": "HIVE kivéve",
     "recurrent_transfer": "Ismétlődő átutalás",
+    "fill_recurrent_transfer": "Ismétlődő átutalás történt",
     "delegations_in": "Beérkező delegálások",
     "withdraw_hive": "Megtakarítás kivétele",
     "reblog_desc": "Ossz meg a barátaiddal bármilyen bejegyzést, ami tetszik és nyerj pontokat.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI-kép"
   },
   "transfer": {
+    "custom_schedule": "Egyéni ({hours} óra)",
+    "close": "Bezárás",
+    "favorite_username_placeholder": "Felhasználónév",
+    "invalid_recipient_qr": "Nem található felhasználónév ebben a QR-kódban.",
+    "one_time": "Egyszeri",
+    "pick_from_favorites": "Címzett választása a kedvencek közül",
+    "scan_qr_recipient": "QR-kód beolvasása a címzetthez",
+    "schedule": "Ütemezés",
     "select_token": "Token kiválasztása",
     "powering_down_subheading": "Jelenleg letét feloldása zajlik.",
     "power_down": "Letét feloldása",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "LARYNX letétbe helyezése",
     "amount_select_desc_limit": " és nagyobbnak kell lennie 0,001-nél",
     "undelegate_engine": "Token delegálásának visszavonása",
-    "to_bad_actor": "Legyen óvatos, amikor erre a fiókra küld. Kérjük, ellenőrizze a helyesírást az esetleges adathalászat elkerülése érdekében."
+    "to_bad_actor": "Legyen óvatos, amikor erre a fiókra küld. Kérjük, ellenőrizze a helyesírást az esetleges adathalászat elkerülése érdekében.",
+    "exchange_recurrent_warning": "A(z) {exchange} egy tőzsde, és lehet, hogy nem támogatja az ismétlődő átutalásokat – az ütemezetten küldött eszközök elveszhetnek. Inkább egyszeri átutalást használj.",
+    "exchange_memo_required": "A(z) {exchange} számára történő küldéshez megjegyzés szükséges. A tőzsde által megadott megjegyzés nélkül elveszhetnek az eszközeid."
   },
   "login": {
     "cancel": "visszavonom",
@@ -1472,6 +1497,8 @@
       "no-one": "Senki (közvetlen üzenetek letiltása)"
     },
     "send_feedback": "Visszajelzés küldése",
+    "rate_app": "Ecency értékelése",
+    "rate": "Értékelés",
     "dm-privacy-updated": "A közvetlen üzenetek adatvédelmi beállításai sikeresen frissültek",
     "dm-privacy-failed": "Nem sikerült frissíteni a közvetlen üzenetek adatvédelmi beállításait",
     "feedback_success": "Email sikeresen megnyitva",
