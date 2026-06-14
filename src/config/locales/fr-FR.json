@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Le saviez-vous ?",
+      "dismiss": "Ignorer"
+    }
+  },
   "perks": {
     "header": "Avantages",
     "quests_title": "Quêtes",
@@ -107,6 +113,10 @@
     "attach_poll": "Joindre un sondage"
   },
   "favorites": {
+    "add": "Ajouter un favori",
+    "add_error": "Impossible d'ajouter le favori",
+    "cancel_add": "Annuler l'ajout du favori",
+    "confirm_add": "Enregistrer le favori",
     "empty_list": "Rien ici",
     "search": "Rechercher dans les favoris",
     "load_error": "Impossible de charger les favoris",
@@ -351,7 +361,8 @@
     "transfer_in": "Transfert {time}",
     "delete_success": "Transfert récurrent supprimé avec succès",
     "unsubscribe_confirmation": "Annuler le transfert récurrent vers {username} ?",
-    "remaining_executions": "{executions} transferts restants"
+    "remaining_executions": "{executions} transferts restants",
+    "schedule_summary": "{executions} transferts, un toutes les {hours} heures"
   },
   "similar_entries": {
     "title": "À lire ensuite"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Ajouter plus d'images à la publication",
     "alert_btn_draft": "Brouillons récents",
     "draft_save_success": "Brouillon sauvegardé",
+    "published_draft_delete_title": "Publication publiée",
+    "published_draft_delete_body": "Voulez-vous aussi supprimer le brouillon enregistré à partir duquel vous avez publié ?",
+    "published_draft_keep": "Conserver le brouillon",
     "snippets": "Extraits",
     "community_restriction": "Seuls les membres de la communauté {title} peuvent publier",
     "invalid_url_error": "Merci d'entrer une url valide",
@@ -983,7 +997,7 @@
       "username_exists": "Ce nom d'utilisateur existe déjà, essayez-en un autre",
       "username_length_error": "La longueur doit être comprise entre 3 et 16 caractères",
       "username_contains_symbols_error": "Ne doit contenir que des lettres, des chiffres et des traits d'union",
-      "username_no_ascii_first_letter_error": "La première lettre doit être en ASCII",
+      "username_no_ascii_first_letter_error": "Doit commencer par une lettre",
       "username_contains_double_hyphens": "Ne doit pas contenir de doubles traits d'union",
       "username_contains_underscore": "Ne doit pas contenir de trait de soulignement"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Transfert Hivesigner",
     "hivepegged_withdraw": "HIVE Retirée",
     "recurrent_transfer": "Transfert récurrent",
+    "fill_recurrent_transfer": "Transfert récurrent effectué",
     "delegations_in": "Délégations entrantes",
     "withdraw_hive": "Retirer les économies",
     "reblog_desc": "Partagez les publication que vous aimez avec vos amis et gagnez des points.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "Image IA"
   },
   "transfer": {
+    "custom_schedule": "Personnalisé ({hours} h)",
+    "close": "Fermer",
+    "favorite_username_placeholder": "Nom d'utilisateur",
+    "invalid_recipient_qr": "Impossible de trouver un nom d'utilisateur dans ce code QR.",
+    "one_time": "Ponctuel",
+    "pick_from_favorites": "Choisir un destinataire parmi les favoris",
+    "scan_qr_recipient": "Scanner un code QR pour le destinataire",
+    "schedule": "Planifier",
     "select_token": "Sélectionner un token",
     "powering_down_subheading": "Vous êtes en train de retirer votre stake.",
     "power_down": "Retirer du stake",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Staker LARYNX",
     "amount_select_desc_limit": " et doit être supérieur à 0.001",
     "undelegate_engine": "Annuler la délégation du token",
-    "to_bad_actor": "Soyez prudent en envoyant vers ce compte. Veuillez vérifier l'orthographe pour éviter tout hameçonnage."
+    "to_bad_actor": "Soyez prudent en envoyant vers ce compte. Veuillez vérifier l'orthographe pour éviter tout hameçonnage.",
+    "exchange_recurrent_warning": "{exchange} est une plateforme d'échange et peut ne pas prendre en charge les transferts récurrents — les fonds envoyés de façon planifiée risquent d'être perdus. Utilisez plutôt un transfert ponctuel.",
+    "exchange_memo_required": "L'envoi vers {exchange} nécessite un mémo. Sans le mémo fourni par la plateforme d'échange, vos fonds risquent d'être perdus."
   },
   "login": {
     "cancel": "annuler",
@@ -1472,6 +1497,8 @@
       "no-one": "Personne (désactiver les MP)"
     },
     "send_feedback": "Envoyer une suggestion",
+    "rate_app": "Évaluer Ecency",
+    "rate": "Évaluer",
     "dm-privacy-updated": "Paramètres de confidentialité des MP mis à jour avec succès",
     "dm-privacy-failed": "Échec de la mise à jour des paramètres de confidentialité des MP",
     "feedback_success": "E-mail ouvert avec succès",

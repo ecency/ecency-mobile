@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "А ви знали?",
+      "dismiss": "Закрити"
+    }
+  },
   "perks": {
     "header": "Переваги",
     "quests_title": "Завдання",
@@ -107,6 +113,10 @@
     "attach_poll": "Прикріпити опитування"
   },
   "favorites": {
+    "add": "Додати до обраного",
+    "add_error": "Не вдалося додати до обраного",
+    "cancel_add": "Скасувати додавання до обраного",
+    "confirm_add": "Зберегти до обраного",
     "empty_list": "Тут поки що нічого немає",
     "search": "Пошук в обраному",
     "load_error": "Не вдалося завантажити обране",
@@ -351,7 +361,8 @@
     "transfer_in": "Переказ {time}",
     "delete_success": "Регулярний переказ успішно видалено",
     "unsubscribe_confirmation": "Скасувати регулярний переказ до {username}?",
-    "remaining_executions": "Залишилося переказів: {executions}"
+    "remaining_executions": "Залишилося переказів: {executions}",
+    "schedule_summary": "{executions} переказів, кожен раз на {hours} год"
   },
   "similar_entries": {
     "title": "Читати далі"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Додати більше зображень до допису",
     "alert_btn_draft": "Недавня чернетка",
     "draft_save_success": "Чернетку збережено",
+    "published_draft_delete_title": "Допис опубліковано",
+    "published_draft_delete_body": "Бажаєте також видалити збережений чернетку, з якого ви публікували?",
+    "published_draft_keep": "Зберегти чернетку",
     "snippets": "Фрагменти",
     "community_restriction": "Лише учасники спільноти {title} можуть публікувати дописи",
     "invalid_url_error": "Вставте дійсний URL",
@@ -983,7 +997,7 @@
       "username_exists": "Це ім'я вже існує, спробуйте інше",
       "username_length_error": "Довжина має бути від 3 до 16 символів",
       "username_contains_symbols_error": "Повинен містити тільки літери, цифри або дефіс",
-      "username_no_ascii_first_letter_error": "Перша літера повинна починатись з ASCII",
+      "username_no_ascii_first_letter_error": "Має починатися з літери",
       "username_contains_double_hyphens": "Не повинно містити подвійних дефісів",
       "username_contains_underscore": "Не повинно містити підкреслення"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Hivesigner транзакція",
     "hivepegged_withdraw": "HIVE виведено",
     "recurrent_transfer": "Періодичний переказ",
+    "fill_recurrent_transfer": "Відбувся регулярний переказ",
     "delegations_in": "Вхідні делегування",
     "withdraw_hive": "Вивести заощадження",
     "reblog_desc": "Діліться з друзями постами, що вам подобаються, та заробляйте бали.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "Зображення AI"
   },
   "transfer": {
+    "custom_schedule": "Власний ({hours} год)",
+    "close": "Закрити",
+    "favorite_username_placeholder": "Ім’я користувача",
+    "invalid_recipient_qr": "Не вдалося знайти ім’я користувача в цьому QR-коді.",
+    "one_time": "Одноразово",
+    "pick_from_favorites": "Обрати отримувача з обраного",
+    "scan_qr_recipient": "Відскануйте QR-код отримувача",
+    "schedule": "За розкладом",
     "select_token": "Вибрати токен",
     "powering_down_subheading": "Наразі ви виконуєте розстейкання.",
     "power_down": "Розстейкати",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Застейкати LARYNX",
     "amount_select_desc_limit": " і має бути більше за 0.001",
     "undelegate_engine": "Скасувати делегування токена",
-    "to_bad_actor": "Будьте обережні, надсилаючи на цей обліковий запис. Будь ласка, перевірте правильність написання на випадок можливого фішингу."
+    "to_bad_actor": "Будьте обережні, надсилаючи на цей обліковий запис. Будь ласка, перевірте правильність написання на випадок можливого фішингу.",
+    "exchange_recurrent_warning": "{exchange} — це біржа, яка може не підтримувати регулярні перекази; кошти, надіслані за розкладом, можуть бути втрачені. Натомість скористайтеся одноразовим переказом.",
+    "exchange_memo_required": "Надсилання на {exchange} потребує примітки. Без наданої біржею примітки ваші кошти можуть бути втрачені."
   },
   "login": {
     "cancel": "скасувати",
@@ -1472,6 +1497,8 @@
       "no-one": "Ніхто (вимкнути особисті повідомлення)"
     },
     "send_feedback": "Надіслати відгук",
+    "rate_app": "Оцінити Ecency",
+    "rate": "Оцінити",
     "dm-privacy-updated": "Налаштування приватності особистих повідомлень успішно оновлено",
     "dm-privacy-failed": "Не вдалося оновити налаштування приватності особистих повідомлень",
     "feedback_success": "Електронний лист успішно відкрито",

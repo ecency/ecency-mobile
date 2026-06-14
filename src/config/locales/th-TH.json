@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "รู้หรือไม่?",
+      "dismiss": "ปิด"
+    }
+  },
   "perks": {
     "header": "สิทธิพิเศษ",
     "quests_title": "ภารกิจ",
@@ -107,6 +113,10 @@
     "attach_poll": "แนบโพล"
   },
   "favorites": {
+    "add": "เพิ่มรายการโปรด",
+    "add_error": "ไม่สามารถเพิ่มรายการโปรดได้",
+    "cancel_add": "ยกเลิกการเพิ่มรายการโปรด",
+    "confirm_add": "บันทึกรายการโปรด",
     "empty_list": "ไม่มีอะไรที่นี่",
     "search": "ค้นหาในรายการโปรด",
     "load_error": "ไม่สามารถโหลดรายการโปรดได้",
@@ -351,7 +361,8 @@
     "transfer_in": "โอน {time}",
     "delete_success": "ลบการโอนแบบเกิดซ้ำสำเร็จ",
     "unsubscribe_confirmation": "ยกเลิกการโอนแบบเกิดซ้ำไปยัง {username} หรือไม่?",
-    "remaining_executions": "เหลืออีก {executions} ครั้ง"
+    "remaining_executions": "เหลืออีก {executions} ครั้ง",
+    "schedule_summary": "{executions} การโอน แต่ละครั้งทุก {hours} ชั่วโมง"
   },
   "similar_entries": {
     "title": "อ่านต่อ"
@@ -387,6 +398,9 @@
     "add_more_imgs": "เพิ่มรูปภาพลงในโพสต์",
     "alert_btn_draft": "ฉบับร่างล่าสุด",
     "draft_save_success": "บันทึกฉบับร่างแล้ว",
+    "published_draft_delete_title": "เผยแพร่โพสต์แล้ว",
+    "published_draft_delete_body": "คุณต้องการลบฉบับร่างที่บันทึกไว้ซึ่งคุณเผยแพร่จากฉบับนั้นด้วยหรือไม่?",
+    "published_draft_keep": "เก็บฉบับร่างไว้",
     "snippets": "สนิปเป็ต",
     "community_restriction": "เฉพาะสมาชิกของชุมชน {title} เท่านั้นที่เผยแพร่โพสต์ได้",
     "invalid_url_error": "โปรดใส่ URL ที่ถูกต้อง",
@@ -983,7 +997,7 @@
       "username_exists": "ชื่อผู้ใช้นี้มีอยู่แล้ว ลองชื่ออื่น",
       "username_length_error": "ความยาวควรอยู่ระหว่าง 3 ถึง 16 ตัวอักษร",
       "username_contains_symbols_error": "ควรมีเฉพาะตัวอักษร ตัวเลข และเครื่องหมายขีดกลางเท่านั้น",
-      "username_no_ascii_first_letter_error": "ตัวอักษรแรกควรเป็น ASCII",
+      "username_no_ascii_first_letter_error": "ควรขึ้นต้นด้วยตัวอักษร",
       "username_contains_double_hyphens": "ไม่ควรมีเครื่องหมายขีดกลางซ้อนกัน",
       "username_contains_underscore": "ไม่ควรมีเครื่องหมายขีดล่าง"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "การโอนผ่าน HiveSigner",
     "hivepegged_withdraw": "ถอน HIVE แล้ว",
     "recurrent_transfer": "การโอนแบบประจำ",
+    "fill_recurrent_transfer": "มีการโอนแบบเป็นรอบเกิดขึ้น",
     "delegations_in": "การมอบหมายที่เข้ามา",
     "withdraw_hive": "ถอนเงินออม",
     "reblog_desc": "แชร์โพสต์ที่คุณชอบกับเพื่อนๆ และรับ Points",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "ภาพ AI"
   },
   "transfer": {
+    "custom_schedule": "กำหนดเอง ({hours} ชม.)",
+    "close": "ปิด",
+    "favorite_username_placeholder": "ชื่อผู้ใช้",
+    "invalid_recipient_qr": "ไม่พบชื่อผู้ใช้ในรหัส QR นี้",
+    "one_time": "ครั้งเดียว",
+    "pick_from_favorites": "เลือกผู้รับจากรายการโปรด",
+    "scan_qr_recipient": "สแกนรหัส QR เพื่อหาผู้รับ",
+    "schedule": "กำหนดเวลา",
     "select_token": "เลือกโทเค็น",
     "powering_down_subheading": "ขณะนี้คุณกำลังเลิก Stake",
     "power_down": "เลิก Stake",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "สเตก LARYNX",
     "amount_select_desc_limit": " และต้องมากกว่า 0.001",
     "undelegate_engine": "ยกเลิกการมอบหมายโทเคน",
-    "to_bad_actor": "โปรดใช้ความระมัดระวังในการส่งไปยังบัญชีนี้ กรุณาตรวจสอบการสะกดอีกครั้งเพื่อป้องกันการหลอกลวง (phishing)"
+    "to_bad_actor": "โปรดใช้ความระมัดระวังในการส่งไปยังบัญชีนี้ กรุณาตรวจสอบการสะกดอีกครั้งเพื่อป้องกันการหลอกลวง (phishing)",
+    "exchange_recurrent_warning": "{exchange} เป็นเอ็กซ์เชนจ์และอาจไม่รองรับการโอนแบบเป็นรอบ เงินที่ส่งตามกำหนดเวลาอาจสูญหายได้ โปรดใช้การโอนแบบครั้งเดียวแทน",
+    "exchange_memo_required": "การส่งไปยัง {exchange} จำเป็นต้องมีบันทึกช่วยจำ (memo) หากไม่มี memo ที่ทางเอ็กซ์เชนจ์กำหนดให้ เงินของคุณอาจสูญหายได้"
   },
   "login": {
     "cancel": "ยกเลิก",
@@ -1472,6 +1497,8 @@
       "no-one": "ไม่มีใคร (ปิดข้อความส่วนตัว)"
     },
     "send_feedback": "ส่งความคิดเห็น",
+    "rate_app": "ให้คะแนน Ecency",
+    "rate": "ให้คะแนน",
     "dm-privacy-updated": "อัปเดตการตั้งค่าความเป็นส่วนตัวของข้อความส่วนตัวสำเร็จแล้ว",
     "dm-privacy-failed": "ไม่สามารถอัปเดตการตั้งค่าความเป็นส่วนตัวของข้อความส่วนตัวได้",
     "feedback_success": "เปิดอีเมลสำเร็จแล้ว",

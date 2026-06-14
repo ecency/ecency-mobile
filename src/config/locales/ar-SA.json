@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "هل كنت تعلم؟",
+      "dismiss": "تجاهل"
+    }
+  },
   "perks": {
     "header": "المزايا",
     "quests_title": "المهام",
@@ -107,6 +113,10 @@
     "attach_poll": "إرفاق استطلاع"
   },
   "favorites": {
+    "add": "إضافة إلى المفضلة",
+    "add_error": "تعذّرت الإضافة إلى المفضلة",
+    "cancel_add": "إلغاء الإضافة إلى المفضلة",
+    "confirm_add": "حفظ في المفضلة",
     "empty_list": "لا شيء هنا",
     "search": "البحث في المفضلات",
     "load_error": "لا يمكن تحميل المفضلات",
@@ -351,7 +361,8 @@
     "transfer_in": "تحويل {time}",
     "delete_success": "تم حذف التحويل المتكرر بنجاح",
     "unsubscribe_confirmation": "إلغاء اشتراك التحويل المتكرر إلى {username}؟",
-    "remaining_executions": "متبقٍّ {executions} تحويلات"
+    "remaining_executions": "متبقٍّ {executions} تحويلات",
+    "schedule_summary": "{executions} تحويلات، كل {hours} ساعة"
   },
   "similar_entries": {
     "title": "اقرأ التالي"
@@ -387,6 +398,9 @@
     "add_more_imgs": "إضافة المزيد من الصور",
     "alert_btn_draft": "المسودة الأخيرة",
     "draft_save_success": "تم حفظ المسودة",
+    "published_draft_delete_title": "تم نشر المنشور",
+    "published_draft_delete_body": "هل تريد أيضًا حذف المسودة المحفوظة التي نشرت منها؟",
+    "published_draft_keep": "الاحتفاظ بالمسودة",
     "snippets": "مقتطفات",
     "community_restriction": "يمكن لأعضاء مجتمع {title} فقط نشر منشور",
     "invalid_url_error": "الرجاء إدخال رابط صحيح",
@@ -983,7 +997,7 @@
       "username_exists": "اسم المستخدم موجود بالفعل، جرب اسمًا مختلفًا",
       "username_length_error": "يجب أن يكون الطول بين 3 و 16 رمزاً",
       "username_contains_symbols_error": "يجب أن تحتوي على أحرف وأرقام وواصلة فقط",
-      "username_no_ascii_first_letter_error": "يجب أن يكون الحرف الأول بتنسيق ASCII",
+      "username_no_ascii_first_letter_error": "يجب أن يبدأ بحرف",
       "username_contains_double_hyphens": "يجب ألا تحتوي على واصلات مزدوجة",
       "username_contains_underscore": "يجب ألا تحتوي على شرطة سفلية"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "تحويل بواسطة Hivesigner",
     "hivepegged_withdraw": "Hive المسحوبة",
     "recurrent_transfer": "تحويل متكرر",
+    "fill_recurrent_transfer": "تم تنفيذ تحويل متكرر",
     "delegations_in": "التفويضات الواردة",
     "withdraw_hive": "سحب المدخرات",
     "reblog_desc": "شارك المنشور الذي تحبه مع أصدقائك واكسب نقاط.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "صورة بالذكاء الاصطناعي"
   },
   "transfer": {
+    "custom_schedule": "مخصص ({hours} ساعة)",
+    "close": "إغلاق",
+    "favorite_username_placeholder": "اسم المستخدم",
+    "invalid_recipient_qr": "تعذّر العثور على اسم مستخدم في رمز QR هذا.",
+    "one_time": "لمرة واحدة",
+    "pick_from_favorites": "اختيار المستلم من المفضلة",
+    "scan_qr_recipient": "امسح رمز QR للمستلم",
+    "schedule": "جدولة",
     "select_token": "اختر العملة",
     "powering_down_subheading": "أنت تقوم حاليًا بإلغاء التجميد.",
     "power_down": "إلغاء التجميد",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "تجميد LARYNX",
     "amount_select_desc_limit": " ويجب أن يكون أكبر من 0.001",
     "undelegate_engine": "إلغاء تفويض الرمز",
-    "to_bad_actor": "توخَّ الحذر عند الإرسال إلى هذا الحساب. يرجى التحقق مرة أخرى من التهجئة تجنبًا لاحتمالية التصيّد."
+    "to_bad_actor": "توخَّ الحذر عند الإرسال إلى هذا الحساب. يرجى التحقق مرة أخرى من التهجئة تجنبًا لاحتمالية التصيّد.",
+    "exchange_recurrent_warning": "إن {exchange} منصة تداول وقد لا تدعم التحويلات المتكررة — فقد تُفقد الأموال المرسلة وفق جدول زمني. استخدم تحويلًا لمرة واحدة بدلًا من ذلك.",
+    "exchange_memo_required": "يتطلب الإرسال إلى {exchange} مذكرة (memo). بدون المذكرة المقدمة من المنصة قد تُفقد أموالك."
   },
   "login": {
     "cancel": "إلغاء",
@@ -1472,6 +1497,8 @@
       "no-one": "لا أحد (تعطيل الرسائل المباشرة)"
     },
     "send_feedback": "إرسال الملاحظات",
+    "rate_app": "تقييم Ecency",
+    "rate": "تقييم",
     "dm-privacy-updated": "تم تحديث إعدادات خصوصية الرسائل المباشرة بنجاح",
     "dm-privacy-failed": "فشل تحديث إعدادات خصوصية الرسائل المباشرة",
     "feedback_success": "تم فتح البريد الإلكتروني بنجاح",

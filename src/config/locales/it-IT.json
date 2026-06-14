@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Lo sapevi?",
+      "dismiss": "Ignora"
+    }
+  },
   "perks": {
     "header": "Vantaggi",
     "quests_title": "Missioni",
@@ -107,6 +113,10 @@
     "attach_poll": "Allega sondaggio"
   },
   "favorites": {
+    "add": "Aggiungi un preferito",
+    "add_error": "Impossibile aggiungere il preferito",
+    "cancel_add": "Annulla aggiunta preferito",
+    "confirm_add": "Salva preferito",
     "empty_list": "Non c'è niente qui",
     "search": "Cerca tra i preferiti",
     "load_error": "Impossibile caricare i preferiti",
@@ -351,7 +361,8 @@
     "transfer_in": "Trasferimento {time}",
     "delete_success": "Trasferimento ricorrente eliminato con successo",
     "unsubscribe_confirmation": "Annullare il trasferimento ricorrente a {username}?",
-    "remaining_executions": "{executions} trasferimenti rimanenti"
+    "remaining_executions": "{executions} trasferimenti rimanenti",
+    "schedule_summary": "{executions} trasferimenti, ciascuno ogni {hours} ore"
   },
   "similar_entries": {
     "title": "Leggi dopo"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Aggiungi altre immagini al post",
     "alert_btn_draft": "Bozza recente",
     "draft_save_success": "Bozza salvata",
+    "published_draft_delete_title": "Post pubblicato",
+    "published_draft_delete_body": "Vuoi eliminare anche la bozza salvata da cui hai pubblicato?",
+    "published_draft_keep": "Mantieni bozza",
     "snippets": "Snippet",
     "community_restriction": "Solo i membri della community {title} possono pubblicare post",
     "invalid_url_error": "Inserisci un URL valido",
@@ -625,7 +639,7 @@
   "cross_post": {
     "message_placeholder": "Condividi qui i tuoi pensieri...",
     "description": "Le ricompense vengono automaticamente rifiutate per il cross post e le discussioni sotto il cross post saranno diverse e seguiranno linee guida della community differenti.",
-    "title": "Cross Post"
+    "title": "Pubblicazione incrociata"
   },
   "ai_assist": {
     "title": "Assistente di scrittura IA",
@@ -983,7 +997,7 @@
       "username_exists": "Nome utente già esistente, provane uno diverso",
       "username_length_error": "La lunghezza deve essere compresa tra 3 e 16 caratteri",
       "username_contains_symbols_error": "Deve contenere solo lettere, numeri e trattini",
-      "username_no_ascii_first_letter_error": "La prima lettera deve essere in ASCII",
+      "username_no_ascii_first_letter_error": "Deve iniziare con una lettera",
       "username_contains_double_hyphens": "Non deve contenere doppi trattini",
       "username_contains_underscore": "Non deve contenere trattini bassi"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Trasferimento su Hivesigner",
     "hivepegged_withdraw": "HIVE prelevato",
     "recurrent_transfer": "Trasferimento ricorrente",
+    "fill_recurrent_transfer": "Trasferimento ricorrente effettuato",
     "delegations_in": "Deleghe in entrata",
     "withdraw_hive": "Preleva dai risparmi",
     "reblog_desc": "Condividi il post che ti piace con i tuoi amici e guadagna punti.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "Immagine AI"
   },
   "transfer": {
+    "custom_schedule": "Personalizzato ({hours}h)",
+    "close": "Chiudi",
+    "favorite_username_placeholder": "Username",
+    "invalid_recipient_qr": "Impossibile trovare un username in questo codice QR.",
+    "one_time": "Una tantum",
+    "pick_from_favorites": "Scegli il destinatario dai preferiti",
+    "scan_qr_recipient": "Scansiona un codice QR per il destinatario",
+    "schedule": "Programma",
     "select_token": "Seleziona token",
     "powering_down_subheading": "Stai attualmente rimuovendo dallo staking.",
     "power_down": "Togli dallo staking",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Metti LARYNX in stake",
     "amount_select_desc_limit": " e deve essere maggiore di 0,001",
     "undelegate_engine": "Annulla delega del token",
-    "to_bad_actor": "Presta attenzione nell'inviare a questo account. Controlla l'ortografia per evitare possibili tentativi di phishing."
+    "to_bad_actor": "Presta attenzione nell'inviare a questo account. Controlla l'ortografia per evitare possibili tentativi di phishing.",
+    "exchange_recurrent_warning": "{exchange} è un exchange e potrebbe non supportare i trasferimenti ricorrenti — i fondi inviati in modo programmato possono andare persi. Usa invece un trasferimento singolo.",
+    "exchange_memo_required": "L'invio a {exchange} richiede un memo. Senza il memo fornito dall'exchange i tuoi fondi potrebbero andare persi."
   },
   "login": {
     "cancel": "cancella",
@@ -1472,6 +1497,8 @@
       "no-one": "Nessuno (disabilita i messaggi diretti)"
     },
     "send_feedback": "Invia recensione",
+    "rate_app": "Valuta Ecency",
+    "rate": "Valuta",
     "dm-privacy-updated": "Impostazioni di privacy dei messaggi diretti aggiornate con successo",
     "dm-privacy-failed": "Impossibile aggiornare le impostazioni di privacy dei messaggi diretti",
     "feedback_success": "Email inviata con successo",

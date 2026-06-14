@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Știai că?",
+      "dismiss": "Închide"
+    }
+  },
   "perks": {
     "header": "Avantaje",
     "quests_title": "Misiuni",
@@ -107,6 +113,10 @@
     "attach_poll": "Atașează sondaj"
   },
   "favorites": {
+    "add": "Adaugă un favorit",
+    "add_error": "Nu s-a putut adăuga la favorite",
+    "cancel_add": "Anulează adăugarea la favorite",
+    "confirm_add": "Salvează favoritul",
     "empty_list": "Nici un rezultat",
     "search": "Caută în favorite",
     "load_error": "Nu s-au putut încărca favoritele",
@@ -351,7 +361,8 @@
     "transfer_in": "Transfer {time}",
     "delete_success": "Transferul recurent a fost șters cu succes",
     "unsubscribe_confirmation": "Dezabonezi transferul recurent către {username}?",
-    "remaining_executions": "{executions} transferuri rămase"
+    "remaining_executions": "{executions} transferuri rămase",
+    "schedule_summary": "{executions} transferuri, fiecare la {hours} ore"
   },
   "similar_entries": {
     "title": "Citește în continuare"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Adaugă mai multe imagini în postare",
     "alert_btn_draft": "Ciornă recentă",
     "draft_save_success": "Ciornă salvată",
+    "published_draft_delete_title": "Postare publicată",
+    "published_draft_delete_body": "Vrei să ștergi și ciorna salvată din care ai publicat?",
+    "published_draft_keep": "Păstrează ciorna",
     "snippets": "Fragmente",
     "community_restriction": "Doar membrii comunității {title} pot publica postări",
     "invalid_url_error": "Te rugăm să introduci o adresă URL validă",
@@ -983,7 +997,7 @@
       "username_exists": "Numele de utilizator există deja, încercați altul",
       "username_length_error": "Lungimea trebuie să fie între 3 și 16 caractere",
       "username_contains_symbols_error": "Trebuie să conțină doar litere, cifre și cratimă",
-      "username_no_ascii_first_letter_error": "Prima literă trebuie să fie în ASCII",
+      "username_no_ascii_first_letter_error": "Trebuie să înceapă cu o literă",
       "username_contains_double_hyphens": "Nu trebuie să conțină cratimă dublă",
       "username_contains_underscore": "Nu trebuie să conțină liniuță de subliniere"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Transfer Hivesigner",
     "hivepegged_withdraw": "HIVE retras",
     "recurrent_transfer": "Transfer recurent",
+    "fill_recurrent_transfer": "A avut loc un transfer recurent",
     "delegations_in": "Delegări primite",
     "withdraw_hive": "Retrage din economii",
     "reblog_desc": "Distribuie postările care îți plac pentru prietenii tăi și câștigă puncte.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "Imagine AI"
   },
   "transfer": {
+    "custom_schedule": "Personalizat ({hours}h)",
+    "close": "Închide",
+    "favorite_username_placeholder": "Nume de utilizator",
+    "invalid_recipient_qr": "Nu s-a găsit niciun nume de utilizator în acest cod QR.",
+    "one_time": "Unic",
+    "pick_from_favorites": "Alege destinatarul din favorite",
+    "scan_qr_recipient": "Scanează un cod QR pentru destinatar",
+    "schedule": "Programează",
     "select_token": "Selectează token",
     "powering_down_subheading": "În prezent efectuați unstake.",
     "power_down": "Retrage",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Depune LARYNX",
     "amount_select_desc_limit": " și trebuie să fie mai mare de 0,001",
     "undelegate_engine": "Anulează delegarea token",
-    "to_bad_actor": "Procedează cu atenție când trimiți către acest cont. Verifică din nou ortografia pentru a evita posibile tentative de phishing."
+    "to_bad_actor": "Procedează cu atenție când trimiți către acest cont. Verifică din nou ortografia pentru a evita posibile tentative de phishing.",
+    "exchange_recurrent_warning": "{exchange} este un exchange și este posibil să nu accepte transferuri recurente — fondurile trimise programat pot fi pierdute. Folosește în schimb un transfer unic.",
+    "exchange_memo_required": "Trimiterea către {exchange} necesită un memo. Fără memo-ul oferit de exchange, fondurile tale pot fi pierdute."
   },
   "login": {
     "cancel": "anulează",
@@ -1472,6 +1497,8 @@
       "no-one": "Nimeni (dezactivează mesajele directe)"
     },
     "send_feedback": "Trimite Feedback",
+    "rate_app": "Evaluează Ecency",
+    "rate": "Evaluează",
     "dm-privacy-updated": "Setările de confidențialitate pentru mesaje directe au fost actualizate cu succes",
     "dm-privacy-failed": "Actualizarea setărilor de confidențialitate pentru mesaje directe a eșuat",
     "feedback_success": "E-mail deschis cu succes",

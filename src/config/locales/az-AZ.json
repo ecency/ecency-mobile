@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Bilirdinizmi?",
+      "dismiss": "Bağla"
+    }
+  },
   "perks": {
     "header": "Üstünlüklər",
     "quests_title": "Tapşırıqlar",
@@ -107,6 +113,10 @@
     "attach_poll": "Sorğu əlavə et"
   },
   "favorites": {
+    "add": "Sevimli əlavə et",
+    "add_error": "Sevimli əlavə edilə bilmədi",
+    "cancel_add": "Sevimli əlavə etməni ləğv et",
+    "confirm_add": "Sevimlini saxla",
     "empty_list": "Burada heç nə yoxdur",
     "search": "Sevimlilərdə axtar",
     "load_error": "Sevimlilər yüklənilə bilmədi",
@@ -351,7 +361,8 @@
     "transfer_in": "Köçürmə {time}",
     "delete_success": "Təkrarlanan köçürmə uğurla silindi",
     "unsubscribe_confirmation": "{username} ünvanına təkrarlanan köçürmədən imtina edilsin?",
-    "remaining_executions": "Qalan {executions} köçürmə"
+    "remaining_executions": "Qalan {executions} köçürmə",
+    "schedule_summary": "{executions} köçürmə, hər biri hər {hours} saatdan bir"
   },
   "similar_entries": {
     "title": "Növbəti oxu"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Paylaşıma daha çox şəkil əlavə et",
     "alert_btn_draft": "Son qaralama",
     "draft_save_success": "Qaralama saxlanıldı",
+    "published_draft_delete_title": "Yazı dərc edildi",
+    "published_draft_delete_body": "Dərc etdiyiniz qaralamanı da silmək istəyirsiniz?",
+    "published_draft_keep": "Qaralamanı saxla",
     "snippets": "Hissələr",
     "community_restriction": "Yalnız {title} icmasının üzvləri paylaşım dərc edə bilər",
     "invalid_url_error": "Zəhmət olmasa düzgün URL daxil et",
@@ -983,7 +997,7 @@
       "username_exists": "İstifadəçi adı artıq mövcuddur, başqasını sınayın",
       "username_length_error": "Uzunluq 3 ilə 16 simvol arasında olmalıdır",
       "username_contains_symbols_error": "Yalnız hərflər, rəqəmlər və defis ehtiva etməlidir",
-      "username_no_ascii_first_letter_error": "İlk hərf ASCII-də olmalıdır",
+      "username_no_ascii_first_letter_error": "Hərflə başlamalıdır",
       "username_contains_double_hyphens": "İkiqat defis ehtiva etməməlidir",
       "username_contains_underscore": "Alt xətt ehtiva etməməlidir"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "HiveSigner köçürməsi",
     "hivepegged_withdraw": "HIVE çıxarıldı",
     "recurrent_transfer": "Təkrarlanan köçürmə",
+    "fill_recurrent_transfer": "Təkrarlanan köçürmə baş verdi",
     "delegations_in": "Gələn deleqasiyalar",
     "withdraw_hive": "Əmanəti çıxar",
     "reblog_desc": "Bəyəndiyiniz göndərişləri dostlarınızla paylaşın və xal qazanın.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI şəkil"
   },
   "transfer": {
+    "custom_schedule": "Fərdi ({hours}s)",
+    "close": "Bağla",
+    "favorite_username_placeholder": "İstifadəçi adı",
+    "invalid_recipient_qr": "Bu QR kodda istifadəçi adı tapılmadı.",
+    "one_time": "Birdəfəlik",
+    "pick_from_favorites": "Alıcını sevimlilərdən seçin",
+    "scan_qr_recipient": "Alıcı üçün QR kodu skan edin",
+    "schedule": "Cədvəl",
     "select_token": "Token seçin",
     "powering_down_subheading": "Hazırda steyki çıxarırsınız.",
     "power_down": "Steyki çıxar",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "LARYNX steyk et",
     "amount_select_desc_limit": " və 0.001-dən böyük olmalıdır",
     "undelegate_engine": "Token deleqasiyasını geri al",
-    "to_bad_actor": "Bu hesaba göndərərkən diqqətli olun. Mümkün fişinq üçün yazılışı bir daha yoxlayın."
+    "to_bad_actor": "Bu hesaba göndərərkən diqqətli olun. Mümkün fişinq üçün yazılışı bir daha yoxlayın.",
+    "exchange_recurrent_warning": "{exchange} bir birjadır və təkrarlanan köçürmələri dəstəkləməyə bilər — cədvəl üzrə göndərilən vəsaitlər itə bilər. Bunun əvəzinə birdəfəlik köçürmədən istifadə edin.",
+    "exchange_memo_required": "{exchange} ünvanına göndərmə üçün qeyd (memo) tələb olunur. Birjanın verdiyi qeyd olmadan vəsaitləriniz itə bilər."
   },
   "login": {
     "cancel": "imtina",
@@ -1472,6 +1497,8 @@
       "no-one": "Heç kim (DM-ləri söndür)"
     },
     "send_feedback": "Əks Əlaqə Göndər",
+    "rate_app": "Ecency-ni qiymətləndir",
+    "rate": "Qiymətləndir",
     "dm-privacy-updated": "DM məxfilik parametrləri uğurla yeniləndi",
     "dm-privacy-failed": "DM məxfilik parametrlərini yeniləmək alınmadı",
     "feedback_success": "E-poçt uğurla açıldı",

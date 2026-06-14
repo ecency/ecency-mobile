@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "¿Sabías que?",
+      "dismiss": "Descartar"
+    }
+  },
   "perks": {
     "header": "Ventajas",
     "quests_title": "Misiónes",
@@ -107,6 +113,10 @@
     "attach_poll": "Adjuntar encuesta"
   },
   "favorites": {
+    "add": "Añadir un favorito",
+    "add_error": "No se pudo añadir el favorito",
+    "cancel_add": "Cancelar añadir favorito",
+    "confirm_add": "Guardar favorito",
     "empty_list": "Nada aquí",
     "search": "Buscar en favoritos",
     "load_error": "No se pudo cargar favoritos",
@@ -351,7 +361,8 @@
     "transfer_in": "Transferir {time}",
     "delete_success": "Transferencia recurrente eliminada correctamente",
     "unsubscribe_confirmation": "¿Eliminar la transferencia recurrente a {username}?",
-    "remaining_executions": "{executions} Transferencias restantes"
+    "remaining_executions": "{executions} Transferencias restantes",
+    "schedule_summary": "{executions} transferencias, cada {hours} horas"
   },
   "similar_entries": {
     "title": "Leer siguiente"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Añadir más imágenes para publicar",
     "alert_btn_draft": "Borrador reciente",
     "draft_save_success": "Borrador guardado",
+    "published_draft_delete_title": "Publicación publicada",
+    "published_draft_delete_body": "¿Quieres eliminar también el borrador guardado desde el que publicaste?",
+    "published_draft_keep": "Mantener borrador",
     "snippets": "Fragmentos de código",
     "community_restriction": "Solo pueden publicar los miembros de la comunidad {title}",
     "invalid_url_error": "Por favor, introduzca una url válida",
@@ -983,7 +997,7 @@
       "username_exists": "El nombre de usuario ya existe, intenta uno diferente",
       "username_length_error": "La longitud debe estar entre 3 y 16 símbolos",
       "username_contains_symbols_error": "Sólo debe contener letras, números, símbolos",
-      "username_no_ascii_first_letter_error": "La primera letra debe estar en ASCII",
+      "username_no_ascii_first_letter_error": "Debe empezar con una letra",
       "username_contains_double_hyphens": "No debe contener Signos de Puntuación dobles",
       "username_contains_underscore": "No debe contener subrayado"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Transferencia en Hivesigner",
     "hivepegged_withdraw": "HIVE Retirado",
     "recurrent_transfer": "Transferencia recurrente",
+    "fill_recurrent_transfer": "Transferencia recurrente realizada",
     "delegations_in": "Delegaciones recibidas",
     "withdraw_hive": "Retirar ahorros",
     "reblog_desc": "Comparte una publicación que te guste con tus amigos y gana puntos.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "Imagen de IA"
   },
   "transfer": {
+    "custom_schedule": "Personalizado ({hours} h)",
+    "close": "Cerrar",
+    "favorite_username_placeholder": "Nombre de usuario",
+    "invalid_recipient_qr": "No se encontró ningún nombre de usuario en este código QR.",
+    "one_time": "Una vez",
+    "pick_from_favorites": "Elegir destinatario de favoritos",
+    "scan_qr_recipient": "Escanea un código QR del destinatario",
+    "schedule": "Programar",
     "select_token": "Seleccionar Token",
     "powering_down_subheading": "Actualmente, estás retirando de Estaca.",
     "power_down": "Retirar de Estaca",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Estacar LARYNX",
     "amount_select_desc_limit": " y debe ser mayor que 0.001",
     "undelegate_engine": "Desdelegar Token",
-    "to_bad_actor": "Tenga cuidado enviando a esta cuenta. Por favor verifique la ortografía ante posible suplantación de identidad (phishing)."
+    "to_bad_actor": "Tenga cuidado enviando a esta cuenta. Por favor verifique la ortografía ante posible suplantación de identidad (phishing).",
+    "exchange_recurrent_warning": "{exchange} es un exchange y puede no admitir transferencias recurrentes: los fondos enviados de forma programada pueden perderse. Usa una transferencia única en su lugar.",
+    "exchange_memo_required": "Enviar a {exchange} requiere un memo. Sin el memo proporcionado por el exchange, podrías perder tus fondos."
   },
   "login": {
     "cancel": "cancelar",
@@ -1472,6 +1497,8 @@
       "no-one": "Nadie (desactivar DMs)"
     },
     "send_feedback": "Enviar comentarios",
+    "rate_app": "Valorar Ecency",
+    "rate": "Valorar",
     "dm-privacy-updated": "Ajustes de privacidad de DM actualizados correctamente",
     "dm-privacy-failed": "Error al actualizar la configuración de privacidad de DM",
     "feedback_success": "Correo electrónico abierto con éxito",

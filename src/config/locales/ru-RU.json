@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "А вы знали?",
+      "dismiss": "Закрыть"
+    }
+  },
   "perks": {
     "header": "Бонусы",
     "quests_title": "Задания",
@@ -107,6 +113,10 @@
     "attach_poll": "Прикрепить опрос"
   },
   "favorites": {
+    "add": "Добавить в избранное",
+    "add_error": "Не удалось добавить в избранное",
+    "cancel_add": "Отменить добавление в избранное",
+    "confirm_add": "Сохранить в избранное",
     "empty_list": "Ничего нет",
     "search": "Поиск по избранному",
     "load_error": "Невозможно загрузить избранное",
@@ -351,7 +361,8 @@
     "transfer_in": "Перевод {time}",
     "delete_success": "Регулярный перевод успешно удалён",
     "unsubscribe_confirmation": "Отменить регулярный перевод для {username}?",
-    "remaining_executions": "Осталось переводов: {executions}"
+    "remaining_executions": "Осталось переводов: {executions}",
+    "schedule_summary": "{executions} переводов, каждый раз через {hours} ч."
   },
   "similar_entries": {
     "title": "Читать далее"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Добавить больше изображений к статье",
     "alert_btn_draft": "Недавний черновик",
     "draft_save_success": "Черновик сохранён",
+    "published_draft_delete_title": "Запись опубликована",
+    "published_draft_delete_body": "Хотите также удалить сохранённый черновик, из которого вы опубликовали запись?",
+    "published_draft_keep": "Сохранить черновик",
     "snippets": "Сниппеты",
     "community_restriction": "Публиковать посты могут только участники сообщества {title}",
     "invalid_url_error": "Пожалуйста, введите действительную ссылку",
@@ -983,7 +997,7 @@
       "username_exists": "Имя пользователя уже существует, попробуйте другое",
       "username_length_error": "Длина должна быть от 3 до 16 символов",
       "username_contains_symbols_error": "Должно содержать только буквы, цифры и дефисы",
-      "username_no_ascii_first_letter_error": "Первая буква должна быть в ASCII",
+      "username_no_ascii_first_letter_error": "Должно начинаться с буквы",
       "username_contains_double_hyphens": "Не должно содержать двойные дефисы",
       "username_contains_underscore": "Не должно содержать подчеркивания"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Hivesigner транзакция",
     "hivepegged_withdraw": "Вывод HIVE",
     "recurrent_transfer": "Повторяющийся перевод",
+    "fill_recurrent_transfer": "Выполнен периодический перевод",
     "delegations_in": "Входящие делегирования",
     "withdraw_hive": "Вывести сбережения",
     "reblog_desc": "Поделитесь понравившейся публикацией с друзьями и заработайте баллы.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI-изображение"
   },
   "transfer": {
+    "custom_schedule": "Свой интервал ({hours} ч.)",
+    "close": "Закрыть",
+    "favorite_username_placeholder": "Имя пользователя",
+    "invalid_recipient_qr": "Не удалось найти имя пользователя в этом QR-коде.",
+    "one_time": "Разовый",
+    "pick_from_favorites": "Выбрать получателя из избранного",
+    "scan_qr_recipient": "Отсканируйте QR-код получателя",
+    "schedule": "По расписанию",
     "select_token": "Выберите токен",
     "powering_down_subheading": "Сейчас выполняется вывод из стейкинга.",
     "power_down": "Вывести из стейкинга",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Стейкинг LARYNX",
     "amount_select_desc_limit": " и должно быть больше 0,001",
     "undelegate_engine": "Отозвать делегирование токена",
-    "to_bad_actor": "Будьте осторожны при отправке на этот аккаунт. Проверьте правильность написания во избежание фишинга."
+    "to_bad_actor": "Будьте осторожны при отправке на этот аккаунт. Проверьте правильность написания во избежание фишинга.",
+    "exchange_recurrent_warning": "{exchange} — это биржа, и она может не поддерживать периодические переводы: средства, отправляемые по расписанию, могут быть потеряны. Используйте разовый перевод.",
+    "exchange_memo_required": "Для перевода на {exchange} требуется memo. Без указанного биржей memo ваши средства могут быть потеряны."
   },
   "login": {
     "cancel": "отмена",
@@ -1472,6 +1497,8 @@
       "no-one": "Никто (отключить личные сообщения)"
     },
     "send_feedback": "Отправить отзыв",
+    "rate_app": "Оценить Ecency",
+    "rate": "Оценить",
     "dm-privacy-updated": "Настройки конфиденциальности личных сообщений успешно обновлены",
     "dm-privacy-failed": "Не удалось обновить настройки конфиденциальности личных сообщений",
     "feedback_success": "Письмо успешно отправлено",

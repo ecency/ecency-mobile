@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "알고 계셨나요?",
+      "dismiss": "닫기"
+    }
+  },
   "perks": {
     "header": "혜택",
     "quests_title": "퀘스트",
@@ -107,6 +113,10 @@
     "attach_poll": "투표 첨부"
   },
   "favorites": {
+    "add": "즐겨찾기 추가",
+    "add_error": "즐겨찾기를 추가할 수 없습니다",
+    "cancel_add": "즐겨찾기 추가 취소",
+    "confirm_add": "즐겨찾기 저장",
     "empty_list": "빈 목록입니다",
     "search": "좋아하는 저자 목록에서 검색",
     "load_error": "좋아하는 저자 목록을 불러올 수 없습니다.",
@@ -351,7 +361,8 @@
     "transfer_in": "{time} 송금",
     "delete_success": "반복 송금이 성공적으로 삭제되었습니다",
     "unsubscribe_confirmation": "{username}님에게 보내는 반복 송금을 해지하시겠습니까?",
-    "remaining_executions": "남은 송금 {executions}회"
+    "remaining_executions": "남은 송금 {executions}회",
+    "schedule_summary": "{executions}회 송금, {hours}시간마다"
   },
   "similar_entries": {
     "title": "다음에 읽기"
@@ -387,6 +398,9 @@
     "add_more_imgs": "글에 이미지 더 추가하기",
     "alert_btn_draft": "최신 임시보관함",
     "draft_save_success": "임시 보관함에 저장했습니다",
+    "published_draft_delete_title": "글이 게시되었습니다",
+    "published_draft_delete_body": "이 글을 게시한 임시저장 초안도 삭제하시겠습니까?",
+    "published_draft_keep": "초안 유지",
     "snippets": "스니펫",
     "community_restriction": "{title} 커뮤니티 회원만 글을 게시할 수 있습니다",
     "invalid_url_error": "유효한 URL을 입력하세요",
@@ -983,7 +997,7 @@
       "username_exists": "이미 존재하는 사용자 이름입니다. 다른 이름을 사용해 보세요",
       "username_length_error": "길이는 3자에서 16자 사이여야 합니다",
       "username_contains_symbols_error": "문자, 숫자, 하이픈만 포함할 수 있습니다",
-      "username_no_ascii_first_letter_error": "첫 글자는 ASCII여야 합니다",
+      "username_no_ascii_first_letter_error": "문자로 시작해야 합니다",
       "username_contains_double_hyphens": "연속된 하이픈을 포함할 수 없습니다",
       "username_contains_underscore": "밑줄을 포함할 수 없습니다"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "HiveSigner 이동",
     "hivepegged_withdraw": "HIVE 출금됨",
     "recurrent_transfer": "정기 전송",
+    "fill_recurrent_transfer": "정기 송금이 실행되었습니다",
     "delegations_in": "위임 (받은)",
     "withdraw_hive": "저축 출금",
     "reblog_desc": "좋아하는 글을 친구에게 공유하고 포인트를 획득하세요.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI 이미지"
   },
   "transfer": {
+    "custom_schedule": "사용자 지정 ({hours}시간)",
+    "close": "닫기",
+    "favorite_username_placeholder": "사용자 이름",
+    "invalid_recipient_qr": "이 QR 코드에서 사용자 이름을 찾을 수 없습니다.",
+    "one_time": "일회성",
+    "pick_from_favorites": "즐겨찾기에서 받는 사람 선택",
+    "scan_qr_recipient": "받는 사람의 QR 코드 스캔",
+    "schedule": "예약",
     "select_token": "토큰 선택",
     "powering_down_subheading": "현재 언스테이킹 중입니다.",
     "power_down": "언스테이크",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "LARYNX 스테이크",
     "amount_select_desc_limit": " 그리고 0.001보다 커야 합니다",
     "undelegate_engine": "토큰 위임 취소",
-    "to_bad_actor": "이 계정으로 보낼 때 주의하세요. 피싱 가능성이 있으니 철자를 다시 한번 확인해 주세요."
+    "to_bad_actor": "이 계정으로 보낼 때 주의하세요. 피싱 가능성이 있으니 철자를 다시 한번 확인해 주세요.",
+    "exchange_recurrent_warning": "{exchange}은(는) 거래소이며 정기 송금을 지원하지 않을 수 있습니다. 예약된 일정으로 보낸 자금은 손실될 수 있습니다. 대신 일회성 송금을 사용하세요.",
+    "exchange_memo_required": "{exchange}(으)로 보낼 때는 메모가 필요합니다. 거래소에서 제공한 메모가 없으면 자금을 잃을 수 있습니다."
   },
   "login": {
     "cancel": "취소",
@@ -1472,6 +1497,8 @@
       "no-one": "아무도 없음 (DM 비활성화)"
     },
     "send_feedback": "피드백 보내기",
+    "rate_app": "Ecency 평가하기",
+    "rate": "평가하기",
     "dm-privacy-updated": "DM 개인정보 설정이 성공적으로 업데이트되었습니다",
     "dm-privacy-failed": "DM 개인정보 설정 업데이트에 실패했습니다",
     "feedback_success": "이메일 클라이언트가 성공적으로 열렸습니다",

@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Tahukah anda?",
+      "dismiss": "Tolak"
+    }
+  },
   "perks": {
     "header": "Faedah",
     "quests_title": "Misi",
@@ -107,6 +113,10 @@
     "attach_poll": "Lampirkan Tinjauan"
   },
   "favorites": {
+    "add": "Tambah kegemaran",
+    "add_error": "Tidak dapat menambah kegemaran",
+    "cancel_add": "Batal tambah kegemaran",
+    "confirm_add": "Simpan kegemaran",
     "empty_list": "Kosong",
     "search": "Cari di kegemaran",
     "load_error": "Tidak dapat cari kegemaran",
@@ -351,7 +361,8 @@
     "transfer_in": "Pemindahan {time}",
     "delete_success": "Pemindahan berulang berjaya dipadam",
     "unsubscribe_confirmation": "Berhenti melanggan pemindahan berulang kepada {username}?",
-    "remaining_executions": "Baki {executions} pemindahan"
+    "remaining_executions": "Baki {executions} pemindahan",
+    "schedule_summary": "{executions} pemindahan, setiap satu setiap {hours} jam"
   },
   "similar_entries": {
     "title": "Baca seterusnya"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Tambah lebih banyak imej ke siaran",
     "alert_btn_draft": "Draf Terbaru",
     "draft_save_success": "Draf Telah Disimpan",
+    "published_draft_delete_title": "Siaran diterbitkan",
+    "published_draft_delete_body": "Adakah anda juga mahu memadamkan draf tersimpan yang anda terbitkan ini?",
+    "published_draft_keep": "Simpan draf",
     "snippets": "Coretan",
     "community_restriction": "Hanya ahli komuniti {title} boleh menerbitkan siaran",
     "invalid_url_error": "Sila masukkan url yang sah",
@@ -983,7 +997,7 @@
       "username_exists": "Nama pengguna sudah wujud, cuba yang lain",
       "username_length_error": "Panjang mestilah antara 3 hingga 16 simbol",
       "username_contains_symbols_error": "Hanya boleh mengandungi huruf, nombor, sengkang",
-      "username_no_ascii_first_letter_error": "Huruf pertama mestilah dalam ASCII",
+      "username_no_ascii_first_letter_error": "Mestilah bermula dengan huruf",
       "username_contains_double_hyphens": "Tidak boleh mengandungi sengkang berganda",
       "username_contains_underscore": "Tidak boleh mengandungi garis bawah"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Pemindahan Hivesigner",
     "hivepegged_withdraw": "HIVE Dikeluarkan",
     "recurrent_transfer": "Pemindahan Berulang",
+    "fill_recurrent_transfer": "Pemindahan Berulang Berlaku",
     "delegations_in": "Delegasi Masuk",
     "withdraw_hive": "Keluarkan Simpanan",
     "reblog_desc": "Kongsikan kiriman yang anda suka dengan pengikut anda dan dapatkan mata.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "Imej AI"
   },
   "transfer": {
+    "custom_schedule": "Tersuai ({hours}j)",
+    "close": "Tutup",
+    "favorite_username_placeholder": "Nama pengguna",
+    "invalid_recipient_qr": "Tidak dapat menemui nama pengguna dalam kod QR ini.",
+    "one_time": "Sekali Sahaja",
+    "pick_from_favorites": "Pilih penerima daripada kegemaran",
+    "scan_qr_recipient": "Imbas kod QR untuk penerima",
+    "schedule": "Jadual",
     "select_token": "Pilih Token",
     "powering_down_subheading": "Anda sedang menyahpertaruh pada masa ini.",
     "power_down": "Nyahpertaruh",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Pegunkan LARYNX",
     "amount_select_desc_limit": " dan mestilah lebih besar daripada 0.001",
     "undelegate_engine": "Nyahdelegasikan Token",
-    "to_bad_actor": "Berhati-hati semasa menghantar ke akaun ini. Sila semak semula ejaan anda untuk kemungkinan pancingan data."
+    "to_bad_actor": "Berhati-hati semasa menghantar ke akaun ini. Sila semak semula ejaan anda untuk kemungkinan pancingan data.",
+    "exchange_recurrent_warning": "{exchange} ialah pertukaran dan mungkin tidak menyokong pemindahan berulang — dana yang dihantar secara berjadual boleh hilang. Gunakan pemindahan sekali sahaja sebagai gantinya.",
+    "exchange_memo_required": "Menghantar ke {exchange} memerlukan memo. Tanpa memo yang disediakan oleh pertukaran, dana anda mungkin hilang."
   },
   "login": {
     "cancel": "batal",
@@ -1472,6 +1497,8 @@
       "no-one": "Tiada sesiapa (lumpuhkan DM)"
     },
     "send_feedback": "Hantar Maklum Balas",
+    "rate_app": "Nilai Ecency",
+    "rate": "Nilai",
     "dm-privacy-updated": "Tetapan privasi DM berjaya dikemas kini",
     "dm-privacy-failed": "Gagal mengemas kini tetapan privasi DM",
     "feedback_success": "E-mel berjaya dibuka",

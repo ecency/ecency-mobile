@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "הידעת?",
+      "dismiss": "סגירה"
+    }
+  },
   "perks": {
     "header": "הטבות",
     "quests_title": "משימות",
@@ -107,6 +113,10 @@
     "attach_poll": "צרף סקר"
   },
   "favorites": {
+    "add": "הוספת מועדף",
+    "add_error": "לא ניתן היה להוסיף למועדפים",
+    "cancel_add": "ביטול הוספת המועדף",
+    "confirm_add": "שמירת המועדף",
     "empty_list": "אין כאן מידע",
     "search": "חפש\\י במועדפים",
     "load_error": "לא ניתן לעלות מועדפים",
@@ -351,7 +361,8 @@
     "transfer_in": "העברה {time}",
     "delete_success": "ההעברה החוזרת נמחקה בהצלחה",
     "unsubscribe_confirmation": "לבטל את ההעברה החוזרת אל {username}?",
-    "remaining_executions": "נותרו {executions} העברות"
+    "remaining_executions": "נותרו {executions} העברות",
+    "schedule_summary": "{executions} העברות, כל אחת מדי {hours} שעות"
   },
   "similar_entries": {
     "title": "קראו בהמשך"
@@ -387,6 +398,9 @@
     "add_more_imgs": "הוסיפו עוד תמונות לפוסט",
     "alert_btn_draft": "טיוטה אחרונה",
     "draft_save_success": "הטיוטה נשמרה",
+    "published_draft_delete_title": "הפוסט פורסם",
+    "published_draft_delete_body": "האם ברצונך גם למחוק את הטיוטה השמורה שממנה פרסמת?",
+    "published_draft_keep": "שמירת הטיוטה",
     "snippets": "קטעים",
     "community_restriction": "רק חברי קהילת {title} יכולים לפרסם פוסט",
     "invalid_url_error": "אנא הזינו כתובת תקינה",
@@ -983,7 +997,7 @@
       "username_exists": "שם המשתמש כבר קיים, נסה שם אחר",
       "username_length_error": "האורך צריך להיות בין 3 ל-16 תווים",
       "username_contains_symbols_error": "צריך להכיל אותיות, מספרים ומקף בלבד",
-      "username_no_ascii_first_letter_error": "האות הראשונה צריכה להיות ב-ASCII",
+      "username_no_ascii_first_letter_error": "חייב להתחיל באות",
       "username_contains_double_hyphens": "אסור שיכיל מקף כפול",
       "username_contains_underscore": "אסור שיכיל קו תחתון"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "העברת Hivesigner",
     "hivepegged_withdraw": "HIVE נמשך",
     "recurrent_transfer": "העברה חוזרת",
+    "fill_recurrent_transfer": "בוצעה העברה חוזרת",
     "delegations_in": "האצלות נכנסות",
     "withdraw_hive": "משוך חיסכון",
     "reblog_desc": "שתף את הפוסטים שאהבת עם חבריך והרווח Points.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "תמונת AI"
   },
   "transfer": {
+    "custom_schedule": "מותאם אישית ({hours} שע')",
+    "close": "סגירה",
+    "favorite_username_placeholder": "שם משתמש",
+    "invalid_recipient_qr": "לא נמצא שם משתמש בקוד QR זה.",
+    "one_time": "חד-פעמי",
+    "pick_from_favorites": "בחירת נמען מהמועדפים",
+    "scan_qr_recipient": "סריקת קוד QR עבור הנמען",
+    "schedule": "תזמון",
     "select_token": "בחר טוקן",
     "powering_down_subheading": "אתה מבטל הקצאה כעת.",
     "power_down": "ביטול הקצאה",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "הקצאת LARYNX",
     "amount_select_desc_limit": " וחייב להיות גדול מ-0.001",
     "undelegate_engine": "ביטול האצלת טוקן",
-    "to_bad_actor": "נהג בזהירות בשליחה לחשבון זה. אנא בדוק שוב את האיות לזיהוי ניסיונות התחזות אפשריים."
+    "to_bad_actor": "נהג בזהירות בשליחה לחשבון זה. אנא בדוק שוב את האיות לזיהוי ניסיונות התחזות אפשריים.",
+    "exchange_recurrent_warning": "{exchange} היא בורסה ועשויה שלא לתמוך בהעברות חוזרות — כספים שנשלחים על פי לוח זמנים עלולים ללכת לאיבוד. השתמש בהעברה חד-פעמית במקום זאת.",
+    "exchange_memo_required": "שליחה אל {exchange} מחייבת ממו. ללא הממו שמספקת הבורסה, ייתכן שתאבד את הכספים שלך."
   },
   "login": {
     "cancel": "בטל\\י",
@@ -1472,6 +1497,8 @@
       "no-one": "אף אחד (השבת הודעות ישירות)"
     },
     "send_feedback": "שלח/י משוב",
+    "rate_app": "דרגו את Ecency",
+    "rate": "דירוג",
     "dm-privacy-updated": "הגדרות פרטיות ההודעות הישירות עודכנו בהצלחה",
     "dm-privacy-failed": "עדכון הגדרות פרטיות ההודעות הישירות נכשל",
     "feedback_success": "האימייל נפתח בהצלחה",

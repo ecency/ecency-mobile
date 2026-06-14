@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "آیا می‌دانستید؟",
+      "dismiss": "رد کردن"
+    }
+  },
   "perks": {
     "header": "مزایا",
     "quests_title": "ماموریت‌ها",
@@ -107,6 +113,10 @@
     "attach_poll": "پیوست نظرسنجی"
   },
   "favorites": {
+    "add": "افزودن به علاقه‌مندی‌ها",
+    "add_error": "افزودن به علاقه‌مندی‌ها ممکن نشد",
+    "cancel_add": "انصراف از افزودن به علاقه‌مندی‌ها",
+    "confirm_add": "ذخیره در علاقه‌مندی‌ها",
     "empty_list": "اینجا چیزی نیست",
     "search": "جستجو در علاقمندیها",
     "load_error": "باز کردن علاقه مندی ها مقدور نیست",
@@ -351,7 +361,8 @@
     "transfer_in": "انتقال {time}",
     "delete_success": "انتقال مکرر با موفقیت حذف شد",
     "unsubscribe_confirmation": "لغو انتقال مکرر به {username}؟",
-    "remaining_executions": "{executions} انتقال باقی‌مانده"
+    "remaining_executions": "{executions} انتقال باقی‌مانده",
+    "schedule_summary": "{executions} انتقال، هر کدام هر {hours} ساعت"
   },
   "similar_entries": {
     "title": "خواندن بعدی"
@@ -387,6 +398,9 @@
     "add_more_imgs": "افزودن تصاویر بیشتر به پست",
     "alert_btn_draft": "پیش‌نویس اخیر",
     "draft_save_success": "پیش‌نویس ذخیره شد",
+    "published_draft_delete_title": "پست منتشر شد",
+    "published_draft_delete_body": "آیا می‌خواهید پیش‌نویس ذخیره‌شده‌ای که از روی آن منتشر کردید را نیز حذف کنید؟",
+    "published_draft_keep": "نگه‌داشتن پیش‌نویس",
     "snippets": "قطعه‌ها",
     "community_restriction": "فقط اعضای انجمن {title} می‌توانند پست منتشر کنند",
     "invalid_url_error": "لطفاً نشانی معتبر وارد کنید",
@@ -983,7 +997,7 @@
       "username_exists": "این نام کاربری از پیش وجود دارد، نام دیگری امتحان کنید",
       "username_length_error": "طول باید بین ۳ تا ۱۶ نماد باشد",
       "username_contains_symbols_error": "باید فقط شامل حروف، اعداد و خط تیره باشد",
-      "username_no_ascii_first_letter_error": "حرف اول باید به ASCII باشد",
+      "username_no_ascii_first_letter_error": "باید با یک حرف شروع شود",
       "username_contains_double_hyphens": "نباید شامل خط تیره دوتایی باشد",
       "username_contains_underscore": "نباید شامل خط زیر باشد"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "انتقال از Hivesigner",
     "hivepegged_withdraw": "HIVE برداشت شد",
     "recurrent_transfer": "انتقال تکرارشونده",
+    "fill_recurrent_transfer": "انتقال دوره‌ای انجام شد",
     "delegations_in": "واگذاری‌های ورودی",
     "withdraw_hive": "برداشت از پس‌انداز",
     "reblog_desc": "پست های مورد علاقه خود را با دوستانتان به اشتراک بگذارید و امتیاز دریافت کنید.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "تصویر هوش مصنوعی"
   },
   "transfer": {
+    "custom_schedule": "سفارشی ({hours} ساعت)",
+    "close": "بستن",
+    "favorite_username_placeholder": "نام کاربری",
+    "invalid_recipient_qr": "نام کاربری در این کد QR یافت نشد.",
+    "one_time": "یک‌باره",
+    "pick_from_favorites": "انتخاب گیرنده از علاقه‌مندی‌ها",
+    "scan_qr_recipient": "اسکن کد QR برای گیرنده",
+    "schedule": "زمان‌بندی",
     "select_token": "انتخاب توکن",
     "powering_down_subheading": "شما در حال حاضر در حال لغو استیک هستید.",
     "power_down": "لغو استیک",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "استیک LARYNX",
     "amount_select_desc_limit": " و باید بزرگ‌تر از ۰.۰۰۱ باشد",
     "undelegate_engine": "لغو واگذاری توکن",
-    "to_bad_actor": "در ارسال به این حساب احتیاط کنید. لطفاً املای آن را برای جلوگیری از فیشینگ احتمالی دوباره بررسی کنید."
+    "to_bad_actor": "در ارسال به این حساب احتیاط کنید. لطفاً املای آن را برای جلوگیری از فیشینگ احتمالی دوباره بررسی کنید.",
+    "exchange_recurrent_warning": "{exchange} یک صرافی است و ممکن است از انتقال‌های دوره‌ای پشتیبانی نکند — وجوهی که به‌صورت زمان‌بندی‌شده ارسال شوند ممکن است از دست بروند. به‌جای آن از یک انتقال یک‌باره استفاده کنید.",
+    "exchange_memo_required": "ارسال به {exchange} نیازمند یک یادداشت (memo) است. بدون یادداشتی که صرافی ارائه می‌دهد، ممکن است وجوه شما از دست برود."
   },
   "login": {
     "cancel": "انصراف",
@@ -1472,6 +1497,8 @@
       "no-one": "هیچ‌کس (غیرفعال کردن پیام‌های مستقیم)"
     },
     "send_feedback": "ارسال پیشنهادات و انتقادات",
+    "rate_app": "امتیاز به Ecency",
+    "rate": "امتیازدهی",
     "dm-privacy-updated": "تنظیمات حریم خصوصی پیام مستقیم با موفقیت به‌روزرسانی شد",
     "dm-privacy-failed": "به‌روزرسانی تنظیمات حریم خصوصی پیام مستقیم ناموفق بود",
     "feedback_success": "ایمیل با موفقیت باز شد",

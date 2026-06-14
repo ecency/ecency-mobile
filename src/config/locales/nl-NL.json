@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Wist je dat?",
+      "dismiss": "Sluiten"
+    }
+  },
   "perks": {
     "header": "Voordelen",
     "quests_title": "Opdrachten",
@@ -107,6 +113,10 @@
     "attach_poll": "Poll toevoegen"
   },
   "favorites": {
+    "add": "Favoriet toevoegen",
+    "add_error": "Kon favoriet niet toevoegen",
+    "cancel_add": "Toevoegen van favoriet annuleren",
+    "confirm_add": "Favoriet opslaan",
     "empty_list": "Niets hier",
     "search": "Zoek in favorieten",
     "load_error": "Kan favorieten niet laden",
@@ -351,7 +361,8 @@
     "transfer_in": "Overboeking {time}",
     "delete_success": "Terugkerende overboeking succesvol verwijderd",
     "unsubscribe_confirmation": "Terugkerende overboeking naar {username} opzeggen?",
-    "remaining_executions": "Resterend: {executions} overboekingen"
+    "remaining_executions": "Resterend: {executions} overboekingen",
+    "schedule_summary": "{executions} overboekingen, telkens elke {hours} uur"
   },
   "similar_entries": {
     "title": "Lees verder"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Meer afbeeldingen aan het bericht toevoegen",
     "alert_btn_draft": "Recent concept",
     "draft_save_success": "Concept opgeslagen",
+    "published_draft_delete_title": "Bericht gepubliceerd",
+    "published_draft_delete_body": "Wil je ook het opgeslagen concept verwijderen waaruit je hebt gepubliceerd?",
+    "published_draft_keep": "Concept behouden",
     "snippets": "Fragmenten",
     "community_restriction": "Alleen leden van de community {title} kunnen een bericht publiceren",
     "invalid_url_error": "Voer een geldige URL in",
@@ -983,7 +997,7 @@
       "username_exists": "Gebruikersnaam bestaat al, probeer een andere",
       "username_length_error": "Lengte moet tussen 3 en 16 tekens zijn",
       "username_contains_symbols_error": "Mag alleen letters, cijfers en koppeltekens bevatten",
-      "username_no_ascii_first_letter_error": "Eerste letter moet in ASCII zijn",
+      "username_no_ascii_first_letter_error": "Moet met een letter beginnen",
       "username_contains_double_hyphens": "Mag geen dubbele koppeltekens bevatten",
       "username_contains_underscore": "Mag geen underscore bevatten"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "HiveSigner-overdracht",
     "hivepegged_withdraw": "HIVE opgenomen",
     "recurrent_transfer": "Terugkerende overschrijving",
+    "fill_recurrent_transfer": "Terugkerende overboeking uitgevoerd",
     "delegations_in": "Inkomende delegaties",
     "withdraw_hive": "Spaargeld opnemen",
     "reblog_desc": "Deel welke post je leuk vindt met je vrienden en verdien Points.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI-afbeelding"
   },
   "transfer": {
+    "custom_schedule": "Aangepast ({hours}u)",
+    "close": "Sluiten",
+    "favorite_username_placeholder": "Gebruikersnaam",
+    "invalid_recipient_qr": "Kon geen gebruikersnaam vinden in deze QR-code.",
+    "one_time": "Eenmalig",
+    "pick_from_favorites": "Kies ontvanger uit favorieten",
+    "scan_qr_recipient": "Scan een QR-code voor de ontvanger",
+    "schedule": "Inplannen",
     "select_token": "Token selecteren",
     "powering_down_subheading": "Je bent momenteel aan het ontstaken.",
     "power_down": "Ontstaken",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "LARYNX staken",
     "amount_select_desc_limit": " en moet groter zijn dan 0,001",
     "undelegate_engine": "Token ondelegeren",
-    "to_bad_actor": "Wees voorzichtig met verzenden naar dit account. Controleer je spelling nogmaals op mogelijke phishing."
+    "to_bad_actor": "Wees voorzichtig met verzenden naar dit account. Controleer je spelling nogmaals op mogelijke phishing.",
+    "exchange_recurrent_warning": "{exchange} is een exchange en ondersteunt mogelijk geen terugkerende overboekingen — middelen die volgens een schema worden verzonden, kunnen verloren gaan. Gebruik in plaats daarvan een eenmalige overboeking.",
+    "exchange_memo_required": "Voor verzending naar {exchange} is een memo vereist. Zonder de door de exchange verstrekte memo kunnen je middelen verloren gaan."
   },
   "login": {
     "cancel": "annuleren",
@@ -1472,6 +1497,8 @@
       "no-one": "Niemand (DM's uitschakelen)"
     },
     "send_feedback": "Feedback Versturen",
+    "rate_app": "Ecency beoordelen",
+    "rate": "Beoordelen",
     "dm-privacy-updated": "DM-privacy-instellingen succesvol bijgewerkt",
     "dm-privacy-failed": "Bijwerken van DM-privacy-instellingen mislukt",
     "feedback_success": "E-mail succesvol geopend",

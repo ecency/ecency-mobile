@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Visste du?",
+      "dismiss": "Avfärda"
+    }
+  },
   "perks": {
     "header": "Förmåner",
     "quests_title": "Uppdrag",
@@ -107,6 +113,10 @@
     "attach_poll": "Bifoga omröstning"
   },
   "favorites": {
+    "add": "Lägg till favorit",
+    "add_error": "Kunde inte lägga till favorit",
+    "cancel_add": "Avbryt tillägg av favorit",
+    "confirm_add": "Spara favorit",
     "empty_list": "Inget här",
     "search": "Sök bland favoriter",
     "load_error": "Kunde inte ladda favoriter",
@@ -351,7 +361,8 @@
     "transfer_in": "Överföring {time}",
     "delete_success": "Den återkommande överföringen togs bort",
     "unsubscribe_confirmation": "Avsluta återkommande överföring till {username}?",
-    "remaining_executions": "{executions} överföringar kvar"
+    "remaining_executions": "{executions} överföringar kvar",
+    "schedule_summary": "{executions} överföringar, var och en var {hours} timme"
   },
   "similar_entries": {
     "title": "Läs härnäst"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Lägg till fler bilder i inlägget",
     "alert_btn_draft": "Senaste utkast",
     "draft_save_success": "Utkast sparat",
+    "published_draft_delete_title": "Inlägg publicerat",
+    "published_draft_delete_body": "Vill du också radera det sparade utkastet du publicerade från?",
+    "published_draft_keep": "Behåll utkast",
     "snippets": "Textavsnitt",
     "community_restriction": "Endast medlemmar i community {title} kan publicera inlägg",
     "invalid_url_error": "Ange en giltig webbadress",
@@ -983,7 +997,7 @@
       "username_exists": "Användarnamnet finns redan, prova ett annat",
       "username_length_error": "Längden ska vara mellan 3 och 16 tecken",
       "username_contains_symbols_error": "Får endast innehålla bokstäver, siffror och bindestreck",
-      "username_no_ascii_first_letter_error": "Första bokstaven ska vara i ASCII",
+      "username_no_ascii_first_letter_error": "Bör börja med en bokstav",
       "username_contains_double_hyphens": "Får inte innehålla dubbla bindestreck",
       "username_contains_underscore": "Får inte innehålla understreck"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "HiveSigner-överföring",
     "hivepegged_withdraw": "HIVE uttaget",
     "recurrent_transfer": "Återkommande överföring",
+    "fill_recurrent_transfer": "Återkommande överföring genomförd",
     "delegations_in": "Inkommande delegeringar",
     "withdraw_hive": "Ta ut sparande",
     "reblog_desc": "Dela inlägg du gillar med dina vänner och tjäna points.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI-bild"
   },
   "transfer": {
+    "custom_schedule": "Anpassad ({hours} h)",
+    "close": "Stäng",
+    "favorite_username_placeholder": "Användarnamn",
+    "invalid_recipient_qr": "Kunde inte hitta något användarnamn i den här QR-koden.",
+    "one_time": "Engång",
+    "pick_from_favorites": "Välj mottagare från favoriter",
+    "scan_qr_recipient": "Skanna en QR-kod för mottagaren",
+    "schedule": "Schemalägg",
     "select_token": "Välj token",
     "powering_down_subheading": "Du håller för närvarande på att avstaka.",
     "power_down": "Avstaka",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "Staka LARYNX",
     "amount_select_desc_limit": " och måste vara större än 0,001",
     "undelegate_engine": "Avdelegera token",
-    "to_bad_actor": "Var försiktig när du skickar till detta konto. Dubbelkolla stavningen för att undvika eventuellt nätfiske."
+    "to_bad_actor": "Var försiktig när du skickar till detta konto. Dubbelkolla stavningen för att undvika eventuellt nätfiske.",
+    "exchange_recurrent_warning": "{exchange} är en börs och stöder kanske inte återkommande överföringar – medel som skickas enligt ett schema kan gå förlorade. Använd en engångsöverföring i stället.",
+    "exchange_memo_required": "Att skicka till {exchange} kräver ett meddelande. Utan det meddelande som börsen tillhandahåller kan dina medel gå förlorade."
   },
   "login": {
     "cancel": "avbryt",
@@ -1472,6 +1497,8 @@
       "no-one": "Ingen (inaktivera direktmeddelanden)"
     },
     "send_feedback": "Skicka feedback",
+    "rate_app": "Betygsätt Ecency",
+    "rate": "Betygsätt",
     "dm-privacy-updated": "Sekretessinställningarna för direktmeddelanden uppdaterades",
     "dm-privacy-failed": "Det gick inte att uppdatera sekretessinställningarna för direktmeddelanden",
     "feedback_success": "E-post öppnades",

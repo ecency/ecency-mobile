@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "क्या आप जानते हैं?",
+      "dismiss": "खारिज करें"
+    }
+  },
   "perks": {
     "header": "लाभ",
     "quests_title": "क्वेस्ट",
@@ -107,6 +113,10 @@
     "attach_poll": "पोल संलग्न करें"
   },
   "favorites": {
+    "add": "पसंदीदा जोड़ें",
+    "add_error": "पसंदीदा नहीं जोड़ा जा सका",
+    "cancel_add": "पसंदीदा जोड़ना रद्द करें",
+    "confirm_add": "पसंदीदा सहेजें",
     "empty_list": "कुछ नहीं है",
     "search": "पसंदीदा में खोजें",
     "load_error": "पसंदीदा भर ना सका",
@@ -351,7 +361,8 @@
     "transfer_in": "{time} ट्रांसफ़र",
     "delete_success": "आवर्ती ट्रांसफ़र सफलतापूर्वक हटाया गया",
     "unsubscribe_confirmation": "{username} को आवर्ती ट्रांसफ़र की सदस्यता रद्द करें?",
-    "remaining_executions": "शेष {executions} ट्रांसफ़र"
+    "remaining_executions": "शेष {executions} ट्रांसफ़र",
+    "schedule_summary": "{executions} ट्रांसफ़र, प्रत्येक हर {hours} घंटे में"
   },
   "similar_entries": {
     "title": "आगे पढ़ें"
@@ -387,6 +398,9 @@
     "add_more_imgs": "पोस्ट करने के लिए और छवियां जोड़ें",
     "alert_btn_draft": "हालिया ड्राफ्ट",
     "draft_save_success": "ड्राफ्ट सहेजा गया",
+    "published_draft_delete_title": "पोस्ट प्रकाशित हुई",
+    "published_draft_delete_body": "क्या आप उस सहेजे गए ड्राफ़्ट को भी हटाना चाहते हैं जिससे आपने यह पोस्ट प्रकाशित की थी?",
+    "published_draft_keep": "ड्राफ़्ट रखें",
     "snippets": "स्निपेट्स",
     "community_restriction": "केवल {title} समुदाय के सदस्य ही पोस्ट प्रकाशित कर सकते हैं",
     "invalid_url_error": "कृपया मान्य यूआरएल डालें",
@@ -983,7 +997,7 @@
       "username_exists": "उपयोगकर्ता नाम पहले से मौजूद है, कोई दूसरा नाम आज़माएं",
       "username_length_error": "लंबाई 3 से 16 प्रतीकों के बीच होनी चाहिए",
       "username_contains_symbols_error": "केवल अक्षर, अंक, हाइफ़न होना चाहिए",
-      "username_no_ascii_first_letter_error": "पहला अक्षर ASCII में होना चाहिए",
+      "username_no_ascii_first_letter_error": "किसी अक्षर से शुरू होना चाहिए",
       "username_contains_double_hyphens": "डबल हाइफ़न नहीं होना चाहिए",
       "username_contains_underscore": "अंडरस्कोर नहीं होना चाहिए"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "हाइवसाईनर स्थानांतरण",
     "hivepegged_withdraw": "हाइव वापस ले लिया गया",
     "recurrent_transfer": "आवर्ती ट्रांसफर",
+    "fill_recurrent_transfer": "आवर्ती ट्रांसफ़र हुआ",
     "delegations_in": "आने वाली डेलिगेशन",
     "withdraw_hive": "बचत खाते से निकालें",
     "reblog_desc": "आप अपने दोस्तों के साथ जो पोस्ट पसंद करते हैं उसे साझा करें और अंक अर्जित करें।",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI इमेज"
   },
   "transfer": {
+    "custom_schedule": "कस्टम ({hours}घं॰)",
+    "close": "बंद करें",
+    "favorite_username_placeholder": "उपयोगकर्ता नाम",
+    "invalid_recipient_qr": "इस QR कोड में कोई उपयोगकर्ता नाम नहीं मिला।",
+    "one_time": "एक बार",
+    "pick_from_favorites": "पसंदीदा में से प्राप्तकर्ता चुनें",
+    "scan_qr_recipient": "प्राप्तकर्ता के लिए QR कोड स्कैन करें",
+    "schedule": "शेड्यूल करें",
     "select_token": "टोकन चुनें",
     "powering_down_subheading": "आप वर्तमान में अनस्टेक कर रहे हैं।",
     "power_down": "अनस्टेक करें",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "LARYNX स्टेक करें",
     "amount_select_desc_limit": " और 0.001 से अधिक होना चाहिए",
     "undelegate_engine": "टोकन अनडेलिगेट करें",
-    "to_bad_actor": "इस खाते में भेजते समय सावधानी बरतें। संभावित फ़िशिंग के लिए कृपया अपनी स्पेलिंग दोबारा जाँचें।"
+    "to_bad_actor": "इस खाते में भेजते समय सावधानी बरतें। संभावित फ़िशिंग के लिए कृपया अपनी स्पेलिंग दोबारा जाँचें।",
+    "exchange_recurrent_warning": "{exchange} एक एक्सचेंज है और हो सकता है कि यह आवर्ती ट्रांसफ़र का समर्थन न करे — शेड्यूल पर भेजे गए फ़ंड खो सकते हैं। इसके बजाय एक बार का ट्रांसफ़र उपयोग करें।",
+    "exchange_memo_required": "{exchange} को भेजने के लिए एक मेमो आवश्यक है। एक्सचेंज द्वारा दिए गए मेमो के बिना आपके फ़ंड खो सकते हैं।"
   },
   "login": {
     "cancel": "रद्द करें",
@@ -1472,6 +1497,8 @@
       "no-one": "कोई नहीं (DM अक्षम करें)"
     },
     "send_feedback": "प्रतिक्रिया भेजें",
+    "rate_app": "Ecency को रेटिंग दें",
+    "rate": "रेटिंग दें",
     "dm-privacy-updated": "DM गोपनीयता सेटिंग्स सफलतापूर्वक अपडेट की गईं",
     "dm-privacy-failed": "DM गोपनीयता सेटिंग्स अपडेट करने में विफल",
     "feedback_success": "ईमेल सफलतापूर्वक खुला",

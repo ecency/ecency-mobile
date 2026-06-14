@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "知っていましたか？",
+      "dismiss": "閉じる"
+    }
+  },
   "perks": {
     "header": "特典",
     "quests_title": "クエスト",
@@ -107,6 +113,10 @@
     "attach_poll": "投票を添付"
   },
   "favorites": {
+    "add": "お気に入りに追加",
+    "add_error": "お気に入りに追加できませんでした",
+    "cancel_add": "お気に入りの追加をキャンセル",
+    "confirm_add": "お気に入りを保存",
     "empty_list": "まだ何もありません",
     "search": "お気に入りの検索",
     "load_error": "お気に入りを読み込めませんでした",
@@ -351,7 +361,8 @@
     "transfer_in": "{time}に送金",
     "delete_success": "定期送金を正常に削除しました",
     "unsubscribe_confirmation": "{username} への定期送金を解除しますか？",
-    "remaining_executions": "残り {executions} 回の送金"
+    "remaining_executions": "残り {executions} 回の送金",
+    "schedule_summary": "{executions}回の送金（それぞれ{hours}時間ごと）"
   },
   "similar_entries": {
     "title": "次に読む"
@@ -387,6 +398,9 @@
     "add_more_imgs": "投稿にもっと画像を追加",
     "alert_btn_draft": "最近の下書き",
     "draft_save_success": "下書きを保存しました",
+    "published_draft_delete_title": "投稿を公開しました",
+    "published_draft_delete_body": "公開元として保存された下書きも削除しますか？",
+    "published_draft_keep": "下書きを保持",
     "snippets": "スニペット",
     "community_restriction": "{title} コミュニティのメンバーのみが投稿を公開できます",
     "invalid_url_error": "有効な URL を入力してください",
@@ -983,7 +997,7 @@
       "username_exists": "このユーザー名は既に使用されています。別のものをお試しください",
       "username_length_error": "長さは3〜16文字にしてください",
       "username_contains_symbols_error": "使用できるのは英字、数字、ハイフンのみです",
-      "username_no_ascii_first_letter_error": "最初の文字は ASCII にしてください",
+      "username_no_ascii_first_letter_error": "先頭は英字で始めてください",
       "username_contains_double_hyphens": "ハイフンを連続して使用することはできません",
       "username_contains_underscore": "アンダースコアは使用できません"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Hivesigner 転送",
     "hivepegged_withdraw": "HIVE を引き出しました",
     "recurrent_transfer": "定期送金",
+    "fill_recurrent_transfer": "定期送金が実行されました",
     "delegations_in": "委任(受信)",
     "withdraw_hive": "貯蓄を引き出す",
     "reblog_desc": "あなたの好きな投稿を友達と共有することで、ポイントが獲得できます。",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI 画像"
   },
   "transfer": {
+    "custom_schedule": "カスタム（{hours}時間）",
+    "close": "閉じる",
+    "favorite_username_placeholder": "ユーザー名",
+    "invalid_recipient_qr": "このQRコードからユーザー名を見つけられませんでした。",
+    "one_time": "1回限り",
+    "pick_from_favorites": "お気に入りから受取人を選択",
+    "scan_qr_recipient": "受取人のQRコードをスキャン",
+    "schedule": "スケジュール",
     "select_token": "トークンを選択",
     "powering_down_subheading": "現在アンステーク中です。",
     "power_down": "アンステーク",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "LARYNX をステーク",
     "amount_select_desc_limit": "（0.001 より大きい値である必要があります）",
     "undelegate_engine": "トークンの委任を解除",
-    "to_bad_actor": "このアカウントへの送付には注意してください。フィッシングの可能性があるため、スペルをよく確認してください。"
+    "to_bad_actor": "このアカウントへの送付には注意してください。フィッシングの可能性があるため、スペルをよく確認してください。",
+    "exchange_recurrent_warning": "{exchange}は取引所であり、定期送金に対応していない場合があります。スケジュールで送金した資金が失われる可能性があります。代わりに1回限りの送金をご利用ください。",
+    "exchange_memo_required": "{exchange}への送金にはメモが必要です。取引所が指定するメモがないと、資金が失われる可能性があります。"
   },
   "login": {
     "cancel": "キャンセル",
@@ -1472,6 +1497,8 @@
       "no-one": "誰も不可（DM を無効化）"
     },
     "send_feedback": "フィードバックを送信する",
+    "rate_app": "Ecencyを評価する",
+    "rate": "評価する",
     "dm-privacy-updated": "DM のプライバシー設定を更新しました",
     "dm-privacy-failed": "DM のプライバシー設定の更新に失敗しました",
     "feedback_success": "メールを開くことができました",

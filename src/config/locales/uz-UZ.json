@@ -1,4 +1,10 @@
 {
+  "feature": {
+    "spotlight": {
+      "label": "Bilarmidingiz?",
+      "dismiss": "Yopish"
+    }
+  },
   "perks": {
     "header": "Imtiyozlar",
     "quests_title": "Topshiriqlar",
@@ -107,6 +113,10 @@
     "attach_poll": "So'rovnoma biriktirish"
   },
   "favorites": {
+    "add": "Sevimlilarga qo‘shish",
+    "add_error": "Sevimlilarga qo‘shib bo‘lmadi",
+    "cancel_add": "Sevimlilarga qo‘shishni bekor qilish",
+    "confirm_add": "Sevimlini saqlash",
     "empty_list": "Hech narsa yo'q",
     "search": "Sevimlilardan izlash",
     "load_error": "Sevimlilarni yuklab bo‘lmadi",
@@ -351,7 +361,8 @@
     "transfer_in": "{time} o'tkazish",
     "delete_success": "Takroriy o'tkazma muvaffaqiyatli o'chirildi",
     "unsubscribe_confirmation": "{username} ga takroriy o'tkazmadan obunani bekor qilasizmi?",
-    "remaining_executions": "Qolgan {executions} ta o'tkazma"
+    "remaining_executions": "Qolgan {executions} ta o'tkazma",
+    "schedule_summary": "{executions} ta o‘tkazma, har biri har {hours} soatda"
   },
   "similar_entries": {
     "title": "Keyingi o'qish"
@@ -387,6 +398,9 @@
     "add_more_imgs": "Postga ko'proq rasmlar qo'shing",
     "alert_btn_draft": "Oxirgi qoralama",
     "draft_save_success": "Qoralama saqlandi",
+    "published_draft_delete_title": "Post nashr etildi",
+    "published_draft_delete_body": "O‘zingiz nashr qilgan saqlangan qoralamani ham o‘chirib tashlamoqchimisiz?",
+    "published_draft_keep": "Qoralamani saqlash",
     "snippets": "Snippetlar",
     "community_restriction": "Faqat {title} hamjamiyati a'zolari post chop etishi mumkin",
     "invalid_url_error": "Iltimos yaroqli ssilkani kiriting",
@@ -983,7 +997,7 @@
       "username_exists": "Bunday foydalanuvchi nomi allaqachon mavjud, boshqasini sinab ko‘ring",
       "username_length_error": "Uzunlik 3 dan 16 ta belgigacha bo‘lishi kerak",
       "username_contains_symbols_error": "Faqat harflar, raqamlar va defis bo‘lishi kerak",
-      "username_no_ascii_first_letter_error": "Birinchi harf ASCII formatda bo‘lishi kerak",
+      "username_no_ascii_first_letter_error": "Harf bilan boshlanishi kerak",
       "username_contains_double_hyphens": "Ikkita ketma-ket defis bo‘lmasligi kerak",
       "username_contains_underscore": "Tag chiziq bo‘lmasligi kerak"
     },
@@ -1219,6 +1233,7 @@
     "steemconnect_title": "Hivesigner O'tqazma",
     "hivepegged_withdraw": "HIVE yechib olindi",
     "recurrent_transfer": "Takroriy o‘tkazma",
+    "fill_recurrent_transfer": "Takroriy o‘tkazma amalga oshirildi",
     "delegations_in": "Kiruvchi delegatsiyalar",
     "withdraw_hive": "J'amg'armadan yechib olish",
     "reblog_desc": "Yoqtirgan postlaringizni ulashing va ball ishlang.",
@@ -1321,6 +1336,14 @@
     "dropdown_label": "AI rasm"
   },
   "transfer": {
+    "custom_schedule": "Maxsus ({hours} soat)",
+    "close": "Yopish",
+    "favorite_username_placeholder": "Foydalanuvchi nomi",
+    "invalid_recipient_qr": "Ushbu QR kodda foydalanuvchi nomi topilmadi.",
+    "one_time": "Bir martalik",
+    "pick_from_favorites": "Qabul qiluvchini sevimlilardan tanlang",
+    "scan_qr_recipient": "Qabul qiluvchi uchun QR kodni skanerlang",
+    "schedule": "Jadval",
     "select_token": "Tokenni tanlang",
     "powering_down_subheading": "Hozir staking bekor qilinmoqda.",
     "power_down": "Staking bekor qilish",
@@ -1403,7 +1426,9 @@
     "power_up_spk": "LARYNX staking qilish",
     "amount_select_desc_limit": " va 0.001 dan katta bo'lishi kerak",
     "undelegate_engine": "Tokenni delegatsiyadan chiqarish",
-    "to_bad_actor": "Bu hisobga yuborishda ehtiyot bo'ling. Mumkin bo'lgan fishingdan saqlanish uchun imloni qayta tekshiring."
+    "to_bad_actor": "Bu hisobga yuborishda ehtiyot bo'ling. Mumkin bo'lgan fishingdan saqlanish uchun imloni qayta tekshiring.",
+    "exchange_recurrent_warning": "{exchange} — bu birja bo‘lib, takroriy o‘tkazmalarni qo‘llab-quvvatlamasligi mumkin — jadval bo‘yicha yuborilgan mablag‘ yo‘qolishi mumkin. Buning o‘rniga bir martalik o‘tkazmadan foydalaning.",
+    "exchange_memo_required": "{exchange} manziliga yuborish uchun memo talab qilinadi. Birja taqdim etgan memosiz mablag‘ingiz yo‘qolishi mumkin."
   },
   "login": {
     "cancel": "bekor qilish",
@@ -1472,6 +1497,8 @@
       "no-one": "Hech kim (DM o'chirilsin)"
     },
     "send_feedback": "Fikr-mulohaza yuborish",
+    "rate_app": "Ecency’ni baholang",
+    "rate": "Baholash",
     "dm-privacy-updated": "DM maxfiyligi sozlamalari muvaffaqiyatli yangilandi",
     "dm-privacy-failed": "DM maxfiyligi sozlamalarini yangilab bo'lmadi",
     "feedback_success": "Elektron pochta muvaffaqiyatli ochildi",
