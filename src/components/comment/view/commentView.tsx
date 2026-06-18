@@ -65,7 +65,11 @@ const CommentView = ({
   );
 
   const activeVotes = comment?.active_votes || [];
-  const _totalVotes = comment.stats?.total_votes || 0;
+  // Fall back to the actual voter list / total_votes when hivemind stats.total_votes is
+  // missing, so the heart matches the voters list shown on press. NOTE: this does not fix
+  // a stale persisted/un-refetched snapshot (where stats is a truthy-but-old value) — that
+  // is a data-freshness issue tracked separately.
+  const _totalVotes = comment.stats?.total_votes || activeVotes.length || comment.total_votes || 0;
 
   const [isOpeningReplies, setIsOpeningReplies] = useState(false);
 

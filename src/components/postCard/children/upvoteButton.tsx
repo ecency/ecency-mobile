@@ -66,6 +66,14 @@ export const UpvoteButton = ({
 
   const payoutLimitHit = totalPayout >= maxPayout;
   const _shownPayout = payoutLimitHit && maxPayout > 0 ? maxPayout : totalPayout;
+  // Coerce an absent/NaN payout to 0 so FormattedCurrency never receives undefined
+  // (which would render "$ NaN", e.g. a declined-payout card whose feed omits payout
+  // fields). Only render the payout chip when there is something to show — waves
+  // typically have a 0 payout, where the old `_shownPayout || '0.000'` rendered a bare
+  // "$" with a tiny 0.000 the user reads as "$ and nothing else". Real payouts and
+  // declined-payout (strikethrough $0.000) still render.
+  const _payoutValue = Number(_shownPayout) || 0;
+  const _hasPayoutToShow = _payoutValue > 0 || isDeclinedPayout;
 
   let iconName = 'upcircleo';
   const iconType = 'AntDesign';
@@ -92,7 +100,7 @@ export const UpvoteButton = ({
         </View>
       </TouchableOpacity>
       <View style={styles.payoutTextButton}>
-        {isShowPayoutValue && (
+        {isShowPayoutValue && _hasPayoutToShow && (
           <TouchableOpacity ref={detailsRef} onPress={_onDetailsPress}>
             <Text
               style={[
@@ -101,7 +109,7 @@ export const UpvoteButton = ({
                 boldPayout && styles.boldText,
               ]}
             >
-              <FormattedCurrency value={_shownPayout || '0.000'} />
+              <FormattedCurrency value={_payoutValue} />
             </Text>
           </TouchableOpacity>
         )}
