@@ -4,6 +4,7 @@ import {
   UseMutationOptions,
   useInfiniteQuery,
   useMutation,
+  useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
@@ -13,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import {
   getAccountPosts,
+  getPromotedPostsQuery,
   getWavesByHostQueryOptions,
   getWavesFollowingQueryOptions,
   getWavesByTagQueryOptions,
@@ -52,6 +54,9 @@ export const useWavesQuery = (
     primary: WAVES_PRIMARY_HOST,
     fallback: WAVES_FALLBACK_HOST,
   },
+  // When true (for-you / following feeds, not tag feeds), promoted waves are
+  // fetched and interleaved into the list like the web waves feed.
+  injectPromoted = false,
 ) => {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
@@ -102,6 +107,14 @@ export const useWavesQuery = (
     refetchInterval: 60000,
   });
 
+  // Promoted waves (only for for-you / following feeds, never tag feeds). The
+  // SDK keys this separately from the home-feed promoted query, so the two
+  // never collide. Interleaved into the list below, like the web waves feed.
+  const promotedQuery = useQuery({
+    ...getPromotedPostsQuery<WaveEntry>('waves'),
+    enabled: injectPromoted,
+  });
+
   const data = useMemo(() => {
     const primaryItems: WaveEntry[] = primaryQuery.data?.pages?.flat() ?? [];
     // Surface fallback items only while the primary is exhausted, so a primary
@@ -113,32 +126,70 @@ export const useWavesQuery = (
     const flatData: WaveEntry[] = [...primaryItems, ...fallbackItems];
     const botAuthors = botAuthorsQuery.data ?? [];
 
-    return (
-      flatData
-        // Waves are never promoted; pass the explicit `isPromoted=false` so this
-        // stays on the shared parsePost(post, currentUserName, isPromoted) contract.
-        // Shallow-copy before parsing: parsePost mutates its argument, and `flatData`
-        // holds the SDK query cache objects (mutating re-renders the body each refetch).
-        .map((item) => parsePost({ ...item }, currentAccount?.name, false))
-        .filter((post) => {
-          if (!post) {
-            return false;
+    const parsed = flatData
+      // Map esync's `timestamp` onto `created` so following / tag feeds show the
+      // relative publish time like the for-you feed. Organic waves are never
+      // promoted (isPromoted=false). Shallow-copy before parsing: parsePost mutates
+      // its argument, and `flatData` holds the SDK query cache objects.
+      .map((item) =>
+        parsePost(
+          { ...item, created: item.created || (item as any).timestamp },
+          currentAccount?.name,
+          false,
+        ),
+      )
+      .filter((post) => {
+        if (!post) {
+          return false;
+        }
+        // discard wave if author is muted
+        if (isArray(mutes) && mutes.indexOf(post.author) >= 0) {
+          return false;
+        }
+        // discard if wave is downvoted or marked gray
+        if (post.isMuted) {
+          return false;
+        }
+        // discard bot authors
+        if (botAuthors.includes(post.author)) {
+          return false;
+        }
+        return true;
+      });
+
+    if (!injectPromoted || !Array.isArray(promotedQuery.data) || !promotedQuery.data.length) {
+      return parsed;
+    }
+
+    // Interleave promoted waves like the web feed (waves-list-view): parse them
+    // as promoted, drop organic duplicates, then splice one in after every 4th
+    // item until the promoted queue drains.
+    const promotedWaves = promotedQuery.data
+      .map((item) =>
+        parsePost(
+          { ...item, created: item.created || (item as any).timestamp },
+          currentAccount?.name,
+          true,
+        ),
+      )
+      .filter(Boolean);
+    if (!promotedWaves.length) {
+      return parsed;
+    }
+    const promotedKeys = new Set(promotedWaves.map((wave) => `${wave.author}/${wave.permlink}`));
+    const queue = [...promotedWaves];
+    return parsed
+      .filter((post) => !promotedKeys.has(`${post.author}/${post.permlink}`))
+      .reduce((acc, post, index) => {
+        acc.push(post);
+        if (index % 4 === 1 && queue.length) {
+          const promoted = queue.shift();
+          if (promoted) {
+            acc.push(promoted);
           }
-          // discard wave if author is muted
-          if (isArray(mutes) && mutes.indexOf(post.author) >= 0) {
-            return false;
-          }
-          // discard if wave is downvoted or marked gray
-          if (post.isMuted) {
-            return false;
-          }
-          // discard bot authors
-          if (botAuthors.includes(post.author)) {
-            return false;
-          }
-          return true;
-        })
-    );
+        }
+        return acc;
+      }, [] as typeof parsed);
   }, [
     primaryQuery.data,
     fallbackQuery.data,
@@ -146,6 +197,8 @@ export const useWavesQuery = (
     mutes,
     botAuthorsQuery.data,
     currentAccount?.name,
+    promotedQuery.data,
+    injectPromoted,
   ]);
 
   const primaryItemCount = primaryQuery.data?.pages?.flat()?.length ?? 0;

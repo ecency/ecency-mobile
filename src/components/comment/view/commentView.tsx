@@ -282,10 +282,9 @@ const CommentView = ({
               <TextWithIcon
                 wrapperStyle={styles.rightButton}
                 iconName={repliesToggle ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
-                textStyle={styles.moreText}
                 iconType="MaterialIcons"
                 isClickable
-                iconStyle={styles.iconStyle}
+                iconStyle={styles.chevronIcon}
                 iconSize={16}
                 onPress={() => _showSubCommentsToggle()}
                 text=""
@@ -319,6 +318,7 @@ const CommentView = ({
           currentAccountUsername={_currentUsername}
           isShowOwnerIndicator={mainAuthor === comment.author}
           isShowPinnedIndicator={isPinned}
+          isShowPromotedIndicator={comment.is_promoted}
           isHideImage={isHideImage}
           inlineTime={true}
           customStyle={{ alignItems: 'flex-start', paddingLeft: 12 }}

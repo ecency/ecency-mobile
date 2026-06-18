@@ -86,7 +86,9 @@ const WavesFeed = ({
   registerDeleter: (key: string, deleter: DeleteWaveFn | null) => void;
   isDarkTheme: boolean;
 }) => {
-  const wavesQuery = wavesQueries.useWavesQuery(buildQueryOptions);
+  // Interleave promoted waves on the for-you / following feeds, but never on a
+  // tag feed (matches the web waves feed's `enabled: !tag`).
+  const wavesQuery = wavesQueries.useWavesQuery(buildQueryOptions, undefined, feedKey !== 'tag');
   const blockPopupRef = useRef(false);
   const scrollOffsetRef = useRef(0);
 

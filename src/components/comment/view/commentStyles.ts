@@ -19,6 +19,8 @@ export default EStyleSheet.create({
     flexDirection: 'row-reverse',
     borderRadius: 20,
     minWidth: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   moreButton: {
     backgroundColor: '$iconColor',
@@ -38,6 +40,13 @@ export default EStyleSheet.create({
     color: '$white',
     marginRight: 12,
     marginTop: 1,
+  },
+  // Lone chevron on the reply-expander pill: no side margin so the icon centers
+  // (the pill is row-reverse with justifyContent/alignItems center and minWidth 40,
+  // and the expander passes no textStyle, so the empty label adds no offset).
+  chevronIcon: {
+    color: '$white',
+    marginRight: 0,
   },
   footerWrapper: {
     flex: 1,
