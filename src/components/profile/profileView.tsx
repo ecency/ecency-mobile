@@ -42,6 +42,10 @@ const SUMMARY_TOGGLE_COOLDOWN_MS = 550;
 class ProfileView extends PureComponent {
   _lastSummaryToggleAt = 0;
 
+  _lastOffsetY = 0;
+
+  _summaryRecheckTimer = null;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -52,28 +56,49 @@ class ProfileView extends PureComponent {
     };
   }
 
-  _handleOnScroll = (event) => {
+  componentWillUnmount() {
+    if (this._summaryRecheckTimer) {
+      clearTimeout(this._summaryRecheckTimer);
+    }
+  }
+
+  // Decide collapse/expand from the latest scroll offset, honoring the dead zone and the
+  // post-toggle cooldown. If a wanted toggle lands inside the cooldown, re-evaluate once it
+  // clears using the most recent offset — so returning to the top still settles (re-expands)
+  // even when no further scroll event arrives (otherwise that lone toggle event is dropped).
+  _evaluateSummary = () => {
     const { isSummaryOpen } = this.state;
+    const offsetY = this._lastOffsetY;
+    const wantCollapse = isSummaryOpen && offsetY > SUMMARY_COLLAPSE_THRESHOLD;
+    const wantExpand = !isSummaryOpen && offsetY <= SUMMARY_EXPAND_THRESHOLD;
+    if (!wantCollapse && !wantExpand) {
+      return;
+    }
+
+    const now = Date.now();
+    const elapsed = now - this._lastSummaryToggleAt;
+    if (elapsed < SUMMARY_TOGGLE_COOLDOWN_MS) {
+      if (this._summaryRecheckTimer) {
+        clearTimeout(this._summaryRecheckTimer);
+      }
+      this._summaryRecheckTimer = setTimeout(() => {
+        this._summaryRecheckTimer = null;
+        this._evaluateSummary();
+      }, SUMMARY_TOGGLE_COOLDOWN_MS - elapsed + 20);
+      return;
+    }
+
+    this._lastSummaryToggleAt = now;
+    this.setState({ isSummaryOpen: wantExpand });
+  };
+
+  _handleOnScroll = (event) => {
     const offsetY = event?.nativeEvent?.contentOffset?.y;
     if (offsetY === undefined) {
       return;
     }
-
-    // Debounce direction flips while the header height animation settles.
-    const now = Date.now();
-    if (now - this._lastSummaryToggleAt < SUMMARY_TOGGLE_COOLDOWN_MS) {
-      return;
-    }
-
-    // Collapse only well past the top; re-expand only near the very top. The gap between
-    // the two thresholds is a dead zone so jitter / overscroll around 0 can't flip state.
-    if (isSummaryOpen && offsetY > SUMMARY_COLLAPSE_THRESHOLD) {
-      this._lastSummaryToggleAt = now;
-      this.setState({ isSummaryOpen: false });
-    } else if (!isSummaryOpen && offsetY <= SUMMARY_EXPAND_THRESHOLD) {
-      this._lastSummaryToggleAt = now;
-      this.setState({ isSummaryOpen: true });
-    }
+    this._lastOffsetY = offsetY;
+    this._evaluateSummary();
   };
 
   _loadMoreComments = () => {
@@ -309,10 +334,9 @@ class ProfileView extends PureComponent {
           selectedOptionIndex={selectedIndex}
           pageType={pageType}
           feedUsername={username}
-          // Do not toggle on touch-start: a stationary touch / tiny drag must not collapse
-          // the header. onScrollEndDrag + per-tab onScroll already drive collapse on real
-          // movement, so begin-drag toggling only fed the oscillation.
-          handleOnScrollBeginDrag={null}
+          // Begin-drag intentionally not wired (prop omitted): toggling on touch-start (a
+          // stationary touch or tiny drag) only fed the oscillation. onScrollEndDrag drives
+          // collapse instead.
           handleOnScroll={this._handleOnScroll}
           forceLoadPost={forceLoadPost}
           changeForceLoadPostState={changeForceLoadPostState}
