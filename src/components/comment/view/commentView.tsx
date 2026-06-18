@@ -65,16 +65,16 @@ const CommentView = ({
   );
 
   const activeVotes = comment?.active_votes || [];
-  // Fall back to the actual voter list / net_votes / total_votes when hivemind
-  // stats.total_votes is missing, so the heart matches the voters list shown on press.
-  // net_votes covers the custom waves feeds (following/tags/user) whose esync payload
-  // carries net_votes but no active_votes. NOTE: this does not fix a stale
-  // persisted/un-refetched snapshot (where stats is a truthy-but-old value) — that is a
-  // data-freshness issue tracked separately.
+  // hivemind stats.total_votes is the freshest authoritative count when present
+  // (it tracks optimistic up/unvotes), so it stays first. Otherwise take the
+  // larger of the live voter list and net_votes: the custom waves feeds
+  // (following/tags/user) carry net_votes but no active_votes, and an optimistic
+  // vote there creates a length-1 active_votes array — Math.max keeps the real
+  // count (e.g. 29) instead of collapsing to 1 until the next refetch. NOTE: this
+  // does not fix a stale persisted/un-refetched snapshot — tracked separately.
   const _totalVotes =
     comment.stats?.total_votes ||
-    activeVotes.length ||
-    comment.net_votes ||
+    Math.max(activeVotes.length, comment.net_votes || 0) ||
     comment.total_votes ||
     0;
 
