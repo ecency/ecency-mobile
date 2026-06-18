@@ -1,0 +1,42 @@
+diff --git a/node_modules/@react-native-firebase/messaging/android/src/main/java/io/invertase/firebase/messaging/ReactNativeFirebaseMessagingReceiver.java b/node_modules/@react-native-firebase/messaging/android/src/main/java/io/invertase/firebase/messaging/ReactNativeFirebaseMessagingReceiver.java
+index cee80e8..a6b9178 100644
+--- a/node_modules/@react-native-firebase/messaging/android/src/main/java/io/invertase/firebase/messaging/ReactNativeFirebaseMessagingReceiver.java
++++ b/node_modules/@react-native-firebase/messaging/android/src/main/java/io/invertase/firebase/messaging/ReactNativeFirebaseMessagingReceiver.java
+@@ -16,6 +16,11 @@ public class ReactNativeFirebaseMessagingReceiver extends BroadcastReceiver {
+   private static final String TAG = "RNFirebaseMsgReceiver";
+   static HashMap<String, RemoteMessage> notifications = new HashMap<>();
+ 
++  // Ecency patch: run the message-store SharedPreferences read/write off the main thread to
++  // avoid the awaitLoadedLocked load + QueuedWork.apply() flush Background ANRs (see onReceive).
++  private static final java.util.concurrent.ExecutorService STORE_EXECUTOR =
++      java.util.concurrent.Executors.newSingleThreadExecutor();
++
+   @Override
+   public void onReceive(Context context, Intent intent) {
+     Log.d(TAG, "broadcast received for message");
+@@ -32,9 +37,22 @@ public class ReactNativeFirebaseMessagingReceiver extends BroadcastReceiver {
+     // Add a RemoteMessage if the message contains a notification payload
+     if (remoteMessage.getNotification() != null) {
+       notifications.put(remoteMessage.getMessageId(), remoteMessage);
+-      ReactNativeFirebaseMessagingStoreHelper.getInstance()
+-          .getMessagingStore()
+-          .storeFirebaseMessage(remoteMessage);
++      // Ecency patch: the in-memory notifications.put above stays synchronous (it is read
++      // first by getInitialNotification / onNewIntent). Offload only the SharedPreferences
++      // store read+write off the main thread; goAsync() keeps the receiver process alive
++      // (~10s budget) until finish() is called.
++      final PendingResult storePendingResult = goAsync();
++      final RemoteMessage storeMessage = remoteMessage;
++      STORE_EXECUTOR.execute(
++          () -> {
++            try {
++              ReactNativeFirebaseMessagingStoreHelper.getInstance()
++                  .getMessagingStore()
++                  .storeFirebaseMessage(storeMessage);
++            } finally {
++              storePendingResult.finish();
++            }
++          });
+     }
+ 
+     //  |-> ---------------------

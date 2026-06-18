@@ -9,8 +9,10 @@ import MigrationHelpers from '../../utils/migrationHelpers';
 
 // Cap the unbounded optimistic-vote and point-activity caches before they are serialized
 // to AsyncStorage. The full collections stay in memory for the session; only the persisted
-// (most-recent) slice is bounded, which shrinks the synchronous background SharedPreferences
-// flush that drives Android Background ANRs. Insertion order keeps the newest entries.
+// (most-recent) slice is bounded, which reduces the AsyncStorage (SQLite) write volume and
+// JSON serialization cost on the JS thread. Insertion order keeps the newest entries.
+// NOTE: this is write-volume hygiene, NOT the Background-ANR fix — that ANR is react-native-
+// firebase's own SharedPreferences message store on the main thread (fixed via patch-package).
 const CACHE_PERSIST_LIMIT = 200;
 const capObject = (obj: Record<string, any> = {}, limit = CACHE_PERSIST_LIMIT) => {
   const safe = obj || {};

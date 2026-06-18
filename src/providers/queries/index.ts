@@ -10,8 +10,9 @@ export const initQueryClient = () => {
   const asyncStoragePersister = createAsyncStoragePersister({
     storage: AsyncStorage,
     // Batch cache writes (default is 1000ms). A longer window reduces how often the large
-    // dehydrated-cache blob is rewritten, lessening the synchronous SharedPreferences flush
-    // on backgrounding that contributes to Android Background ANRs.
+    // dehydrated-cache blob is rewritten to AsyncStorage (SQLite) — write-volume + JSON
+    // serialization hygiene. (The Background ANR is react-native-firebase's own
+    // SharedPreferences store, not AsyncStorage; fixed separately via patch-package.)
     throttleTime: 2000,
   });
 
