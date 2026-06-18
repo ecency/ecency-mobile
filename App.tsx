@@ -56,6 +56,23 @@ const redactBreadcrumb = (breadcrumb: any) => {
   return breadcrumb;
 };
 
+// Benign/expected errors that carry no diagnostic value and should not be reported to
+// Sentry: normal user actions (wrong password, wrong PIN, cancelled HiveSigner signing)
+// and TanStack Query's internal cancellation signal.
+const IGNORED_ERROR_VALUES = ['auth.invalid_credentials', 'auth.invalid_username'];
+const IGNORED_ERROR_PATTERNS = [/check your PIN/i, /HiveSigner signing cancelled/i, /CancelledError/];
+const IGNORED_ERROR_TYPES = ['CancelledError', 'SigningCancelledError'];
+
+const isIgnoredError = (event: any): boolean =>
+  !!event?.exception?.values?.some((v: any) => {
+    const value = v?.value || '';
+    return (
+      IGNORED_ERROR_TYPES.includes(v?.type) ||
+      IGNORED_ERROR_VALUES.includes(value) ||
+      IGNORED_ERROR_PATTERNS.some((re) => re.test(value))
+    );
+  });
+
 Sentry.init({
   dsn: 'https://a7b0c5a49bdeae965767e2967411b7b0@o4507985141956608.ingest.de.sentry.io/4509786252116048',
 
@@ -68,12 +85,17 @@ Sentry.init({
   replaysSessionSampleRate: enableSessionReplay ? 0.1 : 0,
   replaysOnErrorSampleRate: enableSessionReplay ? 1 : 0,
   integrations,
+  ignoreErrors: [/CancelledError/],
 
   beforeBreadcrumb(breadcrumb) {
     return redactBreadcrumb(breadcrumb);
   },
 
   beforeSend(event) {
+    // Drop benign/expected errors (see IGNORED_ERROR_* above) before anything else.
+    if (isIgnoredError(event)) {
+      return null;
+    }
     if (typeof event.message === 'string') {
       event.message = redactSecrets(event.message);
     }
