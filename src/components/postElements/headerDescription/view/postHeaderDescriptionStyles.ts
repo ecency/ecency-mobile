@@ -95,6 +95,18 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     marginLeft: 8,
   },
+  promotedIndicator: {
+    alignSelf: 'center',
+    marginLeft: 8,
+    color: '$white',
+    backgroundColor: '$primaryBlue',
+    fontSize: 9,
+    fontWeight: '600',
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    borderRadius: 6,
+    overflow: 'hidden',
+  },
   rightIcon: {
     color: '$iconColor',
   },

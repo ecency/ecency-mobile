@@ -33,8 +33,14 @@ export const convertStatsData = (rawData: any) => {
 // NOTE: update default stats here along with accompanying interface
 // this will also update thre returned response object
 export function getDefaultPostStats(): PostStats {
+  // `visits` (sessions) is the displayed "Views" number, matching the web app:
+  // it is reload-proof (a single user refreshing inflates pageviews but not
+  // visits), so app and web report the same count. `pageviews` is still fetched
+  // for the per-device breakdown. parsePostStatsResponse maps by metric NAME,
+  // so adding a key here just requests + parses that extra metric.
   return {
     visitors: 0,
+    visits: 0,
     pageviews: 0,
     visit_duration: 0,
   } as PostStats;

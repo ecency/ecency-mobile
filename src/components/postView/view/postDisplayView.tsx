@@ -391,7 +391,7 @@ const PostDisplayView = ({
                     iconType="MaterialCommunityIcons"
                     isClickable
                     onPress={_showStatsModal}
-                    text={getAbbreviatedNumber(postStatsQuery.data?.pageviews || 0)}
+                    text={getAbbreviatedNumber(postStatsQuery.data?.visits || 0)}
                     textMarginLeft={4}
                     isLoading={postStatsQuery.isLoading}
                   />
@@ -448,7 +448,7 @@ const PostDisplayView = ({
       formatedTime,
       tags,
       postBodyLoading,
-      postStatsQuery.data?.pageviews,
+      postStatsQuery.data?.visits,
       postStatsQuery.isLoading,
       _showQuickProfileModal,
       _openProfilePage,

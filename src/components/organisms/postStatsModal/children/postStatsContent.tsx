@@ -29,7 +29,7 @@ export const PostStatsContent = ({
   const _durationValue = Math.floor((statsQuery.data?.visit_duration || 0) / 1000);
   const statsData1 = [
     { label: intl.formatMessage({ id: 'stats.viewers' }), value: statsQuery.data?.visitors },
-    { label: intl.formatMessage({ id: 'stats.pageviews' }), value: statsQuery.data?.pageviews },
+    { label: intl.formatMessage({ id: 'stats.pageviews' }), value: statsQuery.data?.visits },
     { label: intl.formatMessage({ id: 'stats.duration' }), value: _durationValue },
   ] as StatsItem[];
 
