@@ -66,6 +66,11 @@ export const UpvoteButton = ({
 
   const payoutLimitHit = totalPayout >= maxPayout;
   const _shownPayout = payoutLimitHit && maxPayout > 0 ? maxPayout : totalPayout;
+  // Only render the payout chip when there is something to show. Waves typically have a
+  // 0 payout, where the old `_shownPayout || '0.000'` rendered a bare "$" with a tiny
+  // 0.000 the user reads as "$ and nothing else". Real payouts and declined-payout
+  // (strikethrough) still render.
+  const _hasPayoutToShow = Number(_shownPayout) > 0 || isDeclinedPayout;
 
   let iconName = 'upcircleo';
   const iconType = 'AntDesign';
@@ -92,7 +97,7 @@ export const UpvoteButton = ({
         </View>
       </TouchableOpacity>
       <View style={styles.payoutTextButton}>
-        {isShowPayoutValue && (
+        {isShowPayoutValue && _hasPayoutToShow && (
           <TouchableOpacity ref={detailsRef} onPress={_onDetailsPress}>
             <Text
               style={[
@@ -101,7 +106,7 @@ export const UpvoteButton = ({
                 boldPayout && styles.boldText,
               ]}
             >
-              <FormattedCurrency value={_shownPayout || '0.000'} />
+              <FormattedCurrency value={_shownPayout} />
             </Text>
           </TouchableOpacity>
         )}
