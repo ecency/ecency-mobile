@@ -24,7 +24,14 @@ const VideoThumb = ({
       <View pointerEvents="none">
         <ImageBackground
           source={{ uri }}
-          style={{ ...styles.videoThumb, width: contentWidth, height: contentWidth * heightRatio }}
+          style={{
+            ...styles.videoThumb,
+            width: contentWidth,
+            height: contentWidth * heightRatio,
+            // portrait (3Speak) thumbs use 'contain', so keep the letterbox bars
+            // transparent to blend with the card instead of showing the fill color
+            ...(resizeMode === 'contain' ? { backgroundColor: 'transparent' } : null),
+          }}
           resizeMode={resizeMode}
         >
           <IconButton
