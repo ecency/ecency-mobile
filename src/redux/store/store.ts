@@ -13,8 +13,9 @@ import MigrationHelpers from '../../utils/migrationHelpers';
 // flush that drives Android Background ANRs. Insertion order keeps the newest entries.
 const CACHE_PERSIST_LIMIT = 200;
 const capObject = (obj: Record<string, any> = {}, limit = CACHE_PERSIST_LIMIT) => {
-  const entries = Object.entries(obj || {});
-  return entries.length <= limit ? obj : Object.fromEntries(entries.slice(-limit));
+  const safe = obj || {};
+  const entries = Object.entries(safe);
+  return entries.length <= limit ? safe : Object.fromEntries(entries.slice(-limit));
 };
 
 const transformCacheVoteMap = createTransform(
