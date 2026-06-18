@@ -222,7 +222,7 @@ const CommentView = ({
           iconSize={20}
           wrapperStyle={styles.leftButton}
           iconType="MaterialCommunityIcons"
-          isClickable
+          isClickable={isLoggedIn}
           onPress={_handleOnReplyPress}
           text={childCount || 0}
           textStyle={styles.voteCountText}
@@ -288,7 +288,7 @@ const CommentView = ({
                 iconStyle={styles.iconStyle}
                 iconSize={16}
                 onPress={() => _showSubCommentsToggle()}
-                text={`${childCount} ${intl.formatMessage({ id: 'comments.more_replies' })}`}
+                text=""
               />
             )}
           </View>
