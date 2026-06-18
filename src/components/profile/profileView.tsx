@@ -30,7 +30,18 @@ import CommentsTabContent from './children/commentsTabContent';
 import WavesTabContent from './children/wavesTabContent';
 import { Icon } from '..';
 
+// Profile summary collapse/expand is driven by feed scroll. A dead zone + cooldown keep
+// the header from oscillating: collapse only once scrolled well past the top, re-expand
+// only within a few px of the top, and ignore further flips for COOLDOWN ms (>= the 500ms
+// CollapsibleCard height animation) so the reflow that animation causes — which momentarily
+// reports offsetY≈0 on FlashList — can't re-trigger the opposite toggle.
+const SUMMARY_COLLAPSE_THRESHOLD = 80;
+const SUMMARY_EXPAND_THRESHOLD = 8;
+const SUMMARY_TOGGLE_COOLDOWN_MS = 550;
+
 class ProfileView extends PureComponent {
+  _lastSummaryToggleAt = 0;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -44,16 +55,24 @@ class ProfileView extends PureComponent {
   _handleOnScroll = (event) => {
     const { isSummaryOpen } = this.state;
     const offsetY = event?.nativeEvent?.contentOffset?.y;
-
-    // Scrolled to top → re-expand profile
-    if (offsetY !== undefined && offsetY <= 0 && !isSummaryOpen) {
-      this.setState({ isSummaryOpen: true });
+    if (offsetY === undefined) {
       return;
     }
 
-    // Scrolling down → collapse profile
-    if (isSummaryOpen) {
+    // Debounce direction flips while the header height animation settles.
+    const now = Date.now();
+    if (now - this._lastSummaryToggleAt < SUMMARY_TOGGLE_COOLDOWN_MS) {
+      return;
+    }
+
+    // Collapse only well past the top; re-expand only near the very top. The gap between
+    // the two thresholds is a dead zone so jitter / overscroll around 0 can't flip state.
+    if (isSummaryOpen && offsetY > SUMMARY_COLLAPSE_THRESHOLD) {
+      this._lastSummaryToggleAt = now;
       this.setState({ isSummaryOpen: false });
+    } else if (!isSummaryOpen && offsetY <= SUMMARY_EXPAND_THRESHOLD) {
+      this._lastSummaryToggleAt = now;
+      this.setState({ isSummaryOpen: true });
     }
   };
 
@@ -248,7 +267,6 @@ class ProfileView extends PureComponent {
       deepLinkFilter,
     } = this.props;
 
-    const { isSummaryOpen } = this.state;
     const pageType = isOwnProfile ? 'ownProfile' : 'profile';
     const tabs = (isOwnProfile ? ownProfileTabs : profileTabs) || getDefaultFilters(pageType);
 
@@ -291,7 +309,10 @@ class ProfileView extends PureComponent {
           selectedOptionIndex={selectedIndex}
           pageType={pageType}
           feedUsername={username}
-          handleOnScrollBeginDrag={isSummaryOpen ? this._handleOnScroll : null}
+          // Do not toggle on touch-start: a stationary touch / tiny drag must not collapse
+          // the header. onScrollEndDrag + per-tab onScroll already drive collapse on real
+          // movement, so begin-drag toggling only fed the oscillation.
+          handleOnScrollBeginDrag={null}
           handleOnScroll={this._handleOnScroll}
           forceLoadPost={forceLoadPost}
           changeForceLoadPostState={changeForceLoadPostState}
