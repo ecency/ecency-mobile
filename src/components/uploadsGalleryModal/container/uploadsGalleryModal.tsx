@@ -163,8 +163,13 @@ export const UploadsGalleryModal = forwardRef(
           });
 
           // Drop entries the map returned as null (shared files missing path/name) so the
-          // size filter in _handleMediaOnSelected never dereferences a null item.
-          _handleMediaOnSelected(_mediaItems.filter(Boolean), true);
+          // size filter in _handleMediaOnSelected never dereferences a null item. A text-only
+          // share filters to [], which would otherwise hit the "no media" error path, so only
+          // invoke upload handling when something remains.
+          const _validMediaItems = _mediaItems.filter(Boolean);
+          if (_validMediaItems.length) {
+            _handleMediaOnSelected(_validMediaItems, true);
+          }
         });
       }
     }, [paramFiles]);
@@ -264,7 +269,9 @@ export const UploadsGalleryModal = forwardRef(
           (item) => item && item.size && item.size > MAX_IMAGE_UPLOAD_SIZE,
         );
         if (oversized.length > 0) {
-          media = media.filter((item) => item && (!item.size || item.size <= MAX_IMAGE_UPLOAD_SIZE));
+          media = media.filter(
+            (item) => item && (!item.size || item.size <= MAX_IMAGE_UPLOAD_SIZE),
+          );
           Alert.alert(
             intl.formatMessage({ id: 'alert.fail' }),
             intl.formatMessage({ id: 'alert.payloadTooLarge' }),

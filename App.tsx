@@ -60,7 +60,8 @@ const redactBreadcrumb = (breadcrumb: any) => {
 // Sentry: normal user actions (wrong password, wrong PIN, cancelled HiveSigner signing)
 // and TanStack Query's internal cancellation signal.
 const IGNORED_ERROR_VALUES = ['auth.invalid_credentials', 'auth.invalid_username'];
-const IGNORED_ERROR_PATTERNS = [/check your PIN/i, /HiveSigner signing cancelled/i, /CancelledError/];
+// CancelledError is covered by ignoreErrors + IGNORED_ERROR_TYPES, so it is not repeated here.
+const IGNORED_ERROR_PATTERNS = [/check your PIN/i, /HiveSigner signing cancelled/i];
 const IGNORED_ERROR_TYPES = ['CancelledError', 'SigningCancelledError'];
 
 const isIgnoredError = (event: any): boolean =>
