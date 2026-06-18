@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, memo, useRef } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import DatePicker from 'react-native-date-picker';
 import { useDispatch } from 'react-redux';
@@ -252,7 +252,7 @@ export const PollsWizardContent = ({
     return (
       <>
         {!showConfig && (
-          <Animated.View exiting={SlideOutRight}>
+          <Animated.View exiting={Platform.OS === 'ios' ? SlideOutRight : undefined}>
             <View style={styles.separator} />
             <TouchableOpacity
               onPress={() => {

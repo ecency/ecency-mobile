@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Text } from 'react-native';
+import { Text, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 import styles from '../styles/pollsWizardContent.styles';
@@ -90,7 +90,10 @@ export const PollConfig = ({ pollDraft, setPollDraft }: Props) => {
   };
 
   return (
-    <Animated.View entering={SlideInDown} exiting={SlideOutDown}>
+    <Animated.View
+      entering={Platform.OS === 'ios' ? SlideInDown : undefined}
+      exiting={Platform.OS === 'ios' ? SlideOutDown : undefined}
+    >
       <Text style={styles.label}>{intl.formatMessage({ id: 'post_poll.config_age' })}</Text>
       <FormInput
         ref={ageInputRef}
