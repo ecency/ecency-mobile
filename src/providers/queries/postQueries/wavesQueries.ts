@@ -126,6 +126,28 @@ export const useWavesQuery = (
     const flatData: WaveEntry[] = [...primaryItems, ...fallbackItems];
     const botAuthors = botAuthorsQuery.data ?? [];
 
+    // Shared visibility filter: drop empty parses, muted authors, downvoted /
+    // gray waves, and bot authors. Applied to BOTH organic and promoted waves
+    // so the user's own mutes (and bot/gray hiding) hold even for promoted cards.
+    const isVisibleWave = (post: any) => {
+      if (!post) {
+        return false;
+      }
+      // discard wave if author is muted
+      if (isArray(mutes) && mutes.indexOf(post.author) >= 0) {
+        return false;
+      }
+      // discard if wave is downvoted or marked gray
+      if (post.isMuted) {
+        return false;
+      }
+      // discard bot authors
+      if (botAuthors.includes(post.author)) {
+        return false;
+      }
+      return true;
+    };
+
     const parsed = flatData
       // Map esync's `timestamp` onto `created` so following / tag feeds show the
       // relative publish time like the for-you feed. Organic waves are never
@@ -138,32 +160,16 @@ export const useWavesQuery = (
           false,
         ),
       )
-      .filter((post) => {
-        if (!post) {
-          return false;
-        }
-        // discard wave if author is muted
-        if (isArray(mutes) && mutes.indexOf(post.author) >= 0) {
-          return false;
-        }
-        // discard if wave is downvoted or marked gray
-        if (post.isMuted) {
-          return false;
-        }
-        // discard bot authors
-        if (botAuthors.includes(post.author)) {
-          return false;
-        }
-        return true;
-      });
+      .filter(isVisibleWave);
 
     if (!injectPromoted || !Array.isArray(promotedQuery.data) || !promotedQuery.data.length) {
       return parsed;
     }
 
-    // Interleave promoted waves like the web feed (waves-list-view): parse them
-    // as promoted, drop organic duplicates, then splice one in after every 4th
-    // item until the promoted queue drains.
+    // Interleave promoted waves exactly like the web feed (waves-list-view):
+    // parse as promoted, apply the same visibility filter, drop organic copies
+    // (keep the promoted version), then splice promoted cards in at the web
+    // cadence until the queue drains.
     const promotedWaves = promotedQuery.data
       .map((item) =>
         parsePost(
@@ -172,7 +178,7 @@ export const useWavesQuery = (
           true,
         ),
       )
-      .filter(Boolean);
+      .filter(isVisibleWave);
     if (!promotedWaves.length) {
       return parsed;
     }
@@ -182,6 +188,8 @@ export const useWavesQuery = (
       .filter((post) => !promotedKeys.has(`${post.author}/${post.permlink}`))
       .reduce((acc, post, index) => {
         acc.push(post);
+        // Matches the web feed's cadence (`index % 4 === 1`): the first promoted
+        // card appears after the 2nd organic wave, then after every 4th.
         if (index % 4 === 1 && queue.length) {
           const promoted = queue.shift();
           if (promoted) {
