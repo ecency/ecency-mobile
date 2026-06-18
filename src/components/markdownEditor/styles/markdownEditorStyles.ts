@@ -16,8 +16,11 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
     backgroundColor: '$primaryBackgroundColor',
     textAlignVertical: 'top',
-    minHeight: isAndroidOreo() ? undefined : '$deviceHeight/2',
-    maxHeight: isAndroidOreo() ? '$deviceHeight' : undefined,
+    // flex:1 fills the editor's flex parent; maxHeight clamps the self-scrolling input so
+    // it scrolls its own content instead of growing off-screen. No deviceHeight/2 minHeight:
+    // that floor forced the field taller than the keyboard-shrunk viewport, which was the
+    // overflow the (now removed) outer ScrollView snapped around while typing.
+    maxHeight: '$deviceHeight',
   },
   previewContainer: {
     flex: 1,

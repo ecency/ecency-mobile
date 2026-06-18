@@ -28,7 +28,6 @@ import {
 import { useAppSelector } from '../../../hooks';
 import { selectIsDarkTheme } from '../../../redux/selectors';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
-import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { OptionsModal } from '../../atoms';
 import { MainButton } from '../../mainButton';
 import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
@@ -417,15 +416,17 @@ const MarkdownEditorView = ({
     </>
   );
 
-  const _editorWithScroll = (
-    <ScrollView style={styles.container}>{_renderEditor(false)}</ScrollView>
-  );
-  const _editorWithoutScroll = <View style={styles.container}>{_renderEditor(true)}</View>;
+  // The multiline TextInput owns its own scrolling (scrollEnabled=true) inside a plain
+  // flex View. Wrapping it in an outer ScrollView (with the input's scrollEnabled=false)
+  // created two competing scroll containers that both tracked the caret, which jumped the
+  // body up and down while typing. This self-scrolling layout is what Android 8.0/8.1
+  // already shipped without that issue; it now runs on every platform.
+  const _editor = <View style={styles.container}>{_renderEditor(true)}</View>;
 
   const _renderContent = () => {
     const _editorContent = (
       <>
-        {isAndroidOreo() ? _editorWithoutScroll : _editorWithScroll}
+        {_editor}
 
         {/* {isDraftUpdated && (
           <UsernameAutofillBar
