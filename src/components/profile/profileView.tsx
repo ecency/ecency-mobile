@@ -30,7 +30,22 @@ import CommentsTabContent from './children/commentsTabContent';
 import WavesTabContent from './children/wavesTabContent';
 import { Icon } from '..';
 
+// Profile summary collapse/expand is driven by feed scroll. A dead zone + cooldown keep
+// the header from oscillating: collapse only once scrolled well past the top, re-expand
+// only within a few px of the top, and ignore further flips for COOLDOWN ms (>= the 500ms
+// CollapsibleCard height animation) so the reflow that animation causes — which momentarily
+// reports offsetY≈0 on FlashList — can't re-trigger the opposite toggle.
+const SUMMARY_COLLAPSE_THRESHOLD = 80;
+const SUMMARY_EXPAND_THRESHOLD = 8;
+const SUMMARY_TOGGLE_COOLDOWN_MS = 550;
+
 class ProfileView extends PureComponent {
+  _lastSummaryToggleAt = 0;
+
+  _lastOffsetY = 0;
+
+  _summaryRecheckTimer = null;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -41,20 +56,49 @@ class ProfileView extends PureComponent {
     };
   }
 
-  _handleOnScroll = (event) => {
-    const { isSummaryOpen } = this.state;
-    const offsetY = event?.nativeEvent?.contentOffset?.y;
+  componentWillUnmount() {
+    if (this._summaryRecheckTimer) {
+      clearTimeout(this._summaryRecheckTimer);
+    }
+  }
 
-    // Scrolled to top → re-expand profile
-    if (offsetY !== undefined && offsetY <= 0 && !isSummaryOpen) {
-      this.setState({ isSummaryOpen: true });
+  // Decide collapse/expand from the latest scroll offset, honoring the dead zone and the
+  // post-toggle cooldown. If a wanted toggle lands inside the cooldown, re-evaluate once it
+  // clears using the most recent offset — so returning to the top still settles (re-expands)
+  // even when no further scroll event arrives (otherwise that lone toggle event is dropped).
+  _evaluateSummary = () => {
+    const { isSummaryOpen } = this.state;
+    const offsetY = this._lastOffsetY;
+    const wantCollapse = isSummaryOpen && offsetY > SUMMARY_COLLAPSE_THRESHOLD;
+    const wantExpand = !isSummaryOpen && offsetY <= SUMMARY_EXPAND_THRESHOLD;
+    if (!wantCollapse && !wantExpand) {
       return;
     }
 
-    // Scrolling down → collapse profile
-    if (isSummaryOpen) {
-      this.setState({ isSummaryOpen: false });
+    const now = Date.now();
+    const elapsed = now - this._lastSummaryToggleAt;
+    if (elapsed < SUMMARY_TOGGLE_COOLDOWN_MS) {
+      if (this._summaryRecheckTimer) {
+        clearTimeout(this._summaryRecheckTimer);
+      }
+      this._summaryRecheckTimer = setTimeout(() => {
+        this._summaryRecheckTimer = null;
+        this._evaluateSummary();
+      }, SUMMARY_TOGGLE_COOLDOWN_MS - elapsed + 20);
+      return;
     }
+
+    this._lastSummaryToggleAt = now;
+    this.setState({ isSummaryOpen: wantExpand });
+  };
+
+  _handleOnScroll = (event) => {
+    const offsetY = event?.nativeEvent?.contentOffset?.y;
+    if (offsetY === undefined) {
+      return;
+    }
+    this._lastOffsetY = offsetY;
+    this._evaluateSummary();
   };
 
   _loadMoreComments = () => {
@@ -72,6 +116,10 @@ class ProfileView extends PureComponent {
     const { isSummaryOpen } = this.state;
 
     if (!isSummaryOpen) {
+      // Stamp the cooldown clock like the scroll-driven path, otherwise a tap-expand while
+      // scrolled past the threshold leaves the timestamp stale and the next scroll event
+      // immediately re-collapses the header.
+      this._lastSummaryToggleAt = Date.now();
       this.setState({ isSummaryOpen: true });
     }
   };
@@ -248,7 +296,6 @@ class ProfileView extends PureComponent {
       deepLinkFilter,
     } = this.props;
 
-    const { isSummaryOpen } = this.state;
     const pageType = isOwnProfile ? 'ownProfile' : 'profile';
     const tabs = (isOwnProfile ? ownProfileTabs : profileTabs) || getDefaultFilters(pageType);
 
@@ -291,7 +338,9 @@ class ProfileView extends PureComponent {
           selectedOptionIndex={selectedIndex}
           pageType={pageType}
           feedUsername={username}
-          handleOnScrollBeginDrag={isSummaryOpen ? this._handleOnScroll : null}
+          // Begin-drag intentionally not wired (prop omitted): toggling on touch-start (a
+          // stationary touch or tiny drag) only fed the oscillation. onScrollEndDrag drives
+          // collapse instead.
           handleOnScroll={this._handleOnScroll}
           forceLoadPost={forceLoadPost}
           changeForceLoadPostState={changeForceLoadPostState}
