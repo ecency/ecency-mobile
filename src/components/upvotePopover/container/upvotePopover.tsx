@@ -455,12 +455,13 @@ const UpvotePopover = forwardRef(({}, ref) => {
           setIsDownVoted(!!sliderValue);
         } else {
           logVoteError('downvote', _error, false, _author, _permlink);
+          const _dvFullMsg = extractVoteErrorMessage(_error);
+          // Strip a leading "Prefix: " (e.g. "RPCError: ...") to match the upvote toast.
+          const _dvErrMsg =
+            _dvFullMsg.indexOf(': ') > 0 ? _dvFullMsg.split(': ').slice(1).join(': ') : _dvFullMsg;
           dispatch(
             toastNotification(
-              intl.formatMessage(
-                { id: 'alert.something_wrong_msg' },
-                { message: extractVoteErrorMessage(_error) },
-              ),
+              intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: _dvErrMsg }),
             ),
           );
           _updateVoteCache(_author, _permlink, amount, true, 'FAILED');
