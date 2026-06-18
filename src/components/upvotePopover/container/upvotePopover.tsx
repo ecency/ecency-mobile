@@ -140,16 +140,13 @@ function logVoteError(
     error_description: error?.error_description,
   };
   console.warn(`[vote] ${kind} mutation rejected (networkLevel=${networkLevel})`, info);
-  Sentry.captureException(
-    error instanceof Error ? error : new Error(resolvedMessage),
-    {
-      level: networkLevel ? 'warning' : 'error',
-      tags: { feature: 'vote', voteKind: kind, voteNetworkLevel: String(networkLevel) },
-      // Group by real cause instead of collapsing every non-Error under "[object Object]".
-      fingerprint: ['vote', kind, String(error?.name || error?.code || 'unknown')],
-      extra: info,
-    } as any,
-  );
+  Sentry.captureException(error instanceof Error ? error : new Error(resolvedMessage), {
+    level: networkLevel ? 'warning' : 'error',
+    tags: { feature: 'vote', voteKind: kind, voteNetworkLevel: String(networkLevel) },
+    // Group by real cause instead of collapsing every non-Error under "[object Object]".
+    fingerprint: ['vote', kind, String(error?.name || error?.code || 'unknown')],
+    extra: info,
+  } as any);
 }
 
 interface PopoverOptions {
