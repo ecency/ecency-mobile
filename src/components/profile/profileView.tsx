@@ -116,6 +116,10 @@ class ProfileView extends PureComponent {
     const { isSummaryOpen } = this.state;
 
     if (!isSummaryOpen) {
+      // Stamp the cooldown clock like the scroll-driven path, otherwise a tap-expand while
+      // scrolled past the threshold leaves the timestamp stale and the next scroll event
+      // immediately re-collapses the header.
+      this._lastSummaryToggleAt = Date.now();
       this.setState({ isSummaryOpen: true });
     }
   };
