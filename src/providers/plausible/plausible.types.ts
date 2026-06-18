@@ -16,6 +16,7 @@ export interface StatsResponse {
 // NOTE: this interface is also used to update
 export interface PostStats {
   visitors: number;
+  visits: number;
   pageviews: number;
   visit_duration: number;
 }
