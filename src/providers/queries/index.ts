@@ -9,6 +9,10 @@ import { initSdkConfig } from './sdk-config';
 export const initQueryClient = () => {
   const asyncStoragePersister = createAsyncStoragePersister({
     storage: AsyncStorage,
+    // Batch cache writes (default is 1000ms). A longer window reduces how often the large
+    // dehydrated-cache blob is rewritten, lessening the synchronous SharedPreferences flush
+    // on backgrounding that contributes to Android Background ANRs.
+    throttleTime: 2000,
   });
 
   const client = new QueryClient({

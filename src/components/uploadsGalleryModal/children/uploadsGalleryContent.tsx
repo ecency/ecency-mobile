@@ -6,6 +6,7 @@ import {
   Keyboard,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Platform,
   Text,
   TouchableOpacity,
   View,
@@ -295,8 +296,14 @@ const UploadsGalleryContent = ({
         justifyContent: isExpandedMode ? 'flex-end' : 'center',
       } as ViewStyle;
 
+      // Declarative enter/exit on this toggled button races Fabric view recycling on
+      // Android (RetryableMountingLayerException "Unable to find viewState"). iOS only.
       return (
-        <AnimatedView.View entering={SlideInRight} exiting={SlideOutRight} style={_delStyle}>
+        <AnimatedView.View
+          entering={Platform.OS === 'ios' ? SlideInRight : undefined}
+          exiting={Platform.OS === 'ios' ? SlideOutRight : undefined}
+          style={_delStyle}
+        >
           <IconButton
             style={styles.deleteButton}
             color={EStyleSheet.value('$pureWhite')}
