@@ -7,11 +7,22 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import reducers from '../reducers';
 import MigrationHelpers from '../../utils/migrationHelpers';
 
+// Cap the unbounded optimistic-vote and point-activity caches before they are serialized
+// to AsyncStorage. The full collections stay in memory for the session; only the persisted
+// (most-recent) slice is bounded, which shrinks the synchronous background SharedPreferences
+// flush that drives Android Background ANRs. Insertion order keeps the newest entries.
+const CACHE_PERSIST_LIMIT = 200;
+const capObject = (obj: Record<string, any> = {}, limit = CACHE_PERSIST_LIMIT) => {
+  const entries = Object.entries(obj || {});
+  return entries.length <= limit ? obj : Object.fromEntries(entries.slice(-limit));
+};
+
 const transformCacheVoteMap = createTransform(
   (inboundState: any) => ({
     ...inboundState,
+    votesCollection: capObject(inboundState.votesCollection),
     subscribedCommunities: Array.from(inboundState.subscribedCommunities),
-    pointActivities: Array.from(inboundState.pointActivities),
+    pointActivities: Array.from(inboundState.pointActivities).slice(-CACHE_PERSIST_LIMIT),
   }),
   (outboundState) => ({
     ...outboundState,

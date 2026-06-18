@@ -166,7 +166,9 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
       <>
         <Animated.View
           style={{ overflow: 'hidden' }}
-          layout={LinearTransition.easing(Easing.ease).duration(300)}
+          layout={
+            Platform.OS === 'ios' ? LinearTransition.easing(Easing.ease).duration(300) : undefined
+          }
         >
           {!isLoadingTranslation && (
             <Text style={styles.translatedText}>

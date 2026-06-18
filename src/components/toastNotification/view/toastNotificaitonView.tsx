@@ -67,8 +67,8 @@ const ToastNotification = ({
           ...style,
           ...(keyboardHeight > 0 && { bottom: keyboardHeight + 10 }),
         }}
-        entering={SlideInDown.duration(750)}
-        exiting={SlideOutDown.duration(500)}
+        entering={Platform.OS === 'ios' ? SlideInDown.duration(750) : undefined}
+        exiting={Platform.OS === 'ios' ? SlideOutDown.duration(500) : undefined}
       >
         <Text style={[styles.text, textStyle]} numberOfLines={2}>
           {text}

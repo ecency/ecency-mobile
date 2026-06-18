@@ -54,7 +54,10 @@ export const MediaPreviewItem = ({
 
   const _renderMinus = () =>
     isDeleteMode && (
-      <AnimatedView.View entering={ZoomIn} style={styles.minusContainer}>
+      <AnimatedView.View
+        entering={Platform.OS === 'ios' ? ZoomIn : undefined}
+        style={styles.minusContainer}
+      >
         <Icon
           color={EStyleSheet.value('$pureWhite')}
           iconType="MaterialCommunityIcons"
@@ -67,7 +70,10 @@ export const MediaPreviewItem = ({
   const _renderCounter = () =>
     isInsertedTimes > 0 &&
     !isDeleteMode && (
-      <AnimatedView.View entering={ZoomIn} style={styles.counterContainer}>
+      <AnimatedView.View
+        entering={Platform.OS === 'ios' ? ZoomIn : undefined}
+        style={styles.counterContainer}
+      >
         <Text style={styles.counterText}>{isInsertedTimes}</Text>
       </AnimatedView.View>
     );
