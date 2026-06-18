@@ -65,11 +65,16 @@ const CommentView = ({
   );
 
   const activeVotes = comment?.active_votes || [];
-  // Fall back to the actual voter list / total_votes when hivemind stats.total_votes is
-  // missing, so the heart matches the voters list shown on press. NOTE: this does not fix
-  // a stale persisted/un-refetched snapshot (where stats is a truthy-but-old value) — that
-  // is a data-freshness issue tracked separately.
-  const _totalVotes = comment.stats?.total_votes || activeVotes.length || comment.total_votes || 0;
+  // hivemind stats.total_votes is the freshest authoritative count when present
+  // (it tracks optimistic up/unvotes), so it wins via ?? — a legit 0 (viewer
+  // removed the last vote) must NOT fall through to a stale net_votes. When stats
+  // is absent (custom waves feeds carry net_votes but no active_votes), take the
+  // larger of the live voter list and net_votes so an optimistic length-1
+  // active_votes array can't collapse the count (e.g. 29) to 1 until refetch.
+  // NOTE: this does not fix a stale persisted/un-refetched snapshot — tracked separately.
+  const _totalVotes =
+    comment.stats?.total_votes ??
+    (Math.max(activeVotes.length, comment.net_votes || 0) || comment.total_votes || 0);
 
   const [isOpeningReplies, setIsOpeningReplies] = useState(false);
 
