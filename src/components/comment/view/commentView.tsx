@@ -217,16 +217,16 @@ const CommentView = ({
           textStyle={styles.voteCountText}
         />
 
-        {isLoggedIn && (
-          <IconButton
-            size={20}
-            iconStyle={styles.leftIcon}
-            style={styles.leftButton}
-            name="comment-outline"
-            onPress={_handleOnReplyPress}
-            iconType="MaterialCommunityIcons"
-          />
-        )}
+        <TextWithIcon
+          iconName="comment-outline"
+          iconSize={20}
+          wrapperStyle={styles.leftButton}
+          iconType="MaterialCommunityIcons"
+          isClickable={isLoggedIn}
+          onPress={_handleOnReplyPress}
+          text={childCount || 0}
+          textStyle={styles.voteCountText}
+        />
 
         {isLoggedIn && (
           <IconButton
@@ -288,7 +288,7 @@ const CommentView = ({
                 iconStyle={styles.iconStyle}
                 iconSize={16}
                 onPress={() => _showSubCommentsToggle()}
-                text={`${childCount} ${intl.formatMessage({ id: 'comments.more_replies' })}`}
+                text=""
               />
             )}
           </View>
