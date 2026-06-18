@@ -260,6 +260,12 @@ export const useWavesQuery = (
       if (fallbackQuery.data) {
         await fallbackQuery.refetch();
       }
+      // Keep interleaved promoted waves fresh on pull-to-refresh too; skip when
+      // promoted injection is off (tag feeds / profile tab) so we don't fire a
+      // disabled query.
+      if (injectPromoted) {
+        await promotedQuery.refetch();
+      }
     } finally {
       setIsRefreshing(false);
     }
