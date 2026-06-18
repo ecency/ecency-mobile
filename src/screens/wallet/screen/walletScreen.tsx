@@ -167,6 +167,12 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
       dispatch(fetchCoinQuotes());
     }
 
+    // getPortfolio throws when called without a username, and refetch() bypasses the
+    // query's enabled:!!currentAccount?.name gate (e.g. the logout transition forces a
+    // refetch with an empty name). Skip the portfolio refetch when logged out.
+    if (!currentAccount?.name) {
+      return;
+    }
     walletQuery.refetch();
   };
 

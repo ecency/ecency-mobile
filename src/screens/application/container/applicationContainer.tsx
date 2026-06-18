@@ -706,7 +706,14 @@ class ApplicationContainer extends Component {
 
     const _enabledNotificationForAccount = (account) => {
       const encAccessToken = account?.local?.accessToken;
-      this._enableNotification(account.name, isEnabled, settings, encAccessToken);
+      // otherAccounts entries are keyed by username; name can be undefined on some
+      // (e.g. HiveSigner) entries, so fall back to username.
+      this._enableNotification(
+        account.name || account.username,
+        isEnabled,
+        settings,
+        encAccessToken,
+      );
     };
 
     // updateing fcm token with settings;
@@ -714,20 +721,16 @@ class ApplicationContainer extends Component {
       // since there can be more than one accounts, process access tokens separate
       if (account?.local?.accessToken) {
         _enabledNotificationForAccount(account);
-      } else {
-        console.warn('access token not present, reporting to Sentry');
-        Sentry.captureException(
-          new Error(
-            `Reporting missing access token in other accounts section: account:${
-              account?.name ?? '<unknown>'
-            } with local keys: ${Object.keys(account?.local || {}).join(',')}`,
-          ),
-        );
+        return;
+      }
 
-        // fallback to current account access token to register atleast logged in account
-        if (currentAccount?.name && currentAccount.name === account?.name) {
-          _enabledNotificationForAccount(currentAccount);
-        }
+      // No stored access token on this other-account entry. This is common and benign
+      // (HiveSigner accounts, or entries keyed only by username), so do NOT report it to
+      // Sentry - it previously fired an error on every launch (ECENCY-MOBILE-1QY).
+      const acctName = account?.name || account?.username;
+      if (acctName && currentAccount?.name === acctName) {
+        // fallback to current account access token to register at least the logged-in account
+        _enabledNotificationForAccount(currentAccount);
       }
     });
   };

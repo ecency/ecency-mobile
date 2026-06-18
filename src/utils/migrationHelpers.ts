@@ -278,10 +278,16 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
 
 export const repairOtherAccountsData = (accounts, realmAuthData, dispatch) => {
   accounts.forEach((account) => {
-    const accRealmData = realmAuthData.find((data) => data.username === account.name);
+    // otherAccounts entries are keyed by username; account.name can be undefined on some
+    // (e.g. HiveSigner) entries, so match realm data on either field.
+    const accRealmData = realmAuthData.find(
+      (data) => data.username === (account.username || account.name),
+    );
     if (!account.local?.accessToken && accRealmData) {
       account.local = accRealmData;
-      // Note: account.name is the primary field, no need to set username separately
+      // Backfill name so consumers that read account.name (e.g. notification registration)
+      // have a value for entries that were keyed only by username.
+      account.name = account.name || accRealmData.username;
       dispatch(updateOtherAccount({ ...account }));
     }
   });

@@ -90,6 +90,35 @@ function isNetworkLevelVoteError(error: any): boolean {
   return NETWORK_ERROR_PATTERN.test(haystack);
 }
 
+// Vote rejections from the SDK async-broadcast path are often non-Error objects
+// (dhive RPCError-like), so String(error) yields "[object Object]" and the real cause
+// is lost both in Sentry and in the user toast. Walk the common shapes first.
+function extractVoteErrorMessage(error: any): string {
+  if (!error) {
+    return 'Unknown vote error';
+  }
+  if (typeof error === 'string') {
+    return error;
+  }
+  const candidate =
+    error.jse_shortmsg ||
+    error.error_description ||
+    error.error?.message ||
+    error.data?.message ||
+    error.response?.data?.message ||
+    error.response?.jse_shortmsg ||
+    error.message ||
+    error.cause?.message;
+  if (candidate) {
+    return String(candidate);
+  }
+  try {
+    return JSON.stringify(error);
+  } catch {
+    return String(error);
+  }
+}
+
 function logVoteError(
   kind: 'upvote' | 'downvote',
   error: any,
@@ -97,6 +126,7 @@ function logVoteError(
   author?: string,
   permlink?: string,
 ) {
+  const resolvedMessage = extractVoteErrorMessage(error);
   const info = {
     kind,
     networkLevel,
@@ -105,15 +135,18 @@ function logVoteError(
     name: error?.name,
     code: error?.code,
     message: error?.message,
+    resolvedMessage,
     jse_shortmsg: error?.jse_shortmsg,
     error_description: error?.error_description,
   };
   console.warn(`[vote] ${kind} mutation rejected (networkLevel=${networkLevel})`, info);
   Sentry.captureException(
-    error instanceof Error ? error : new Error(String(error?.message ?? error)),
+    error instanceof Error ? error : new Error(resolvedMessage),
     {
       level: networkLevel ? 'warning' : 'error',
       tags: { feature: 'vote', voteKind: kind, voteNetworkLevel: String(networkLevel) },
+      // Group by real cause instead of collapsing every non-Error under "[object Object]".
+      fingerprint: ['vote', kind, String(error?.name || error?.code || 'unknown')],
       extra: info,
     } as any,
   );
@@ -355,12 +388,10 @@ const UpvotePopover = forwardRef(({}, ref) => {
             dispatch(setRcOffer(true));
           } else {
             logVoteError('upvote', _error, false, _author, _permlink);
-            let errMsg = '';
-            if (_error?.message && _error.message.indexOf(':') > 0) {
-              [, errMsg] = _error.message.split(': ');
-            } else {
-              errMsg = _error?.jse_shortmsg || _error?.error_description || _error?.message;
-            }
+            const _fullMsg = extractVoteErrorMessage(_error);
+            // Strip a leading "Prefix: " (e.g. "RPCError: ...") to show the human part.
+            const errMsg =
+              _fullMsg.indexOf(': ') > 0 ? _fullMsg.split(': ').slice(1).join(': ') : _fullMsg;
             dispatch(
               toastNotification(
                 intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: errMsg }),
@@ -426,7 +457,10 @@ const UpvotePopover = forwardRef(({}, ref) => {
           logVoteError('downvote', _error, false, _author, _permlink);
           dispatch(
             toastNotification(
-              intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: _error?.message }),
+              intl.formatMessage(
+                { id: 'alert.something_wrong_msg' },
+                { message: extractVoteErrorMessage(_error) },
+              ),
             ),
           );
           _updateVoteCache(_author, _permlink, amount, true, 'FAILED');
