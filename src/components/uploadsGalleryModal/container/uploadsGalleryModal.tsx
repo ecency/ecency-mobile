@@ -9,7 +9,7 @@ import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
 
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../hooks';
 import { delay, extractFilenameFromPath, extractImageUrls } from '../../../utils/editor';
 import { isMediaPickerCancellation, reportMediaPickerError } from '../../../utils/mediaPickerError';
 import { readImageFromClipboard } from '../../../utils/clipboard';
@@ -75,7 +75,6 @@ export const UploadsGalleryModal = forwardRef(
     ref,
   ) => {
     const intl = useIntl();
-    const dispatch = useAppDispatch();
 
     const imageUploadsQuery = editorQueries.useMediaQuery();
 
@@ -163,7 +162,14 @@ export const UploadsGalleryModal = forwardRef(
             return null;
           });
 
-          _handleMediaOnSelected(_mediaItems, true);
+          // Drop entries the map returned as null (shared files missing path/name) so the
+          // size filter in _handleMediaOnSelected never dereferences a null item. A text-only
+          // share filters to [], which would otherwise hit the "no media" error path, so only
+          // invoke upload handling when something remains.
+          const _validMediaItems = _mediaItems.filter(Boolean);
+          if (_validMediaItems.length) {
+            _handleMediaOnSelected(_validMediaItems, true);
+          }
         });
       }
     }, [paramFiles]);
@@ -259,9 +265,13 @@ export const UploadsGalleryModal = forwardRef(
         }
 
         // filter out oversized images (server limit is 30MB)
-        const oversized = media.filter((item) => item.size && item.size > MAX_IMAGE_UPLOAD_SIZE);
+        const oversized = media.filter(
+          (item) => item && item.size && item.size > MAX_IMAGE_UPLOAD_SIZE,
+        );
         if (oversized.length > 0) {
-          media = media.filter((item) => !item.size || item.size <= MAX_IMAGE_UPLOAD_SIZE);
+          media = media.filter(
+            (item) => item && (!item.size || item.size <= MAX_IMAGE_UPLOAD_SIZE),
+          );
           Alert.alert(
             intl.formatMessage({ id: 'alert.fail' }),
             intl.formatMessage({ id: 'alert.payloadTooLarge' }),
@@ -510,15 +520,15 @@ export const UploadsGalleryModal = forwardRef(
           break;
       }
 
-      dispatch(
-        SheetManager.show(SheetNames.ACTION_MODAL, {
-          payload: {
-            title,
-            body,
-            buttons: [dialogAction],
-          },
-        }),
-      );
+      // SheetManager.show is self-executing and returns a Promise, not a Redux action;
+      // dispatching it threw Redux error #7 ("Actions may not have an undefined type").
+      SheetManager.show(SheetNames.ACTION_MODAL, {
+        payload: {
+          title,
+          body,
+          buttons: [dialogAction],
+        },
+      });
     };
 
     const _handleOpenSpeakUploader = () => {

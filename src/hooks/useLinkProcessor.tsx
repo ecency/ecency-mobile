@@ -713,9 +713,14 @@ export const useLinkProcessor = (onClose?: () => void) => {
         });
       })
       .catch((errObj: any) => {
+        // errObj only carries errorKey1/errorKey2 for structured hive-uri errors; plain
+        // errors (network, resolveTransaction, etc.) reach this catch too. Fall back to
+        // generic keys so intl.formatMessage is never called with an undefined id.
+        const titleId = errObj?.errorKey1 || 'qr.transaction_failed';
+        const bodyId = errObj?.errorKey2 || 'qr.invalid_op_desc';
         Alert.alert(
-          intl.formatMessage({ id: errObj.errorKey1 }, { key: errObj.authorityKeyType }),
-          intl.formatMessage({ id: errObj.errorKey2 }, { key: errObj.authorityKeyType }),
+          intl.formatMessage({ id: titleId }, { key: errObj?.authorityKeyType }),
+          intl.formatMessage({ id: bodyId }, { key: errObj?.authorityKeyType }),
         );
       });
   };

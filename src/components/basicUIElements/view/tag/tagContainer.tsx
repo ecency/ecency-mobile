@@ -72,7 +72,10 @@ const TagContainer = ({
     return () => {
       isCancelled = true;
     };
-  });
+    // Only re-run when the inputs change. Without a dependency array this effect ran on
+    // every render and its unconditional setLabel/setIsCommunity calls fed back into it,
+    // looping until React threw "Maximum update depth exceeded".
+  }, [value, communityTitle, isFilter, queryClient]);
 
   // Component Functions
   const _handleOnTagPress = () => {
