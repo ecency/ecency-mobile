@@ -149,17 +149,11 @@ export const useWavesQuery = (
     };
 
     const parsed = flatData
-      // Map esync's `timestamp` onto `created` so following / tag feeds show the
-      // relative publish time like the for-you feed. Organic waves are never
-      // promoted (isPromoted=false). Shallow-copy before parsing: parsePost mutates
-      // its argument, and `flatData` holds the SDK query cache objects.
-      .map((item) =>
-        parsePost(
-          { ...item, created: item.created || (item as any).timestamp },
-          currentAccount?.name,
-          false,
-        ),
-      )
+      // Shallow-copy before parsing: parsePost mutates its argument, and `flatData`
+      // holds the SDK query cache objects (mutating re-renders the body each refetch).
+      // The SDK (>= 2.3.19) normalizes `created` on the custom feeds, so no client-side
+      // timestamp mapping is needed here. Organic waves are never promoted (isPromoted=false).
+      .map((item) => parsePost({ ...item }, currentAccount?.name, false))
       .filter(isVisibleWave);
 
     if (!injectPromoted || !Array.isArray(promotedQuery.data) || !promotedQuery.data.length) {
@@ -171,13 +165,7 @@ export const useWavesQuery = (
     // (keep the promoted version), then splice promoted cards in at the web
     // cadence until the queue drains.
     const promotedWaves = promotedQuery.data
-      .map((item) =>
-        parsePost(
-          { ...item, created: item.created || (item as any).timestamp },
-          currentAccount?.name,
-          true,
-        ),
-      )
+      .map((item) => parsePost({ ...item }, currentAccount?.name, true))
       .filter(isVisibleWave);
     if (!promotedWaves.length) {
       return parsed;
