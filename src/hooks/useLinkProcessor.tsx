@@ -13,6 +13,7 @@ import {
   getDigitPinCode,
 } from '../providers/hive/hive';
 import { getFormattedTx, isHiveUri, normalizeHiveUri } from '../utils/hive-uri';
+import { resolveTxRequiredAuthority } from '../utils/hiveOperationAuthority';
 import { deepLinkParser } from '../utils/deepLinkParser';
 import showLoginAlert from '../utils/showLoginAlert';
 import RootNavigation from '../navigation/rootNavigation';
@@ -648,10 +649,11 @@ export const useLinkProcessor = (onClose?: () => void) => {
         }
         const ops = get(tx, 'operations', []);
         const op = ops[0];
+        const requiredAuthority = resolveTxRequiredAuthority(ops);
         SheetManager.show(SheetNames.ACTION_MODAL, {
           payload: {
             title: intl.formatMessage({ id: 'qr.confirmTransaction' }),
-            bodyContent: _renderActionModalBody(op, formattedTx.opName),
+            bodyContent: _renderActionModalBody(op, formattedTx.opName, requiredAuthority),
             buttons: [
               {
                 text: intl.formatMessage({ id: 'qr.cancel' }),
@@ -756,8 +758,17 @@ export const useLinkProcessor = (onClose?: () => void) => {
     </View>
   );
 
-  const _renderActionModalBody = (operations: any[], opName: string) => (
+  const _renderActionModalBody = (
+    operations: any[],
+    opName: string,
+    authority: 'posting' | 'active',
+  ) => (
     <View style={styles.transactionBodyContainer}>
+      <View style={styles.signWarningContainer}>
+        <Text style={styles.signWarningText}>
+          {intl.formatMessage({ id: 'qr.sign_warning' }, { authority })}
+        </Text>
+      </View>
       <View style={styles.transactionHeadingContainer}>
         <Text style={styles.transactionHeading}> {opName} </Text>
       </View>
@@ -803,6 +814,17 @@ const styles = EStyleSheet.create({
     marginVertical: 10,
     width: SCREEN_WIDTH - 64,
   } as ViewStyle,
+  signWarningContainer: {
+    borderBottomWidth: 1,
+    borderColor: '$borderColor',
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+  } as ViewStyle,
+  signWarningText: {
+    color: '$primaryRed',
+    fontSize: 12,
+    fontWeight: '600',
+  } as TextStyle,
   transactionRow: {
     flexDirection: 'row',
     alignItems: 'center',

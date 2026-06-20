@@ -951,7 +951,8 @@
     "invalid_amount_desc": "Enter valid amount in proper format",
     "open": "Open URL",
     "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction",
-    "auth_transfer_confirm": "Confirm transfer to {username}?"
+    "auth_transfer_confirm": "Confirm transfer to {username}?",
+    "sign_warning": "Only approve if you trust the source of this link. Approving broadcasts the operation below from your account using your {authority} key."
   },
   "voters_dropdown": {
     "rewards": "REWARDS",
