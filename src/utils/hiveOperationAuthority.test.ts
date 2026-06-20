@@ -100,4 +100,10 @@ describe('resolveTxRequiredAuthority', () => {
       ] as any),
     ).toBe('active');
   });
+
+  it('non-array / malformed payload -> posting (no throw)', () => {
+    expect(resolveTxRequiredAuthority(undefined as any)).toBe('posting');
+    expect(resolveTxRequiredAuthority({} as any)).toBe('posting');
+    expect(resolveTxRequiredAuthority('nope' as any)).toBe('posting');
+  });
 });

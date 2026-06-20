@@ -52,7 +52,9 @@ export const resolveOperationAuthority = (operation: Operation): 'posting' | 'ac
  * operation needs active, the transaction needs active.
  */
 export const resolveTxRequiredAuthority = (operations: Operation[]): 'posting' | 'active' => {
-  if (!operations || operations.length === 0) {
+  // operations comes from deeplink-derived `tx` typed as `any`, so guard against
+  // a non-array payload before calling .some().
+  if (!Array.isArray(operations) || operations.length === 0) {
     return 'posting';
   }
 
