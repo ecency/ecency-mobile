@@ -22,6 +22,7 @@ import { catchPostImage, postBodySummary } from '@ecency/render-helper';
 
 import { getCommunityQueryOptions, getPostQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
+import { addHiveScheme } from '../utils/chatLinkify';
 import ROUTES from '../../../constants/routeNames';
 import { useAppSelector, useLinkProcessor } from '../../../hooks';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
@@ -227,6 +228,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const linkifyInstance = useMemo(() => {
     const linkify = new LinkifyIt();
     linkify.set({ fuzzyLink: false });
+    addHiveScheme(linkify);
     return linkify;
   }, []);
 

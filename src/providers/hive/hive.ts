@@ -29,6 +29,7 @@ import { getServer, getCache, setCache } from '../../realm/realm';
 // Utils
 import { decryptKey } from '../../utils/crypto';
 import { getName, getAvatar, parseReputation } from '../../utils/user';
+import { resolveTxRequiredAuthority } from '../../utils/hiveOperationAuthority';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
@@ -646,41 +647,6 @@ const handleChainError = (strErr: string) => {
     return 'chain-error.insufficient_fund';
   }
   return null;
-};
-
-const POSTING_AUTH_OPERATION_NAMES = new Set([
-  'vote',
-  'comment',
-  'comment_options',
-  'custom_json',
-  'delete_comment',
-  'claim_reward_balance',
-]);
-
-const resolveOperationAuthority = (operation: Operation): 'posting' | 'active' => {
-  const [operationName, payload] = operation;
-
-  if (operationName === 'custom_json') {
-    const hasActiveAuth = Array.isArray(payload?.required_auths)
-      ? payload.required_auths.length > 0
-      : false;
-    if (hasActiveAuth) {
-      return 'active';
-    }
-    return 'posting';
-  }
-
-  return POSTING_AUTH_OPERATION_NAMES.has(operationName) ? 'posting' : 'active';
-};
-
-const resolveTxRequiredAuthority = (operations: Operation[]): 'posting' | 'active' => {
-  if (!operations || operations.length === 0) {
-    return 'posting';
-  }
-
-  return operations.some((operation) => resolveOperationAuthority(operation) === 'active')
-    ? 'active'
-    : 'posting';
 };
 
 export const handleHiveUriOperation = async (

@@ -9,7 +9,12 @@ import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import { useQueryClient } from '@tanstack/react-query';
-import { getPostQueryOptions, getAccountFullQueryOptions, useDeleteComment } from '@ecency/sdk';
+import {
+  getPostQueryOptions,
+  getAccountFullQueryOptions,
+  parseProfileMetadata,
+  useDeleteComment,
+} from '@ecency/sdk';
 import { useAuthContext } from '../../../providers/sdk';
 import {
   useReblogMutation,
@@ -502,12 +507,22 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
   const _updatePinnedPost = async (
     { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
   ) => {
-    const profileParams = {
-      ...(currentAccount.profile || {}),
-      pinned: unpinPost ? null : content.permlink,
-    };
-
     try {
+      // Merge onto the CURRENT on-chain profile, not a possibly stale/empty
+      // Redux copy. Force a fresh fetch first so changing only `pinned` can
+      // never overwrite name/avatar/cover/etc with stale or empty values.
+      const freshAccount = await queryClient.fetchQuery({
+        ...getAccountFullQueryOptions(currentAccount.name),
+        staleTime: 0,
+      });
+      const baseProfile =
+        parseProfileMetadata(freshAccount?.posting_json_metadata) || currentAccount.profile || {};
+
+      const profileParams = {
+        ...baseProfile,
+        pinned: unpinPost ? null : content.permlink,
+      };
+
       await accountUpdateMutation.mutateAsync({ profile: profileParams });
 
       const nextAccount = {
