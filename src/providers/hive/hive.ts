@@ -30,6 +30,7 @@ import { getServer, getCache, setCache } from '../../realm/realm';
 import { decryptKey } from '../../utils/crypto';
 import { getName, getAvatar, parseReputation } from '../../utils/user';
 import { resolveTxRequiredAuthority } from '../../utils/hiveOperationAuthority';
+import { ensureSignableTx } from '../../utils/hiveUriTx';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
@@ -618,7 +619,10 @@ export const resolveTransaction = async (parsedTx, parsedParams, signer) => {
   tx.ref_block_num = parseInt(`${tx.ref_block_num}`, 10);
   tx.ref_block_prefix = parseInt(`${tx.ref_block_prefix}`, 10);
 
-  return tx;
+  // hive-uri returns an unsigned tx with no `signatures` field; the SDK signer
+  // does `transaction.signatures.push(...)`, so guarantee the array exists to
+  // avoid "Cannot read property 'push' of undefined" when the user approves.
+  return ensureSignableTx(tx);
 };
 
 const handleChainError = (strErr: string) => {
