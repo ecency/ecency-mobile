@@ -27,7 +27,9 @@
     "promote": "Promote a post",
     "promote_desc": "Get more eyes on your post",
     "account_boost": "Account boost",
-    "account_boost_desc": "Boost any account"
+    "account_boost_desc": "Boost any account",
+    "rc_topup": "Top up RC",
+    "rc_topup_desc": "Keep posting when low on Resource Credits"
   },
   "waves": {
     "for_you": "For you",
@@ -1309,6 +1311,11 @@
     "already_boosted": "Account already boosted till {date}",
     "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
     "title": "Boost+"
+  },
+  "rc_topup": {
+    "title": "Top up RC",
+    "desc": "A short-term RC boost so you can keep posting.",
+    "confirm": "Spend Points to top up your Resource Credits?"
   },
   "ai_image_generator": {
     "title": "AI Image Generator",

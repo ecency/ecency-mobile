@@ -7,6 +7,7 @@ import { RedeemContainer, PointsContainer } from '../../../containers';
 
 import { Promote, PostBoost } from '../../../components';
 import BoostPlus from '../children/boostPlus';
+import RcTopUp from '../children/rcTopUp';
 import styles from '../styles/redeemScreen.styles';
 import globalStyles from '../../../globalStyles';
 
@@ -75,6 +76,22 @@ class RedeemScreen extends PureComponent {
                   case 'boost_plus':
                     _retView = (
                       <BoostPlus
+                        isLoading={isLoading}
+                        currentAccountName={currentAccountName}
+                        balance={balance}
+                        navigationParams={navigationParams}
+                        handleOnSubmit={handleOnSubmit}
+                        redeemType={redeemType}
+                        isSCModalOpen={isSCModalOpen}
+                        handleOnSCModalClose={handleOnSCModalClose}
+                        SCPath={SCPath}
+                        getESTMPrice={getESTMPrice}
+                      />
+                    );
+                    break;
+                  case 'rc_topup':
+                    _retView = (
+                      <RcTopUp
                         isLoading={isLoading}
                         currentAccountName={currentAccountName}
                         balance={balance}

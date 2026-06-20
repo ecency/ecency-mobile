@@ -22,6 +22,7 @@ export { usePinPostMutation } from './usePinPostMutation';
 export { useMutePostMutation } from './useMutePostMutation';
 export { usePromoteMutation } from './usePromoteMutation';
 export { useBoostPlusMutation } from './useBoostPlusMutation';
+export { useRcDelegationMutation } from './useRcDelegationMutation';
 
 // AI
 export { useGenerateImageMutation } from './useGenerateImageMutation';
