@@ -4,11 +4,11 @@ import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useQuery } from '@tanstack/react-query';
 import { getRcDelegationPricesQueryOptions, getPointsQueryOptions } from '@ecency/sdk';
+import { useFocusEffect } from '@react-navigation/native';
 import { ScaleSlider } from '../../../components';
 import { hsOptions } from '../../../constants/hsOptions';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import { useFocusEffect } from '@react-navigation/native';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
