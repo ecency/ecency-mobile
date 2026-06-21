@@ -23,6 +23,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     marginBottom: 12,
     paddingVertical: 4,
+    paddingHorizontal: 16,
   },
   buyPointsText: {
     fontSize: 14,

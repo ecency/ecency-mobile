@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useRef, useMemo } from 'react';
+import React, { Fragment, useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { injectIntl } from 'react-intl';
 import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -8,6 +8,7 @@ import { ScaleSlider } from '../../../components';
 import { hsOptions } from '../../../constants/hsOptions';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
+import { useFocusEffect } from '@react-navigation/native';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -93,6 +94,16 @@ const RcTopUp = ({
     const balanceValue = Math.round(points * 1000) / 1000;
     setBalance(Number.isNaN(balanceValue) ? _balance : balanceValue);
   }, [pointsQuery.data, _balance]);
+
+  // Points are credited server-side by the IAP. Refetch the balance whenever the
+  // screen regains focus (e.g. returning from the Points purchase) so a freshly
+  // bought balance shows up and the user can finish the top-up. React Native
+  // refetch-on-focus is AppState-based, not navigation-based, so do it explicitly.
+  useFocusEffect(
+    useCallback(() => {
+      pointsQuery.refetch();
+    }, [pointsQuery.refetch]),
+  );
 
   const _renderDropdown = (accountName) => <Text style={styles.dropdownText}>{accountName}</Text>;
 
