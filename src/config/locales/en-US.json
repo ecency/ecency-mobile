@@ -1315,7 +1315,9 @@
   "rc_topup": {
     "title": "Top up RC",
     "desc": "A short-term RC boost so you can keep posting.",
-    "confirm": "Spend Points to top up your Resource Credits?"
+    "confirm": "Spend Points to top up your Resource Credits?",
+    "insufficient": "You do not have enough Points.",
+    "buy_points": "Buy Points"
   },
   "ai_image_generator": {
     "title": "AI Image Generator",

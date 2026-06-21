@@ -13,6 +13,23 @@ export default EStyleSheet.create({
     marginLeft: 20,
     marginBottom: 10,
   },
+  insufficientText: {
+    fontSize: 13,
+    color: '$primaryRed',
+    alignSelf: 'center',
+    marginBottom: 6,
+  },
+  buyPointsButton: {
+    alignSelf: 'center',
+    marginBottom: 12,
+    paddingVertical: 4,
+    paddingHorizontal: 16,
+  },
+  buyPointsText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '$primaryBlue',
+  },
   descText: {
     fontSize: 14,
     color: '$primaryDarkGray',
