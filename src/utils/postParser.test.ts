@@ -156,6 +156,40 @@ describe('parsePost', () => {
     expect(result!.total_payout).toBe(4);
   });
 
+  it('falls back to numeric payout when asset-string fields are absent', () => {
+    // search-API / RPC shape: numeric `payout`, no asset-string fields or max_accepted_payout
+    const post = makePost({
+      payout: 3.21,
+      pending_payout_value: undefined,
+      author_payout_value: undefined,
+      curator_payout_value: undefined,
+      max_accepted_payout: undefined,
+    });
+    const result = parsePost(post, 'viewer', false);
+    expect(result!.total_payout).toBe(3.21);
+  });
+
+  it('prefers asset-string fields over numeric payout when both are present', () => {
+    const post = makePost({
+      payout: 99,
+      pending_payout_value: '1.500 HBD',
+      author_payout_value: '0.000 HBD',
+      curator_payout_value: '0.000 HBD',
+    });
+    const result = parsePost(post, 'viewer', false);
+    expect(result!.total_payout).toBe(1.5);
+  });
+
+  it('keeps total_payout at 0 for a genuinely zero-payout entry', () => {
+    const post = makePost({
+      pending_payout_value: '0.000 HBD',
+      author_payout_value: '0.000 HBD',
+      curator_payout_value: '0.000 HBD',
+    });
+    const result = parsePost(post, 'viewer', false);
+    expect(result!.total_payout).toBe(0);
+  });
+
   it('detects declined payout', () => {
     const post = makePost({ max_accepted_payout: '0.000 HBD' });
     const result = parsePost(post, 'viewer', false);
@@ -372,6 +406,18 @@ describe('parseComment', () => {
     });
     const result = parseComment(comment, 'viewer');
     expect(result.total_payout).toBe(1);
+  });
+
+  it('falls back to numeric payout when asset-string fields are absent', () => {
+    const comment = makeComment({
+      payout: 0.42,
+      pending_payout_value: undefined,
+      author_payout_value: undefined,
+      curator_payout_value: undefined,
+      max_accepted_payout: undefined,
+    });
+    const result = parseComment(comment, 'viewer');
+    expect(result.total_payout).toBe(0.42);
   });
 
   it('sets isDeletable when no votes, children, or rshares', () => {

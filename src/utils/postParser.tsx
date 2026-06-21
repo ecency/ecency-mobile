@@ -103,10 +103,17 @@ export const parsePost = (
   post.max_payout = parseAsset(post.max_accepted_payout).amount || 0;
   post.is_declined_payout = !!post.max_accepted_payout && post.max_payout === 0;
 
-  const totalPayout =
-    parseAsset(post.pending_payout_value).amount +
-    parseAsset(post.author_payout_value).amount +
-    parseAsset(post.curator_payout_value).amount;
+  // Some entries (search-API / RPC shapes) expose a numeric `payout` and lack the
+  // asset-string payout fields, so parseAsset would yield 0 and hide a real payout.
+  // Mirror the web client's entry-payout: fall back to the numeric payout when the
+  // asset-string fields are absent (detected by the missing max_accepted_payout).
+  const _isNumericPayoutOnly = typeof post.payout === 'number' && !post.max_accepted_payout;
+
+  const totalPayout = _isNumericPayoutOnly
+    ? post.payout
+    : parseAsset(post.pending_payout_value).amount +
+      parseAsset(post.author_payout_value).amount +
+      parseAsset(post.curator_payout_value).amount;
 
   post.total_payout = totalPayout;
 
@@ -274,10 +281,15 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
   comment.is_declined_payout = !!comment.max_accepted_payout && comment.max_payout === 0;
 
   // calculate and set total_payout to show to user.
-  const totalPayout =
-    parseAsset(comment.pending_payout_value).amount +
-    parseAsset(comment.author_payout_value).amount +
-    parseAsset(comment.curator_payout_value).amount;
+  // Same numeric-payout fallback as parsePost: search-API / RPC-shaped entries expose a
+  // numeric `payout` without the asset-string fields, so use it when those are absent.
+  const _isNumericPayoutOnly = typeof comment.payout === 'number' && !comment.max_accepted_payout;
+
+  const totalPayout = _isNumericPayoutOnly
+    ? comment.payout
+    : parseAsset(comment.pending_payout_value).amount +
+      parseAsset(comment.author_payout_value).amount +
+      parseAsset(comment.curator_payout_value).amount;
 
   comment.total_payout = totalPayout;
 
