@@ -1,11 +1,13 @@
 import React, { Fragment, useState, useEffect, useRef, useMemo } from 'react';
 import { injectIntl } from 'react-intl';
-import { Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useQuery } from '@tanstack/react-query';
 import { getRcDelegationPricesQueryOptions, getPointsQueryOptions } from '@ecency/sdk';
 import { ScaleSlider } from '../../../components';
 import { hsOptions } from '../../../constants/hsOptions';
+import RootNavigation from '../../../navigation/rootNavigation';
+import ROUTES from '../../../constants/routeNames';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -98,6 +100,17 @@ const RcTopUp = ({
     handleOnSubmit(redeemType, day, currentAccountName, currentAccountName);
   };
 
+  // low on Points: funnel to the in-app Points purchase (native Apple/Google
+  // billing) so the user can buy Points and come back to finish the top-up.
+  const insufficient = price != null && price > balance;
+
+  const _onBuyPoints = () => {
+    RootNavigation.navigate({
+      name: ROUTES.SCREENS.BOOST,
+      params: { username: currentAccountName },
+    });
+  };
+
   return (
     <Fragment>
       <BasicHeader title={intl.formatMessage({ id: 'rc_topup.title' })} />
@@ -109,6 +122,17 @@ const RcTopUp = ({
               rightComponent={() => _renderDropdown(currentAccountName)}
             />
             <Text style={styles.balanceText}>{`${balance} Points`}</Text>
+
+            {insufficient && (
+              <Text style={styles.insufficientText}>
+                {intl.formatMessage({ id: 'rc_topup.insufficient' })}
+              </Text>
+            )}
+            <TouchableOpacity style={styles.buyPointsButton} onPress={_onBuyPoints}>
+              <Text style={styles.buyPointsText}>
+                {intl.formatMessage({ id: 'rc_topup.buy_points' })}
+              </Text>
+            </TouchableOpacity>
 
             <View style={styles.total}>
               <Text style={styles.day}>
