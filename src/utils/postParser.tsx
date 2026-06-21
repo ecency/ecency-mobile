@@ -68,6 +68,10 @@ export const parsePost = (
     post.author_payout_value = orig.author_payout_value;
     post.curator_payout_value = orig.curator_payout_value;
     post.max_accepted_payout = orig.max_accepted_payout;
+    // also carry the numeric payout fields so the numeric-payout fallback below uses
+    // the original entry's value when it lacks the asset-string fields
+    post.payout = orig.payout;
+    post.total_payout = orig.total_payout;
     post.active_votes = orig.active_votes;
     post.children = orig.children;
     post.stats = orig.stats;
@@ -103,14 +107,22 @@ export const parsePost = (
   post.max_payout = parseAsset(post.max_accepted_payout).amount || 0;
   post.is_declined_payout = !!post.max_accepted_payout && post.max_payout === 0;
 
-  // Some entries (search-API / RPC shapes) expose a numeric `payout` and lack the
-  // asset-string payout fields, so parseAsset would yield 0 and hide a real payout.
-  // Mirror the web client's entry-payout: fall back to the numeric payout when the
-  // asset-string fields are absent (detected by the missing max_accepted_payout).
-  const _isNumericPayoutOnly = typeof post.payout === 'number' && !post.max_accepted_payout;
+  // Some entries expose the payout as a single numeric field and omit the asset-string
+  // fields, so the parseAsset sum would yield 0 and hide a real payout: search-API
+  // results carry `total_payout`, other RPC shapes carry `payout`. Mirror the web
+  // client's entry-payout and fall back to that numeric value when the asset-string
+  // fields are absent (Hive always sends max_accepted_payout for normal posts, so this
+  // only triggers for the numeric-only shapes).
+  const _numericPayout =
+    typeof post.payout === 'number'
+      ? post.payout
+      : typeof post.total_payout === 'number'
+      ? post.total_payout
+      : undefined;
+  const _isNumericPayoutOnly = _numericPayout !== undefined && !post.max_accepted_payout;
 
   const totalPayout = _isNumericPayoutOnly
-    ? post.payout
+    ? _numericPayout
     : parseAsset(post.pending_payout_value).amount +
       parseAsset(post.author_payout_value).amount +
       parseAsset(post.curator_payout_value).amount;
@@ -282,11 +294,18 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
 
   // calculate and set total_payout to show to user.
   // Same numeric-payout fallback as parsePost: search-API / RPC-shaped entries expose a
-  // numeric `payout` without the asset-string fields, so use it when those are absent.
-  const _isNumericPayoutOnly = typeof comment.payout === 'number' && !comment.max_accepted_payout;
+  // single numeric field (`total_payout` or `payout`) without the asset-string fields,
+  // so use it when those are absent.
+  const _numericPayout =
+    typeof comment.payout === 'number'
+      ? comment.payout
+      : typeof comment.total_payout === 'number'
+      ? comment.total_payout
+      : undefined;
+  const _isNumericPayoutOnly = _numericPayout !== undefined && !comment.max_accepted_payout;
 
   const totalPayout = _isNumericPayoutOnly
-    ? comment.payout
+    ? _numericPayout
     : parseAsset(comment.pending_payout_value).amount +
       parseAsset(comment.author_payout_value).amount +
       parseAsset(comment.curator_payout_value).amount;
