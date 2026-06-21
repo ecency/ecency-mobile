@@ -156,6 +156,73 @@ describe('parsePost', () => {
     expect(result!.total_payout).toBe(4);
   });
 
+  it('falls back to numeric payout when asset-string fields are absent', () => {
+    // RPC shape: numeric `payout`, no asset-string fields or max_accepted_payout
+    const post = makePost({
+      payout: 3.21,
+      pending_payout_value: undefined,
+      author_payout_value: undefined,
+      curator_payout_value: undefined,
+      max_accepted_payout: undefined,
+    });
+    const result = parsePost(post, 'viewer', false);
+    expect(result!.total_payout).toBe(3.21);
+  });
+
+  it('falls back to numeric total_payout for search-API shape', () => {
+    // SDK SearchResult exposes the amount as `total_payout` (no `payout`, no asset strings)
+    const post = makePost({
+      total_payout: 5.5,
+      payout: undefined,
+      pending_payout_value: undefined,
+      author_payout_value: undefined,
+      curator_payout_value: undefined,
+      max_accepted_payout: undefined,
+    });
+    const result = parsePost(post, 'viewer', false);
+    expect(result!.total_payout).toBe(5.5);
+  });
+
+  it('uses original_entry numeric payout for a cross-post', () => {
+    const post = makePost({
+      payout: undefined,
+      pending_payout_value: undefined,
+      author_payout_value: undefined,
+      curator_payout_value: undefined,
+      max_accepted_payout: undefined,
+      original_entry: {
+        author: 'original',
+        permlink: 'orig-post',
+        body: 'original body',
+        total_payout: 8.75,
+        max_accepted_payout: undefined,
+      },
+    });
+    const result = parsePost(post, 'viewer', false);
+    expect(result!.total_payout).toBe(8.75);
+  });
+
+  it('prefers asset-string fields over numeric payout when both are present', () => {
+    const post = makePost({
+      payout: 99,
+      pending_payout_value: '1.500 HBD',
+      author_payout_value: '0.000 HBD',
+      curator_payout_value: '0.000 HBD',
+    });
+    const result = parsePost(post, 'viewer', false);
+    expect(result!.total_payout).toBe(1.5);
+  });
+
+  it('keeps total_payout at 0 for a genuinely zero-payout entry', () => {
+    const post = makePost({
+      pending_payout_value: '0.000 HBD',
+      author_payout_value: '0.000 HBD',
+      curator_payout_value: '0.000 HBD',
+    });
+    const result = parsePost(post, 'viewer', false);
+    expect(result!.total_payout).toBe(0);
+  });
+
   it('detects declined payout', () => {
     const post = makePost({ max_accepted_payout: '0.000 HBD' });
     const result = parsePost(post, 'viewer', false);
@@ -372,6 +439,52 @@ describe('parseComment', () => {
     });
     const result = parseComment(comment, 'viewer');
     expect(result.total_payout).toBe(1);
+  });
+
+  it('falls back to numeric payout when asset-string fields are absent', () => {
+    const comment = makeComment({
+      payout: 0.42,
+      pending_payout_value: undefined,
+      author_payout_value: undefined,
+      curator_payout_value: undefined,
+      max_accepted_payout: undefined,
+    });
+    const result = parseComment(comment, 'viewer');
+    expect(result.total_payout).toBe(0.42);
+  });
+
+  it('falls back to numeric total_payout for search-API shape', () => {
+    const comment = makeComment({
+      total_payout: 0.9,
+      payout: undefined,
+      pending_payout_value: undefined,
+      author_payout_value: undefined,
+      curator_payout_value: undefined,
+      max_accepted_payout: undefined,
+    });
+    const result = parseComment(comment, 'viewer');
+    expect(result.total_payout).toBe(0.9);
+  });
+
+  it('prefers asset-string fields over numeric payout when both are present', () => {
+    const comment = makeComment({
+      payout: 99,
+      pending_payout_value: '0.400 HBD',
+      author_payout_value: '0.000 HBD',
+      curator_payout_value: '0.000 HBD',
+    });
+    const result = parseComment(comment, 'viewer');
+    expect(result.total_payout).toBe(0.4);
+  });
+
+  it('keeps total_payout at 0 for a genuinely zero-payout comment', () => {
+    const comment = makeComment({
+      pending_payout_value: '0.000 HBD',
+      author_payout_value: '0.000 HBD',
+      curator_payout_value: '0.000 HBD',
+    });
+    const result = parseComment(comment, 'viewer');
+    expect(result.total_payout).toBe(0);
   });
 
   it('sets isDeletable when no votes, children, or rshares', () => {
