@@ -15,7 +15,11 @@ import {
 } from '../redux/selectors';
 import { getQueryClient } from '../providers/queries';
 import { toastNotification } from '../redux/actions/uiAction';
-import { usePromoteMutation, useBoostPlusMutation } from '../providers/sdk/mutations';
+import {
+  usePromoteMutation,
+  useBoostPlusMutation,
+  useRcDelegationMutation,
+} from '../providers/sdk/mutations';
 import { useAuthContext } from '../providers/sdk';
 
 /*
@@ -40,7 +44,7 @@ class RedeemContainer extends Component {
 
   _redeemAction = async (user, redeemType = 'promote', actionSpecificParam, author, permlink) => {
     const { dispatch, intl, navigation } = this.props;
-    const { promoteMutation, boostPlusMutation, boostMutation } = this.props;
+    const { promoteMutation, boostPlusMutation, boostMutation, rcDelegationMutation } = this.props;
 
     this.setState({ isLoading: true });
 
@@ -57,6 +61,12 @@ class RedeemContainer extends Component {
         case 'boost_plus':
           await boostPlusMutation.mutateAsync({
             account: author,
+            duration: actionSpecificParam,
+          });
+          break;
+
+        case 'rc_topup':
+          await rcDelegationMutation.mutateAsync({
             duration: actionSpecificParam,
           });
           break;
@@ -95,7 +105,7 @@ class RedeemContainer extends Component {
     let _author;
     let _permlink;
 
-    if (redeemType !== 'boost_plus') {
+    if (redeemType !== 'boost_plus' && redeemType !== 'rc_topup') {
       const separatedPermlink = fullPermlinkOrUsername.split('/');
       _author = get(separatedPermlink, '[0]');
       _permlink = get(separatedPermlink, '[1]');
@@ -164,6 +174,7 @@ const mapHooksToProps = (props) => {
   const { currentAccount } = props;
   const promoteMutation = usePromoteMutation();
   const boostPlusMutation = useBoostPlusMutation();
+  const rcDelegationMutation = useRcDelegationMutation();
   const boostMutation = useBroadcastMutation(
     ['ecency', 'boost'],
     currentAccount?.name,
@@ -181,6 +192,7 @@ const mapHooksToProps = (props) => {
       navigation={navigation}
       promoteMutation={promoteMutation}
       boostPlusMutation={boostPlusMutation}
+      rcDelegationMutation={rcDelegationMutation}
       boostMutation={boostMutation}
     />
   );

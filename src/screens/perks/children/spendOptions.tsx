@@ -17,6 +17,12 @@ const OPTIONS: { id: string; icon: string; route: string; params?: any }[] = [
     params: { redeemType: 'boost_plus' },
   },
   {
+    id: 'rc_topup',
+    icon: 'lightning-bolt',
+    route: ROUTES.SCREENS.REDEEM,
+    params: { redeemType: 'rc_topup' },
+  },
+  {
     id: 'promote',
     icon: 'bullhorn-outline',
     route: ROUTES.SCREENS.REDEEM,
