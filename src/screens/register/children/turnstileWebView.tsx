@@ -19,6 +19,14 @@ interface Props {
   height?: number;
 }
 
+// Cloudflare's Managed challenge runs its verification compute in about:srcdoc / about:blank
+// child frames (nested inside the challenges.cloudflare.com iframe). iOS WKWebView gates
+// SUB-FRAME navigations by originWhitelist / onShouldStartLoadWithRequest too, so without the
+// about: scheme those frames are silently dropped and the widget spins on "Verifying…" forever
+// (the outer widget still renders, since it loaded over https). Allow https + about: only.
+const _allowTurnstileFrame = (req: { url: string }) =>
+  req.url.startsWith('https://') || req.url.startsWith('about:');
+
 const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) => {
   const intl = useIntl();
   // A failed load of the hosted page (network error, or a 404 while the web
@@ -65,7 +73,8 @@ const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) =
     <View style={[styles.container, { height }]}>
       <WebView
         source={{ uri: TURNSTILE_EMBED_URL }}
-        originWhitelist={['https://*']}
+        originWhitelist={['https://*', 'about:']}
+        onShouldStartLoadWithRequest={_allowTurnstileFrame}
         javaScriptEnabled
         domStorageEnabled
         sharedCookiesEnabled
