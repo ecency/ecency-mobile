@@ -122,8 +122,8 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
             onLongPress={() => onShowActions(post, isOwnMessage)}
             activeOpacity={0.9}
           >
-            {post.root_id && renderReplyPreview(post.root_id, post.props as any, isOwnMessage)}
             {!isOwnMessage && <Text style={styles.author}>{author}</Text>}
+            {post.root_id && renderReplyPreview(post.root_id, post.props as any, isOwnMessage)}
             {!!messageText && (
               <Hyperlink
                 linkStyle={[
