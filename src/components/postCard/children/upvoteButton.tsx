@@ -92,10 +92,10 @@ export const UpvoteButton = ({
   // Give the vote control a screen-reader name + state. The icon alone carries no
   // accessible label, so VoiceOver/TalkBack users couldn't find or operate it.
   const voteAccessibilityLabel = isVoted
-    ? intl.formatMessage({ id: 'post.upvoted' })
+    ? intl.formatMessage({ id: 'post.upvoted', defaultMessage: 'Upvoted' })
     : isDownVoted
-    ? intl.formatMessage({ id: 'post.downvoted' })
-    : intl.formatMessage({ id: 'post.upvote' });
+    ? intl.formatMessage({ id: 'post.downvoted', defaultMessage: 'Downvoted' })
+    : intl.formatMessage({ id: 'post.upvote', defaultMessage: 'Upvote' });
 
   return (
     <View style={styles.container}>
@@ -105,7 +105,10 @@ export const UpvoteButton = ({
         style={styles.upvoteButton}
         accessibilityRole="button"
         accessibilityLabel={voteAccessibilityLabel}
-        accessibilityHint={intl.formatMessage({ id: 'post.upvote_hint' })}
+        accessibilityHint={intl.formatMessage({
+          id: 'post.upvote_hint',
+          defaultMessage: 'Double tap to open vote options',
+        })}
         accessibilityState={{ selected: isVoted || isDownVoted }}
       >
         <View hitSlop={{ top: 10, bottom: 10, left: 10, right: 5 }}>
@@ -123,7 +126,10 @@ export const UpvoteButton = ({
             ref={detailsRef}
             onPress={_onDetailsPress}
             accessibilityRole="button"
-            accessibilityLabel={intl.formatMessage({ id: 'post.payout_details' })}
+            accessibilityHint={intl.formatMessage({
+              id: 'post.payout_details',
+              defaultMessage: 'Payout details',
+            })}
           >
             <Text
               style={[
