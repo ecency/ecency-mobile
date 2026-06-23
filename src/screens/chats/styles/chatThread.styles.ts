@@ -62,6 +62,12 @@ export const chatThreadStyles = EStyleSheet.create({
     borderRadius: 16,
     position: 'relative',
   },
+  // Messages that quote another message expand to the full bubble width so the
+  // reply preview (author + quoted line) renders on its own line instead of
+  // being squeezed — and wrapped awkwardly — into a bubble sized to short reply text.
+  messageBubbleWithReply: {
+    minWidth: '80%',
+  },
   messageBubbleOwn: {
     backgroundColor: '$primaryBlue',
     borderTopRightRadius: 4,

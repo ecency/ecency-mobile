@@ -80,6 +80,13 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
 
     const showUnreadMarker = firstUnreadIndex !== null && index === firstUnreadIndex;
 
+    // Render the quoted-reply preview once so the bubble can both display it and
+    // widen itself to fit it (a short reply otherwise squeezes the quote into a
+    // narrow column, wrapping the author/quoted text line-by-line).
+    const replyPreview = post.root_id
+      ? renderReplyPreview(post.root_id, post.props as any, isOwnMessage)
+      : null;
+
     // Auto-detect Hive post URLs when sender didn't attach link_* props
     // (e.g. message sent from web or before the composer's metadata debounce fired)
     const detectedHiveLink = useMemo(() => {
@@ -118,12 +125,13 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
             style={[
               styles.messageBubble,
               isOwnMessage ? styles.messageBubbleOwn : styles.messageBubbleOther,
+              replyPreview && styles.messageBubbleWithReply,
             ]}
             onLongPress={() => onShowActions(post, isOwnMessage)}
             activeOpacity={0.9}
           >
             {!isOwnMessage && <Text style={styles.author}>{author}</Text>}
-            {post.root_id && renderReplyPreview(post.root_id, post.props as any, isOwnMessage)}
+            {replyPreview}
             {!!messageText && (
               <Hyperlink
                 linkStyle={[
