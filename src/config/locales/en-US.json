@@ -863,6 +863,11 @@
     "video_attached": "Video attached"
   },
   "post": {
+    "upvote": "Upvote",
+    "upvoted": "Upvoted",
+    "downvoted": "Downvoted",
+    "upvote_hint": "Double tap to open vote options",
+    "payout_details": "Payout details",
     "image": "Image",
     "reveal_muted": "MUTED\nTap to reveal content",
     "in": "in",
