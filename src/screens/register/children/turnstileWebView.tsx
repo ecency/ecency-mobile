@@ -20,15 +20,22 @@ interface Props {
 }
 
 // Cloudflare's Managed challenge renders in a challenges.cloudflare.com iframe and runs its
-// verification compute in nested sub-frames across several schemes: about:srcdoc / about:blank
-// and, on iOS, often blob: / data:. react-native-webview gates EVERY frame navigation against
-// originWhitelist. The previous list (['https://*', 'about:']) plus a custom
-// onShouldStartLoadWithRequest that returned true only for https/about therefore CANCELLED the
-// challenge's blob:/data: compute frames: about: was allowed, but that alone was not enough, so
-// the challenge never issued a token and the widget stayed blank.
-// This widget only ever loads our own first-party embed page plus that CF challenge, so rather
-// than enumerate every scheme Cloudflare may use, allow them all (originWhitelist ['*']) and
-// drop the custom handler (with ['*'] a handler could only re-add the same restriction).
+// verification compute in nested SUB-frames across several schemes: about:srcdoc / about:blank
+// and, on iOS, often blob: / data:. react-native-webview gates EVERY frame against
+// originWhitelist, and the previous narrow list (['https://*', 'about:']) plus a handler that
+// returned true only for https/about CANCELLED the challenge's blob:/data: frames, so it never
+// issued a token and the widget stayed blank. about: alone was not enough.
+//
+// Fix: pass every frame to the handler (originWhitelist ['*']) and gate only the TOP-LEVEL
+// document. Sub-frames are always allowed, whatever scheme Cloudflare uses, so the challenge
+// completes; the top frame must stay on our own first-party origin, which keeps a compromised
+// page or open redirect from steering the WebView to file:/javascript:/another origin.
+const TURNSTILE_ORIGIN = 'https://ecency.com/';
+const _shouldStartLoad = (req: { url: string; isTopFrame?: boolean }) =>
+  // isTopFrame is iOS-only; on Android the handler only fires for the main frame, so a missing
+  // flag is treated as the top frame too. Only the top document is constrained to our origin.
+  req.isTopFrame === false || req.url.startsWith(TURNSTILE_ORIGIN);
+
 const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) => {
   const intl = useIntl();
   // A failed load of the hosted page (network error, or a 404 while the web
@@ -76,6 +83,7 @@ const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) =
       <WebView
         source={{ uri: TURNSTILE_EMBED_URL }}
         originWhitelist={['*']}
+        onShouldStartLoadWithRequest={_shouldStartLoad}
         javaScriptEnabled
         domStorageEnabled
         sharedCookiesEnabled
