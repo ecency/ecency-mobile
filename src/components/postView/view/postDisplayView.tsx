@@ -244,7 +244,10 @@ const PostDisplayView = ({
             text={activeVotesCount}
             textMarginLeft={20}
             accessibilityLabel={intl.formatMessage(
-              { id: 'post.a11y_votes', defaultMessage: '{count} votes' },
+              {
+                id: 'post.a11y_votes',
+                defaultMessage: '{count, plural, one {# vote} other {# votes}}',
+              },
               { count: activeVotesCount || 0 },
             )}
             accessibilityHint={intl.formatMessage({
@@ -261,7 +264,10 @@ const PostDisplayView = ({
             text={post?.reblogs ?? 0}
             textMarginLeft={20}
             accessibilityLabel={intl.formatMessage(
-              { id: 'post.a11y_reblogs', defaultMessage: '{count} reblogs' },
+              {
+                id: 'post.a11y_reblogs',
+                defaultMessage: '{count, plural, one {# reblog} other {# reblogs}}',
+              },
               { count: post?.reblogs ?? 0 },
             )}
             accessibilityHint={intl.formatMessage({
@@ -281,7 +287,10 @@ const PostDisplayView = ({
               onPress={_scrollToComments}
               isLoading={!isLoadedComments}
               accessibilityLabel={intl.formatMessage(
-                { id: 'post.a11y_comments', defaultMessage: '{count} comments' },
+                {
+                  id: 'post.a11y_comments',
+                  defaultMessage: '{count, plural, one {# comment} other {# comments}}',
+                },
                 { count: get(post, 'children', 0) },
               )}
               accessibilityHint={intl.formatMessage({
@@ -299,7 +308,10 @@ const PostDisplayView = ({
               text={get(post, 'children', 0)}
               textMarginLeft={20}
               accessibilityLabel={intl.formatMessage(
-                { id: 'post.a11y_comments', defaultMessage: '{count} comments' },
+                {
+                  id: 'post.a11y_comments',
+                  defaultMessage: '{count, plural, one {# comment} other {# comments}}',
+                },
                 { count: get(post, 'children', 0) },
               )}
             />
@@ -315,7 +327,10 @@ const PostDisplayView = ({
             textMarginLeft={20}
             isLoading={tipsQuery.isLoading}
             accessibilityLabel={intl.formatMessage(
-              { id: 'post.a11y_tips', defaultMessage: '{count} tips' },
+              {
+                id: 'post.a11y_tips',
+                defaultMessage: '{count, plural, one {# tip} other {# tips}}',
+              },
               { count: tipsQuery.data?.meta?.count || 0 },
             )}
             accessibilityHint={intl.formatMessage({
@@ -432,7 +447,10 @@ const PostDisplayView = ({
                     textMarginLeft={4}
                     isLoading={postStatsQuery.isLoading}
                     accessibilityLabel={intl.formatMessage(
-                      { id: 'post.a11y_views', defaultMessage: '{count} views' },
+                      {
+                        id: 'post.a11y_views',
+                        defaultMessage: '{count, plural, one {# view} other {# views}}',
+                      },
                       { count: postStatsQuery.data?.visits || 0 },
                     )}
                     accessibilityHint={intl.formatMessage({

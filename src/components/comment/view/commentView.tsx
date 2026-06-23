@@ -209,20 +209,27 @@ const CommentView = ({
           iconSize={20}
           wrapperStyle={styles.leftButton}
           iconType="MaterialCommunityIcons"
-          isClickable
+          isClickable={_totalVotes > 0}
           onPress={() =>
             handleOnVotersPress && _totalVotes > 0 && handleOnVotersPress(activeVotes, comment)
           }
           text={_totalVotes}
           textStyle={styles.voteCountText}
           accessibilityLabel={intl.formatMessage(
-            { id: 'post.a11y_votes', defaultMessage: '{count} votes' },
+            {
+              id: 'post.a11y_votes',
+              defaultMessage: '{count, plural, one {# vote} other {# votes}}',
+            },
             { count: _totalVotes || 0 },
           )}
-          accessibilityHint={intl.formatMessage({
-            id: 'post.a11y_voters_hint',
-            defaultMessage: 'View voters',
-          })}
+          accessibilityHint={
+            _totalVotes > 0
+              ? intl.formatMessage({
+                  id: 'post.a11y_voters_hint',
+                  defaultMessage: 'View voters',
+                })
+              : undefined
+          }
         />
 
         <TextWithIcon
@@ -235,7 +242,10 @@ const CommentView = ({
           text={childCount || 0}
           textStyle={styles.voteCountText}
           accessibilityLabel={intl.formatMessage(
-            { id: 'post.a11y_comments', defaultMessage: '{count} comments' },
+            {
+              id: 'post.a11y_comments',
+              defaultMessage: '{count, plural, one {# comment} other {# comments}}',
+            },
             { count: childCount || 0 },
           )}
           accessibilityHint={intl.formatMessage({

@@ -71,7 +71,10 @@ const PostCardActionsPanelComponent = ({ content, handleCardInteraction }: Props
           onPress={_onVotersPress}
           accessibilityRole="button"
           accessibilityLabel={intl.formatMessage(
-            { id: 'post.a11y_votes', defaultMessage: '{count} votes' },
+            {
+              id: 'post.a11y_votes',
+              defaultMessage: '{count, plural, one {# vote} other {# votes}}',
+            },
             { count: content.stats?.total_votes || 0 },
           )}
           accessibilityHint={intl.formatMessage({
@@ -97,7 +100,10 @@ const PostCardActionsPanelComponent = ({ content, handleCardInteraction }: Props
           text={content.reblogs || ''}
           onPress={_onReblogsPress}
           accessibilityLabel={intl.formatMessage(
-            { id: 'post.a11y_reblogs', defaultMessage: '{count} reblogs' },
+            {
+              id: 'post.a11y_reblogs',
+              defaultMessage: '{count, plural, one {# reblog} other {# reblogs}}',
+            },
             { count: content.reblogs || 0 },
           )}
           accessibilityHint={intl.formatMessage({
@@ -113,7 +119,10 @@ const PostCardActionsPanelComponent = ({ content, handleCardInteraction }: Props
           text={get(content, 'children', 0)}
           onPress={() => handleCardInteraction(PostCardActionIds.REPLY)}
           accessibilityLabel={intl.formatMessage(
-            { id: 'post.a11y_comments', defaultMessage: '{count} comments' },
+            {
+              id: 'post.a11y_comments',
+              defaultMessage: '{count, plural, one {# comment} other {# comments}}',
+            },
             { count: get(content, 'children', 0) },
           )}
           accessibilityHint={intl.formatMessage({

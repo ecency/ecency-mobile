@@ -39,7 +39,9 @@ const TextWithIcon = ({
         accessibilityRole={_interactive ? 'button' : undefined}
         accessibilityLabel={accessibilityLabel}
         accessibilityHint={accessibilityHint}
-        accessibilityState={{ disabled: !_interactive }}
+        // Only advertise state for actual buttons; decorative/display-only instances
+        // must not announce as "dimmed" (disabled) on VoiceOver/TalkBack.
+        accessibilityState={_interactive ? { disabled: false } : undefined}
       >
         <View style={[styles.wrapper, wrapperStyle]}>
           {isLoading ? (

@@ -38,7 +38,9 @@ const IconButton = ({
       accessibilityRole={onPress ? 'button' : undefined}
       accessibilityLabel={accessibilityLabel}
       accessibilityHint={accessibilityHint}
-      accessibilityState={{ disabled: !!disabled }}
+      // `isLoading` suppresses onPress, so report it as disabled too — otherwise a
+      // screen reader announces an enabled button that does nothing while spinning.
+      accessibilityState={{ disabled: !!disabled || !!isLoading }}
     >
       {!isLoading ? (
         <Icon
