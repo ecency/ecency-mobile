@@ -86,13 +86,15 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
       if (status === 500) {
         body = intl.formatMessage({ id: 'register.500_error' });
       } else if (message) {
-        // The backend already returns a complete, actionable message
-        // (e.g. "VPN connection detected, try changing your network connection or
-        // try Premium account"). Show it as-is — wrapping it with a generic
-        // "Try again or try purchasing account instead" suffix duplicated that
-        // guidance and read incoherently for messages like "Username has already
-        // been taken". Matches the web app's behaviour.
-        body = message;
+        // The backend returns a numeric `code` plus an English `message`. Prefer a
+        // localized, code-specific string so non-English users get a translated body,
+        // and fall back to the backend message (as defaultMessage) for any locale that
+        // hasn't translated the code, or any code we don't map. The backend message is
+        // already a complete sentence, so the fallback is always coherent on its own.
+        const code = get(err, 'data.code') || get(err, 'response.data.code');
+        body = code
+          ? intl.formatMessage({ id: `register.error_codes.${code}`, defaultMessage: message })
+          : message;
       }
       Alert.alert(title, body);
       _resetCaptcha();
