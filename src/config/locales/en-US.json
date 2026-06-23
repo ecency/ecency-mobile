@@ -1005,7 +1005,6 @@
   },
   "register": {
     "username": "Pick a username",
-    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "One account to manage everything",
     "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies.",
     "registering": "Registering Your Account...",
