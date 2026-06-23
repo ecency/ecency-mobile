@@ -86,7 +86,13 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
       if (status === 500) {
         body = intl.formatMessage({ id: 'register.500_error' });
       } else if (message) {
-        body = intl.formatMessage({ id: 'register.error_message' }, { message });
+        // The backend already returns a complete, actionable message
+        // (e.g. "VPN connection detected, try changing your network connection or
+        // try Premium account"). Show it as-is — wrapping it with a generic
+        // "Try again or try purchasing account instead" suffix duplicated that
+        // guidance and read incoherently for messages like "Username has already
+        // been taken". Matches the web app's behaviour.
+        body = message;
       }
       Alert.alert(title, body);
       _resetCaptcha();
