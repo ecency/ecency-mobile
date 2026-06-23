@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { useIntl } from 'react-intl';
 import { useAppSelector } from '../../../hooks';
 import { FormattedCurrency } from '../../formatedElements';
 import Icon from '../../icon';
@@ -21,6 +22,7 @@ export const UpvoteButton = ({
   onUpvotePress,
   onPayoutDetailsPress,
 }: UpvoteButtonProps) => {
+  const intl = useIntl();
   const upvoteRef = useRef(null);
   const detailsRef = useRef(null);
 
@@ -87,9 +89,25 @@ export const UpvoteButton = ({
     downVoteIconName = 'downcircle';
   }
 
+  // Give the vote control a screen-reader name + state. The icon alone carries no
+  // accessible label, so VoiceOver/TalkBack users couldn't find or operate it.
+  const voteAccessibilityLabel = isVoted
+    ? intl.formatMessage({ id: 'post.upvoted' })
+    : isDownVoted
+    ? intl.formatMessage({ id: 'post.downvoted' })
+    : intl.formatMessage({ id: 'post.upvote' });
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity ref={upvoteRef} onPress={_onPress} style={styles.upvoteButton}>
+      <TouchableOpacity
+        ref={upvoteRef}
+        onPress={_onPress}
+        style={styles.upvoteButton}
+        accessibilityRole="button"
+        accessibilityLabel={voteAccessibilityLabel}
+        accessibilityHint={intl.formatMessage({ id: 'post.upvote_hint' })}
+        accessibilityState={{ selected: isVoted || isDownVoted }}
+      >
         <View hitSlop={{ top: 10, bottom: 10, left: 10, right: 5 }}>
           <Icon
             style={[styles.upvoteIcon, isDownVoted && { color: '#ec8b88' }]}
@@ -101,7 +119,12 @@ export const UpvoteButton = ({
       </TouchableOpacity>
       <View style={styles.payoutTextButton}>
         {isShowPayoutValue && (
-          <TouchableOpacity ref={detailsRef} onPress={_onDetailsPress}>
+          <TouchableOpacity
+            ref={detailsRef}
+            onPress={_onDetailsPress}
+            accessibilityRole="button"
+            accessibilityLabel={intl.formatMessage({ id: 'post.payout_details' })}
+          >
             <Text
               style={[
                 styles.payoutValue,
