@@ -16,6 +16,8 @@ const TextWithIcon = ({
   textStyle,
   onLongPress,
   isLoading,
+  accessibilityLabel,
+  accessibilityHint,
 }) => {
   const [ltext, setLtext] = useState(text);
   useEffect(() => {
@@ -23,6 +25,9 @@ const TextWithIcon = ({
   }, [text]);
 
   const _iconStyle = [styles.icon, iconStyle, iconSize && { fontSize: iconSize }];
+  // Interactive only when both clickable and wired to a press handler — mirror the
+  // existing `disabled` condition so screen readers expose the right role/state.
+  const _interactive = !!(isClickable && onPress);
 
   return (
     <View style={styles.container}>
@@ -31,6 +36,12 @@ const TextWithIcon = ({
         disabled={!isClickable || !onPress}
         onPress={() => onPress && onPress()}
         onLongPress={() => onLongPress && onLongPress()}
+        accessibilityRole={_interactive ? 'button' : undefined}
+        accessibilityLabel={accessibilityLabel}
+        accessibilityHint={accessibilityHint}
+        // Only advertise state for actual buttons; decorative/display-only instances
+        // must not announce as "dimmed" (disabled) on VoiceOver/TalkBack.
+        accessibilityState={_interactive ? { disabled: false } : undefined}
       >
         <View style={[styles.wrapper, wrapperStyle]}>
           {isLoading ? (

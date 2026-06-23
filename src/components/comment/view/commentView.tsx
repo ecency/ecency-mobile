@@ -209,12 +209,27 @@ const CommentView = ({
           iconSize={20}
           wrapperStyle={styles.leftButton}
           iconType="MaterialCommunityIcons"
-          isClickable
+          isClickable={_totalVotes > 0}
           onPress={() =>
             handleOnVotersPress && _totalVotes > 0 && handleOnVotersPress(activeVotes, comment)
           }
           text={_totalVotes}
           textStyle={styles.voteCountText}
+          accessibilityLabel={intl.formatMessage(
+            {
+              id: 'post.a11y_votes',
+              defaultMessage: '{count, plural, one {# vote} other {# votes}}',
+            },
+            { count: _totalVotes || 0 },
+          )}
+          accessibilityHint={
+            _totalVotes > 0
+              ? intl.formatMessage({
+                  id: 'post.a11y_voters_hint',
+                  defaultMessage: 'View voters',
+                })
+              : undefined
+          }
         />
 
         <TextWithIcon
@@ -226,6 +241,17 @@ const CommentView = ({
           onPress={_handleOnReplyPress}
           text={childCount || 0}
           textStyle={styles.voteCountText}
+          accessibilityLabel={intl.formatMessage(
+            {
+              id: 'post.a11y_comments',
+              defaultMessage: '{count, plural, one {# comment} other {# comments}}',
+            },
+            { count: childCount || 0 },
+          )}
+          accessibilityHint={intl.formatMessage({
+            id: 'post.a11y_reply_hint',
+            defaultMessage: 'Reply',
+          })}
         />
 
         {isLoggedIn && (
@@ -236,6 +262,10 @@ const CommentView = ({
             name="gift-outline"
             onPress={_handleOnTipPress}
             iconType="MaterialCommunityIcons"
+            accessibilityLabel={intl.formatMessage({
+              id: 'post.a11y_tip',
+              defaultMessage: 'Send tip',
+            })}
           />
         )}
 
@@ -248,6 +278,10 @@ const CommentView = ({
               name="create"
               onPress={() => handleOnEditPress && handleOnEditPress(comment)}
               iconType="MaterialIcons"
+              accessibilityLabel={intl.formatMessage({
+                id: 'post.a11y_edit',
+                defaultMessage: 'Edit comment',
+              })}
             />
             {!childCount && !_totalVotes && comment.isDeletable && (
               <IconButton
@@ -265,6 +299,10 @@ const CommentView = ({
                   )
                 }
                 iconType="MaterialIcons"
+                accessibilityLabel={intl.formatMessage({
+                  id: 'post.a11y_delete',
+                  defaultMessage: 'Delete comment',
+                })}
               />
             )}
           </Fragment>
@@ -288,6 +326,10 @@ const CommentView = ({
                 iconSize={16}
                 onPress={() => _showSubCommentsToggle()}
                 text=""
+                accessibilityLabel={intl.formatMessage({
+                  id: repliesToggle ? 'post.a11y_hide_replies' : 'post.a11y_show_replies',
+                  defaultMessage: repliesToggle ? 'Hide replies' : 'Show replies',
+                })}
               />
             )}
           </View>

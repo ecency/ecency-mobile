@@ -25,6 +25,8 @@ const IconButton = ({
   size,
   style,
   isLoading,
+  accessibilityLabel,
+  accessibilityHint,
 }) => (
   <Fragment>
     <TouchableOpacity
@@ -33,6 +35,12 @@ const IconButton = ({
       underlayColor={backgroundColor || 'white'}
       disabled={disabled}
       onLongPress={() => !isLoading && onLongPress && onLongPress()}
+      accessibilityRole={onPress ? 'button' : undefined}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityHint={accessibilityHint}
+      // `isLoading` suppresses onPress, so report it as disabled too — otherwise a
+      // screen reader announces an enabled button that does nothing while spinning.
+      accessibilityState={{ disabled: !!disabled || !!isLoading }}
     >
       {!isLoading ? (
         <Icon
