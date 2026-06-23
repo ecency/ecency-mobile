@@ -26,15 +26,16 @@ interface Props {
 // returned true only for https/about CANCELLED the challenge's blob:/data: frames, so it never
 // issued a token and the widget stayed blank. about: alone was not enough.
 //
-// Fix: pass every frame to the handler (originWhitelist ['*']) and gate only the TOP-LEVEL
-// document. Sub-frames are always allowed, whatever scheme Cloudflare uses, so the challenge
-// completes; the top frame must stay on our own first-party origin, which keeps a compromised
-// page or open redirect from steering the WebView to file:/javascript:/another origin.
-const TURNSTILE_ORIGIN = 'https://ecency.com/';
+// Fix: pass every frame to the handler (originWhitelist ['*']) and gate by SCHEME. Sub-frames
+// are always allowed so the challenge's about:/blob:/data: frames load; a top-level navigation
+// is allowed only over https, which still blocks a compromised page from steering the WebView
+// to a top-level file:/javascript: navigation.
+// The gate is https, NOT our origin, on purpose: iOS reports isTopFrame=false for sub-frames,
+// but Android does NOT report isTopFrame and ALSO routes the challenge's https iframe
+// (challenges.cloudflare.com) through this handler -- an origin-only check would block that
+// frame and break Turnstile on Android.
 const _shouldStartLoad = (req: { url: string; isTopFrame?: boolean }) =>
-  // isTopFrame is iOS-only; on Android the handler only fires for the main frame, so a missing
-  // flag is treated as the top frame too. Only the top document is constrained to our origin.
-  req.isTopFrame === false || req.url.startsWith(TURNSTILE_ORIGIN);
+  req.isTopFrame === false || req.url.startsWith('https://');
 
 const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) => {
   const intl = useIntl();
