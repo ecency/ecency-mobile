@@ -109,6 +109,10 @@ const PostCardHeaderComponent = ({
             name="dots-horizontal"
             onPress={() => handleCardInteraction(PostCardActionIds.OPTIONS)}
             size={24}
+            accessibilityLabel={intl.formatMessage({
+              id: 'post.a11y_post_options',
+              defaultMessage: 'Post options',
+            })}
           />
         </View>
       </View>

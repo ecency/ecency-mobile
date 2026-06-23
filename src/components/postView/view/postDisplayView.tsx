@@ -243,6 +243,14 @@ const PostDisplayView = ({
             onPress={handleVotersIconPress}
             text={activeVotesCount}
             textMarginLeft={20}
+            accessibilityLabel={intl.formatMessage(
+              { id: 'post.a11y_votes', defaultMessage: '{count} votes' },
+              { count: activeVotesCount || 0 },
+            )}
+            accessibilityHint={intl.formatMessage({
+              id: 'post.a11y_voters_hint',
+              defaultMessage: 'View voters',
+            })}
           />
           <TextWithIcon
             iconName="repeat"
@@ -252,6 +260,14 @@ const PostDisplayView = ({
             onPress={_handleOnReblogsPress}
             text={post?.reblogs ?? 0}
             textMarginLeft={20}
+            accessibilityLabel={intl.formatMessage(
+              { id: 'post.a11y_reblogs', defaultMessage: '{count} reblogs' },
+              { count: post?.reblogs ?? 0 },
+            )}
+            accessibilityHint={intl.formatMessage({
+              id: 'post.a11y_reblogs_hint',
+              defaultMessage: 'View reblogs',
+            })}
           />
           {isLoggedIn && (
             <TextWithIcon
@@ -264,6 +280,14 @@ const PostDisplayView = ({
               onLongPress={_showQuickReplyModal}
               onPress={_scrollToComments}
               isLoading={!isLoadedComments}
+              accessibilityLabel={intl.formatMessage(
+                { id: 'post.a11y_comments', defaultMessage: '{count} comments' },
+                { count: get(post, 'children', 0) },
+              )}
+              accessibilityHint={intl.formatMessage({
+                id: 'post.a11y_comments_hint',
+                defaultMessage: 'View comments',
+              })}
             />
           )}
           {!isLoggedIn && (
@@ -274,6 +298,10 @@ const PostDisplayView = ({
               isClickable
               text={get(post, 'children', 0)}
               textMarginLeft={20}
+              accessibilityLabel={intl.formatMessage(
+                { id: 'post.a11y_comments', defaultMessage: '{count} comments' },
+                { count: get(post, 'children', 0) },
+              )}
             />
           )}
 
@@ -286,6 +314,14 @@ const PostDisplayView = ({
             text={tipsQuery.data?.meta?.count || 0}
             textMarginLeft={20}
             isLoading={tipsQuery.isLoading}
+            accessibilityLabel={intl.formatMessage(
+              { id: 'post.a11y_tips', defaultMessage: '{count} tips' },
+              { count: tipsQuery.data?.meta?.count || 0 },
+            )}
+            accessibilityHint={intl.formatMessage({
+              id: 'post.a11y_tip',
+              defaultMessage: 'Send tip',
+            })}
           />
         </View>
       </StickyBar>
@@ -306,6 +342,7 @@ const PostDisplayView = ({
       _handleOnTipPress,
       tipsQuery.data?.meta?.count,
       tipsQuery.isLoading,
+      intl,
     ],
   );
 
@@ -394,6 +431,14 @@ const PostDisplayView = ({
                     text={getAbbreviatedNumber(postStatsQuery.data?.visits || 0)}
                     textMarginLeft={4}
                     isLoading={postStatsQuery.isLoading}
+                    accessibilityLabel={intl.formatMessage(
+                      { id: 'post.a11y_views', defaultMessage: '{count} views' },
+                      { count: postStatsQuery.data?.visits || 0 },
+                    )}
+                    accessibilityHint={intl.formatMessage({
+                      id: 'post.a11y_stats_hint',
+                      defaultMessage: 'View post stats',
+                    })}
                   />
                 </View>
               </View>

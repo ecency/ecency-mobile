@@ -182,6 +182,10 @@ class PostHeaderDescription extends PureComponent {
                     name="dots-horizontal"
                     onPress={() => handleOnDotPress && handleOnDotPress()}
                     iconType="MaterialCommunityIcons"
+                    accessibilityLabel={intl.formatMessage({
+                      id: 'post.a11y_post_options',
+                      defaultMessage: 'Post options',
+                    })}
                   />
                 </View>
               )}
