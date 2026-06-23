@@ -19,13 +19,22 @@ interface Props {
   height?: number;
 }
 
-// Cloudflare's Managed challenge runs its verification compute in about:srcdoc / about:blank
-// child frames (nested inside the challenges.cloudflare.com iframe). iOS WKWebView gates
-// SUB-FRAME navigations by originWhitelist / onShouldStartLoadWithRequest too, so without the
-// about: scheme those frames are silently dropped and the widget spins on "Verifying…" forever
-// (the outer widget still renders, since it loaded over https). Allow https + about: only.
-const _allowTurnstileFrame = (req: { url: string }) =>
-  req.url.startsWith('https://') || req.url.startsWith('about:');
+// Cloudflare's Managed challenge renders in a challenges.cloudflare.com iframe and runs its
+// verification compute in nested SUB-frames across several schemes: about:srcdoc / about:blank
+// and, on iOS, often blob: / data:. react-native-webview gates EVERY frame against
+// originWhitelist, and the previous narrow list (['https://*', 'about:']) plus a handler that
+// returned true only for https/about CANCELLED the challenge's blob:/data: frames, so it never
+// issued a token and the widget stayed blank. about: alone was not enough.
+//
+// Fix: pass every frame to the handler (originWhitelist ['*']) and gate only the TOP-LEVEL
+// document. Sub-frames are always allowed, whatever scheme Cloudflare uses, so the challenge
+// completes; the top frame must stay on our own first-party origin, which keeps a compromised
+// page or open redirect from steering the WebView to file:/javascript:/another origin.
+const TURNSTILE_ORIGIN = 'https://ecency.com/';
+const _shouldStartLoad = (req: { url: string; isTopFrame?: boolean }) =>
+  // isTopFrame is iOS-only; on Android the handler only fires for the main frame, so a missing
+  // flag is treated as the top frame too. Only the top document is constrained to our origin.
+  req.isTopFrame === false || req.url.startsWith(TURNSTILE_ORIGIN);
 
 const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) => {
   const intl = useIntl();
@@ -73,14 +82,18 @@ const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) =
     <View style={[styles.container, { height }]}>
       <WebView
         source={{ uri: TURNSTILE_EMBED_URL }}
-        originWhitelist={['https://*', 'about:']}
-        onShouldStartLoadWithRequest={_allowTurnstileFrame}
+        originWhitelist={['*']}
+        onShouldStartLoadWithRequest={_shouldStartLoad}
         javaScriptEnabled
         domStorageEnabled
         sharedCookiesEnabled
         thirdPartyCookiesEnabled
         scrollEnabled={false}
         androidLayerType="software"
+        // Make the widget inspectable via Safari Web Inspector in dev builds only,
+        // so a future challenge issue can be diagnosed on-device without shipping
+        // an inspectable WebView to release/TestFlight.
+        webviewDebuggingEnabled={__DEV__}
         style={styles.webview}
         onMessage={_onMessage}
         onError={() => setLoadFailed(true)}
