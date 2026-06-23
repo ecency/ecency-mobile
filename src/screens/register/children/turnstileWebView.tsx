@@ -26,15 +26,19 @@ interface Props {
 // returned true only for https/about CANCELLED the challenge's blob:/data: frames, so it never
 // issued a token and the widget stayed blank. about: alone was not enough.
 //
-// Fix: pass every frame to the handler (originWhitelist ['*']) and gate only the TOP-LEVEL
-// document. Sub-frames are always allowed, whatever scheme Cloudflare uses, so the challenge
-// completes; the top frame must stay on our own first-party origin, which keeps a compromised
-// page or open redirect from steering the WebView to file:/javascript:/another origin.
-const TURNSTILE_ORIGIN = 'https://ecency.com/';
+// Fix: pass every frame to the handler (originWhitelist ['*']). Sub-frames are always allowed
+// so the challenge's about:/blob:/data: compute frames load -- iOS reports isTopFrame=false for
+// them. For the top document, pin to the two hosts the widget legitimately loads: our own embed
+// page and Cloudflare's challenge. This is deliberately host-pinned, NOT "any https":
+//   - The ReactNativeWebView bridge + _onMessage accept a `verify` token from whatever page is
+//     loaded, so a stray top-level navigation to an arbitrary https page could post a fake token.
+//   - challenges.cloudflare.com MUST be allowed explicitly because Android does NOT report
+//     isTopFrame (always undefined) AND routes the challenge's https iframe through this handler;
+//     an origin-only (ecency.com) gate would block that iframe and break Turnstile on Android.
+const _isAllowedTopUrl = (url: string) =>
+  url.startsWith('https://ecency.com/') || url.startsWith('https://challenges.cloudflare.com/');
 const _shouldStartLoad = (req: { url: string; isTopFrame?: boolean }) =>
-  // isTopFrame is iOS-only; on Android the handler only fires for the main frame, so a missing
-  // flag is treated as the top frame too. Only the top document is constrained to our origin.
-  req.isTopFrame === false || req.url.startsWith(TURNSTILE_ORIGIN);
+  req.isTopFrame === false || _isAllowedTopUrl(req.url);
 
 const TurnstileWebView = ({ onVerify, onExpire, onError, height = 76 }: Props) => {
   const intl = useIntl();
