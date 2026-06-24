@@ -14,6 +14,7 @@ import { Icon, MainButton, Modal, PostCardPlaceHolder, TextButton } from '../../
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 import ROUTES from '../../../constants/routeNames';
 import TurnstileWebView from './turnstileWebView';
+import { getUsernameError, USERNAME_ERROR_MESSAGE_IDS } from '../../../utils/usernameValidation';
 
 type Props = {
   username: string;
@@ -61,7 +62,27 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
     openInbox();
   };
 
+  // Last-line guard before either signup path runs. The register screen already
+  // blocks a chain-invalid username, but this modal can also be opened directly
+  // (e.g. the purchaseOnly deep link), so re-check here so a name the blockchain
+  // would reject (the buyer is still charged for the paid path) never reaches the
+  // backend.
+  const _isUsernameCreatable = () => {
+    const errorCode = getUsernameError(_username);
+    if (errorCode) {
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.fail' }),
+        intl.formatMessage({ id: USERNAME_ERROR_MESSAGE_IDS[errorCode] }),
+      );
+      return false;
+    }
+    return true;
+  };
+
   const _handleOnPressRegister = async () => {
+    if (!_isUsernameCreatable()) {
+      return;
+    }
     setIsRegistering(true);
 
     try {
@@ -229,6 +250,9 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
                   },
                 ),
             onPress: () => {
+              if (!_isUsernameCreatable()) {
+                return;
+              }
               setIsRegistering(true);
               buyItem(product.productId);
             },
