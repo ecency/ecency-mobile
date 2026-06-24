@@ -15,45 +15,33 @@ import { useIntl } from 'react-intl';
 import {
   getAccountPosts,
   getPromotedPostsQuery,
-  getWavesByHostQueryOptions,
-  getWavesFollowingQueryOptions,
-  getWavesByTagQueryOptions,
-  getWavesByAccountQueryOptions,
+  getWavesFeedQueryOptions,
   useDeleteComment,
   WaveEntry,
 } from '@ecency/sdk';
 
 import { parsePost } from '../../../utils/postParser';
-import { WAVES_PRIMARY_HOST, WAVES_FALLBACK_HOST } from '../../../constants/waves';
+import { WAVES_PRIMARY_HOST } from '../../../constants/waves';
 import { useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useBotAuthorsQuery } from './postQueries';
 import { selectCurrentAccount, selectCurrentAccountMutes } from '../../../redux/selectors';
 import { useAuthContext } from '../../sdk';
 
-type WavesQueryOptions =
-  | ReturnType<typeof getWavesByHostQueryOptions>
-  | ReturnType<typeof getWavesFollowingQueryOptions>
-  | ReturnType<typeof getWavesByTagQueryOptions>
-  | ReturnType<typeof getWavesByAccountQueryOptions>;
+type CombinedWavesQueryOptions = ReturnType<typeof getWavesFeedQueryOptions>;
 
 /**
- * Drives a waves feed across an ordered pair of container hosts. The primary
- * host (`hive.flow`) is paginated first; once it has no more containers — be
- * that because it has none at all or because scrolling exhausted them — the
- * fallback host (`ecency.waves`) is enabled and its waves are appended. The
- * two SDK queries stay independent; this hook just merges their pages and
- * presents a single feed-shaped API to the screen.
- *
- * `buildQueryOptions` is invoked once per host so the same feed flavour
- * (for-you / following / tag / account) can be requested from either account.
+ * Drives a waves feed from the single combined, cross-container esync endpoint.
+ * Every flavour (for-you / following / tag / account) is powered by the same
+ * hook; the flavour is encoded entirely in the `queryOptions` passed in, built
+ * via `getWavesFeedQueryOptions({ observer, following, tag, author })`. One
+ * keyset-paginated infinite query backs the list — the per-container
+ * primary/fallback host chaining is gone, the backend already merges every
+ * container in time order. This hook layers the shared visibility filter,
+ * promoted-wave interleaving, optimistic delete and pull-to-refresh on top.
  */
 export const useWavesQuery = (
-  buildQueryOptions: (host: string) => WavesQueryOptions,
-  hosts: { primary: string; fallback: string } = {
-    primary: WAVES_PRIMARY_HOST,
-    fallback: WAVES_FALLBACK_HOST,
-  },
+  queryOptions: CombinedWavesQueryOptions,
   // When true (for-you / following feeds, not tag feeds), promoted waves are
   // fetched and interleaved into the list like the web waves feed.
   injectPromoted = false,
@@ -71,39 +59,8 @@ export const useWavesQuery = (
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const primaryOptions = useMemo(
-    () => buildQueryOptions(hosts.primary),
-    [buildQueryOptions, hosts.primary],
-  );
-  const fallbackOptions = useMemo(
-    () => buildQueryOptions(hosts.fallback),
-    [buildQueryOptions, hosts.fallback],
-  );
-
-  // The SDK gates following/account feeds with their own `enabled` flag (e.g.
-  // disabled until a username is known); honour it so we never force a query
-  // the SDK intends to skip.
-  const primaryBaseEnabled = (primaryOptions as { enabled?: boolean }).enabled ?? true;
-  const fallbackBaseEnabled = (fallbackOptions as { enabled?: boolean }).enabled ?? true;
-
-  // All SDK wave query options share the same runtime shape but differ in
-  // page-param generics; cast to satisfy useInfiniteQuery.
-  const primaryQuery = useInfiniteQuery({
-    ...(primaryOptions as ReturnType<typeof getWavesByHostQueryOptions>),
-    refetchInterval: 60000,
-  });
-
-  // The fallback host activates only once the primary has finished loading and
-  // reports no further containers. That single condition covers both
-  // "primary has nothing at all" and "primary exhausted while scrolling"; on a
-  // primary error `hasNextPage` is false and `isFetched` true, so the feed
-  // still falls back rather than dead-ending.
-  const primaryExhausted =
-    primaryBaseEnabled && primaryQuery.isFetched && !primaryQuery.hasNextPage;
-
-  const fallbackQuery = useInfiniteQuery({
-    ...(fallbackOptions as ReturnType<typeof getWavesByHostQueryOptions>),
-    enabled: fallbackBaseEnabled && primaryExhausted,
+  const wavesQuery = useInfiniteQuery({
+    ...queryOptions,
     refetchInterval: 60000,
   });
 
@@ -116,19 +73,15 @@ export const useWavesQuery = (
   });
 
   const data = useMemo(() => {
-    const primaryItems: WaveEntry[] = primaryQuery.data?.pages?.flat() ?? [];
-    // Surface fallback items only while the primary is exhausted, so a primary
-    // refetch that brings back fresh containers hides the fallback again
-    // instead of interleaving the two sources.
-    const fallbackItems: WaveEntry[] = primaryExhausted
-      ? fallbackQuery.data?.pages?.flat() ?? []
-      : [];
-    const flatData: WaveEntry[] = [...primaryItems, ...fallbackItems];
+    const flatData: WaveEntry[] = wavesQuery.data?.pages?.flat() ?? [];
     const botAuthors = botAuthorsQuery.data ?? [];
 
     // Shared visibility filter: drop empty parses, muted authors, downvoted /
     // gray waves, and bot authors. Applied to BOTH organic and promoted waves
     // so the user's own mutes (and bot/gray hiding) hold even for promoted cards.
+    // Server-side observer-mute already excludes muted authors from the combined
+    // feed; this client filter stays as a backstop (and still covers promoted
+    // cards, which bypass the feed query).
     const isVisibleWave = (post: any) => {
       if (!post) {
         return false;
@@ -151,7 +104,7 @@ export const useWavesQuery = (
     const parsed = flatData
       // Shallow-copy before parsing: parsePost mutates its argument, and `flatData`
       // holds the SDK query cache objects (mutating re-renders the body each refetch).
-      // The SDK (>= 2.3.19) normalizes `created` on the custom feeds, so no client-side
+      // The SDK normalizes `created` on the combined feed, so no client-side
       // timestamp mapping is needed here. Organic waves are never promoted (isPromoted=false).
       .map((item) => parsePost({ ...item }, currentAccount?.name, false))
       .filter(isVisibleWave);
@@ -187,9 +140,7 @@ export const useWavesQuery = (
         return acc;
       }, [] as typeof parsed);
   }, [
-    primaryQuery.data,
-    fallbackQuery.data,
-    primaryExhausted,
+    wavesQuery.data,
     mutes,
     botAuthorsQuery.data,
     currentAccount?.name,
@@ -197,57 +148,20 @@ export const useWavesQuery = (
     injectPromoted,
   ]);
 
-  const primaryItemCount = primaryQuery.data?.pages?.flat()?.length ?? 0;
-
-  // More remains if the primary still has pages, or it is exhausted and the
-  // fallback either has more pages or hasn't yet loaded its first page.
-  const hasNextPage =
-    !!primaryQuery.hasNextPage ||
-    (primaryExhausted &&
-      (!!fallbackQuery.hasNextPage ||
-        (fallbackBaseEnabled && !fallbackQuery.isFetched && !fallbackQuery.isError)));
-
-  const isFetchingNextPage =
-    primaryQuery.isFetchingNextPage ||
-    fallbackQuery.isFetchingNextPage ||
-    // The fallback's first page loads automatically (via `enabled`) once the
-    // primary exhausts. Count that as "fetching" — including when the primary
-    // had zero items — so callers don't see `hasNextPage && !isFetchingNextPage`
-    // and fire a no-op `fetchNextPage()` (a no-op because the fallback has no
-    // `hasNextPage` until its first page lands). An empty FlatList raises
-    // `onEndReached` immediately, so without this it would loop on every scroll.
-    (primaryExhausted && fallbackQuery.isLoading);
-
-  const isLoading =
-    primaryQuery.isLoading ||
-    // Primary returned nothing and we're now loading the fallback's first page.
-    (primaryExhausted && primaryItemCount === 0 && fallbackQuery.isLoading);
+  const hasNextPage = !!wavesQuery.hasNextPage;
+  const { isFetchingNextPage, isLoading } = wavesQuery;
 
   const fetchNextPage = useCallback(() => {
-    if (primaryQuery.hasNextPage) {
-      return primaryQuery.fetchNextPage();
-    }
-    if (primaryExhausted && fallbackQuery.hasNextPage) {
-      return fallbackQuery.fetchNextPage();
+    if (wavesQuery.hasNextPage && !wavesQuery.isFetchingNextPage) {
+      return wavesQuery.fetchNextPage();
     }
     return undefined;
-  }, [
-    primaryQuery.hasNextPage,
-    primaryQuery.fetchNextPage,
-    primaryExhausted,
-    fallbackQuery.hasNextPage,
-    fallbackQuery.fetchNextPage,
-  ]);
+  }, [wavesQuery.hasNextPage, wavesQuery.isFetchingNextPage, wavesQuery.fetchNextPage]);
 
   const refresh = async () => {
     setIsRefreshing(true);
     try {
-      await primaryQuery.refetch();
-      // Only refetch the fallback if it actually loaded; otherwise its
-      // `enabled` gate re-evaluates from the refreshed primary state.
-      if (fallbackQuery.data) {
-        await fallbackQuery.refetch();
-      }
+      await wavesQuery.refetch();
       // Keep interleaved promoted waves fresh on pull-to-refresh too; skip when
       // promoted injection is off (tag feeds / profile tab) so we don't fire a
       // disabled query.
@@ -278,10 +192,10 @@ export const useWavesQuery = (
         return;
       }
 
-      // A wave's container account (its parent_author) decides which host to
-      // broadcast the delete against. Fall back to the primary host for
-      // callers that don't carry it.
-      const targetHost = _parent_author || hosts.primary;
+      // Each wave carries its own container account (its parent_author), which
+      // decides which container to broadcast the delete against. Fall back to
+      // the primary host only for callers that don't carry it.
+      const targetHost = _parent_author || WAVES_PRIMARY_HOST;
 
       try {
         await sdkDeleteMutation.mutateAsync({
@@ -291,20 +205,17 @@ export const useWavesQuery = (
           parentPermlink: _parent_permlink,
         });
 
-        // The merged feed may hold the wave under either host's key, so prune
-        // both caches. Match author too — a permlink is only unique per author,
-        // so filtering on permlink alone could drop another user's wave that
-        // happens to share it.
-        [primaryOptions.queryKey, fallbackOptions.queryKey].forEach((queryKey) => {
-          queryClient.setQueryData<InfiniteData<WaveEntry[]>>(queryKey, (oldData) => {
-            if (!oldData) return oldData;
-            return {
-              ...oldData,
-              pages: oldData.pages.map((page) =>
-                page.filter((w) => !(w.author === currentAccount.name && w.permlink === _permlink)),
-              ),
-            };
-          });
+        // Prune the wave from this feed's combined-feed cache. Match author too
+        // — a permlink is only unique per author, so filtering on permlink alone
+        // could drop another user's wave that happens to share it.
+        queryClient.setQueryData<InfiniteData<WaveEntry[]>>(queryOptions.queryKey, (oldData) => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page) =>
+              page.filter((w) => !(w.author === currentAccount.name && w.permlink === _permlink)),
+            ),
+          };
         });
 
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
@@ -315,14 +226,12 @@ export const useWavesQuery = (
     },
     [
       currentAccount?.name,
-      hosts.primary,
       // Use `mutateAsync` (stable across renders via TanStack Query's
       // internal ref) rather than the whole mutation result object, which
       // gets a fresh identity on every state transition (idle → pending →
       // success/error) and would re-rotate `deleteWave` after each delete.
       sdkDeleteMutation.mutateAsync,
-      primaryOptions.queryKey,
-      fallbackOptions.queryKey,
+      queryOptions.queryKey,
       queryClient,
       dispatch,
       intl,
@@ -348,9 +257,16 @@ interface PublishWaveContext {
 
 export const usePublishWaveMutation = () => {
   const queryClient = useQueryClient();
+  const currentAccount = useAppSelector(selectCurrentAccount);
+
+  // A freshly posted wave belongs at the top of the for-you combined feed; its
+  // cache key is the observer-scoped feed, where the observer is the poster.
+  const observer = currentAccount?.name || undefined;
 
   const _mutationFn = async (cachePostData: any) => {
     if (cachePostData) {
+      // Return the container host purely so onError/onSuccess have something to
+      // key on; the optimistic write itself targets the combined feed below.
       const _host = cachePostData.parent_author;
       return _host;
     }
@@ -359,8 +275,7 @@ export const usePublishWaveMutation = () => {
 
   const _options: UseMutationOptions<string, unknown, any, PublishWaveContext> = {
     onMutate: async (cacheCommentData: any) => {
-      const _host = cacheCommentData.parent_author;
-      const sdkOptions = getWavesByHostQueryOptions(_host);
+      const sdkOptions = getWavesFeedQueryOptions({ observer });
 
       await queryClient.cancelQueries({ queryKey: sdkOptions.queryKey });
 
@@ -386,10 +301,10 @@ export const usePublishWaveMutation = () => {
       }
     },
 
-    onSuccess: async (host) => {
-      const sdkOptions = getWavesByHostQueryOptions(host);
-      queryClient.invalidateQueries({ queryKey: sdkOptions.queryKey });
-    },
+    // No invalidate on success: the combined feed is esync-backed and a just-
+    // broadcast wave isn't indexed there yet, so an immediate refetch would drop
+    // the optimistic card. The 60s refetchInterval (and pull-to-refresh)
+    // reconciles the feed once esync has indexed it.
   };
 
   return useMutation({ mutationFn: _mutationFn, ..._options });
