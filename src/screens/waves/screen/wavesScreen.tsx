@@ -14,11 +14,7 @@ import { TabView } from 'react-native-tab-view';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
 import { useIntl } from 'react-intl';
-import {
-  getWavesByHostQueryOptions,
-  getWavesFollowingQueryOptions,
-  getWavesByTagQueryOptions,
-} from '@ecency/sdk';
+import { getWavesFeedQueryOptions } from '@ecency/sdk';
 import {
   Comments,
   EmptyScreen,
@@ -51,7 +47,7 @@ type DeleteWaveFn = (args: {
 }) => Promise<void>;
 
 const WavesFeed = ({
-  buildQueryOptions,
+  queryOptions,
   queryKey,
   listRef,
   onTagPress,
@@ -62,10 +58,11 @@ const WavesFeed = ({
   isDarkTheme,
 }: {
   /**
-   * Builds the SDK query options for a given waves container host. Invoked
-   * once per host (primary + fallback) inside `useWavesQuery`.
+   * The combined-feed query options for this flavour, built via
+   * `getWavesFeedQueryOptions({ observer, following, tag })`. A single
+   * keyset-paginated query backs the list.
    */
-  buildQueryOptions: Parameters<typeof wavesQueries.useWavesQuery>[0];
+  queryOptions: ReturnType<typeof getWavesFeedQueryOptions>;
   queryKey: string;
   listRef: React.RefObject<FlatList | null>;
   onTagPress: (tag: string) => void;
@@ -88,7 +85,7 @@ const WavesFeed = ({
 }) => {
   // Interleave promoted waves on the for-you / following feeds, but never on a
   // tag feed (matches the web waves feed's `enabled: !tag`).
-  const wavesQuery = wavesQueries.useWavesQuery(buildQueryOptions, undefined, feedKey !== 'tag');
+  const wavesQuery = wavesQueries.useWavesQuery(queryOptions, feedKey !== 'tag');
   const blockPopupRef = useRef(false);
   const scrollOffsetRef = useRef(0);
 
@@ -209,20 +206,22 @@ const WavesScreen = () => {
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const insets = useSafeAreaInsets();
 
-  // Per-host query-option builders. `useWavesQuery` invokes each one for both
-  // the primary (hive.flow) and fallback (ecency.waves) container hosts, so
-  // each feed flavour is requested from both accounts and chained.
-  const buildForYouQueryOptions = useCallback(
-    (host: string) => getWavesByHostQueryOptions(host),
-    [],
+  // The logged-in user is the observer on every feed: the backend drops authors
+  // they currently mute, so each page stays full of waves they can see (a
+  // client-side filter would shrink pages). Logged-out users get the public
+  // combined feed (observer undefined).
+  const observer = currentAccount?.name || undefined;
+
+  // One combined, cross-container, keyset-paginated endpoint backs all three
+  // feeds; `following` and `tag` are just filters on the same stream.
+  const forYouQueryOptions = useMemo(() => getWavesFeedQueryOptions({ observer }), [observer]);
+  const followingQueryOptions = useMemo(
+    () => getWavesFeedQueryOptions({ following: currentAccount?.name, observer }),
+    [currentAccount?.name, observer],
   );
-  const buildFollowingQueryOptions = useCallback(
-    (host: string) => getWavesFollowingQueryOptions(host, currentAccount?.name ?? ''),
-    [currentAccount?.name],
-  );
-  const buildTagQueryOptions = useCallback(
-    (host: string) => getWavesByTagQueryOptions(host, activeTag ?? ''),
-    [activeTag],
+  const tagQueryOptions = useMemo(
+    () => getWavesFeedQueryOptions({ tag: activeTag ?? undefined, observer }),
+    [activeTag, observer],
   );
 
   const activeListRef = activeTag
@@ -330,7 +329,7 @@ const WavesScreen = () => {
       return (
         <View style={styles.tabScene}>
           <WavesFeed
-            buildQueryOptions={buildFollowingQueryOptions}
+            queryOptions={followingQueryOptions}
             queryKey={`following:${currentAccount?.name}`}
             listRef={followingListRef}
             onTagPress={_handleTagFilter}
@@ -349,7 +348,7 @@ const WavesScreen = () => {
         <View style={styles.tabScene}>
           {_renderFilterChip}
           <WavesFeed
-            buildQueryOptions={buildTagQueryOptions}
+            queryOptions={tagQueryOptions}
             queryKey={`tag:${activeTag}`}
             listRef={tagListRef}
             onTagPress={_handleTagFilter}
@@ -366,7 +365,7 @@ const WavesScreen = () => {
     return (
       <View style={styles.tabScene}>
         <WavesFeed
-          buildQueryOptions={buildForYouQueryOptions}
+          queryOptions={forYouQueryOptions}
           queryKey="for-you"
           listRef={forYouListRef}
           onTagPress={_handleTagFilter}

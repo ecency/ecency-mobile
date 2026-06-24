@@ -197,14 +197,19 @@ export const usePostSubmitter = () => {
         parentPermlink,
       );
 
-      // Build cache entry for wave optimistic prepend
+      // Build cache entry for wave optimistic prepend. Keep it WaveEntry-shaped:
+      // `body` (parsePost derives markdownBody/rendered body from it for the
+      // current author) and `created` (the card's timestamp). Without these the
+      // optimistic card renders blank until the next feed refetch.
       const _cacheCommentData = {
         author,
         permlink,
         url,
         parent_author: parentAuthor,
         parent_permlink: parentPermlink,
+        body: commentBody,
         markdownBody: commentBody,
+        created: new Date().toISOString(),
         json_metadata: jsonMetadata,
       };
 

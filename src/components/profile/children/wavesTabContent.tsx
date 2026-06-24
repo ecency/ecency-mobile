@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useMemo } from 'react';
 import { ActivityIndicator, RefreshControl, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getWavesByAccountQueryOptions } from '@ecency/sdk';
+import { getWavesFeedQueryOptions } from '@ecency/sdk';
 import { Comments, NoPost } from '../..';
 import { useAppSelector } from '../../../hooks';
 import { selectHidePostsThumbnails } from '../../../redux/selectors';
@@ -20,11 +20,13 @@ const WavesTabContent = ({ username, isOwnProfile, onScroll }: WavesTabContentPr
   const intl = useIntl();
   const isHideImage = useAppSelector(selectHidePostsThumbnails);
 
-  const buildQueryOptions = useCallback(
-    (host: string) => getWavesByAccountQueryOptions(host, username),
-    [username],
-  );
-  const wavesQuery = wavesQueries.useWavesQuery(buildQueryOptions);
+  // The per-author feed is the same combined endpoint scoped to one author
+  // (across every container). No observer is passed: you're deliberately
+  // viewing this profile, so a mute of theirs shouldn't blank their waves.
+  const queryOptions = useMemo(() => getWavesFeedQueryOptions({ author: username }), [username]);
+  // injectPromoted=false (no promoted cards on a profile), applyMuteFilter=false
+  // so a muted author's own profile tab still shows their waves.
+  const wavesQuery = wavesQueries.useWavesQuery(queryOptions, false, false);
 
   const _renderListEmpty = () => {
     if (wavesQuery.isLoading) {
