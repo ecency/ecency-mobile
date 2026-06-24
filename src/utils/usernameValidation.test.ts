@@ -1,4 +1,4 @@
-import { getUsernameError } from './usernameValidation';
+import { getUsernameError, USERNAME_ERROR_MESSAGE_IDS } from './usernameValidation';
 
 describe('getUsernameError', () => {
   it('accepts valid usernames', () => {
@@ -34,6 +34,13 @@ describe('getUsernameError', () => {
     expect(getUsernameError('abc.')).toBe('length'); // empty segment
   });
 
+  it('rejects a too-short trailing dot-segment (paid-signup incident)', () => {
+    // A buyer was charged for `bitgethive.uk`: the whole name is 13 chars but the
+    // `uk` segment is only 2, which the blockchain rejects (RFC 1035). The paid
+    // path had no client-side check, so the on-chain create failed after payment.
+    expect(getUsernameError('bitgethive.uk')).toBe('length');
+  });
+
   it('rejects invalid symbols', () => {
     expect(getUsernameError('ab@c')).toBe('symbols');
     expect(getUsernameError('abc!')).toBe('symbols');
@@ -48,5 +55,21 @@ describe('getUsernameError', () => {
   it('rejects double hyphens and underscores', () => {
     expect(getUsernameError('ab--cd')).toBe('double_hyphens');
     expect(getUsernameError('ab_cd')).toBe('underscore');
+  });
+});
+
+describe('USERNAME_ERROR_MESSAGE_IDS', () => {
+  it('maps every validation error code to a register.validation message id', () => {
+    const codes = [
+      'length',
+      'start_letter',
+      'symbols',
+      'double_hyphens',
+      'trailing_hyphen',
+      'underscore',
+    ] as const;
+    codes.forEach((code) => {
+      expect(USERNAME_ERROR_MESSAGE_IDS[code]).toMatch(/^register\.validation\./);
+    });
   });
 });

@@ -10,6 +10,20 @@ export type UsernameValidationError =
   | 'trailing_hyphen'
   | 'underscore';
 
+// Maps a validation error to its react-intl message id. Kept beside the rule so
+// every place that blocks a chain-invalid username (the register form AND the
+// paid-account purchase) surfaces the same localized reason from one source.
+export const USERNAME_ERROR_MESSAGE_IDS: Record<UsernameValidationError, string> = {
+  length: 'register.validation.username_length_error',
+  start_letter: 'register.validation.username_no_ascii_first_letter_error',
+  symbols: 'register.validation.username_contains_symbols_error',
+  double_hyphens: 'register.validation.username_contains_double_hyphens',
+  // reuses the symbols message: a dedicated string would be missing from the
+  // 38 non-en locale files until the next translation sync
+  trailing_hyphen: 'register.validation.username_contains_symbols_error',
+  underscore: 'register.validation.username_contains_underscore',
+};
+
 const getSegmentError = (segment: string): UsernameValidationError | null => {
   if (segment.length < 3) {
     return 'length';

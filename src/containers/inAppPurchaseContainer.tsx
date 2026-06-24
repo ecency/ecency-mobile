@@ -18,6 +18,7 @@ import { default as ROUTES } from '../constants/routeNames';
 import { UserAvatar } from '../components';
 import { PurchaseRequestData } from '../providers/ecency/ecency.types';
 import { SheetNames } from '../navigation/sheets';
+import { getUsernameError, USERNAME_ERROR_MESSAGE_IDS } from '../utils/usernameValidation';
 
 // Username/email entered when a paid-account purchase is started. Persisted so a
 // purchase that Google has charged but that was not finalized (network drop, app
@@ -173,6 +174,14 @@ class InAppPurchaseContainer extends Component {
           const meta = providedMeta || (await this._resolveAccountMeta());
           if (!meta || !meta.username || !meta.email) {
             throw new Error('Email and username are required for 999accounts consumption');
+          }
+          // Final guard before the order reaches the backend: a chain-invalid
+          // username can never be created on-chain, so don't record an order for
+          // it. New purchases are blocked at buy time; this only catches a name
+          // charged on an older build, which is then left unconsumed to be
+          // auto-refunded rather than charged for an uncreatable account.
+          if (getUsernameError(String(meta.username).toLowerCase())) {
+            throw new Error(`Invalid Hive username for 999accounts: ${meta.username}`);
           }
           data.user = name || 'ecency'; // if user logged in use that name else use ecency
           data.meta = {
@@ -345,7 +354,8 @@ class InAppPurchaseContainer extends Component {
   };
 
   _buyItem = async (sku) => {
-    const { navigation, isLoggedIn, intl, username, email, referral } = this.props;
+    const { navigation, isLoggedIn, intl, username, email, referral, handleOnPurchaseFailure } =
+      this.props;
     const { unconsumedPurchases } = this.state;
     // if user is not loggedIn and purchase is other than account purchase
     // add more skus here for account purchase
@@ -355,6 +365,26 @@ class InAppPurchaseContainer extends Component {
         intl.formatMessage({ id: 'login.not_loggedin_alert_desc' }),
       );
       return;
+    }
+
+    // Never charge for a paid account whose username the blockchain would reject
+    // (e.g. a dot-segment under 3 chars). The register modal guards this too, but
+    // _buyItem can be reached by other entry points, so block the charge here as
+    // well rather than let the buyer pay for an account that can never be created.
+    if (sku === '999accounts') {
+      const errorCode = getUsernameError((username || '').toLowerCase());
+      if (errorCode) {
+        const message = intl.formatMessage({ id: USERNAME_ERROR_MESSAGE_IDS[errorCode] });
+        // Notify the caller so any in-progress UI state is reset (the register modal
+        // sets isRegistering before calling buyItem), and fall back to an Alert for
+        // callers that don't pass a failure handler.
+        if (handleOnPurchaseFailure) {
+          handleOnPurchaseFailure(new Error(message));
+        } else {
+          Alert.alert(intl.formatMessage({ id: 'alert.fail' }), message);
+        }
+        return;
+      }
     }
 
     if (sku !== 'freePoints') {

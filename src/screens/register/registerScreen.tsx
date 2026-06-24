@@ -17,18 +17,7 @@ import { RegisterAccountModal } from './children/registerAccountModal';
 import { ECENCY_TERMS_URL } from '../../config/ecencyApi';
 import { useAppSelector } from '../../hooks';
 import { selectIsConnected } from '../../redux/selectors';
-import { getUsernameError, UsernameValidationError } from '../../utils/usernameValidation';
-
-const USERNAME_ERROR_MESSAGE_IDS: Record<UsernameValidationError, string> = {
-  length: 'register.validation.username_length_error',
-  start_letter: 'register.validation.username_no_ascii_first_letter_error',
-  symbols: 'register.validation.username_contains_symbols_error',
-  double_hyphens: 'register.validation.username_contains_double_hyphens',
-  // reuses the symbols message: a dedicated string would be missing from the
-  // 38 non-en locale files until the next translation sync
-  trailing_hyphen: 'register.validation.username_contains_symbols_error',
-  underscore: 'register.validation.username_contains_underscore',
-};
+import { getUsernameError, USERNAME_ERROR_MESSAGE_IDS } from '../../utils/usernameValidation';
 
 const RegisterScreen = ({ navigation, route }) => {
   const intl = useIntl();
