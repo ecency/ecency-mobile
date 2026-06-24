@@ -24,7 +24,9 @@ const WavesTabContent = ({ username, isOwnProfile, onScroll }: WavesTabContentPr
   // (across every container). No observer is passed: you're deliberately
   // viewing this profile, so a mute of theirs shouldn't blank their waves.
   const queryOptions = useMemo(() => getWavesFeedQueryOptions({ author: username }), [username]);
-  const wavesQuery = wavesQueries.useWavesQuery(queryOptions);
+  // injectPromoted=false (no promoted cards on a profile), applyMuteFilter=false
+  // so a muted author's own profile tab still shows their waves.
+  const wavesQuery = wavesQueries.useWavesQuery(queryOptions, false, false);
 
   const _renderListEmpty = () => {
     if (wavesQuery.isLoading) {

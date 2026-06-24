@@ -45,6 +45,11 @@ export const useWavesQuery = (
   // When true (for-you / following feeds, not tag feeds), promoted waves are
   // fetched and interleaved into the list like the web waves feed.
   injectPromoted = false,
+  // When true (the firehose feeds), waves from authors the viewer mutes are
+  // dropped client-side. Pass false for the profile author feed: you opened
+  // that profile on purpose, so a mute of theirs must not blank their waves
+  // (consistent with that feed omitting the server-side `observer`).
+  applyMuteFilter = true,
 ) => {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
@@ -86,8 +91,8 @@ export const useWavesQuery = (
       if (!post) {
         return false;
       }
-      // discard wave if author is muted
-      if (isArray(mutes) && mutes.indexOf(post.author) >= 0) {
+      // discard wave if author is muted (skipped for the profile author feed)
+      if (applyMuteFilter && isArray(mutes) && mutes.indexOf(post.author) >= 0) {
         return false;
       }
       // discard if wave is downvoted or marked gray
@@ -142,6 +147,7 @@ export const useWavesQuery = (
   }, [
     wavesQuery.data,
     mutes,
+    applyMuteFilter,
     botAuthorsQuery.data,
     currentAccount?.name,
     promotedQuery.data,
@@ -264,16 +270,15 @@ export const usePublishWaveMutation = () => {
   const observer = currentAccount?.name || undefined;
 
   const _mutationFn = async (cachePostData: any) => {
-    if (cachePostData) {
-      // Return the container host purely so onError/onSuccess have something to
-      // key on; the optimistic write itself targets the combined feed below.
-      const _host = cachePostData.parent_author;
-      return _host;
+    // The optimistic prepend happens in onMutate (and is rolled back in
+    // onError); this only validates the input. There is no return value —
+    // nothing downstream consumes one.
+    if (!cachePostData) {
+      throw new Error('invalid mutations data');
     }
-    throw new Error('invalid mutations data');
   };
 
-  const _options: UseMutationOptions<string, unknown, any, PublishWaveContext> = {
+  const _options: UseMutationOptions<void, unknown, any, PublishWaveContext> = {
     onMutate: async (cacheCommentData: any) => {
       const sdkOptions = getWavesFeedQueryOptions({ observer });
 
