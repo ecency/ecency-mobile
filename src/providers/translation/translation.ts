@@ -16,6 +16,8 @@ export const getTranslation = async (text: string, source: string, target: strin
     if (!res || !res.data) {
       throw new Error('Error while getting translation!');
     }
+    // Emoji are re-attached at the end rather than at their original positions;
+    // acceptable for the short posts and messages this is used on.
     const translatedText = emojis
       ? `${res.data.translatedText} ${emojis}`.trim()
       : res.data.translatedText;
