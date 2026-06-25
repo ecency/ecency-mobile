@@ -38,9 +38,9 @@ const WavesTabBar = ({ onTabPress, ...props }: Props) => {
       <IconButton
         style={styles.addButtonWrapper}
         iconStyle={styles.addButtonIcon}
-        iconType="MaterialIcons"
+        iconType="MaterialIcon"
         name="add"
-        size={24}
+        size={28}
         accessibilityLabel="Add tag feed"
         onPress={() => pickerRef.current?.show()}
       />

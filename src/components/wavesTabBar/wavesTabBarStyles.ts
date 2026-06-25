@@ -40,7 +40,9 @@ export default EStyleSheet.create({
   } as ViewStyle,
 
   addButtonIcon: {
-    color: '$iconColor',
+    // Matches the main feed's "+" exactly (Ionicons "add" via iconType
+    // "MaterialIcon", $darkIconColor) for cross-tab-bar consistency.
+    color: '$darkIconColor',
     textAlign: 'center',
   } as TextStyle,
 });
