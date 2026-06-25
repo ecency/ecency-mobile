@@ -29,6 +29,7 @@ import { wavesQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
 import { WavesHeader } from '../children/wavesHeader';
 import { PostTypes } from '../../../constants/postTypes';
+import { waveSourceLabel } from '../../../constants/waves';
 import { ScrollTopPopup } from '../../../components/atoms';
 import { SheetNames } from '../../../navigation/sheets';
 import {
@@ -84,9 +85,12 @@ const WavesFeed = ({
   registerDeleter: (key: string, deleter: DeleteWaveFn | null) => void;
   isDarkTheme: boolean;
 }) => {
-  // Interleave promoted waves on the for-you / following feeds, but never on a
-  // tag feed (matches the web waves feed's `enabled: !tag`).
-  const wavesQuery = wavesQueries.useWavesQuery(queryOptions, !feedKey.startsWith('tag'));
+  // Interleave promoted waves on the for-you / following feeds only, never on a
+  // tag or source feed: a filtered feed must surface only its own waves, and a
+  // promoted wave could belong to a different tag/container (matches the web
+  // waves feed's `enabled: !tag`).
+  const isFilteredFeed = feedKey.startsWith('tag') || feedKey.startsWith('container');
+  const wavesQuery = wavesQueries.useWavesQuery(queryOptions, !isFilteredFeed);
   const blockPopupRef = useRef(false);
   const scrollOffsetRef = useRef(0);
 
@@ -182,14 +186,14 @@ const WavesScreen = () => {
   const forYouListRef = useRef<FlatList>(null);
   const followingListRef = useRef<FlatList>(null);
   const tagListRef = useRef<FlatList>(null);
-  // Lazily-created list refs for each pinned tag tab, keyed by route key.
-  const tagTabListRefs = useRef<Record<string, React.RefObject<FlatList>>>({});
+  // Lazily-created list refs for each pinned tag or source tab, keyed by route key.
+  const dynamicTabListRefs = useRef<Record<string, React.RefObject<FlatList>>>({});
 
-  const _getTagTabRef = (key: string) => {
-    if (!tagTabListRefs.current[key]) {
-      tagTabListRefs.current[key] = React.createRef<FlatList>();
+  const _getDynamicTabRef = (key: string) => {
+    if (!dynamicTabListRefs.current[key]) {
+      dynamicTabListRefs.current[key] = React.createRef<FlatList>();
     }
-    return tagTabListRefs.current[key];
+    return dynamicTabListRefs.current[key];
   };
 
   const [feedType, setFeedType] = useState<string>('for-you');
@@ -215,6 +219,7 @@ const WavesScreen = () => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const waveTags = useAppSelector((state) => state.customTabs.waveTags || []);
+  const waveContainers = useAppSelector((state) => state.customTabs.waveContainers || []);
   const insets = useSafeAreaInsets();
 
   // The logged-in user is the observer on every feed: the backend drops authors
@@ -242,13 +247,22 @@ const WavesScreen = () => {
     });
     return map;
   }, [waveTags, observer]);
+  // Query options for each pinned source tab, keyed by route key
+  // ("container:<host>"). Filters the same combined feed to one container.
+  const containerTabQueryOptions = useMemo(() => {
+    const map: Record<string, ReturnType<typeof getWavesFeedQueryOptions>> = {};
+    waveContainers.forEach((host) => {
+      map[`container:${host}`] = getWavesFeedQueryOptions({ containers: [host], observer });
+    });
+    return map;
+  }, [waveContainers, observer]);
 
   const activeListRef = activeTag
     ? tagListRef
     : feedType === 'following'
     ? followingListRef
-    : feedType.startsWith('tag:')
-    ? _getTagTabRef(feedType)
+    : feedType.startsWith('tag:') || feedType.startsWith('container:')
+    ? _getDynamicTabRef(feedType)
     : forYouListRef;
 
   const intl = useIntl();
@@ -256,9 +270,10 @@ const WavesScreen = () => {
     () => [
       { key: 'for-you', title: intl.formatMessage({ id: 'waves.for_you' }) },
       { key: 'following', title: intl.formatMessage({ id: 'waves.following' }) },
+      ...waveContainers.map((host) => ({ key: `container:${host}`, title: waveSourceLabel(host) })),
       ...waveTags.map((tag) => ({ key: `tag:${tag}`, title: `#${tag}` })),
     ],
-    [intl, waveTags],
+    [intl, waveContainers, waveTags],
   );
 
   const wavesIndex = useMemo(() => {
@@ -266,12 +281,18 @@ const WavesScreen = () => {
     return index < 0 ? 0 : index;
   }, [feedType, wavesRoutes]);
 
-  // If the active tag tab was removed from the picker, fall back to For you.
+  // If the active tag or source tab was removed from the picker, fall back to
+  // For you so the TabView never points at a route that no longer exists.
   useEffect(() => {
     if (feedType.startsWith('tag:') && !waveTags.includes(feedType.slice(4))) {
       setFeedType('for-you');
+    } else if (
+      feedType.startsWith('container:') &&
+      !waveContainers.includes(feedType.slice('container:'.length))
+    ) {
+      setFeedType('for-you');
     }
-  }, [feedType, waveTags]);
+  }, [feedType, waveTags, waveContainers]);
 
   const fabBottomOffset = Platform.OS === 'android' ? 66 + (insets.bottom || 0) : 16;
 
@@ -295,9 +316,9 @@ const WavesScreen = () => {
       return;
     }
 
-    // Following and pinned tag tabs are real feeds; clear any transient
-    // tap-a-hashtag filter (it only overlays the For you tab).
-    if (tab === 'following' || tab.startsWith('tag:')) {
+    // Following, pinned tag and pinned source tabs are real feeds; clear any
+    // transient tap-a-hashtag filter (it only overlays the For you tab).
+    if (tab === 'following' || tab.startsWith('tag:') || tab.startsWith('container:')) {
       setActiveTag(null);
     }
 
@@ -386,7 +407,29 @@ const WavesScreen = () => {
           <WavesFeed
             queryOptions={queryOptions}
             queryKey={route.key}
-            listRef={_getTagTabRef(route.key)}
+            listRef={_getDynamicTabRef(route.key)}
+            onTagPress={_handleTagFilter}
+            onOptionsPress={_handleOnOptionsPress}
+            onScrollStateChange={_handleScrollStateChange}
+            feedKey={route.key}
+            registerDeleter={_registerFeedDeleter}
+            isDarkTheme={isDarkTheme}
+          />
+        </View>
+      );
+    }
+
+    if (route.key.startsWith('container:')) {
+      const queryOptions = containerTabQueryOptions[route.key];
+      if (!queryOptions) {
+        return <View style={styles.tabScene} />;
+      }
+      return (
+        <View style={styles.tabScene}>
+          <WavesFeed
+            queryOptions={queryOptions}
+            queryKey={route.key}
+            listRef={_getDynamicTabRef(route.key)}
             onTagPress={_handleTagFilter}
             onOptionsPress={_handleOnOptionsPress}
             onScrollStateChange={_handleScrollStateChange}

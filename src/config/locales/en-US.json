@@ -35,8 +35,9 @@
     "for_you": "For you",
     "following": "Following",
     "custom_feeds_title": "Custom feeds",
-    "custom_feeds_subtitle": "Pin tags to add them as feed tabs.",
+    "custom_feeds_subtitle": "Pin sources and tags to add them as feed tabs.",
     "add_tag_placeholder": "Add a tag",
+    "sources": "Sources",
     "your_feeds": "Your feeds",
     "trending_tags": "Trending tags"
   },

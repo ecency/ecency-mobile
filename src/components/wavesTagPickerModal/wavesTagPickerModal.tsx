@@ -16,7 +16,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getWavesTrendingTagsQueryOptions } from '@ecency/sdk';
 import { Icon } from '../icon';
 import { useAppSelector } from '../../hooks';
-import { setWaveTags } from '../../redux/actions/customTabsAction';
+import { setWaveContainers, setWaveTags } from '../../redux/actions/customTabsAction';
+import { WAVES_SOURCE_OPTIONS } from '../../constants/waves';
 import styles from './wavesTagPickerModalStyles';
 
 export interface WavesTagPickerModalRef {
@@ -43,6 +44,7 @@ const WavesTagPickerModal = (_props: unknown, ref: Ref<WavesTagPickerModalRef>) 
   const [input, setInput] = useState('');
 
   const waveTags = useAppSelector((state) => state.customTabs.waveTags || []);
+  const waveContainers = useAppSelector((state) => state.customTabs.waveContainers || []);
 
   // Waves-specific trending tags, combined across all containers (undefined
   // host omits the container filter). Fetched only once the sheet is opened.
@@ -69,6 +71,16 @@ const WavesTagPickerModal = (_props: unknown, ref: Ref<WavesTagPickerModalRef>) 
   };
 
   const _removeTag = (tag: string) => _persist(waveTags.filter((t) => t !== tag));
+
+  // Sources are a fixed set, so each chip toggles its own container on/off.
+  const _toggleContainer = (host: string) =>
+    dispatch(
+      setWaveContainers(
+        waveContainers.includes(host)
+          ? waveContainers.filter((h) => h !== host)
+          : [...waveContainers, host],
+      ),
+    );
 
   const _onSubmitInput = () => {
     _addTag(input);
@@ -127,6 +139,28 @@ const WavesTagPickerModal = (_props: unknown, ref: Ref<WavesTagPickerModalRef>) 
           contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
         >
+          <Text style={styles.sectionTitle}>{intl.formatMessage({ id: 'waves.sources' })}</Text>
+          <View style={styles.chipWrap}>
+            {WAVES_SOURCE_OPTIONS.map(({ host, label }) => {
+              const active = waveContainers.includes(host);
+              return (
+                <TouchableOpacity
+                  key={host}
+                  style={[styles.chip, active && styles.chipActive]}
+                  onPress={() => _toggleContainer(host)}
+                >
+                  <Text style={active ? styles.chipActiveText : styles.chipText}>{label}</Text>
+                  <Icon
+                    iconType="MaterialIcons"
+                    name={active ? 'close' : 'add'}
+                    size={15}
+                    style={active ? styles.chipActiveIcon : styles.chipAddIcon}
+                  />
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
           {waveTags.length > 0 && (
             <>
               <Text style={styles.sectionTitle}>
