@@ -3,6 +3,7 @@ import {
   SET_MAIN_TABS,
   SET_OWN_PROFILE_TABS,
   SET_PROFILE_TABS,
+  SET_WAVE_TAGS,
 } from '../constants/constants';
 
 export const setMainTabs = (payload: string[]) => ({
@@ -23,4 +24,10 @@ export const setProfileTabs = (payload: string[]) => ({
 export const setOwnProfileTabs = (payload: string[]) => ({
   payload,
   type: SET_OWN_PROFILE_TABS,
+});
+
+// User-pinned waves tag feeds (tag strings, e.g. ['hive', 'photography']).
+export const setWaveTags = (payload: string[]) => ({
+  payload,
+  type: SET_WAVE_TAGS,
 });

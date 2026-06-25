@@ -21,12 +21,12 @@ import {
   Header,
   PostOptionsModal,
   FabButton,
-  TabBar,
 } from '../../../components/index';
+import WavesTabBar from '../../../components/wavesTabBar/wavesTabBar';
 import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
-import { WavesHeader, WavesFeedType } from '../children/wavesHeader';
+import { WavesHeader } from '../children/wavesHeader';
 import { PostTypes } from '../../../constants/postTypes';
 import { ScrollTopPopup } from '../../../components/atoms';
 import { SheetNames } from '../../../navigation/sheets';
@@ -85,7 +85,7 @@ const WavesFeed = ({
 }) => {
   // Interleave promoted waves on the for-you / following feeds, but never on a
   // tag feed (matches the web waves feed's `enabled: !tag`).
-  const wavesQuery = wavesQueries.useWavesQuery(queryOptions, feedKey !== 'tag');
+  const wavesQuery = wavesQueries.useWavesQuery(queryOptions, !feedKey.startsWith('tag'));
   const blockPopupRef = useRef(false);
   const scrollOffsetRef = useRef(0);
 
@@ -181,8 +181,17 @@ const WavesScreen = () => {
   const forYouListRef = useRef<FlatList>(null);
   const followingListRef = useRef<FlatList>(null);
   const tagListRef = useRef<FlatList>(null);
+  // Lazily-created list refs for each pinned tag tab, keyed by route key.
+  const tagTabListRefs = useRef<Record<string, React.RefObject<FlatList>>>({});
 
-  const [feedType, setFeedType] = useState<WavesFeedType>('for-you');
+  const _getTagTabRef = (key: string) => {
+    if (!tagTabListRefs.current[key]) {
+      tagTabListRefs.current[key] = React.createRef<FlatList>();
+    }
+    return tagTabListRefs.current[key];
+  };
+
+  const [feedType, setFeedType] = useState<string>('for-you');
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [enableScrollTop, setEnableScrollTop] = useState(false);
   const [lazyLoad, setLazyLoad] = useState(false);
@@ -204,6 +213,7 @@ const WavesScreen = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
+  const waveTags = useAppSelector((state) => state.customTabs.waveTags || []);
   const insets = useSafeAreaInsets();
 
   // The logged-in user is the observer on every feed: the backend drops authors
@@ -223,11 +233,21 @@ const WavesScreen = () => {
     () => getWavesFeedQueryOptions({ tag: activeTag ?? undefined, observer }),
     [activeTag, observer],
   );
+  // Query options for each pinned tag tab, keyed by route key ("tag:<t>").
+  const tagTabQueryOptions = useMemo(() => {
+    const map: Record<string, ReturnType<typeof getWavesFeedQueryOptions>> = {};
+    waveTags.forEach((tag) => {
+      map[`tag:${tag}`] = getWavesFeedQueryOptions({ tag, observer });
+    });
+    return map;
+  }, [waveTags, observer]);
 
   const activeListRef = activeTag
     ? tagListRef
     : feedType === 'following'
     ? followingListRef
+    : feedType.startsWith('tag:')
+    ? _getTagTabRef(feedType)
     : forYouListRef;
 
   const intl = useIntl();
@@ -235,14 +255,22 @@ const WavesScreen = () => {
     () => [
       { key: 'for-you', title: intl.formatMessage({ id: 'waves.for_you' }) },
       { key: 'following', title: intl.formatMessage({ id: 'waves.following' }) },
+      ...waveTags.map((tag) => ({ key: `tag:${tag}`, title: `#${tag}` })),
     ],
-    [intl],
+    [intl, waveTags],
   );
 
-  const wavesIndex = useMemo(
-    () => wavesRoutes.findIndex((route) => route.key === feedType),
-    [feedType, wavesRoutes],
-  );
+  const wavesIndex = useMemo(() => {
+    const index = wavesRoutes.findIndex((route) => route.key === feedType);
+    return index < 0 ? 0 : index;
+  }, [feedType, wavesRoutes]);
+
+  // If the active tag tab was removed from the picker, fall back to For you.
+  useEffect(() => {
+    if (feedType.startsWith('tag:') && !waveTags.includes(feedType.slice(4))) {
+      setFeedType('for-you');
+    }
+  }, [feedType, waveTags]);
 
   const fabBottomOffset = Platform.OS === 'android' ? 66 + (insets.bottom || 0) : 16;
 
@@ -254,7 +282,7 @@ const WavesScreen = () => {
     }
   };
 
-  const _handleTabChange = (tab: WavesFeedType) => {
+  const _handleTabChange = (tab: string) => {
     if (tab === 'following' && !isLoggedIn) {
       RootNavigation.navigate({ name: ROUTES.SCREENS.LOGIN });
       return;
@@ -266,7 +294,9 @@ const WavesScreen = () => {
       return;
     }
 
-    if (tab === 'following') {
+    // Following and pinned tag tabs are real feeds; clear any transient
+    // tap-a-hashtag filter (it only overlays the For you tab).
+    if (tab === 'following' || tab.startsWith('tag:')) {
       setActiveTag(null);
     }
 
@@ -275,7 +305,9 @@ const WavesScreen = () => {
   };
 
   const _handleTagFilter = useCallback((tag: string) => {
-    setFeedType((prev) => (prev === 'following' ? 'for-you' : prev));
+    // Tapping a hashtag inside a wave always drops back to the For you tab and
+    // shows the transient tag overlay there (kept separate from pinned tag tabs).
+    setFeedType('for-you');
     setEnableScrollTop(false);
     setActiveTag(tag);
   }, []);
@@ -343,6 +375,28 @@ const WavesScreen = () => {
       );
     }
 
+    if (route.key.startsWith('tag:')) {
+      const queryOptions = tagTabQueryOptions[route.key];
+      if (!queryOptions) {
+        return <View style={styles.tabScene} />;
+      }
+      return (
+        <View style={styles.tabScene}>
+          <WavesFeed
+            queryOptions={queryOptions}
+            queryKey={route.key}
+            listRef={_getTagTabRef(route.key)}
+            onTagPress={_handleTagFilter}
+            onOptionsPress={_handleOnOptionsPress}
+            onScrollStateChange={_handleScrollStateChange}
+            feedKey={route.key}
+            registerDeleter={_registerFeedDeleter}
+            isDarkTheme={isDarkTheme}
+          />
+        </View>
+      );
+    }
+
     if (activeTag) {
       return (
         <View style={styles.tabScene}>
@@ -388,18 +442,10 @@ const WavesScreen = () => {
           <TabView
             navigationState={{ index: wavesIndex, routes: wavesRoutes }}
             style={styles.tabView}
-            renderTabBar={(tabProps) => (
-              <TabBar
-                {...tabProps}
-                onTabPress={({ route, preventDefault }) => {
-                  preventDefault();
-                  _handleTabChange(route.key as WavesFeedType);
-                }}
-              />
-            )}
+            renderTabBar={(tabProps) => <WavesTabBar {...tabProps} onTabPress={_handleTabChange} />}
             renderScene={_renderWavesScene}
             onIndexChange={(index) => {
-              const nextFeed = wavesRoutes[index]?.key as WavesFeedType;
+              const nextFeed = wavesRoutes[index]?.key;
               if (nextFeed && nextFeed !== feedType) {
                 _handleTabChange(nextFeed);
               }
