@@ -38,7 +38,10 @@ const WavesTabBar = ({ onTabPress, ...props }: Props) => {
       <IconButton
         style={styles.addButtonWrapper}
         iconStyle={styles.addButtonIcon}
-        iconType="MaterialIcon"
+        // No iconType -> Icon's default renders Ionicons "add", the exact same
+        // glyph as the main feed tab bar's "+" (feedTabBar reaches it via the
+        // "MaterialIcon" typo; we select the default explicitly instead).
+        iconType={undefined}
         name="add"
         size={28}
         accessibilityLabel="Add tag feed"
