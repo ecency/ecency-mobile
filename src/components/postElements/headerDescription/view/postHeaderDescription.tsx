@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Components
@@ -15,6 +15,7 @@ import RootNavigation from '../../../../navigation/rootNavigation';
 
 // Constants
 import DEFAULT_IMAGE from '../../../../assets/ecency.png';
+import ECENCY_LOGO from '../../../../assets/ecency-logo-round.png';
 
 class PostHeaderDescription extends PureComponent {
   // Component Life Cycles
@@ -124,6 +125,7 @@ class PostHeaderDescription extends PureComponent {
       isPromoted,
       intl,
       inlineTime,
+      isFromEcency,
       customStyle,
       secondaryContentComponent,
       showDotMenuButton,
@@ -158,6 +160,8 @@ class PostHeaderDescription extends PureComponent {
               </TouchableOpacity>
 
               {inlineTime && <Text style={styles.date}>{date}</Text>}
+
+              {isFromEcency && <Image source={ECENCY_LOGO} style={styles.ecencySourceBadge} />}
 
               {isShowOwnerIndicator && (
                 <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
