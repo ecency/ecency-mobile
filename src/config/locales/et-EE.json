@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "Tohib sisaldada ainult tähti, numbreid ja sidekriipsu",
       "username_no_ascii_first_letter_error": "Peab algama tähega",
       "username_contains_double_hyphens": "Ei tohi sisaldada topeltsidekriipse",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "Ei tohi sisaldada alakriipsu"
     },
     "500_error": "Toiming ebaõnnestus, registreerumise järjekord on täis! Proovi uuesti mõne minuti pärast...",

@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "শুধুমাত্র অক্ষর, সংখ্যা, হাইফেন থাকা উচিত",
       "username_no_ascii_first_letter_error": "একটি অক্ষর দিয়ে শুরু হওয়া উচিত",
       "username_contains_double_hyphens": "দ্বৈত হাইফেন থাকা উচিত নয়",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "আন্ডারস্কোর থাকা উচিত নয়"
     },
     "500_error": "আপনার অনুরোধটি প্রক্রিয়া করা যায়নি, সাইনআপ সারি সম্ভবত পূর্ণ! কয়েক মিনিটের মধ্যে আবার চেষ্টা করুন ...",

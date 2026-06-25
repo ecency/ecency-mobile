@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "Sollte nur Buchstaben, Zahlen und Bindestriche enthalten",
       "username_no_ascii_first_letter_error": "Sollte mit einem Buchstaben beginnen",
       "username_contains_double_hyphens": "Sollte keine doppelten Bindestriche enthalten",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "Sollte keinen Unterstrich enthalten"
     },
     "500_error": "Ihre Anfrage konnte nicht verarbeitet werden, die Anmeldewarteschlange ist wahrscheinlich voll! Versuchen Sie es in wenigen Minuten noch einmal...",

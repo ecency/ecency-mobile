@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "Πρέπει να περιέχει μόνο γράμματα, αριθμούς, παύλα",
       "username_no_ascii_first_letter_error": "Πρέπει να ξεκινά με γράμμα",
       "username_contains_double_hyphens": "Δεν πρέπει να περιέχει διπλές παύλες",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "Δεν πρέπει να περιέχει κάτω παύλα"
     },
     "500_error": "Το αίτημά σας δεν ήταν δυνατό να επεξεργαστεί, η ουρά εγγραφών είναι πιθανότατα γεμάτη! Δοκιμάστε ξανά σε λίγα λεπτά...",

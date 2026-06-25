@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "Powinna zawierać tylko litery, cyfry i myślnik",
       "username_no_ascii_first_letter_error": "Powinno zaczynać się od litery",
       "username_contains_double_hyphens": "Nie powinna zawierać podwójnych myślników",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "Nie powinna zawierać podkreślenia"
     },
     "500_error": "Twoje żądanie nie może być przetworzone, kolejka rejestracji jest prawdopodobnie pełna! Spróbuj ponownie za kilka minut...",

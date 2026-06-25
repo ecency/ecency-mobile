@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "Hanya boleh berisi huruf, angka, dan tanda hubung",
       "username_no_ascii_first_letter_error": "Harus diawali dengan huruf",
       "username_contains_double_hyphens": "Tidak boleh mengandung tanda hubung ganda",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "Tidak boleh mengandung garis bawah"
     },
     "500_error": "Permintaan Anda tidak dapat diproses, antrian pendaftaran sepertinya penuh! Silakan ulangi kembali dalam beberapa menit...",

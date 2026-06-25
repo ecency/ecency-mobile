@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "Trebuie să conțină doar litere, cifre și cratimă",
       "username_no_ascii_first_letter_error": "Trebuie să înceapă cu o literă",
       "username_contains_double_hyphens": "Nu trebuie să conțină cratimă dublă",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "Nu trebuie să conțină liniuță de subliniere"
     },
     "500_error": "Solicitarea dvs. nu a putut fi procesată, coada de înregistrare este probabil plină! Încercați din nou peste câteva minute...",

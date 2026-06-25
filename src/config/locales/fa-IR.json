@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "باید فقط شامل حروف، اعداد و خط تیره باشد",
       "username_no_ascii_first_letter_error": "باید با یک حرف شروع شود",
       "username_contains_double_hyphens": "نباید شامل خط تیره دوتایی باشد",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "نباید شامل خط زیر باشد"
     },
     "500_error": "درخواست شما پردازش نشد ، صف ثبت نام احتمالاً پر است! چند دقیقه دیگر دوباره امتحان کنید...",
