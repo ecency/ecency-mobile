@@ -161,7 +161,9 @@ class PostHeaderDescription extends PureComponent {
 
               {inlineTime && <Text style={styles.date}>{date}</Text>}
 
-              {isFromEcency && <Image source={ECENCY_LOGO} style={styles.ecencySourceBadge} />}
+              {inlineTime && isFromEcency && (
+                <Image source={ECENCY_LOGO} style={styles.ecencySourceBadge} />
+              )}
 
               {isShowOwnerIndicator && (
                 <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />

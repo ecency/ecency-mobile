@@ -353,6 +353,7 @@ const CommentView = ({
   // Ecency client (e.g. ecency/x-vision, ecency.waves, ecency-mobile). Mirrors
   // the web wave badge; only an explicit "ecency" app matches (not a missing app).
   const isFromEcency = String(comment.json_metadata?.app || '')
+    .split('/')[0]
     .toLowerCase()
     .includes('ecency');
 
