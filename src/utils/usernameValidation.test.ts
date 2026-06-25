@@ -65,6 +65,7 @@ describe('getUsernameError', () => {
     expect(getUsernameError('coinex')).toBe('exchange'); // brand prefix of coinexdeposit
     expect(getUsernameError('bittrx')).toBe('exchange'); // single-char typo
     expect(getUsernameError('bitgethive')).toBe('exchange');
+    expect(getUsernameError('bitget')).toBe('exchange'); // brand core of bitgethive
   });
 
   it('rejects the uid + digits impersonation pattern', () => {
