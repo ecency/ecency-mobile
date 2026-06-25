@@ -199,10 +199,11 @@ export function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
     if (post.stats) {
       cloned.stats = { ...post.stats, total_votes: cloned.active_votes.length };
     }
-    // Custom waves feeds carry net_votes but no active_votes/stats; mirror the
-    // removal in net_votes so the displayed count ticks down optimistically.
+    // Custom waves feeds carry net_votes but no active_votes/stats; net_votes is
+    // Hive's net (upvotes - downvotes). Removing an upvote lowers it; removing a
+    // downvote raises it, so mirror the removed vote's direction.
     if (typeof post.net_votes === 'number') {
-      cloned.net_votes = Math.max(0, post.net_votes - 1);
+      cloned.net_votes = wasDownvote ? post.net_votes + 1 : Math.max(0, post.net_votes - 1);
     }
     return cloned;
   }
@@ -223,12 +224,13 @@ export function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
     if (post.stats) {
       cloned.stats = { ...post.stats, total_votes: cloned.active_votes.length };
     }
-    // Custom waves feeds carry net_votes but no active_votes/stats; bump it so
-    // the displayed count (which takes Math.max(activeVotes.length, net_votes))
-    // ticks up optimistically instead of staying pinned to the stale net_votes
-    // for an already-populous wave (e.g. 29 -> 30 rather than staying 29).
-    if (typeof post.net_votes === 'number') {
-      cloned.net_votes = post.net_votes + 1;
+    // Custom waves feeds carry net_votes but no active_votes/stats; net_votes is
+    // Hive's net (upvotes - downvotes), which commentView falls back to as the
+    // count. Move it by the vote direction so an already-populous wave ticks the
+    // right way immediately (e.g. an upvote 29 -> 30) instead of staying pinned
+    // to the stale value until refetch.
+    if (typeof post.net_votes === 'number' && vote.rshares !== 0) {
+      cloned.net_votes = post.net_votes + (vote.rshares > 0 ? 1 : -1);
     }
     return cloned;
   }

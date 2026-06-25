@@ -55,6 +55,46 @@ describe('applyVoteToPost net_votes (custom waves feed)', () => {
     expect(result.active_votes).toHaveLength(0);
   });
 
+  it('decrements net_votes for a new downvote on a feed wave', () => {
+    const wave = {
+      author: 'alice',
+      permlink: 'wave-1',
+      net_votes: 29,
+      pending_payout_value: '5.000 HBD',
+    };
+
+    const result = applyVoteToPost(wave, {
+      ...upvote,
+      isDownvote: true,
+      rshares: -100,
+      percent: -5000,
+    });
+
+    // net_votes is net (up - down), so a downvote moves the count down.
+    expect(result.net_votes).toBe(28);
+    expect(result.isDownVoted).toBe(true);
+  });
+
+  it('increments net_votes when removing a downvote', () => {
+    const wave = {
+      author: 'alice',
+      permlink: 'wave-1',
+      net_votes: 28,
+      active_votes: [{ voter: 'dave', rshares: -100, percent: -5000, amount: 0 }],
+    };
+
+    const result = applyVoteToPost(wave, {
+      ...upvote,
+      status: 'DELETED',
+      rshares: 0,
+      percent: 0,
+      amount: 0,
+    });
+
+    expect(result.net_votes).toBe(29);
+    expect(result.active_votes).toHaveLength(0);
+  });
+
   it('does not change net_votes when re-weighting an existing vote', () => {
     const wave = {
       author: 'alice',
