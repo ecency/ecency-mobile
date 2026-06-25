@@ -31,6 +31,8 @@ const WavesTabBar = ({ onTabPress, ...props }: Props) => {
         {...props}
         style={styles.tabBarStyle}
         indicatorStyle={styles.indicatorStyle}
+        // minWidth mirrors FeedTabBar: a third of the width, minus ~14px for the
+        // trailing "+" button's padding (paddingLeft 8 + paddingRight 12).
         tabStyle={{ ...styles.tabStyle, minWidth: layout.width / 3 - 14 }}
         scrollEnabled={true}
         onTabPress={({ route, preventDefault }) => {

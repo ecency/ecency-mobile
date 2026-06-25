@@ -16,5 +16,3 @@ export const renderPillTabLabel = ({
   labelText: string;
   focused: boolean;
 }) => <Tag key={labelText} value={(labelText || '').toUpperCase()} isFilter isPin={focused} />;
-
-export default renderPillTabLabel;
