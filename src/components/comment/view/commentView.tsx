@@ -349,6 +349,14 @@ const CommentView = ({
     [_depth],
   );
 
+  // Show the Ecency source badge when the wave/comment was published from an
+  // Ecency client (e.g. ecency/x-vision, ecency.waves, ecency-mobile). Mirrors
+  // the web wave badge; only an explicit "ecency" app matches (not a missing app).
+  const isFromEcency = String(comment.json_metadata?.app || '')
+    .split('/')[0]
+    .toLowerCase()
+    .includes('ecency');
+
   return (
     <Fragment key={comment.permlink}>
       <View style={{ ...styles.commentContainer, ...customContainerStyle }}>
@@ -363,6 +371,7 @@ const CommentView = ({
           isShowPromotedIndicator={comment.is_promoted}
           isHideImage={isHideImage}
           inlineTime={true}
+          isFromEcency={isFromEcency}
           customStyle={{ alignItems: 'flex-start', paddingLeft: 12 }}
           showDotMenuButton={true}
           handleOnDotPress={() => handleOnMenuPress(comment)}

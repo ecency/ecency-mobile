@@ -85,6 +85,12 @@ export default EStyleSheet.create({
     marginLeft: 10,
     alignSelf: 'center',
   },
+  ecencySourceBadge: {
+    width: 12,
+    height: 12,
+    marginLeft: 6,
+    alignSelf: 'center',
+  },
   ownerIndicator: {
     color: '$primaryBlue',
     alignSelf: 'center',
