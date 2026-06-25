@@ -13,7 +13,7 @@ import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDispatch } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
-import { getTrendingTagsQueryOptions } from '@ecency/sdk';
+import { getWavesTrendingTagsQueryOptions } from '@ecency/sdk';
 import { Icon } from '../icon';
 import { useAppSelector } from '../../hooks';
 import { setWaveTags } from '../../redux/actions/customTabsAction';
@@ -44,9 +44,10 @@ const WavesTagPickerModal = (_props: unknown, ref: Ref<WavesTagPickerModalRef>) 
 
   const waveTags = useAppSelector((state) => state.customTabs.waveTags || []);
 
-  // Fetched only once the sheet has been opened.
+  // Waves-specific trending tags, combined across all containers (undefined
+  // host omits the container filter). Fetched only once the sheet is opened.
   const { data: trending } = useQuery({
-    ...getTrendingTagsQueryOptions('', 40),
+    ...getWavesTrendingTagsQueryOptions(undefined, 24),
     enabled: visible,
   });
 
@@ -75,7 +76,7 @@ const WavesTagPickerModal = (_props: unknown, ref: Ref<WavesTagPickerModalRef>) 
   };
 
   const trendingTags: string[] = (Array.isArray(trending) ? trending : [])
-    .map((item: any) => normalizeTag(item?.name || ''))
+    .map((item: any) => normalizeTag(item?.tag || ''))
     .filter((tag: string) => tag && !waveTags.includes(tag))
     .slice(0, MAX_TRENDING);
 
