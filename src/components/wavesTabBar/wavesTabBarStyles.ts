@@ -1,47 +1,42 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { TextStyle, ViewStyle } from 'react-native';
-import getWindowDimensions from '../../utils/getWindowDimensions';
 
-const deviceWidth = getWindowDimensions().width;
-
+// Mirrors src/components/tabbedPosts/styles/feedTabBar.styles.ts so the waves
+// tab bar is visually identical to the home feed's (pill active tab over a
+// transparent indicator, trailing "+").
 export default EStyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '$primaryBackgroundColor',
+    backgroundColor: '$primaryLightBackground',
   } as ViewStyle,
 
   tabBarStyle: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '$primaryLightBackground',
     shadowColor: 'transparent',
-    elevation: 0,
   } as ViewStyle,
 
   indicatorStyle: {
-    backgroundColor: '$primaryBlue',
-    height: 2,
+    backgroundColor: 'transparent',
   } as ViewStyle,
 
-  // Only applied when scrolling (3+ tabs); the two base tabs are left to flex
-  // evenly across the full width.
-  tabStyleScroll: {
+  // minWidth is applied inline (layout.width / 3 - 14) to match FeedTabBar.
+  tabStyle: {
     width: 'auto',
-    minWidth: deviceWidth / 3 - 16,
-    paddingHorizontal: 12,
-    height: 44,
+    paddingHorizontal: 0,
+    height: 38,
+    paddingTop: 0,
   } as ViewStyle,
 
   addButtonWrapper: {
-    paddingHorizontal: 14,
-    height: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingRight: 12,
+    paddingLeft: 8,
+    width: 44,
+    alignSelf: 'center',
   } as ViewStyle,
 
   addButtonIcon: {
-    // Matches the main feed's "+" exactly (Ionicons "add" via iconType
-    // "MaterialIcon", $darkIconColor) for cross-tab-bar consistency.
     color: '$darkIconColor',
     textAlign: 'center',
   } as TextStyle,

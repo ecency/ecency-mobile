@@ -7,7 +7,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { TabbedPostsProps } from '../types/tabbedPosts.types';
 import { FeedTabBar } from '../view/feedTabBar';
 import PostsTabContent from '../view/postsTabContent';
-import { Tag } from '../..';
+import { renderPillTabLabel } from '../view/renderPillTabLabel';
 
 const styles = EStyleSheet.create({
   container: {
@@ -59,14 +59,8 @@ export const TabbedPosts = ({
     );
   };
 
-  const _renderTabLabel = ({ labelText, focused }: { focused: boolean; labelText: string }) => (
-    <Tag
-      key={labelText}
-      value={intl.formatMessage({ id: labelText.toLowerCase() }).toUpperCase()}
-      isFilter
-      isPin={focused}
-    />
-  );
+  const _renderTabLabel = ({ labelText, focused }: { focused: boolean; labelText: string }) =>
+    renderPillTabLabel({ labelText: intl.formatMessage({ id: labelText.toLowerCase() }), focused });
 
   const _setIndex = (i: number) => {
     Image.clearMemoryCache();
