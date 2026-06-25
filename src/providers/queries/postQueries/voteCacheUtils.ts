@@ -176,7 +176,7 @@ function updateDiscussionMap(
  * Applies vote data to a post/comment object.
  * Works with both raw API data and parsed post data.
  */
-function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
+export function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
   const activeVotes = Array.isArray(post.active_votes) ? post.active_votes : [];
   const voteIdx = activeVotes.findIndex((v: any) => v.voter === vote.voter);
 
@@ -199,6 +199,11 @@ function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
     if (post.stats) {
       cloned.stats = { ...post.stats, total_votes: cloned.active_votes.length };
     }
+    // Custom waves feeds carry net_votes but no active_votes/stats; mirror the
+    // removal in net_votes so the displayed count ticks down optimistically.
+    if (typeof post.net_votes === 'number') {
+      cloned.net_votes = Math.max(0, post.net_votes - 1);
+    }
     return cloned;
   }
 
@@ -217,6 +222,13 @@ function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
     cloned.isDownVoted = vote.rshares < 0;
     if (post.stats) {
       cloned.stats = { ...post.stats, total_votes: cloned.active_votes.length };
+    }
+    // Custom waves feeds carry net_votes but no active_votes/stats; bump it so
+    // the displayed count (which takes Math.max(activeVotes.length, net_votes))
+    // ticks up optimistically instead of staying pinned to the stale net_votes
+    // for an already-populous wave (e.g. 29 -> 30 rather than staying 29).
+    if (typeof post.net_votes === 'number') {
+      cloned.net_votes = post.net_votes + 1;
     }
     return cloned;
   }
