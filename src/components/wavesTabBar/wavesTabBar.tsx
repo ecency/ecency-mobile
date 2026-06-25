@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import { TabBar, TabBarProps, Route } from 'react-native-tab-view';
 import { IconButton } from '../index';
 import WavesTagPickerModal, {
@@ -13,14 +13,17 @@ interface Props extends TabBarProps<Route> {
 }
 
 /**
- * Waves tab bar: For you / Following / #tag tabs plus a trailing "+" that opens
- * the tag picker. With just the two base tabs the bar fills the width evenly
- * (X-style); once enough tags are pinned to overflow it switches to scrolling.
+ * Waves tab bar. Mirrors the home-feed FeedTabBar look: uppercase blue "pill"
+ * active tab (via the TabView commonOptions.label renderer) over a transparent
+ * indicator, scrollable tabs, and a trailing "+" that opens the tag picker.
+ *
+ * Always scrollable: an even-fill (scrollEnabled=false) layout sizes the tabs
+ * to the full window width and pushes the "+" off-screen, which is exactly the
+ * bug that hid it. Content-width scrollable tabs leave room for the "+".
  */
 const WavesTabBar = ({ onTabPress, ...props }: Props) => {
   const pickerRef = useRef<WavesTagPickerModalRef>(null);
-
-  const scrollEnabled = props.navigationState.routes.length > 2;
+  const layout = useWindowDimensions();
 
   return (
     <View style={styles.container}>
@@ -28,8 +31,8 @@ const WavesTabBar = ({ onTabPress, ...props }: Props) => {
         {...props}
         style={styles.tabBarStyle}
         indicatorStyle={styles.indicatorStyle}
-        tabStyle={scrollEnabled ? styles.tabStyleScroll : undefined}
-        scrollEnabled={scrollEnabled}
+        tabStyle={{ ...styles.tabStyle, minWidth: layout.width / 3 - 14 }}
+        scrollEnabled={true}
         onTabPress={({ route, preventDefault }) => {
           preventDefault();
           onTabPress(route.key);
@@ -38,9 +41,9 @@ const WavesTabBar = ({ onTabPress, ...props }: Props) => {
       <IconButton
         style={styles.addButtonWrapper}
         iconStyle={styles.addButtonIcon}
-        // No iconType -> Icon's default renders Ionicons "add", the exact same
-        // glyph as the main feed tab bar's "+" (feedTabBar reaches it via the
-        // "MaterialIcon" typo; we select the default explicitly instead).
+        // No iconType -> Icon's default renders Ionicons "add", identical to the
+        // main feed tab bar's "+" (feedTabBar reaches it via a "MaterialIcon"
+        // typo; we select the default explicitly).
         iconType={undefined}
         name="add"
         size={28}

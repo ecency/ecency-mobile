@@ -23,6 +23,7 @@ import {
   FabButton,
 } from '../../../components/index';
 import WavesTabBar from '../../../components/wavesTabBar/wavesTabBar';
+import { renderPillTabLabel } from '../../../components/tabbedPosts/view/renderPillTabLabel';
 import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
@@ -454,7 +455,7 @@ const WavesScreen = () => {
             lazy={true}
             swipeEnabled={isLoggedIn}
             commonOptions={{
-              labelStyle: styles.tabLabelColor,
+              label: renderPillTabLabel,
             }}
           />
         ) : null}
