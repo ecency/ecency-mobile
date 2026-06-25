@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "Mag alleen letters, cijfers en koppeltekens bevatten",
       "username_no_ascii_first_letter_error": "Moet met een letter beginnen",
       "username_contains_double_hyphens": "Mag geen dubbele koppeltekens bevatten",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "Mag geen underscore bevatten"
     },
     "500_error": "Je verzoek kon niet worden verwerkt, de aanmeldwachtrij is waarschijnlijk vol! Probeer het over enkele minuten opnieuw...",

@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "只能包含字母、數字與連字號",
       "username_no_ascii_first_letter_error": "開頭必須是英文字母",
       "username_contains_double_hyphens": "不應包含連續兩個連字號",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "不應包含底線"
     },
     "500_error": "您的申請暫時未能通過，很可能是滿了。請稍候重試…",

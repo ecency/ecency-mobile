@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "只能包含字母、数字和连字符",
       "username_no_ascii_first_letter_error": "需以字母开头",
       "username_contains_double_hyphens": "不能包含连续的连字符",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "不能包含下划线"
     },
     "500_error": "您的请求无法处理，注册队列可能已满！请几分钟后再试……",

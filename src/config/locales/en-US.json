@@ -1027,6 +1027,8 @@
       "username_contains_symbols_error": "Should contain letters, numbers, hyphen only",
       "username_no_ascii_first_letter_error": "Should start with a letter",
       "username_contains_double_hyphens": "Should not contain double hyphens",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "Should not contain underscore"
     },
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",

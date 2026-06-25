@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "Mělo by obsahovat pouze písmena, čísla a pomlčky",
       "username_no_ascii_first_letter_error": "Musí začínat písmenem",
       "username_contains_double_hyphens": "Nemělo by obsahovat dvojité pomlčky",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "Nemělo by obsahovat podtržítko"
     },
     "500_error": "Váš požadavek nebylo možné zpracovat, fronta registrací je pravděpodobně plná! Zkuste to znovu za pár minut...",

@@ -56,6 +56,38 @@ describe('getUsernameError', () => {
     expect(getUsernameError('ab--cd')).toBe('double_hyphens');
     expect(getUsernameError('ab_cd')).toBe('underscore');
   });
+
+  it('rejects names that resemble a known exchange account', () => {
+    // chain-valid but confusable with an exchange deposit account
+    expect(getUsernameError('bittrex')).toBe('exchange');
+    expect(getUsernameError('huobi-pro')).toBe('exchange');
+    expect(getUsernameError('mybittrex')).toBe('exchange');
+    expect(getUsernameError('coinex')).toBe('exchange'); // brand prefix of coinexdeposit
+    expect(getUsernameError('bittrx')).toBe('exchange'); // single-char typo
+    expect(getUsernameError('bitgethive')).toBe('exchange');
+    expect(getUsernameError('bitget')).toBe('exchange'); // brand core of bitgethive
+  });
+
+  it('rejects the uid + digits impersonation pattern', () => {
+    expect(getUsernameError('uid12345')).toBe('restricted');
+    expect(getUsernameError('uid007name')).toBe('restricted');
+  });
+
+  it('reports a format error before the exchange-resemblance error', () => {
+    // a malformed look-alike should surface its chain-validity error first
+    expect(getUsernameError('bittrex-')).toBe('trailing_hyphen');
+  });
+
+  it('does not flag ordinary names that merely share a fragment', () => {
+    expect(getUsernameError('trade')).toBeNull(); // substring of blocktrades, not a prefix
+    expect(getUsernameError('deposit')).toBeNull();
+    expect(getUsernameError('blockchain')).toBeNull();
+    expect(getUsernameError('changelog')).toBeNull(); // 2 edits from changelly
+    expect(getUsernameError('block')).toBeNull(); // prefix of blocktrades
+    expect(getUsernameError('change')).toBeNull(); // prefix of changelly
+    expect(getUsernameError('druid')).toBeNull(); // contains uid but not a prefix
+    expect(getUsernameError('uidev')).toBeNull(); // uid + letter, not the digit pattern
+  });
 });
 
 describe('USERNAME_ERROR_MESSAGE_IDS', () => {
@@ -67,6 +99,8 @@ describe('USERNAME_ERROR_MESSAGE_IDS', () => {
       'double_hyphens',
       'trailing_hyphen',
       'underscore',
+      'exchange',
+      'restricted',
     ] as const;
     codes.forEach((code) => {
       expect(USERNAME_ERROR_MESSAGE_IDS[code]).toMatch(/^register\.validation\./);

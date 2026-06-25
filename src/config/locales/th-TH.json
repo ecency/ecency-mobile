@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "ควรมีเฉพาะตัวอักษร ตัวเลข และเครื่องหมายขีดกลางเท่านั้น",
       "username_no_ascii_first_letter_error": "ควรขึ้นต้นด้วยตัวอักษร",
       "username_contains_double_hyphens": "ไม่ควรมีเครื่องหมายขีดกลางซ้อนกัน",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "ไม่ควรมีเครื่องหมายขีดล่าง"
     },
     "500_error": "ไม่สามารถดำเนินการตามคำขอของคุณได้ คิวสมัครสมาชิกน่าจะเต็ม! ลองอีกครั้งในอีกไม่กี่นาที...",

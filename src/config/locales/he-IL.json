@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "צריך להכיל אותיות, מספרים ומקף בלבד",
       "username_no_ascii_first_letter_error": "חייב להתחיל באות",
       "username_contains_double_hyphens": "אסור שיכיל מקף כפול",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "אסור שיכיל קו תחתון"
     },
     "500_error": "לא ניתן היה לעבד את בקשתך, ייתכן שתור ההרשמה מלא! נסה שוב בעוד מספר דקות...",

@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "Faqat harflar, raqamlar va defis bo‘lishi kerak",
       "username_no_ascii_first_letter_error": "Harf bilan boshlanishi kerak",
       "username_contains_double_hyphens": "Ikkita ketma-ket defis bo‘lmasligi kerak",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "Tag chiziq bo‘lmasligi kerak"
     },
     "500_error": "So‘rovingizni ko‘rib bo‘lmadi, katta ehtimol bilan ro‘yxatdan o‘tish navbati to‘lgan! Bir necha daqiqadan so‘ng qayta urinib ko‘ring...",

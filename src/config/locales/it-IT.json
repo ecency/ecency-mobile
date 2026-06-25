@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "Deve contenere solo lettere, numeri e trattini",
       "username_no_ascii_first_letter_error": "Deve iniziare con una lettera",
       "username_contains_double_hyphens": "Non deve contenere doppi trattini",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "Non deve contenere trattini bassi"
     },
     "500_error": "La tua richiesta non può essere elaborata, la coda di registrazione è probabilmente piena! Riprova tra pochi minuti...",

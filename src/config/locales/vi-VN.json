@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "Chỉ được chứa chữ cái, số và dấu gạch nối",
       "username_no_ascii_first_letter_error": "Phải bắt đầu bằng một chữ cái",
       "username_contains_double_hyphens": "Không được chứa dấu gạch nối kép",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "Không được chứa dấu gạch dưới"
     },
     "500_error": "Yêu cầu của bạn không thể được xử lý, hàng đợi đăng ký có thể đã đầy! Hãy thử lại sau vài phút...",

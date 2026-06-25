@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "Sme da sadrži samo slova, brojeve i crticu",
       "username_no_ascii_first_letter_error": "Treba da počinje slovom",
       "username_contains_double_hyphens": "Ne sme da sadrži dvostruke crtice",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "Ne sme da sadrži donju crtu"
     },
     "500_error": "Vaš zahtev nije mogao da se obradi, red za registraciju je verovatno pun! Pokušajte ponovo za nekoliko minuta...",

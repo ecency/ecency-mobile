@@ -999,6 +999,8 @@
       "username_contains_symbols_error": "Dapat maglaman lamang ng mga titik, numero, at gitling",
       "username_no_ascii_first_letter_error": "Dapat magsimula sa isang letra",
       "username_contains_double_hyphens": "Hindi dapat maglaman ng dobleng gitling",
+      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
+      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
       "username_contains_underscore": "Hindi dapat maglaman ng underscore"
     },
     "500_error": "Ang iyong request ay hindi maproseso, ang pila ng pagsali ay maaaring puno na! Subukan ulit nang ilang minuto...",
