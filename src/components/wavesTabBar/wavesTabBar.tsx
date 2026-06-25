@@ -13,11 +13,14 @@ interface Props extends TabBarProps<Route> {
 }
 
 /**
- * Waves tab bar: the scrollable For you / Following / #tag tabs plus a trailing
- * "+" that opens the tag picker, mirroring the home feed's customisable tab bar.
+ * Waves tab bar: For you / Following / #tag tabs plus a trailing "+" that opens
+ * the tag picker. With just the two base tabs the bar fills the width evenly
+ * (X-style); once enough tags are pinned to overflow it switches to scrolling.
  */
 const WavesTabBar = ({ onTabPress, ...props }: Props) => {
   const pickerRef = useRef<WavesTagPickerModalRef>(null);
+
+  const scrollEnabled = props.navigationState.routes.length > 2;
 
   return (
     <View style={styles.container}>
@@ -25,8 +28,8 @@ const WavesTabBar = ({ onTabPress, ...props }: Props) => {
         {...props}
         style={styles.tabBarStyle}
         indicatorStyle={styles.indicatorStyle}
-        tabStyle={styles.tabStyle}
-        scrollEnabled={true}
+        tabStyle={scrollEnabled ? styles.tabStyleScroll : undefined}
+        scrollEnabled={scrollEnabled}
         onTabPress={({ route, preventDefault }) => {
           preventDefault();
           onTabPress(route.key);
@@ -35,9 +38,13 @@ const WavesTabBar = ({ onTabPress, ...props }: Props) => {
       <IconButton
         style={styles.addButtonWrapper}
         iconStyle={styles.addButtonIcon}
-        iconType="MaterialIcons"
+        // No iconType -> Icon's default renders Ionicons "add", the exact same
+        // glyph as the main feed tab bar's "+" (feedTabBar reaches it via the
+        // "MaterialIcon" typo; we select the default explicitly instead).
+        iconType={undefined}
         name="add"
-        size={26}
+        size={28}
+        accessibilityLabel="Add tag feed"
         onPress={() => pickerRef.current?.show()}
       />
       <WavesTagPickerModal ref={pickerRef} />

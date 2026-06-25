@@ -13,7 +13,7 @@ export default EStyleSheet.create({
 
   tabBarStyle: {
     flex: 1,
-    backgroundColor: '$primaryBackgroundColor',
+    backgroundColor: 'transparent',
     shadowColor: 'transparent',
     elevation: 0,
   } as ViewStyle,
@@ -23,19 +23,25 @@ export default EStyleSheet.create({
     height: 2,
   } as ViewStyle,
 
-  tabStyle: {
+  // Only applied when scrolling (3+ tabs); the two base tabs are left to flex
+  // evenly across the full width.
+  tabStyleScroll: {
     width: 'auto',
     minWidth: deviceWidth / 3 - 16,
-    paddingHorizontal: 8,
-    height: 40,
+    paddingHorizontal: 12,
+    height: 44,
   } as ViewStyle,
 
   addButtonWrapper: {
-    paddingHorizontal: 12,
-    alignSelf: 'center',
+    paddingHorizontal: 14,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
   } as ViewStyle,
 
   addButtonIcon: {
+    // Matches the main feed's "+" exactly (Ionicons "add" via iconType
+    // "MaterialIcon", $darkIconColor) for cross-tab-bar consistency.
     color: '$darkIconColor',
     textAlign: 'center',
   } as TextStyle,
