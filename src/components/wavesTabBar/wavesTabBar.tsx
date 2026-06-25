@@ -17,13 +17,25 @@ interface Props extends TabBarProps<Route> {
  * active tab (via the TabView commonOptions.label renderer) over a transparent
  * indicator, scrollable tabs, and a trailing "+" that opens the tag picker.
  *
- * Always scrollable: an even-fill (scrollEnabled=false) layout sizes the tabs
- * to the full window width and pushes the "+" off-screen, which is exactly the
- * bug that hid it. Content-width scrollable tabs leave room for the "+".
+ * Always scrollEnabled (so the "+" is never clipped): with scrollEnabled=false
+ * react-native-tab-view sizes each tab to the FULL window width, overflowing the
+ * row and pushing the "+" off-screen. Instead, while there are only the two base
+ * tabs we give each tab an explicit width of (availableWidth / 2) so they fill
+ * the bar evenly; once a custom #tag tab is pinned we fall back to FeedTabBar's
+ * content-width min-width and the bar scrolls.
  */
+// Width reserved for the trailing "+" button (its wrapper is 44px wide).
+const ADD_BUTTON_WIDTH = 44;
+
 const WavesTabBar = ({ onTabPress, ...props }: Props) => {
   const pickerRef = useRef<WavesTagPickerModalRef>(null);
   const layout = useWindowDimensions();
+
+  const tabCount = props.navigationState.routes.length;
+  const tabStyle =
+    tabCount <= 2
+      ? { ...styles.tabStyle, width: (layout.width - ADD_BUTTON_WIDTH) / tabCount }
+      : { ...styles.tabStyle, minWidth: layout.width / 3 - 14 };
 
   return (
     <View style={styles.container}>
@@ -31,9 +43,7 @@ const WavesTabBar = ({ onTabPress, ...props }: Props) => {
         {...props}
         style={styles.tabBarStyle}
         indicatorStyle={styles.indicatorStyle}
-        // minWidth mirrors FeedTabBar: a third of the width, minus ~14px for the
-        // trailing "+" button's padding (paddingLeft 8 + paddingRight 12).
-        tabStyle={{ ...styles.tabStyle, minWidth: layout.width / 3 - 14 }}
+        tabStyle={tabStyle}
         scrollEnabled={true}
         onTabPress={({ route, preventDefault }) => {
           preventDefault();
