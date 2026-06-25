@@ -176,7 +176,7 @@ function updateDiscussionMap(
  * Applies vote data to a post/comment object.
  * Works with both raw API data and parsed post data.
  */
-function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
+export function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
   const activeVotes = Array.isArray(post.active_votes) ? post.active_votes : [];
   const voteIdx = activeVotes.findIndex((v: any) => v.voter === vote.voter);
 
@@ -199,6 +199,12 @@ function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
     if (post.stats) {
       cloned.stats = { ...post.stats, total_votes: cloned.active_votes.length };
     }
+    // Custom waves feeds carry net_votes but no active_votes/stats; net_votes is
+    // Hive's net (upvotes - downvotes). Removing an upvote lowers it; removing a
+    // downvote raises it, so mirror the removed vote's direction.
+    if (typeof post.net_votes === 'number') {
+      cloned.net_votes = wasDownvote ? post.net_votes + 1 : Math.max(0, post.net_votes - 1);
+    }
     return cloned;
   }
 
@@ -217,6 +223,14 @@ function applyVoteToPost(post: any, vote: VoteCacheEntry): any {
     cloned.isDownVoted = vote.rshares < 0;
     if (post.stats) {
       cloned.stats = { ...post.stats, total_votes: cloned.active_votes.length };
+    }
+    // Custom waves feeds carry net_votes but no active_votes/stats; net_votes is
+    // Hive's net (upvotes - downvotes), which commentView falls back to as the
+    // count. Move it by the vote direction so an already-populous wave ticks the
+    // right way immediately (e.g. an upvote 29 -> 30) instead of staying pinned
+    // to the stale value until refetch.
+    if (typeof post.net_votes === 'number' && vote.rshares !== 0) {
+      cloned.net_votes = post.net_votes + (vote.rshares > 0 ? 1 : -1);
     }
     return cloned;
   }
