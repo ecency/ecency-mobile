@@ -3,6 +3,7 @@ import {
   SET_MAIN_TABS,
   SET_OWN_PROFILE_TABS,
   SET_PROFILE_TABS,
+  SET_WAVE_CONTAINERS,
   SET_WAVE_TAGS,
 } from '../constants/constants';
 
@@ -30,4 +31,11 @@ export const setOwnProfileTabs = (payload: string[]) => ({
 export const setWaveTags = (payload: string[]) => ({
   payload,
   type: SET_WAVE_TAGS,
+});
+
+// User-pinned waves source feeds (container host accounts, e.g.
+// ['leothreads', 'peak.snaps']). Each becomes a per-container feed tab.
+export const setWaveContainers = (payload: string[]) => ({
+  payload,
+  type: SET_WAVE_CONTAINERS,
 });

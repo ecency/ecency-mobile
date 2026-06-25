@@ -1,5 +1,5 @@
 import customTabsReducer from './customTabsReducer';
-import { setWaveTags } from '../actions/customTabsAction';
+import { setWaveContainers, setWaveTags } from '../actions/customTabsAction';
 import { DEFAULT_FEED_FILTERS } from '../../constants/options/filters';
 
 describe('customTabsReducer - waveTags', () => {
@@ -20,5 +20,25 @@ describe('customTabsReducer - waveTags', () => {
     let state = customTabsReducer(undefined, setWaveTags(['a', 'b']));
     state = customTabsReducer(state, setWaveTags(['c']));
     expect(state.waveTags).toEqual(['c']);
+  });
+});
+
+describe('customTabsReducer - waveContainers', () => {
+  it('defaults waveContainers to an empty array', () => {
+    const state = customTabsReducer(undefined, { type: '@@INIT' } as any);
+    expect(state.waveContainers).toEqual([]);
+  });
+
+  it('sets waveContainers from setWaveContainers without affecting waveTags', () => {
+    const prev = customTabsReducer(undefined, setWaveTags(['hive']));
+    const next = customTabsReducer(prev, setWaveContainers(['leothreads', 'peak.snaps']));
+    expect(next.waveContainers).toEqual(['leothreads', 'peak.snaps']);
+    expect(next.waveTags).toEqual(['hive']);
+  });
+
+  it('replaces waveContainers on a subsequent dispatch', () => {
+    let state = customTabsReducer(undefined, setWaveContainers(['leothreads']));
+    state = customTabsReducer(state, setWaveContainers(['liketu.moments']));
+    expect(state.waveContainers).toEqual(['liketu.moments']);
   });
 });

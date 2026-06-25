@@ -41,3 +41,31 @@ export const WAVES_CONTAINER_HOSTS: readonly string[] = [
  */
 export const isWavesHost = (account?: string | null): boolean =>
   !!account && WAVES_CONTAINER_HOSTS.includes(account);
+
+export interface WaveSourceOption {
+  /** Container host account the source feed filters to. */
+  host: string;
+  /** Product label shown on the picker chip and the pinned tab. */
+  label: string;
+}
+
+/**
+ * Source containers offered as one-tap pinned feed tabs in the waves picker.
+ * Each maps a single container account to its product label; pinning one adds a
+ * `container:<host>` tab backed by `getWavesFeedQueryOptions({ containers: [host] })`.
+ *
+ * Deliberately a curated subset of WAVES_CONTAINER_HOSTS: `hive.flow` (the
+ * still-inert unified account) is omitted, so "Waves" surfaces only the legacy
+ * `ecency.waves` source for now. Order is the order chips/tabs appear in.
+ */
+export const WAVES_SOURCE_OPTIONS: readonly WaveSourceOption[] = [
+  { host: 'ecency.waves', label: 'Waves' },
+  { host: 'leothreads', label: 'Threads' },
+  { host: 'peak.snaps', label: 'Snaps' },
+  { host: 'liketu.moments', label: 'Moments' },
+  { host: 'liketu.speak', label: 'Speaks' },
+];
+
+/** Product label for a container host, falling back to the raw host. */
+export const waveSourceLabel = (host: string): string =>
+  WAVES_SOURCE_OPTIONS.find((source) => source.host === host)?.label ?? host;
