@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   GestureResponderEvent,
@@ -17,6 +17,7 @@ import {
   playbackProgress,
   playedBarCount,
 } from './speakAudioPlayer.utils';
+import { speakPlayback } from './speakPlaybackCoordinator';
 import styles from './speakAudioPlayerStyles';
 
 export interface SpeakMeta {
@@ -70,6 +71,19 @@ const SpeakAudioPlayer = ({
   const progress = playbackProgress(currentTime, duration);
   const playedColor = EStyleSheet.value('$primaryBlue');
   const unplayedColor = EStyleSheet.value('$borderColor');
+
+  // Single-active-player: a post and its voice comments each render a player, so
+  // while this one is playing, pause any other that was playing. Cleared on
+  // pause/end and on unmount.
+  const _stop = useCallback(() => setPaused(true), []);
+  useEffect(() => {
+    if (started && !paused) {
+      speakPlayback.activate(_stop);
+    } else {
+      speakPlayback.deactivate(_stop);
+    }
+  }, [started, paused, _stop]);
+  useEffect(() => () => speakPlayback.deactivate(_stop), [_stop]);
 
   const _togglePlay = () => {
     if (!started) {
@@ -207,6 +221,13 @@ const SpeakAudioPlayer = ({
           onEnd={_onEnd}
           onError={_onError}
           ignoreSilentSwitch="ignore"
+          // Registers with the now-playing center, which is the only path in
+          // react-native-video that calls AVAudioSession.setActive(true). Without
+          // it, configureAudio only sets the .playback category (never activates
+          // the session), so after app restarts/interruptions iOS can leave the
+          // session inactive and the clip plays silently (position advances, no
+          // sound). Side benefit: lock-screen / control-center play-pause.
+          showNotificationControls={true}
           playInBackground={false}
           progressUpdateInterval={250}
           style={styles.hiddenVideo}
