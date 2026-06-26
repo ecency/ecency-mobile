@@ -1,8 +1,9 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   GestureResponderEvent,
   LayoutChangeEvent,
+  Platform,
   Pressable,
   Text,
   View,
@@ -17,6 +18,7 @@ import {
   playbackProgress,
   playedBarCount,
 } from './speakAudioPlayer.utils';
+import { speakPlayback } from './speakPlaybackCoordinator';
 import styles from './speakAudioPlayerStyles';
 
 export interface SpeakMeta {
@@ -70,6 +72,19 @@ const SpeakAudioPlayer = ({
   const progress = playbackProgress(currentTime, duration);
   const playedColor = EStyleSheet.value('$primaryBlue');
   const unplayedColor = EStyleSheet.value('$borderColor');
+
+  // Single-active-player: a post and its voice comments each render a player, so
+  // while this one is playing, pause any other that was playing. Cleared on
+  // pause/end and on unmount.
+  const _stop = useCallback(() => setPaused(true), []);
+  useEffect(() => {
+    if (started && !paused) {
+      speakPlayback.activate(_stop);
+    } else {
+      speakPlayback.deactivate(_stop);
+    }
+  }, [started, paused, _stop]);
+  useEffect(() => () => speakPlayback.deactivate(_stop), [_stop]);
 
   const _togglePlay = () => {
     if (!started) {
@@ -207,6 +222,17 @@ const SpeakAudioPlayer = ({
           onEnd={_onEnd}
           onError={_onError}
           ignoreSilentSwitch="ignore"
+          // iOS-only, and ONLY while this player is actively playing. On iOS,
+          // registering with the now-playing center is the one path that calls
+          // AVAudioSession.setActive(true) (configureAudio otherwise just sets the
+          // .playback category, never activates it — so after restarts/interruptions
+          // the clip plays silently). Gating to `started && !paused` means it
+          // registers on each play (re-activating the session) and DEREGISTERS on
+          // pause, so paused players don't linger in the now-playing controls.
+          // Excluded on Android: the prop there starts a foreground playback
+          // service that needs extra manifest config, and Android plays fine
+          // without it.
+          showNotificationControls={Platform.OS === 'ios' && started && !paused}
           playInBackground={false}
           progressUpdateInterval={250}
           style={styles.hiddenVideo}
