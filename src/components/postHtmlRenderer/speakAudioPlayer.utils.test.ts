@@ -7,19 +7,22 @@ import {
 } from './speakAudioPlayer.utils';
 
 describe('getSpeakAudioStreamUrl', () => {
-  it('builds the transcode endpoint url with an encoded src', () => {
-    const src = 'https://cdn.liketu.com/liketu/speak/erilej/re-x/1781649490185-10c50f00.webm';
-    const url = getSpeakAudioStreamUrl(src);
-    expect(url.startsWith(`${SPEAK_AUDIO_ENDPOINT}?src=`)).toBe(true);
-    expect(url).toContain(encodeURIComponent(src));
-    // the raw (unencoded) url must not leak through, so the query stays a single param
-    expect(url.split('?src=')[1]).toBe(encodeURIComponent(src));
+  it('builds the endpoint url from author + permlink', () => {
+    const url = getSpeakAudioStreamUrl('erilej', 're-liketu-speak-x');
+    expect(url).toBe(`${SPEAK_AUDIO_ENDPOINT}?author=erilej&permlink=re-liketu-speak-x`);
   });
 
-  it('returns an empty string for missing input', () => {
-    expect(getSpeakAudioStreamUrl(undefined)).toBe('');
-    expect(getSpeakAudioStreamUrl(null)).toBe('');
-    expect(getSpeakAudioStreamUrl('')).toBe('');
+  it('encodes the params', () => {
+    expect(getSpeakAudioStreamUrl('a b', 'p/q')).toBe(
+      `${SPEAK_AUDIO_ENDPOINT}?author=a%20b&permlink=p%2Fq`,
+    );
+  });
+
+  it('returns an empty string when author or permlink is missing', () => {
+    expect(getSpeakAudioStreamUrl(undefined, undefined)).toBe('');
+    expect(getSpeakAudioStreamUrl('erilej', undefined)).toBe('');
+    expect(getSpeakAudioStreamUrl(undefined, 'permlink')).toBe('');
+    expect(getSpeakAudioStreamUrl('', '')).toBe('');
   });
 });
 

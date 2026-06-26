@@ -36,7 +36,17 @@ const BAR_GAP = 2;
  * element is mounted lazily on first play so we never transcode a clip the user
  * never listens to.
  */
-const SpeakAudioPlayer = ({ contentWidth, speak }: { contentWidth: number; speak: SpeakMeta }) => {
+const SpeakAudioPlayer = ({
+  contentWidth,
+  speak,
+  author,
+  permlink,
+}: {
+  contentWidth: number;
+  speak: SpeakMeta;
+  author?: string;
+  permlink?: string;
+}) => {
   const playerRef = useRef<VideoRef>(null);
   // When the user seeks before the stream has loaded, remember where to jump to
   // once onLoad fires.
@@ -51,7 +61,7 @@ const SpeakAudioPlayer = ({ contentWidth, speak }: { contentWidth: number; speak
   );
   const [waveWidth, setWaveWidth] = useState(0);
 
-  const uri = useMemo(() => getSpeakAudioStreamUrl(speak.audio_url), [speak.audio_url]);
+  const uri = useMemo(() => getSpeakAudioStreamUrl(author, permlink), [author, permlink]);
   const peaks =
     Array.isArray(speak.waveform_peaks) && speak.waveform_peaks.length > 0
       ? speak.waveform_peaks

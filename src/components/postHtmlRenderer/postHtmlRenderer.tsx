@@ -41,6 +41,9 @@ interface PostHtmlRendererProps {
   contentWidth: number;
   body: string;
   metadata: any;
+  // Wave author/permlink, used to build the Speak voice-player stream URL.
+  author?: string;
+  permlink?: string;
   isComment?: boolean;
   enableViewabilityTracker?: boolean;
   onLoaded?: () => void;
@@ -60,6 +63,8 @@ export const PostHtmlRenderer = memo(
     contentWidth,
     body,
     metadata,
+    author,
+    permlink,
     isComment,
     enableViewabilityTracker,
     onLoaded,
@@ -756,7 +761,14 @@ export const PostHtmlRenderer = memo(
           WebView={WebView}
           pressableHightlightColor="transparent"
         />
-        {extractedSpeak && <SpeakAudioPlayer contentWidth={contentWidth} speak={extractedSpeak} />}
+        {extractedSpeak && (
+          <SpeakAudioPlayer
+            contentWidth={contentWidth}
+            speak={extractedSpeak}
+            author={author}
+            permlink={permlink}
+          />
+        )}
         {extractedVideo && (
           <VideoThumb
             contentWidth={contentWidth}
@@ -771,6 +783,8 @@ export const PostHtmlRenderer = memo(
   (next, prev) =>
     next.body === prev.body &&
     next.metadata === prev.metadata &&
+    next.author === prev.author &&
+    next.permlink === prev.permlink &&
     next.contentWidth === prev.contentWidth &&
     next.isComment === prev.isComment &&
     next.enableViewabilityTracker === prev.enableViewabilityTracker,

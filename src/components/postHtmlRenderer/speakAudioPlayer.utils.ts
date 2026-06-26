@@ -3,12 +3,18 @@
 
 // The web endpoint that transcodes Liketu's Opus/WebM voice clips to AAC/m4a so
 // iOS AVPlayer (react-native-video) can play them. See vision-next
-// /api/speak-audio. The source audio is immutable, so responses are edge-cached.
+// /api/speak-audio. It takes the wave's author+permlink (NOT the raw audio URL):
+// the server looks the wave up on chain and derives audio_url itself, so the
+// fetch target is never user-supplied. The audio is immutable -> edge-cached.
 export const SPEAK_AUDIO_ENDPOINT = 'https://ecency.com/api/speak-audio';
 
-/** Build the playable (transcoded) stream URL for a Liketu Speak audio file. */
-export const getSpeakAudioStreamUrl = (audioUrl?: string | null): string =>
-  audioUrl ? `${SPEAK_AUDIO_ENDPOINT}?src=${encodeURIComponent(audioUrl)}` : '';
+/** Build the playable (transcoded) stream URL for a Liketu Speak wave. */
+export const getSpeakAudioStreamUrl = (author?: string | null, permlink?: string | null): string =>
+  author && permlink
+    ? `${SPEAK_AUDIO_ENDPOINT}?author=${encodeURIComponent(author)}&permlink=${encodeURIComponent(
+        permlink,
+      )}`
+    : '';
 
 /** Format seconds as "m:ss" (e.g. 60 -> "1:00", 5 -> "0:05"). */
 export const formatDuration = (seconds?: number): string => {
