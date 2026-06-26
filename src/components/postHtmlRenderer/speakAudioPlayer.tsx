@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   GestureResponderEvent,
   LayoutChangeEvent,
+  Platform,
   Pressable,
   Text,
   View,
@@ -221,13 +222,17 @@ const SpeakAudioPlayer = ({
           onEnd={_onEnd}
           onError={_onError}
           ignoreSilentSwitch="ignore"
-          // Registers with the now-playing center, which is the only path in
-          // react-native-video that calls AVAudioSession.setActive(true). Without
-          // it, configureAudio only sets the .playback category (never activates
-          // the session), so after app restarts/interruptions iOS can leave the
-          // session inactive and the clip plays silently (position advances, no
-          // sound). Side benefit: lock-screen / control-center play-pause.
-          showNotificationControls={true}
+          // iOS-only, and ONLY while this player is actively playing. On iOS,
+          // registering with the now-playing center is the one path that calls
+          // AVAudioSession.setActive(true) (configureAudio otherwise just sets the
+          // .playback category, never activates it — so after restarts/interruptions
+          // the clip plays silently). Gating to `started && !paused` means it
+          // registers on each play (re-activating the session) and DEREGISTERS on
+          // pause, so paused players don't linger in the now-playing controls.
+          // Excluded on Android: the prop there starts a foreground playback
+          // service that needs extra manifest config, and Android plays fine
+          // without it.
+          showNotificationControls={Platform.OS === 'ios' && started && !paused}
           playInBackground={false}
           progressUpdateInterval={250}
           style={styles.hiddenVideo}
