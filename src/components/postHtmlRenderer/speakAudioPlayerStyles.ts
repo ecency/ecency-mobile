@@ -55,9 +55,15 @@ export default EStyleSheet.create({
     fontWeight: '600',
   } as TextStyle,
 
-  // Audio-only: the Video element is mounted but not shown.
+  // Audio-only: the Video is mounted but visually hidden. It must have REAL
+  // (non-zero) bounds: iOS won't activate the AVAudioSession for a 0x0 layer, so
+  // a 0x0 audio player decodes/advances but outputs no sound (even with
+  // ignoreSilentSwitch). 1x1 + opacity 0, absolutely positioned so it doesn't
+  // affect layout or intercept taps.
   hiddenVideo: {
-    width: 0,
-    height: 0,
+    position: 'absolute',
+    width: 1,
+    height: 1,
+    opacity: 0,
   } as ViewStyle,
 });
