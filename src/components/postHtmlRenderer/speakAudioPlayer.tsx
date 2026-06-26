@@ -123,7 +123,9 @@ const SpeakAudioPlayer = ({
     }
     const pending = seekOnLoadRef.current;
     seekOnLoadRef.current = null;
-    playerRef.current?.seek(pending ?? 0);
+    // Resume from where we paused: the <Video> is unmounted while paused (see the
+    // render gate), so on re-mount seek back to the retained currentTime.
+    playerRef.current?.seek(pending ?? currentTime);
     setLoading(false);
   };
 
@@ -210,7 +212,14 @@ const SpeakAudioPlayer = ({
 
       <Text style={styles.time}>{formatDuration(started ? currentTime : duration)}</Text>
 
-      {started && !!uri && (
+      {/* Mount the <Video> only while THIS player is actively playing, so at most
+          ONE AVPlayer is alive across every player on the screen (a post + its
+          voice comments). Multiple live AVPlayers contend for the iOS audio
+          session: audio routes to one while the play/pause button targets another
+          component — so pause "doesn't work", orphaned players keep playing after
+          you navigate, and only one clip is audible. Unmounting on pause releases
+          the player; resuming re-mounts and seeks back to currentTime. */}
+      {started && !paused && !!uri && (
         <Video
           ref={playerRef}
           source={{ uri }}
