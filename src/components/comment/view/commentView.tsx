@@ -160,6 +160,8 @@ const CommentView = ({
         <CommentBody
           body={comment.body}
           metadata={comment.json_metadata}
+          author={comment.author}
+          permlink={comment.permlink}
           key={`key-${comment.permlink}`}
           hideContent={_hideContent}
           commentDepth={_depth}

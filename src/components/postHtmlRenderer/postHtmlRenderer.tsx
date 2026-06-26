@@ -13,6 +13,7 @@ import { postBodySummary } from '@ecency/render-helper';
 import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
+import SpeakAudioPlayer, { SpeakMeta } from './speakAudioPlayer';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
 import { HiveLinkPreview, UserAvatar, VideoPlayer } from '..';
 import {
@@ -40,6 +41,9 @@ interface PostHtmlRendererProps {
   contentWidth: number;
   body: string;
   metadata: any;
+  // Wave author/permlink, used to build the Speak voice-player stream URL.
+  author?: string;
+  permlink?: string;
   isComment?: boolean;
   enableViewabilityTracker?: boolean;
   onLoaded?: () => void;
@@ -59,6 +63,8 @@ export const PostHtmlRenderer = memo(
     contentWidth,
     body,
     metadata,
+    author,
+    permlink,
     isComment,
     enableViewabilityTracker,
     onLoaded,
@@ -75,9 +81,14 @@ export const PostHtmlRenderer = memo(
     const postImgUrlsRef = useRef<string[]>([]);
 
     // Memoize body processing to avoid expensive regex operations on every render
-    const { processedBody, extractedVideo } = useMemo(() => {
+    const { processedBody, extractedVideo, extractedSpeak } = useMemo(() => {
       let processed = body;
       let video: { embedSrc?: string; thumbUrl?: string } | null = null;
+
+      // Liketu Speak voice post: the audio + waveform live in json_metadata.speak.
+      // Render a native player from metadata (below) and suppress the body's own
+      // audio markup so it doesn't double up or get mistaken for a video embed.
+      const speak: SpeakMeta | null = metadata?.speak?.audio_url ? metadata.speak : null;
 
       if (processed) {
         processed = processed
@@ -85,6 +96,17 @@ export const PostHtmlRenderer = memo(
           .replace(/<\/center>/g, '</div>')
           .replace(/<span(.*?)>/g, '') // TODO: later handle span with propties lie <span class="ll-key"> and remove on raw <span/>
           .replace(/<\/span>/g, '');
+
+        if (speak) {
+          // render-helper emits either an <audio> element or a markdown link to
+          // the .webm; drop both — the native player replaces them.
+          processed = processed
+            .replace(/<audio[\s\S]*?<\/audio>/gi, '')
+            .replace(
+              /<a[^>]*href="[^"]*cdn\.liketu\.com[^"]*\.(?:webm|mp3|m4a|ogg|wav)[^"]*"[^>]*>[\s\S]*?<\/a>/gi,
+              '',
+            );
+        }
 
         // For waves, extract the *trailing* video link and render
         // it as a separate block below text. This avoids inline
@@ -104,7 +126,7 @@ export const PostHtmlRenderer = memo(
             'i',
           );
           const videoMatch = processed.match(videoTailRx);
-          if (videoMatch && !videoMatch[1].includes('markdown-video-link-youtube')) {
+          if (videoMatch && !speak && !videoMatch[1].includes('markdown-video-link-youtube')) {
             const html = videoMatch[1];
             const embedMatch = html.match(/data-embed-src="([^"]*)"/);
             const thumbRx = /class="[^"]*video-thumbnail[^"]*"[^>]*src="([^"]*)"/;
@@ -117,7 +139,7 @@ export const PostHtmlRenderer = memo(
           }
 
           // Match trailing iframe video embeds (3speak etc.)
-          if (!video) {
+          if (!video && !speak) {
             const iframeTailRx = new RegExp(
               `(<iframe[^>]*src="([^"]*)"[^>]*>[\\s\\S]*?</iframe>)${tail}`,
               'i',
@@ -142,7 +164,7 @@ export const PostHtmlRenderer = memo(
           );
         }
       }
-      return { processedBody: processed, extractedVideo: video };
+      return { processedBody: processed, extractedVideo: video, extractedSpeak: speak };
     }, [body, metadata]);
 
     const _minTableColWidth = contentWidth / 3 - 12;
@@ -739,6 +761,14 @@ export const PostHtmlRenderer = memo(
           WebView={WebView}
           pressableHightlightColor="transparent"
         />
+        {extractedSpeak && (
+          <SpeakAudioPlayer
+            contentWidth={contentWidth}
+            speak={extractedSpeak}
+            author={author}
+            permlink={permlink}
+          />
+        )}
         {extractedVideo && (
           <VideoThumb
             contentWidth={contentWidth}
@@ -753,6 +783,8 @@ export const PostHtmlRenderer = memo(
   (next, prev) =>
     next.body === prev.body &&
     next.metadata === prev.metadata &&
+    next.author === prev.author &&
+    next.permlink === prev.permlink &&
     next.contentWidth === prev.contentWidth &&
     next.isComment === prev.isComment &&
     next.enableViewabilityTracker === prev.enableViewabilityTracker,

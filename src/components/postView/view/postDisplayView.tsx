@@ -464,6 +464,8 @@ const PostDisplayView = ({
               <PostBody
                 body={post.body}
                 metadata={post.json_metadata}
+                author={post.author}
+                permlink={post.permlink}
                 enableViewabilityTracker={true}
                 onLoadEnd={_handleOnPostBodyLoad}
               />

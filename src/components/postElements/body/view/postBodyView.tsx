@@ -23,6 +23,8 @@ import { SheetNames } from '../../../../navigation/sheets';
 interface PostBodyProps {
   body: string;
   metadata: any;
+  author?: string;
+  permlink?: string;
   width: number;
   enableViewabilityTracker?: boolean;
   onLoadEnd: () => void;
@@ -31,6 +33,8 @@ interface PostBodyProps {
 const PostBody = ({
   body,
   metadata,
+  author,
+  permlink,
   width,
   enableViewabilityTracker,
   onLoadEnd,
@@ -271,6 +275,8 @@ const PostBody = ({
           key={`html_content_${contentWidth}`} // makes sure html content is rerendered on width update
           body={html}
           metadata={metadata}
+          author={author}
+          permlink={permlink}
           contentWidth={contentWidth}
           enableViewabilityTracker={enableViewabilityTracker}
           onLoaded={_handleLoadEnd}

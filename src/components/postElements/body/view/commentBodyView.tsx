@@ -21,6 +21,8 @@ import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters
 interface CommentBodyProps {
   body: string;
   metadata?: any;
+  author?: string;
+  permlink?: string;
   commentDepth: number;
   hideContent: boolean;
   handleOnUserPress: () => void;
@@ -37,6 +39,8 @@ interface CommentBodyProps {
 const CommentBody = ({
   body,
   metadata,
+  author,
+  permlink,
   commentDepth,
   hideContent,
   handleOnUserPress,
@@ -131,6 +135,8 @@ const CommentBody = ({
             contentWidth={_contentWidth}
             body={body}
             metadata={metadata}
+            author={author}
+            permlink={permlink}
             isComment={true}
             setSelectedImage={handleImagePress}
             setSelectedLink={handleLinkPress}
