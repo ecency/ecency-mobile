@@ -85,14 +85,6 @@ const SpeakAudioPlayer = ({
     }
   }, [started, paused, _stop]);
   useEffect(() => () => speakPlayback.deactivate(_stop), [_stop]);
-  // The <Video> unmounts on pause (render gate below) before onLoad/onBuffer/
-  // onError can clear a pending load, which would otherwise leave the spinner
-  // stuck instead of the play button. Clear loading whenever this player pauses.
-  useEffect(() => {
-    if (paused) {
-      setLoading(false);
-    }
-  }, [paused]);
 
   const _togglePlay = () => {
     if (!started) {
@@ -202,7 +194,11 @@ const SpeakAudioPlayer = ({
         accessibilityRole="button"
         accessibilityLabel={paused ? 'Play voice' : 'Pause voice'}
       >
-        {loading ? (
+        {/* Only show the spinner while actually playing. The <Video> unmounts on
+            pause, so a late onLoadStart/onBuffer can leave `loading` true while
+            paused; gating on !paused makes the paused control always show the
+            play button regardless, with no state race. */}
+        {loading && !paused ? (
           <ActivityIndicator size="small" color={EStyleSheet.value('$pureWhite')} />
         ) : (
           <Icon
