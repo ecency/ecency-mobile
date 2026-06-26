@@ -156,9 +156,21 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
 
   const _initOptions = () => {
     // check if post is owned by current user or not, if so pinned or not
+    // Blog-pin eligibility is decided solely by post ownership; `pageType` was
+    // an unintended extra gate that hid the option on the post detail screen
+    // (PostOptionsModal is mounted there without a pageType). Restrict to
+    // top-level posts so pin/unpin-blog never appears on comments or waves
+    // (also mounted without pageType).
     const _canUpdateBlogPin =
-      !!pageType && !!content && !!currentAccount && currentAccount.name === content.author;
-    const _isPinnedInProfile = !!content && content.stats?.is_pinned_blog;
+      !!content &&
+      !!currentAccount &&
+      currentAccount.name === content.author &&
+      (content.depth === 0 || !content.parent_author);
+    // On the post detail screen `stats.is_pinned_blog` may be absent, so also
+    // consult the current user's own profile pin to flip the menu to "unpin".
+    const _isPinnedInProfile =
+      !!content &&
+      (content.stats?.is_pinned_blog || currentAccount?.profile?.pinned === content.permlink);
 
     // check community pin update eligibility
     const _isCommunityPost = !!content && !!content.community;
