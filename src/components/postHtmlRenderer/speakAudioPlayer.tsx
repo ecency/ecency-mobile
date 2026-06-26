@@ -85,6 +85,14 @@ const SpeakAudioPlayer = ({
     }
   }, [started, paused, _stop]);
   useEffect(() => () => speakPlayback.deactivate(_stop), [_stop]);
+  // The <Video> unmounts on pause (render gate below) before onLoad/onBuffer/
+  // onError can clear a pending load, which would otherwise leave the spinner
+  // stuck instead of the play button. Clear loading whenever this player pauses.
+  useEffect(() => {
+    if (paused) {
+      setLoading(false);
+    }
+  }, [paused]);
 
   const _togglePlay = () => {
     if (!started) {
