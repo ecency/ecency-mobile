@@ -55,16 +55,16 @@ export default EStyleSheet.create({
   },
   gifBadge: {
     position: 'absolute',
-    left: 8,
-    bottom: 8,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    borderRadius: 4,
-    paddingHorizontal: 4,
-    paddingVertical: 2,
+    left: 6,
+    bottom: 6,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 3,
+    paddingHorizontal: 3,
+    paddingVertical: 1,
   },
   gifBadgeText: {
     color: '$pureWhite',
-    fontSize: 12,
+    fontSize: 9,
     fontWeight: 'bold',
   },
   bodyFooter: {
