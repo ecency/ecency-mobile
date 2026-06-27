@@ -689,7 +689,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             dispatch(setPollDraftAction(_resDraft._id, pollDraft));
           }
 
-          dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
+          // Per-account key: the temp compose entries (beneficiaries, poll,
+          // caret) are stored under `DEFAULT_USER_DRAFT_ID + currentAccount.name`
+          // (not the bare id), so clear them with the same key.
+          dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
           // clear local copy if draft save is successful
           dispatch(deleteDraftCacheEntry(draftId || DEFAULT_USER_DRAFT_ID + username));
@@ -977,7 +980,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           // post publish updates
           dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
-          dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
+          // Per-account key so the new-compose editor cache (beneficiaries,
+          // poll, caret) is actually cleared on publish — the temp entries are
+          // stored under `DEFAULT_USER_DRAFT_ID + currentAccount.name`.
+          dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID + currentAccount.name));
           if (draftId) {
             dispatch(removeEditorCache(draftId));
           }
