@@ -139,8 +139,13 @@ const MarkdownEditorView = ({
       // Resume at the user's last caret position instead of jumping to the end
       // of the body (which scrolls a long draft to the bottom). Clamp to the
       // current length in case the body shrank since the caret was saved.
-      const savedCaret = store.getState().editor.caretMap?.[_caretKey] ?? 0;
-      const caret = Math.min(savedCaret, draftBody.length);
+      // When no caret was saved — a legacy draft, one created on another device,
+      // or the first open after this shipped — fall back to the end of the body
+      // (the long-standing behavior). This keeps the feature purely additive and
+      // avoids dropping the auto-focused cursor at position 0 (prepend-on-type).
+      const savedCaret = store.getState().editor.caretMap?.[_caretKey];
+      const caret =
+        typeof savedCaret === 'number' ? Math.min(savedCaret, draftBody.length) : draftBody.length;
       _setTextAndSelection({
         selection: { start: caret, end: caret },
         text: draftBody,
@@ -240,6 +245,10 @@ const MarkdownEditorView = ({
     }, 600),
     [],
   );
+
+  // Cancel any pending caret write when the editor unmounts so a late debounce
+  // can't re-create a caretMap entry that publish/first-save just cleared.
+  useEffect(() => () => _persistCaret.cancel(), [_persistCaret]);
 
   const _handleOnSelectionChange = async (event) => {
     bodySelectionRef.current = event.nativeEvent.selection;
