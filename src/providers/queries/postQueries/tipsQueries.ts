@@ -131,6 +131,14 @@ export const useSendTipMutation = () => {
         queryKey: tipsQueryKey,
       });
 
+      // Refresh the waves feed so a tip sent from a feed card updates its
+      // tip_count / tipped_by_viewer, which come from the feed payload (not the
+      // post-tips query above). Prefix-matches every feed variant (for-you /
+      // following / tag / account).
+      queryClient.invalidateQueries({
+        queryKey: ['posts', 'waves', 'feed'],
+      });
+
       // Invalidate wallet/portfolio query so balances refresh after tip
       queryClient.invalidateQueries({
         queryKey: ['wallet', 'portfolio', 'v2', currentAccount?.name],

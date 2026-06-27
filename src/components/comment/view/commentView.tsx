@@ -256,20 +256,47 @@ const CommentView = ({
           })}
         />
 
-        {isLoggedIn && (
-          <IconButton
-            size={20}
-            iconStyle={styles.leftIcon}
-            style={styles.leftButton}
-            name="gift-outline"
-            onPress={_handleOnTipPress}
-            iconType="MaterialCommunityIcons"
-            accessibilityLabel={intl.formatMessage({
-              id: 'post.a11y_tip',
-              defaultMessage: 'Send tip',
-            })}
-          />
-        )}
+        {isLoggedIn &&
+          // Only the waves feed carries a tip_count; show the count + an
+          // already-tipped (solid gift) state there. Elsewhere (regular comment
+          // threads, where the field is absent) keep the plain icon-only action
+          // instead of rendering a misleading "0".
+          (typeof comment.tip_count === 'number' ? (
+            <TextWithIcon
+              iconName={comment.tipped_by_viewer ? 'gift' : 'gift-outline'}
+              iconSize={20}
+              wrapperStyle={styles.leftButton}
+              iconType="MaterialCommunityIcons"
+              isClickable
+              onPress={_handleOnTipPress}
+              text={comment.tip_count}
+              textStyle={styles.voteCountText}
+              accessibilityLabel={intl.formatMessage(
+                {
+                  id: 'post.a11y_tips',
+                  defaultMessage: '{count, plural, one {# tip} other {# tips}}',
+                },
+                { count: comment.tip_count },
+              )}
+              accessibilityHint={intl.formatMessage({
+                id: 'post.a11y_tip',
+                defaultMessage: 'Send tip',
+              })}
+            />
+          ) : (
+            <IconButton
+              size={20}
+              iconStyle={styles.leftIcon}
+              style={styles.leftButton}
+              name="gift-outline"
+              onPress={_handleOnTipPress}
+              iconType="MaterialCommunityIcons"
+              accessibilityLabel={intl.formatMessage({
+                id: 'post.a11y_tip',
+                defaultMessage: 'Send tip',
+              })}
+            />
+          ))}
 
         {_currentUsername === comment.author && (
           <Fragment>
