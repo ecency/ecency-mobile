@@ -75,7 +75,16 @@ const MarkdownEditorView = ({
   // re-renders this (deliberately uncontrolled) editor — that re-render is the
   // exact Android typing race the uncontrolled redesign removed.
   const store = useAppStore();
-  const _caretKey = draftId || DEFAULT_USER_DRAFT_ID;
+  // Scope the caret cache key to the actual editing target so positions never
+  // bleed across drafts, accounts, or edit sessions:
+  //  - saved drafts/replies already carry a unique `draftId`
+  //  - editing an existing post (no draftId) -> key by that post
+  //  - a new, unsaved compose -> per-account default (mirrors the autosave key)
+  const _caretKey =
+    draftId ||
+    (post?.author && post?.permlink
+      ? `${post.author}/${post.permlink}`
+      : DEFAULT_USER_DRAFT_ID + (currentAccount?.name ?? ''));
   // `draftId` can change from undefined to a real id after the first autosave,
   // so the debounced persister reads the key through a ref to avoid staleness.
   const caretKeyRef = useRef(_caretKey);

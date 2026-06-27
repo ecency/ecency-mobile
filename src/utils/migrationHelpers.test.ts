@@ -235,6 +235,18 @@ describe('reduxMigrations', () => {
     });
   });
 
+  describe('v18: caretMap init', () => {
+    it('initializes empty caretMap', () => {
+      const state = { editor: {} };
+      expect(reduxMigrations[18](state).editor.caretMap).toEqual({});
+    });
+
+    it('is a no-op when the editor slice is absent', () => {
+      const state = {};
+      expect(reduxMigrations[18](state)).toEqual({});
+    });
+  });
+
   describe('v11: proposalsVoteMeta init', () => {
     it('initializes empty proposalsVoteMeta', () => {
       const state = { cache: {} };
