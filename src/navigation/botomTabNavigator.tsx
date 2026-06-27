@@ -29,7 +29,7 @@ export const BottomTabNavigator = () => {
         name={ROUTES.TABBAR.FEED}
         component={Feed}
         initialParams={{
-          iconName: 'home', // read in bottomTabBarView
+          iconName: 'home-outline', // read in bottomTabBarView (MaterialCommunityIcons)
         }}
       />
 
@@ -38,7 +38,7 @@ export const BottomTabNavigator = () => {
         component={Waves}
         initialParams={{
           // WAVES renders a custom wavy-dash (〰️) SVG in bottomTabBarView; this
-          // name is only a MaterialIcons fallback if that override is removed.
+          // name is only a MaterialCommunityIcons fallback if that override is removed.
           iconName: 'waves', // read in bottomTabBarView
         }}
       />
@@ -47,7 +47,7 @@ export const BottomTabNavigator = () => {
         name={ROUTES.TABBAR.CHATS}
         component={Chats}
         initialParams={{
-          iconName: 'message-text', // read in bottomTabBarView
+          iconName: 'chat-outline', // read in bottomTabBarView (MaterialCommunityIcons)
         }}
       />
 
@@ -55,7 +55,7 @@ export const BottomTabNavigator = () => {
         name={ROUTES.TABBAR.WALLET}
         component={Wallet}
         initialParams={{
-          iconName: 'account-balance-wallet', // read in bottomTabBarView
+          iconName: 'wallet-outline', // read in bottomTabBarView (MaterialCommunityIcons)
         }}
       />
 
@@ -63,7 +63,7 @@ export const BottomTabNavigator = () => {
         name={ROUTES.TABBAR.NOTIFICATION}
         component={Notification}
         initialParams={{
-          iconName: 'notifications', // read in bottomTabBarView
+          iconName: 'bell-outline', // read in bottomTabBarView (MaterialCommunityIcons)
         }}
       />
     </Tab.Navigator>

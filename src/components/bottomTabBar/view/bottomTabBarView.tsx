@@ -46,7 +46,9 @@ const BottomTabBarView = ({
     const iconColor = isFocused ? tabBarActiveTintColor : tabBarInactiveTintColor;
 
     const _iconProps = {
-      iconType: 'MaterialIcons',
+      // MaterialCommunityIcons so every tab can use its outline (non-filled)
+      // glyph; the icon names are the `*-outline` variants set in the navigator.
+      iconType: 'MaterialCommunityIcons',
       style: { paddingTop: 15 },
       name: route.params.iconName,
       color: iconColor,
@@ -59,7 +61,6 @@ const BottomTabBarView = ({
         _tabBarIcon = <IconContainer isBadge badgeType="notification" {..._iconProps} />;
         break;
       case ROUTES.TABBAR.CHATS:
-        _iconProps.iconType = 'MaterialCommunityIcons';
         _tabBarIcon = <IconContainer isBadge badgeType="chat" {..._iconProps} />;
         break;
       case ROUTES.TABBAR.WAVES:
