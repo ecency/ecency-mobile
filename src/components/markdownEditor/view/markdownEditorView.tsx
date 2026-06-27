@@ -246,9 +246,18 @@ const MarkdownEditorView = ({
     [],
   );
 
-  // Cancel any pending caret write when the editor unmounts so a late debounce
-  // can't re-create a caretMap entry that publish/first-save just cleared.
-  useEffect(() => () => _persistCaret.cancel(), [_persistCaret]);
+  // On unmount, flush (not cancel) the pending debounced writes so the latest
+  // caret and body are committed synchronously before the editor tears down.
+  // Cancelling would drop the last cursor move / keystrokes within the debounce
+  // window — leaving a stale caret and body on reopen — and letting them fire
+  // late would write after unmount. Flushing both closes that window cleanly.
+  useEffect(
+    () => () => {
+      _persistCaret.flush();
+      _debouncedOnTextChange.flush();
+    },
+    [_persistCaret, _debouncedOnTextChange],
+  );
 
   const _handleOnSelectionChange = async (event) => {
     bodySelectionRef.current = event.nativeEvent.selection;
