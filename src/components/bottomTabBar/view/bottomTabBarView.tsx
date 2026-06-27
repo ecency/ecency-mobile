@@ -12,6 +12,7 @@ import ROUTES from '../../../constants/routeNames';
 // Styles
 import styles from './bottomTabBarStyles';
 import Icon, { IconContainer } from '../../icon';
+import WavyDashIcon from '../../../assets/svgs/wavy-dash-icon';
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 
 const BottomTabBarView = ({
@@ -62,8 +63,9 @@ const BottomTabBarView = ({
         _tabBarIcon = <IconContainer isBadge badgeType="chat" {..._iconProps} />;
         break;
       case ROUTES.TABBAR.WAVES:
-        _iconProps.iconType = 'MaterialCommunityIcons';
-        _tabBarIcon = <Icon {..._iconProps} />;
+        // Custom wavy-dash (〰️) SVG; tinted to match the active/inactive tint
+        // and aligned with the other icons via the shared paddingTop style.
+        _tabBarIcon = <WavyDashIcon color={iconColor} size={26} style={_iconProps.style} />;
         break;
     }
 

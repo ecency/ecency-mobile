@@ -37,9 +37,9 @@ export const BottomTabNavigator = () => {
         name={ROUTES.TABBAR.WAVES}
         component={Waves}
         initialParams={{
-          // 'sine-wave' (single wavy dash) via MaterialCommunityIcons; the tab
-          // overrides iconType to MaterialCommunityIcons in bottomTabBarView.
-          iconName: 'sine-wave', // read in bottomTabBarView
+          // WAVES renders a custom wavy-dash (〰️) SVG in bottomTabBarView; this
+          // name is only a MaterialIcons fallback if that override is removed.
+          iconName: 'waves', // read in bottomTabBarView
         }}
       />
 
