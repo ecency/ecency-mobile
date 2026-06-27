@@ -257,14 +257,23 @@ const CommentView = ({
         />
 
         {isLoggedIn && (
-          <IconButton
-            size={20}
-            iconStyle={styles.leftIcon}
-            style={styles.leftButton}
-            name="gift-outline"
-            onPress={_handleOnTipPress}
+          <TextWithIcon
+            iconName={comment.tipped_by_viewer ? 'gift' : 'gift-outline'}
+            iconSize={20}
+            wrapperStyle={styles.leftButton}
             iconType="MaterialCommunityIcons"
-            accessibilityLabel={intl.formatMessage({
+            isClickable
+            onPress={_handleOnTipPress}
+            text={comment.tip_count || 0}
+            textStyle={styles.voteCountText}
+            accessibilityLabel={intl.formatMessage(
+              {
+                id: 'post.a11y_tips',
+                defaultMessage: '{count, plural, one {# tip} other {# tips}}',
+              },
+              { count: comment.tip_count || 0 },
+            )}
+            accessibilityHint={intl.formatMessage({
               id: 'post.a11y_tip',
               defaultMessage: 'Send tip',
             })}
