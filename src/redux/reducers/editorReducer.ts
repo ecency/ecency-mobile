@@ -3,6 +3,7 @@ import {
   REMOVE_EDITOR_CACHE,
   SET_BENEFICIARIES,
   SET_POLL_DRAFT,
+  SET_DRAFT_CARET,
   SET_ALLOW_SPK_PUBLISHING,
   REMOVE_POLL_DRAFT,
   SET_DEFAULT_REWARD_TYPE,
@@ -28,6 +29,11 @@ interface State {
   pollDraftsMap: {
     [key: string]: PollDraft;
   };
+  // Last-known caret offset per draft, used to restore the editing position
+  // when a draft is reopened instead of jumping to the end of the body.
+  caretMap: {
+    [key: string]: number;
+  };
   allowSpkPublishing: boolean;
   defaultRewardType: RewardTypes | null;
 }
@@ -35,6 +41,7 @@ interface State {
 const initialState: State = {
   beneficiariesMap: {},
   pollDraftsMap: {},
+  caretMap: {},
   allowSpkPublishing: false,
   defaultRewardType: RewardTypes.DEAFULT,
 };
@@ -68,9 +75,25 @@ const editorReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    case SET_DRAFT_CARET:
+      if (!state.caretMap) {
+        state.caretMap = {};
+      }
+
+      state.caretMap = {
+        ...state.caretMap,
+        [payload.draftId]: payload.caret,
+      };
+
+      return {
+        ...state,
+      };
     case REMOVE_EDITOR_CACHE:
       delete state.beneficiariesMap[payload.draftId];
       delete state.pollDraftsMap[payload.draftId];
+      if (state.caretMap) {
+        delete state.caretMap[payload.draftId];
+      }
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
       };

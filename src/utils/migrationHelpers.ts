@@ -520,6 +520,17 @@ const reduxMigrations = {
     }
     return state;
   },
+  18: (state) => {
+    // Backfill editor.caretMap for users upgrading from a build before per-draft
+    // caret persistence existed. autoMergeLevel1 keeps the persisted `editor`
+    // slice as-is on rehydration, so the new key is not defaulted from
+    // initialState. The reducer and read paths are optional-chaining-guarded, so
+    // this only normalizes the shape for consistency with pollDraftsMap (9).
+    if (state.editor) {
+      state.editor.caretMap = {};
+    }
+    return state;
+  },
 };
 
 // Wrap every migration so a throw degrades to "skip this migration" and keep the

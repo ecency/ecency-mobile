@@ -152,13 +152,31 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
         reportTimer.current = null;
       }
     };
-  }, [content, reblogsQuery.data, reblogsQuery.isLoading]);
+    // `currentAccount?.profile?.pinned` is included so the blog pin/unpin
+    // option recomputes after pinning from the detail modal (where the stored
+    // `content` and its stats don't change).
+  }, [content, reblogsQuery.data, reblogsQuery.isLoading, currentAccount?.profile?.pinned]);
 
   const _initOptions = () => {
     // check if post is owned by current user or not, if so pinned or not
+    // Blog-pin eligibility is decided solely by post ownership; `pageType` was
+    // an unintended extra gate that hid the option on the post detail screen
+    // (PostOptionsModal is mounted there without a pageType). Restrict to
+    // top-level, non-wave posts so pin/unpin-blog never appears on comments or
+    // waves (also mounted without pageType).
     const _canUpdateBlogPin =
-      !!pageType && !!content && !!currentAccount && currentAccount.name === content.author;
-    const _isPinnedInProfile = !!content && content.stats?.is_pinned_blog;
+      !isWave &&
+      !!content &&
+      !!currentAccount &&
+      currentAccount.name === content.author &&
+      (content.depth === 0 || !content.parent_author);
+    // On the post detail screen `stats.is_pinned_blog` may be absent, so fall
+    // back to the current user's own profile pin to flip the menu to "unpin".
+    // Use `??` so an explicit `false` from canonical stats is trusted and the
+    // (possibly stale) profile pin is only consulted when the stat is missing.
+    const _isPinnedInProfile =
+      !!content &&
+      (content.stats?.is_pinned_blog ?? currentAccount?.profile?.pinned === content.permlink);
 
     // check community pin update eligibility
     const _isCommunityPost = !!content && !!content.community;

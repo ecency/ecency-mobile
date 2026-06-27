@@ -44,6 +44,7 @@ import {
   removeEditorCache,
   setAllowSpkPublishing,
   setBeneficiaries,
+  setDraftCaret,
   setPollDraftAction,
 } from '../../../redux/actions/editorActions';
 import { maybeRequestReview } from '../../../redux/actions/applicationActions';
@@ -555,6 +556,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     return pollDraftsMap[_draftId];
   };
 
+  _extractDraftCaret = () => {
+    const { draftId } = this.state;
+    const { caretMap, currentAccount } = this.props;
+
+    // Use same draft ID logic as in _loadMeta to avoid key mismatch
+    const _draftId = draftId || DEFAULT_USER_DRAFT_ID + currentAccount.name;
+
+    return caretMap?.[_draftId];
+  };
+
   _saveDraftToDB = async (fields, saveAsNew = false) => {
     // Once a post is published, skip any further draft save (e.g. the unmount
     // autosave) so the source draft is never silently re-written or recreated;
@@ -580,6 +591,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     const beneficiaries = this._extractBeneficiaries();
     const pollDraft = this._extractPollDraft();
+    // Captured before the draftId-changing setState below so it reads the temp
+    // compose key; carried to the new draft id when a first server draft is made.
+    const draftCaret = this._extractDraftCaret();
     const postBodySummaryContent = postBodySummary(
       get(fields, 'body', ''),
       200,
@@ -689,7 +703,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             dispatch(setPollDraftAction(_resDraft._id, pollDraft));
           }
 
-          dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
+          // Carry the caret to the new draft id too, so reopening the just-saved
+          // draft before the next selection change still restores the position.
+          if (typeof draftCaret === 'number') {
+            dispatch(setDraftCaret(_resDraft._id, draftCaret));
+          }
+
+          // Per-account key: the temp compose entries (beneficiaries, poll,
+          // caret) are stored under `DEFAULT_USER_DRAFT_ID + currentAccount.name`
+          // (not the bare id), so clear them with the same key.
+          dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
           // clear local copy if draft save is successful
           dispatch(deleteDraftCacheEntry(draftId || DEFAULT_USER_DRAFT_ID + username));
@@ -977,7 +1000,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           // post publish updates
           dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
-          dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
+          // Per-account key so the new-compose editor cache (beneficiaries,
+          // poll, caret) is actually cleared on publish — the temp entries are
+          // stored under `DEFAULT_USER_DRAFT_ID + currentAccount.name`.
+          dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID + currentAccount.name));
           if (draftId) {
             dispatch(removeEditorCache(draftId));
           }
@@ -1737,6 +1763,7 @@ const mapStateToProps = (state) => ({
   pinCode: selectPin(state),
   beneficiariesMap: state.editor.beneficiariesMap,
   pollDraftsMap: state.editor.pollDraftsMap,
+  caretMap: state.editor.caretMap,
   defaultRewardType: state.editor.defaultRewardType,
   draftsCollection: state.cache.draftsCollection,
   replyCache: state.cache.replyCache,

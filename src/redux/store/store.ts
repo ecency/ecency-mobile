@@ -50,7 +50,7 @@ const persistConfig = {
   key: 'root',
   // Storage Method (React Native)
   storage: AsyncStorage,
-  version: 17, // v17: Backfill application.appRating so launch can't deref undefined
+  version: 18, // v18: Backfill editor.caretMap for per-draft caret persistence
   // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   transforms: [transformCacheVoteMap, transformWalkthroughMap],

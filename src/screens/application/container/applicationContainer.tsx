@@ -688,10 +688,26 @@ class ApplicationContainer extends Component {
 
       // TODO: better update device push token here after access token refresh
     } catch (err) {
+      // A cancelled in-flight startup query — e.g. the account-full fetch in
+      // getUser() superseded/aborted during bootstrap — rejects with
+      // CancelledError/AbortError. That is benign (the data refetches), so don't
+      // surface the blocking "change server and restart" alert for it. Reading
+      // `err.message` defensively also avoids a secondary throw when it's unset.
+      const _name = (err && err.name) || '';
+      const _msg = (err && err.message) || String(err) || '';
+      if (
+        _name === 'CancelledError' ||
+        _name === 'AbortError' ||
+        _msg.includes('CancelledError') ||
+        _msg.includes('aborted')
+      ) {
+        console.warn('Startup user-data fetch cancelled (benign), skipping alert', err);
+        return;
+      }
       Alert.alert(
         `${intl.formatMessage({
           id: 'alert.fetch_error',
-        })} \n${err.message.substr(0, 20)}`,
+        })} \n${_msg.substr(0, 20)}`,
       );
     }
   };

@@ -4,6 +4,7 @@ import {
   REMOVE_EDITOR_CACHE,
   SET_ALLOW_SPK_PUBLISHING,
   SET_POLL_DRAFT,
+  SET_DRAFT_CARET,
   REMOVE_POLL_DRAFT,
   SET_DEFAULT_REWARD_TYPE,
 } from '../constants/constants';
@@ -37,6 +38,16 @@ export const setPollDraftAction = (draftId: string, pollDraft: PollDraft) => ({
     pollDraft,
   },
   type: SET_POLL_DRAFT,
+});
+
+// Persist the last-known caret offset for a draft so the editor can resume
+// where the user left off instead of jumping to the end of the body on reload.
+export const setDraftCaret = (draftId: string, caret: number) => ({
+  payload: {
+    draftId,
+    caret,
+  },
+  type: SET_DRAFT_CARET,
 });
 
 export const setAllowSpkPublishing = (allowSpkPublishing: boolean) => ({

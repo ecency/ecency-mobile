@@ -25,7 +25,8 @@ import {
 } from '../../index';
 
 // Styles
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector, useAppStore } from '../../../hooks';
+import { setDraftCaret } from '../../../redux/actions/editorActions';
 import { selectIsDarkTheme } from '../../../redux/selectors';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 import { OptionsModal } from '../../atoms';
@@ -68,6 +69,26 @@ const MarkdownEditorView = ({
   const pollDraft = useAppSelector(
     (state) => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID],
   );
+
+  const dispatch = useAppDispatch();
+  // Read the persisted caret non-reactively so writing it back never
+  // re-renders this (deliberately uncontrolled) editor — that re-render is the
+  // exact Android typing race the uncontrolled redesign removed.
+  const store = useAppStore();
+  // Scope the caret cache key to the actual editing target so positions never
+  // bleed across drafts, accounts, or edit sessions:
+  //  - saved drafts/replies already carry a unique `draftId`
+  //  - editing an existing post (no draftId) -> key by that post
+  //  - a new, unsaved compose -> per-account default (mirrors the autosave key)
+  const _caretKey =
+    draftId ||
+    (post?.author && post?.permlink
+      ? `${post.author}/${post.permlink}`
+      : DEFAULT_USER_DRAFT_ID + (currentAccount?.name ?? ''));
+  // `draftId` can change from undefined to a real id after the first autosave,
+  // so the debounced persister reads the key through a ref to avoid staleness.
+  const caretKeyRef = useRef(_caretKey);
+  caretKeyRef.current = _caretKey;
 
   const [editable, setEditable] = useState(true);
   // const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
@@ -115,9 +136,13 @@ const MarkdownEditorView = ({
 
   useEffect(() => {
     if (bodyTextRef.current === '' && draftBody !== '') {
-      const draftBodyLength = draftBody.length;
+      // Resume at the user's last caret position instead of jumping to the end
+      // of the body (which scrolls a long draft to the bottom). Clamp to the
+      // current length in case the body shrank since the caret was saved.
+      const savedCaret = store.getState().editor.caretMap?.[_caretKey] ?? 0;
+      const caret = Math.min(savedCaret, draftBody.length);
       _setTextAndSelection({
-        selection: { start: draftBodyLength, end: draftBodyLength },
+        selection: { start: caret, end: caret },
         text: draftBody,
       });
     }
@@ -206,8 +231,19 @@ const MarkdownEditorView = ({
     [isEditing, _debouncedOnTextChange],
   );
 
+  // Debounced so dragging the caret/typing doesn't thrash AsyncStorage. The
+  // dispatch only touches `caretMap`, which nothing subscribes to reactively,
+  // so it never re-renders the editor.
+  const _persistCaret = useCallback(
+    debounce((pos) => {
+      dispatch(setDraftCaret(caretKeyRef.current, pos));
+    }, 600),
+    [],
+  );
+
   const _handleOnSelectionChange = async (event) => {
     bodySelectionRef.current = event.nativeEvent.selection;
+    _persistCaret(event.nativeEvent.selection.start);
   };
 
   const _setTextAndSelection = useCallback(
