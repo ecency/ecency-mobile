@@ -90,6 +90,19 @@ export default EStyleSheet.create({
     color: '#fff',
     fontSize: 12,
   } as TextStyle,
+  muteBtn: {
+    ...({ position: 'absolute', top: 12, right: 12 } as ViewStyle),
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  } as ViewStyle,
+  muteIcon: {
+    color: '#fff',
+    fontSize: 18,
+  } as TextStyle,
   footer: {
     paddingVertical: 24,
     alignItems: 'center',

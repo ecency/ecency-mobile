@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import WebView from 'react-native-webview';
 import { useIntl } from 'react-intl';
 import { ShortsFeedEntry } from '@ecency/sdk';
 
 import { FormattedCurrency, Icon, UserAvatar } from '../../../components';
+import WavesReelVideo from './wavesReelVideo';
 import styles from '../styles/wavesReels.styles';
 
 interface Props {
@@ -71,12 +71,6 @@ const WavesReelItem = ({
 
   const caption = useMemo(() => buildReelCaption(item), [item]);
 
-  const reelUrl = video
-    ? `https://play.3speak.tv/watch?v=${encodeURIComponent(video.author)}/${encodeURIComponent(
-        video.permlink,
-      )}&mode=iframe&autoplay=true`
-    : null;
-
   const _onUpvote = () => {
     onUpvotePress({
       content: item,
@@ -90,28 +84,8 @@ const WavesReelItem = ({
   return (
     <View style={[styles.reel, { height }]}>
       <View style={styles.videoLayer}>
-        {active && reelUrl ? (
-          <WebView
-            source={{ uri: reelUrl }}
-            style={styles.webview}
-            javaScriptEnabled
-            domStorageEnabled
-            bounces={false}
-            // Let vertical swipes fall through to the paging FlatList instead of
-            // being eaten by the player page, so users can move between reels.
-            scrollEnabled={false}
-            startInLoadingState
-            allowsInlineMediaPlayback
-            mediaPlaybackRequiresUserAction={false}
-            allowsFullscreenVideo
-            allowsProtectedMedia
-            thirdPartyCookiesEnabled
-            sharedCookiesEnabled
-            mixedContentMode="compatibility"
-            // Fixed-origin player: keep navigations inside 3Speak; anything else
-            // is handed to the OS browser rather than loaded in-page.
-            originWhitelist={['https://*.3speak.tv']}
-          />
+        {active && video ? (
+          <WavesReelVideo video={video} active={active} />
         ) : (
           <View style={styles.poster}>
             {video?.thumbnail_url ? (
