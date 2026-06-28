@@ -402,6 +402,14 @@ class ProfileContainer extends Component {
       const queryClient = getQueryClient();
       const rawAccount = await queryClient.fetchQuery(getAccountFullQueryOptions(username));
 
+      // SDK now resolves null for a missing/unresolved account instead of
+      // throwing; treat it the same as a failed load to preserve the
+      // "profile not found" UX.
+      if (!rawAccount) {
+        this._profileActionDone({ error: new Error('Account not found') });
+        return;
+      }
+
       // SDK returns profile directly as .profile field
       user = {
         ...rawAccount,
