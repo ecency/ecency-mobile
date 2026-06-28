@@ -24,6 +24,9 @@ import styles from '../styles/wavesReels.styles';
 interface Props {
   observer?: string;
   isDarkTheme: boolean;
+  // Shared with wavesScreen's active-list ref so re-tapping the Shorts tab
+  // scrolls the reels back to the top, like the other feed tabs.
+  listRef?: React.RefObject<FlatList<ShortsFeedEntry> | null>;
 }
 
 // A reel counts as "the one in view" once it covers most of the viewport, so the
@@ -32,7 +35,7 @@ const VIEWABILITY_CONFIG = { itemVisiblePercentThreshold: 80 };
 
 const keyOf = (item: ShortsFeedEntry) => `${item.author}/${item.permlink}`;
 
-const WavesReelsView = ({ observer, isDarkTheme }: Props) => {
+const WavesReelsView = ({ observer, isDarkTheme, listRef }: Props) => {
   const intl = useIntl();
   const shortsQuery = shortsQueries.useShortsQuery(observer);
   const upvotePopoverRef = useRef<any>(null);
@@ -161,6 +164,7 @@ const WavesReelsView = ({ observer, isDarkTheme }: Props) => {
   return (
     <View style={styles.container} onLayout={_onLayout}>
       <FlatList
+        ref={listRef}
         data={data}
         keyExtractor={keyOf}
         renderItem={_renderItem}

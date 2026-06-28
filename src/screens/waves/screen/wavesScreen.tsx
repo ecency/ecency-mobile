@@ -386,7 +386,11 @@ const WavesScreen = () => {
     if (route.key === `container:${SHORTS_SOURCE}`) {
       return (
         <View style={styles.tabScene}>
-          <WavesReelsView observer={observer} isDarkTheme={isDarkTheme} />
+          <WavesReelsView
+            observer={observer}
+            isDarkTheme={isDarkTheme}
+            listRef={_getDynamicTabRef(route.key)}
+          />
         </View>
       );
     }
@@ -559,7 +563,11 @@ const WavesScreen = () => {
           Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
         }}
       />
-      <FabButton bottomOffset={fabBottomOffset} onPress={_onCreatePress} />
+      {/* No compose-wave FAB on the Shorts reels tab: you don't post into
+          shorts, and the FAB would sit on top of the reel's tip button. */}
+      {feedType !== `container:${SHORTS_SOURCE}` && (
+        <FabButton bottomOffset={fabBottomOffset} onPress={_onCreatePress} />
+      )}
     </View>
   );
 };

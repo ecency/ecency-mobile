@@ -97,6 +97,9 @@ const WavesReelItem = ({
             javaScriptEnabled
             domStorageEnabled
             bounces={false}
+            // Let vertical swipes fall through to the paging FlatList instead of
+            // being eaten by the player page, so users can move between reels.
+            scrollEnabled={false}
             startInLoadingState
             allowsInlineMediaPlayback
             mediaPlaybackRequiresUserAction={false}
@@ -105,7 +108,9 @@ const WavesReelItem = ({
             thirdPartyCookiesEnabled
             sharedCookiesEnabled
             mixedContentMode="compatibility"
-            originWhitelist={['*']}
+            // Fixed-origin player: keep navigations inside 3Speak; anything else
+            // is handed to the OS browser rather than loaded in-page.
+            originWhitelist={['https://*.3speak.tv']}
           />
         ) : (
           <View style={styles.poster}>
