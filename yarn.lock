@@ -1192,10 +1192,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@ecency/render-helper@^2.5.16":
-  version "2.5.16"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.5.16.tgz#f5d95415e245edd76ca0cb62d0f6f8f46aad7121"
-  integrity sha512-zNqzftJIqt2Qun/C4SborZAK9DT0qALODvBcCTtXE49jxEgqpMLLbXJU/I53s+dJBmKAlB/rQOo7nGfWHth11A==
+"@ecency/render-helper@^2.5.17":
+  version "2.5.17"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.5.17.tgz#4ccc36c3045a33110e674dda62f1f873b80d445a"
+  integrity sha512-kBfeme113RSFjIstD8DUvoewCn/Vj0SbkLIQO8WIzVUh4mlwSr6n6SX6rSPVGdcQFt9mvJoj2LgZUFysOVbijQ==
   dependencies:
     "@xmldom/xmldom" "^0.9.10"
     dom-serializer "^2.0.0"
