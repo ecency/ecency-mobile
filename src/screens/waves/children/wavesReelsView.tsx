@@ -27,6 +27,10 @@ interface Props {
   // Shared with wavesScreen's active-list ref so re-tapping the Shorts tab
   // scrolls the reels back to the top, like the other feed tabs.
   listRef?: React.RefObject<FlatList<ShortsFeedEntry> | null>;
+  // True only while the Shorts tab is the active, on-screen tab. When false
+  // (switched to another waves tab or off the Waves screen) no reel is active,
+  // so the video player unmounts and stops playing instead of running hidden.
+  focused?: boolean;
 }
 
 // A reel counts as "the one in view" once it covers most of the viewport, so the
@@ -35,7 +39,7 @@ const VIEWABILITY_CONFIG = { itemVisiblePercentThreshold: 80 };
 
 const keyOf = (item: ShortsFeedEntry) => `${item.author}/${item.permlink}`;
 
-const WavesReelsView = ({ observer, isDarkTheme, listRef }: Props) => {
+const WavesReelsView = ({ observer, isDarkTheme, listRef, focused = true }: Props) => {
   const intl = useIntl();
   const shortsQuery = shortsQueries.useShortsQuery(observer);
   const upvotePopoverRef = useRef<any>(null);
@@ -98,13 +102,13 @@ const WavesReelsView = ({ observer, isDarkTheme, listRef }: Props) => {
       <WavesReelItem
         item={item}
         height={viewHeight}
-        active={activeKey === keyOf(item)}
+        active={focused && activeKey === keyOf(item)}
         onUpvotePress={_onUpvotePress}
         onReplyPress={_onReplyPress}
         onTipPress={_onTipPress}
       />
     ),
-    [viewHeight, activeKey, _onUpvotePress, _onReplyPress, _onTipPress],
+    [focused, viewHeight, activeKey, _onUpvotePress, _onReplyPress, _onTipPress],
   );
 
   const _getItemLayout = useCallback(
@@ -168,6 +172,9 @@ const WavesReelsView = ({ observer, isDarkTheme, listRef }: Props) => {
         data={data}
         keyExtractor={keyOf}
         renderItem={_renderItem}
+        // Re-render cells when the active reel or tab-focus changes so the
+        // previously-active reel actually tears its player down.
+        extraData={`${focused}:${activeKey}`}
         pagingEnabled
         showsVerticalScrollIndicator={false}
         getItemLayout={_getItemLayout}

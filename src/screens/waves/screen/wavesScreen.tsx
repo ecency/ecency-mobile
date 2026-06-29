@@ -15,6 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
 import { useIntl } from 'react-intl';
 import { getWavesFeedQueryOptions } from '@ecency/sdk';
+import { useIsFocused } from '@react-navigation/native';
 import {
   Comments,
   EmptyScreen,
@@ -216,6 +217,11 @@ const WavesScreen = () => {
     }
   }, []);
 
+  // Whether the Waves screen itself is the focused route (not behind another
+  // bottom tab / pushed screen). Combined with the active waves tab below to
+  // decide if the Shorts reels should actually be playing.
+  const isScreenFocused = useIsFocused();
+
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
@@ -384,12 +390,17 @@ const WavesScreen = () => {
     // Shorts is a source like any other in the picker, but it's cross-container
     // and gets the full-screen vertical reels viewer instead of the waves list.
     if (route.key === `container:${SHORTS_SOURCE}`) {
+      // TabView keeps visited scenes mounted, so gate playback on the Shorts tab
+      // actually being the active, on-screen tab — otherwise the reel keeps
+      // playing (and holding the player) after switching away.
+      const shortsFocused = isScreenFocused && feedType === `container:${SHORTS_SOURCE}`;
       return (
         <View style={styles.tabScene}>
           <WavesReelsView
             observer={observer}
             isDarkTheme={isDarkTheme}
             listRef={_getDynamicTabRef(route.key)}
+            focused={shortsFocused}
           />
         </View>
       );
