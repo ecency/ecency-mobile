@@ -28,8 +28,9 @@ import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
 import { WavesHeader } from '../children/wavesHeader';
+import WavesReelsView from '../children/wavesReelsView';
 import { PostTypes } from '../../../constants/postTypes';
-import { waveSourceLabel } from '../../../constants/waves';
+import { SHORTS_SOURCE, waveSourceLabel } from '../../../constants/waves';
 import { ScrollTopPopup } from '../../../components/atoms';
 import { SheetNames } from '../../../navigation/sheets';
 import {
@@ -252,6 +253,11 @@ const WavesScreen = () => {
   const containerTabQueryOptions = useMemo(() => {
     const map: Record<string, ReturnType<typeof getWavesFeedQueryOptions>> = {};
     waveContainers.forEach((host) => {
+      // Shorts isn't a single container: it's the cross-container reels feed,
+      // rendered by WavesReelsView with its own SDK query, so skip it here.
+      if (host === SHORTS_SOURCE) {
+        return;
+      }
       map[`container:${host}`] = getWavesFeedQueryOptions({ containers: [host], observer });
     });
     return map;
@@ -375,6 +381,20 @@ const WavesScreen = () => {
   ) : null;
 
   const _renderWavesScene = ({ route }: { route: { key: string } }) => {
+    // Shorts is a source like any other in the picker, but it's cross-container
+    // and gets the full-screen vertical reels viewer instead of the waves list.
+    if (route.key === `container:${SHORTS_SOURCE}`) {
+      return (
+        <View style={styles.tabScene}>
+          <WavesReelsView
+            observer={observer}
+            isDarkTheme={isDarkTheme}
+            listRef={_getDynamicTabRef(route.key)}
+          />
+        </View>
+      );
+    }
+
     if (route.key === 'following') {
       if (!currentAccount?.name) {
         return <View style={styles.tabScene} />;
@@ -543,7 +563,11 @@ const WavesScreen = () => {
           Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
         }}
       />
-      <FabButton bottomOffset={fabBottomOffset} onPress={_onCreatePress} />
+      {/* No compose-wave FAB on the Shorts reels tab: you don't post into
+          shorts, and the FAB would sit on top of the reel's tip button. */}
+      {feedType !== `container:${SHORTS_SOURCE}` && (
+        <FabButton bottomOffset={fabBottomOffset} onPress={_onCreatePress} />
+      )}
     </View>
   );
 };

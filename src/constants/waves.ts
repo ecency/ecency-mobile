@@ -42,23 +42,38 @@ export const WAVES_CONTAINER_HOSTS: readonly string[] = [
 export const isWavesHost = (account?: string | null): boolean =>
   !!account && WAVES_CONTAINER_HOSTS.includes(account);
 
+/**
+ * Pseudo-source for the cross-container Shorts (reels) feed. Unlike the other
+ * sources it isn't a single container account: it's every wave that embeds a
+ * 3Speak video, across all containers, backed by `getShortsFeedQueryOptions`
+ * and shown in a vertical full-screen reels viewer instead of the comments
+ * list. Pinning it adds a `container:shorts` tab that wavesScreen renders with
+ * the reels view (see its reels branch).
+ */
+export const SHORTS_SOURCE = 'shorts';
+
 export interface WaveSourceOption {
-  /** Container host account the source feed filters to. */
+  /** Container host account the source feed filters to (or SHORTS_SOURCE). */
   host: string;
   /** Product label shown on the picker chip and the pinned tab. */
   label: string;
 }
 
 /**
- * Source containers offered as one-tap pinned feed tabs in the waves picker.
- * Each maps a single container account to its product label; pinning one adds a
+ * Sources offered as one-tap pinned feed tabs in the waves picker. Most map a
+ * single container account to its product label; pinning one adds a
  * `container:<host>` tab backed by `getWavesFeedQueryOptions({ containers: [host] })`.
+ *
+ * `Shorts` (SHORTS_SOURCE) is the one exception: it's the cross-container reels
+ * feed, so its `container:shorts` tab is rendered with the reels viewer and a
+ * different SDK query instead of the standard waves list.
  *
  * Deliberately a curated subset of WAVES_CONTAINER_HOSTS: `hive.flow` (the
  * still-inert unified account) is omitted, so "Waves" surfaces only the legacy
  * `ecency.waves` source for now. Order is the order chips/tabs appear in.
  */
 export const WAVES_SOURCE_OPTIONS: readonly WaveSourceOption[] = [
+  { host: SHORTS_SOURCE, label: 'Shorts' },
   { host: 'ecency.waves', label: 'Waves' },
   { host: 'leothreads', label: 'Threads' },
   { host: 'peak.snaps', label: 'Snaps' },
