@@ -39,7 +39,10 @@
     "add_tag_placeholder": "Add a tag",
     "sources": "Sources",
     "your_feeds": "Your feeds",
-    "trending_tags": "Trending tags"
+    "trending_tags": "Trending tags",
+    "shorts_empty": "No shorts to show yet",
+    "mute": "Mute",
+    "unmute": "Unmute"
   },
   "profile": {
     "havent_commented": "haven't commented anything yet",
