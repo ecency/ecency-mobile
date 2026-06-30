@@ -222,6 +222,10 @@ class PostHeaderDescription extends PureComponent {
               )}
 
               {!inlineTime && <Text style={styles.date}>{date}</Text>}
+
+              {!inlineTime && isFromEcency && (
+                <Image source={ECENCY_LOGO} style={styles.ecencySourceBadge} />
+              )}
             </View>
           </View>
         </View>
