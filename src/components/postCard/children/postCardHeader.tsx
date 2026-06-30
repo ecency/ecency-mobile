@@ -43,13 +43,14 @@ const PostCardHeaderComponent = ({
 
   // Show the Ecency source badge when the post was published from an Ecency
   // client (e.g. ecency/x-vision, ecency-mobile). Mirrors the comment/wave
-  // badge; only an explicit "ecency" app matches (not a missing app).
+  // badge; only an explicit "ecency" app matches (not a missing app). Anchor to
+  // the start so lookalikes like "notecency/..." don't falsely match.
   const _isFromEcency = useMemo(
     () =>
       String(content?.json_metadata?.app || '')
         .split('/')[0]
         .toLowerCase()
-        .includes('ecency'),
+        .startsWith('ecency'),
     [content],
   );
 
