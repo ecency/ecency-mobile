@@ -41,6 +41,18 @@ const PostCardHeaderComponent = ({
   const _isPollPost =
     content?.json_metadata?.content_type === ContentType.POLL && !!content?.json_metadata?.question;
 
+  // Show the Ecency source badge when the post was published from an Ecency
+  // client (e.g. ecency/x-vision, ecency-mobile). Mirrors the comment/wave
+  // badge; only an explicit "ecency" app matches (not a missing app).
+  const _isFromEcency = useMemo(
+    () =>
+      String(content?.json_metadata?.app || '')
+        .split('/')[0]
+        .toLowerCase()
+        .includes('ecency'),
+    [content],
+  );
+
   const _handleOnTagPress = (navParams) => {
     handleCardInteraction(PostCardActionIds.NAVIGATE, navParams);
   };
@@ -85,6 +97,7 @@ const PostCardHeaderComponent = ({
           content={content}
           rebloggedBy={rebloggedBy}
           isPromoted={get(content, 'is_promoted')}
+          isFromEcency={_isFromEcency}
         />
 
         <View style={styles.headerIconsWrapper}>
