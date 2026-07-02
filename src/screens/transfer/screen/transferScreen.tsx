@@ -15,14 +15,12 @@ import { hsOptions } from '../../../constants/hsOptions';
 import AUTH_TYPE from '../../../constants/authType';
 
 import { MainButton, Modal, TextInput, UserAvatar, Icon } from '../../../components';
-import DropdownButton from '../../../components/dropdownButton';
 import { RECURRENCE_TYPES } from '../../../components/transferAmountInputSection/transferAmountInputSection';
 
 import styles from './transferStyles';
 import { extractUsernameFromScannedValue } from './transferRecipientParser';
 import TransferTypes from '../../../constants/transferTypes';
 import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
-import { getSpkActionJSON, SPK_NODE_ECENCY } from '../../../providers/hive-spk/hiveSpk';
 import parseToken from '../../../utils/parseToken';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
 import { getAssetPrecision, toFixedNoExp, formatTokenQuantity } from '../../../utils/number';
@@ -62,7 +60,6 @@ interface TransferViewProps {
   fundType: string;
   selectedAccount: any;
   fetchBalance: (username: string) => void;
-  spkMarkets: any;
   referredUsername?: string;
   initialAmount?: string | number;
   initialMemo?: string;
@@ -86,7 +83,6 @@ const TransferView = ({
   fundType,
   selectedAccount,
   fetchBalance: _fetchBalance,
-  spkMarkets,
   referredUsername,
   initialAmount,
   initialMemo,
@@ -109,12 +105,8 @@ const TransferView = ({
       transferType === TransferTypes.WITHDRAW_VESTING ||
       transferType === TransferTypes.CONVERT ||
       transferType === TransferTypes.UNSTAKE ||
-      transferType === TransferTypes.STAKE ||
-      transferType === TransferTypes.POWER_UP_SPK ||
-      transferType === TransferTypes.POWER_DOWN_SPK
+      transferType === TransferTypes.STAKE
       ? currentAccountName
-      : transferType === TransferTypes.POWER_GRANT_SPK
-      ? SPK_NODE_ECENCY
       : referredUsername || '',
   );
 
@@ -148,14 +140,11 @@ const TransferView = ({
     ? TransferTypes.RECURRENT_TRANSFER
     : oneTimeTransferType;
   const isEngineToken = tokenLayer === TokenLayers.ENGINE;
-  const isSpkToken = tokenLayer === TokenLayers.SPK;
 
   const destinationLocked = useMemo(() => {
     switch (oneTimeTransferType) {
       case TransferTypes.CONVERT:
       case TransferTypes.UNSTAKE:
-      case TransferTypes.POWER_UP_SPK:
-      case TransferTypes.POWER_DOWN_SPK:
         return true;
       default:
         return false;
@@ -173,9 +162,7 @@ const TransferView = ({
     effectiveTransferType === TransferTypes.ECENCY_POINT_TRANSFER ||
     effectiveTransferType === TransferTypes.TRANSFER ||
     effectiveTransferType === TransferTypes.RECURRENT_TRANSFER ||
-    effectiveTransferType === TransferTypes.TRANSFER_TO_SAVINGS ||
-    effectiveTransferType === TransferTypes.TRANSFER_SPK ||
-    effectiveTransferType === TransferTypes.TRANSFER_LARYNX;
+    effectiveTransferType === TransferTypes.TRANSFER_TO_SAVINGS;
 
   const displayFundType = fundType === 'POINT' ? 'Points' : fundType;
   const isNativeTokenLayer = !tokenLayer || tokenLayer === TokenLayers.HIVE;
@@ -590,13 +577,6 @@ const TransferView = ({
           JSON.stringify(json),
         )}`;
       }
-    } else if (isSpkToken) {
-      const json = getSpkActionJSON(Number(amount), destination, memo);
-      path = `sign/custom-json?authority=active&required_auths=%5B%22${
-        selectedAccount.name
-      }%22%5D&required_posting_auths=%5B%5D&id=${effectiveTransferType}&json=${encodeURIComponent(
-        JSON.stringify(json),
-      )}`;
     } else if (effectiveTransferType === TransferTypes.RECURRENT_TRANSFER) {
       path = `sign/recurrent_transfer?from=${from}&to=${destination}&amount=${encodeURIComponent(
         hsNativeAmount,
@@ -902,67 +882,53 @@ const TransferView = ({
                 </View>
               )}
               <View style={styles.recipientInputWrapper}>
-                {transferType === TransferTypes.DELEGATE_SPK ? (
-                  <DropdownButton
-                    dropdownButtonStyle={styles.inputField}
-                    rowTextStyle={styles.dropdownRowText}
-                    style={styles.dropdownWrapper}
-                    dropdownStyle={styles.dropdownMenu}
-                    textStyle={styles.inputText}
-                    options={spkMarkets.map((market) => market.name)}
-                    defaultText={SPK_NODE_ECENCY}
-                    selectedOptionIndex={0}
-                    onSelect={(_index, value) => _handleDestinationChange(value)}
+                <View style={styles.recipientInputControl}>
+                  <TextInput
+                    style={[styles.inputField, styles.recipientTextInput]}
+                    onChangeText={_handleDestinationChange}
+                    value={destination}
+                    placeholder={intl.formatMessage({ id: 'transfer.to_placeholder' })}
+                    placeholderTextColor="#c1c5c7"
+                    autoCapitalize="none"
+                    autoCorrect={false}
                   />
-                ) : (
-                  <View style={styles.recipientInputControl}>
-                    <TextInput
-                      style={[styles.inputField, styles.recipientTextInput]}
-                      onChangeText={_handleDestinationChange}
-                      value={destination}
-                      placeholder={intl.formatMessage({ id: 'transfer.to_placeholder' })}
-                      placeholderTextColor="#c1c5c7"
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                    />
-                    <View style={styles.recipientActionButtons}>
-                      <TouchableOpacity
-                        style={styles.recipientActionButton}
-                        onPress={_openFavorites}
-                        activeOpacity={0.7}
-                        accessibilityRole="button"
-                        accessibilityLabel={intl.formatMessage({
-                          id: 'transfer.pick_from_favorites',
-                          defaultMessage: 'Choose recipient from favorites',
-                        })}
-                      >
-                        <Icon
-                          iconType="MaterialCommunityIcons"
-                          name="account-circle-outline"
-                          size={22}
-                          color={EStyleSheet.value('$iconColor')}
-                        />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={styles.recipientActionButton}
-                        onPress={_openQrScanner}
-                        activeOpacity={0.7}
-                        accessibilityRole="button"
-                        accessibilityLabel={intl.formatMessage({
-                          id: 'transfer.scan_qr_recipient',
-                          defaultMessage: 'Scan a QR code for the recipient',
-                        })}
-                      >
-                        <Icon
-                          iconType="MaterialCommunityIcons"
-                          name="qrcode-scan"
-                          size={20}
-                          color={EStyleSheet.value('$iconColor')}
-                        />
-                      </TouchableOpacity>
-                    </View>
+                  <View style={styles.recipientActionButtons}>
+                    <TouchableOpacity
+                      style={styles.recipientActionButton}
+                      onPress={_openFavorites}
+                      activeOpacity={0.7}
+                      accessibilityRole="button"
+                      accessibilityLabel={intl.formatMessage({
+                        id: 'transfer.pick_from_favorites',
+                        defaultMessage: 'Choose recipient from favorites',
+                      })}
+                    >
+                      <Icon
+                        iconType="MaterialCommunityIcons"
+                        name="account-circle-outline"
+                        size={22}
+                        color={EStyleSheet.value('$iconColor')}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.recipientActionButton}
+                      onPress={_openQrScanner}
+                      activeOpacity={0.7}
+                      accessibilityRole="button"
+                      accessibilityLabel={intl.formatMessage({
+                        id: 'transfer.scan_qr_recipient',
+                        defaultMessage: 'Scan a QR code for the recipient',
+                      })}
+                    >
+                      <Icon
+                        iconType="MaterialCommunityIcons"
+                        name="qrcode-scan"
+                        size={20}
+                        color={EStyleSheet.value('$iconColor')}
+                      />
+                    </TouchableOpacity>
                   </View>
-                )}
+                </View>
 
                 {destination !== '' && usersResult.length > 0 && !isUsernameValid && (
                   <View style={styles.suggestionsContainer}>

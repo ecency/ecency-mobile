@@ -1,7 +1,7 @@
 // Mock store.ts to break the circular import chain:
-// migrationHelpers → sheets import (via assetsSelect) → hooks → sdk/mutations → store → migrationHelpers
+// migrationHelpers → sheets import → hooks → sdk/mutations → store → migrationHelpers
 import { migrateSelectedTokens } from './migrationHelpers';
-import { TokenType } from '../screens/assetsSelect/screen/assetsSelect';
+import { TokenType } from '../redux/reducers/walletReducer';
 
 // Only test the pure, synchronous functions from migrationHelpers.
 // The async functions (migrateSettings, migrateUserEncryption, repairUserAccountData)
@@ -12,10 +12,6 @@ import migrationExports from './migrationHelpers';
 
 jest.mock('../redux/store/store', () => ({ __esModule: true, default: {} }));
 jest.mock('../navigation/sheets', () => ({ SheetNames: { ACTION_MODAL: 'ACTION_MODAL' } }));
-// Mock assetsSelect to avoid pulling in the entire component tree
-jest.mock('../screens/assetsSelect/screen/assetsSelect', () => ({
-  TokenType: { ENGINE: 'ENGINE', SPK: 'SPK', HIVE: 'HIVE', CHAIN: 'CHAIN' },
-}));
 jest.mock('react-native-config', () => ({ DEFAULT_PIN: 'test-pin', PIN_KEY: 'test-key' }));
 jest.mock('react-native-actions-sheet', () => ({ SheetManager: { show: jest.fn() } }));
 jest.mock('../providers/hive/auth', () => ({}));
@@ -62,17 +58,16 @@ const { reduxMigrations } = migrationExports;
 
 describe('migrateSelectedTokens', () => {
   describe('object-to-array migration', () => {
-    it('converts old object format to ProfileToken array', () => {
+    it('converts old object format to ProfileToken array, ignoring legacy spk arrays', () => {
       const oldFormat = {
         engine: ['BEE', 'LEO'],
         spk: ['LARYNX'],
       };
       const result = migrateSelectedTokens(oldFormat);
-      expect(result).toHaveLength(3);
+      expect(result).toHaveLength(2);
       expect(result).toEqual([
         { symbol: 'BEE', type: TokenType.ENGINE, meta: { show: true } },
         { symbol: 'LEO', type: TokenType.ENGINE, meta: { show: true } },
-        { symbol: 'LARYNX', type: TokenType.SPK, meta: { show: true } },
       ]);
     });
 
@@ -349,6 +344,56 @@ describe('reduxMigrations', () => {
       const result = reduxMigrations[17](state);
       expect(result.account.keep).toBe('me');
       expect(result.application).toBeUndefined();
+    });
+  });
+
+  describe('v19: SPK asset purge', () => {
+    it('removes SPK/LARYNX/LP entries from persisted selectedAssets', () => {
+      const state = {
+        wallet: {
+          selectedAssets: [
+            { id: 'ecency', symbol: 'POINTS', notCrypto: true },
+            { id: 'SPK', symbol: 'SPK', isSpk: true, notCrypto: false },
+            { id: 'LARYNX', symbol: 'LARYNX', isSpk: true, notCrypto: false },
+            { id: 'LP', symbol: 'LP', notCrypto: false },
+            { id: 'BEE', symbol: 'BEE', isEngine: true, notCrypto: false },
+          ],
+        },
+      } as any;
+      const result = reduxMigrations[19](state);
+      expect(result.wallet.selectedAssets).toEqual([
+        { id: 'ecency', symbol: 'POINTS', notCrypto: true },
+        { id: 'BEE', symbol: 'BEE', isEngine: true, notCrypto: false },
+      ]);
+    });
+
+    it('keeps a Hive Engine token even if its symbol collides with a purged one', () => {
+      const state = {
+        wallet: {
+          selectedAssets: [
+            { id: 'LP', symbol: 'LP', isEngine: true, notCrypto: false },
+            { id: 'LP-spk', symbol: 'LP', notCrypto: false },
+            { id: 'SPK', symbol: 'SPK', isEngine: true, isSpk: true, notCrypto: false },
+          ],
+        },
+      } as any;
+      const result = reduxMigrations[19](state);
+      expect(result.wallet.selectedAssets).toEqual([
+        { id: 'LP', symbol: 'LP', isEngine: true, notCrypto: false },
+      ]);
+    });
+
+    it('handles missing selectedAssets gracefully', () => {
+      const state = { wallet: {} } as any;
+      const result = reduxMigrations[19](state);
+      expect(result.wallet.selectedAssets).toEqual([]);
+    });
+
+    it('is a no-op when the wallet slice is absent', () => {
+      const state = { account: { keep: 'me' } } as any;
+      const result = reduxMigrations[19](state);
+      expect(result.account.keep).toBe('me');
+      expect(result.wallet).toBeUndefined();
     });
   });
 

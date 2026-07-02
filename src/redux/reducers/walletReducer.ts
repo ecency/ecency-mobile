@@ -10,7 +10,6 @@ import {
 
 export enum TokenType {
   ENGINE = 'ENGINE',
-  SPK = 'SPK',
   HIVE = 'HIVE',
   CHAIN = 'CHAIN',
 }
@@ -37,7 +36,6 @@ export interface AssetBase {
   symbol: string;
   notCrypto: boolean;
   isEngine?: boolean;
-  isSpk?: boolean;
   isChain?: boolean;
 }
 
@@ -54,7 +52,6 @@ export interface CoinData {
   actions: string[];
   extraDataPairs?: DataPair[];
   isEngine?: boolean;
-  isSpk?: boolean;
   percentChange?: number;
   volume24h?: number;
   precision?: number;

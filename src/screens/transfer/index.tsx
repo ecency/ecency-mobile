@@ -32,7 +32,6 @@ const Transfer = ({ navigation, route }) => {
         setWithdrawVestingRoute,
         dispatch,
         referredUsername,
-        spkMarkets,
         initialAmount,
         initialMemo,
         recurrentTransfers,
@@ -105,7 +104,6 @@ const Transfer = ({ navigation, route }) => {
                 accountType={accountType}
                 currentAccountName={currentAccountName}
                 selectedAccount={selectedAccount}
-                spkMarkets={spkMarkets}
                 referredUsername={referredUsername || ''}
                 initialAmount={initialAmount || ''}
                 initialMemo={initialMemo || ''}

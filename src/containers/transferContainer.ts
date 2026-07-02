@@ -23,7 +23,6 @@ import { getPointsSummary } from '../providers/ecency/ePoint';
 import { getAssetPrecision, toFixedNoExp, formatTokenQuantity } from '../utils/number';
 import { fetchTokenBalances, fetchTokens } from '../providers/hive-engine/hiveEngine';
 import TransferTypes from '../constants/transferTypes';
-import { fetchSpkMarkets } from '../providers/hive-spk/hiveSpk';
 import TokenLayers from '../constants/tokenLayers';
 import { normalizeTransferType, getNativeAccountBalance } from '../utils/transferBalance';
 
@@ -51,7 +50,6 @@ class TransferContainer extends Component {
       transferType,
       referredUsername: routeParams.referredUsername,
       selectedAccount: props.currentAccount,
-      spkMarkets: [],
       initialAmount: routeParams.initialAmount,
       initialMemo: routeParams.initialMemo,
       recurrentTransfers: [],
@@ -68,10 +66,6 @@ class TransferContainer extends Component {
     this.fetchBalance(name);
 
     this._fetchRecurrentTransfers(name);
-
-    if (this.state.transferType === TransferTypes.POWER_GRANT_SPK) {
-      this._fetchSpkMarkets();
-    }
   }
 
   // Component Functions
@@ -184,13 +178,6 @@ class TransferContainer extends Component {
       });
     } catch (error) {
       console.warn('[TransferContainer] Failed to fetch transfer balance', error);
-    }
-  };
-
-  _fetchSpkMarkets = async () => {
-    const markets = await fetchSpkMarkets();
-    if (markets?.list) {
-      this.setState({ spkMarkets: markets.list });
     }
   };
 
@@ -422,46 +409,6 @@ class TransferContainer extends Component {
         return;
       }
 
-      // Handle SPK layer
-      if (tokenLayer === TokenLayers.SPK) {
-        const spkAmount = parseFloat(data.amount);
-        if (Number.isNaN(spkAmount)) {
-          throw new Error(`Invalid SPK amount: ${data.amount}`);
-        }
-        switch (transferType) {
-          case TransferTypes.TRANSFER_SPK:
-            await mutations.transferSpk.mutateAsync({
-              to: data.destination,
-              amount: spkAmount,
-              memo: data.memo,
-            });
-            break;
-          case TransferTypes.TRANSFER_LARYNX:
-            await mutations.transferLarynx.mutateAsync({
-              to: data.destination,
-              amount: spkAmount,
-              memo: data.memo,
-            });
-            break;
-          case TransferTypes.POWER_UP_SPK:
-            await mutations.powerLarynx.mutateAsync({ mode: 'up', amount: spkAmount });
-            break;
-          case TransferTypes.POWER_DOWN_SPK:
-            await mutations.powerLarynx.mutateAsync({ mode: 'down', amount: spkAmount });
-            break;
-          case TransferTypes.POWER_GRANT_SPK:
-            await mutations.delegateLarynx.mutateAsync({
-              destination: data.destination,
-              amount: spkAmount,
-            });
-            break;
-          default:
-            throw new Error(`Unknown transferType for SPK: ${transferType}`);
-        }
-        _onSuccess();
-        return;
-      }
-
       // Handle HIVE layer
       if (tokenLayer === TokenLayers.HIVE) {
         switch (transferType) {
@@ -651,7 +598,6 @@ class TransferContainer extends Component {
       selectedAccount,
       tokenAddress,
       referredUsername,
-      spkMarkets,
       initialAmount,
       initialMemo,
       recurrentTransfers,
@@ -678,7 +624,6 @@ class TransferContainer extends Component {
         hivePerMVests,
         actionModalVisible,
         referredUsername,
-        spkMarkets,
         fetchBalance: this.fetchBalance,
         getAccountsWithUsername: this._getAccountsWithUsername,
         transferToAccount: this._transferToAccount,

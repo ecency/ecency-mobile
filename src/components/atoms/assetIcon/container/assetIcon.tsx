@@ -3,13 +3,11 @@ import { View, ViewStyle } from 'react-native';
 import { Image as ExpoImage } from 'expo-image';
 import styles from '../styles/assetIcon.styles';
 import HIVE_ENGINE_ICON from '../../../../assets/hive_engine.png';
-import HIVE_SPK_ICON from '../../../../assets/hive_spk.png';
 import HIVE_CHAIN_ICON from '../../../../assets/chain-icon.png';
 
 interface AssetIconProps {
   iconUrl?: string;
   isEngine?: boolean;
-  isSpk?: boolean;
   isChain?: boolean;
   iconSize?: number;
   containerStyle?: ViewStyle;
@@ -18,7 +16,6 @@ interface AssetIconProps {
 export const AssetIcon = ({
   iconUrl,
   isEngine,
-  isSpk,
   isChain,
   containerStyle,
   iconSize,
@@ -39,11 +36,6 @@ export const AssetIcon = ({
       {isEngine && (
         <View style={styles.hiveEngineWrapper}>
           <ExpoImage style={styles.hiveEngineLogo} contentFit="contain" source={HIVE_ENGINE_ICON} />
-        </View>
-      )}
-      {isSpk && (
-        <View style={styles.hiveEngineWrapper}>
-          <ExpoImage style={styles.hiveEngineLogo} contentFit="contain" source={HIVE_SPK_ICON} />
         </View>
       )}
       {isChain && (

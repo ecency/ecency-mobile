@@ -26,7 +26,6 @@ import { fetchTokenBalances } from '../../../providers/hive-engine/hiveEngine';
  *  */
 type SelectableAsset = PortfolioItem & {
   isEngine?: boolean;
-  isSpk?: boolean;
   isChain?: boolean;
   isSectionSeparator?: boolean;
 };
@@ -45,7 +44,6 @@ const mapAssetLayer = (asset: PortfolioItem | SelectableAsset): SelectableAsset 
   return {
     ...base,
     isEngine: (asset as SelectableAsset).isEngine ?? base.layer === 'engine',
-    isSpk: (asset as SelectableAsset).isSpk ?? base.layer === 'spk',
     isChain: (asset as SelectableAsset).isChain ?? base.layer === 'chain',
   };
 };
@@ -80,9 +78,12 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
     if (Array.isArray(profileTokens)) {
       // Filter profile tokens to only include enabled ones (where meta.show is true or undefined)
       // HIVE tokens are excluded (they're always enabled by default and shouldn't be in metadata)
+      // Legacy SPK tokens written by old clients are dropped (SPK support removed)
       const enabledTokens = profileTokens.filter(
         (token: ProfileToken) =>
-          token.type !== TokenType.HIVE && (!token.meta || token.meta.show !== false),
+          token.type !== TokenType.HIVE &&
+          String(token.type) !== 'SPK' &&
+          (!token.meta || token.meta.show !== false),
       );
 
       // Convert to AssetBase format
@@ -93,7 +94,6 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
         id: token.symbol,
         symbol: token.symbol,
         isEngine: token.type === TokenType.ENGINE,
-        isSpk: token.type === TokenType.SPK,
         isChain: token.type === TokenType.CHAIN,
         notCrypto: false,
       }));
@@ -144,27 +144,24 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
           symbol,
           layer: 'engine',
           isEngine: true,
-          isSpk: false,
           isChain: false,
         } as SelectableAsset);
         addedSymbols.add(symbol);
       }
     });
 
-    // Add selected tokens from profile that aren't in assetsQuery (engine/spk/chain)
+    // Add selected tokens from profile that aren't in assetsQuery (engine/chain)
     // Always include selected tokens regardless of query so they can be deselected
     selectionRef.current.forEach((selectedAsset) => {
       if (!addedSymbols.has(selectedAsset.symbol)) {
         const { isEngine } = selectedAsset;
-        const { isSpk } = selectedAsset;
         const { isChain } = selectedAsset;
-        const layer = isEngine ? 'engine' : isSpk ? 'spk' : isChain ? 'chain' : undefined;
+        const layer = isEngine ? 'engine' : isChain ? 'chain' : undefined;
 
         data.push({
           symbol: selectedAsset.symbol,
           layer,
           isEngine,
-          isSpk,
           isChain,
         } as SelectableAsset);
       }
@@ -229,12 +226,12 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
         },
       }));
 
-    // 3. Handle ENGINE and SPK tokens (user can add/remove)
-    const engineSpkTokens = selectionRef.current
-      .filter((item) => (item.isEngine || item.isSpk) && item.symbol)
+    // 3. Handle ENGINE tokens (user can add/remove)
+    const engineTokens = selectionRef.current
+      .filter((item) => item.isEngine && item.symbol)
       .map((item) => ({
         symbol: item.symbol,
-        type: item.isEngine ? TokenType.ENGINE : TokenType.SPK,
+        type: TokenType.ENGINE,
         meta: {
           show: true,
         },
@@ -242,9 +239,7 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
 
     // Final tokens array - HIVE tokens excluded (always enabled by default)
     // Filter out any tokens with missing required fields
-    const tokens = [...chainTokens, ...engineSpkTokens].filter(
-      (token) => token.symbol && token.type,
-    );
+    const tokens = [...chainTokens, ...engineTokens].filter((token) => token.symbol && token.type);
 
     try {
       await updateProfileTokensMutation.mutateAsync(tokens);
@@ -283,14 +278,12 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
     }
 
     const isEngine = item.isEngine ?? item.layer === 'engine';
-    const isSpk = item.isSpk ?? item.layer === 'spk';
     const isChain = item.isChain ?? item.layer === 'chain';
 
     const _obj = {
       id: item.symbol,
       symbol: item.symbol,
       isEngine,
-      isSpk,
       isChain,
       notCrypto: false,
     } as AssetBase;
@@ -340,7 +333,6 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
       const isSelected = index >= 0;
 
       const isEngine = item.isEngine ?? item.layer === 'engine';
-      const isSpk = item.isSpk ?? item.layer === 'spk';
       const isChain = item.isChain ?? item.layer === 'chain';
 
       const _onPress = () => {
@@ -351,7 +343,6 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
             id: key,
             symbol: key,
             isEngine,
-            isSpk,
             isChain,
             notCrypto: false,
           });
@@ -374,7 +365,6 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
                 containerStyle={styles.assetIconContainer}
                 iconUrl={item.iconUrl}
                 isEngine={isEngine}
-                isSpk={isSpk}
                 isChain={isChain}
                 iconSize={24}
               />

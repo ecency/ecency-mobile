@@ -12,8 +12,6 @@ import UserAvatar from '../userAvatar';
 
 // Styles
 import styles from './transferAccountSelectorStyles';
-import { Market } from '../../providers/hive-spk/hiveSpk.types';
-import { SPK_NODE_ECENCY } from '../../providers/hive-spk/hiveSpk';
 import { toastNotification } from '../../redux/actions/uiAction';
 
 export interface TransferAccountSelectorProps {
@@ -32,7 +30,6 @@ export interface TransferAccountSelectorProps {
   setIsUsernameValid: (value: boolean) => void;
   memo: string;
   setMemo: (value: string) => void;
-  spkMarkets: Market[];
   getRecurrentTransferOfUser: (username: string) => string;
   allowMultipleDest?: boolean;
   badActors?: Set<string>;
@@ -54,7 +51,6 @@ const TransferAccountSelector = ({
   setIsUsernameValid,
   memo,
   setMemo,
-  spkMarkets,
   getRecurrentTransferOfUser,
   allowMultipleDest,
   badActors,
@@ -67,8 +63,6 @@ const TransferAccountSelector = ({
     switch (transferType) {
       case TransferTypes.CONVERT:
       case TransferTypes.UNSTAKE:
-      case TransferTypes.POWER_UP_SPK:
-      case TransferTypes.POWER_DOWN_SPK:
         return true;
       default:
         return false;
@@ -211,31 +205,18 @@ const TransferAccountSelector = ({
   );
 
   const _destinationInput = !destinationLocked ? (
-    transferType === TransferTypes.DELEGATE_SPK ? (
-      <TransferFormItem
-        label={intl.formatMessage({ id: 'transfer.to' })}
-        rightComponent={() =>
-          _renderDropdown(
-            spkMarkets.map((market) => market.name),
-            SPK_NODE_ECENCY,
-            _handleOnDestinationChange,
-          )
-        }
-      />
-    ) : (
-      <TransferFormItem
-        label={intl.formatMessage({ id: 'transfer.to' })}
-        rightComponent={() =>
-          _renderInput(
-            intl.formatMessage({ id: 'transfer.to_placeholder' }),
-            'destination',
-            'default',
-            false,
-          )
-        }
-        containerStyle={styles.elevate}
-      />
-    )
+    <TransferFormItem
+      label={intl.formatMessage({ id: 'transfer.to' })}
+      rightComponent={() =>
+        _renderInput(
+          intl.formatMessage({ id: 'transfer.to_placeholder' }),
+          'destination',
+          'default',
+          false,
+        )
+      }
+      containerStyle={styles.elevate}
+    />
   ) : null;
 
   return (

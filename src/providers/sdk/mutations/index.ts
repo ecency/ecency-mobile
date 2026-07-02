@@ -53,12 +53,6 @@ export { useUnstakeEngineTokenMutation } from './useUnstakeEngineTokenMutation';
 export { useClaimEngineRewardsMutation } from './useClaimEngineRewardsMutation';
 export { useEngineMarketOrderMutation } from './useEngineMarketOrderMutation';
 
-// SPK / Larynx
-export { useTransferSpkMutation } from './useTransferSpkMutation';
-export { useTransferLarynxMutation } from './useTransferLarynxMutation';
-export { useLockLarynxMutation } from './useLockLarynxMutation';
-export { usePowerLarynxMutation } from './usePowerLarynxMutation';
-
 // Community
 export { useSubscribeCommunityMutation } from './useSubscribeCommunityMutation';
 export { useUnsubscribeCommunityMutation } from './useUnsubscribeCommunityMutation';

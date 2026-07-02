@@ -262,7 +262,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         pendingActivities={pendingRequestsQuery.data || []}
         refreshing={activitiesQuery.isRefreshing}
         loading={activitiesQuery.isLoading}
-        activitiesEnabled={asset.layer !== 'spk' && asset.layer !== 'chain'}
+        activitiesEnabled={asset.layer !== 'chain'}
         onEndReached={_fetchDetails}
         onRefresh={_onRefresh}
         onActionPress={_onActionPress}

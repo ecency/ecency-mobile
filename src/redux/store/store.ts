@@ -50,7 +50,7 @@ const persistConfig = {
   key: 'root',
   // Storage Method (React Native)
   storage: AsyncStorage,
-  version: 18, // v18: Backfill editor.caretMap for per-draft caret persistence
+  version: 19, // v19: Purge persisted SPK/LARYNX/LP assets (SPK support removed)
   // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   transforms: [transformCacheVoteMap, transformWalkthroughMap],
