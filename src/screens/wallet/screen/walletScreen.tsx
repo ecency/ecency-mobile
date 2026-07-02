@@ -98,14 +98,16 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
 
   // actions
   const populateSelectedAssets = (tokensArr: ProfileToken[]): AssetBase[] => {
-    // filter out HIVE token and hidden tokens
+    // filter out HIVE token, hidden tokens and legacy SPK entries (SPK support removed)
     return tokensArr
-      .filter(({ type, meta }) => type !== TokenType.HIVE && (!meta || meta.show))
+      .filter(
+        ({ type, meta }) =>
+          type !== TokenType.HIVE && String(type) !== 'SPK' && (!meta || meta.show),
+      )
       .map(({ symbol, type }) => ({
         id: symbol,
         symbol,
         isEngine: type === TokenType.ENGINE,
-        isSpk: type === TokenType.SPK,
         isChain: type === TokenType.CHAIN,
         notCrypto: false,
       }));
@@ -150,8 +152,6 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
   //       if (token.isEngine) {
   //         const marketData = await fetchEngineMarketData(token.id);
   //         priceData = marketData.map((data) => data.close);
-  //       } else if (token.isSpk) {
-  //         // TODO: add request to fetch chart data if available
   //       } else {
   //         const marketChart = await fetchMarketChart(token.id, currency.currency, CHART_DAYS_RANGE);
   //         priceData = marketChart.prices.map((item) => item.yValue);

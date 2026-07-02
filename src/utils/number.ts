@@ -35,8 +35,6 @@ const NATIVE_ASSET_PRECISION: Record<string, number> = {
   HP: 3,
   POINT: 3,
   POINTS: 3,
-  SPK: 3,
-  LARYNX: 3,
   TESTS: 3,
   TBD: 3,
   VESTS: 6,
@@ -94,16 +92,6 @@ export const formatTokenQuantity = (value: number | string, precision = 8): stri
   }
   const truncated = truncateToPrecision(num, Math.max(0, Math.min(precision, 8)));
   return truncated.indexOf('.') === -1 ? truncated : truncated.replace(/\.?0+$/, '');
-};
-
-// Convert a human SPK/LARYNX amount to integer milli-units. SPK custom_json ops
-// expect an integer; a raw `value * 1000` float yields e.g. 1004.9999999999999.
-export const toMilliUnits = (value: number | string): number => {
-  const num = typeof value === 'number' ? value : parseFloat(String(value));
-  if (!Number.isFinite(num)) {
-    return 0;
-  }
-  return Math.round(num * 1000);
 };
 
 export const formatNumberInputStr = (text: string, precision = 10) => {

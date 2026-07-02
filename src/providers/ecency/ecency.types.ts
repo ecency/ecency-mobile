@@ -1,5 +1,3 @@
-import { HiveEngineToken, MarketData } from 'providers/hive-engine/hiveEngine.types';
-import { SpkApiWallet } from 'providers/hive-spk/hiveSpk.types';
 import { QuoteItem } from '../../redux/reducers/walletReducer';
 import { PollPreferredInterpretation } from '../hive/hive.types';
 
@@ -131,15 +129,6 @@ export interface PointActivity {
   blockNum?: number | string;
 }
 
-export interface AssetsPortfolio {
-  globalProps: { hivePerMVests: number };
-  marketData: MarketData;
-  accountData: any;
-  pointsData: EcencyUser;
-  engineData: HiveEngineToken[];
-  spkData: SpkApiWallet;
-}
-
 interface TokenAction {
   id: string;
   // Later Add support for other properties required for dynamically generating ops on app end
@@ -150,7 +139,7 @@ interface TokenAction {
   // etc
 }
 
-export type PortfolioLayer = 'points' | 'hive' | 'chain' | 'spk' | 'engine';
+export type PortfolioLayer = 'points' | 'hive' | 'chain' | 'engine';
 
 export interface PortfolioItem {
   name: string;

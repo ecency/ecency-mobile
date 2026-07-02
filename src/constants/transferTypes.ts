@@ -20,14 +20,6 @@ const TransferTypes = {
   DELEGATE: 'delegate',
   UNDELEGATE: 'undelegate',
 
-  // SPK Transfer Types
-  TRANSFER_SPK: 'transfer_spk_send',
-  TRANSFER_LARYNX: 'transfer_larynx_spk',
-  TRANSFER_SPKCC: 'spkcc_send',
-  POWER_GRANT_SPK: 'spkcc_power_grant',
-  POWER_UP_SPK: 'spkcc_power_up',
-  POWER_DOWN_SPK: 'spkcc_power_down',
-
   // CHAIN Transfer Types
   RECEIVE: 'receive',
 };

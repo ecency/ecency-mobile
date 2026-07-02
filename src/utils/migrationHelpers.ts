@@ -51,7 +51,7 @@ import {
   DEFAULT_OWN_PROFILE_FILTERS,
 } from '../constants/options/filters';
 import { SheetNames } from '../navigation/sheets';
-import { ProfileToken, TokenType } from '../screens/assetsSelect/screen/assetsSelect';
+import { ProfileToken, TokenType } from '../redux/reducers/walletReducer';
 import DEFAULT_ASSETS from '../constants/defaultAssets';
 
 // migrates settings from realm to redux once and do no user realm for settings again;
@@ -305,10 +305,8 @@ export const migrateSelectedTokens = (tokens: any) => {
           }))
         : [];
 
-    return [
-      ..._mapSymbolsToProfileToken(tokens.engine, TokenType.ENGINE),
-      ..._mapSymbolsToProfileToken(tokens.spk, TokenType.SPK),
-    ];
+    // Legacy spk arrays are intentionally ignored (SPK support removed)
+    return [..._mapSymbolsToProfileToken(tokens.engine, TokenType.ENGINE)];
   }
 
   // check for missing meta entries
@@ -528,6 +526,16 @@ const reduxMigrations = {
     // this only normalizes the shape for consistency with pollDraftsMap (9).
     if (state.editor) {
       state.editor.caretMap = {};
+    }
+    return state;
+  },
+  19: (state) => {
+    // SPK Network support removed: purge persisted SPK/LARYNX/LP entries from
+    // wallet.selectedAssets so stale selections don't linger in the wallet list.
+    if (state.wallet) {
+      state.wallet.selectedAssets = (state.wallet.selectedAssets || []).filter(
+        (asset) => !asset?.isSpk && !['SPK', 'LARYNX', 'LP'].includes(asset?.symbol),
+      );
     }
     return state;
   },

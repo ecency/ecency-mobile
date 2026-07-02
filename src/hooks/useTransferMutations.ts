@@ -19,16 +19,12 @@ import {
   useDelegateEngineTokenMutation,
   useUnstakeEngineTokenMutation,
   useUndelegateEngineTokenMutation,
-  useTransferSpkMutation,
-  useTransferLarynxMutation,
-  usePowerLarynxMutation,
 } from '../providers/sdk/mutations';
 import { useAuthContext } from '../providers/sdk';
 import { selectCurrentAccount } from '../redux/selectors';
 import type { RootState } from '../redux/store/store';
 import { getEngineActionOpArray } from '../providers/hive-engine/hiveEngineActions';
 import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
-import { toMilliUnits } from '../utils/number';
 
 /**
  * Bundles all transfer-related SDK mutation hooks into a single object.
@@ -199,38 +195,6 @@ export function useTransferMutations() {
     { broadcastMode: 'async' },
   );
 
-  // SPK layer
-  const transferSpk = useTransferSpkMutation();
-  const transferLarynx = useTransferLarynxMutation();
-  const powerLarynx = usePowerLarynxMutation();
-
-  // SPK delegate — no dedicated SDK hook, use generic broadcast
-  const delegateLarynx = useBroadcastMutation(
-    ['spk', 'delegate-larynx'],
-    username || '',
-    ({ destination, amount }: { destination: string; amount: number }) => {
-      const json = {
-        to: destination,
-        amount: toMilliUnits(amount),
-      };
-      return [
-        [
-          'custom_json',
-          {
-            id: 'spkcc_power_grant',
-            json: JSON.stringify(json),
-            required_auths: [username || ''],
-            required_posting_auths: [],
-          },
-        ],
-      ];
-    },
-    undefined,
-    authContext,
-    'active',
-    { broadcastMode: 'async' },
-  );
-
   return {
     // HIVE
     transfer,
@@ -253,11 +217,6 @@ export function useTransferMutations() {
     delegateEngine,
     unstakeEngine,
     undelegateEngine,
-    // SPK
-    transferSpk,
-    transferLarynx,
-    powerLarynx,
-    delegateLarynx,
   };
 }
 

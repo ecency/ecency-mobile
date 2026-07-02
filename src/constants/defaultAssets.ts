@@ -38,9 +38,6 @@ export enum ASSET_IDS {
   HIVE = 'hive',
   HBD = 'hive_dollar',
   HP = 'hive_power',
-  SPK = 'SPK',
-  LARYNX = 'LARYNX',
-  LARYNX_POWER = 'LP',
 }
 
 export default DEFAULT_ASSETS;

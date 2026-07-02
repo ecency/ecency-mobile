@@ -64,16 +64,6 @@ export const SelectionList = ({
     const totalSel = selectionRef.current.length;
     const item = sortedList[from];
 
-    // const _obj = {
-    //   id: item.symbol,
-    //   symbol: item.symbol,
-    //   isEngine: item.isEngine || false,
-    //   isSpk: item.isSpk || false,
-    //   notCrypto: false,
-    // };
-
-    // console.log('change order', item.symbol, from, to, 'total:', totalSel);
-
     if (from >= totalSel && to <= totalSel) {
       // insert in set at to
       selectionRef.current.splice(to, 0, item.id);
@@ -125,13 +115,6 @@ export const SelectionList = ({
         selectionRef.current.splice(index, 1);
       } else {
         selectionRef.current.push(item.id);
-        //     {
-        //     id: key,
-        //     symbol: key,
-        //     isEngine: item.isEngine || false,
-        //     isSpk: item.isSpk || false,
-        //     notCrypto: false,
-        // });
       }
 
       _updateSortedList();
@@ -144,14 +127,6 @@ export const SelectionList = ({
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <CheckBox clicked={_onPress} isChecked={isSelected} />
             {item.iconElement && item.iconElement}
-            {/* <AssetIcon
-                            id={item.symbol}
-                            containerStyle={styles.assetIconContainer}
-                            iconUrl={item.iconUrl}
-                            isEngine={item.isEngine}
-                            isSpk={item.isSpk}
-                            iconSize={24}
-                        /> */}
             <Text style={styles.informationText}>{item.label}</Text>
           </View>
           <TouchableWithoutFeedback onPressIn={drag} style={styles.dragBtnContainer}>

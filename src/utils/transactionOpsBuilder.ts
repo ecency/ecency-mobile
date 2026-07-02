@@ -1,10 +1,8 @@
 import { getEngineActionOpArray } from '../providers/hive-engine/hiveEngineActions';
 import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
 import { buildActiveCustomJsonOpArr } from '../providers/hive/hive';
-import { getSpkActionJSON } from '../providers/hive-spk/hiveSpk';
 import { getAssetPrecision, toFixedNoExp, formatTokenQuantity } from './number';
 import TransferTypes from '../constants/transferTypes';
-import parseToken from './parseToken';
 import TokenLayers from '../constants/tokenLayers';
 
 const MAX_RECIPIENTS = 50;
@@ -71,12 +69,6 @@ export const buildTransferOpsArray = (
       fundType,
       memo,
       precision,
-    );
-  } else if (tokenLayer === TokenLayers.SPK) {
-    return buildActiveCustomJsonOpArr(
-      from,
-      transferType,
-      getSpkActionJSON(parseToken(amount), to, memo),
     );
   } else if (
     tokenLayer === TokenLayers.POINTS &&
