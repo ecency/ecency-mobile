@@ -8,7 +8,6 @@ import {
   getAssetPrecision,
   toFixedNoExp,
   formatTokenQuantity,
-  toMilliUnits,
 } from './number';
 
 describe('countDecimals', () => {
@@ -266,22 +265,5 @@ describe('formatTokenQuantity', () => {
   it('handles zero and invalid input', () => {
     expect(formatTokenQuantity(0)).toBe('0');
     expect(formatTokenQuantity('abc')).toBe('0');
-  });
-});
-
-describe('toMilliUnits', () => {
-  it('converts to integer milli-units', () => {
-    expect(toMilliUnits(1)).toBe(1000);
-    expect(toMilliUnits('1.5')).toBe(1500);
-  });
-
-  it('rounds away binary-float error (no 1004.9999999999999)', () => {
-    expect(toMilliUnits(1.005)).toBe(1005);
-    expect(Number.isInteger(toMilliUnits(0.029))).toBe(true);
-    expect(toMilliUnits(0.029)).toBe(29);
-  });
-
-  it('returns 0 for invalid input', () => {
-    expect(toMilliUnits('abc')).toBe(0);
   });
 });

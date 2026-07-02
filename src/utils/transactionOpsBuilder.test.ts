@@ -11,9 +11,6 @@ jest.mock('../providers/hive/hive', () => ({
     ['custom_json', { from, type, json }],
   ]),
 }));
-jest.mock('../providers/hive-spk/hiveSpk', () => ({
-  getSpkActionJSON: jest.fn((amount, to, memo) => ({ amount, to, memo })),
-}));
 
 describe('buildTransferOpsArray', () => {
   const baseData = {
@@ -261,14 +258,6 @@ describe('buildTransferOpsArray', () => {
           tokenLayer: TokenLayers.ENGINE,
         }),
       ).toThrow('Too many recipients');
-    });
-
-    it('routes SPK layer to custom_json', () => {
-      const ops = buildTransferOpsArray(TransferTypes.TRANSFER, {
-        ...baseData,
-        tokenLayer: TokenLayers.SPK,
-      });
-      expect(ops[0][0]).toBe('custom_json');
     });
 
     it('routes POINTS layer ecency transfer to custom_json with multi-recipient', () => {
