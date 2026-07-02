@@ -532,9 +532,13 @@ const reduxMigrations = {
   19: (state) => {
     // SPK Network support removed: purge persisted SPK/LARYNX/LP entries from
     // wallet.selectedAssets so stale selections don't linger in the wallet list.
+    // The symbol check catches legacy entries persisted before the isSpk flag;
+    // engine tokens are exempt so a Hive Engine token sharing one of these
+    // symbols is never purged.
     if (state.wallet) {
       state.wallet.selectedAssets = (state.wallet.selectedAssets || []).filter(
-        (asset) => !asset?.isSpk && !['SPK', 'LARYNX', 'LP'].includes(asset?.symbol),
+        (asset) =>
+          !asset?.isSpk && (asset?.isEngine || !['SPK', 'LARYNX', 'LP'].includes(asset?.symbol)),
       );
     }
     return state;

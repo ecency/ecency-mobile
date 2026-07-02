@@ -367,6 +367,22 @@ describe('reduxMigrations', () => {
       ]);
     });
 
+    it('keeps a Hive Engine token even if its symbol collides with a purged one', () => {
+      const state = {
+        wallet: {
+          selectedAssets: [
+            { id: 'LP', symbol: 'LP', isEngine: true, notCrypto: false },
+            { id: 'LP-spk', symbol: 'LP', notCrypto: false },
+            { id: 'SPK', symbol: 'SPK', isEngine: true, isSpk: true, notCrypto: false },
+          ],
+        },
+      } as any;
+      const result = reduxMigrations[19](state);
+      expect(result.wallet.selectedAssets).toEqual([
+        { id: 'LP', symbol: 'LP', isEngine: true, notCrypto: false },
+      ]);
+    });
+
     it('handles missing selectedAssets gracefully', () => {
       const state = { wallet: {} } as any;
       const result = reduxMigrations[19](state);
