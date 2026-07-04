@@ -4,7 +4,11 @@ import { useIntl } from 'react-intl';
 import { useComment } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector, useStateWithRef } from '../../hooks';
-import { shouldPromptPostingAuthority, getDigitPinCode } from '../../providers/hive/hive';
+import {
+  shouldPromptPostingAuthority,
+  getDigitPinCode,
+  isMissingEcencyPostingAuthorityError,
+} from '../../providers/hive/hive';
 import {
   extractMetadata,
   generateContentBasedPermlink,
@@ -50,6 +54,21 @@ export const usePostSubmitter = () => {
     getPostingAuthorityPromptShown,
   ] = useStateWithRef(false);
 
+  // A HiveSigner token broadcast failed with `unauthorized_client` because
+  // ecency.app is not authorised to post for this account. Open the grant /
+  // re-authorise sheet (grants directly with the local key for key logins, or
+  // routes through HiveSigner for token-only logins) and run `onGranted` once
+  // the authority exists, instead of surfacing the raw JSON error.
+  const _promptPostingAuthorityRecovery = (onGranted?: () => void) => {
+    SheetManager.show(SheetNames.POSTING_AUTHORITY_PROMPT, {
+      payload: {
+        onGranted: () => onGranted?.(),
+        onSkipped: () => {},
+        onError: () => {},
+      },
+    });
+  };
+
   // handle submit reply
   const _submitReply = async (
     commentBody: string,
@@ -58,6 +77,7 @@ export const usePostSubmitter = () => {
     pollDraft?: PollDraft,
     manageSubmittingState = true,
     videoThumbUrls?: string[],
+    isAuthorityRetry = false,
   ) => {
     if (!commentBody) {
       return false;
@@ -126,6 +146,7 @@ export const usePostSubmitter = () => {
             pollDraft,
             manageSubmittingState,
             videoThumbUrls,
+            isAuthorityRetry,
           );
         } catch (error) {
           // Error granting posting authority - surface through outer handler.
@@ -300,6 +321,25 @@ export const usePostSubmitter = () => {
 
         console.log(error);
 
+        // Missing ecency.app posting authority: offer the grant/re-authorise
+        // sheet and retry once, rather than dumping the raw unauthorized_client
+        // JSON at the user. Guarded by `isAuthorityRetry` so a still-missing
+        // authority after granting can't loop.
+        if (isMissingEcencyPostingAuthorityError(error) && !isAuthorityRetry) {
+          _promptPostingAuthorityRecovery(() => {
+            _submitReply(
+              commentBody,
+              parentPost,
+              postType,
+              pollDraft,
+              manageSubmittingState,
+              videoThumbUrls,
+              true,
+            );
+          });
+          return false;
+        }
+
         let errMsg = error?.message || '';
         if (!errMsg) {
           try {
@@ -319,6 +359,20 @@ export const usePostSubmitter = () => {
         return false;
       }
     } catch (error: any) {
+      if (isMissingEcencyPostingAuthorityError(error) && !isAuthorityRetry) {
+        _promptPostingAuthorityRecovery(() => {
+          _submitReply(
+            commentBody,
+            parentPost,
+            postType,
+            pollDraft,
+            manageSubmittingState,
+            videoThumbUrls,
+            true,
+          );
+        });
+        return false;
+      }
       let errMsg = error?.message || '';
       if (!errMsg) {
         try {
