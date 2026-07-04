@@ -635,18 +635,16 @@ export const isMissingEcencyPostingAuthorityError = (error: any): boolean => {
   if (!error) {
     return false;
   }
-  const code = String(error.error || '');
-  if (code === 'unauthorized_client') {
-    return true;
-  }
   const haystack = `${error.error_description || ''} ${error.message || ''} ${
     typeof error === 'string' ? error : ''
   }`.toLowerCase();
-  return (
-    haystack.includes("doesn't have permission to broadcast") ||
-    haystack.includes('does not have permission to broadcast') ||
-    (haystack.includes('unauthorized_client') && haystack.includes('broadcast'))
-  );
+  // Require the specific missing-authority context, not the bare
+  // `unauthorized_client` code — HiveSigner (or another OAuth service) returns
+  // that same code for unrelated reasons (expired token, wrong scope, revoked
+  // grant), which should surface a real error rather than the grant sheet. The
+  // "@ecency.app doesn't have permission to broadcast for @user" rejection
+  // always carries one of these signals.
+  return haystack.includes('permission to broadcast') || haystack.includes('ecency.app');
 };
 
 /**

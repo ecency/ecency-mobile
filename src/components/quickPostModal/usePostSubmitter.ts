@@ -57,17 +57,19 @@ export const usePostSubmitter = () => {
   // A HiveSigner token broadcast failed with `unauthorized_client` because
   // ecency.app is not authorised to post for this account. Open the grant /
   // re-authorise sheet (grants directly with the local key for key logins, or
-  // routes through HiveSigner for token-only logins) and run `onGranted` once
-  // the authority exists, instead of surfacing the raw JSON error.
-  const _promptPostingAuthorityRecovery = (onGranted?: () => void) => {
-    SheetManager.show(SheetNames.POSTING_AUTHORITY_PROMPT, {
-      payload: {
-        onGranted: () => onGranted?.(),
-        onSkipped: () => {},
-        onError: () => {},
-      },
+  // routes through HiveSigner for token-only logins) instead of surfacing the
+  // raw JSON error. Resolves `true` once the authority is granted, `false` if
+  // the user skips, and rejects if the grant itself errors.
+  const _promptPostingAuthorityRecovery = (): Promise<boolean> =>
+    new Promise<boolean>((resolve, reject) => {
+      SheetManager.show(SheetNames.POSTING_AUTHORITY_PROMPT, {
+        payload: {
+          onGranted: () => resolve(true),
+          onSkipped: () => resolve(false),
+          onError: (error) => reject(error),
+        },
+      });
     });
-  };
 
   // handle submit reply
   const _submitReply = async (
@@ -95,8 +97,12 @@ export const usePostSubmitter = () => {
         return false;
       }
 
-      // Check if we should prompt for posting authority (HiveAuth users without authority)
-      if (shouldPromptPostingAuthority(currentAccount)) {
+      // Check if we should prompt for posting authority (token-broadcast /
+      // HiveAuth users without authority). Skipped on the authority-recovery
+      // retry: the grant already happened, and `currentAccount` in this hook
+      // render may still be the pre-grant snapshot, which would re-open the
+      // prompt or trip the recursion guard.
+      if (!isAuthorityRetry && shouldPromptPostingAuthority(currentAccount)) {
         // Guard against infinite recursion - use ref getter to read latest value
         if (getPostingAuthorityPromptShown()) {
           console.warn('Posting authority prompt already shown, preventing recursion');
@@ -322,22 +328,32 @@ export const usePostSubmitter = () => {
         console.log(error);
 
         // Missing ecency.app posting authority: offer the grant/re-authorise
-        // sheet and retry once, rather than dumping the raw unauthorized_client
-        // JSON at the user. Guarded by `isAuthorityRetry` so a still-missing
-        // authority after granting can't loop.
+        // sheet and, once granted, retry once and return the retry's result so
+        // the caller's success handling (e.g. `_submitWave`'s feed prepend)
+        // still runs — rather than dumping the raw unauthorized_client JSON.
+        // Guarded by `isAuthorityRetry` so a still-missing authority can't loop.
         if (isMissingEcencyPostingAuthorityError(error) && !isAuthorityRetry) {
-          _promptPostingAuthorityRecovery(() => {
-            _submitReply(
-              commentBody,
-              parentPost,
-              postType,
-              pollDraft,
-              manageSubmittingState,
-              videoThumbUrls,
-              true,
-            );
-          });
-          return false;
+          // A grant failure surfaces its own toast from the sheet, so treat a
+          // rejection as "not granted" here.
+          const granted = await _promptPostingAuthorityRecovery().catch(() => false);
+          if (!granted) {
+            return false;
+          }
+          // Release the submit lock before retrying: the retry re-arms it via
+          // its own `if (manageSubmittingState) setIsSubmitting(true)`, and
+          // leaving it armed would trip the retry's entry guard.
+          if (manageSubmittingState) {
+            setIsSubmitting(false);
+          }
+          return await _submitReply(
+            commentBody,
+            parentPost,
+            postType,
+            pollDraft,
+            manageSubmittingState,
+            videoThumbUrls,
+            true,
+          );
         }
 
         let errMsg = error?.message || '';
@@ -360,18 +376,22 @@ export const usePostSubmitter = () => {
       }
     } catch (error: any) {
       if (isMissingEcencyPostingAuthorityError(error) && !isAuthorityRetry) {
-        _promptPostingAuthorityRecovery(() => {
-          _submitReply(
-            commentBody,
-            parentPost,
-            postType,
-            pollDraft,
-            manageSubmittingState,
-            videoThumbUrls,
-            true,
-          );
-        });
-        return false;
+        const granted = await _promptPostingAuthorityRecovery().catch(() => false);
+        if (!granted) {
+          return false;
+        }
+        if (manageSubmittingState) {
+          setIsSubmitting(false);
+        }
+        return await _submitReply(
+          commentBody,
+          parentPost,
+          postType,
+          pollDraft,
+          manageSubmittingState,
+          videoThumbUrls,
+          true,
+        );
       }
       let errMsg = error?.message || '';
       if (!errMsg) {

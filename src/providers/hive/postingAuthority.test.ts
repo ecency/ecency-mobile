@@ -70,6 +70,15 @@ describe('posting authority helpers', () => {
       expect(isMissingEcencyPostingAuthorityError(new Error('Insufficient RC'))).toBe(false);
       expect(isMissingEcencyPostingAuthorityError(null)).toBe(false);
     });
+    it('does not match a bare unauthorized_client without the broadcast context', () => {
+      expect(isMissingEcencyPostingAuthorityError({ error: 'unauthorized_client' })).toBe(false);
+      expect(
+        isMissingEcencyPostingAuthorityError({
+          error: 'unauthorized_client',
+          error_description: 'The token has expired',
+        }),
+      ).toBe(false);
+    });
   });
 
   describe('shouldPromptPostingAuthority', () => {
