@@ -333,17 +333,24 @@ export const usePostSubmitter = () => {
         // still runs — rather than dumping the raw unauthorized_client JSON.
         // Guarded by `isAuthorityRetry` so a still-missing authority can't loop.
         if (isMissingEcencyPostingAuthorityError(error) && !isAuthorityRetry) {
+          // Release the submit lock BEFORE awaiting the sheet. If the user
+          // dismisses it without firing onGranted/onSkipped/onError (swipe,
+          // app backgrounded, system kill), the promise never settles, this
+          // await hangs and the outer `finally` never runs — so without this
+          // `isSubmitting` would stay true and permanently wedge publish.
+          // Mirrors the pre-flight guard above.
+          setIsSubmitting(false);
           // A grant failure surfaces its own toast from the sheet, so treat a
           // rejection as "not granted" here.
           const granted = await _promptPostingAuthorityRecovery().catch(() => false);
           if (!granted) {
             return false;
           }
-          // Release the submit lock before retrying: the retry re-arms it via
-          // its own `if (manageSubmittingState) setIsSubmitting(true)`, and
-          // leaving it armed would trip the retry's entry guard.
-          if (manageSubmittingState) {
-            setIsSubmitting(false);
+          // Re-arm only for the wave path: the quick-post retry re-arms via its
+          // own `if (manageSubmittingState) setIsSubmitting(true)`, and re-arming
+          // here would trip that retry's entry guard.
+          if (!manageSubmittingState) {
+            setIsSubmitting(true);
           }
           return await _submitReply(
             commentBody,
@@ -376,12 +383,15 @@ export const usePostSubmitter = () => {
       }
     } catch (error: any) {
       if (isMissingEcencyPostingAuthorityError(error) && !isAuthorityRetry) {
+        // Release before the await so a dismissed sheet can't wedge
+        // `isSubmitting` (see inner catch for the full rationale).
+        setIsSubmitting(false);
         const granted = await _promptPostingAuthorityRecovery().catch(() => false);
         if (!granted) {
           return false;
         }
-        if (manageSubmittingState) {
-          setIsSubmitting(false);
+        if (!manageSubmittingState) {
+          setIsSubmitting(true);
         }
         return await _submitReply(
           commentBody,
