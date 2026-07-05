@@ -79,6 +79,22 @@ describe('posting authority helpers', () => {
         }),
       ).toBe(false);
     });
+    it('does not match unrelated errors that merely mention the ecency.app domain', () => {
+      expect(
+        isMissingEcencyPostingAuthorityError({ message: 'Network timeout contacting ecency.app' }),
+      ).toBe(false);
+      expect(
+        isMissingEcencyPostingAuthorityError({ error: 'server_error', message: 'ecency.app 500' }),
+      ).toBe(false);
+    });
+    it('matches unauthorized_client + ecency.app even without the exact phrase', () => {
+      expect(
+        isMissingEcencyPostingAuthorityError({
+          error: 'unauthorized_client',
+          error_description: 'ecency.app not authorized',
+        }),
+      ).toBe(true);
+    });
   });
 
   describe('shouldPromptPostingAuthority', () => {

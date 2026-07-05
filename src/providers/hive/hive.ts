@@ -635,16 +635,22 @@ export const isMissingEcencyPostingAuthorityError = (error: any): boolean => {
   if (!error) {
     return false;
   }
+  const code = String(error.error || '');
   const haystack = `${error.error_description || ''} ${error.message || ''} ${
     typeof error === 'string' ? error : ''
   }`.toLowerCase();
-  // Require the specific missing-authority context, not the bare
-  // `unauthorized_client` code — HiveSigner (or another OAuth service) returns
-  // that same code for unrelated reasons (expired token, wrong scope, revoked
-  // grant), which should surface a real error rather than the grant sheet. The
-  // "@ecency.app doesn't have permission to broadcast for @user" rejection
-  // always carries one of these signals.
-  return haystack.includes('permission to broadcast') || haystack.includes('ecency.app');
+  // The "@ecency.app doesn't have permission to broadcast for @user" phrase is
+  // unique to this rejection, so match it directly. Fall back to the
+  // `unauthorized_client` code plus an ecency.app mention for wrapped/truncated
+  // forms — but gate the domain match behind the code so unrelated errors that
+  // merely reference ecency.app (network timeout, server error) aren't routed
+  // into the grant sheet instead of surfacing the real error. The bare
+  // `unauthorized_client` code is deliberately NOT enough: HiveSigner returns
+  // it for expired tokens and wrong scope too.
+  return (
+    haystack.includes('permission to broadcast') ||
+    (code === 'unauthorized_client' && haystack.includes('ecency.app'))
+  );
 };
 
 /**
