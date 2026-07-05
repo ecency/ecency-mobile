@@ -4,7 +4,11 @@ import { useIntl } from 'react-intl';
 import { useComment } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector, useStateWithRef } from '../../hooks';
-import { shouldPromptPostingAuthority, getDigitPinCode } from '../../providers/hive/hive';
+import {
+  shouldPromptPostingAuthority,
+  getDigitPinCode,
+  isMissingEcencyPostingAuthorityError,
+} from '../../providers/hive/hive';
 import {
   extractMetadata,
   generateContentBasedPermlink,
@@ -50,6 +54,23 @@ export const usePostSubmitter = () => {
     getPostingAuthorityPromptShown,
   ] = useStateWithRef(false);
 
+  // A HiveSigner token broadcast failed with `unauthorized_client` because
+  // ecency.app is not authorised to post for this account. Open the grant /
+  // re-authorise sheet (grants directly with the local key for key logins, or
+  // routes through HiveSigner for token-only logins) instead of surfacing the
+  // raw JSON error. Resolves `true` once the authority is granted, `false` if
+  // the user skips, and rejects if the grant itself errors.
+  const _promptPostingAuthorityRecovery = (): Promise<boolean> =>
+    new Promise<boolean>((resolve, reject) => {
+      SheetManager.show(SheetNames.POSTING_AUTHORITY_PROMPT, {
+        payload: {
+          onGranted: () => resolve(true),
+          onSkipped: () => resolve(false),
+          onError: (error) => reject(error),
+        },
+      });
+    });
+
   // handle submit reply
   const _submitReply = async (
     commentBody: string,
@@ -58,6 +79,7 @@ export const usePostSubmitter = () => {
     pollDraft?: PollDraft,
     manageSubmittingState = true,
     videoThumbUrls?: string[],
+    isAuthorityRetry = false,
   ) => {
     if (!commentBody) {
       return false;
@@ -75,8 +97,12 @@ export const usePostSubmitter = () => {
         return false;
       }
 
-      // Check if we should prompt for posting authority (HiveAuth users without authority)
-      if (shouldPromptPostingAuthority(currentAccount)) {
+      // Check if we should prompt for posting authority (token-broadcast /
+      // HiveAuth users without authority). Skipped on the authority-recovery
+      // retry: the grant already happened, and `currentAccount` in this hook
+      // render may still be the pre-grant snapshot, which would re-open the
+      // prompt or trip the recursion guard.
+      if (!isAuthorityRetry && shouldPromptPostingAuthority(currentAccount)) {
         // Guard against infinite recursion - use ref getter to read latest value
         if (getPostingAuthorityPromptShown()) {
           console.warn('Posting authority prompt already shown, preventing recursion');
@@ -126,6 +152,7 @@ export const usePostSubmitter = () => {
             pollDraft,
             manageSubmittingState,
             videoThumbUrls,
+            isAuthorityRetry,
           );
         } catch (error) {
           // Error granting posting authority - surface through outer handler.
@@ -300,6 +327,42 @@ export const usePostSubmitter = () => {
 
         console.log(error);
 
+        // Missing ecency.app posting authority: offer the grant/re-authorise
+        // sheet and, once granted, retry once and return the retry's result so
+        // the caller's success handling (e.g. `_submitWave`'s feed prepend)
+        // still runs — rather than dumping the raw unauthorized_client JSON.
+        // Guarded by `isAuthorityRetry` so a still-missing authority can't loop.
+        if (isMissingEcencyPostingAuthorityError(error) && !isAuthorityRetry) {
+          // Release the submit lock BEFORE awaiting the sheet. If the user
+          // dismisses it without firing onGranted/onSkipped/onError (swipe,
+          // app backgrounded, system kill), the promise never settles, this
+          // await hangs and the outer `finally` never runs — so without this
+          // `isSubmitting` would stay true and permanently wedge publish.
+          // Mirrors the pre-flight guard above.
+          setIsSubmitting(false);
+          // A grant failure surfaces its own toast from the sheet, so treat a
+          // rejection as "not granted" here.
+          const granted = await _promptPostingAuthorityRecovery().catch(() => false);
+          if (!granted) {
+            return false;
+          }
+          // Re-arm only for the wave path: the quick-post retry re-arms via its
+          // own `if (manageSubmittingState) setIsSubmitting(true)`, and re-arming
+          // here would trip that retry's entry guard.
+          if (!manageSubmittingState) {
+            setIsSubmitting(true);
+          }
+          return await _submitReply(
+            commentBody,
+            parentPost,
+            postType,
+            pollDraft,
+            manageSubmittingState,
+            videoThumbUrls,
+            true,
+          );
+        }
+
         let errMsg = error?.message || '';
         if (!errMsg) {
           try {
@@ -319,6 +382,27 @@ export const usePostSubmitter = () => {
         return false;
       }
     } catch (error: any) {
+      if (isMissingEcencyPostingAuthorityError(error) && !isAuthorityRetry) {
+        // Release before the await so a dismissed sheet can't wedge
+        // `isSubmitting` (see inner catch for the full rationale).
+        setIsSubmitting(false);
+        const granted = await _promptPostingAuthorityRecovery().catch(() => false);
+        if (!granted) {
+          return false;
+        }
+        if (!manageSubmittingState) {
+          setIsSubmitting(true);
+        }
+        return await _submitReply(
+          commentBody,
+          parentPost,
+          postType,
+          pollDraft,
+          manageSubmittingState,
+          videoThumbUrls,
+          true,
+        );
+      }
       let errMsg = error?.message || '';
       if (!errMsg) {
         try {

@@ -582,7 +582,7 @@ export const votingPower = (account) => {
   return percentage / 100;
 };
 
-const hasEcencyPostingAuthority = (account: any): boolean => {
+export const hasEcencyPostingAuthority = (account: any): boolean => {
   const postingAccountAuths = account?.posting?.account_auths;
   if (!Array.isArray(postingAccountAuths)) {
     return false;
@@ -590,8 +590,83 @@ const hasEcencyPostingAuthority = (account: any): boolean => {
   return postingAccountAuths.some((auth: any) => auth[0] === 'ecency.app');
 };
 
+/**
+ * True when this account's posting operations are broadcast through the
+ * HiveSigner token API (`ecency.app` signs on the user's behalf) rather than
+ * signed locally. Those broadcasts REQUIRE `ecency.app` to be present in the
+ * account's posting `account_auths`, otherwise HiveSigner rejects them with
+ * `unauthorized_client` ("The app @ecency.app doesn't have permission to
+ * broadcast for @user").
+ *
+ * This mirrors the routing in `mobilePlatformAdapter.getLoginType`:
+ * - HiveSigner (steemConnect) logins always use the token path for posting.
+ * - Key logins that lack a stored posting key but hold an access token
+ *   (active-key-only logins) also fall back to the token path.
+ *
+ * Key logins WITH a posting key sign directly and never need the authority.
+ */
+export const usesHivesignerTokenBroadcast = (account: any): boolean => {
+  const local = account?.local;
+  if (!local?.authType) {
+    return false;
+  }
+  if (local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    return true;
+  }
+  const isKeyLogin =
+    local.authType === AUTH_TYPE.MASTER_KEY ||
+    local.authType === AUTH_TYPE.ACTIVE_KEY ||
+    local.authType === AUTH_TYPE.MEMO_KEY ||
+    local.authType === AUTH_TYPE.POSTING_KEY ||
+    local.authType === AUTH_TYPE.OWNER_KEY;
+  return isKeyLogin && !local.postingKey && !!local.accessToken;
+};
+
+/**
+ * Recognises the HiveSigner rejection that means `ecency.app` is not (or no
+ * longer) authorised to post for the account. Matches both the structured
+ * error and the stringified/wrapped forms the SDK may surface.
+ *
+ * Example payload:
+ *   {"error":"unauthorized_client","error_description":
+ *    "The app @ecency.app doesn't have permission to broadcast for @user"}
+ */
+export const isMissingEcencyPostingAuthorityError = (error: any): boolean => {
+  if (!error) {
+    return false;
+  }
+  const code = String(error.error || '');
+  const haystack = `${error.error_description || ''} ${error.message || ''} ${
+    typeof error === 'string' ? error : ''
+  }`.toLowerCase();
+  // The "@ecency.app doesn't have permission to broadcast for @user" phrase is
+  // unique to this rejection, so match it directly. Fall back to the
+  // `unauthorized_client` code plus an ecency.app mention for wrapped/truncated
+  // forms — but gate the domain match behind the code so unrelated errors that
+  // merely reference ecency.app (network timeout, server error) aren't routed
+  // into the grant sheet instead of surfacing the real error. The bare
+  // `unauthorized_client` code is deliberately NOT enough: HiveSigner returns
+  // it for expired tokens and wrong scope too.
+  return (
+    haystack.includes('permission to broadcast') ||
+    (code === 'unauthorized_client' && haystack.includes('ecency.app'))
+  );
+};
+
+/**
+ * Whether to prompt the user to grant `ecency.app` posting authority before
+ * (or after a failed) broadcast.
+ *
+ * - HiveAuth users: an optimisation — granting lets posts use the fast token
+ *   path instead of a Keychain round-trip on every action.
+ * - Token-broadcast users (HiveSigner, active-key-only): a REQUIREMENT — their
+ *   posts fail with `unauthorized_client` until the authority exists.
+ *
+ * In both cases we skip the prompt once the authority is present.
+ */
 export const shouldPromptPostingAuthority = (account: any): boolean => {
-  if (account?.local?.authType !== AUTH_TYPE.HIVE_AUTH) {
+  const isHiveAuth = account?.local?.authType === AUTH_TYPE.HIVE_AUTH;
+  if (!isHiveAuth && !usesHivesignerTokenBroadcast(account)) {
     return false;
   }
 
