@@ -79,6 +79,18 @@ export function applyRecentVoteOverrideToEntry(entry: any): any {
     recentVotesByPostPath.delete(postPath);
     return entry;
   }
+  // If the entry already carries this voter's record WITHOUT our optimistic
+  // `amount` marker, the data already includes the vote — either the server
+  // indexed it, or the SDK's post-broadcast cache write replaced our record
+  // with a bare { rshares, voter }. The vote's old payout contribution is
+  // unknown then, so re-applying the full amount on top would double-count
+  // (payout briefly showing base + 2x the vote value).
+  if (recentVote.status !== 'DELETED' && Array.isArray(entry.active_votes)) {
+    const existingVote = entry.active_votes.find((v: any) => v?.voter === recentVote.voter);
+    if (existingVote && typeof existingVote.amount !== 'number') {
+      return entry;
+    }
+  }
   return applyVoteToPost(entry, recentVote);
 }
 
