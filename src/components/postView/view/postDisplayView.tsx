@@ -17,6 +17,7 @@ import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
 import { PostPlaceHolder, StickyBar, TextWithIcon, NoPost } from '../../basicUIElements';
 import { ParentPost } from '../../parentPost';
 import { PostReadingMetadata } from '../children/postReadingMetadata';
+import { PostTranslateInline } from '../children/postTranslateInline';
 
 // Styles
 import styles from './postDisplayStyles';
@@ -77,6 +78,18 @@ const PostDisplayView = ({
   const [refreshing, setRefreshing] = useState(false);
   const [postBodyLoading, setPostBodyLoading] = useState(true);
   const [tags, setTags] = useState([]);
+  // Full plain-text translation shown in place of the body; reset per post.
+  const [translatedBody, setTranslatedBody] = useState<{ text: string; rtl: boolean } | null>(null);
+
+  useEffect(() => {
+    setTranslatedBody(null);
+  }, [permlink]);
+
+  // Stable reference so PostTranslateInline's memo isn't defeated every render.
+  const _handleTranslatedBody = useCallback(
+    (text: string | null, rtl?: boolean) => setTranslatedBody(text ? { text, rtl: !!rtl } : null),
+    [],
+  );
 
   // Component Life Cycles
   useEffect(() => {
@@ -461,14 +474,24 @@ const PostDisplayView = ({
                 </View>
               </View>
               {post && <PostReadingMetadata post={post} />}
-              <PostBody
-                body={post.body}
-                metadata={post.json_metadata}
-                author={post.author}
-                permlink={post.permlink}
-                enableViewabilityTracker={true}
-                onLoadEnd={_handleOnPostBodyLoad}
-              />
+              <PostTranslateInline post={post} onTranslate={_handleTranslatedBody} />
+              {translatedBody ? (
+                <Text
+                  selectable
+                  style={[styles.translatedBody, translatedBody.rtl && styles.translatedBodyRtl]}
+                >
+                  {translatedBody.text}
+                </Text>
+              ) : (
+                <PostBody
+                  body={post.body}
+                  metadata={post.json_metadata}
+                  author={post.author}
+                  permlink={post.permlink}
+                  enableViewabilityTracker={true}
+                  onLoadEnd={_handleOnPostBodyLoad}
+                />
+              )}
 
               <PostPoll author={author} permlink={permlink} metadata={post.json_metadata} />
 
@@ -512,6 +535,8 @@ const PostDisplayView = ({
       name,
       formatedTime,
       tags,
+      translatedBody,
+      _handleTranslatedBody,
       postBodyLoading,
       postStatsQuery.data?.visits,
       postStatsQuery.isLoading,

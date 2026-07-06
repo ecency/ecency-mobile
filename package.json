@@ -84,6 +84,7 @@
     "expo-local-authentication": "~16.0.5",
     "expo-speech": "^13.1.7",
     "expo-store-review": "~8.1.5",
+    "franc-min": "5.0.0",
     "he": "^1.2.0",
     "hive-auth-wrapper": "git+https://github.com/noumantahir/hive-auth-wrapper.git",
     "hive-uri": "^0.2.8",

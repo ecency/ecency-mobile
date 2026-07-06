@@ -23,6 +23,8 @@ const targetLang = { name: 'English', code: 'en' };
 const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
   const intl = useIntl();
   const content = payload?.content;
+  const initialTargetCode = payload?.initialTargetCode;
+  const initialSource = payload?.initialSource;
 
   const appLang = useAppSelector(selectLanguage);
 
@@ -44,6 +46,29 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
   useEffect(() => {
     getSupportedLanguages();
   }, []);
+
+  // Sheets stay mounted and _handleOnSheetClose resets the target on close, so
+  // re-apply the pre-selected target/source on EVERY open. Keying on `payload`
+  // (a fresh object per SheetManager.show) is what makes this re-fire when the
+  // sheet is reopened from the same chip/banner with unchanged initial codes —
+  // without it the pre-targeting would only work once per session.
+  useEffect(() => {
+    if (!supportedLangsList.length) {
+      return;
+    }
+    if (initialTargetCode) {
+      const match = supportedLangsList.find((l) => l?.code === initialTargetCode);
+      if (match) {
+        setSelectedTargetLang(match);
+      }
+    }
+    if (initialSource) {
+      const match = supportedLangsList.find((l) => l?.code === initialSource);
+      if (match) {
+        setSelectedSourceLang(match);
+      }
+    }
+  }, [payload, initialTargetCode, initialSource, supportedLangsList]);
 
   useEffect(() => {
     if (content && content.body) {
