@@ -32,6 +32,11 @@ export default [
   {
     key: 'link',
     title: 'WEB',
-    onPress: applyWebLinkFormat,
+    icon: 'link',
+    iconType: 'FontAwesome',
+    // applyWebLinkFormat reads text/url from `item` when one is passed, but the
+    // format bar hands over this format entry itself; null it out so the
+    // selection is wrapped with the function's own placeholders instead.
+    onPress: (params) => applyWebLinkFormat({ ...params, item: null }),
   },
 ];
