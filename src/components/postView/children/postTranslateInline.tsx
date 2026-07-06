@@ -3,8 +3,8 @@ import { View, Text, TouchableOpacity, ActivityIndicator, Platform } from 'react
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SheetManager } from 'react-native-actions-sheet';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { postBodySummary } from '@ecency/render-helper';
+import { getItemFromStorage, setItemToStorage } from '../../../realm/realm';
 import { Icon } from '../../icon';
 import { useContentLanguageGate } from '../../../hooks/useContentLanguageGate';
 import { isRtlLang, languageDisplayName, normLang } from '../../../utils/iso639';
@@ -43,7 +43,7 @@ const PostTranslateInlineComponent = ({ post, onTranslate }: Props) => {
       requestRef.current.canceled = true;
     }
     let active = true;
-    AsyncStorage.getItem(dismissKey).then((v) => {
+    getItemFromStorage(dismissKey).then((v) => {
       if (active) {
         setDismissed(!!v);
       }
@@ -81,7 +81,7 @@ const PostTranslateInlineComponent = ({ post, onTranslate }: Props) => {
         : decision.source;
       // Wrong instant guess — the body is actually the reader's language.
       if (detected && detected === decision.target) {
-        AsyncStorage.setItem(dismissKey, '1');
+        setItemToStorage(dismissKey, true);
         setDismissed(true);
         return;
       }
@@ -107,7 +107,7 @@ const PostTranslateInlineComponent = ({ post, onTranslate }: Props) => {
     if (requestRef.current) {
       requestRef.current.canceled = true;
     }
-    AsyncStorage.setItem(dismissKey, '1');
+    setItemToStorage(dismissKey, true);
     setDismissed(true);
     onTranslate(null);
   }, [dismissKey, onTranslate]);

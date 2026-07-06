@@ -119,6 +119,11 @@ export function normLang(input: string | null | undefined): string {
   ) {
     return 'zt';
   }
+  // Norwegian macrolanguage ('no') and Nynorsk ('nn') -> LibreTranslate's
+  // Bokmål ('nb'); device/app locales often report the generic 'no'.
+  if (lower === 'no' || lower.startsWith('no-') || lower === 'nn' || lower.startsWith('nn-')) {
+    return 'nb';
+  }
   return lower.split('-')[0];
 }
 

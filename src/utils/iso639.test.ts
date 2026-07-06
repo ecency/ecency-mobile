@@ -26,6 +26,13 @@ describe('normLang', () => {
     expect(normLang('zh-CN')).toBe('zh');
   });
 
+  it('maps generic Norwegian / Nynorsk to Bokmål (nb)', () => {
+    expect(normLang('no')).toBe('nb');
+    expect(normLang('nn')).toBe('nb');
+    expect(normLang('no-NO')).toBe('nb');
+    expect(normLang('nb-NO')).toBe('nb');
+  });
+
   it('returns empty string for missing input', () => {
     expect(normLang('')).toBe('');
     expect(normLang(null)).toBe('');
