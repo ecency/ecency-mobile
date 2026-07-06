@@ -44,9 +44,9 @@ import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { TextFormatModal } from './textFormatModal';
 import { selectCurrentAccount } from '../../../redux/selectors';
 
-// Session-wide dismiss flag for the quest chip; once closed it stays hidden
-// until the app restarts.
-let isQuestChipDismissedSession = false;
+// Per-account session dismissals for the quest chip; once closed it stays
+// hidden for that account until the app restarts.
+const questChipDismissedUsers = new Set<string>();
 
 type Props = {
   draftId?: string;
@@ -95,7 +95,7 @@ export const EditorToolbar = ({
   );
 
   const { username } = useAuth();
-  const { data: questsData } = useGetQuestsQuery(isReply ? undefined : username);
+  const { data: questsData } = useGetQuestsQuery(isReply || isEditMode ? undefined : username);
 
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
   const textFormatModalRef = useRef(null);
@@ -107,7 +107,9 @@ export const EditorToolbar = ({
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [hasClipboardImage, setHasClipboardImage] = useState(false);
-  const [isQuestChipDismissed, setIsQuestChipDismissed] = useState(isQuestChipDismissedSession);
+  const [isQuestChipDismissed, setIsQuestChipDismissed] = useState(
+    !!username && questChipDismissedUsers.has(username),
+  );
   const dismissedClipboardRef = useRef(false);
 
   useEffect(() => {
@@ -200,7 +202,9 @@ export const EditorToolbar = ({
   };
 
   const _dismissQuestChip = () => {
-    isQuestChipDismissedSession = true;
+    if (username) {
+      questChipDismissedUsers.add(username);
+    }
     setIsQuestChipDismissed(true);
   };
 
@@ -406,11 +410,14 @@ export const EditorToolbar = ({
 
   const _renderQuestChip = () => {
     const questChip = deriveQuestChipState(questsData);
+    const clipboardChipVisible = hasClipboardImage && !dismissedClipboardRef.current;
     if (
       isReply ||
+      isEditMode ||
       isQuestChipDismissed ||
       isPreviewActive ||
       isExtensionVisible ||
+      clipboardChipVisible ||
       !questChip?.visible
     ) {
       return null;
