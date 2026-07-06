@@ -57,6 +57,19 @@ const splitMarkdownBlocks = (markdown: string): string[] => {
   return blocks;
 };
 
+// Cell count of a table row: strip one leading and one trailing border pipe
+// (if present) and count the remaining "|"-separated segments.
+const countTableCells = (line: string): number => {
+  let trimmed = line.trim();
+  if (trimmed.startsWith('|')) {
+    trimmed = trimmed.slice(1);
+  }
+  if (trimmed.endsWith('|')) {
+    trimmed = trimmed.slice(0, -1);
+  }
+  return trimmed.split('|').length;
+};
+
 const isSkippableBlock = (block: string): boolean => {
   if (FENCE_LINE.test(block) || /^\s*</.test(block)) {
     return true;
@@ -69,17 +82,18 @@ const isSkippableBlock = (block: string): boolean => {
   ) {
     return true;
   }
-  // Tables: a |---| separator row directly below a pipe row (the GFM shape).
-  // Cell-safe translation is out of scope, so the whole block is passed
-  // through; requiring adjacency keeps prose that merely contains pipe
-  // characters translatable.
+  // Tables: a |---| separator row directly below a pipe row with the same
+  // cell count (the GFM shape). Cell-safe translation is out of scope, so the
+  // whole block is passed through; requiring adjacency plus matching cell
+  // counts keeps prose that merely contains pipe characters translatable.
   return lines.some(
     (line, i) =>
       i > 0 &&
       line.includes('|') &&
       line.includes('-') &&
       TABLE_SEPARATOR_LINE.test(line) &&
-      lines[i - 1].includes('|'),
+      lines[i - 1].includes('|') &&
+      countTableCells(lines[i - 1]) === countTableCells(line),
   );
 };
 
