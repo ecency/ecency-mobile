@@ -48,6 +48,7 @@ const SettingsScreen = ({
   reblogNotification,
   transfersNotification,
   voteNotification,
+  scheduledPublishedNotification,
   handleOnButtonPress,
   isLoading,
   isHideImages,
@@ -325,6 +326,15 @@ const SettingsScreen = ({
                 type="toggle"
                 actionType="notification.transfers"
                 isOn={transfersNotification}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.notification.scheduled_published',
+                })}
+                type="toggle"
+                actionType="notification.scheduledPublished"
+                isOn={scheduledPublishedNotification}
                 handleOnChange={handleOnChange}
               />
             </CollapsibleCard>

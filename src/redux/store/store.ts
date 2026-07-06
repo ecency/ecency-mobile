@@ -50,7 +50,7 @@ const persistConfig = {
   key: 'root',
   // Storage Method (React Native)
   storage: AsyncStorage,
-  version: 19, // v19: Purge persisted SPK/LARYNX/LP assets (SPK support removed)
+  version: 20, // v20: Default scheduledPublished notification ON, backfill bookmark setting
   // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   transforms: [transformCacheVoteMap, transformWalkthroughMap],

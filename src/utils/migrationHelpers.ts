@@ -543,6 +543,19 @@ const reduxMigrations = {
     }
     return state;
   },
+  20: (state) => {
+    // Default the scheduled-post-published notification setting ON for existing
+    // installs; autoMergeLevel1 keeps the persisted notificationDetails as-is on
+    // rehydration, so the new key is never defaulted from initialState (see 17).
+    // Also backfill bookmarkNotification: migration 2 covered upgrades, but fresh
+    // installs since then started from an initialState that lacked the key.
+    if (state.application?.notificationDetails) {
+      const details = state.application.notificationDetails;
+      details.bookmarkNotification = details.bookmarkNotification ?? true;
+      details.scheduledPublishedNotification = details.scheduledPublishedNotification ?? true;
+    }
+    return state;
+  },
 };
 
 // Wrap every migration so a throw degrades to "skip this migration" and keep the
