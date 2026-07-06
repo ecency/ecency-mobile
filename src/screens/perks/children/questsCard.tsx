@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { QUEST_CATALOG } from '@ecency/sdk';
+import {
+  QUEST_CATALOG,
+  STREAK_FREEZE_MAX_OWNED,
+  STREAK_FREEZE_PRICE,
+  useBuyStreakFreeze,
+} from '@ecency/sdk';
 
 import { Icon } from '../../../components';
-import { useAppSelector } from '../../../hooks';
-import { selectCurrentAccountName } from '../../../redux/selectors';
+import { useAuth } from '../../../hooks';
 import { useGetQuestsQuery } from '../../../providers/queries/pointQueries';
+import RootNavigation from '../../../navigation/rootNavigation';
+import ROUTES from '../../../constants/routeNames';
 import styles from '../styles/perksStyles';
 
 // Map the shared SDK catalog icon hints to MaterialCommunityIcons names.
@@ -25,9 +31,27 @@ const byId = (arr?: { id: string }[]) => Object.fromEntries((arr || []).map((q) 
 
 const QuestsCard = () => {
   const intl = useIntl();
-  const username = useAppSelector(selectCurrentAccountName);
+  const { username, code } = useAuth();
   const { data } = useGetQuestsQuery(username);
   const [tier, setTier] = useState<(typeof TIERS)[number]>('daily');
+
+  const { mutateAsync: buyFreeze, isPending: isBuyingFreeze } = useBuyStreakFreeze(username, code);
+
+  const _handleBuyFreeze = async () => {
+    try {
+      await buyFreeze();
+    } catch (err) {
+      const status = (err as { status?: number })?.status;
+      if (status === 402) {
+        // Not enough Points -> send them to buy Points (the top-up funnel). Pass
+        // username so the Boost screen shows the user-context ribbon like other callers.
+        RootNavigation.navigate({ name: ROUTES.SCREENS.BOOST, params: { username } });
+      } else if (status !== 409) {
+        // 409 = already at max; the count refetches and the button hides.
+        Alert.alert(intl.formatMessage({ id: 'perks.streak_freeze_error' }));
+      }
+    }
+  };
 
   const progressByTier: Record<(typeof TIERS)[number], any> = {
     daily: byId(data?.daily),
@@ -86,6 +110,43 @@ const QuestsCard = () => {
           <Text style={styles.streakText}>
             {intl.formatMessage({ id: 'perks.streak' }, { n: streak.current })}
           </Text>
+        </View>
+      )}
+
+      {!!streak && streak.current > 0 && (
+        <View style={styles.freezeRow}>
+          {(streak.freezes_owned ?? 0) > 0 && (
+            <View style={styles.freezeCount}>
+              <Icon
+                iconType="MaterialCommunityIcons"
+                name="snowflake"
+                size={14}
+                color={EStyleSheet.value('$primaryBlue')}
+              />
+              <Text style={styles.freezeCountText}>
+                {intl.formatMessage(
+                  { id: 'perks.streak_freeze_owned' },
+                  { n: streak.freezes_owned },
+                )}
+              </Text>
+            </View>
+          )}
+          {(streak.freezes_owned ?? 0) < STREAK_FREEZE_MAX_OWNED && (
+            <TouchableOpacity
+              style={[styles.freezeBtn, isBuyingFreeze && styles.freezeBtnDisabled]}
+              onPress={_handleBuyFreeze}
+              disabled={isBuyingFreeze}
+            >
+              <Text style={styles.freezeBtnText}>
+                {isBuyingFreeze
+                  ? intl.formatMessage({ id: 'perks.streak_freeze_buying' })
+                  : intl.formatMessage(
+                      { id: 'perks.streak_freeze_buy' },
+                      { price: STREAK_FREEZE_PRICE },
+                    )}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       )}
 

@@ -158,4 +158,37 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     fontFamily: '$primaryFont',
   },
+  freezeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    marginTop: 8,
+  },
+  freezeCount: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  freezeCountText: {
+    fontSize: 12,
+    color: '$primaryDarkGray',
+    marginLeft: 4,
+    fontFamily: '$primaryFont',
+  },
+  freezeBtn: {
+    borderWidth: 1,
+    borderColor: '$primaryBlue',
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  freezeBtnDisabled: {
+    opacity: 0.6,
+  },
+  freezeBtnText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '$primaryBlue',
+    fontFamily: '$primaryFont',
+  },
 });
