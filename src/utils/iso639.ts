@@ -213,23 +213,26 @@ const DISPLAY_NAME_FALLBACK: Record<string, string> = {
 /**
  * Human-readable language name. Prefers a static English label (Hermes lacks
  * reliable Intl.DisplayNames); falls back to Intl only when the map misses.
+ * When `uiLang` is passed the order flips: Intl is tried first so the name
+ * comes out localized (e.g. a target-language heading), with the static
+ * English label as the fallback.
  */
-export function languageDisplayName(code: string): string {
+export function languageDisplayName(code: string, uiLang?: string): string {
   const norm = normLang(code);
-  if (DISPLAY_NAME_FALLBACK[norm]) {
+  if (!uiLang && DISPLAY_NAME_FALLBACK[norm]) {
     return DISPLAY_NAME_FALLBACK[norm];
   }
   try {
     const AnyIntl = Intl as any;
     if (AnyIntl && typeof AnyIntl.DisplayNames === 'function') {
-      const dn = new AnyIntl.DisplayNames(['en'], { type: 'language' });
+      const dn = new AnyIntl.DisplayNames(uiLang ? [uiLang, 'en'] : ['en'], { type: 'language' });
       const name = dn.of(norm === 'zt' ? 'zh-Hant' : norm);
       if (name && name.toLowerCase() !== norm) {
-        return name;
+        return norm === 'zt' && uiLang ? `${name} (Traditional)` : name;
       }
     }
   } catch {
     // ignore
   }
-  return code;
+  return DISPLAY_NAME_FALLBACK[norm] ?? code;
 }

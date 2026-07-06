@@ -114,4 +114,9 @@ describe('languageDisplayName', () => {
     expect(languageDisplayName('es')).toBe('Spanish');
     expect(languageDisplayName('zt').toLowerCase()).toContain('traditional');
   });
+
+  it('localizes the name when a UI language is passed', () => {
+    expect(languageDisplayName('es', 'es').toLowerCase()).toBe('español');
+    expect(languageDisplayName('de', 'de')).toBe('Deutsch');
+  });
 });

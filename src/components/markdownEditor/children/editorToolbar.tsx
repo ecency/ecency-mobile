@@ -57,6 +57,7 @@ type Props = {
   handleOnMarkupButtonPress: (item) => void;
   handleShowSnippets: () => void;
   handleAiAssistResult?: (output: string, action: string) => void;
+  handleShowTranslate?: () => void;
 };
 
 export const EditorToolbar = ({
@@ -74,6 +75,7 @@ export const EditorToolbar = ({
   handleOnMarkupButtonPress,
   handleShowSnippets,
   handleAiAssistResult,
+  handleShowTranslate,
 }: Props) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
@@ -465,6 +467,16 @@ export const EditorToolbar = ({
               badgeCount="AI"
               badgeStyle={styles.aiBadge}
               badgeTextStyle={styles.aiBadgeText}
+            />
+            <IconButton
+              onPress={() => {
+                handleShowTranslate && handleShowTranslate();
+              }}
+              style={styles.rightIcons}
+              size={18}
+              iconStyle={styles.icon}
+              iconType="MaterialIcons"
+              name="translate"
             />
             <IconButton
               onPress={_showVideoUploads}

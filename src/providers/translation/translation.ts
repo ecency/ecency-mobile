@@ -67,7 +67,7 @@ export const detectLanguage = async (text: string) => {
 
 const MAX_TRANSLATE_CHARS = 1800;
 
-const chunkText = (text: string, max: number): string[] => {
+export const chunkText = (text: string, max: number): string[] => {
   if (text.length <= max) {
     return [text];
   }
