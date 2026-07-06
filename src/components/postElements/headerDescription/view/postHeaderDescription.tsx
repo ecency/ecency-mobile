@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 // Components
 import { Tag } from '../../../basicUIElements';
 import { Icon } from '../../../icon';
+import { ProBadge } from '../../../proBadge';
 import { UserAvatar } from '../../../userAvatar';
 // Styles
 import styles from './postHeaderDescriptionStyles';
@@ -158,6 +159,8 @@ class PostHeaderDescription extends PureComponent {
               >
                 <Text style={styles.name}>{name}</Text>
               </TouchableOpacity>
+
+              <ProBadge username={name} />
 
               {inlineTime && <Text style={styles.date}>{date}</Text>}
 
