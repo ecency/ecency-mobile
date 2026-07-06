@@ -53,7 +53,7 @@ export const TextFormatModal = forwardRef(
           style={styles.formatsWrapper}
           data={Formats}
           keyboardShouldPersistTaps="always"
-          renderItem={({ item, index }) => index < 3 && _renderMarkupButton({ item })}
+          renderItem={({ item }) => _renderMarkupButton({ item })}
           horizontal
         />
       );
