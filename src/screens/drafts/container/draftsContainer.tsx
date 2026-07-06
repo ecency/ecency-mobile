@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
@@ -27,9 +27,6 @@ import { isTemplateDraft } from '../../../utils/draftTemplates';
 
 // Component
 import DraftsScreen from '../screen/draftsScreen';
-
-// Empty lists never fire onEndReached, so auto-fetching ahead is bounded to this many pages
-const AUTO_FETCH_PAGE_BUDGET = 5;
 
 const DraftsContainer = ({ currentAccount, navigation, route }) => {
   const { mutate: _cloneDraft, isLoading: isCloningDraft } = useAddDraftMutation();
@@ -69,26 +66,6 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   const [batchSelectedDrafts, setBatchSelectedDrafts] = useState<string[]>([]);
   const [batchSelectedSchedules, setBatchSelectedSchedules] = useState<string[]>([]);
   // const [selectedTabIndex, setSelectedTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
-
-  // onEndReached never fires on an empty list; if either split list is empty while more
-  // pages remain, fetch ahead so items beyond the first pages can still surface
-  useEffect(() => {
-    if (
-      (drafts.length === 0 || templates.length === 0) &&
-      hasNextDraftsPage &&
-      !isFetchingNextDraftsPage &&
-      draftsPagesLoaded < AUTO_FETCH_PAGE_BUDGET
-    ) {
-      fetchNextDraftsPage();
-    }
-  }, [
-    drafts.length,
-    templates.length,
-    hasNextDraftsPage,
-    isFetchingNextDraftsPage,
-    draftsPagesLoaded,
-    fetchNextDraftsPage,
-  ]);
 
   // Component Functions
   const _onRefresh = () => {
@@ -186,6 +163,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
       currentAccount={currentAccount}
       drafts={drafts}
       templates={templates}
+      draftsPagesLoaded={draftsPagesLoaded}
       schedules={schedules}
       removeDraft={_removeDraft}
       moveScheduleToDraft={_moveScheduleToDraft}

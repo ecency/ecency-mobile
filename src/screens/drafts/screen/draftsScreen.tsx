@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useCallback } from 'react';
+import React, { useEffect, useMemo, useRef, useCallback } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text, Platform, RefreshControl } from 'react-native';
 import { default as AnimatedView, SlideInRight, SlideOutRight } from 'react-native-reanimated';
@@ -29,6 +29,9 @@ import { useAppSelector } from '../../../hooks';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { selectIsDarkTheme, selectDraftById } from '../../../redux/selectors';
 
+// Bounds the empty-tab page waterfall (templates are sparse among drafts)
+const AUTO_FETCH_PAGE_BUDGET = 5;
+
 const DraftsScreen = ({
   currentAccount,
   removeDraft,
@@ -53,6 +56,7 @@ const DraftsScreen = ({
   fetchNextDraftsPage,
   hasNextDraftsPage,
   isFetchingNextDraftsPage,
+  draftsPagesLoaded,
   fetchNextSchedulesPage,
   hasNextSchedulesPage,
   isFetchingNextSchedulesPage,
@@ -81,6 +85,30 @@ const DraftsScreen = ({
   }, [_idLessDraft]);
 
   const [index, setIndex] = React.useState(initialTabIndex);
+
+  // onEndReached never fires on an empty list, so when the ACTIVE tab has no
+  // items while more draft pages remain (templates live among drafts on the
+  // server), fetch ahead, bounded to a few pages.
+  useEffect(() => {
+    const activeListEmpty =
+      (index === 0 && drafts.length === 0) || (index === 2 && templates.length === 0);
+    if (
+      activeListEmpty &&
+      hasNextDraftsPage &&
+      !isFetchingNextDraftsPage &&
+      draftsPagesLoaded < AUTO_FETCH_PAGE_BUDGET
+    ) {
+      fetchNextDraftsPage();
+    }
+  }, [
+    index,
+    drafts.length,
+    templates.length,
+    hasNextDraftsPage,
+    isFetchingNextDraftsPage,
+    draftsPagesLoaded,
+    fetchNextDraftsPage,
+  ]);
   const [routes] = React.useState([
     {
       key: 'drafts',

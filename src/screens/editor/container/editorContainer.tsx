@@ -143,7 +143,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     let draftId;
     let isEdit;
     let post;
-    let _draft;
     let hasSharedIntent = false;
     let hasTemplateDraft = false;
 
@@ -292,7 +291,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       }
     }
 
-    if (!isEdit && !_draft && !draftId && !hasSharedIntent && !hasTemplateDraft) {
+    if (!isEdit && !draftId && !hasSharedIntent && !hasTemplateDraft) {
       this._fetchDraftsForComparison(isReply);
     }
     this._requestKeyboardFocus();
