@@ -130,4 +130,32 @@ export default EStyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
   },
+  questChipWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginHorizontal: 12,
+    marginTop: 6,
+    marginBottom: 4,
+    paddingLeft: 12,
+    paddingRight: 4,
+    paddingVertical: 6,
+    borderRadius: 16,
+    backgroundColor: '$primaryLightBackground',
+  } as ViewStyle,
+  questChip: {
+    flexShrink: 1,
+  } as ViewStyle,
+  questChipClose: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  } as ViewStyle,
+  questChipText: {
+    color: '$primaryDarkText',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  questChipTextAtRisk: {
+    color: '#f97316',
+  },
 });

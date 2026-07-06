@@ -35,6 +35,11 @@
     "streak_freeze_buying": "Protecting",
     "streak_freeze_error": "Could not buy a streak freeze. Please try again."
   },
+  "quest_chip": {
+    "daily_post": "Daily post",
+    "streak": "{n} day streak",
+    "keep_streak": "Keep your streak alive"
+  },
   "waves": {
     "for_you": "For you",
     "following": "Following",
