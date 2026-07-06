@@ -69,13 +69,17 @@ const isSkippableBlock = (block: string): boolean => {
   ) {
     return true;
   }
-  // Tables: a pipe row plus a |---| separator row. Cell-safe translation is
-  // out of scope, so the whole block is passed through.
-  return (
-    lines.some((line) => line.includes('|')) &&
-    lines.some(
-      (line) => line.includes('|') && line.includes('-') && TABLE_SEPARATOR_LINE.test(line),
-    )
+  // Tables: a |---| separator row directly below a pipe row (the GFM shape).
+  // Cell-safe translation is out of scope, so the whole block is passed
+  // through; requiring adjacency keeps prose that merely contains pipe
+  // characters translatable.
+  return lines.some(
+    (line, i) =>
+      i > 0 &&
+      line.includes('|') &&
+      line.includes('-') &&
+      TABLE_SEPARATOR_LINE.test(line) &&
+      lines[i - 1].includes('|'),
   );
 };
 
