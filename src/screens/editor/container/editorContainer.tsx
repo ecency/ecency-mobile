@@ -808,6 +808,93 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
   };
 
+  // Saves the current compose state as a NEW template draft (meta.postTemplate +
+  // meta.templateName, same convention as Ecency web). Always addDraft: it never
+  // updates the draft being composed, never touches state.draftId/isDraftSaved/
+  // isDraftSaving and never clears local draft caches, so the normal draft
+  // autosave flow keeps working on whatever the user is writing.
+  _saveAsTemplate = async (fields, templateName: string) => {
+    const { isReply, isEdit, thumbUrl, rewardType, postDescription } = this.state;
+    const { currentAccount, dispatch, intl, queryClient, pinCode } = this.props;
+
+    if (isReply || isEdit || !fields) {
+      return;
+    }
+
+    const beneficiaries = this._extractBeneficiaries();
+    const pollDraft = this._extractPollDraft();
+
+    try {
+      const draftField = {
+        ...fields,
+        // a template can be a title-only scaffold; keep body a string throughout
+        body: fields.body || '',
+        tags: fields.tags && fields.tags.length > 0 ? fields.tags.join(' ') : '',
+      };
+
+      const _extractedMeta = await extractMetadata({
+        body: draftField.body,
+        thumbUrl,
+        fetchRatios: false,
+      });
+
+      const postBodySummaryContent = postBodySummary(
+        draftField.body || '',
+        200,
+        Platform.OS as any,
+      );
+
+      const meta = Object.assign({}, _extractedMeta, {
+        tags: draftField.tags,
+        beneficiaries,
+        poll: pollDraft,
+        rewardType,
+        description: postDescription || postBodySummaryContent,
+        postTemplate: true,
+        templateName,
+      });
+
+      const jsonMeta = makeJsonMetadata(meta, draftField.tags);
+
+      const accessToken = currentAccount?.local?.accessToken
+        ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+        : '';
+
+      if (!accessToken) {
+        dispatch(toastNotification(intl.formatMessage({ id: 'editor.draft_save_fail' })));
+        return;
+      }
+
+      await addDraft(
+        accessToken,
+        draftField.title || '',
+        draftField.body,
+        draftField.tags,
+        jsonMeta,
+      );
+
+      dispatch(toastNotification(intl.formatMessage({ id: 'templates.saved' })));
+
+      // refresh drafts/templates lists so the new template shows up
+      if (queryClient) {
+        const { queryKey: draftsQueryKey } = getDraftsQueryOptions(
+          currentAccount.name,
+          accessToken,
+        );
+        const { queryKey: draftsInfiniteKey } = getDraftsInfiniteQueryOptions(
+          currentAccount.name,
+          accessToken,
+          20,
+        );
+        queryClient.invalidateQueries({ queryKey: draftsQueryKey });
+        queryClient.invalidateQueries({ queryKey: draftsInfiniteKey });
+      }
+    } catch (err) {
+      console.warn('Failed to save template', err);
+      dispatch(toastNotification(intl.formatMessage({ id: 'editor.draft_save_fail' })));
+    }
+  };
+
   _updateDraftFields = (fields) => {
     this._updatedDraftFields = fields;
   };
@@ -1784,6 +1871,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         updateDraftFields={this._updateDraftFields}
         saveCurrentDraft={this._saveCurrentDraft}
         saveDraftToDB={this._saveDraftToDB}
+        saveAsTemplate={this._saveAsTemplate}
         uploadedImage={uploadedImage}
         tags={tags}
         community={community}

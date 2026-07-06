@@ -26,6 +26,7 @@ import { isCommunity } from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
 import PostOptionsModal from '../children/postOptionsModal';
+import SaveTemplateModal from '../children/saveTemplateModal';
 import { CommunityRole, CommunityTypeId } from '../../../providers/hive/hive.types';
 
 class EditorScreen extends Component {
@@ -34,6 +35,8 @@ class EditorScreen extends Component {
    *   @prop { type }    name                - Description....
    */
   postOptionsModalRef = null;
+
+  saveTemplateModalRef = null;
 
   constructor(props) {
     super(props);
@@ -248,6 +251,26 @@ class EditorScreen extends Component {
   _handleSettingsPress = () => {
     if (this.postOptionsModalRef) {
       this.postOptionsModalRef.show();
+    }
+  };
+
+  // called from the post options modal after it closes itself; the delay lets
+  // the options formSheet fully dismiss before presenting the name prompt
+  // (iOS cannot present a second native modal while one is still animating out)
+  _handleSaveTemplatePress = () => {
+    setTimeout(() => {
+      if (this.saveTemplateModalRef) {
+        this.saveTemplateModalRef.show();
+      }
+    }, 500);
+  };
+
+  _handleSaveAsTemplate = (templateName) => {
+    const { saveAsTemplate } = this.props;
+    const { fields } = this.state;
+
+    if (saveAsTemplate && (fields.title || fields.body)) {
+      saveAsTemplate(fields, templateName);
     }
   };
 
@@ -572,6 +595,15 @@ class EditorScreen extends Component {
           handleScheduleChange={this._handleScheduleChange}
           handleShouldReblogChange={handleShouldReblogChange}
           handleFormUpdate={this._handleFormUpdate}
+          canSaveTemplate={!isReply && !isEdit && !!(fields.title || fields.body)}
+          handleSaveTemplatePress={this._handleSaveTemplatePress}
+        />
+
+        <SaveTemplateModal
+          ref={(componentRef) => {
+            this.saveTemplateModalRef = componentRef;
+          }}
+          onSave={this._handleSaveAsTemplate}
         />
       </SafeAreaView>
     );
