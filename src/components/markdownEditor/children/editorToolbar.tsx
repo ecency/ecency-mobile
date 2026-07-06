@@ -29,7 +29,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
 import { IconButton, UploadsGalleryModal } from '../..';
 import { hasClipboardImage as detectClipboardImage } from '../../../utils/clipboard';
-import { useAppSelector } from '../../../hooks';
+import { deriveQuestChipState } from '../../../utils/questChip';
+import { useAppSelector, useAuth } from '../../../hooks';
+import { useGetQuestsQuery } from '../../../providers/queries/pointQueries';
 import { SheetNames } from '../../../navigation/sheets';
 import {
   MediaInsertData,
@@ -42,6 +44,10 @@ import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { TextFormatModal } from './textFormatModal';
 import { selectCurrentAccount } from '../../../redux/selectors';
 
+// Per-account session dismissals for the quest chip; once closed it stays
+// hidden for that account until the app restarts.
+const questChipDismissedUsers = new Set<string>();
+
 type Props = {
   draftId?: string;
   postBody: string;
@@ -49,6 +55,7 @@ type Props = {
   isEditing: boolean;
   isPreviewActive: boolean;
   isEditMode: boolean;
+  isReply?: boolean;
   suggestedPrompt?: string;
   setIsUploading: (isUploading: boolean) => void;
   handleMediaInsert: (data: MediaInsertData[]) => void;
@@ -67,6 +74,7 @@ export const EditorToolbar = ({
   isEditing,
   isPreviewActive,
   isEditMode,
+  isReply,
   suggestedPrompt,
   setIsUploading,
   handleMediaInsert,
@@ -86,6 +94,9 @@ export const EditorToolbar = ({
     (state) => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID],
   );
 
+  const { username } = useAuth();
+  const { data: questsData } = useGetQuestsQuery(isReply || isEditMode ? undefined : username);
+
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
   const textFormatModalRef = useRef(null);
   const extensionHeight = useRef(0);
@@ -96,6 +107,9 @@ export const EditorToolbar = ({
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [hasClipboardImage, setHasClipboardImage] = useState(false);
+  const [isQuestChipDismissed, setIsQuestChipDismissed] = useState(
+    !!username && questChipDismissedUsers.has(username),
+  );
   const dismissedClipboardRef = useRef(false);
 
   useEffect(() => {
@@ -185,6 +199,17 @@ export const EditorToolbar = ({
   const _dismissClipboardChip = () => {
     setHasClipboardImage(false);
     dismissedClipboardRef.current = true;
+  };
+
+  const _dismissQuestChip = () => {
+    if (username) {
+      questChipDismissedUsers.add(username);
+    }
+    setIsQuestChipDismissed(true);
+  };
+
+  const _openPerks = () => {
+    navigation.navigate(ROUTES.SCREENS.PERKS);
   };
 
   const _showAiAssist = () => {
@@ -383,10 +408,60 @@ export const EditorToolbar = ({
     );
   };
 
+  const _renderQuestChip = () => {
+    const questChip = deriveQuestChipState(questsData);
+    const clipboardChipVisible = hasClipboardImage && !dismissedClipboardRef.current;
+    if (
+      isReply ||
+      isEditMode ||
+      isQuestChipDismissed ||
+      isPreviewActive ||
+      isExtensionVisible ||
+      clipboardChipVisible ||
+      !questChip?.visible
+    ) {
+      return null;
+    }
+
+    const parts = [
+      `${intl.formatMessage({ id: 'quest_chip.daily_post' })} ${questChip.postProgress}/${
+        questChip.postGoal
+      }`,
+    ];
+    if (questChip.streakCurrent > 0) {
+      parts.push(
+        `🔥 ${intl.formatMessage({ id: 'quest_chip.streak' }, { n: questChip.streakCurrent })}`,
+      );
+    }
+    if (questChip.atRisk) {
+      parts.push(intl.formatMessage({ id: 'quest_chip.keep_streak' }));
+    }
+
+    const _textStyle = [styles.questChipText, questChip.atRisk && styles.questChipTextAtRisk];
+
+    return (
+      <View style={styles.questChipWrapper}>
+        <TouchableOpacity activeOpacity={0.8} onPress={_openPerks} style={styles.questChip}>
+          <Text style={_textStyle}>{parts.join(' · ')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={_dismissQuestChip}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          style={styles.questChipClose}
+          accessibilityRole="button"
+          accessibilityLabel={intl.formatMessage({ id: 'alert.cancel' })}
+        >
+          <Text style={_textStyle}>×</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <View style={_keyboardAdjustedStyle}>
       {_renderExtension()}
       {_renderClipboardChip()}
+      {_renderQuestChip()}
 
       {!isPreviewActive && (
         <View style={_buttonsContainerStyle}>
