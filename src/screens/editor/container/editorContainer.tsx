@@ -827,6 +827,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     try {
       const draftField = {
         ...fields,
+        // a template can be a title-only scaffold; keep body a string throughout
+        body: fields.body || '',
         tags: fields.tags && fields.tags.length > 0 ? fields.tags.join(' ') : '',
       };
 
