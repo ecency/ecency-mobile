@@ -4,7 +4,7 @@ import ecencyApi from '../../config/ecencyApi';
 import { upload } from '../../config/imageApi';
 import { SERVER_LIST } from '../../constants/options/api';
 import { convertProposalMeta } from './converters';
-import { PurchaseRequestData } from './ecency.types';
+import { ProMembersResponse, PurchaseRequestData } from './ecency.types';
 
 /**
  * ================================================================================
@@ -148,6 +148,17 @@ export const getNodes = async () => {
     Sentry.captureException(error);
     return [...SERVER_LIST];
   }
+};
+
+/**
+ * GET /private-api/pro-members
+ *
+ * Public roster of Ecency Pro usernames used to render the Pro badge.
+ * Returns { members: string[], count }.
+ */
+export const getProMembers = async (): Promise<ProMembersResponse> => {
+  const response = await ecencyApi.get('/private-api/pro-members');
+  return response.data;
 };
 
 /**

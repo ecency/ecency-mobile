@@ -136,5 +136,6 @@ export * from './leaderboardQueries';
 export * from './settingsQueries';
 export * from './announcementsQueries';
 export * from './proposalQueries';
+export * from './proQueries';
 export * from './statsQueries';
 export * from './searchQueries';

@@ -5,6 +5,9 @@
       "dismiss": "Dismiss"
     }
   },
+  "pro": {
+    "badge_a11y": "Ecency Pro member"
+  },
   "perks": {
     "header": "Perks",
     "quests_title": "Quests",
