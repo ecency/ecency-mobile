@@ -1211,10 +1211,10 @@
     url "^0.11.0"
     xss "^1.0.9"
 
-"@ecency/sdk@^2.3.32":
-  version "2.3.32"
-  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.3.32.tgz#20dbc5fb489105f9596f1c8311f27d7fdd9e5c88"
-  integrity sha512-9mS/Lpr9yCtiteyhCEt3jXeVuT8Y+kaVpCNhw32dBrizJ/GsssEQ2iVRGAzfPMAjbugranoFLswtFnj6wD3inw==
+"@ecency/sdk@^2.3.35":
+  version "2.3.35"
+  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.3.35.tgz#27b4cb0841f4d3ee7b915459602925bde79c7997"
+  integrity sha512-SL00TfLIK512jgFRPNjfExymRvCakmCb0Exn6FroGuIbP11zn6oGKaaUZhakOzKaoZ84IQBM6jPvfDoSEUagqA==
   dependencies:
     "@noble/ciphers" "^2.1.1"
     "@noble/curves" "^2.0.1"

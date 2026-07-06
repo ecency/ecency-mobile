@@ -29,7 +29,11 @@
     "account_boost": "Account boost",
     "account_boost_desc": "Boost any account",
     "rc_topup": "Top up RC",
-    "rc_topup_desc": "Keep posting when low on Resource Credits"
+    "rc_topup_desc": "Keep posting when low on Resource Credits",
+    "streak_freeze_owned": "{n} in reserve",
+    "streak_freeze_buy": "Protect streak ({price} Points)",
+    "streak_freeze_buying": "Protecting",
+    "streak_freeze_error": "Could not buy a streak freeze. Please try again."
   },
   "waves": {
     "for_you": "For you",
