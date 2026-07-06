@@ -32,6 +32,16 @@ const PostTranslateInlineComponent = ({ post, onTranslate }: Props) => {
   const decision = useContentLanguageGate(post, { serverConfirm: true });
 
   useEffect(() => {
+    // Reset per-post. postDisplayView reuses this component instance across posts
+    // (it resets its own translatedBody on permlink change), so without this a new
+    // post would inherit the previous post's "done"/fromLang and show a bogus
+    // "Translated from X" with no Translate prompt.
+    setStatus('idle');
+    setFromLang('');
+    setDismissed(false);
+    if (requestRef.current) {
+      requestRef.current.canceled = true;
+    }
     let active = true;
     AsyncStorage.getItem(dismissKey).then((v) => {
       if (active) {

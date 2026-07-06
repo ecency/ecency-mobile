@@ -25,7 +25,19 @@ interface CacheEntry {
 // Module-scoped, keyed by `${author}/${permlink}`. Survives component remounts
 // (FlashList header/row churn) so detection and any /detect call happen at most
 // once per post for the whole session.
+const MAX_CACHE_ENTRIES = 500;
 const contentLangCache = new Map<string, CacheEntry>();
+
+// Bound memory over long feed-scroll sessions with simple FIFO eviction.
+function cacheDetection(key: string, entry: CacheEntry): void {
+  if (!contentLangCache.has(key) && contentLangCache.size >= MAX_CACHE_ENTRIES) {
+    const oldest = contentLangCache.keys().next().value;
+    if (oldest !== undefined) {
+      contentLangCache.delete(oldest);
+    }
+  }
+  contentLangCache.set(key, entry);
+}
 
 function resolveReaderLang(appLang: string): string {
   const candidates = [appLang, getLocale()];
@@ -103,7 +115,7 @@ export function useContentLanguageGate(
         ).slice(0, SAMPLE_CHARS);
         const textLength = sample.trim().length;
         if (textLength < MIN_DETECT_CHARS) {
-          contentLangCache.set(key, { lang: null, confirmed: true });
+          cacheDetection(key, { lang: null, confirmed: true });
           return;
         }
 
@@ -135,7 +147,7 @@ export function useContentLanguageGate(
           }
         }
 
-        contentLangCache.set(key, { lang, confirmed });
+        cacheDetection(key, { lang, confirmed });
         if (!cancelled) {
           setDecision(resolveTranslateCta({ detected: lang, reader, textLength }));
         }

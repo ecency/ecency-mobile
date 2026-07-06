@@ -58,9 +58,10 @@ export const detectLanguage = async (text: string) => {
     });
     return Array.isArray(res?.data) ? res.data : [];
   } catch (error) {
-    console.log('error : ', error);
-    Sentry.captureException(error);
-    throw error;
+    // Best-effort: detection only refines the on-device guess, so a failure
+    // (offline / rate limit) should fail open quietly, not spam Sentry per post.
+    console.log('detectLanguage error : ', error);
+    return [];
   }
 };
 
@@ -72,17 +73,29 @@ const chunkText = (text: string, max: number): string[] => {
   }
   const chunks: string[] = [];
   let buf = '';
-  text.split(/\s+/).forEach((word) => {
-    if (buf && buf.length + 1 + word.length > max) {
+  const flush = () => {
+    if (buf) {
       chunks.push(buf);
+      buf = '';
+    }
+  };
+  text.split(/\s+/).forEach((word) => {
+    // A single "word" longer than the limit — e.g. space-less CJK text, where the
+    // whole body is one token — must be hard-split, or it becomes one over-limit
+    // request that gets truncated/rejected.
+    if (word.length > max) {
+      flush();
+      for (let i = 0; i < word.length; i += max) {
+        chunks.push(word.slice(i, i + max));
+      }
+    } else if (buf && buf.length + 1 + word.length > max) {
+      flush();
       buf = word;
     } else {
       buf = buf ? `${buf} ${word}` : word;
     }
   });
-  if (buf) {
-    chunks.push(buf);
-  }
+  flush();
   return chunks.filter(Boolean);
 };
 

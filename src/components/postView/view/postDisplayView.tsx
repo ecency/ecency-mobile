@@ -85,6 +85,12 @@ const PostDisplayView = ({
     setTranslatedBody(null);
   }, [permlink]);
 
+  // Stable reference so PostTranslateInline's memo isn't defeated every render.
+  const _handleTranslatedBody = useCallback(
+    (text: string | null, rtl?: boolean) => setTranslatedBody(text ? { text, rtl: !!rtl } : null),
+    [],
+  );
+
   // Component Life Cycles
   useEffect(() => {
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
@@ -468,12 +474,7 @@ const PostDisplayView = ({
                 </View>
               </View>
               {post && <PostReadingMetadata post={post} />}
-              {post && (
-                <PostTranslateInline
-                  post={post}
-                  onTranslate={(text, rtl) => setTranslatedBody(text ? { text, rtl: !!rtl } : null)}
-                />
-              )}
+              <PostTranslateInline post={post} onTranslate={_handleTranslatedBody} />
               {translatedBody ? (
                 <Text
                   selectable
@@ -535,6 +536,7 @@ const PostDisplayView = ({
       formatedTime,
       tags,
       translatedBody,
+      _handleTranslatedBody,
       postBodyLoading,
       postStatsQuery.data?.visits,
       postStatsQuery.isLoading,
