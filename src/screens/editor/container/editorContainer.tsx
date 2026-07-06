@@ -57,6 +57,7 @@ import {
 } from '../../../redux/actions/cacheActions';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
 import { deriveDiscussionRoot } from '../../../utils/discussionRoot';
+import { isTemplateDraft } from '../../../utils/draftTemplates';
 import {
   useCommentMutations,
   addOptimisticComment,
@@ -144,11 +145,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     let post;
     let _draft;
     let hasSharedIntent = false;
+    let hasTemplateDraft = false;
 
     if (route.params) {
       const navigationParams = route.params;
-      const { hasSharedIntent: _hasShared, draftId: _draftId } = navigationParams;
+      const { hasSharedIntent: _hasShared, draftId: _draftId, templateDraft } = navigationParams;
       hasSharedIntent = _hasShared;
+      hasTemplateDraft = !!templateDraft;
 
       if (_draftId) {
         draftId = _draftId;
@@ -202,6 +205,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
               );
             });
         }
+      }
+
+      if (templateDraft) {
+        this._applyTemplateDraft(templateDraft);
       }
 
       if (navigationParams.community) {
@@ -285,7 +292,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       }
     }
 
-    if (!isEdit && !_draft && !draftId && !hasSharedIntent) {
+    if (!isEdit && !_draft && !draftId && !hasSharedIntent && !hasTemplateDraft) {
       this._fetchDraftsForComparison(isReply);
     }
     this._requestKeyboardFocus();
@@ -401,6 +408,45 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
   };
 
+  // hydrates editor from a template draft as a NEW post; draftId is intentionally left
+  // unset so the first save/autosave creates a new draft instead of editing the template
+  _applyTemplateDraft = (templateDraft: any) => {
+    const { dispatch, intl } = this.props;
+
+    // SDK returns tags_arr (array) and tags (string)
+    let _tags = [];
+    if (templateDraft.tags_arr && Array.isArray(templateDraft.tags_arr)) {
+      _tags = templateDraft.tags_arr;
+    } else if (templateDraft.tags) {
+      _tags = templateDraft.tags
+        .split(/[,\s]+/)
+        .map((tag) => tag.trim())
+        .filter((tag) => !!tag);
+    }
+
+    // strip template markers so they don't carry over into the new post's draft
+    const _meta = templateDraft.meta ? { ...templateDraft.meta } : null;
+    if (_meta) {
+      delete _meta.postTemplate;
+      delete _meta.templateName;
+    }
+
+    this.setState({
+      draftPost: {
+        title: templateDraft.title || '',
+        body: templateDraft.body || '',
+        tags: _tags,
+        meta: _meta,
+      },
+    });
+
+    // no _id and no state.draftId here, so beneficiaries/poll land under the same
+    // default key the new-post flow reads (DEFAULT_USER_DRAFT_ID + account name)
+    this._loadMeta({ meta: _meta });
+
+    dispatch(toastNotification(intl.formatMessage({ id: 'templates.applied' })));
+  };
+
   // load meta from local/param drfat into state
   _loadMeta = (draft: any) => {
     const { dispatch, currentAccount } = this.props;
@@ -503,7 +549,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const draftsQueryOptions = getDraftsQueryOptions(username, accessToken);
       const { queryClient } = this.props;
       const result = await queryClient.fetchQuery(draftsQueryOptions);
-      const remoteDrafts = Array.isArray(result) ? result : result?.data || [];
+      // templates are applied explicitly from the templates tab, never offered as recent draft
+      const remoteDrafts = (Array.isArray(result) ? result : result?.data || []).filter(
+        (draft) => !isTemplateDraft(draft),
+      );
 
       const loadRecentDraft = () => {
         // if no draft available means local draft is recent

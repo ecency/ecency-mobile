@@ -318,6 +318,13 @@
     "unsynced_title": "Unsynced Draft",
     "empty_list": "Nothing here"
   },
+  "templates": {
+    "title": "Templates",
+    "untitled": "Untitled template",
+    "empty_list": "Save a post as template on Ecency web to reuse it here.",
+    "delete_confirm": "Are you sure you want to delete this template?",
+    "applied": "Template applied as new post"
+  },
   "selection_list": {
     "available": "Available {postfix}",
     "no_selected": "Please add from available",
