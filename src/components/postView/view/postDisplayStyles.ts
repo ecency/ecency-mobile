@@ -107,4 +107,15 @@ export default EStyleSheet.create({
     height: 200,
     width: 300,
   },
+  translatedBody: {
+    paddingHorizontal: 16,
+    marginTop: 8,
+    fontSize: 16,
+    lineHeight: 24,
+    color: '$primaryBlack',
+  },
+  translatedBodyRtl: {
+    writingDirection: 'rtl',
+    textAlign: 'right',
+  },
 });

@@ -207,6 +207,13 @@
     "pin-reply": "Pin comment",
     "unpin-reply": "Unpin comment"
   },
+  "post_translate": {
+    "banner_detected": "This post is in {lang}. Translate to {target}?",
+    "translate_to": "Translate to {lang}",
+    "show_original": "Show original",
+    "translated_from": "Translated from {lang}",
+    "change_language": "Change language"
+  },
   "side_menu": {
     "profile": "Profile",
     "add_account": "Add Account",

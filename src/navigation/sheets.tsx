@@ -78,6 +78,9 @@ declare module 'react-native-actions-sheet' {
     [SheetNames.POST_TRANSLATION]: SheetDefinition<{
       payload: {
         content: any;
+        // Pre-select the target language (from the inline banner / a chip).
+        initialTargetCode?: string;
+        initialSource?: string;
       };
     }>;
     [SheetNames.QUICK_PROFILE]: SheetDefinition<{

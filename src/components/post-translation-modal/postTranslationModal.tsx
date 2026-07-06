@@ -23,6 +23,8 @@ const targetLang = { name: 'English', code: 'en' };
 const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
   const intl = useIntl();
   const content = payload?.content;
+  const initialTargetCode = payload?.initialTargetCode;
+  const initialSource = payload?.initialSource;
 
   const appLang = useAppSelector(selectLanguage);
 
@@ -44,6 +46,26 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
   useEffect(() => {
     getSupportedLanguages();
   }, []);
+
+  // Sheets stay mounted; when (re)opened with a pre-selected target/source
+  // (from the inline banner or a chip) apply it once the language list is ready.
+  useEffect(() => {
+    if (!supportedLangsList.length) {
+      return;
+    }
+    if (initialTargetCode) {
+      const match = supportedLangsList.find((l) => l?.code === initialTargetCode);
+      if (match) {
+        setSelectedTargetLang(match);
+      }
+    }
+    if (initialSource) {
+      const match = supportedLangsList.find((l) => l?.code === initialSource);
+      if (match) {
+        setSelectedSourceLang(match);
+      }
+    }
+  }, [initialTargetCode, initialSource, supportedLangsList]);
 
   useEffect(() => {
     if (content && content.body) {
