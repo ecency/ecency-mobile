@@ -255,7 +255,7 @@ export const useInitApplication = () => {
 
         case 'scheduled_published':
           params = {
-            author: get(push, 'target', ''),
+            author: get(push, 'source', ''),
             permlink: fullPermlink,
           };
           key = fullPermlink;

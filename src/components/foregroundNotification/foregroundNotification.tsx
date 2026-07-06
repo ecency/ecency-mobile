@@ -88,7 +88,10 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
             break;
           case 'scheduled_published':
             titleText = intl.formatMessage({ id: 'notification.scheduled_published_title' });
-            bodyText = intl.formatMessage({ id: 'notification.scheduled_published_body' });
+            // the delivered payload body carries the post title; keep it when present
+            bodyText =
+              remoteMessage.notification?.body ||
+              intl.formatMessage({ id: 'notification.scheduled_published_body' });
             break;
         }
 
