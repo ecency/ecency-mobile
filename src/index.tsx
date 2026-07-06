@@ -22,7 +22,13 @@ const queryClientProviderProps = initQueryClient();
 const _renderApp = ({ locale }) => (
   <PersistQueryClientProvider {...queryClientProviderProps}>
     <PersistGate loading={null} persistor={persistor}>
-      <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
+      <IntlProvider
+        locale={locale}
+        // en-US underlay: keys not yet translated for the active locale render
+        // in English instead of as raw message ids (flat merge, so partially
+        // translated namespaces keep their translated keys)
+        messages={{ ...flattenMessages(messages['en-US']), ...flattenMessages(messages[locale]) }}
+      >
         <GestureHandlerRootView style={{ flex: 1 }}>
           <SafeAreaProvider>
             <SheetProvider>
