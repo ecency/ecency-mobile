@@ -32,7 +32,7 @@ const schedulesInfiniteQueryKey = (
  * Uses SDK's getDraftsInfiniteQueryOptions for efficient data loading
  *
  * @param limit - Number of items to load per page (default: 20)
- * @returns Flattened drafts array with pagination controls
+ * @returns Flattened drafts array with pagination controls and loaded pages count
  */
 export const useGetDraftsQuery = (limit = 20) => {
   const { username, code } = useAuth();
@@ -53,6 +53,7 @@ export const useGetDraftsQuery = (limit = 20) => {
   return {
     ...infiniteQuery,
     data,
+    pagesLoaded: infiniteQuery.data?.pages?.length ?? 0,
   };
 };
 

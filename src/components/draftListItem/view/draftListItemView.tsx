@@ -34,6 +34,7 @@ const DraftListItemView = ({
   isFormatedDate,
   status,
   isSchedules,
+  isTemplate,
   isDeleting,
   isUnsaved,
   handleOnClonePressed,
@@ -128,7 +129,7 @@ const DraftListItemView = ({
                 />
               </PopoverWrapper>
             )}
-            {!isSchedules && (
+            {!isSchedules && !isTemplate && (
               <IconButton
                 backgroundColor="transparent"
                 name="copy"
@@ -201,7 +202,9 @@ const DraftListItemView = ({
           intl.formatMessage({ id: 'alert.delete' }),
           intl.formatMessage({ id: 'alert.cancel' }),
         ]}
-        title={intl.formatMessage({ id: 'alert.remove_alert' })}
+        title={intl.formatMessage({
+          id: isTemplate ? 'templates.delete_confirm' : 'alert.remove_alert',
+        })}
         cancelButtonIndex={1}
         destructiveButtonIndex={0}
         onPress={(index) => {
@@ -256,6 +259,7 @@ export default React.memo(injectIntl(DraftListItemView), (prev, next) => {
     prev.isFormatedDate === next.isFormatedDate &&
     prev.status === next.status &&
     prev.isSchedules === next.isSchedules &&
+    prev.isTemplate === next.isTemplate &&
     prev.isUnsaved === next.isUnsaved &&
     prev.id === next.id &&
     prev.handleOnPressItem === next.handleOnPressItem &&

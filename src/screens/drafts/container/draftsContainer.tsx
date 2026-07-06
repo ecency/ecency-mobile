@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
@@ -23,6 +23,7 @@ import { DraftTypes } from '../../../constants/draftTypes';
 
 // Utilities
 import { selectCurrentAccount } from '../../../redux/selectors';
+import { isTemplateDraft } from '../../../utils/draftTemplates';
 
 // Component
 import DraftsScreen from '../screen/draftsScreen';
@@ -38,13 +39,18 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
 
   const {
     isLoading: isLoadingDrafts,
-    data: drafts = [],
+    data: allDrafts = [],
     isFetching: isFetchingDrafts,
     refetch: refetchDrafts,
     fetchNextPage: fetchNextDraftsPage,
     hasNextPage: hasNextDraftsPage,
     isFetchingNextPage: isFetchingNextDraftsPage,
+    pagesLoaded: draftsPagesLoaded,
   } = useGetDraftsQuery();
+
+  // template drafts (meta.postTemplate) share the drafts query but render in their own tab
+  const drafts = useMemo(() => allDrafts.filter((item) => !isTemplateDraft(item)), [allDrafts]);
+  const templates = useMemo(() => allDrafts.filter((item) => isTemplateDraft(item)), [allDrafts]);
 
   const {
     isLoading: isLoadingSchedules,
@@ -77,6 +83,17 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
     });
   };
 
+  // opens editor hydrated from the template as a new post instead of editing the template
+  const _applyTemplate = (template: any) => {
+    navigation.navigate({
+      name: ROUTES.SCREENS.EDITOR,
+      key: `editor_template_${template._id}`,
+      params: {
+        templateDraft: template,
+      },
+    });
+  };
+
   const _isLoading =
     isLoadingDrafts || isLoadingSchedules || isFetchingDrafts || isFetchingSchedules;
 
@@ -98,7 +115,8 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
     return _tempArr;
   };
   const _handleItemLongPress = (id, type) => {
-    if (type === DraftTypes.DRAFTS) {
+    if (type === DraftTypes.DRAFTS || type === DraftTypes.TEMPLATES) {
+      // templates are drafts server-side, so they share the drafts batch delete flow
       setBatchSelectedDrafts(_getUpdatedArray(batchSelectedDrafts, id));
     } else if (type === DraftTypes.SCHEDULES) {
       setBatchSelectedSchedules(_getUpdatedArray(batchSelectedSchedules, id));
@@ -141,8 +159,11 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
         draftsBatchDeleteMutation.isLoading || schedulesBatchDeleteMutation.isLoading
       }
       editDraft={_editDraft}
+      applyTemplate={_applyTemplate}
       currentAccount={currentAccount}
       drafts={drafts}
+      templates={templates}
+      draftsPagesLoaded={draftsPagesLoaded}
       schedules={schedules}
       removeDraft={_removeDraft}
       moveScheduleToDraft={_moveScheduleToDraft}
