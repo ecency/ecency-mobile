@@ -52,12 +52,14 @@ interface PostOptionsModalProps {
   rewardType: string;
   postDescription: string;
   isUploading: boolean;
+  canSaveTemplate: boolean;
   handleRewardChange: (rewardType: string) => void;
   handlePostDescriptionChange: (value: string) => void;
   handleThumbSelection: (url: string) => void;
   handleScheduleChange: (datetime: string | null) => void;
   handleShouldReblogChange: (shouldReblog: boolean) => void;
   handleFormUpdate: () => void;
+  handleSaveTemplatePress: () => void;
 }
 
 const PostOptionsModal = forwardRef(
@@ -71,12 +73,14 @@ const PostOptionsModal = forwardRef(
       rewardType,
       postDescription,
       isUploading,
+      canSaveTemplate,
       handleRewardChange,
       handleThumbSelection,
       handleScheduleChange,
       handleShouldReblogChange,
       handleFormUpdate,
       handlePostDescriptionChange,
+      handleSaveTemplatePress,
     }: PostOptionsModalProps,
     ref,
   ) => {
@@ -158,6 +162,14 @@ const PostOptionsModal = forwardRef(
     // handle index change here instead of useeffetc
     const _handleThumbIndexSelection = (url: string) => {
       handleThumbSelection(url);
+    };
+
+    // close the options modal first; the parent then presents the template
+    // name prompt once this formSheet has dismissed
+    const _onSaveTemplatePress = () => {
+      setShowModal(false);
+      handleFormUpdate();
+      handleSaveTemplatePress();
     };
 
     // handle save default reward checkbox here
@@ -242,6 +254,19 @@ const PostOptionsModal = forwardRef(
                     actionType="reblog"
                     isOn={shouldReblog}
                     handleOnChange={setShouldReblog}
+                  />
+                )}
+                {canSaveTemplate && (
+                  <SettingsItem
+                    title={intl.formatMessage({
+                      id: 'templates.save_as_template',
+                    })}
+                    text={intl.formatMessage({
+                      id: 'beneficiary_modal.save',
+                    })}
+                    type="button"
+                    actionType="saveTemplate"
+                    handleOnButtonPress={_onSaveTemplatePress}
                   />
                 )}
               </>

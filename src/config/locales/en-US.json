@@ -343,9 +343,12 @@
   "templates": {
     "title": "Templates",
     "untitled": "Untitled template",
-    "empty_list": "Save a post as template on Ecency web to reuse it here.",
+    "empty_list": "Save a post as template from the editor to reuse it here.",
     "delete_confirm": "Are you sure you want to delete this template?",
-    "applied": "Template applied as new post"
+    "applied": "Template applied as new post",
+    "save_as_template": "Save as template",
+    "name_placeholder": "Template name",
+    "saved": "Template saved"
   },
   "selection_list": {
     "available": "Available {postfix}",
