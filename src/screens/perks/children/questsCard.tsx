@@ -10,8 +10,7 @@ import {
 } from '@ecency/sdk';
 
 import { Icon } from '../../../components';
-import { useAppSelector, useAuth } from '../../../hooks';
-import { selectCurrentAccountName } from '../../../redux/selectors';
+import { useAuth } from '../../../hooks';
 import { useGetQuestsQuery } from '../../../providers/queries/pointQueries';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
@@ -32,15 +31,11 @@ const byId = (arr?: { id: string }[]) => Object.fromEntries((arr || []).map((q) 
 
 const QuestsCard = () => {
   const intl = useIntl();
-  const username = useAppSelector(selectCurrentAccountName);
-  const { username: authUsername, code } = useAuth();
+  const { username, code } = useAuth();
   const { data } = useGetQuestsQuery(username);
   const [tier, setTier] = useState<(typeof TIERS)[number]>('daily');
 
-  const { mutateAsync: buyFreeze, isPending: isBuyingFreeze } = useBuyStreakFreeze(
-    authUsername,
-    code,
-  );
+  const { mutateAsync: buyFreeze, isPending: isBuyingFreeze } = useBuyStreakFreeze(username, code);
 
   const _handleBuyFreeze = async () => {
     try {
@@ -48,8 +43,9 @@ const QuestsCard = () => {
     } catch (err) {
       const status = (err as { status?: number })?.status;
       if (status === 402) {
-        // Not enough Points -> send them to buy Points (the top-up funnel).
-        RootNavigation.navigate({ name: ROUTES.SCREENS.BOOST });
+        // Not enough Points -> send them to buy Points (the top-up funnel). Pass
+        // username so the Boost screen shows the user-context ribbon like other callers.
+        RootNavigation.navigate({ name: ROUTES.SCREENS.BOOST, params: { username } });
       } else if (status !== 409) {
         // 409 = already at max; the count refetches and the button hides.
         Alert.alert(intl.formatMessage({ id: 'perks.streak_freeze_error' }));
