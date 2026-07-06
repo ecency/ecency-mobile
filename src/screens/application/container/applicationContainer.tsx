@@ -382,7 +382,13 @@ class ApplicationContainer extends Component {
     firebaseOnMessageListener = getMessaging().onMessage((remoteMessage) => {
       console.log('Notification Received: foreground', remoteMessage);
 
-      const notificationTypes = ['mention', 'reply', 'transfer', 'delegations'];
+      const notificationTypes = [
+        'mention',
+        'reply',
+        'transfer',
+        'delegations',
+        'scheduled_published',
+      ];
       const messageType = remoteMessage?.data?.type;
       if (notificationTypes.includes(messageType)) {
         // FCM and the enotify websocket can both deliver the same event, so a
@@ -883,7 +889,8 @@ class ApplicationContainer extends Component {
           (wsData.type === 'mention' ||
             wsData.type === 'reply' ||
             wsData.type === 'transfer' ||
-            wsData.type === 'delegations')
+            wsData.type === 'delegations' ||
+            wsData.type === 'scheduled_published')
         ) {
           // Re-fetch the authoritative unread count rather than a local +1:
           // FCM may deliver the same event, and a local increment in both
@@ -914,12 +921,16 @@ class ApplicationContainer extends Component {
                   ? `@${source} replied to @${target}`
                   : type === 'transfer'
                   ? `@${source} transferred to @${target}`
+                  : type === 'scheduled_published'
+                  ? 'Scheduled post published'
                   : `@${source} delegated to @${target}`,
               body:
                 type === 'reply' && extra?.body
                   ? extra.body.substring(0, 100)
                   : type === 'transfer' || type === 'delegations'
                   ? extra?.amount || ''
+                  : type === 'scheduled_published'
+                  ? extra?.title || ''
                   : '',
             },
           };
@@ -1067,6 +1078,7 @@ class ApplicationContainer extends Component {
         transfersNotification: 6,
         favoriteNotification: 13,
         bookmarkNotification: 15,
+        scheduledPublishedNotification: 22,
       };
 
       Object.keys(settings).forEach((item) => {
@@ -1075,7 +1087,7 @@ class ApplicationContainer extends Component {
         }
       });
     } else {
-      notify_types = [1, 2, 3, 4, 5, 6, 13, 15];
+      notify_types = [1, 2, 3, 4, 5, 6, 13, 15, 22];
     }
 
     try {

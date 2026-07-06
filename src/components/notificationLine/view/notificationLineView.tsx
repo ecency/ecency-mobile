@@ -129,6 +129,7 @@ const NotificationLineView = ({
     notification.type === 'favorites' ||
     notification.type === 'checkin' ||
     notification.type === 'monthly_posts' ||
+    notification.type === 'scheduled_published' ||
     (notification.type === 'mention' && notification.post)
   ) {
     _moreinfo = notification.title || notification.permlink;

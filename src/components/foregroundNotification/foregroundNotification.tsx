@@ -21,7 +21,7 @@ interface RemoteMessage {
     permlink2: string;
     permlink3: string;
     amount?: string;
-    type: 'mention' | 'reply' | 'transfer' | 'delegations';
+    type: 'mention' | 'reply' | 'transfer' | 'delegations' | 'scheduled_published';
   };
   notification: {
     body: string;
@@ -50,7 +50,11 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
       const { source, target, type, id, amount } = remoteMessage.data;
       if (
         activeId !== id &&
-        (type === 'reply' || type === 'mention' || type === 'transfer' || type === 'delegations')
+        (type === 'reply' ||
+          type === 'mention' ||
+          type === 'transfer' ||
+          type === 'delegations' ||
+          type === 'scheduled_published')
       ) {
         let titleText = '';
         let bodyText = '';
@@ -81,6 +85,10 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
                 id: 'notification.amount_unknown',
                 defaultMessage: 'Amount unavailable',
               });
+            break;
+          case 'scheduled_published':
+            titleText = intl.formatMessage({ id: 'notification.scheduled_published_title' });
+            bodyText = intl.formatMessage({ id: 'notification.scheduled_published_body' });
             break;
         }
 

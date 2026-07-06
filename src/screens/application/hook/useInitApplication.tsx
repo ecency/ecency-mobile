@@ -253,6 +253,15 @@ export const useInitApplication = () => {
           routeName = ROUTES.SCREENS.POST;
           break;
 
+        case 'scheduled_published':
+          params = {
+            author: get(push, 'target', ''),
+            permlink: fullPermlink,
+          };
+          key = fullPermlink;
+          routeName = ROUTES.SCREENS.POST;
+          break;
+
         case 'favorite':
         case 'bookmark':
         case 'reply':

@@ -397,6 +397,33 @@ describe('reduxMigrations', () => {
     });
   });
 
+  describe('v20: scheduledPublished + bookmark notification defaults', () => {
+    it('defaults scheduledPublished and bookmark notification settings ON when missing', () => {
+      const state = { application: { notificationDetails: { voteNotification: false } } } as any;
+      const result = reduxMigrations[20](state);
+      expect(result.application.notificationDetails.scheduledPublishedNotification).toBe(true);
+      expect(result.application.notificationDetails.bookmarkNotification).toBe(true);
+      // existing settings are untouched
+      expect(result.application.notificationDetails.voteNotification).toBe(false);
+    });
+
+    it('preserves an explicit false for bookmarkNotification', () => {
+      const state = {
+        application: { notificationDetails: { bookmarkNotification: false } },
+      } as any;
+      const result = reduxMigrations[20](state);
+      expect(result.application.notificationDetails.bookmarkNotification).toBe(false);
+      expect(result.application.notificationDetails.scheduledPublishedNotification).toBe(true);
+    });
+
+    it('is a no-op when notificationDetails is absent', () => {
+      const state = { application: {}, account: { keep: 'me' } } as any;
+      const result = reduxMigrations[20](state);
+      expect(result.application.notificationDetails).toBeUndefined();
+      expect(result.account.keep).toBe('me');
+    });
+  });
+
   describe('failure isolation', () => {
     it('rolls back a throwing migration and preserves the rest of the state', () => {
       // v1 writes state.application.notificationDetails.favoriteNotification; with

@@ -255,6 +255,7 @@ class LoginContainer extends PureComponent {
       transfers: 6,
       favorite: 13,
       bookmark: 15,
+      scheduledPublished: 22,
     };
     const notifyTypes = [];
 

@@ -105,6 +105,14 @@ const NotificationContainer = ({ navigation }) => {
         author,
         permlink,
       };
+    } else if (type === 'scheduled_published' && permlink) {
+      // source is the author of the published scheduled post
+      routeName = ROUTES.SCREENS.POST;
+      key = permlink;
+      params = {
+        author: get(data, 'source'),
+        permlink,
+      };
     } else if (type === 'follow') {
       routeName = ROUTES.SCREENS.PROFILE;
       key = get(data, 'follower');

@@ -8,6 +8,7 @@ import {
   CHANGE_BOOKMARK_NOTIFICATION,
   CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
+  CHANGE_SCHEDULED_PUBLISHED_NOTIFICATION,
   CHANGE_ALL_NOTIFICATION_SETTINGS,
   CHANGE_VOTE_NOTIFICATION,
   IS_CONNECTED,
@@ -131,6 +132,12 @@ export const changeNotificationSettings = (payload) => {
       return {
         payload: payload.action,
         type: CHANGE_TRANSFERS_NOTIFICATION,
+      };
+
+    case 'notification.scheduledPublished':
+      return {
+        payload: payload.action,
+        type: CHANGE_SCHEDULED_PUBLISHED_NOTIFICATION,
       };
 
     case 'notification':

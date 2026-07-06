@@ -400,7 +400,10 @@
     "account_update_active_authority": "{accounts} was granted active authority on your account. If you did not authorize this, revoke it.",
     "account_update_posting_authority": "{accounts} can now post and vote on your behalf. If you did not authorize this, revoke it.",
     "weekly_earnings": "You earned ${amount} this week{breakdown}",
-    "payouts": "Payout received: ${amount}"
+    "payouts": "Payout received: ${amount}",
+    "scheduled_published": "published a scheduled post",
+    "scheduled_published_title": "Scheduled post published",
+    "scheduled_published_body": "Your scheduled post is now live, tap to view it"
   },
   "recurrent": {
     "delete_failed": "Failed to delete recurrent transfer, {error}",
@@ -1548,6 +1551,7 @@
       "transfers": "Transfers",
       "vote": "Vote",
       "follow": "Follow",
+      "scheduled_published": "Scheduled post published",
       "fcm_unavailable": "Push notifications are not supported on this device. You will receive notifications only while the app is open."
     },
     "keys_warning": "Sensitive account information!\nEcency must be secured with PIN code before viewing private keys.",

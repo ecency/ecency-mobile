@@ -9,6 +9,7 @@ import {
   CHANGE_BOOKMARK_NOTIFICATION,
   CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
+  CHANGE_SCHEDULED_PUBLISHED_NOTIFICATION,
   CHANGE_VOTE_NOTIFICATION,
   CHANGE_ALL_NOTIFICATION_SETTINGS,
   IS_CONNECTED,
@@ -70,9 +71,11 @@ interface State {
     followNotification: boolean;
     mentionNotification: boolean;
     favoriteNotification: boolean;
+    bookmarkNotification: boolean;
     reblogNotification: boolean;
     transfersNotification: boolean;
     voteNotification: boolean;
+    scheduledPublishedNotification: boolean;
   };
   postUpvotePercent: number;
   commentUpvotePercent: number;
@@ -114,9 +117,11 @@ const initialState: State = {
     followNotification: true,
     mentionNotification: true,
     favoriteNotification: true,
+    bookmarkNotification: true,
     reblogNotification: true,
     transfersNotification: true,
     voteNotification: true,
+    scheduledPublishedNotification: true,
   },
   postUpvotePercent: 1,
   commentUpvotePercent: 1,
@@ -226,6 +231,13 @@ const applicationReducer = (state = initialState, action): State => {
           transfersNotification: action.payload,
         },
       });
+    case CHANGE_SCHEDULED_PUBLISHED_NOTIFICATION:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          scheduledPublishedNotification: action.payload,
+        },
+      });
     case CHANGE_VOTE_NOTIFICATION:
       return Object.assign({}, state, {
         notificationDetails: {
@@ -240,11 +252,18 @@ const applicationReducer = (state = initialState, action): State => {
           ...state.notificationDetails,
           mentionNotification: action.payload.mentionNotification,
           favoriteNotification: action.payload.favoriteNotification,
+          // bookmark and scheduledPublished may be missing from legacy settings
+          // payloads (realm migration predates them), keep current value then
+          bookmarkNotification:
+            action.payload.bookmarkNotification ?? state.notificationDetails.bookmarkNotification,
           reblogNotification: action.payload.reblogNotification,
           transfersNotification: action.payload.transfersNotification,
           voteNotification: action.payload.voteNotification,
           followNotification: action.payload.followNotification,
           commentNotification: action.payload.commentNotification,
+          scheduledPublishedNotification:
+            action.payload.scheduledPublishedNotification ??
+            state.notificationDetails.scheduledPublishedNotification,
         },
       });
     case IS_DARK_THEME:

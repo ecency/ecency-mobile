@@ -277,6 +277,7 @@ class SettingsContainer extends Component {
       case 'notification.bookmark':
       case 'notification.reblog':
       case 'notification.transfers':
+      case 'notification.scheduledPublished':
         this._handleNotification(action, actionType);
         break;
 
@@ -325,6 +326,7 @@ class SettingsContainer extends Component {
       transfers: 6,
       favorite: 13,
       bookmark: 15,
+      scheduledPublished: 22,
     };
     const notifyTypes = [];
 
@@ -672,6 +674,7 @@ const mapStateToProps = (state) => {
     reblogNotification: notificationDetails.reblogNotification,
     transfersNotification: notificationDetails.transfersNotification,
     voteNotification: notificationDetails.voteNotification,
+    scheduledPublishedNotification: notificationDetails.scheduledPublishedNotification,
     selectedApi: selectApi(state),
     selectedCurrency: selectCurrency(state),
     selectedLanguage: selectLanguage(state),
