@@ -215,8 +215,3 @@ export interface PostTipsResponse {
   meta: PostTipsMeta;
   list: PostTip[];
 }
-
-export interface ProMembersResponse {
-  members: string[];
-  count: number;
-}

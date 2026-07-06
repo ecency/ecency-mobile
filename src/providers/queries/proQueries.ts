@@ -1,28 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
-import QUERIES from './queryKeys';
-import { getProMembers } from '../ecency/ecency';
-import { ProMembersResponse } from '../ecency/ecency.types';
-
-const PRO_STALE_TIME = 5 * 60 * 1000; // 5 minutes - roster changes infrequently
-const PRO_GC_TIME = 30 * 60 * 1000; // Keep in cache for 30 minutes
+import { getProMembersQueryOptions, proMembersSet, type ProMembersResponse } from '@ecency/sdk';
 
 // Module-level select keeps its identity stable across renders so React Query
 // memoizes the derived Set instead of rebuilding it on every consumer render.
-const selectProSet = (data: ProMembersResponse): Set<string> =>
-  new Set((data?.members ?? []).map((username) => username.toLowerCase()));
+const selectProSet = (data: ProMembersResponse): Set<string> => proMembersSet(data.members);
 
 /**
- * Fetch the public Ecency Pro roster once and expose it as a lowercase Set for
- * O(1) membership checks. The roster is shared across every Pro badge, so it is
- * fetched under a single query key and cached for all consumers.
+ * Fetch the public Ecency Pro roster and expose it as a lowercase Set for O(1)
+ * membership checks. Backed by the shared SDK query (`getProMembersQueryOptions`) and
+ * `proMembersSet`, so web and mobile share a single implementation of both the fetch
+ * and the normalization.
  */
 export const useProMembersQuery = () =>
   useQuery({
-    queryKey: [QUERIES.PRO.GET_MEMBERS],
-    queryFn: getProMembers,
+    ...getProMembersQueryOptions(),
+    gcTime: 30 * 60 * 1000, // keep the roster cached across screens (roster changes rarely)
     select: selectProSet,
-    staleTime: PRO_STALE_TIME,
-    gcTime: PRO_GC_TIME,
   });
 
 /**
