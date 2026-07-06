@@ -381,6 +381,29 @@ const MarkdownEditorView = ({
     [_setTextAndSelection, onTitleChanged, onTagChanged],
   );
 
+  // Compose-side translation: the sheet builds an appendix from the current
+  // body and hands it back here, where it is appended through the same
+  // programmatic write the AI assist result uses.
+  const _showTranslateModal = () => {
+    const currentTitle = fields?.title ?? '';
+    SheetManager.show(SheetNames.COMPOSE_TRANSLATE, {
+      payload: {
+        body: bodyTextRef.current,
+        title: currentTitle,
+        onApply: (appendix: string, titleMarker?: string) => {
+          const newBody = `${bodyTextRef.current}${appendix}`;
+          _setTextAndSelection({
+            text: newBody,
+            selection: { start: newBody.length, end: newBody.length },
+          });
+          if (titleMarker) {
+            onTitleChanged?.(`${currentTitle}${titleMarker}`);
+          }
+        },
+      },
+    });
+  };
+
   const _renderFloatingDraftButton = () => {
     if (showDraftLoadButton) {
       const _onPress = () => {
@@ -505,6 +528,7 @@ const MarkdownEditorView = ({
           handleShowSnippets={() => setIsSnippetsOpen(true)}
           handleOnClearPress={() => clearRef.current.show()}
           handleAiAssistResult={_handleAiAssistResult}
+          handleShowTranslate={_showTranslateModal}
           handleOnMarkupButtonPress={(item) => {
             item.onPress({
               text: bodyTextRef.current,
