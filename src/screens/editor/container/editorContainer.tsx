@@ -15,11 +15,13 @@ import {
   getDraftsInfiniteQueryOptions,
   getDraftsQueryOptions,
   getPostQueryOptions,
+  getSupportSettingsQueryOptions,
   addDraft,
   updateDraft,
 } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
+import Config from 'react-native-config';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import { getDigitPinCode, shouldPromptPostingAuthority } from '../../../providers/hive/hive';
 import { decryptKey } from '../../../utils/crypto';
@@ -74,6 +76,10 @@ import {
 import { PostTypes } from '../../../constants/postTypes';
 
 import { enforceThreeSpeakBeneficiary } from '../../../providers/speak/beneficiary';
+import {
+  ECENCY_SUPPORT_ACCOUNT,
+  injectEcencySupportBeneficiary,
+} from '../../../providers/ecency/supportBeneficiary';
 import { SheetNames } from '../../../navigation/sheets';
 import {
   selectCurrentAccount,
@@ -87,6 +93,11 @@ import {
  *@props -->  props name here   description here                                Value Type Here
  *
  */
+
+// Publishing must never hang on the voluntary support settings lookup: the
+// SDK fetch carries no timeout of its own, so the submit-time read is raced
+// against this bound and fails open (no injection) when it loses.
+const SUPPORT_SETTINGS_FETCH_TIMEOUT_MS = 4000;
 
 class EditorContainer extends Component<EditorContainerProps, any> {
   _isMounted = false;
@@ -481,7 +492,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         (item) => item.account !== currentAccount.name,
       ); // remove default beneficiary from array while saving
 
-      dispatch(setBeneficiaries(_draftId, filteredBeneficiaries));
+      // an empty list in draft meta is just the absence default written by
+      // draft saves, not an explicit user choice; storing it would wrongly
+      // mark the draft as having a customized beneficiary list and block the
+      // voluntary support beneficiary injection at publish time
+      if (filteredBeneficiaries.length > 0) {
+        dispatch(setBeneficiaries(_draftId, filteredBeneficiaries));
+      }
     }
 
     if (draft.meta?.poll) {
@@ -967,7 +984,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     fields: any;
     scheduleDate?: string;
   }) => {
-    const { currentAccount, dispatch, intl, navigation, queryClient } = this.props;
+    const { currentAccount, dispatch, intl, navigation, queryClient, pinCode } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 
     const fields = Object.assign({}, _fieldsBase);
@@ -993,6 +1010,58 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     // Enforce 3Speak beneficiary if post contains an embed URL
     beneficiaries = enforceThreeSpeakBeneficiary(beneficiaries, fields.body);
+
+    // Voluntary Support Ecency beneficiary based on user's saved support
+    // settings. Applied ONLY when the user has no explicit beneficiary list
+    // for this draft: once the beneficiary modal persisted a list (including
+    // one where the ecency row was removed or added at a custom weight), that
+    // list is the source of truth and is published as-is. Fails open: any
+    // fetch error publishes without injection. Double-submit while awaiting
+    // is guarded by `_isSubmitting` (armed above).
+    const { beneficiariesMap } = this.props;
+    const _benefDraftId = draftId || DEFAULT_USER_DRAFT_ID + currentAccount.name;
+    const _hasExplicitBeneficiaries =
+      !!beneficiariesMap && Object.prototype.hasOwnProperty.call(beneficiariesMap, _benefDraftId);
+
+    if (!_hasExplicitBeneficiaries && currentAccount.name !== ECENCY_SUPPORT_ACCOUNT) {
+      let supportPercent = 0;
+      let timeoutId: ReturnType<typeof setTimeout> | undefined;
+      try {
+        let accessToken = currentAccount?.local?.accessToken
+          ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+          : undefined;
+        if (!accessToken && currentAccount?.local?.accessToken) {
+          // HiveAuth accounts use the default pin unless the user changed it
+          // (mirrors useAuth); without this their saved preference would
+          // silently never apply
+          accessToken = decryptKey(currentAccount.local.accessToken, Config.DEFAULT_PIN);
+        }
+        // shared SDK query key: reuses/warms the same cache entry the settings
+        // screen and beneficiary modal read
+        const fetchSettings = queryClient.fetchQuery({
+          ...getSupportSettingsQueryOptions(currentAccount.name, accessToken),
+          retry: false,
+        });
+        // if the timeout wins the race below, this promise is orphaned; mark
+        // its rejection handled so a late fetch failure cannot fire an
+        // unhandled promise rejection (race still rejects when fetch loses
+        // first, which the surrounding catch fails open on)
+        fetchSettings.catch(() => {});
+        const timeout = new Promise<never>((_, reject) => {
+          timeoutId = setTimeout(
+            () => reject(new Error('support settings fetch timed out')),
+            SUPPORT_SETTINGS_FETCH_TIMEOUT_MS,
+          );
+        });
+        const supportSettings = await Promise.race([fetchSettings, timeout]);
+        supportPercent = supportSettings?.beneficiary_percent || 0;
+      } catch (error) {
+        supportPercent = 0;
+      } finally {
+        clearTimeout(timeoutId);
+      }
+      beneficiaries = injectEcencySupportBeneficiary(beneficiaries, supportPercent);
+    }
 
     this.setState({
       isPostSending: true,

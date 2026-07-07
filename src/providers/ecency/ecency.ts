@@ -28,6 +28,7 @@ import { PurchaseRequestData } from './ecency.types';
  * - Tips: getPostTips -> getPostTipsQueryOptions
  * - Announcements: getAnnouncements -> getAnnouncementsQueryOptions
  * - Promotions: getPromotedEntries -> getPromotedPostsQuery
+ * - Support settings: getSupportSettings/setSupportSettings -> SDK support module
  *
  * STILL IN THIS FILE (mobile-specific or not in SDK):
  * - Images: uploadImage (React Native specific - SDK uses browser File API)

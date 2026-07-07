@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, Alert, Appearance } from 'react-native';
 import { connect } from 'react-redux';
+import { useQueryClient } from '@tanstack/react-query';
 
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
@@ -9,7 +10,13 @@ import { useNavigation } from '@react-navigation/native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import DeviceInfo from 'react-native-device-info';
 import { SheetManager } from 'react-native-actions-sheet';
-import { saveNotificationSetting, ConfigManager } from '@ecency/sdk';
+import {
+  saveNotificationSetting,
+  ConfigManager,
+  getSupportSettingsQueryOptions,
+  updateSupportSettingsRequest,
+  applySupportSettingsUpdate,
+} from '@ecency/sdk';
 import { languageRestart } from '../../../utils/I18nUtils';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
@@ -46,6 +53,12 @@ import {
 import { logout, logoutDone, toastNotification } from '../../../redux/actions/uiAction';
 import { deleteAccount } from '../../../providers/ecency/ecency';
 import {
+  DEFAULT_SUPPORT_PERCENT,
+  SUPPORT_BENEFICIARY_PERCENTS,
+  SUPPORT_CURATION_PERCENTS,
+  isValidSupportSettings,
+} from '../../../providers/ecency/supportBeneficiary';
+import {
   clearMattermostBootstrapCache,
   getMattermostDmPrivacy,
   updateMattermostDmPrivacy,
@@ -55,6 +68,7 @@ import { setChatApiToken } from '../../../config/chatApi';
 import { checkClient, getDigitPinCode } from '../../../providers/hive/hive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { useGetServersQuery } from '../../../providers/queries';
+import { useAuth } from '../../../hooks';
 import {
   selectCurrentAccount,
   selectIsLoggedIn,
@@ -101,18 +115,64 @@ import { SheetNames } from '../../../navigation/sheets';
  */
 
 class SettingsContainer extends Component {
+  // Monotonic sequence for support settings fetches/saves. Only the latest
+  // operation may apply its response (or rollback) to state and cache, so an
+  // older request that settles late can never overwrite newer state. The
+  // counter is also bumped on account switch, invalidating in-flight work
+  // that belongs to the previous account.
+  _supportOpSeq = 0;
+
+  // saves are queued FIFO so full-payload updates can never reach the server
+  // out of order; a save superseded by a newer one is skipped before sending
+  _supportSaveSeq = 0;
+
+  _supportSaveChain: Promise<void> = Promise.resolve();
+
+  _focusUnsubscribe: (() => void) | null = null;
+
+  // Last server-acknowledged support settings (and the seq that produced
+  // them). Failed saves roll back HERE, never to the point-in-time snapshot
+  // taken when the save started: with two overlapping saves that both fail,
+  // that snapshot is the older save's unconfirmed optimistic value, which the
+  // server never accepted. Stale-but-successful saves still record their
+  // response (the server did apply it), guarded by seq so an older response
+  // cannot overwrite a newer acknowledgment or leak across account switches.
+  _confirmedSupportSettings = null;
+
+  _confirmedSupportSeq = 0;
+
   constructor(props) {
     super(props);
     this.state = {
       isNotificationMenuOpen: props.isNotificationSettingsOpen,
       isLoading: false,
       dmPrivacy: 'all',
+      // null = not loaded (or load failed); the support controls stay hidden
+      // until a load succeeds so a toggle can never do a read-modify-write
+      // against unknown values and wipe the other saved field
+      supportSettings: null,
     };
   }
 
   async componentDidMount() {
     const { isLoggedIn } = this.props as any;
     if (!isLoggedIn) return;
+
+    // fire-and-forget: never rejects (guarded internally) and must not
+    // serialize the DM privacy fetch behind a slow support settings request
+    this._fetchSupportSettings();
+
+    // the editor chip can change the stored settings while this screen stays
+    // mounted in the stack; refetch on focus so a later partial save cannot
+    // merge against stale values. Chained behind queued saves so the fetch
+    // cannot observe pre-save server state.
+    const { navigation } = this.props as any;
+    this._focusUnsubscribe =
+      navigation?.addListener?.('focus', () => {
+        if (!(this.props as any).isLoggedIn) return;
+        this._supportSaveChain.then(() => this._fetchSupportSettings());
+      }) ?? null;
+
     try {
       const dmPrivacy = await getMattermostDmPrivacy();
       this.setState({ dmPrivacy });
@@ -120,6 +180,61 @@ class SettingsContainer extends Component {
       // best-effort: keep default
     }
   }
+
+  componentDidUpdate(prevProps) {
+    const { username, isLoggedIn } = this.props as any;
+    // account switched while the screen stayed mounted: drop the previous
+    // account's values (hides the controls), invalidate in-flight support
+    // fetches/saves, and refetch for the newly selected account so a partial
+    // save can never write the previous account's percents to this one
+    if (prevProps.username !== username) {
+      this._supportOpSeq += 1;
+      // raise the acknowledgment floor so a late response from the previous
+      // account's in-flight save can never become this account's rollback
+      // target, and drop the previous account's confirmed values
+      this._confirmedSupportSeq = this._supportOpSeq;
+      this._confirmedSupportSettings = null;
+      this.setState({ supportSettings: null });
+      if (isLoggedIn && username) {
+        this._fetchSupportSettings();
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    this._focusUnsubscribe?.();
+  }
+
+  // reads through the shared SDK query cache so the editor chip and this
+  // screen stay coherent; malformed 200 responses keep the controls hidden
+  _fetchSupportSettings = async () => {
+    const { queryClient, username, code } = this.props as any;
+
+    this._supportOpSeq += 1;
+    const seq = this._supportOpSeq;
+
+    try {
+      const supportSettings = await queryClient.fetchQuery(
+        getSupportSettingsQueryOptions(username, code),
+      );
+      if (seq !== this._supportOpSeq) return;
+      const nextSettings = isValidSupportSettings(supportSettings)
+        ? {
+            beneficiary_percent: supportSettings.beneficiary_percent || 0,
+            curation_percent: supportSettings.curation_percent || 0,
+          }
+        : null;
+      if (nextSettings && seq > this._confirmedSupportSeq) {
+        this._confirmedSupportSettings = nextSettings;
+        this._confirmedSupportSeq = seq;
+      }
+      this.setState({ supportSettings: nextSettings });
+    } catch {
+      if (seq !== this._supportOpSeq) return;
+      // keep controls hidden; re-entering the screen retries
+      this.setState({ supportSettings: null });
+    }
+  };
 
   // Component Functions
   _handleDropdownSelected = async (action, actionType) => {
@@ -174,9 +289,96 @@ class SettingsContainer extends Component {
         break;
       }
 
+      case settingsTypes.SUPPORT_BENEFICIARY_PERCENT: {
+        const percent = SUPPORT_BENEFICIARY_PERCENTS[action];
+        if (percent) {
+          this._updateSupportSettings({ beneficiary_percent: percent });
+        }
+        break;
+      }
+
+      case settingsTypes.SUPPORT_CURATION_PERCENT: {
+        const percent = SUPPORT_CURATION_PERCENTS[action];
+        if (percent) {
+          this._updateSupportSettings({ curation_percent: percent });
+        }
+        break;
+      }
+
       default:
         break;
     }
+  };
+
+  _updateSupportSettings = async (partial) => {
+    const { dispatch, intl, username, code, queryClient } = this.props as any;
+    const { supportSettings } = this.state as any;
+
+    // the update carries BOTH fields; never write from unknown state
+    // (controls are hidden until loaded, this is a safety net)
+    if (!supportSettings || !code) {
+      return;
+    }
+
+    this._supportOpSeq += 1;
+    const seq = this._supportOpSeq;
+    this._supportSaveSeq += 1;
+    const saveSeq = this._supportSaveSeq;
+
+    const prevSettings = supportSettings;
+    const nextSettings = { ...supportSettings, ...partial };
+
+    this.setState({ supportSettings: nextSettings });
+
+    const run = async () => {
+      // a newer save supersedes this one; every save carries the full
+      // payload, so skipping stale sends collapses redundant writes and
+      // guarantees the server never applies them out of order
+      if (saveSeq !== this._supportSaveSeq) return;
+      try {
+        const response = await updateSupportSettingsRequest(code, {
+          beneficiary_percent: nextSettings.beneficiary_percent,
+          curation_percent: nextSettings.curation_percent,
+        });
+        // even a stale save was accepted by the server: record it as the
+        // rollback target for later failed saves (seq-guarded)
+        if (isValidSupportSettings(response) && seq > this._confirmedSupportSeq) {
+          this._confirmedSupportSettings = {
+            beneficiary_percent: response.beneficiary_percent,
+            curation_percent: response.curation_percent,
+          };
+          this._confirmedSupportSeq = seq;
+        }
+        // an older save must not overwrite state/cache a newer save produced
+        if (seq !== this._supportOpSeq) return;
+        if (isValidSupportSettings(response)) {
+          this.setState({
+            supportSettings: {
+              beneficiary_percent: response.beneficiary_percent,
+              curation_percent: response.curation_percent,
+            },
+          });
+          applySupportSettingsUpdate(queryClient, username, response);
+        } else {
+          queryClient?.invalidateQueries({
+            queryKey: getSupportSettingsQueryOptions(username, code).queryKey,
+          });
+        }
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+      } catch {
+        // a failed older save must not roll back a newer save's state
+        if (seq !== this._supportOpSeq) return;
+        // roll back to what the server last acknowledged; the snapshot taken
+        // at save start may be an earlier save's unconfirmed optimistic value
+        this.setState({ supportSettings: this._confirmedSupportSettings || prevSettings });
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      }
+    };
+
+    // strict FIFO: the request only goes out after every earlier one settled
+    // (run never rejects, its try/catch covers the whole body)
+    this._supportSaveChain = this._supportSaveChain.then(run);
+    return this._supportSaveChain;
   };
 
   _changeApi = async (action) => {
@@ -309,6 +511,16 @@ class SettingsContainer extends Component {
         break;
       case settingsTypes.SHOW_HIDE_IMGS:
         dispatch(setHidePostsThumbnails(!isHideImages));
+        break;
+      case settingsTypes.SUPPORT_BENEFICIARY:
+        this._updateSupportSettings({
+          beneficiary_percent: action ? DEFAULT_SUPPORT_PERCENT : 0,
+        });
+        break;
+      case settingsTypes.SUPPORT_CURATION:
+        this._updateSupportSettings({
+          curation_percent: action ? DEFAULT_SUPPORT_PERCENT : 0,
+        });
         break;
       default:
         break;
@@ -633,7 +845,7 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { isNotificationMenuOpen, isLoading, dmPrivacy } = this.state as any;
+    const { isNotificationMenuOpen, isLoading, dmPrivacy, supportSettings } = this.state as any;
     const { colorTheme, getServersQuery } = this.props as any;
     const serverList = getServersQuery.data;
 
@@ -646,6 +858,7 @@ class SettingsContainer extends Component {
         isLoading={isLoading}
         colorThemeIndex={colorTheme}
         dmPrivacy={dmPrivacy}
+        supportSettings={supportSettings}
         {...this.props}
       />
     );
@@ -690,6 +903,17 @@ const mapStateToProps = (state) => {
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
   const getServersQuery = useGetServersQuery();
-  return <SettingsContainer {...props} navigation={navigation} getServersQuery={getServersQuery} />;
+  const queryClient = useQueryClient();
+  // decrypted access token for the SDK support settings query/update
+  const { code } = useAuth();
+  return (
+    <SettingsContainer
+      {...props}
+      navigation={navigation}
+      getServersQuery={getServersQuery}
+      queryClient={queryClient}
+      code={code}
+    />
+  );
 };
 export default gestureHandlerRootHOC(connect(mapStateToProps)(injectIntl(mapHooksToProps)));
