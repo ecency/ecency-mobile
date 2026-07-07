@@ -1035,6 +1035,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           ...getSupportSettingsQueryOptions(currentAccount.name, accessToken),
           retry: false,
         });
+        // if the timeout wins the race below, this promise is orphaned; mark
+        // its rejection handled so a late fetch failure cannot fire an
+        // unhandled promise rejection (race still rejects when fetch loses
+        // first, which the surrounding catch fails open on)
+        fetchSettings.catch(() => {});
         const timeout = new Promise<never>((_, reject) => {
           timeoutId = setTimeout(
             () => reject(new Error('support settings fetch timed out')),

@@ -122,6 +122,17 @@ class SettingsContainer extends Component {
   // that belongs to the previous account.
   _supportOpSeq = 0;
 
+  // Last server-acknowledged support settings (and the seq that produced
+  // them). Failed saves roll back HERE, never to the point-in-time snapshot
+  // taken when the save started: with two overlapping saves that both fail,
+  // that snapshot is the older save's unconfirmed optimistic value, which the
+  // server never accepted. Stale-but-successful saves still record their
+  // response (the server did apply it), guarded by seq so an older response
+  // cannot overwrite a newer acknowledgment or leak across account switches.
+  _confirmedSupportSettings = null;
+
+  _confirmedSupportSeq = 0;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -139,7 +150,9 @@ class SettingsContainer extends Component {
     const { isLoggedIn } = this.props as any;
     if (!isLoggedIn) return;
 
-    await this._fetchSupportSettings();
+    // fire-and-forget: never rejects (guarded internally) and must not
+    // serialize the DM privacy fetch behind a slow support settings request
+    this._fetchSupportSettings();
 
     try {
       const dmPrivacy = await getMattermostDmPrivacy();
@@ -157,6 +170,11 @@ class SettingsContainer extends Component {
     // save can never write the previous account's percents to this one
     if (prevProps.username !== username) {
       this._supportOpSeq += 1;
+      // raise the acknowledgment floor so a late response from the previous
+      // account's in-flight save can never become this account's rollback
+      // target, and drop the previous account's confirmed values
+      this._confirmedSupportSeq = this._supportOpSeq;
+      this._confirmedSupportSettings = null;
       this.setState({ supportSettings: null });
       if (isLoggedIn && username) {
         this._fetchSupportSettings();
@@ -177,14 +195,17 @@ class SettingsContainer extends Component {
         getSupportSettingsQueryOptions(username, code),
       );
       if (seq !== this._supportOpSeq) return;
-      this.setState({
-        supportSettings: isValidSupportSettings(supportSettings)
-          ? {
-              beneficiary_percent: supportSettings.beneficiary_percent || 0,
-              curation_percent: supportSettings.curation_percent || 0,
-            }
-          : null,
-      });
+      const nextSettings = isValidSupportSettings(supportSettings)
+        ? {
+            beneficiary_percent: supportSettings.beneficiary_percent || 0,
+            curation_percent: supportSettings.curation_percent || 0,
+          }
+        : null;
+      if (nextSettings && seq > this._confirmedSupportSeq) {
+        this._confirmedSupportSettings = nextSettings;
+        this._confirmedSupportSeq = seq;
+      }
+      this.setState({ supportSettings: nextSettings });
     } catch {
       if (seq !== this._supportOpSeq) return;
       // keep controls hidden; re-entering the screen retries
@@ -289,6 +310,15 @@ class SettingsContainer extends Component {
         beneficiary_percent: nextSettings.beneficiary_percent,
         curation_percent: nextSettings.curation_percent,
       });
+      // even a stale save was accepted by the server: record it as the
+      // rollback target for later failed saves (seq-guarded)
+      if (isValidSupportSettings(response) && seq > this._confirmedSupportSeq) {
+        this._confirmedSupportSettings = {
+          beneficiary_percent: response.beneficiary_percent,
+          curation_percent: response.curation_percent,
+        };
+        this._confirmedSupportSeq = seq;
+      }
       // an older save must not overwrite state/cache a newer save produced
       if (seq !== this._supportOpSeq) return;
       if (isValidSupportSettings(response)) {
@@ -308,7 +338,9 @@ class SettingsContainer extends Component {
     } catch {
       // a failed older save must not roll back a newer save's state
       if (seq !== this._supportOpSeq) return;
-      this.setState({ supportSettings: prevSettings });
+      // roll back to what the server last acknowledged; the snapshot taken at
+      // save start may be an earlier save's unconfirmed optimistic value
+      this.setState({ supportSettings: this._confirmedSupportSettings || prevSettings });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     }
   };
