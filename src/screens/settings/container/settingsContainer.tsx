@@ -10,7 +10,13 @@ import { useNavigation } from '@react-navigation/native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import DeviceInfo from 'react-native-device-info';
 import { SheetManager } from 'react-native-actions-sheet';
-import { saveNotificationSetting, ConfigManager } from '@ecency/sdk';
+import {
+  saveNotificationSetting,
+  ConfigManager,
+  getSupportSettingsQueryOptions,
+  updateSupportSettingsRequest,
+  applySupportSettingsUpdate,
+} from '@ecency/sdk';
 import { languageRestart } from '../../../utils/I18nUtils';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
@@ -45,18 +51,13 @@ import {
   setImageServer,
 } from '../../../redux/actions/applicationActions';
 import { logout, logoutDone, toastNotification } from '../../../redux/actions/uiAction';
-import {
-  deleteAccount,
-  getSupportSettings,
-  isValidSupportSettings,
-  setSupportSettings,
-} from '../../../providers/ecency/ecency';
+import { deleteAccount } from '../../../providers/ecency/ecency';
 import {
   DEFAULT_SUPPORT_PERCENT,
   SUPPORT_BENEFICIARY_PERCENTS,
   SUPPORT_CURATION_PERCENTS,
+  isValidSupportSettings,
 } from '../../../providers/ecency/supportBeneficiary';
-import QUERIES from '../../../providers/queries/queryKeys';
 import {
   clearMattermostBootstrapCache,
   getMattermostDmPrivacy,
@@ -67,6 +68,7 @@ import { setChatApiToken } from '../../../config/chatApi';
 import { checkClient, getDigitPinCode } from '../../../providers/hive/hive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { useGetServersQuery } from '../../../providers/queries';
+import { useAuth } from '../../../hooks';
 import {
   selectCurrentAccount,
   selectIsLoggedIn,
@@ -113,6 +115,13 @@ import { SheetNames } from '../../../navigation/sheets';
  */
 
 class SettingsContainer extends Component {
+  // Monotonic sequence for support settings fetches/saves. Only the latest
+  // operation may apply its response (or rollback) to state and cache, so an
+  // older request that settles late can never overwrite newer state. The
+  // counter is also bumped on account switch, invalidating in-flight work
+  // that belongs to the previous account.
+  _supportOpSeq = 0;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -140,25 +149,44 @@ class SettingsContainer extends Component {
     }
   }
 
-  // reads through the shared query cache so the editor chip and this screen
-  // stay coherent; getSupportSettings rejects malformed 200 responses
+  componentDidUpdate(prevProps) {
+    const { username, isLoggedIn } = this.props as any;
+    // account switched while the screen stayed mounted: drop the previous
+    // account's values (hides the controls), invalidate in-flight support
+    // fetches/saves, and refetch for the newly selected account so a partial
+    // save can never write the previous account's percents to this one
+    if (prevProps.username !== username) {
+      this._supportOpSeq += 1;
+      this.setState({ supportSettings: null });
+      if (isLoggedIn && username) {
+        this._fetchSupportSettings();
+      }
+    }
+  }
+
+  // reads through the shared SDK query cache so the editor chip and this
+  // screen stay coherent; malformed 200 responses keep the controls hidden
   _fetchSupportSettings = async () => {
-    const { queryClient, username } = this.props as any;
+    const { queryClient, username, code } = this.props as any;
+
+    this._supportOpSeq += 1;
+    const seq = this._supportOpSeq;
 
     try {
-      const supportSettings = queryClient
-        ? await queryClient.fetchQuery({
-            queryKey: [QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, username],
-            queryFn: getSupportSettings,
-          })
-        : await getSupportSettings();
+      const supportSettings = await queryClient.fetchQuery(
+        getSupportSettingsQueryOptions(username, code),
+      );
+      if (seq !== this._supportOpSeq) return;
       this.setState({
-        supportSettings: {
-          beneficiary_percent: supportSettings.beneficiary_percent || 0,
-          curation_percent: supportSettings.curation_percent || 0,
-        },
+        supportSettings: isValidSupportSettings(supportSettings)
+          ? {
+              beneficiary_percent: supportSettings.beneficiary_percent || 0,
+              curation_percent: supportSettings.curation_percent || 0,
+            }
+          : null,
       });
     } catch {
+      if (seq !== this._supportOpSeq) return;
       // keep controls hidden; re-entering the screen retries
       this.setState({ supportSettings: null });
     }
@@ -239,14 +267,17 @@ class SettingsContainer extends Component {
   };
 
   _updateSupportSettings = async (partial) => {
-    const { dispatch, intl, username, queryClient } = this.props as any;
+    const { dispatch, intl, username, code, queryClient } = this.props as any;
     const { supportSettings } = this.state as any;
 
     // the update carries BOTH fields; never write from unknown state
     // (controls are hidden until loaded, this is a safety net)
-    if (!supportSettings) {
+    if (!supportSettings || !code) {
       return;
     }
+
+    this._supportOpSeq += 1;
+    const seq = this._supportOpSeq;
 
     const prevSettings = supportSettings;
     const nextSettings = { ...supportSettings, ...partial };
@@ -254,10 +285,12 @@ class SettingsContainer extends Component {
     this.setState({ supportSettings: nextSettings });
 
     try {
-      const response = await setSupportSettings({
+      const response = await updateSupportSettingsRequest(code, {
         beneficiary_percent: nextSettings.beneficiary_percent,
         curation_percent: nextSettings.curation_percent,
       });
+      // an older save must not overwrite state/cache a newer save produced
+      if (seq !== this._supportOpSeq) return;
       if (isValidSupportSettings(response)) {
         this.setState({
           supportSettings: {
@@ -265,13 +298,16 @@ class SettingsContainer extends Component {
             curation_percent: response.curation_percent,
           },
         });
-        queryClient?.setQueryData([QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, username], response);
+        applySupportSettingsUpdate(queryClient, username, response);
+      } else {
+        queryClient?.invalidateQueries({
+          queryKey: getSupportSettingsQueryOptions(username, code).queryKey,
+        });
       }
-      queryClient?.invalidateQueries({
-        queryKey: [QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, username],
-      });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
     } catch {
+      // a failed older save must not roll back a newer save's state
+      if (seq !== this._supportOpSeq) return;
       this.setState({ supportSettings: prevSettings });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     }
@@ -800,12 +836,15 @@ const mapHooksToProps = (props) => {
   const navigation = useNavigation();
   const getServersQuery = useGetServersQuery();
   const queryClient = useQueryClient();
+  // decrypted access token for the SDK support settings query/update
+  const { code } = useAuth();
   return (
     <SettingsContainer
       {...props}
       navigation={navigation}
       getServersQuery={getServersQuery}
       queryClient={queryClient}
+      code={code}
     />
   );
 };

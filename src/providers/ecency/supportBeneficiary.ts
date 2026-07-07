@@ -3,11 +3,29 @@
  *
  * Users can opt in to give a percent of their post rewards to @ecency as a
  * post beneficiary on their new posts. The preference is stored on the
- * backend (see getSupportSettings/setSupportSettings in ./ecency.ts) as an
+ * backend (fetched/updated through the @ecency/sdk support module) as an
  * integer percent 0-100 where 0 means off.
  */
+import type { SupportSettings } from '@ecency/sdk';
 
 export const ECENCY_SUPPORT_ACCOUNT = 'ecency';
+
+/**
+ * Case-insensitive check for the ecency support account. Draft state and
+ * persisted beneficiary lists may carry any casing while the injected route
+ * itself always uses lowercase 'ecency'.
+ */
+export const isEcencySupportBeneficiary = (account: string | undefined): boolean =>
+  typeof account === 'string' && account.toLowerCase() === ECENCY_SUPPORT_ACCOUNT;
+
+/**
+ * Support settings responses must carry finite percents; a malformed 200
+ * response must be treated as an error rather than read as zeros. Both fields
+ * always travel together in updates, so a read-modify-write from a malformed
+ * payload could silently wipe the other saved field.
+ */
+export const isValidSupportSettings = (data: any): data is SupportSettings =>
+  !!data && Number.isFinite(data.beneficiary_percent) && Number.isFinite(data.curation_percent);
 
 /** Default suggested support percent used by one-tap actions and toggles. */
 export const DEFAULT_SUPPORT_PERCENT = 5;
@@ -51,7 +69,7 @@ export function injectEcencySupportBeneficiary(
     return beneficiaries;
   }
 
-  if (beneficiaries.some((item) => item.account === ECENCY_SUPPORT_ACCOUNT)) {
+  if (beneficiaries.some((item) => isEcencySupportBeneficiary(item.account))) {
     return beneficiaries;
   }
 

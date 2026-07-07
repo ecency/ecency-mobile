@@ -2,6 +2,8 @@ import {
   DEFAULT_SUPPORT_PERCENT,
   ECENCY_SUPPORT_ACCOUNT,
   injectEcencySupportBeneficiary,
+  isEcencySupportBeneficiary,
+  isValidSupportSettings,
 } from './supportBeneficiary';
 
 describe('injectEcencySupportBeneficiary', () => {
@@ -108,5 +110,50 @@ describe('injectEcencySupportBeneficiary', () => {
     const snapshot = JSON.parse(JSON.stringify(input));
     injectEcencySupportBeneficiary(input, 5);
     expect(input).toEqual(snapshot);
+  });
+
+  it('detects an existing ecency route case-insensitively and skips injection', () => {
+    const input = [
+      { account: 'alice', weight: 1000 },
+      { account: 'Ecency', weight: 100 },
+    ];
+    expect(injectEcencySupportBeneficiary(input, 5)).toBe(input);
+    const upper = [{ account: 'ECENCY', weight: 100 }];
+    expect(injectEcencySupportBeneficiary(upper, 5)).toBe(upper);
+  });
+
+  it('always injects the route with lowercase account name', () => {
+    const result = injectEcencySupportBeneficiary([{ account: 'alice', weight: 1000 }], 5);
+    expect(result).toContainEqual({ account: 'ecency', weight: 500 });
+  });
+});
+
+describe('isEcencySupportBeneficiary', () => {
+  it('matches any casing of the ecency account', () => {
+    expect(isEcencySupportBeneficiary('ecency')).toBe(true);
+    expect(isEcencySupportBeneficiary('Ecency')).toBe(true);
+    expect(isEcencySupportBeneficiary('ECENCY')).toBe(true);
+  });
+
+  it('rejects other accounts and non-strings', () => {
+    expect(isEcencySupportBeneficiary('alice')).toBe(false);
+    expect(isEcencySupportBeneficiary('ecency2')).toBe(false);
+    expect(isEcencySupportBeneficiary(undefined)).toBe(false);
+  });
+});
+
+describe('isValidSupportSettings', () => {
+  it('accepts a payload with finite percents', () => {
+    expect(isValidSupportSettings({ beneficiary_percent: 5, curation_percent: 0 })).toBe(true);
+    expect(isValidSupportSettings({ beneficiary_percent: 0, curation_percent: 100 })).toBe(true);
+  });
+
+  it('rejects malformed payloads', () => {
+    expect(isValidSupportSettings(null)).toBe(false);
+    expect(isValidSupportSettings(undefined)).toBe(false);
+    expect(isValidSupportSettings({})).toBe(false);
+    expect(isValidSupportSettings({ beneficiary_percent: 5 })).toBe(false);
+    expect(isValidSupportSettings({ beneficiary_percent: '5', curation_percent: 0 })).toBe(false);
+    expect(isValidSupportSettings({ beneficiary_percent: NaN, curation_percent: 0 })).toBe(false);
   });
 });

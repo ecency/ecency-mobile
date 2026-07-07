@@ -15,6 +15,7 @@ import {
   getDraftsInfiniteQueryOptions,
   getDraftsQueryOptions,
   getPostQueryOptions,
+  getSupportSettingsQueryOptions,
   addDraft,
   updateDraft,
 } from '@ecency/sdk';
@@ -78,8 +79,6 @@ import {
   ECENCY_SUPPORT_ACCOUNT,
   injectEcencySupportBeneficiary,
 } from '../../../providers/ecency/supportBeneficiary';
-import { getSupportSettings } from '../../../providers/ecency/ecency';
-import QUERIES from '../../../providers/queries/queryKeys';
 import { SheetNames } from '../../../navigation/sheets';
 import {
   selectCurrentAccount,
@@ -93,6 +92,11 @@ import {
  *@props -->  props name here   description here                                Value Type Here
  *
  */
+
+// Publishing must never hang on the voluntary support settings lookup: the
+// SDK fetch carries no timeout of its own, so the submit-time read is raced
+// against this bound and fails open (no injection) when it loses.
+const SUPPORT_SETTINGS_FETCH_TIMEOUT_MS = 4000;
 
 class EditorContainer extends Component<EditorContainerProps, any> {
   _isMounted = false;
@@ -979,7 +983,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     fields: any;
     scheduleDate?: string;
   }) => {
-    const { currentAccount, dispatch, intl, navigation, queryClient } = this.props;
+    const { currentAccount, dispatch, intl, navigation, queryClient, pinCode } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 
     const fields = Object.assign({}, _fieldsBase);
@@ -1020,15 +1024,29 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     if (!_hasExplicitBeneficiaries && currentAccount.name !== ECENCY_SUPPORT_ACCOUNT) {
       let supportPercent = 0;
+      let timeoutId: ReturnType<typeof setTimeout> | undefined;
       try {
-        const supportSettings = await queryClient.fetchQuery({
-          queryKey: [QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, currentAccount.name],
-          queryFn: getSupportSettings,
+        const accessToken = currentAccount?.local?.accessToken
+          ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
+          : undefined;
+        // shared SDK query key: reuses/warms the same cache entry the settings
+        // screen and beneficiary modal read
+        const fetchSettings = queryClient.fetchQuery({
+          ...getSupportSettingsQueryOptions(currentAccount.name, accessToken),
           retry: false,
         });
+        const timeout = new Promise<never>((_, reject) => {
+          timeoutId = setTimeout(
+            () => reject(new Error('support settings fetch timed out')),
+            SUPPORT_SETTINGS_FETCH_TIMEOUT_MS,
+          );
+        });
+        const supportSettings = await Promise.race([fetchSettings, timeout]);
         supportPercent = supportSettings?.beneficiary_percent || 0;
       } catch (error) {
         supportPercent = 0;
+      } finally {
+        clearTimeout(timeoutId);
       }
       beneficiaries = injectEcencySupportBeneficiary(beneficiaries, supportPercent);
     }

@@ -1,13 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
+import { getSupportSettingsQueryOptions, useUpdateSupportSettings } from '@ecency/sdk';
 import QUERIES from './queryKeys';
-import {
-  getNodes,
-  getSupportSettings,
-  isValidSupportSettings,
-  setSupportSettings,
-} from '../ecency/ecency';
-import { SupportSettings } from '../ecency/ecency.types';
+import { getNodes } from '../ecency/ecency';
 import { SERVER_LIST } from '../../constants/options/api';
 import { useAppDispatch, useAuth } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
@@ -25,42 +20,35 @@ export const useGetServersQuery = () => {
 
 /**
  * Hook to fetch user's voluntary Support Ecency settings
- * (post beneficiary percent and curation holdback percent)
+ * (post beneficiary percent and curation holdback percent).
+ * Consumes the SDK query options so the cache entry is shared with every
+ * other surface (settings screen, editor submit-time injection).
  */
 export const useSupportSettingsQuery = () => {
-  const { username } = useAuth();
+  const { username, code } = useAuth();
 
-  return useQuery<SupportSettings>({
-    queryKey: [QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, username],
-    queryFn: getSupportSettings,
-    enabled: !!username,
-  });
+  return useQuery(getSupportSettingsQueryOptions(username, code));
 };
 
 /**
- * Hook to update user's voluntary Support Ecency settings
+ * Hook to update user's voluntary Support Ecency settings.
+ * The SDK hook seeds and invalidates the shared settings cache on success;
+ * this wrapper only adds the mobile failure toast.
  */
 export const useSupportSettingsMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
-  const { username } = useAuth();
+  const { username, code } = useAuth();
 
-  return useMutation({
-    mutationFn: (data: { beneficiary_percent: number; curation_percent: number }) =>
-      setSupportSettings(data),
-    onSuccess: (data) => {
-      // only prime the cache with a well-formed payload; a malformed update
-      // response must not poison values other consumers read-modify-write
-      if (isValidSupportSettings(data)) {
-        queryClient.setQueryData([QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, username], data);
-      }
-      queryClient.invalidateQueries({
-        queryKey: [QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, username],
-      });
-    },
-    onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-    },
-  });
+  const mutation = useUpdateSupportSettings(username, code);
+
+  const mutate: typeof mutation.mutate = (variables, options) =>
+    mutation.mutate(variables, {
+      onError: () => {
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      },
+      ...options,
+    });
+
+  return { ...mutation, mutate };
 };

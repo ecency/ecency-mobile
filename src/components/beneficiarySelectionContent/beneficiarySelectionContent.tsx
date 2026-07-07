@@ -18,6 +18,8 @@ import { isThreeSpeakBeneficiary } from '../../providers/speak/beneficiary';
 import {
   DEFAULT_SUPPORT_PERCENT,
   ECENCY_SUPPORT_ACCOUNT,
+  isEcencySupportBeneficiary,
+  isValidSupportSettings,
 } from '../../providers/ecency/supportBeneficiary';
 import {
   useSupportSettingsQuery,
@@ -89,7 +91,7 @@ const BeneficiarySelectionContent = ({
   // The seeded row itself is not persisted: publish derives the same row from
   // the saved setting, and any user interaction persists the full list anyway.
   useEffect(() => {
-    if (powerDown || handleSaveBeneficiary || !username || username === ECENCY_SUPPORT_ACCOUNT) {
+    if (powerDown || handleSaveBeneficiary || !username || isEcencySupportBeneficiary(username)) {
       return;
     }
 
@@ -107,7 +109,7 @@ const BeneficiarySelectionContent = ({
     const weight = savedPercent * 100;
     setBeneficiaries((prevBeneficiaries) => {
       if (
-        prevBeneficiaries.some((item) => item.account === ECENCY_SUPPORT_ACCOUNT) ||
+        prevBeneficiaries.some((item) => isEcencySupportBeneficiary(item.account)) ||
         !prevBeneficiaries.length ||
         prevBeneficiaries[0].account !== username ||
         prevBeneficiaries[0].weight < weight ||
@@ -260,7 +262,7 @@ const BeneficiarySelectionContent = ({
   // one-tap voluntary Support Ecency beneficiary
   const _savedSupportPercent = supportSettingsQuery.data?.beneficiary_percent || 0;
   const _supportPercent = _savedSupportPercent > 0 ? _savedSupportPercent : DEFAULT_SUPPORT_PERCENT;
-  const _ecencyBeneficiary = beneficiaries.find((item) => item.account === ECENCY_SUPPORT_ACCOUNT);
+  const _ecencyBeneficiary = beneficiaries.find((item) => isEcencySupportBeneficiary(item.account));
   const isSupportActive = !!_ecencyBeneficiary;
   const _chipPercent = _ecencyBeneficiary
     ? Math.round(_ecencyBeneficiary.weight / 100)
@@ -273,7 +275,7 @@ const BeneficiarySelectionContent = ({
   // curation percent or overwrite a non-default beneficiary percent.
   const _persistSupportPreference = (beneficiaryPercent: number) => {
     const _settings = supportSettingsQuery.data;
-    if (!_settings) {
+    if (!isValidSupportSettings(_settings)) {
       return;
     }
     supportSettingsMutation.mutate({
@@ -285,11 +287,11 @@ const BeneficiarySelectionContent = ({
   const _onSupportEcencyPress = () => {
     if (isSupportActive) {
       const _removedWeight = beneficiaries.reduce(
-        (sum, item) => (item.account === ECENCY_SUPPORT_ACCOUNT ? sum + item.weight : sum),
+        (sum, item) => (isEcencySupportBeneficiary(item.account) ? sum + item.weight : sum),
         0,
       );
       const _beneficiaries = beneficiaries.filter(
-        (item) => item.account !== ECENCY_SUPPORT_ACCOUNT,
+        (item) => !isEcencySupportBeneficiary(item.account),
       );
       _beneficiaries[0] = {
         ..._beneficiaries[0],
@@ -316,7 +318,7 @@ const BeneficiarySelectionContent = ({
   };
 
   const _renderSupportEcency = () => {
-    if (powerDown || !username || username === ECENCY_SUPPORT_ACCOUNT) {
+    if (powerDown || !username || isEcencySupportBeneficiary(username)) {
       return null;
     }
 
