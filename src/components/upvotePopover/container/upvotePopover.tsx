@@ -437,7 +437,12 @@ const UpvotePopover = forwardRef(({}, ref) => {
           author: _author,
           permlink: _permlink,
           weight,
-          estimated: parseFloat(amount),
+          // Downvotes REDUCE payout, but the SDK's post-broadcast cache write
+          // adds `estimated` unsigned (entry.payout + estimated), so a positive
+          // value would briefly show the payout INCREASED by the vote value.
+          // Pass the negative delta, clamped to the pre-vote payout, so that
+          // write lands on the same reduced value our at-press update shows.
+          estimated: -Math.min(parseFloat(amount) || 0, content?.total_payout || 0),
         });
 
         setIsDownVoted(!!sliderValue);
