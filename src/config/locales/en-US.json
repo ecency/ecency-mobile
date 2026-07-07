@@ -511,6 +511,7 @@
     "video": "Video",
     "scheduled_later": "Later",
     "settings_title": "Post Options",
+    "support_ecency": "Support Ecency {percent}%",
     "alert_btn_no": "No"
   },
   "time": {
@@ -1539,6 +1540,11 @@
     "backup_private_keys": "Manage Authorities",
     "pincode": "PIN code",
     "general": "General",
+    "support_ecency": "Support Ecency",
+    "support_beneficiary": "Share post rewards with Ecency",
+    "support_beneficiary_percent": "Post rewards share",
+    "support_curation": "Hold back part of curation rewards",
+    "support_curation_percent": "Curation rewards holdback",
     "feedback_body": "Write your message here!\n\nHive username: {username}\nApp version: {appVersion}\nPlatform: {platform}\n",
     "show_imgs": "Show Images",
     "nsfw": {

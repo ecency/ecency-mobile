@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, Alert, Appearance } from 'react-native';
 import { connect } from 'react-redux';
+import { useQueryClient } from '@tanstack/react-query';
 
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
@@ -44,7 +45,17 @@ import {
   setImageServer,
 } from '../../../redux/actions/applicationActions';
 import { logout, logoutDone, toastNotification } from '../../../redux/actions/uiAction';
-import { deleteAccount } from '../../../providers/ecency/ecency';
+import {
+  deleteAccount,
+  getSupportSettings,
+  setSupportSettings,
+} from '../../../providers/ecency/ecency';
+import {
+  DEFAULT_SUPPORT_PERCENT,
+  SUPPORT_BENEFICIARY_PERCENTS,
+  SUPPORT_CURATION_PERCENTS,
+} from '../../../providers/ecency/supportBeneficiary';
+import QUERIES from '../../../providers/queries/queryKeys';
 import {
   clearMattermostBootstrapCache,
   getMattermostDmPrivacy,
@@ -107,12 +118,29 @@ class SettingsContainer extends Component {
       isNotificationMenuOpen: props.isNotificationSettingsOpen,
       isLoading: false,
       dmPrivacy: 'all',
+      supportSettings: {
+        beneficiary_percent: 0,
+        curation_percent: 0,
+      },
     };
   }
 
   async componentDidMount() {
     const { isLoggedIn } = this.props as any;
     if (!isLoggedIn) return;
+
+    try {
+      const supportSettings = await getSupportSettings();
+      this.setState({
+        supportSettings: {
+          beneficiary_percent: supportSettings?.beneficiary_percent || 0,
+          curation_percent: supportSettings?.curation_percent || 0,
+        },
+      });
+    } catch {
+      // best-effort: keep defaults
+    }
+
     try {
       const dmPrivacy = await getMattermostDmPrivacy();
       this.setState({ dmPrivacy });
@@ -174,8 +202,47 @@ class SettingsContainer extends Component {
         break;
       }
 
+      case settingsTypes.SUPPORT_BENEFICIARY_PERCENT: {
+        const percent = SUPPORT_BENEFICIARY_PERCENTS[action];
+        if (percent) {
+          this._updateSupportSettings({ beneficiary_percent: percent });
+        }
+        break;
+      }
+
+      case settingsTypes.SUPPORT_CURATION_PERCENT: {
+        const percent = SUPPORT_CURATION_PERCENTS[action];
+        if (percent) {
+          this._updateSupportSettings({ curation_percent: percent });
+        }
+        break;
+      }
+
       default:
         break;
+    }
+  };
+
+  _updateSupportSettings = async (partial) => {
+    const { dispatch, intl, username, queryClient } = this.props as any;
+    const { supportSettings } = this.state as any;
+    const prevSettings = supportSettings;
+    const nextSettings = { ...supportSettings, ...partial };
+
+    this.setState({ supportSettings: nextSettings });
+
+    try {
+      await setSupportSettings({
+        beneficiary_percent: nextSettings.beneficiary_percent,
+        curation_percent: nextSettings.curation_percent,
+      });
+      queryClient?.invalidateQueries({
+        queryKey: [QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, username],
+      });
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+    } catch {
+      this.setState({ supportSettings: prevSettings });
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     }
   };
 
@@ -309,6 +376,16 @@ class SettingsContainer extends Component {
         break;
       case settingsTypes.SHOW_HIDE_IMGS:
         dispatch(setHidePostsThumbnails(!isHideImages));
+        break;
+      case settingsTypes.SUPPORT_BENEFICIARY:
+        this._updateSupportSettings({
+          beneficiary_percent: action ? DEFAULT_SUPPORT_PERCENT : 0,
+        });
+        break;
+      case settingsTypes.SUPPORT_CURATION:
+        this._updateSupportSettings({
+          curation_percent: action ? DEFAULT_SUPPORT_PERCENT : 0,
+        });
         break;
       default:
         break;
@@ -633,7 +710,7 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { isNotificationMenuOpen, isLoading, dmPrivacy } = this.state as any;
+    const { isNotificationMenuOpen, isLoading, dmPrivacy, supportSettings } = this.state as any;
     const { colorTheme, getServersQuery } = this.props as any;
     const serverList = getServersQuery.data;
 
@@ -646,6 +723,7 @@ class SettingsContainer extends Component {
         isLoading={isLoading}
         colorThemeIndex={colorTheme}
         dmPrivacy={dmPrivacy}
+        supportSettings={supportSettings}
         {...this.props}
       />
     );
@@ -690,6 +768,14 @@ const mapStateToProps = (state) => {
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
   const getServersQuery = useGetServersQuery();
-  return <SettingsContainer {...props} navigation={navigation} getServersQuery={getServersQuery} />;
+  const queryClient = useQueryClient();
+  return (
+    <SettingsContainer
+      {...props}
+      navigation={navigation}
+      getServersQuery={getServersQuery}
+      queryClient={queryClient}
+    />
+  );
 };
 export default gestureHandlerRootHOC(connect(mapStateToProps)(injectIntl(mapHooksToProps)));

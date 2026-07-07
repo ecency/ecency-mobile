@@ -74,6 +74,12 @@ import {
 import { PostTypes } from '../../../constants/postTypes';
 
 import { enforceThreeSpeakBeneficiary } from '../../../providers/speak/beneficiary';
+import {
+  ECENCY_SUPPORT_ACCOUNT,
+  injectEcencySupportBeneficiary,
+} from '../../../providers/ecency/supportBeneficiary';
+import { getSupportSettings } from '../../../providers/ecency/ecency';
+import QUERIES from '../../../providers/queries/queryKeys';
 import { SheetNames } from '../../../navigation/sheets';
 import {
   selectCurrentAccount,
@@ -993,6 +999,24 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     // Enforce 3Speak beneficiary if post contains an embed URL
     beneficiaries = enforceThreeSpeakBeneficiary(beneficiaries, fields.body);
+
+    // Voluntary Support Ecency beneficiary based on user's saved support
+    // settings. Fails open: any fetch error publishes without injection.
+    // Double-submit while awaiting is guarded by `_isSubmitting` (armed above).
+    if (currentAccount.name !== ECENCY_SUPPORT_ACCOUNT) {
+      let supportPercent = 0;
+      try {
+        const supportSettings = await queryClient.fetchQuery({
+          queryKey: [QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, currentAccount.name],
+          queryFn: getSupportSettings,
+          retry: false,
+        });
+        supportPercent = supportSettings?.beneficiary_percent || 0;
+      } catch (error) {
+        supportPercent = 0;
+      }
+      beneficiaries = injectEcencySupportBeneficiary(beneficiaries, supportPercent);
+    }
 
     this.setState({
       isPostSending: true,

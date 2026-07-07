@@ -4,7 +4,7 @@ import ecencyApi from '../../config/ecencyApi';
 import { upload } from '../../config/imageApi';
 import { SERVER_LIST } from '../../constants/options/api';
 import { convertProposalMeta } from './converters';
-import { PurchaseRequestData } from './ecency.types';
+import { PurchaseRequestData, SupportSettings } from './ecency.types';
 
 /**
  * ================================================================================
@@ -34,6 +34,7 @@ import { PurchaseRequestData } from './ecency.types';
  * - Accounts: deleteAccount
  * - Reporting: addReport
  * - Misc: getNodes, purchaseOrder, getActiveProposalMeta
+ * - Support: getSupportSettings, setSupportSettings
  *
  * ================================================================================
  */
@@ -177,6 +178,44 @@ NOTE: data or type PurchaseRequestData should contain body, pass as it is
 export const purchaseOrder = async (data: PurchaseRequestData) => {
   try {
     const response = await ecencyApi.post('/private-api/purchase-order', data);
+    return response.data;
+  } catch (error) {
+    Sentry.captureException(error);
+    throw error;
+  }
+};
+
+/**
+ * fetches user's voluntary Support Ecency settings
+ * POST /private-api/support-settings
+ * username is resolved on the backend from the injected auth code
+ * @returns SupportSettings
+ * */
+export const getSupportSettings = async (): Promise<SupportSettings> => {
+  try {
+    const response = await ecencyApi.post('/private-api/support-settings');
+    return response.data;
+  } catch (error) {
+    Sentry.captureException(error);
+    throw error;
+  }
+};
+
+/**
+ * updates user's voluntary Support Ecency settings
+ * POST /private-api/support-settings-update
+ *
+ * body:
+ * beneficiary_percent: integer 0-100, 0 means off
+ * curation_percent: integer 0-100, 0 means off
+ * @returns SupportSettings
+ * */
+export const setSupportSettings = async (data: {
+  beneficiary_percent: number;
+  curation_percent: number;
+}): Promise<SupportSettings> => {
+  try {
+    const response = await ecencyApi.post('/private-api/support-settings-update', data);
     return response.data;
   } catch (error) {
     Sentry.captureException(error);

@@ -1,7 +1,7 @@
 import { debounce, isArray } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { lookupAccountsQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
@@ -11,9 +11,18 @@ import { CheckBox, FormInput, IconButton, TextButton } from '..';
 import type { FormInputHandle } from '../formInput';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setBeneficiaries as setBeneficiariesAction } from '../../redux/actions/editorActions';
+import { toastNotification } from '../../redux/actions/uiAction';
 import { DEFAULT_USER_DRAFT_ID } from '../../redux/constants/constants';
 import { Beneficiary } from '../../redux/reducers/editorReducer';
 import { isThreeSpeakBeneficiary } from '../../providers/speak/beneficiary';
+import {
+  DEFAULT_SUPPORT_PERCENT,
+  ECENCY_SUPPORT_ACCOUNT,
+} from '../../providers/ecency/supportBeneficiary';
+import {
+  useSupportSettingsQuery,
+  useSupportSettingsMutation,
+} from '../../providers/queries/settingsQueries';
 import { selectCurrentAccountName } from '../../redux/selectors';
 
 interface BeneficiarySelectionContentProps {
@@ -42,6 +51,9 @@ const BeneficiarySelectionContent = ({
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
+
+  const supportSettingsQuery = useSupportSettingsQuery();
+  const supportSettingsMutation = useSupportSettingsMutation();
 
   const beneficiariesMap = useAppSelector((state) => state.editor.beneficiariesMap);
   const username = useAppSelector(selectCurrentAccountName);
@@ -201,6 +213,71 @@ const BeneficiarySelectionContent = ({
     setIsWeightValid(false);
     setIsUsernameValid(false);
     setNewUsername('');
+  };
+
+  // one-tap voluntary Support Ecency beneficiary
+  const _savedSupportPercent = supportSettingsQuery.data?.beneficiary_percent || 0;
+  const _supportPercent = _savedSupportPercent > 0 ? _savedSupportPercent : DEFAULT_SUPPORT_PERCENT;
+  const _ecencyBeneficiary = beneficiaries.find((item) => item.account === ECENCY_SUPPORT_ACCOUNT);
+  const isSupportActive = !!_ecencyBeneficiary;
+  const _chipPercent = _ecencyBeneficiary
+    ? Math.round(_ecencyBeneficiary.weight / 100)
+    : _supportPercent;
+
+  const _onSupportEcencyPress = () => {
+    const _curationPercent = supportSettingsQuery.data?.curation_percent || 0;
+
+    if (isSupportActive) {
+      const _removedWeight = beneficiaries.reduce(
+        (sum, item) => (item.account === ECENCY_SUPPORT_ACCOUNT ? sum + item.weight : sum),
+        0,
+      );
+      const _beneficiaries = beneficiaries.filter(
+        (item) => item.account !== ECENCY_SUPPORT_ACCOUNT,
+      );
+      _beneficiaries[0] = {
+        ..._beneficiaries[0],
+        weight: _beneficiaries[0].weight + _removedWeight,
+      };
+      setBeneficiaries(_beneficiaries);
+      _saveBeneficiaries(_beneficiaries);
+      supportSettingsMutation.mutate({
+        beneficiary_percent: 0,
+        curation_percent: _curationPercent,
+      });
+    } else {
+      const _weight = _supportPercent * 100;
+      // author row must retain non-negative weight and hive allows max 8 routes
+      if (beneficiaries[0].weight < _weight || beneficiaries.length - 1 >= 8) {
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+        return;
+      }
+      const _beneficiaries = beneficiaries.map((item, index) =>
+        index === 0 ? { ...item, weight: item.weight - _weight } : item,
+      );
+      _beneficiaries.push({ account: ECENCY_SUPPORT_ACCOUNT, weight: _weight });
+      setBeneficiaries(_beneficiaries);
+      _saveBeneficiaries(_beneficiaries);
+      supportSettingsMutation.mutate({
+        beneficiary_percent: _supportPercent,
+        curation_percent: _curationPercent,
+      });
+    }
+  };
+
+  const _renderSupportEcency = () => {
+    if (powerDown || !username || username === ECENCY_SUPPORT_ACCOUNT) {
+      return null;
+    }
+
+    return (
+      <TouchableOpacity style={styles.supportEcencyContainer} onPress={_onSupportEcencyPress}>
+        <CheckBox locked isChecked={isSupportActive} clicked={_onSupportEcencyPress} />
+        <Text style={styles.supportEcencyLabel}>
+          {intl.formatMessage({ id: 'editor.support_ecency' }, { percent: _chipPercent })}
+        </Text>
+      </TouchableOpacity>
+    );
   };
 
   const _renderHeader = () => (
@@ -384,6 +461,7 @@ const BeneficiarySelectionContent = ({
         {label || intl.formatMessage({ id: 'editor.beneficiaries' })}
       </Text>
 
+      {_renderSupportEcency()}
       {_renderHeader()}
       {beneficiaries.map(_renderItem)}
       {_renderFooter()}

@@ -15,6 +15,10 @@ import {
   IMAGE_SERVER_LABELS,
   DEFAULT_IMAGE_SERVER,
 } from '../../../constants/options/imageServer';
+import {
+  SUPPORT_BENEFICIARY_PERCENTS,
+  SUPPORT_CURATION_PERCENTS,
+} from '../../../providers/ecency/supportBeneficiary';
 
 // Components
 import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components';
@@ -54,6 +58,7 @@ const SettingsScreen = ({
   isHideImages,
   selectedImageServer = DEFAULT_IMAGE_SERVER,
   dmPrivacy,
+  supportSettings = { beneficiary_percent: 0, curation_percent: 0 },
 }) => {
   const dmPrivacyOptions = [
     intl.formatMessage({ id: 'settings.dm-privacy.allow-all' }),
@@ -61,6 +66,9 @@ const SettingsScreen = ({
     intl.formatMessage({ id: 'settings.dm-privacy.no-one' }),
   ];
   const dmPrivacyIndex = ['all', 'followers', 'none'].indexOf(dmPrivacy || 'all');
+
+  const beneficiaryPercent = supportSettings.beneficiary_percent || 0;
+  const curationPercent = supportSettings.curation_percent || 0;
 
   return (
     <SafeAreaView edges={['top']} style={globalStyles.defaultContainer}>
@@ -348,6 +356,60 @@ const SettingsScreen = ({
                   })}
                 </Text>
               </View>
+            )}
+          </View>
+        )}
+        {!!isLoggedIn && (
+          <View style={styles.settingsCard}>
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.support_ecency',
+              })}
+              titleStyle={styles.cardTitle}
+            />
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.support_beneficiary',
+              })}
+              type="toggle"
+              actionType={settingsTypes.SUPPORT_BENEFICIARY}
+              isOn={beneficiaryPercent > 0}
+              handleOnChange={handleOnChange}
+            />
+            {beneficiaryPercent > 0 && (
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.support_beneficiary_percent',
+                })}
+                type="dropdown"
+                actionType={settingsTypes.SUPPORT_BENEFICIARY_PERCENT}
+                options={SUPPORT_BENEFICIARY_PERCENTS.map((percent) => `${percent}%`)}
+                selectedOptionIndex={SUPPORT_BENEFICIARY_PERCENTS.indexOf(beneficiaryPercent)}
+                defaultText={`${beneficiaryPercent}%`}
+                handleOnChange={handleOnChange}
+              />
+            )}
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.support_curation',
+              })}
+              type="toggle"
+              actionType={settingsTypes.SUPPORT_CURATION}
+              isOn={curationPercent > 0}
+              handleOnChange={handleOnChange}
+            />
+            {curationPercent > 0 && (
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.support_curation_percent',
+                })}
+                type="dropdown"
+                actionType={settingsTypes.SUPPORT_CURATION_PERCENT}
+                options={SUPPORT_CURATION_PERCENTS.map((percent) => `${percent}%`)}
+                selectedOptionIndex={SUPPORT_CURATION_PERCENTS.indexOf(curationPercent)}
+                defaultText={`${curationPercent}%`}
+                handleOnChange={handleOnChange}
+              />
             )}
           </View>
         )}

@@ -88,6 +88,14 @@ export interface UserPoint {
   sender?: string;
 }
 
+export interface SupportSettings {
+  beneficiary_percent: number;
+  curation_percent: number;
+  username?: string;
+  created?: string;
+  modified?: string;
+}
+
 export interface PurchaseRequestData {
   platform: 'play_store' | 'app_store';
   product: string;

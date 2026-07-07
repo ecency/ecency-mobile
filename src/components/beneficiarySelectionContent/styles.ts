@@ -57,4 +57,14 @@ export default EStyleSheet.create({
     width: 50,
     marginTop: 12,
   },
+  supportEcencyContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 12,
+  },
+  supportEcencyLabel: {
+    color: '$primaryBlack',
+    fontSize: 14,
+    marginLeft: 8,
+  },
 });
