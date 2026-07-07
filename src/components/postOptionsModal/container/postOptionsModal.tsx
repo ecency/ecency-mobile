@@ -32,6 +32,7 @@ import ROUTES from '../../../constants/routeNames';
 
 // Utilities
 import { writeToClipboard } from '../../../utils/clipboard';
+import { resolveProfileMergeBase } from '../../../utils/profileMergeBase';
 import { getPostUrl, stripCategoryFromPostPath } from '../../../utils/post';
 
 // Component
@@ -533,8 +534,10 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
         ...getAccountFullQueryOptions(currentAccount.name),
         staleTime: 0,
       });
-      const baseProfile =
-        parseProfileMetadata(freshAccount?.posting_json_metadata) || currentAccount.profile || {};
+      const baseProfile = resolveProfileMergeBase(
+        parseProfileMetadata(freshAccount?.posting_json_metadata),
+        currentAccount.profile,
+      );
 
       const profileParams = {
         ...baseProfile,
