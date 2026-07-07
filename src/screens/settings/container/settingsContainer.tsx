@@ -122,6 +122,14 @@ class SettingsContainer extends Component {
   // that belongs to the previous account.
   _supportOpSeq = 0;
 
+  // saves are queued FIFO so full-payload updates can never reach the server
+  // out of order; a save superseded by a newer one is skipped before sending
+  _supportSaveSeq = 0;
+
+  _supportSaveChain: Promise<void> = Promise.resolve();
+
+  _focusUnsubscribe: (() => void) | null = null;
+
   // Last server-acknowledged support settings (and the seq that produced
   // them). Failed saves roll back HERE, never to the point-in-time snapshot
   // taken when the save started: with two overlapping saves that both fail,
@@ -154,6 +162,17 @@ class SettingsContainer extends Component {
     // serialize the DM privacy fetch behind a slow support settings request
     this._fetchSupportSettings();
 
+    // the editor chip can change the stored settings while this screen stays
+    // mounted in the stack; refetch on focus so a later partial save cannot
+    // merge against stale values. Chained behind queued saves so the fetch
+    // cannot observe pre-save server state.
+    const { navigation } = this.props as any;
+    this._focusUnsubscribe =
+      navigation?.addListener?.('focus', () => {
+        if (!(this.props as any).isLoggedIn) return;
+        this._supportSaveChain.then(() => this._fetchSupportSettings());
+      }) ?? null;
+
     try {
       const dmPrivacy = await getMattermostDmPrivacy();
       this.setState({ dmPrivacy });
@@ -180,6 +199,10 @@ class SettingsContainer extends Component {
         this._fetchSupportSettings();
       }
     }
+  }
+
+  componentWillUnmount() {
+    this._focusUnsubscribe?.();
   }
 
   // reads through the shared SDK query cache so the editor chip and this
@@ -299,50 +322,63 @@ class SettingsContainer extends Component {
 
     this._supportOpSeq += 1;
     const seq = this._supportOpSeq;
+    this._supportSaveSeq += 1;
+    const saveSeq = this._supportSaveSeq;
 
     const prevSettings = supportSettings;
     const nextSettings = { ...supportSettings, ...partial };
 
     this.setState({ supportSettings: nextSettings });
 
-    try {
-      const response = await updateSupportSettingsRequest(code, {
-        beneficiary_percent: nextSettings.beneficiary_percent,
-        curation_percent: nextSettings.curation_percent,
-      });
-      // even a stale save was accepted by the server: record it as the
-      // rollback target for later failed saves (seq-guarded)
-      if (isValidSupportSettings(response) && seq > this._confirmedSupportSeq) {
-        this._confirmedSupportSettings = {
-          beneficiary_percent: response.beneficiary_percent,
-          curation_percent: response.curation_percent,
-        };
-        this._confirmedSupportSeq = seq;
-      }
-      // an older save must not overwrite state/cache a newer save produced
-      if (seq !== this._supportOpSeq) return;
-      if (isValidSupportSettings(response)) {
-        this.setState({
-          supportSettings: {
+    const run = async () => {
+      // a newer save supersedes this one; every save carries the full
+      // payload, so skipping stale sends collapses redundant writes and
+      // guarantees the server never applies them out of order
+      if (saveSeq !== this._supportSaveSeq) return;
+      try {
+        const response = await updateSupportSettingsRequest(code, {
+          beneficiary_percent: nextSettings.beneficiary_percent,
+          curation_percent: nextSettings.curation_percent,
+        });
+        // even a stale save was accepted by the server: record it as the
+        // rollback target for later failed saves (seq-guarded)
+        if (isValidSupportSettings(response) && seq > this._confirmedSupportSeq) {
+          this._confirmedSupportSettings = {
             beneficiary_percent: response.beneficiary_percent,
             curation_percent: response.curation_percent,
-          },
-        });
-        applySupportSettingsUpdate(queryClient, username, response);
-      } else {
-        queryClient?.invalidateQueries({
-          queryKey: getSupportSettingsQueryOptions(username, code).queryKey,
-        });
+          };
+          this._confirmedSupportSeq = seq;
+        }
+        // an older save must not overwrite state/cache a newer save produced
+        if (seq !== this._supportOpSeq) return;
+        if (isValidSupportSettings(response)) {
+          this.setState({
+            supportSettings: {
+              beneficiary_percent: response.beneficiary_percent,
+              curation_percent: response.curation_percent,
+            },
+          });
+          applySupportSettingsUpdate(queryClient, username, response);
+        } else {
+          queryClient?.invalidateQueries({
+            queryKey: getSupportSettingsQueryOptions(username, code).queryKey,
+          });
+        }
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+      } catch {
+        // a failed older save must not roll back a newer save's state
+        if (seq !== this._supportOpSeq) return;
+        // roll back to what the server last acknowledged; the snapshot taken
+        // at save start may be an earlier save's unconfirmed optimistic value
+        this.setState({ supportSettings: this._confirmedSupportSettings || prevSettings });
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       }
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-    } catch {
-      // a failed older save must not roll back a newer save's state
-      if (seq !== this._supportOpSeq) return;
-      // roll back to what the server last acknowledged; the snapshot taken at
-      // save start may be an earlier save's unconfirmed optimistic value
-      this.setState({ supportSettings: this._confirmedSupportSettings || prevSettings });
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-    }
+    };
+
+    // strict FIFO: the request only goes out after every earlier one settled
+    // (run never rejects, its try/catch covers the whole body)
+    this._supportSaveChain = this._supportSaveChain.then(run);
+    return this._supportSaveChain;
   };
 
   _changeApi = async (action) => {

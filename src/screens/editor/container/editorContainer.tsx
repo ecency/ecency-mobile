@@ -21,6 +21,7 @@ import {
 } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
+import Config from 'react-native-config';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import { getDigitPinCode, shouldPromptPostingAuthority } from '../../../providers/hive/hive';
 import { decryptKey } from '../../../utils/crypto';
@@ -1026,9 +1027,15 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       let supportPercent = 0;
       let timeoutId: ReturnType<typeof setTimeout> | undefined;
       try {
-        const accessToken = currentAccount?.local?.accessToken
+        let accessToken = currentAccount?.local?.accessToken
           ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
           : undefined;
+        if (!accessToken && currentAccount?.local?.accessToken) {
+          // HiveAuth accounts use the default pin unless the user changed it
+          // (mirrors useAuth); without this their saved preference would
+          // silently never apply
+          accessToken = decryptKey(currentAccount.local.accessToken, Config.DEFAULT_PIN);
+        }
         // shared SDK query key: reuses/warms the same cache entry the settings
         // screen and beneficiary modal read
         const fetchSettings = queryClient.fetchQuery({
