@@ -58,7 +58,9 @@ const SettingsScreen = ({
   isHideImages,
   selectedImageServer = DEFAULT_IMAGE_SERVER,
   dmPrivacy,
-  supportSettings = { beneficiary_percent: 0, curation_percent: 0 },
+  // null while support settings have not loaded (or failed to load); the
+  // whole card stays hidden so stale zeros can never be written back
+  supportSettings = null,
 }) => {
   const dmPrivacyOptions = [
     intl.formatMessage({ id: 'settings.dm-privacy.allow-all' }),
@@ -67,8 +69,8 @@ const SettingsScreen = ({
   ];
   const dmPrivacyIndex = ['all', 'followers', 'none'].indexOf(dmPrivacy || 'all');
 
-  const beneficiaryPercent = supportSettings.beneficiary_percent || 0;
-  const curationPercent = supportSettings.curation_percent || 0;
+  const beneficiaryPercent = supportSettings?.beneficiary_percent || 0;
+  const curationPercent = supportSettings?.curation_percent || 0;
 
   return (
     <SafeAreaView edges={['top']} style={globalStyles.defaultContainer}>
@@ -359,7 +361,7 @@ const SettingsScreen = ({
             )}
           </View>
         )}
-        {!!isLoggedIn && (
+        {!!isLoggedIn && !!supportSettings && (
           <View style={styles.settingsCard}>
             <SettingsItem
               title={intl.formatMessage({

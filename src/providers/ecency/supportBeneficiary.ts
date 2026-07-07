@@ -31,13 +31,14 @@ interface BeneficiaryRoute {
 }
 
 /**
- * Returns `beneficiaries` with a single `{ account: 'ecency', weight: percent * 100 }`
- * route added when `percent > 0`.
+ * Returns `beneficiaries` with `{ account: 'ecency', weight: percent * 100 }`
+ * appended when `percent > 0`.
  *
  * Rules:
  * - percent 0 (or invalid) returns the input unchanged
- * - never produces two ecency routes; when one (or more) already exists the
- *   LARGER weight wins and duplicates are collapsed into a single route
+ * - an existing ecency route always wins: the input is returned unchanged so
+ *   an explicit user-chosen weight (higher OR lower than the saved percent)
+ *   is never overridden at publish time
  * - injection is skipped (input returned unchanged) when the result would
  *   exceed 8 routes or 10000 total weight
  * - the input array is never mutated
@@ -50,16 +51,12 @@ export function injectEcencySupportBeneficiary(
     return beneficiaries;
   }
 
+  if (beneficiaries.some((item) => item.account === ECENCY_SUPPORT_ACCOUNT)) {
+    return beneficiaries;
+  }
+
   const weight = Math.floor(percent * 100);
-
-  const others = beneficiaries.filter((item) => item.account !== ECENCY_SUPPORT_ACCOUNT);
-  const existingWeight = beneficiaries.reduce(
-    (max, item) => (item.account === ECENCY_SUPPORT_ACCOUNT ? Math.max(max, item.weight) : max),
-    0,
-  );
-
-  const nextWeight = Math.max(existingWeight, weight);
-  const next = [...others, { account: ECENCY_SUPPORT_ACCOUNT, weight: nextWeight }];
+  const next = [...beneficiaries, { account: ECENCY_SUPPORT_ACCOUNT, weight }];
 
   if (next.length > MAX_BENEFICIARY_ROUTES) {
     return beneficiaries;

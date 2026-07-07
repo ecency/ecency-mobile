@@ -1,7 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
 import QUERIES from './queryKeys';
-import { getNodes, getSupportSettings, setSupportSettings } from '../ecency/ecency';
+import {
+  getNodes,
+  getSupportSettings,
+  isValidSupportSettings,
+  setSupportSettings,
+} from '../ecency/ecency';
 import { SupportSettings } from '../ecency/ecency.types';
 import { SERVER_LIST } from '../../constants/options/api';
 import { useAppDispatch, useAuth } from '../../hooks';
@@ -45,7 +50,11 @@ export const useSupportSettingsMutation = () => {
     mutationFn: (data: { beneficiary_percent: number; curation_percent: number }) =>
       setSupportSettings(data),
     onSuccess: (data) => {
-      queryClient.setQueryData([QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, username], data);
+      // only prime the cache with a well-formed payload; a malformed update
+      // response must not poison values other consumers read-modify-write
+      if (isValidSupportSettings(data)) {
+        queryClient.setQueryData([QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, username], data);
+      }
       queryClient.invalidateQueries({
         queryKey: [QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, username],
       });

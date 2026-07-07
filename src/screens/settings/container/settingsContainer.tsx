@@ -48,6 +48,7 @@ import { logout, logoutDone, toastNotification } from '../../../redux/actions/ui
 import {
   deleteAccount,
   getSupportSettings,
+  isValidSupportSettings,
   setSupportSettings,
 } from '../../../providers/ecency/ecency';
 import {
@@ -118,10 +119,10 @@ class SettingsContainer extends Component {
       isNotificationMenuOpen: props.isNotificationSettingsOpen,
       isLoading: false,
       dmPrivacy: 'all',
-      supportSettings: {
-        beneficiary_percent: 0,
-        curation_percent: 0,
-      },
+      // null = not loaded (or load failed); the support controls stay hidden
+      // until a load succeeds so a toggle can never do a read-modify-write
+      // against unknown values and wipe the other saved field
+      supportSettings: null,
     };
   }
 
@@ -129,17 +130,7 @@ class SettingsContainer extends Component {
     const { isLoggedIn } = this.props as any;
     if (!isLoggedIn) return;
 
-    try {
-      const supportSettings = await getSupportSettings();
-      this.setState({
-        supportSettings: {
-          beneficiary_percent: supportSettings?.beneficiary_percent || 0,
-          curation_percent: supportSettings?.curation_percent || 0,
-        },
-      });
-    } catch {
-      // best-effort: keep defaults
-    }
+    await this._fetchSupportSettings();
 
     try {
       const dmPrivacy = await getMattermostDmPrivacy();
@@ -148,6 +139,30 @@ class SettingsContainer extends Component {
       // best-effort: keep default
     }
   }
+
+  // reads through the shared query cache so the editor chip and this screen
+  // stay coherent; getSupportSettings rejects malformed 200 responses
+  _fetchSupportSettings = async () => {
+    const { queryClient, username } = this.props as any;
+
+    try {
+      const supportSettings = queryClient
+        ? await queryClient.fetchQuery({
+            queryKey: [QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, username],
+            queryFn: getSupportSettings,
+          })
+        : await getSupportSettings();
+      this.setState({
+        supportSettings: {
+          beneficiary_percent: supportSettings.beneficiary_percent || 0,
+          curation_percent: supportSettings.curation_percent || 0,
+        },
+      });
+    } catch {
+      // keep controls hidden; re-entering the screen retries
+      this.setState({ supportSettings: null });
+    }
+  };
 
   // Component Functions
   _handleDropdownSelected = async (action, actionType) => {
@@ -226,16 +241,32 @@ class SettingsContainer extends Component {
   _updateSupportSettings = async (partial) => {
     const { dispatch, intl, username, queryClient } = this.props as any;
     const { supportSettings } = this.state as any;
+
+    // the update carries BOTH fields; never write from unknown state
+    // (controls are hidden until loaded, this is a safety net)
+    if (!supportSettings) {
+      return;
+    }
+
     const prevSettings = supportSettings;
     const nextSettings = { ...supportSettings, ...partial };
 
     this.setState({ supportSettings: nextSettings });
 
     try {
-      await setSupportSettings({
+      const response = await setSupportSettings({
         beneficiary_percent: nextSettings.beneficiary_percent,
         curation_percent: nextSettings.curation_percent,
       });
+      if (isValidSupportSettings(response)) {
+        this.setState({
+          supportSettings: {
+            beneficiary_percent: response.beneficiary_percent,
+            curation_percent: response.curation_percent,
+          },
+        });
+        queryClient?.setQueryData([QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, username], response);
+      }
       queryClient?.invalidateQueries({
         queryKey: [QUERIES.SETTINGS.GET_SUPPORT_SETTINGS, username],
       });

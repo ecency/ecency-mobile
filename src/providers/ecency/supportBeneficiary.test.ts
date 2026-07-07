@@ -35,35 +35,25 @@ describe('injectEcencySupportBeneficiary', () => {
     ]);
   });
 
-  it('bumps an existing smaller ecency route to the larger weight without duplicating', () => {
+  it('never bumps an existing smaller ecency route (explicit user weight wins)', () => {
     const input = [
       { account: 'alice', weight: 1000 },
       { account: ECENCY_SUPPORT_ACCOUNT, weight: 100 },
     ];
-    const result = injectEcencySupportBeneficiary(input, 5);
-    expect(result.filter((item) => item.account === ECENCY_SUPPORT_ACCOUNT)).toHaveLength(1);
-    expect(result).toEqual(
-      expect.arrayContaining([
-        { account: 'alice', weight: 1000 },
-        { account: ECENCY_SUPPORT_ACCOUNT, weight: 500 },
-      ]),
-    );
-    expect(result).toHaveLength(2);
+    expect(injectEcencySupportBeneficiary(input, 5)).toBe(input);
   });
 
-  it('keeps an existing larger ecency route weight', () => {
+  it('never lowers an existing larger ecency route', () => {
     const input = [{ account: ECENCY_SUPPORT_ACCOUNT, weight: 2500 }];
-    const result = injectEcencySupportBeneficiary(input, 5);
-    expect(result).toEqual([{ account: ECENCY_SUPPORT_ACCOUNT, weight: 2500 }]);
+    expect(injectEcencySupportBeneficiary(input, 5)).toBe(input);
   });
 
-  it('collapses duplicate ecency routes into one, keeping the largest weight', () => {
+  it('returns input unchanged when ecency routes already exist, even duplicates', () => {
     const input = [
       { account: ECENCY_SUPPORT_ACCOUNT, weight: 200 },
       { account: ECENCY_SUPPORT_ACCOUNT, weight: 300 },
     ];
-    const result = injectEcencySupportBeneficiary(input, 1);
-    expect(result).toEqual([{ account: ECENCY_SUPPORT_ACCOUNT, weight: 300 }]);
+    expect(injectEcencySupportBeneficiary(input, 1)).toBe(input);
   });
 
   it('skips injection when it would exceed 8 routes', () => {
@@ -92,12 +82,25 @@ describe('injectEcencySupportBeneficiary', () => {
     ]);
   });
 
-  it('skips bumping an existing route when the bump would exceed 10000 total weight', () => {
+  it('returns input unchanged for large percents when an ecency route already exists', () => {
     const input = [
       { account: 'alice', weight: 9600 },
       { account: ECENCY_SUPPORT_ACCOUNT, weight: 100 },
     ];
     expect(injectEcencySupportBeneficiary(input, 100)).toBe(input);
+  });
+
+  it('appends the ecency route after existing routes', () => {
+    const input = [
+      { account: 'alice', weight: 1000 },
+      { account: 'bob', weight: 500 },
+    ];
+    const result = injectEcencySupportBeneficiary(input, 5);
+    expect(result).toEqual([
+      { account: 'alice', weight: 1000 },
+      { account: 'bob', weight: 500 },
+      { account: ECENCY_SUPPORT_ACCOUNT, weight: 500 },
+    ]);
   });
 
   it('does not mutate the input array', () => {

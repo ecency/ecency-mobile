@@ -82,6 +82,48 @@ const BeneficiarySelectionContent = ({
     initBeneficiaries();
   }, [draftId, encodingBeneficiaries]);
 
+  // Reconcile the saved Support Ecency setting into the visible list so the
+  // modal shows exactly what publish will produce. Seeds the ecency row only
+  // when the user has no explicit beneficiary list persisted for this draft;
+  // an explicit list (created by any chip/add/remove action) is never touched.
+  // The seeded row itself is not persisted: publish derives the same row from
+  // the saved setting, and any user interaction persists the full list anyway.
+  useEffect(() => {
+    if (powerDown || handleSaveBeneficiary || !username || username === ECENCY_SUPPORT_ACCOUNT) {
+      return;
+    }
+
+    // wait for a successful settings load; never seed from unknown state
+    const savedPercent = supportSettingsQuery.data?.beneficiary_percent || 0;
+    if (savedPercent <= 0) {
+      return;
+    }
+
+    const _draftId = draftId || DEFAULT_USER_DRAFT_ID + username;
+    if (beneficiariesMap && Object.prototype.hasOwnProperty.call(beneficiariesMap, _draftId)) {
+      return;
+    }
+
+    const weight = savedPercent * 100;
+    setBeneficiaries((prevBeneficiaries) => {
+      if (
+        prevBeneficiaries.some((item) => item.account === ECENCY_SUPPORT_ACCOUNT) ||
+        !prevBeneficiaries.length ||
+        prevBeneficiaries[0].account !== username ||
+        prevBeneficiaries[0].weight < weight ||
+        prevBeneficiaries.length - 1 >= 8
+      ) {
+        return prevBeneficiaries;
+      }
+
+      const next = prevBeneficiaries.map((item, index) =>
+        index === 0 ? { ...item, weight: item.weight - weight } : item,
+      );
+      next.push({ account: ECENCY_SUPPORT_ACCOUNT, weight });
+      return next;
+    });
+  }, [supportSettingsQuery.data, beneficiariesMap, beneficiaries, draftId, username, powerDown]);
+
   useEffect(() => {
     setDisableDone(newEditable);
   }, [newEditable]);
@@ -224,9 +266,23 @@ const BeneficiarySelectionContent = ({
     ? Math.round(_ecencyBeneficiary.weight / 100)
     : _supportPercent;
 
-  const _onSupportEcencyPress = () => {
-    const _curationPercent = supportSettingsQuery.data?.curation_percent || 0;
+  // The settings update writes BOTH fields (backend contract), so it must
+  // read-modify-write from a successfully loaded payload. While settings are
+  // still loading or errored, the chip only changes this post's beneficiary
+  // list and skips the preference save; anything else could wipe the saved
+  // curation percent or overwrite a non-default beneficiary percent.
+  const _persistSupportPreference = (beneficiaryPercent: number) => {
+    const _settings = supportSettingsQuery.data;
+    if (!_settings) {
+      return;
+    }
+    supportSettingsMutation.mutate({
+      beneficiary_percent: beneficiaryPercent,
+      curation_percent: _settings.curation_percent || 0,
+    });
+  };
 
+  const _onSupportEcencyPress = () => {
     if (isSupportActive) {
       const _removedWeight = beneficiaries.reduce(
         (sum, item) => (item.account === ECENCY_SUPPORT_ACCOUNT ? sum + item.weight : sum),
@@ -241,10 +297,7 @@ const BeneficiarySelectionContent = ({
       };
       setBeneficiaries(_beneficiaries);
       _saveBeneficiaries(_beneficiaries);
-      supportSettingsMutation.mutate({
-        beneficiary_percent: 0,
-        curation_percent: _curationPercent,
-      });
+      _persistSupportPreference(0);
     } else {
       const _weight = _supportPercent * 100;
       // author row must retain non-negative weight and hive allows max 8 routes
@@ -258,10 +311,7 @@ const BeneficiarySelectionContent = ({
       _beneficiaries.push({ account: ECENCY_SUPPORT_ACCOUNT, weight: _weight });
       setBeneficiaries(_beneficiaries);
       _saveBeneficiaries(_beneficiaries);
-      supportSettingsMutation.mutate({
-        beneficiary_percent: _supportPercent,
-        curation_percent: _curationPercent,
-      });
+      _persistSupportPreference(_supportPercent);
     }
   };
 

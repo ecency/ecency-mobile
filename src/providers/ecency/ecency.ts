@@ -186,6 +186,14 @@ export const purchaseOrder = async (data: PurchaseRequestData) => {
 };
 
 /**
+ * checks a support settings payload carries both percent fields as numbers;
+ * consumers do read-modify-write with these values, so a malformed 200
+ * response must be treated as an error rather than read as zeros
+ * */
+export const isValidSupportSettings = (data: any): data is SupportSettings =>
+  !!data && Number.isFinite(data.beneficiary_percent) && Number.isFinite(data.curation_percent);
+
+/**
  * fetches user's voluntary Support Ecency settings
  * POST /private-api/support-settings
  * username is resolved on the backend from the injected auth code
@@ -194,6 +202,9 @@ export const purchaseOrder = async (data: PurchaseRequestData) => {
 export const getSupportSettings = async (): Promise<SupportSettings> => {
   try {
     const response = await ecencyApi.post('/private-api/support-settings');
+    if (!isValidSupportSettings(response.data)) {
+      throw new Error('Invalid support settings response');
+    }
     return response.data;
   } catch (error) {
     Sentry.captureException(error);

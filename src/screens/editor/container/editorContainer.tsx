@@ -487,7 +487,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         (item) => item.account !== currentAccount.name,
       ); // remove default beneficiary from array while saving
 
-      dispatch(setBeneficiaries(_draftId, filteredBeneficiaries));
+      // an empty list in draft meta is just the absence default written by
+      // draft saves, not an explicit user choice; storing it would wrongly
+      // mark the draft as having a customized beneficiary list and block the
+      // voluntary support beneficiary injection at publish time
+      if (filteredBeneficiaries.length > 0) {
+        dispatch(setBeneficiaries(_draftId, filteredBeneficiaries));
+      }
     }
 
     if (draft.meta?.poll) {
@@ -1001,9 +1007,18 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     beneficiaries = enforceThreeSpeakBeneficiary(beneficiaries, fields.body);
 
     // Voluntary Support Ecency beneficiary based on user's saved support
-    // settings. Fails open: any fetch error publishes without injection.
-    // Double-submit while awaiting is guarded by `_isSubmitting` (armed above).
-    if (currentAccount.name !== ECENCY_SUPPORT_ACCOUNT) {
+    // settings. Applied ONLY when the user has no explicit beneficiary list
+    // for this draft: once the beneficiary modal persisted a list (including
+    // one where the ecency row was removed or added at a custom weight), that
+    // list is the source of truth and is published as-is. Fails open: any
+    // fetch error publishes without injection. Double-submit while awaiting
+    // is guarded by `_isSubmitting` (armed above).
+    const { beneficiariesMap } = this.props;
+    const _benefDraftId = draftId || DEFAULT_USER_DRAFT_ID + currentAccount.name;
+    const _hasExplicitBeneficiaries =
+      !!beneficiariesMap && Object.prototype.hasOwnProperty.call(beneficiariesMap, _benefDraftId);
+
+    if (!_hasExplicitBeneficiaries && currentAccount.name !== ECENCY_SUPPORT_ACCOUNT) {
       let supportPercent = 0;
       try {
         const supportSettings = await queryClient.fetchQuery({
