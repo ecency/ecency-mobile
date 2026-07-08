@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { DeviceEventEmitter, Text, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SheetManager } from 'react-native-actions-sheet';
@@ -14,6 +14,7 @@ import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import {
   deriveWavesOnboardingState,
+  WAVES_ONBOARDING_LATCH_EVENT,
   WavesOnboardingItem,
   WavesOnboardingItemId,
 } from '../../../utils/wavesOnboarding';
@@ -80,25 +81,54 @@ const WavesOnboardingChecklist = () => {
     setItemToStorage(_storageKey(username), next);
   };
 
-  // Latch newly-completed items: daily quest progress resets at 00:00 UTC, so a
-  // checklist item must never un-check itself the next day.
+  // Latch items completed by the submit path (a wave has no live quest signal,
+  // see WAVES_ONBOARDING_LATCH_EVENT). Functional update keeps this safe next
+  // to the effect below; both instances of the card (feed + waves tabs) write
+  // the same merged value, so the double storage write is idempotent.
+  useEffect(() => {
+    if (!username) {
+      return undefined;
+    }
+    const sub = DeviceEventEmitter.addListener(
+      WAVES_ONBOARDING_LATCH_EVENT,
+      (id: WavesOnboardingItemId) => {
+        setPersisted((prev) => {
+          if (!prev || (prev.done ?? []).includes(id)) {
+            return prev;
+          }
+          const next = { ...prev, done: [...(prev.done ?? []), id] };
+          setItemToStorage(_storageKey(username), next);
+          return next;
+        });
+      },
+    );
+    return () => sub.remove();
+  }, [username]);
+
+  // Latch newly-completed items (daily quest progress resets at 00:00 UTC, so a
+  // checklist item must never un-check itself the next day) and celebrate once
+  // everything is done, in a SINGLE write: two separate effects would race on
+  // the same persisted snapshot and the celebration write could drop the
+  // just-latched final item.
   useEffect(() => {
     if (!state || !persisted) {
       return;
     }
     const done = state.items.filter((i) => i.completed).map((i) => i.id);
     const prev = persisted.done ?? [];
-    if (done.some((id) => !prev.includes(id))) {
-      _persist({ ...persisted, done });
-    }
-  }, [state]);
-
-  useEffect(() => {
-    if (state?.allComplete && persisted && !persisted.celebrated) {
+    const latchNeeded = done.some((id) => !prev.includes(id));
+    const celebrationNeeded = state.allComplete && !persisted.celebrated;
+    if (celebrationNeeded) {
       setCelebrating(true);
-      _persist({ ...persisted, celebrated: true });
     }
-  }, [state?.allComplete, persisted]);
+    if (latchNeeded || celebrationNeeded) {
+      _persist({
+        ...persisted,
+        done: latchNeeded ? done : prev,
+        celebrated: persisted.celebrated || celebrationNeeded,
+      });
+    }
+  }, [state, persisted]);
 
   if (
     !username ||

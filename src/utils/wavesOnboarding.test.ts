@@ -87,12 +87,14 @@ describe('deriveWavesOnboardingState', () => {
     );
     expect(state).toMatchObject({
       items: [
-        { id: 'wave', completed: true },
+        // A wave counts as comment activity on chain, so the wave item has no
+        // live quest signal; it completes only via the submit-path latch.
+        { id: 'wave', completed: false },
         { id: 'vote', completed: false },
         { id: 'reply', completed: true },
         { id: 'checkin', completed: false },
       ],
-      completedCount: 2,
+      completedCount: 1,
       allComplete: false,
     });
   });
@@ -139,7 +141,7 @@ describe('deriveWavesOnboardingState', () => {
     const state = deriveWavesOnboardingState(
       makeQuests({ post: 1 }) as any,
       makeAccount({ created: '2020-01-01T00:00:00', post_count: 1200 }),
-      [],
+      ['wave'],
       NOW,
     );
     expect(state).toMatchObject({ eligible: false });

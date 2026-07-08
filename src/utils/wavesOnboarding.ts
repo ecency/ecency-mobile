@@ -2,6 +2,14 @@ import type { QuestsResponse } from '@ecency/sdk';
 
 export type WavesOnboardingItemId = 'wave' | 'vote' | 'reply' | 'checkin';
 
+/**
+ * DeviceEventEmitter event fired on wave submit success. On chain a wave is a
+ * reply into the waves container, so the quests endpoint counts it as comment
+ * activity, not post: the only reliable "posted a wave" signal is the submit
+ * path itself. The mounted checklist listens and latches the item.
+ */
+export const WAVES_ONBOARDING_LATCH_EVENT = 'wavesOnboarding:latch';
+
 export interface WavesOnboardingItem {
   id: WavesOnboardingItemId;
   completed: boolean;
@@ -61,7 +69,9 @@ export const deriveWavesOnboardingState = (
 
   const streak = quests.streak?.current ?? 0;
   const items = [
-    item('wave', dailyProgress(quests, 'post') > 0),
+    // No live quest signal: a wave advances the comment quest (it is a reply
+    // on chain), so this item completes only via the submit-path latch.
+    item('wave', false),
     item('vote', dailyProgress(quests, 'vote') > 0),
     item('reply', dailyProgress(quests, 'comment') > 0),
     item('checkin', dailyProgress(quests, 'checkin') > 0 || streak >= 1),
