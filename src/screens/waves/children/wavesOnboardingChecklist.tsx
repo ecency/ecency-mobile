@@ -46,6 +46,10 @@ const WavesOnboardingChecklist = () => {
   // null until the per-user flags load, so the card never flashes before the
   // dismissed/latched state is known.
   const [persisted, setPersisted] = useState<PersistedOnboarding | null>(null);
+  // Items latched by submit-path events, held in state only: the merged effect
+  // below is the SINGLE storage writer, so an event write can never clobber a
+  // concurrent celebration/latch write to the same key.
+  const [pendingLatches, setPendingLatches] = useState<WavesOnboardingItemId[]>([]);
   // True only for the mount where the last item completes: the celebration
   // renders once, then the persisted flag hides the card on later mounts.
   const [celebrating, setCelebrating] = useState(false);
@@ -53,6 +57,7 @@ const WavesOnboardingChecklist = () => {
   useEffect(() => {
     let mounted = true;
     setPersisted(null);
+    setPendingLatches([]);
     setCelebrating(false);
     if (!username) {
       return undefined;
@@ -69,8 +74,13 @@ const WavesOnboardingChecklist = () => {
 
   const state = useMemo(
     () =>
-      persisted ? deriveWavesOnboardingState(quests, currentAccount, persisted.done ?? []) : null,
-    [quests, currentAccount, persisted],
+      persisted
+        ? deriveWavesOnboardingState(quests, currentAccount, [
+            ...(persisted.done ?? []),
+            ...pendingLatches,
+          ])
+        : null,
+    [quests, currentAccount, persisted, pendingLatches],
   );
 
   const _persist = (next: PersistedOnboarding) => {
@@ -81,29 +91,18 @@ const WavesOnboardingChecklist = () => {
     setItemToStorage(_storageKey(username), next);
   };
 
-  // Latch items completed by the submit path (a wave has no live quest signal,
-  // see WAVES_ONBOARDING_LATCH_EVENT). Functional update keeps this safe next
-  // to the effect below; both instances of the card (feed + waves tabs) write
-  // the same merged value, so the double storage write is idempotent.
+  // Items completed by the submit path (a wave has no live quest signal, see
+  // WAVES_ONBOARDING_LATCH_EVENT) only buffer into state here; the derivation
+  // treats them as completed and the merged effect below persists them.
   useEffect(() => {
-    if (!username) {
-      return undefined;
-    }
     const sub = DeviceEventEmitter.addListener(
       WAVES_ONBOARDING_LATCH_EVENT,
       (id: WavesOnboardingItemId) => {
-        setPersisted((prev) => {
-          if (!prev || (prev.done ?? []).includes(id)) {
-            return prev;
-          }
-          const next = { ...prev, done: [...(prev.done ?? []), id] };
-          setItemToStorage(_storageKey(username), next);
-          return next;
-        });
+        setPendingLatches((prev) => (prev.includes(id) ? prev : [...prev, id]));
       },
     );
     return () => sub.remove();
-  }, [username]);
+  }, []);
 
   // Latch newly-completed items (daily quest progress resets at 00:00 UTC, so a
   // checklist item must never un-check itself the next day) and celebrate once

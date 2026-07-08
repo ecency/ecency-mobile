@@ -58,7 +58,9 @@ export const deriveWavesOnboardingState = (
   persistedCompleted: WavesOnboardingItemId[] = [],
   now = Date.now(),
 ): WavesOnboardingState | null => {
-  if (!quests || !account) {
+  // The redux currentAccount can be a truthy-but-partial object before the
+  // chain account loads; treat it as still loading.
+  if (!quests || typeof account?.created !== 'string' || typeof account?.post_count !== 'number') {
     return null;
   }
 

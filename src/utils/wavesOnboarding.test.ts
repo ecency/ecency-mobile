@@ -62,6 +62,18 @@ describe('deriveWavesOnboardingState', () => {
     expect(deriveWavesOnboardingState(makeQuests() as any, null, [], NOW)).toBeNull();
   });
 
+  it('returns null for a truthy but partial account object', () => {
+    expect(deriveWavesOnboardingState(makeQuests() as any, {} as any, [], NOW)).toBeNull();
+    expect(
+      deriveWavesOnboardingState(
+        makeQuests() as any,
+        { created: '2026-07-01T00:00:00' } as any,
+        [],
+        NOW,
+      ),
+    ).toBeNull();
+  });
+
   it('starts with every item incomplete for a fresh account', () => {
     const state = deriveWavesOnboardingState(makeQuests() as any, makeAccount(), [], NOW);
     expect(state).toEqual({
