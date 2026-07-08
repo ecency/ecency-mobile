@@ -28,6 +28,26 @@ interface PersistedOnboarding {
 
 const _storageKey = (username: string) => `waves_onboarding_${username}`;
 
+/**
+ * The checklist is mounted from both the Feed and Waves tabs at once, so the
+ * per-user flags live here at module scope as the single source of truth.
+ * Updates are synchronous read-modify-write against this map, so no instance
+ * can overwrite another's flags from a stale snapshot; storage is
+ * write-through and the state event keeps every mounted instance in sync.
+ */
+const WAVES_ONBOARDING_STATE_EVENT = 'wavesOnboarding:state';
+const memoryState = new Map<string, PersistedOnboarding>();
+
+const _updatePersisted = (
+  username: string,
+  updater: (prev: PersistedOnboarding) => PersistedOnboarding,
+) => {
+  const next = updater(memoryState.get(username) ?? {});
+  memoryState.set(username, next);
+  setItemToStorage(_storageKey(username), next);
+  DeviceEventEmitter.emit(WAVES_ONBOARDING_STATE_EVENT, { username, next });
+};
+
 const DISMISS_HIT_SLOP = { top: 8, bottom: 8, left: 8, right: 8 };
 
 /**
@@ -62,13 +82,30 @@ const WavesOnboardingChecklist = () => {
     if (!username) {
       return undefined;
     }
-    getItemFromStorage(_storageKey(username)).then((data: PersistedOnboarding | null) => {
-      if (mounted) {
-        setPersisted(data || {});
-      }
-    });
+    const cached = memoryState.get(username);
+    if (cached) {
+      setPersisted(cached);
+    } else {
+      getItemFromStorage(_storageKey(username)).then((data: PersistedOnboarding | null) => {
+        if (!memoryState.has(username)) {
+          memoryState.set(username, data || {});
+        }
+        if (mounted) {
+          setPersisted(memoryState.get(username) ?? {});
+        }
+      });
+    }
+    const sub = DeviceEventEmitter.addListener(
+      WAVES_ONBOARDING_STATE_EVENT,
+      (payload: { username: string; next: PersistedOnboarding }) => {
+        if (payload.username === username) {
+          setPersisted(payload.next);
+        }
+      },
+    );
     return () => {
       mounted = false;
+      sub.remove();
     };
   }, [username]);
 
@@ -82,14 +119,6 @@ const WavesOnboardingChecklist = () => {
         : null,
     [quests, currentAccount, persisted, pendingLatches],
   );
-
-  const _persist = (next: PersistedOnboarding) => {
-    if (!username) {
-      return;
-    }
-    setPersisted(next);
-    setItemToStorage(_storageKey(username), next);
-  };
 
   // Items completed by the submit path (a wave has no live quest signal, see
   // WAVES_ONBOARDING_LATCH_EVENT) only buffer into state here; the derivation
@@ -106,28 +135,26 @@ const WavesOnboardingChecklist = () => {
 
   // Latch newly-completed items (daily quest progress resets at 00:00 UTC, so a
   // checklist item must never un-check itself the next day) and celebrate once
-  // everything is done, in a SINGLE write: two separate effects would race on
-  // the same persisted snapshot and the celebration write could drop the
-  // just-latched final item.
+  // everything is done, in a SINGLE updater-style write: the updater merges
+  // against the authoritative module-scope value, never this render's snapshot.
   useEffect(() => {
-    if (!state || !persisted) {
+    if (!username || !state || !persisted) {
       return;
     }
     const done = state.items.filter((i) => i.completed).map((i) => i.id);
-    const prev = persisted.done ?? [];
-    const latchNeeded = done.some((id) => !prev.includes(id));
+    const latchNeeded = done.some((id) => !(persisted.done ?? []).includes(id));
     const celebrationNeeded = state.allComplete && !persisted.celebrated;
     if (celebrationNeeded) {
       setCelebrating(true);
     }
     if (latchNeeded || celebrationNeeded) {
-      _persist({
-        ...persisted,
-        done: latchNeeded ? done : prev,
-        celebrated: persisted.celebrated || celebrationNeeded,
-      });
+      _updatePersisted(username, (prev) => ({
+        ...prev,
+        done: Array.from(new Set([...(prev.done ?? []), ...done])),
+        celebrated: prev.celebrated || celebrationNeeded,
+      }));
     }
-  }, [state, persisted]);
+  }, [username, state, persisted]);
 
   if (
     !username ||
@@ -140,9 +167,7 @@ const WavesOnboardingChecklist = () => {
   }
 
   const _onDismiss = () => {
-    if (persisted) {
-      _persist({ ...persisted, dismissed: true });
-    }
+    _updatePersisted(username, (prev) => ({ ...prev, dismissed: true }));
   };
 
   const _onCreateWavePress = () => {
