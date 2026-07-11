@@ -35,6 +35,40 @@ describe('deepLinkParser', () => {
     });
   });
 
+  describe('waves URLs', () => {
+    it('routes waves permalink (no @author) to post screen', async () => {
+      const result = await deepLinkParser('https://ecency.com/waves/jza/wave-202677t12348900z');
+      expect(result.name).toBe(ROUTES.SCREENS.POST);
+      expect(result.params).toEqual({ author: 'jza', permlink: 'wave-202677t12348900z' });
+      expect(result.key).toBe('jza/wave-202677t12348900z');
+    });
+
+    it('routes waves permalink with @author to post screen', async () => {
+      const result = await deepLinkParser('https://ecency.com/waves/@jza/wave-202677t12348900z');
+      expect(result.name).toBe(ROUTES.SCREENS.POST);
+      expect(result.params).toEqual({ author: 'jza', permlink: 'wave-202677t12348900z' });
+    });
+
+    it('parses ecency:// deep link for waves', async () => {
+      const result = await deepLinkParser('ecency://waves/jza/wave-202677t12348900z');
+      expect(result.name).toBe(ROUTES.SCREENS.POST);
+      expect(result.params.author).toBe('jza');
+      expect(result.params.permlink).toBe('wave-202677t12348900z');
+    });
+
+    it('routes bare waves url to waves tab', async () => {
+      const result = await deepLinkParser('https://ecency.com/waves');
+      expect(result.name).toBe(ROUTES.TABBAR.WAVES);
+      expect(result.key).toBe('waves');
+    });
+
+    it('routes waves permalink named like a profile filter to post screen', async () => {
+      const result = await deepLinkParser('https://ecency.com/waves/alice/wallet');
+      expect(result.name).toBe(ROUTES.SCREENS.POST);
+      expect(result.params).toEqual({ author: 'alice', permlink: 'wallet' });
+    });
+  });
+
   describe('profile URLs', () => {
     it('routes to profile when author only (no permlink)', async () => {
       const result = await deepLinkParser('https://ecency.com/@alice');

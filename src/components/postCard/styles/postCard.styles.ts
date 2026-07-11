@@ -19,7 +19,7 @@ export default EStyleSheet.create({
     color: '$iconColor',
     margin: 0,
     width: 20,
-    marginLeft: 25,
+    marginLeft: 12,
   },
   postBodyWrapper: {
     marginHorizontal: 9,
@@ -77,8 +77,10 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
   },
+  // sized by content (no flex) so extra actions like the translate chip can
+  // never overflow leftwards over the vote count; the left wrapper absorbs
+  // the remaining row width instead
   rightFooterWrapper: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },

@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 import { getQueryClient, getAccountFullQueryOptions } from '@ecency/sdk';
-import postUrlParser from './postUrlParser';
+import postUrlParser, { parseWavesUrl } from './postUrlParser';
 import parseAuthUrl, { AUTH_MODES } from './parseAuthUrl';
 import ROUTES from '../constants/routeNames';
 import parsePurchaseUrl from './parsePurchaseUrl';
@@ -12,6 +12,18 @@ export const deepLinkParser = async (url) => {
   let params;
   let profile;
   let keey;
+
+  // waves permalinks always open the thread view; route them before the
+  // generic author/permlink flow so reserved permlink names like 'wallet'
+  // or 'followers' cannot be misread as profile filters
+  const wavesLink = parseWavesUrl(url);
+  if (wavesLink) {
+    return {
+      name: ROUTES.SCREENS.POST,
+      params: { author: wavesLink.author, permlink: wavesLink.permlink },
+      key: `${wavesLink.author}/${wavesLink.permlink}`,
+    };
+  }
 
   // profess url for post/content
   const postUrl = postUrlParser(url);
@@ -109,6 +121,11 @@ export const deepLinkParser = async (url) => {
         routeName = ROUTES.TABBAR.WALLET;
         params = {};
         keey = 'wallet';
+        break;
+      case 'waves':
+        routeName = ROUTES.TABBAR.WAVES;
+        params = {};
+        keey = 'waves';
         break;
       default:
         break;
