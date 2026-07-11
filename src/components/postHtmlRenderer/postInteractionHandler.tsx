@@ -16,6 +16,7 @@ import VideoPlayer from '../videoPlayer/videoPlayerView';
 
 import { PostTypes } from '../../constants/postTypes';
 import { isHiveUri, isWebUrl } from '../../utils/hive-uri';
+import { parseWavesUrl } from '../../utils/postUrlParser';
 import showExploreLinkWarning from '../../utils/showExploreLinkWarning';
 import { ImageViewer } from '../imageViewer';
 import { useLinkProcessor } from '../../hooks';
@@ -53,10 +54,26 @@ export const PostHtmlInteractionHandler = forwardRef(
       handleLinkPress: (url: string) => {
         if (isHiveUri(url)) {
           linkProcessor.handleLink(url);
-        } else {
-          setSelectedLink(url);
-          actionLink.current?.show();
+          return;
         }
+
+        // waves permalinks have no @author segment, so render-helper classifies
+        // them as external; open the wave thread natively instead of the link sheet
+        const wavesLink = parseWavesUrl(url);
+        if (wavesLink) {
+          navigation.navigate({
+            name: ROUTES.SCREENS.POST,
+            params: {
+              author: wavesLink.author,
+              permlink: wavesLink.permlink,
+            },
+            key: `${wavesLink.author}/${wavesLink.permlink}`,
+          } as never);
+          return;
+        }
+
+        setSelectedLink(url);
+        actionLink.current?.show();
       },
       handleYoutubePress: (videoId, startTime) => {
         if (videoId && youtubePlayerRef.current) {

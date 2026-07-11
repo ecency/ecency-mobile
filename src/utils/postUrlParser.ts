@@ -6,6 +6,26 @@ interface PostUrlParseResult {
   permlink?: string | null;
 }
 
+// Waves permalinks (https://ecency.com/waves/{author}/{permlink}) carry no @
+// before the author segment, so none of the @-based post regexes below match
+// them; parse them explicitly so wave links open natively as a thread.
+export const parseWavesUrl = (url: string): PostUrlParseResult | null => {
+  if (!url) {
+    return null;
+  }
+
+  const normalized = url.toLowerCase().replace(/^(ecency|esteem):\/\//, 'https://ecency.com/');
+  const match = normalized.match(/^https?:\/\/(?:www\.)?ecency\.com\/waves\/@?([\w.-]+)\/([\w-]+)/);
+  if (match) {
+    return {
+      author: match[1],
+      permlink: match[2],
+    };
+  }
+
+  return null;
+};
+
 const parseCatAuthorPermlink = (u: string): PostUrlParseResult | null => {
   const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*?)(?:\?|$)/i;
   const postMatch = u.match(postRegex);
@@ -64,6 +84,11 @@ const postUrlParser = (url: string): PostUrlParseResult | null => {
     url = url
       .replace('ecency://', 'https://ecency.com/')
       .replace('esteem://', 'https://ecency.com/');
+  }
+
+  const wavesMatch = parseWavesUrl(url);
+  if (wavesMatch) {
+    return wavesMatch;
   }
 
   // eslint-disable-next-line no-useless-escape

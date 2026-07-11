@@ -17,6 +17,7 @@ import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters
 import { CopyModal, ImageViewer, PostHtmlRenderer, VideoPlayer } from '../../..';
 import { useAppDispatch, useLinkProcessor } from '../../../../hooks';
 import { isHiveUri, isWebUrl } from '../../../../utils/hive-uri';
+import { parseWavesUrl } from '../../../../utils/postUrlParser';
 import showExploreLinkWarning from '../../../../utils/showExploreLinkWarning';
 import { SheetNames } from '../../../../navigation/sheets';
 
@@ -216,10 +217,19 @@ const PostBody = ({
   const _handleSetSelectedLink = (link) => {
     if (isHiveUri(link)) {
       linkProcessor.handleLink(link);
-    } else {
-      setSelectedLink(link);
-      actionLink.current.show();
+      return;
     }
+
+    // waves permalinks have no @author segment, so render-helper classifies
+    // them as external; open the wave thread natively instead of the link sheet
+    const wavesLink = parseWavesUrl(link);
+    if (wavesLink) {
+      _handleOnPostPress(wavesLink.permlink, wavesLink.author);
+      return;
+    }
+
+    setSelectedLink(link);
+    actionLink.current.show();
   };
 
   const _handleSetSelectedImage = (imageLink, postImgUrls) => {

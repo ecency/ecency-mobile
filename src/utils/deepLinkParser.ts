@@ -110,6 +110,11 @@ export const deepLinkParser = async (url) => {
         params = {};
         keey = 'wallet';
         break;
+      case 'waves':
+        routeName = ROUTES.TABBAR.WAVES;
+        params = {};
+        keey = 'waves';
+        break;
       default:
         break;
     }
