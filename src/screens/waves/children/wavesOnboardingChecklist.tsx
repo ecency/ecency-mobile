@@ -37,6 +37,7 @@ const _storageKey = (username: string) => `waves_onboarding_${username}`;
  */
 const WAVES_ONBOARDING_STATE_EVENT = 'wavesOnboarding:state';
 const memoryState = new Map<string, PersistedOnboarding>();
+const writeQueues = new Map<string, Promise<unknown>>();
 
 const _updatePersisted = (
   username: string,
@@ -44,7 +45,17 @@ const _updatePersisted = (
 ) => {
   const next = updater(memoryState.get(username) ?? {});
   memoryState.set(username, next);
-  setItemToStorage(_storageKey(username), next);
+  // Chain same-user disk writes so ordering never depends on AsyncStorage
+  // internals: an older object can never land after a newer one. A failed
+  // write is logged, not rethrown — memoryState stays authoritative for the
+  // session and the next write persists the newest merged value anyway.
+  const queue = writeQueues.get(username) ?? Promise.resolve();
+  writeQueues.set(
+    username,
+    queue
+      .then(() => setItemToStorage(_storageKey(username), next))
+      .catch((err) => console.warn('waves onboarding: failed to persist flags', err)),
+  );
   DeviceEventEmitter.emit(WAVES_ONBOARDING_STATE_EVENT, { username, next });
 };
 
