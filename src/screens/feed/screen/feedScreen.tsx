@@ -23,6 +23,7 @@ import { TabItem } from '../../../components/tabbedPosts/types/tabbedPosts.types
 import ROUTES from '../../../constants/routeNames';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
+import WavesOnboardingChecklist from '../../waves/children/wavesOnboardingChecklist';
 
 const FeedScreen = () => {
   const intl = useIntl();
@@ -100,6 +101,9 @@ const FeedScreen = () => {
     <Fragment>
       <Header showQR={true} showBoost={true} />
       <View style={styles.container} onLayout={_lazyLoadContent}>
+        {/* Feed is the landing screen after signup/login; the card self-gates
+            to fresh accounts and renders nothing for established users. */}
+        {isLoggedIn && <WavesOnboardingChecklist />}
         {lazyLoad && (
           <TabbedPosts
             key={tabbedPostsKey} // Use memoized key to reset tabbedposts when filters change (addresses Android filter change bug)

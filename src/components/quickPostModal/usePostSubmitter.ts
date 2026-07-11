@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { Alert } from 'react-native';
+import { Alert, DeviceEventEmitter } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useComment } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
@@ -19,6 +19,7 @@ import { toastNotification } from '../../redux/actions/uiAction';
 import { wavesQueries } from '../../providers/queries';
 import { PollDraft } from '../../providers/ecency/ecency.types';
 import { usePublishWaveMutation } from '../../providers/queries/postQueries/wavesQueries';
+import { WAVES_ONBOARDING_LATCH_EVENT } from '../../utils/wavesOnboarding';
 import { PostTypes } from '../../constants/postTypes';
 import { WAVES_HOSTS } from '../../constants/waves';
 import extractHashTags from '../../utils/extractHashTags';
@@ -450,6 +451,7 @@ export const usePostSubmitter = () => {
 
       if (_cacheCommentData) {
         pusblishWaveMutation.mutate(_cacheCommentData);
+        DeviceEventEmitter.emit(WAVES_ONBOARDING_LATCH_EVENT, 'wave');
       }
 
       return _cacheCommentData;

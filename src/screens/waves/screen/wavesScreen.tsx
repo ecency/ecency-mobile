@@ -29,6 +29,7 @@ import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
 import { WavesHeader } from '../children/wavesHeader';
+import WavesOnboardingChecklist from '../children/wavesOnboardingChecklist';
 import WavesReelsView from '../children/wavesReelsView';
 import { PostTypes } from '../../../constants/postTypes';
 import { SHORTS_SOURCE, waveSourceLabel } from '../../../constants/waves';
@@ -513,6 +514,10 @@ const WavesScreen = () => {
       <Header />
 
       <View style={styles.contentContainer} onLayout={_lazyLoadContent}>
+        {/* Getting-started nudges for new accounts; the card gates itself on
+            account freshness, dismissal and completion, so it renders nothing
+            for established users. */}
+        {isLoggedIn && <WavesOnboardingChecklist />}
         {lazyLoad ? (
           <TabView
             navigationState={{ index: wavesIndex, routes: wavesRoutes }}
