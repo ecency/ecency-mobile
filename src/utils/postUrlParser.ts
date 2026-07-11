@@ -14,11 +14,14 @@ export const parseWavesUrl = (url: string): PostUrlParseResult | null => {
     return null;
   }
 
-  const normalized = url.toLowerCase().replace(/^(ecency|esteem):\/\//, 'https://ecency.com/');
-  const match = normalized.match(/^https?:\/\/(?:www\.)?ecency\.com\/waves\/@?([\w.-]+)\/([\w-]+)/);
+  const normalized = url.replace(/^(ecency|esteem):\/\//i, 'https://ecency.com/');
+  const match = normalized.match(
+    /^https?:\/\/(?:www\.)?(?:ecency\.com|esteem\.app|estm\.to)\/waves\/@?([\w.-]+)\/([\w-]+)/i,
+  );
   if (match) {
     return {
-      author: match[1],
+      // account names are lowercase-only on Hive; keep the permlink as written
+      author: match[1].toLowerCase(),
       permlink: match[2],
     };
   }

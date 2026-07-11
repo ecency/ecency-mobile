@@ -15,7 +15,7 @@ describe('parseWavesUrl', () => {
     });
   });
 
-  it('parses www host and ecency:// scheme', () => {
+  it('parses www host and ecency:// / esteem:// schemes', () => {
     expect(parseWavesUrl('https://www.ecency.com/waves/alice.bob/wave-1a2b')).toEqual({
       author: 'alice.bob',
       permlink: 'wave-1a2b',
@@ -23,6 +23,28 @@ describe('parseWavesUrl', () => {
     expect(parseWavesUrl('ecency://waves/jza/wave-1a2b')).toEqual({
       author: 'jza',
       permlink: 'wave-1a2b',
+    });
+    expect(parseWavesUrl('esteem://waves/jza/wave-1a2b')).toEqual({
+      author: 'jza',
+      permlink: 'wave-1a2b',
+    });
+  });
+
+  it('parses legacy ecency-owned hosts', () => {
+    expect(parseWavesUrl('https://esteem.app/waves/jza/wave-1a2b')).toEqual({
+      author: 'jza',
+      permlink: 'wave-1a2b',
+    });
+    expect(parseWavesUrl('https://estm.to/waves/jza/wave-1a2b')).toEqual({
+      author: 'jza',
+      permlink: 'wave-1a2b',
+    });
+  });
+
+  it('lowercases author but preserves permlink case', () => {
+    expect(parseWavesUrl('https://Ecency.com/waves/@Jza/wave-1A2B')).toEqual({
+      author: 'jza',
+      permlink: 'wave-1A2B',
     });
   });
 

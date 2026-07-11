@@ -61,6 +61,12 @@ describe('deepLinkParser', () => {
       expect(result.name).toBe(ROUTES.TABBAR.WAVES);
       expect(result.key).toBe('waves');
     });
+
+    it('routes waves permalink named like a profile filter to post screen', async () => {
+      const result = await deepLinkParser('https://ecency.com/waves/alice/wallet');
+      expect(result.name).toBe(ROUTES.SCREENS.POST);
+      expect(result.params).toEqual({ author: 'alice', permlink: 'wallet' });
+    });
   });
 
   describe('profile URLs', () => {

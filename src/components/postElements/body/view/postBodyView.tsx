@@ -181,7 +181,7 @@ const PostBody = ({
           author,
           permlink,
         },
-        key: permlink,
+        key: `${author}/${permlink}`,
       });
     }
   };
