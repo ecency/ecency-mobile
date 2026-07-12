@@ -37,6 +37,7 @@ import applySnippet from '../children/formats/applySnippet';
 import styles from '../styles/markdownEditorStyles';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { convertToPollMeta } from '../../../utils/editor';
+import { resolveRestoreCaret } from '../../../utils/editorCaret';
 import { PollModes } from '../../postPoll';
 import { SheetNames } from '../../../navigation/sheets';
 
@@ -136,20 +137,37 @@ const MarkdownEditorView = ({
 
   useEffect(() => {
     if (bodyTextRef.current === '' && draftBody !== '') {
-      // Resume at the user's last caret position instead of jumping to the end
-      // of the body (which scrolls a long draft to the bottom). Clamp to the
-      // current length in case the body shrank since the caret was saved.
-      // When no caret was saved — a legacy draft, one created on another device,
-      // or the first open after this shipped — fall back to the end of the body
-      // (the long-standing behavior). This keeps the feature purely additive and
-      // avoids dropping the auto-focused cursor at position 0 (prepend-on-type).
+      // Resume at the user's last caret position instead of jumping through the
+      // body. Clamp to the current length in case the body shrank since the caret
+      // was saved. When no caret was saved (a legacy draft, one created on another
+      // device, or the first open after this shipped) the fallback depends on the
+      // surface: a post/draft opens at the TOP (0) so a long body opens at its start
+      // instead of scrolling to the bottom; a reply keeps landing at the END so a
+      // cached comment is appended to, not prepended (its body is short, so there is
+      // no scroll problem and immediate typing is expected).
       const savedCaret = store.getState().editor.caretMap?.[_caretKey];
-      const caret =
-        typeof savedCaret === 'number' ? Math.min(savedCaret, draftBody.length) : draftBody.length;
+      const { caret, hasSavedCaret } = resolveRestoreCaret(savedCaret, draftBody.length, isReply);
       _setTextAndSelection({
         selection: { start: caret, end: caret },
         text: draftBody,
       });
+      // Drop any caret write queued from the empty input's initial focus before this
+      // load. It is stale relative to this authoritative restore (no real edit has
+      // happened yet — the body just arrived), and would otherwise persist a caret 0
+      // under this draft's key: on a no-caret draft that resurfaces prepend-on-type
+      // next open, and on a saved-caret draft it clobbers the position being resumed.
+      _persistCaret.cancel();
+      // Opening a post/draft with no saved caret intentionally lands at position 0.
+      // Do NOT keep an active cursor there: an auto-focused caret at 0 would prepend
+      // on the next keystroke (the concern that reverted the previous fix) and the
+      // keyboard would cover the draft. Blur so the view stays at the top and the
+      // user taps where they want to continue — matching web, which opens drafts
+      // unfocused at the top. The delayed focus effect independently re-derives this
+      // and won't re-focus. Replies focus and append; a saved-caret resume stays
+      // focused so the user continues exactly where they left off.
+      if (!hasSavedCaret && !isReply) {
+        inputRef.current?.blur();
+      }
     }
   }, [draftBody]);
 
@@ -192,9 +210,24 @@ const MarkdownEditorView = ({
   useEffect(() => {
     if (isReply || (autoFocusText && inputRef && inputRef.current && draftBtnTooltipRegistered)) {
       // added delay to open keyboard, solves the issue of keyboard not opening
-      setTimeout(() => {
-        inputRef?.current?.focus();
+      const focusTimer = setTimeout(() => {
+        // Skip focusing when we restored an existing non-reply body that still has no
+        // saved caret: focusing would drop the cursor at the top (prepend-on-type) and
+        // slide the keyboard over the draft. Re-derived here at fire time (not a stored
+        // flag) so it can't go stale across draft/compose changes in the same mounted
+        // editor: an empty compose (no body) or a draft the user has since edited (a
+        // caret now exists) both focus normally; replies always focus.
+        const restoredWithoutCaret =
+          !isReply &&
+          bodyTextRef.current !== '' &&
+          typeof store.getState().editor.caretMap?.[caretKeyRef.current] !== 'number';
+        if (!restoredWithoutCaret) {
+          inputRef?.current?.focus();
+        }
       }, 1000);
+      // Clear the pending focus if the effect re-runs or the editor unmounts within
+      // the delay, so we never fire focus() on a torn-down input or leak a stale timer.
+      return () => clearTimeout(focusTimer);
     }
   }, [autoFocusText]);
 
@@ -260,8 +293,17 @@ const MarkdownEditorView = ({
   );
 
   const _handleOnSelectionChange = async (event) => {
-    bodySelectionRef.current = event.nativeEvent.selection;
-    _persistCaret(event.nativeEvent.selection.start);
+    const { selection } = event.nativeEvent;
+    bodySelectionRef.current = selection;
+    // Only persist caret moves the user actually made. A user caret change requires a
+    // focused input, so gating on focus drops the native echo of a selection we set
+    // programmatically while the body is blurred (restoring a no-caret draft at the
+    // top) — which must not become the saved resume position. Programmatic sets while
+    // the input IS focused (inserts, saved-caret restore) echo the position we mean to
+    // keep anyway, so persisting them is harmless.
+    if (inputRef.current?.isFocused?.()) {
+      _persistCaret(selection.start);
+    }
   };
 
   const _setTextAndSelection = useCallback(
