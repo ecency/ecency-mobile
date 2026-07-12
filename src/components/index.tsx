@@ -90,7 +90,6 @@ import { Transaction } from './transaction';
 import { VotersDisplay } from './votersDisplay';
 import { Wallet } from './wallet';
 import { WalletDetails } from './walletDetails';
-import PostBoost from './postBoost/postBoostView';
 import Profile from './profile/profileView';
 import Promote from './promote/promoteView';
 import { SpinGame } from './spinGame/spinGameView';
@@ -203,7 +202,6 @@ export {
   PinAnimatedInput,
   WalletHeader,
   PostBody,
-  PostBoost,
   PostButton,
   PostCard,
   PostCardPlaceHolder,

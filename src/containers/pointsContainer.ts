@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
-import { getAccountsQueryOptions, useBroadcastMutation, buildBoostOpWithPoints } from '@ecency/sdk';
+import { getAccountsQueryOptions } from '@ecency/sdk';
 import {
   selectCurrentAccount,
   selectGlobalProps,
@@ -20,7 +20,6 @@ import { getQueryClient } from '../providers/queries';
 import { getUserDataWithUsername } from '../realm/realm';
 import { toastNotification } from '../redux/actions/uiAction';
 import { useGetPointsQuery } from '../providers/queries/pointQueries';
-import { useAuthContext } from '../providers/sdk';
 import { useClaimPointsMutation } from '../providers/sdk/mutations';
 
 // Constant
@@ -53,20 +52,7 @@ const PointsContainer = ({
   const navigation = useNavigation();
   const intl = useIntl();
   const dispatch = useDispatch();
-  const authContext = useAuthContext();
   const claimPointsMutation = useClaimPointsMutation();
-
-  const boostMutation = useBroadcastMutation(
-    ['ecency', 'boost'],
-    currentAccount?.name,
-    ({ author, permlink, points }: { author: string; permlink: string; points: number }) => [
-      buildBoostOpWithPoints(currentAccount?.name, author, permlink, points),
-    ],
-    undefined,
-    authContext,
-    'active',
-    { broadcastMode: 'async' },
-  );
 
   // Use SDK query for points data
   const pointsQuery = useGetPointsQuery(username);
@@ -244,32 +230,6 @@ const PointsContainer = ({
     }
   };
 
-  const _boost = async (point, permlink, author) => {
-    if (!currentAccount) {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      await boostMutation.mutateAsync({ author, permlink, points: point });
-      navigation.goBack();
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-    } catch (error) {
-      const errorDetail = (error?.message ?? '').toString().split('\n')[0];
-      dispatch(
-        toastNotification(
-          errorDetail
-            ? intl.formatMessage({ id: 'alert.boost_failed_with_reason' }, { reason: errorDetail })
-            : intl.formatMessage({ id: 'alert.boost_failed' }),
-        ),
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const _getESTMPrice = (points) => {
     return points / 150;
   };
@@ -285,7 +245,6 @@ const PointsContainer = ({
     children({
       accounts,
       balance,
-      boost: _boost,
       claim: _claimPoints,
       currentAccount,
       currentAccountName: currentAccount.name,
