@@ -210,7 +210,7 @@ const MarkdownEditorView = ({
   useEffect(() => {
     if (isReply || (autoFocusText && inputRef && inputRef.current && draftBtnTooltipRegistered)) {
       // added delay to open keyboard, solves the issue of keyboard not opening
-      setTimeout(() => {
+      const focusTimer = setTimeout(() => {
         // Skip focusing when we restored an existing non-reply body that still has no
         // saved caret: focusing would drop the cursor at the top (prepend-on-type) and
         // slide the keyboard over the draft. Re-derived here at fire time (not a stored
@@ -225,6 +225,9 @@ const MarkdownEditorView = ({
           inputRef?.current?.focus();
         }
       }, 1000);
+      // Clear the pending focus if the effect re-runs or the editor unmounts within
+      // the delay, so we never fire focus() on a torn-down input or leak a stale timer.
+      return () => clearTimeout(focusTimer);
     }
   }, [autoFocusText]);
 
