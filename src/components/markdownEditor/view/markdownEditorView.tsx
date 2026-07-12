@@ -37,6 +37,7 @@ import applySnippet from '../children/formats/applySnippet';
 import styles from '../styles/markdownEditorStyles';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { convertToPollMeta } from '../../../utils/editor';
+import { resolveRestoreCaret } from '../../../utils/editorCaret';
 import { PollModes } from '../../postPoll';
 import { SheetNames } from '../../../navigation/sheets';
 
@@ -102,6 +103,19 @@ const MarkdownEditorView = ({
   const tooltipRef = useRef<any>(null);
   const bodyTextRef = useRef('');
   const bodySelectionRef = useRef({ start: 0, end: 0 });
+  // Set when we open an existing post/draft (not a reply) that has no saved caret:
+  // in that case the draft-restore effect lands the cursor at the top and blurs the
+  // body so the view stays at the start and there is no active cursor to prepend
+  // into. The delayed focus effect reads this to skip focusing. Kept as a ref (not
+  // state) so toggling it never re-renders this deliberately-uncontrolled editor.
+  const suppressBodyAutoFocusRef = useRef(false);
+  // Records the selection we last pushed to native via setNativeProps (draft
+  // restore, snippet/link/media insert, reset). Native may echo that programmatic
+  // selection back through onSelectionChange; we must not treat that echo as a user
+  // caret move and persist it — otherwise restoring a no-caret draft at position 0
+  // would save caret 0, and the next open would resume focused at 0 (prepend), the
+  // very behavior this fix removes. Cleared after the matching echo is skipped.
+  const lastProgrammaticSelectionRef = useRef<{ start: number; end: number } | null>(null);
 
   const draftBtnTooltipState = useAppSelector((state) => state.walkthrough.walkthroughMap);
   const draftBtnTooltipRegistered = draftBtnTooltipState.get(walkthrough.EDITOR_DRAFT_BTN);
@@ -136,20 +150,32 @@ const MarkdownEditorView = ({
 
   useEffect(() => {
     if (bodyTextRef.current === '' && draftBody !== '') {
-      // Resume at the user's last caret position instead of jumping to the end
-      // of the body (which scrolls a long draft to the bottom). Clamp to the
-      // current length in case the body shrank since the caret was saved.
-      // When no caret was saved — a legacy draft, one created on another device,
-      // or the first open after this shipped — fall back to the end of the body
-      // (the long-standing behavior). This keeps the feature purely additive and
-      // avoids dropping the auto-focused cursor at position 0 (prepend-on-type).
+      // Resume at the user's last caret position instead of jumping through the
+      // body. Clamp to the current length in case the body shrank since the caret
+      // was saved. When no caret was saved (a legacy draft, one created on another
+      // device, or the first open after this shipped) the fallback depends on the
+      // surface: a post/draft opens at the TOP (0) so a long body opens at its start
+      // instead of scrolling to the bottom; a reply keeps landing at the END so a
+      // cached comment is appended to, not prepended (its body is short, so there is
+      // no scroll problem and immediate typing is expected).
       const savedCaret = store.getState().editor.caretMap?.[_caretKey];
-      const caret =
-        typeof savedCaret === 'number' ? Math.min(savedCaret, draftBody.length) : draftBody.length;
+      const { caret, hasSavedCaret } = resolveRestoreCaret(savedCaret, draftBody.length, isReply);
       _setTextAndSelection({
         selection: { start: caret, end: caret },
         text: draftBody,
       });
+      // Opening a post/draft with no saved caret intentionally lands at position 0.
+      // Do NOT keep an active cursor there: an auto-focused caret at 0 would prepend
+      // on the next keystroke (the concern that reverted the previous fix) and the
+      // keyboard would cover the draft. Blur the body and tell the delayed focus
+      // effect to skip, so the view stays at the top and the user taps where they
+      // want to continue — matching web, which opens drafts unfocused at the top.
+      // Replies are exempt (they focus and append); a resume WITH a saved caret keeps
+      // focus so the user continues exactly where they left off.
+      if (!hasSavedCaret && !isReply) {
+        suppressBodyAutoFocusRef.current = true;
+        inputRef.current?.blur();
+      }
     }
   }, [draftBody]);
 
@@ -193,7 +219,14 @@ const MarkdownEditorView = ({
     if (isReply || (autoFocusText && inputRef && inputRef.current && draftBtnTooltipRegistered)) {
       // added delay to open keyboard, solves the issue of keyboard not opening
       setTimeout(() => {
-        inputRef?.current?.focus();
+        // Skip focusing when we restored an existing post/draft without a saved
+        // caret: focusing would drop the cursor at the top (prepend-on-type) and
+        // slide the keyboard over the draft. Checked at fire time (1s later) so the
+        // flag the draft-restore effect set synchronously is already in place.
+        // Replies always focus for immediate typing.
+        if (isReply || !suppressBodyAutoFocusRef.current) {
+          inputRef?.current?.focus();
+        }
       }, 1000);
     }
   }, [autoFocusText]);
@@ -260,14 +293,29 @@ const MarkdownEditorView = ({
   );
 
   const _handleOnSelectionChange = async (event) => {
-    bodySelectionRef.current = event.nativeEvent.selection;
-    _persistCaret(event.nativeEvent.selection.start);
+    const { selection } = event.nativeEvent;
+    bodySelectionRef.current = selection;
+    // Ignore the native echo of a selection we set programmatically: it is not a
+    // user action, so persisting it would clobber the resume position (see the ref).
+    const programmatic = lastProgrammaticSelectionRef.current;
+    if (
+      programmatic &&
+      programmatic.start === selection.start &&
+      programmatic.end === selection.end
+    ) {
+      lastProgrammaticSelectionRef.current = null;
+      return;
+    }
+    _persistCaret(selection.start);
   };
 
   const _setTextAndSelection = useCallback(
     ({ selection: _selection, text: _text }) => {
       bodySelectionRef.current = _selection;
       bodyTextRef.current = _text;
+      // Remember this selection so the native echo of it (via onSelectionChange) is
+      // not mistaken for a user caret move and persisted.
+      lastProgrammaticSelectionRef.current = _selection;
       // Programmatic write (snippet/media/link insert, draft restore, reset).
       // Goes straight to native to avoid the controlled-input race.
       inputRef.current?.setNativeProps({ text: _text, selection: _selection });
