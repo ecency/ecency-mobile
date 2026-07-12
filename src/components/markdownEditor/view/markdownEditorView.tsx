@@ -170,10 +170,18 @@ const MarkdownEditorView = ({
       // keyboard would cover the draft. Blur the body and tell the delayed focus
       // effect to skip, so the view stays at the top and the user taps where they
       // want to continue — matching web, which opens drafts unfocused at the top.
+      // Drop any caret write queued from the empty input's initial focus before this
+      // load. It is stale relative to this authoritative restore (no real edit has
+      // happened yet — the body just arrived), and would otherwise persist a caret 0
+      // under this draft's key: on a no-caret draft that resurfaces prepend-on-type
+      // next open, and on a saved-caret draft it clobbers the position being resumed.
+      _persistCaret.cancel();
       // Replies are exempt (they focus and append); a resume WITH a saved caret keeps
-      // focus so the user continues exactly where they left off.
-      if (!hasSavedCaret && !isReply) {
-        suppressBodyAutoFocusRef.current = true;
+      // focus so the user continues exactly where they left off. Assign the flag
+      // unconditionally (not just when arming) so a saved-caret restore in the same
+      // mounted view clears a previously-armed suppression instead of leaving it stale.
+      suppressBodyAutoFocusRef.current = !hasSavedCaret && !isReply;
+      if (suppressBodyAutoFocusRef.current) {
         inputRef.current?.blur();
       }
     }
@@ -295,15 +303,17 @@ const MarkdownEditorView = ({
   const _handleOnSelectionChange = async (event) => {
     const { selection } = event.nativeEvent;
     bodySelectionRef.current = selection;
-    // Ignore the native echo of a selection we set programmatically: it is not a
-    // user action, so persisting it would clobber the resume position (see the ref).
+    // The first selection event after a programmatic setNativeProps is its echo, not
+    // a user action. Consume the guard on that next event whatever it reports, so a
+    // dropped, coalesced, or mismatched echo cannot leave it armed and later swallow
+    // a genuine user caret that happens to land on the same offset.
     const programmatic = lastProgrammaticSelectionRef.current;
+    lastProgrammaticSelectionRef.current = null;
     if (
       programmatic &&
       programmatic.start === selection.start &&
       programmatic.end === selection.end
     ) {
-      lastProgrammaticSelectionRef.current = null;
       return;
     }
     _persistCaret(selection.start);
