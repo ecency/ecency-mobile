@@ -5,7 +5,7 @@ import Animated, { SlideInRight } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { RedeemContainer, PointsContainer } from '../../../containers';
 
-import { Promote, PostBoost } from '../../../components';
+import { Promote } from '../../../components';
 import BoostPlus from '../children/boostPlus';
 import RcTopUp from '../children/rcTopUp';
 import styles from '../styles/redeemScreen.styles';
@@ -26,15 +26,7 @@ class RedeemScreen extends PureComponent {
     return (
       <SafeAreaView style={styles.container}>
         <PointsContainer route={route}>
-          {({
-            accounts,
-            currentAccountName,
-            balance,
-            navigationParams,
-            redeemType,
-            getESTMPrice,
-            user,
-          }) => (
+          {({ currentAccountName, balance, navigationParams, redeemType, getESTMPrice }) => (
             <RedeemContainer>
               {({ handleOnSubmit, SCPath, isSCModalOpen, handleOnSCModalClose, isLoading }) => {
                 let _retView = null;
@@ -52,24 +44,6 @@ class RedeemScreen extends PureComponent {
                         handleOnSCModalClose={handleOnSCModalClose}
                         SCPath={SCPath}
                         getESTMPrice={getESTMPrice}
-                      />
-                    );
-                    break;
-                  case 'boost':
-                    _retView = (
-                      <PostBoost
-                        isLoading={isLoading}
-                        accounts={accounts}
-                        currentAccountName={currentAccountName}
-                        balance={balance}
-                        navigationParams={navigationParams}
-                        handleOnSubmit={handleOnSubmit}
-                        redeemType={redeemType}
-                        isSCModalOpen={isSCModalOpen}
-                        handleOnSCModalClose={handleOnSCModalClose}
-                        SCPath={SCPath}
-                        getESTMPrice={getESTMPrice}
-                        user={user}
                       />
                     );
                     break;

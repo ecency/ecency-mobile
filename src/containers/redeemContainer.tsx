@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
-import { getPostQueryOptions, useBroadcastMutation, buildBoostOpWithPoints } from '@ecency/sdk';
+import { getPostQueryOptions } from '@ecency/sdk';
 import {
   selectCurrentAccount,
   selectGlobalProps,
@@ -20,7 +20,6 @@ import {
   useBoostPlusMutation,
   useRcDelegationMutation,
 } from '../providers/sdk/mutations';
-import { useAuthContext } from '../providers/sdk';
 
 /*
  *            Props Name        Description                                     Value
@@ -44,7 +43,7 @@ class RedeemContainer extends Component {
 
   _redeemAction = async (user, redeemType = 'promote', actionSpecificParam, author, permlink) => {
     const { dispatch, intl, navigation } = this.props;
-    const { promoteMutation, boostPlusMutation, boostMutation, rcDelegationMutation } = this.props;
+    const { promoteMutation, boostPlusMutation, rcDelegationMutation } = this.props;
 
     this.setState({ isLoading: true });
 
@@ -68,14 +67,6 @@ class RedeemContainer extends Component {
         case 'rc_topup':
           await rcDelegationMutation.mutateAsync({
             duration: actionSpecificParam,
-          });
-          break;
-
-        case 'boost':
-          await boostMutation.mutateAsync({
-            author,
-            permlink,
-            points: actionSpecificParam,
           });
           break;
 
@@ -170,22 +161,9 @@ const mapStateToProps = (state) => ({
 
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  const authContext = useAuthContext();
-  const { currentAccount } = props;
   const promoteMutation = usePromoteMutation();
   const boostPlusMutation = useBoostPlusMutation();
   const rcDelegationMutation = useRcDelegationMutation();
-  const boostMutation = useBroadcastMutation(
-    ['ecency', 'boost'],
-    currentAccount?.name,
-    ({ author, permlink, points }: { author: string; permlink: string; points: number }) => [
-      buildBoostOpWithPoints(currentAccount?.name, author, permlink, points),
-    ],
-    undefined,
-    authContext,
-    'active',
-    { broadcastMode: 'async' },
-  );
   return (
     <RedeemContainer
       {...props}
@@ -193,7 +171,6 @@ const mapHooksToProps = (props) => {
       promoteMutation={promoteMutation}
       boostPlusMutation={boostPlusMutation}
       rcDelegationMutation={rcDelegationMutation}
-      boostMutation={boostMutation}
     />
   );
 };

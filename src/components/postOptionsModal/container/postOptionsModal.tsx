@@ -751,10 +751,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
         _redirectToPromote(ROUTES.SCREENS.REDEEM, 1, 'promote');
         break;
 
-      case 'boost':
-        _redirectToPromote(ROUTES.SCREENS.REDEEM, 2, 'boost');
-        break;
-
       case 'report':
         reportTimer.current = setTimeout(() => {
           _report(get(content, 'author'), get(content, 'permlink'));
