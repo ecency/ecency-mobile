@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { useIntl } from 'react-intl';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
@@ -18,7 +17,6 @@ import {
 } from '../redux/selectors';
 import { getQueryClient } from '../providers/queries';
 import { getUserDataWithUsername } from '../realm/realm';
-import { toastNotification } from '../redux/actions/uiAction';
 import { useGetPointsQuery } from '../providers/queries/pointQueries';
 import { useClaimPointsMutation } from '../providers/sdk/mutations';
 
@@ -50,8 +48,6 @@ const PointsContainer = ({
   route,
 }) => {
   const navigation = useNavigation();
-  const intl = useIntl();
-  const dispatch = useDispatch();
   const claimPointsMutation = useClaimPointsMutation();
 
   // Use SDK query for points data

@@ -26,13 +26,7 @@ class RedeemScreen extends PureComponent {
     return (
       <SafeAreaView style={styles.container}>
         <PointsContainer route={route}>
-          {({
-            currentAccountName,
-            balance,
-            navigationParams,
-            redeemType,
-            getESTMPrice,
-          }) => (
+          {({ currentAccountName, balance, navigationParams, redeemType, getESTMPrice }) => (
             <RedeemContainer>
               {({ handleOnSubmit, SCPath, isSCModalOpen, handleOnSCModalClose, isLoading }) => {
                 let _retView = null;
