@@ -9,7 +9,7 @@ const THUMB_SIZE = 96;
 // Vote notifications also carry img_url, but they are by far the highest-volume
 // type and every thumbnail would be a repeat of the user's own post, so they are
 // deliberately left text-only.
-const IMAGE_TYPES = ['mention', 'reblog', 'scheduled_published', 'favorites'];
+const IMAGE_TYPES = ['mention', 'reblog', 'scheduled_published', 'favorites', 'payouts'];
 
 // Types whose image hangs off the PARENT post, because the notification itself is
 // about a comment: your post that was replied to, or the post you bookmarked that
