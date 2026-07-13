@@ -17,7 +17,7 @@ describe('getNotificationImageUrl', () => {
     expect(url).toBe(`proxy(96x96):${IMG}`);
   });
 
-  it.each(['mention', 'reblog', 'scheduled_published', 'favorites'])(
+  it.each(['mention', 'reblog', 'scheduled_published', 'favorites', 'payouts'])(
     'uses img_url for a %s',
     (type) => {
       expect(getNotificationImageUrl({ type, img_url: IMG })).toBe(`proxy(96x96):${IMG}`);
