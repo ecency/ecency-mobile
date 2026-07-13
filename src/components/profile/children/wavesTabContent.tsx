@@ -4,8 +4,6 @@ import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { getWavesFeedQueryOptions } from '@ecency/sdk';
 import { Comments, NoPost } from '../..';
-import { useAppSelector } from '../../../hooks';
-import { selectHidePostsThumbnails } from '../../../redux/selectors';
 import { wavesQueries } from '../../../providers/queries';
 import { PostTypes } from '../../../constants/postTypes';
 import styles from '../profileStyles';
@@ -18,7 +16,6 @@ interface WavesTabContentProps {
 
 const WavesTabContent = ({ username, isOwnProfile, onScroll }: WavesTabContentProps) => {
   const intl = useIntl();
-  const isHideImage = useAppSelector(selectHidePostsThumbnails);
 
   // The per-author feed is the same combined endpoint scoped to one author
   // (across every container). No observer is passed: you're deliberately
@@ -60,7 +57,6 @@ const WavesTabContent = ({ username, isOwnProfile, onScroll }: WavesTabContentPr
         comments={wavesQuery.data}
         handleCommentDelete={wavesQuery.deleteWave}
         isOwnProfile={isOwnProfile}
-        isHideImage={isHideImage}
         flatListProps={{
           onEndReached: () => {
             if (wavesQuery.hasNextPage && !wavesQuery.isFetchingNextPage) {

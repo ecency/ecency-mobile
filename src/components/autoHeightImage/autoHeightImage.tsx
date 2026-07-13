@@ -5,6 +5,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
 import { useViewabilityTracker } from '../../hooks/useViewabilityTracker';
+import { useImageReveal } from '../../hooks/useImageReveal';
+import { HiddenImagePlaceholder } from '../hiddenImagePlaceholder';
 // import { InView } from 'react-native-intersection-observer';
 
 interface AutoHeightImageProps {
@@ -33,6 +35,8 @@ export const AutoHeightImage = ({
   onPress,
 }: AutoHeightImageProps) => {
   const imgRef = useRef<ExpoImage>(null);
+
+  const { isHidden, reveal } = useImageReveal(imgUrl);
 
   const { ref, key, visible, handleIfViewable } = useViewabilityTracker(!enableViewabilityTracker);
 
@@ -142,6 +146,12 @@ export const AutoHeightImage = ({
   useEffect(() => {
     hasSetBounds.current = false;
     setIsLoaded(false);
+    // The rows hosting these are recycled, so the same instance can be handed a
+    // different image. Drop the previous image's measured box: a hidden image
+    // never loads, so nothing would otherwise correct a stale height.
+    setHeight(_initialHeight);
+    setImgWidth(contentWidth);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imgUrl]);
 
   const handlePress = () => {
@@ -157,6 +167,17 @@ export const AutoHeightImage = ({
       imgRef.current?.[inView ? 'startAnimating' : 'stopAnimating']();
     }
   };
+
+  // "Show Images" is off and this image has not been tapped yet. Return before
+  // ExpoImage is mounted so the bytes are never requested; the placeholder holds
+  // the estimated layout box so revealing does not jolt the surrounding text.
+  if (isHidden) {
+    return (
+      <View style={styles.placeholderWrapper}>
+        <HiddenImagePlaceholder width={imgWidth} height={height} onPress={reveal} />
+      </View>
+    );
+  }
 
   return (
     <TouchableOpacity
@@ -185,6 +206,9 @@ export const AutoHeightImage = ({
 };
 
 const styles = EStyleSheet.create({
+  placeholderWrapper: {
+    marginVertical: 4,
+  },
   gifBadge: {
     position: 'absolute',
     left: 6,

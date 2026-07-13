@@ -25,6 +25,7 @@ jest.mock('expo-image', () => ({
 
 jest.mock('./image', () => ({
   getResizedAvatar: jest.fn((author) => `https://i.ecency.com/u/${author}/avatar`),
+  shouldPrefetchImages: jest.fn(() => true),
 }));
 
 jest.mock('./user', () => ({
@@ -108,6 +109,29 @@ describe('parsePost', () => {
   it('returns null for null/undefined input', () => {
     expect(parsePost(null, 'user', false)).toBeNull();
     expect(parsePost(undefined, 'user', false)).toBeNull();
+  });
+
+  describe('cover image prefetch', () => {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { Image: MockExpoImage } = require('expo-image');
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { shouldPrefetchImages } = require('./image');
+
+    beforeEach(() => {
+      MockExpoImage.prefetch.mockClear();
+      shouldPrefetchImages.mockReturnValue(true);
+    });
+
+    it('prefetches the cover image while "Show Images" is on', () => {
+      parsePost(makePost(), 'viewer', false);
+      expect(MockExpoImage.prefetch).toHaveBeenCalledWith(['https://img.com/cover.jpg']);
+    });
+
+    it('does not prefetch the cover image while "Show Images" is off', () => {
+      shouldPrefetchImages.mockReturnValue(false);
+      parsePost(makePost(), 'viewer', false);
+      expect(MockExpoImage.prefetch).not.toHaveBeenCalled();
+    });
   });
 
   it('parses JSON string metadata', () => {

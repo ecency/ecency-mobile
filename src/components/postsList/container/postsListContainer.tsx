@@ -25,12 +25,7 @@ import { Separator, UpvotePopover } from '../..';
 import { PostTypes } from '../../../constants/postTypes';
 import { PostOptionsModal } from '../../postOptionsModal';
 import { PostCardActionIds } from '../../postCard/container/postCard';
-import {
-  selectHidePostsThumbnails,
-  selectIsDarkTheme,
-  selectCurrentAccount,
-  selectNsfw,
-} from '../../../redux/selectors';
+import { selectIsDarkTheme, selectCurrentAccount, selectNsfw } from '../../../redux/selectors';
 import { useAppSelector } from '../../../hooks';
 
 export interface PostsListRef {
@@ -77,7 +72,6 @@ const postsListContainer = (
   const postDropdownRef = useRef(null);
 
   // Use memoized selectors to prevent unnecessary re-renders
-  const isHideImages = useAppSelector(selectHidePostsThumbnails);
   const nsfw = useAppSelector(selectNsfw);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
@@ -244,13 +238,12 @@ const postsListContainer = (
   // cells without forcing a full FlashList remount on every dimension tick.
   const listExtraData = useMemo(
     () => ({
-      isHideImages,
       listWidth,
       nsfw,
       pageType,
       propsExtraData,
     }),
-    [isHideImages, listWidth, nsfw, pageType, propsExtraData],
+    [listWidth, nsfw, pageType, propsExtraData],
   );
 
   const _renderItem = useCallback(
@@ -261,13 +254,12 @@ const postsListContainer = (
           key={`${item.author}-${item.permlink}`}
           content={item}
           pageType={pageType}
-          isHideImage={isHideImages}
           nsfw={nsfw}
           handleCardInteraction={_handleCardInteraction}
         />
       );
     },
-    [intl, pageType, isHideImages, nsfw, _handleCardInteraction],
+    [intl, pageType, nsfw, _handleCardInteraction],
   );
 
   return (

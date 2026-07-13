@@ -5,7 +5,7 @@ import { Image as ExpoImage } from 'expo-image';
 
 // Utils
 import parseAsset from './parseAsset';
-import { getResizedAvatar } from './image';
+import { getResizedAvatar, shouldPrefetchImages } from './image';
 import { parseReputation } from './user';
 import { calculateVoteReward } from './vote';
 
@@ -150,7 +150,10 @@ export const parsePost = (
   }
 
   // cache image
-  if (post.image) {
+  // Prefetching pulls the full-size cover of every post in the feed, which is
+  // exactly the traffic "Show Images" is meant to avoid. A revealed image still
+  // loads on demand when the user taps its placeholder.
+  if (post.image && shouldPrefetchImages()) {
     ExpoImage.prefetch([post.image]);
   }
 

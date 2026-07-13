@@ -22,7 +22,6 @@ import {
   selectCurrency,
   selectPin,
   selectIsConnected,
-  selectHidePostsThumbnails,
 } from '../redux/selectors';
 import { getDigitPinCode } from '../providers/hive/hive';
 import {
@@ -605,7 +604,7 @@ class ProfileContainer extends Component {
       reverseHeader,
       deepLinkFilter,
     } = this.state;
-    const { currency, isDarkTheme, isLoggedIn, children, isHideImage, route } = this.props;
+    const { currency, isDarkTheme, isLoggedIn, children, route } = this.props;
 
     const activePage = route.params?.state ?? 0;
     const { currencyRate, currencySymbol } = currency;
@@ -647,7 +646,6 @@ class ProfileContainer extends Component {
         isDarkTheme,
         isFavorite,
         isFollowing,
-        isHideImage,
         isLoggedIn,
         isMuted,
         isOwnProfile,
@@ -670,7 +668,6 @@ const mapStateToProps = (state) => ({
   pinCode: selectPin(state),
   activeBottomTab: state.ui.activeBottomTab,
   currentAccount: selectCurrentAccount(state),
-  isHideImage: selectHidePostsThumbnails(state),
 });
 
 const mapHooksToProps = (props) => {

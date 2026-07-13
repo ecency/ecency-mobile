@@ -3,6 +3,7 @@ import { View, ImageBackground, TouchableHighlight } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { IconButton } from '..';
 import styles from './postHtmlRendererStyles';
+import { useImageReveal } from '../../hooks/useImageReveal';
 
 interface Props {
   contentWidth: number;
@@ -19,11 +20,15 @@ const VideoThumb = ({
   heightRatio = 9 / 16,
   resizeMode = 'cover',
 }: Props) => {
+  const { isHidden } = useImageReveal(uri);
+
   return (
     <TouchableHighlight onPress={onPress} disabled={!onPress}>
       <View pointerEvents="none">
         <ImageBackground
-          source={{ uri }}
+          // The poster is a content image, so "Show Images" suppresses it. The
+          // styled box keeps its play button, so a tap still opens the video.
+          source={isHidden ? undefined : { uri }}
           style={{
             ...styles.videoThumb,
             width: contentWidth,

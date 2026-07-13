@@ -6,8 +6,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { getAccountPostsQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import { Comments, NoPost } from '../..';
-import { useAppSelector } from '../../../hooks';
-import { selectHidePostsThumbnails } from '../../../redux/selectors';
 import styles from '../profileStyles';
 
 interface CommentsTabContentProps {
@@ -27,8 +25,6 @@ const CommentsTabContent = ({
 }: CommentsTabContentProps) => {
   const intl = useIntl();
   const queryClient = useQueryClient();
-
-  const isHideImage = useAppSelector(selectHidePostsThumbnails);
 
   const [data, setData] = useState([]);
   const [lastAuthor, setLastAuthor] = useState('');
@@ -118,7 +114,6 @@ const CommentsTabContent = ({
           console.log('implement fetch if required');
         }}
         isOwnProfile={isOwnProfile}
-        isHideImage={isHideImage}
         flatListProps={{
           onEndReached: _fetchData,
           onScrollEndDrag: onScroll,

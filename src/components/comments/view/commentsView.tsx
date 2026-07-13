@@ -29,7 +29,6 @@ const CommentsView = ({
   handleOnUserPress,
   handleOnVotersPress,
   hasManyComments,
-  isHideImage,
   isLoggedIn,
   isShowSubComments,
   mainAuthor,
@@ -132,7 +131,6 @@ const CommentsView = ({
         handleVideoPress={postInteractionRef.current?.handleVideoPress}
         handleYoutubePress={postInteractionRef.current?.handleYoutubePress}
         handleParaSelection={postInteractionRef.current?.handleParaSelection}
-        isHideImage={isHideImage}
         isLoggedIn={isLoggedIn}
         showAllComments={showAllComments}
         isShowSubComments={isShowSubComments}

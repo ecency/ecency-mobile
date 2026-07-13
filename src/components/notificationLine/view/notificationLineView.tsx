@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { View, Text, Image, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -8,6 +8,9 @@ import { UserAvatar } from '../../userAvatar';
 
 import { rcFormatter, vestsToHp } from '../../../utils/conversions';
 import { formatNotificationTimestamp } from '../../../utils/time';
+import { getNotificationImageUrl } from '../../../utils/notificationImage';
+import { useAppSelector } from '../../../hooks';
+import { selectHidePostsThumbnails } from '../../../redux/selectors';
 
 // Styles
 import styles from './notificationLineStyles';
@@ -20,6 +23,11 @@ const NotificationLineView = ({
 }) => {
   const [isRead, setIsRead] = useState(notification.read);
   const intl = useIntl();
+
+  // A post thumbnail is enrichment, not content the user came for, so "Show
+  // Images" simply drops it rather than offering a tap-to-load placeholder.
+  const isHideImages = useAppSelector(selectHidePostsThumbnails);
+  const _imageUrl = useMemo(() => getNotificationImageUrl(notification), [notification]);
   let titleExtra = '';
   let _moreinfo = '';
   const _getMessageValues = () => {
@@ -179,10 +187,10 @@ const NotificationLineView = ({
           )}
         </View>
 
-        {get(notification, 'image', null) && (
+        {!isHideImages && !!_imageUrl && (
           <Image
             style={styles.image}
-            source={{ uri: notification.image }}
+            source={{ uri: _imageUrl }}
             defaultSource={require('../../../assets/no_image.png')}
           />
         )}

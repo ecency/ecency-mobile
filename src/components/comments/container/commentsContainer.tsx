@@ -41,7 +41,6 @@ const CommentsContainer = ({
   mainAuthor,
   handleOnOptionsPress,
   selectedPermlink,
-  isHideImage,
   isShowSubComments,
   hasManyComments,
   showAllComments,
@@ -323,7 +322,6 @@ const CommentsContainer = ({
       handleOnOptionsPress={handleOnOptionsPress}
       handleOnUserPress={_handleOnUserPress}
       isOwnProfile={isOwnProfile}
-      isHideImage={isHideImage}
       handleOnVotersPress={_handleOnVotersPress}
       isShowSubComments={isShowSubComments}
       showAllComments={showAllComments}

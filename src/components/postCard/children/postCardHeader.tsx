@@ -20,18 +20,11 @@ import { useMinuteTicker } from '../../../hooks/useMinuteTicker';
 interface Props {
   intl: IntlShape;
   content: any;
-  isHideImage: boolean;
   pageType?: 'main' | 'community' | 'profile' | 'ownProfile';
   handleCardInteraction: (id: PostCardActionIds, payload?: any) => void;
 }
 
-const PostCardHeaderComponent = ({
-  intl,
-  content,
-  pageType,
-  isHideImage,
-  handleCardInteraction,
-}: Props) => {
+const PostCardHeaderComponent = ({ intl, content, pageType, handleCardInteraction }: Props) => {
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
 
   // Single shared timer across all PostCards (no per-card interval)
@@ -89,7 +82,6 @@ const PostCardHeaderComponent = ({
       <View style={styles.bodyHeader}>
         <PostHeaderDescription
           date={dateString}
-          isHideImage={isHideImage}
           name={get(content, 'author')}
           profileOnPress={() => handleCardInteraction(PostCardActionIds.USER, content.author)}
           handleOnTagPress={_handleOnTagPress}
@@ -138,7 +130,6 @@ const PostCardHeaderComponent = ({
 export const PostCardHeader = React.memo(PostCardHeaderComponent, (prevProps, nextProps) => {
   return (
     prevProps.content === nextProps.content &&
-    prevProps.isHideImage === nextProps.isHideImage &&
     prevProps.pageType === nextProps.pageType &&
     prevProps.intl === nextProps.intl &&
     prevProps.handleCardInteraction === nextProps.handleCardInteraction
