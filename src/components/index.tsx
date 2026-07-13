@@ -41,7 +41,6 @@ import { DraftListItem } from './draftListItem';
 import { ProfileSummary } from './profileSummary';
 import { CopyModal } from './copyModal';
 import { SearchInput } from './searchInput';
-import { SearchModal } from './searchModal';
 import { SettingsItem } from './settingsItem';
 import { SideMenu } from './sideMenu';
 import { ProposalVoteRequest } from './proposalVoteRequest';
@@ -222,7 +221,6 @@ export {
   PulseAnimation,
   ScaleSlider,
   SearchInput,
-  SearchModal,
   SettingsItem,
   SideMenu,
   SnippetsModal,
