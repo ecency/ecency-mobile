@@ -5,6 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { useGetPostQuery } from '../../../providers/queries/postQueries/postQueries';
 import { LinkPreviewPlaceHolder } from '../../basicUIElements';
+import { useImageReveal } from '../../../hooks/useImageReveal';
 import styles from '../styles/linkPreview.styles';
 
 interface LinkPreviewProps {
@@ -29,6 +30,11 @@ export const LinkPreview = ({
   isLoading = false,
 }: LinkPreviewProps) => {
   const _containerStyle = { ...styles.container, width: contentWidth };
+
+  // This 56px thumbnail is the linked post's full-size cover, so it is worth
+  // suppressing. No tap-to-load here: the whole card is a link, and a nested tap
+  // target would steal the tap that should open the post.
+  const { isHidden } = useImageReveal(imageUrl);
 
   // Extract domain name from URL if label is not provided
   const getDomainLabel = (): string => {
@@ -59,7 +65,7 @@ export const LinkPreview = ({
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={_containerStyle}>
-        {imageUrl ? (
+        {imageUrl && !isHidden ? (
           <ExpoImage source={{ uri: imageUrl }} style={styles.thumbnail} />
         ) : (
           <View style={styles.thumbnail} />

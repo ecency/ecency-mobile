@@ -7,6 +7,8 @@ import { catchPostImage } from '@ecency/render-helper';
 import ROUTES from '../../../constants/routeNames';
 import { getTimeFromNow } from '../../../utils/time';
 import { Icon } from '../../icon';
+import { HiddenImagePlaceholder } from '../../hiddenImagePlaceholder';
+import { useImageReveal } from '../../../hooks/useImageReveal';
 import styles from '../styles/similarEntries.styles';
 
 interface SimilarEntry {
@@ -29,6 +31,8 @@ const SimilarEntryItem = ({ entry }: Props) => {
     return catchPostImage(entry.img_url, 400, 200, 'match');
   }, [entry.img_url]);
 
+  const { isHidden, reveal } = useImageReveal(thumbnail || undefined);
+
   const relativeDate = useMemo(
     () => (entry.created_at ? getTimeFromNow(entry.created_at) : ''),
     [entry.created_at],
@@ -47,7 +51,9 @@ const SimilarEntryItem = ({ entry }: Props) => {
 
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={_onPress} style={styles.card}>
-      {thumbnail ? (
+      {isHidden ? (
+        <HiddenImagePlaceholder width="100%" height={100} onPress={reveal} />
+      ) : thumbnail ? (
         <ExpoImage
           source={{ uri: thumbnail }}
           style={styles.image}

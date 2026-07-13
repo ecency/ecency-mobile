@@ -15,6 +15,8 @@ import { PostCardActionIds } from '../container/postCard';
 import ROUTES from '../../../constants/routeNames';
 import { ContentType } from '../../../providers/hive/hive.types';
 import { isCommunity } from '../../../utils/communityValidation';
+import { useImageReveal } from '../../../hooks/useImageReveal';
+import { HiddenImagePlaceholder } from '../../hiddenImagePlaceholder';
 
 // i.ecency.com: same imagehoster backend as images.ecency.com on an
 // SNI-resilient hostname. These constants render directly (they do not pass
@@ -50,12 +52,11 @@ const getStableContentKey = (content?: any) => {
 
 interface Props {
   content: any;
-  isHideImage: boolean;
   nsfw: string;
   handleCardInteraction: (id: PostCardActionIds, payload?: any) => void;
 }
 
-const PostCardContentComponent = ({ content, isHideImage, nsfw, handleCardInteraction }: Props) => {
+const PostCardContentComponent = ({ content, nsfw, handleCardInteraction }: Props) => {
   const intl = useIntl();
   const dim = useWindowDimensions();
   const imgRef = useRef<ExpoImage>(null);
@@ -140,6 +141,16 @@ const PostCardContentComponent = ({ content, isHideImage, nsfw, handleCardIntera
     return images.image;
   }, [isGif, original, images.image, imgWidth]);
 
+  // Key the reveal on the source image rather than imageUri: the GIF branch stamps
+  // the viewport width into the proxy url, so rotating the device would otherwise
+  // re-hide an image the user had already loaded.
+  const { isHidden, reveal } = useImageReveal(original || imageUri);
+
+  // DEFAULT_IMAGE and NSFW_IMAGE are empty-state and moderation graphics, not post
+  // content. There is nothing for the user to "load", so offer no placeholder for
+  // them (and do not fetch them either while the setting is off).
+  const hasContentImage = imageUri !== DEFAULT_IMAGE && imageUri !== NSFW_IMAGE;
+
   // const _toggleGif = (inView: boolean) => {
   //   if (Platform.OS === 'ios') {
   //     setAutoplay(inView);
@@ -151,7 +162,17 @@ const PostCardContentComponent = ({ content, isHideImage, nsfw, handleCardIntera
   return (
     <View style={styles.postBodyWrapper}>
       <TouchableOpacity activeOpacity={0.8} style={styles.hiddenImages} onPress={_onPress}>
-        {!isHideImage && (
+        {isHidden ? (
+          hasContentImage && (
+            <View style={styles.imageWrapper}>
+              <HiddenImagePlaceholder
+                width={imgWidth}
+                height={Math.min(imgHeight, dim.height)}
+                onPress={reveal}
+              />
+            </View>
+          )
+        ) : (
           <View style={styles.imageWrapper}>
             <ExpoImage
               ref={imgRef}
@@ -217,7 +238,6 @@ const PostCardContentComponent = ({ content, isHideImage, nsfw, handleCardIntera
 export const PostCardContent = React.memo(PostCardContentComponent, (prevProps, nextProps) => {
   return (
     prevProps.content === nextProps.content &&
-    prevProps.isHideImage === nextProps.isHideImage &&
     prevProps.nsfw === nextProps.nsfw &&
     prevProps.handleCardInteraction === nextProps.handleCardInteraction
   );

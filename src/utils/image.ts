@@ -13,6 +13,19 @@ const getImageBaseUrl = () => {
   }
 };
 
+/**
+ * False while the "Show Images" setting is off, so callers can skip speculative
+ * downloads. Lives here because this module already owns store-backed image
+ * concerns; importing the store into leaf utils pulls in the whole app graph.
+ */
+export const shouldPrefetchImages = () => {
+  try {
+    return !store.getState().application.hidePostsThumbnails;
+  } catch {
+    return true;
+  }
+};
+
 export const generateSignature = (media, privateKey) => {
   const STRING = 'ImageSigningChallenge';
   const prefix = Buffer.from(STRING);

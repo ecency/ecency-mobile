@@ -31,7 +31,6 @@ const ProfileScreen = ({ route }) => (
       isDarkTheme,
       isFavorite,
       isFollowing,
-      isHideImage,
       isLoggedIn,
       isMuted,
       isOwnProfile,
@@ -80,7 +79,6 @@ const ProfileScreen = ({ route }) => (
         selectedUser={selectedUser}
         username={username}
         votingPower={votingPower || 0}
-        isHideImage={isHideImage}
         reverseHeader={reverseHeader}
         deepLinkFilter={deepLinkFilter}
       />

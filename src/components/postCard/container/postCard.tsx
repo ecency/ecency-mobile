@@ -23,7 +23,7 @@ export enum PostCardActionIds {
   TIP = 'TIP',
 }
 
-const PostCard = ({ intl, content, isHideImage, nsfw, pageType, handleCardInteraction }) => {
+const PostCard = ({ intl, content, nsfw, pageType, handleCardInteraction }) => {
   // Inject this card's `content` into the (stable) parent handler so children
   // receive a referentially-stable callback. The list passes a stable
   // handleCardInteraction; wrapping it here (instead of a fresh inline arrow in
@@ -41,15 +41,9 @@ const PostCard = ({ intl, content, isHideImage, nsfw, pageType, handleCardIntera
         intl={intl}
         content={content}
         pageType={pageType}
-        isHideImage={isHideImage}
         handleCardInteraction={handleInteraction}
       />
-      <PostCardContent
-        content={content}
-        isHideImage={isHideImage}
-        nsfw={nsfw}
-        handleCardInteraction={handleInteraction}
-      />
+      <PostCardContent content={content} nsfw={nsfw} handleCardInteraction={handleInteraction} />
       <PostCardActionsPanel content={content} handleCardInteraction={handleInteraction} />
     </View>
   );
@@ -60,7 +54,6 @@ const PostCard = ({ intl, content, isHideImage, nsfw, pageType, handleCardIntera
 const MemoizedPostCard = React.memo(PostCard, (prevProps, nextProps) => {
   return (
     prevProps.content === nextProps.content &&
-    prevProps.isHideImage === nextProps.isHideImage &&
     prevProps.nsfw === nextProps.nsfw &&
     prevProps.pageType === nextProps.pageType &&
     prevProps.intl === nextProps.intl &&

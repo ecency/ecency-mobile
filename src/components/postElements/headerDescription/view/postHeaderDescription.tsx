@@ -114,7 +114,6 @@ class PostHeaderDescription extends PureComponent {
   render() {
     const {
       date,
-      isHideImage,
       name,
       size,
       tag,
@@ -140,15 +139,15 @@ class PostHeaderDescription extends PureComponent {
             style={styles.avatarNameWrapper}
             onPress={() => this._handleOnAvatarPress(name)}
           >
-            {!isHideImage && (
-              <UserAvatar
-                style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }]}
-                disableSize
-                username={name}
-                defaultSource={DEFAULT_IMAGE}
-                noAction
-              />
-            )}
+            {/* Avatars are deliberately not gated on "Show Images": they are tiny,
+                cached, and part of identity. The setting suppresses content images. */}
+            <UserAvatar
+              style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }]}
+              disableSize
+              username={name}
+              defaultSource={DEFAULT_IMAGE}
+              noAction
+            />
           </TouchableOpacity>
 
           <View style={styles.leftContainer}>

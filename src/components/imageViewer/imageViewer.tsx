@@ -9,6 +9,8 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import IconButton from '../iconButton';
 import styles from './imageViewer.styles';
+import { shouldPrefetchImages } from '../../utils/image';
+import { isImageRevealed } from '../../utils/revealedImages';
 
 // eslint-disable-next-line no-empty-pattern
 export const ImageViewer = forwardRef(({}, ref) => {
@@ -24,12 +26,20 @@ export const ImageViewer = forwardRef(({}, ref) => {
 
   useImperativeHandle(ref, () => ({
     show(selectedUrl: string, _imageUrls: string[]) {
-      setImageUrls(_imageUrls);
-      setSelectedIndex(_imageUrls.indexOf(selectedUrl));
+      // The viewer is a swipeable gallery, so it mounts (and therefore fetches)
+      // the neighbours of whatever is on screen. With "Show Images" off, limit it
+      // to the images the user has actually loaded; swiping then moves between
+      // those rather than pulling in the rest of the post behind one tap.
+      const _urls = shouldPrefetchImages()
+        ? _imageUrls
+        : _imageUrls.filter((url) => url === selectedUrl || isImageRevealed(url));
+
+      setImageUrls(_urls);
+      setSelectedIndex(_urls.indexOf(selectedUrl));
       setVisible(true);
 
       if (Platform.OS === 'ios') {
-        ExpoImage.prefetch(_imageUrls, 'memory');
+        ExpoImage.prefetch(_urls, 'memory');
       }
     },
   }));

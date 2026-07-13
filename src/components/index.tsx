@@ -112,6 +112,7 @@ import HiveSignerModal from './hiveSignerModal/hiveSignerModal';
 import OrDivider from './orDivider/orDividerView';
 import PostTranslationModal from './post-translation-modal/postTranslationModal';
 import { ImageViewer } from './imageViewer';
+import { HiddenImagePlaceholder } from './hiddenImagePlaceholder';
 import { WalkthroughMarker } from './walkthroughMarker';
 import { LinkPreview, HiveLinkPreview } from './linkPreview';
 import { CrossPostModal } from './crossPostModal';
@@ -291,6 +292,7 @@ export {
   ProposalVoteRequest,
   FeatureSpotlightCard,
   HiveAuthModal,
+  HiddenImagePlaceholder,
   LinkPreview,
   HiveLinkPreview,
   CrossPostModal,
