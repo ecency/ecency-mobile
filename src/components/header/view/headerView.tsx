@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -7,7 +7,6 @@ import { useIntl } from 'react-intl';
 // Components
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SearchModal } from '../../searchModal';
 import { IconButton } from '../../iconButton';
 import { UserAvatar } from '../../userAvatar';
 
@@ -36,7 +35,6 @@ const HeaderView = ({
 }) => {
   const navigation = useNavigation();
 
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const intl = useIntl();
   const gradientColor = isDarkTheme ? ['#081c36', '#43638e'] : ['#2d5aa0', '#357ce6'];
 
@@ -136,14 +134,6 @@ const HeaderView = ({
     <SafeAreaView edges={['top']} style={[styles.container, isReverse && styles.containerReverse]}>
       {!hideUser && (
         <>
-          <SearchModal
-            placeholder={intl.formatMessage({
-              id: 'header.search',
-            })}
-            isOpen={isSearchModalOpen}
-            handleOnClose={() => setIsSearchModalOpen(false)}
-          />
-
           {_renderAvatar()}
           {_renderTitle()}
         </>
