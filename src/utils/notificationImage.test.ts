@@ -17,8 +17,23 @@ describe('getNotificationImageUrl', () => {
     expect(url).toBe(`proxy(96x96):${IMG}`);
   });
 
-  it.each(['mention', 'reblog', 'scheduled_published'])('uses img_url for a %s', (type) => {
-    expect(getNotificationImageUrl({ type, img_url: IMG })).toBe(`proxy(96x96):${IMG}`);
+  it.each(['mention', 'reblog', 'scheduled_published', 'favorites'])(
+    'uses img_url for a %s',
+    (type) => {
+      expect(getNotificationImageUrl({ type, img_url: IMG })).toBe(`proxy(96x96):${IMG}`);
+    },
+  );
+
+  it('uses the parent post image for a bookmark, i.e. the post that was bookmarked', () => {
+    // A bookmarks notification fires when someone comments on a post you saved,
+    // so the useful image is the saved post's, not the comment's.
+    const url = getNotificationImageUrl({
+      type: 'bookmarks',
+      parent_img_url: IMG,
+      img_url: 'https://images.ecency.com/p/the-comment.jpg',
+    });
+
+    expect(url).toBe(`proxy(96x96):${IMG}`);
   });
 
   it('shows no thumbnail for votes, which would just repeat the user own post', () => {
