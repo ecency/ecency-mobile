@@ -94,9 +94,9 @@ const PostDisplayView = ({
   // Component Life Cycles
   useEffect(() => {
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
-      // track user activity for view post
+      // record a check-in (type 10) for reading a post
       userActivityMutation.mutate({
-        pointsTy: PointActivityIds.VIEW_POST,
+        pointsTy: PointActivityIds.CHECKIN,
       });
     }
   }, []);
