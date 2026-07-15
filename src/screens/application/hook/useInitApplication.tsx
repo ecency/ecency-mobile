@@ -35,7 +35,12 @@ import {
 } from '../../../redux/actions/applicationActions';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import { selectCurrentAccount } from '../../../redux/selectors';
+import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
+import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+
+// Client-side spacing for app open/resume check-ins; the backend enforces
+// ~15 min between check-ins anyway and cancels anything closer.
+const CHECKIN_THROTTLE_MS = 15 * 60 * 1000;
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
@@ -45,11 +50,13 @@ export const useInitApplication = () => {
     (state) => state.application,
   );
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const systemColorScheme = useColorScheme();
 
   const appState = useRef(AppState.currentState);
   const appStateSubRef = useRef<NativeEventSubscription | null>(null);
   const lowMemSubRef = useRef<NativeEventSubscription | null>(null);
+  const lastCheckinAtRef = useRef<Record<string, number>>({});
 
   const notifeeEventRef = useRef<any>(null);
   const messagingEventRef = useRef<any>(null);
@@ -104,6 +111,7 @@ export const useInitApplication = () => {
     });
 
     userActivityMutation.lazyMutatePendingActivities();
+    _recordCheckin();
 
     // update fiat currency rate usd:fiat
     dispatch(setCurrency(currency.currency));
@@ -189,9 +197,29 @@ export const useInitApplication = () => {
     // }
   };
 
+  // Daily-quest check-in (type 10) on app open and foreground return, so users
+  // active only in feed/waves still check in; opening a post records one too.
+  // Fires only for a logged in account brought to the foreground, never from
+  // background wakeups, and is throttled per account to match the backend spacing.
+  const _recordCheckin = () => {
+    const username = currentAccount?.name;
+    if (!isLoggedIn || !username) {
+      return;
+    }
+
+    const lastAt = lastCheckinAtRef.current[username] || 0;
+    if (Date.now() - lastAt < CHECKIN_THROTTLE_MS) {
+      return;
+    }
+
+    lastCheckinAtRef.current[username] = Date.now();
+    userActivityMutation.mutate({ pointsTy: PointActivityIds.CHECKIN });
+  };
+
   const _handleAppStateChange = (nextAppState) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
       userActivityMutation.lazyMutatePendingActivities();
+      _recordCheckin();
       dispatch(recordAppSession());
     }
 

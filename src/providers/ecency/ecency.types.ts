@@ -188,7 +188,7 @@ export enum NotificationFilters {
 }
 
 export enum PointActivityIds {
-  VIEW_POST = 10,
+  CHECKIN = 10,
   LOGIN = 20,
   POST = 100,
   COMMENT = 110,
