@@ -58,6 +58,12 @@ export const useInitApplication = () => {
   const lowMemSubRef = useRef<NativeEventSubscription | null>(null);
   const lastCheckinAtRef = useRef<Record<string, number>>({});
 
+  // Fresh auth snapshot for _recordCheckin: the AppState listener re-registers
+  // only when currentAccount.name changes, so it must not rely on captured
+  // isLoggedIn (stale if auth flips without a name change).
+  const authRef = useRef({ isLoggedIn, username: currentAccount?.name });
+  authRef.current = { isLoggedIn, username: currentAccount?.name };
+
   const notifeeEventRef = useRef<any>(null);
   const messagingEventRef = useRef<any>(null);
 
@@ -202,8 +208,8 @@ export const useInitApplication = () => {
   // Fires only for a logged in account brought to the foreground, never from
   // background wakeups, and is throttled per account to match the backend spacing.
   const _recordCheckin = () => {
-    const username = currentAccount?.name;
-    if (!isLoggedIn || !username) {
+    const { isLoggedIn: loggedIn, username } = authRef.current;
+    if (!loggedIn || !username) {
       return;
     }
 
