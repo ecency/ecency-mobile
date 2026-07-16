@@ -1,11 +1,11 @@
-import { useInfiniteQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import * as Sentry from '@sentry/react-native';
 import {
   getNotificationsInfiniteQueryOptions,
-  markNotifications,
-  useBroadcastMutation,
+  useMarkNotificationsRead,
+  useSetLastRead,
 } from '@ecency/sdk';
 import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
 import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
@@ -60,15 +60,14 @@ export const useNotificationsQuery = (filter?: NotificationFilters) => {
 
 /**
  * Hook to mark notifications as read
- * Uses SDK's useMarkNotificationsRead with mobile-specific Hive notification marking
- *
- * Note: The SDK's optimistic update may fail due to infinite query structure mismatch,
- * but we handle this gracefully by verifying the actual mutation result.
+ * Uses SDK's useMarkNotificationsRead (optimistic cache updates, rollback and
+ * invalidation over the shared query client) and useSetLastRead (on-chain
+ * notify/ecency_notify markers), adding mobile specifics: pin-decrypted access
+ * token, unread badge dispatch and failure toast.
  */
 export const useNotificationReadMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
   const { username: authUsername, code: authCode } = useAuth();
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinHash = useAppSelector(selectPin);
@@ -77,49 +76,6 @@ export const useNotificationReadMutation = () => {
   // Get auth credentials
   const digitPinCode = useMemo(() => (pinHash ? getDigitPinCode(pinHash) : undefined), [pinHash]);
   const username = currentAccount?.name || authUsername;
-  const notificationsQueryKey = getNotificationsInfiniteQueryOptions(
-    username,
-    authCode,
-    undefined,
-    FETCH_LIMIT,
-  ).queryKey;
-  // Broad key (first 2 segments) to invalidate all filter tabs on mark-read
-  const notificationsBaseQueryKey = notificationsQueryKey.slice(0, 2);
-
-  // SDK broadcast mutation for marking Hive on-chain notifications
-  const markHiveNotifMutation = useBroadcastMutation(
-    ['hive', 'mark-notifications'],
-    username,
-    () => {
-      const now = new Date().toISOString();
-      const date = now.replace(/\.\d{3}Z$/, 'Z');
-      const jsonPayload = JSON.stringify(['setLastRead', { date }]);
-      return [
-        [
-          'custom_json',
-          {
-            id: 'notify',
-            required_auths: [],
-            required_posting_auths: [username],
-            json: jsonPayload,
-          },
-        ],
-        [
-          'custom_json',
-          {
-            id: 'ecency_notify',
-            required_auths: [],
-            required_posting_auths: [username],
-            json: jsonPayload,
-          },
-        ],
-      ];
-    },
-    undefined,
-    authContext,
-    'posting',
-    { broadcastMode: 'async' },
-  );
 
   // Track pending mutations to verify on error
   const pendingMutationRef = useRef<{ id?: string; timestamp: number } | null>(null);
@@ -128,24 +84,16 @@ export const useNotificationReadMutation = () => {
       ? decryptKey(currentAccount.local.accessToken, digitPinCode)
       : authCode;
 
-  // Custom mutation to avoid SDK optimistic update issues with infinite queries
-  const mutation = useMutation({
-    mutationKey: ['notifications', 'mark-read', username],
-    mutationFn: async ({ id }: { id?: string }) => {
-      if (!username || !accessToken) {
-        throw new Error('[Notifications] missing auth for markNotifications');
-      }
-      return markNotifications(accessToken, id);
-    },
-    onSuccess: async (response) => {
-      const unreadCount =
-        typeof response === 'object' && response !== null ? response.unread : undefined;
+  const mutation = useMarkNotificationsRead(
+    username,
+    accessToken,
+    (unreadCount) => {
       if (unreadCount !== undefined) {
         dispatch(updateUnreadActivityCount(unreadCount));
       }
       pendingMutationRef.current = null;
     },
-    onError: async (error) => {
+    (error) => {
       const pendingMutation = pendingMutationRef.current;
 
       if (pendingMutation && Date.now() - pendingMutation.timestamp < 5000) {
@@ -155,19 +103,16 @@ export const useNotificationReadMutation = () => {
           'warning',
         );
         return;
-      } else {
-        Sentry.captureException(error);
       }
+      Sentry.captureException(error);
 
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       pendingMutationRef.current = null;
     },
-    onSettled: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: notificationsBaseQueryKey,
-      });
-    },
-  });
+  );
+
+  // SDK broadcast mutation for marking Hive on-chain notifications (notify + ecency_notify)
+  const setLastReadMutation = useSetLastRead(username, authContext, 'async');
 
   // Wrap SDK mutation to add mobile-specific Hive notification marking
   return {
@@ -191,7 +136,7 @@ export const useNotificationReadMutation = () => {
 
         // Mobile-specific: Also mark Hive notifications when marking all
         if (!notificationId) {
-          markHiveNotifMutation.mutate(
+          setLastReadMutation.mutate(
             {},
             {
               onError: (err) => {
