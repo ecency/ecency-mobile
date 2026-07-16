@@ -40,7 +40,6 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   const {
     isLoading: isLoadingDrafts,
     data: allDrafts = [],
-    isFetching: isFetchingDrafts,
     refetch: refetchDrafts,
     fetchNextPage: fetchNextDraftsPage,
     hasNextPage: hasNextDraftsPage,
@@ -55,7 +54,6 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   const {
     isLoading: isLoadingSchedules,
     data: schedules = [],
-    isFetching: isFetchingSchedules,
     refetch: refetchSchedules,
     fetchNextPage: fetchNextSchedulesPage,
     hasNextPage: hasNextSchedulesPage,
@@ -67,10 +65,18 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   const [batchSelectedSchedules, setBatchSelectedSchedules] = useState<string[]>([]);
   // const [selectedTabIndex, setSelectedTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
 
+  // Spinner state for an explicit pull only; background refetches (stale mount,
+  // next-page, invalidations) must not drop the RefreshControl down on their own.
+  const [refreshing, setRefreshing] = useState(false);
+
   // Component Functions
-  const _onRefresh = () => {
-    refetchDrafts();
-    refetchSchedules();
+  const _onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await Promise.all([refetchDrafts(), refetchSchedules()]);
+    } finally {
+      setRefreshing(false);
+    }
   };
 
   const _editDraft = (id: string) => {
@@ -94,8 +100,8 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
     });
   };
 
-  const _isLoading =
-    isLoadingDrafts || isLoadingSchedules || isFetchingDrafts || isFetchingSchedules;
+  // initial load only — used for list placeholders, not the pull spinner
+  const _isLoading = isLoadingDrafts || isLoadingSchedules;
 
   const _isDeleting = isDeletingDraft || isDeletingSchedule || isMovingToDrafts;
 
@@ -154,6 +160,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   return (
     <DraftsScreen
       isLoading={_isLoading}
+      refreshing={refreshing}
       isDeleting={_isDeleting}
       isBatchDeleting={
         draftsBatchDeleteMutation.isLoading || schedulesBatchDeleteMutation.isLoading

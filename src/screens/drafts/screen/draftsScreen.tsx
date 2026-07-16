@@ -39,6 +39,7 @@ const DraftsScreen = ({
   applyTemplate,
   removeSchedule,
   isLoading,
+  refreshing,
   isDeleting,
   isBatchDeleting,
   onRefresh,
@@ -369,7 +370,7 @@ const DraftsScreen = ({
             ListFooterComponent={isFetchingNextPage ? <PostCardPlaceHolder /> : null}
             refreshControl={
               <RefreshControl
-                refreshing={isLoading}
+                refreshing={refreshing}
                 onRefresh={onRefresh}
                 progressBackgroundColor="#357CE6"
                 tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
@@ -392,7 +393,7 @@ const DraftsScreen = ({
       _renderHeader,
       _renderEmptyContent,
       processedIdLessDraft,
-      isLoading,
+      refreshing,
       onRefresh,
       isDarkTheme,
     ],
@@ -457,6 +458,7 @@ const DraftsScreen = ({
         />
 
         <TabView
+          lazy
           navigationState={{ index, routes }}
           style={globalStyles.tabView}
           onIndexChange={setIndex}
