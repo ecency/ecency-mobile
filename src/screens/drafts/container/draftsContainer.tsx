@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
@@ -67,14 +67,22 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
 
   // Spinner state for an explicit pull only; background refetches (stale mount,
   // next-page, invalidations) must not drop the RefreshControl down on their own.
+  // The ref guards against overlapping pulls so a faster call can't clear the
+  // spinner while another refresh is still running.
   const [refreshing, setRefreshing] = useState(false);
+  const isRefreshingRef = useRef(false);
 
   // Component Functions
   const _onRefresh = async () => {
+    if (isRefreshingRef.current) {
+      return;
+    }
+    isRefreshingRef.current = true;
     setRefreshing(true);
     try {
       await Promise.all([refetchDrafts(), refetchSchedules()]);
     } finally {
+      isRefreshingRef.current = false;
       setRefreshing(false);
     }
   };
