@@ -27,8 +27,8 @@ export interface PollMetadata {
   hide_votes?: boolean; // prop used to allow/disallwo viewing voters data
 }
 
-// Optional AI-usage disclosure. Interoperable with PeakD's `ai_tools` json_metadata
-// standard so an AI-usage badge shows consistently across Hive frontends.
+// Optional AI-usage disclosure. Interoperable with the `ai_tools` json_metadata convention
+// used by other Hive frontends so an AI-usage badge shows consistently across them.
 export interface AiToolsMeta {
   media_generation?: boolean; // AI-generated image/media
   writing_edit?: boolean; // AI grammar/formatting/editing assistance
@@ -47,7 +47,7 @@ export interface PostMetadata extends Partial<PollMetadata> {
   image: string[];
   image_ratios: number[];
 
-  // AI-usage disclosure (PeakD-compatible; omitted when nothing is disclosed)
+  // AI-usage disclosure (interoperable across Hive frontends; omitted when nothing disclosed)
   ai_tools?: AiToolsMeta;
 }
 

@@ -386,7 +386,7 @@ const PostDisplayView = ({
     .toLowerCase()
     .includes('ecency');
 
-  // AI-usage disclosure (PeakD-compatible) shown next to the "posted via" line.
+  // AI-usage disclosure (interoperable) shown next to the "posted via" line.
   const _postAiTools = post?.json_metadata?.ai_tools;
   const hasAiTools = !!(_postAiTools?.media_generation || _postAiTools?.writing_edit);
 

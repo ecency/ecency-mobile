@@ -395,12 +395,10 @@ const MarkdownEditorView = ({
 
   const _handleAiAssistResult = useCallback(
     (output: string, action: string) => {
-      // Any AI-assist action except tag suggestions alters the post text -> pre-check the
-      // "writing_edit" disclosure (author can still change it before publishing).
-      if (action !== 'suggest_tags') {
-        handleAiToolUsed?.('writing_edit');
-      }
       if (action === 'improve' || action === 'check_grammar' || action === 'summarize') {
+        // Only body-editing actions set the "writing_edit" disclosure. Title generation and
+        // tag suggestions aren't grammar/formatting edits, so they leave it unset.
+        handleAiToolUsed?.('writing_edit');
         // Replace entire body with AI output
         _setTextAndSelection({
           text: output,

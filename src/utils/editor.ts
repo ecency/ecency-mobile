@@ -179,8 +179,9 @@ export const makeJsonMetadata = (meta, tags) =>
     format: 'markdown+html',
   });
 
-// Optional AI-usage disclosure (PeakD-compatible `ai_tools`). Keeps only the truthy flags
-// and returns undefined when nothing is disclosed, so a normal post's metadata is untouched.
+// Optional AI-usage disclosure (`ai_tools`, interoperable with other Hive frontends). Keeps
+// only the truthy flags and returns undefined when nothing is disclosed, so a normal post's
+// metadata is untouched.
 export const cleanAiTools = (aiTools) => {
   if (!aiTools) {
     return undefined;

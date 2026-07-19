@@ -1,6 +1,7 @@
 import { cleanAiTools, makeJsonMetadata } from './editor';
 
-// The AI-usage disclosure is optional and PeakD-compatible: only truthy flags are kept,
+// The AI-usage disclosure is optional and interoperable with other Hive frontends: only
+// the truthy flags are kept,
 // and the object is dropped entirely when nothing is disclosed.
 describe('cleanAiTools', () => {
   it('returns undefined for undefined/null input', () => {

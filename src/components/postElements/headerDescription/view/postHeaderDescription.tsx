@@ -132,7 +132,7 @@ class PostHeaderDescription extends PureComponent {
       handleOnDotPress,
     } = this.props;
 
-    // AI-usage disclosure (PeakD-compatible). Shows for any post that discloses it, not
+    // AI-usage disclosure (interoperable). Shows for any post that discloses it, not
     // only Ecency posts. json_metadata may be an unparsed string in some paths -> safe.
     const aiTools = content?.json_metadata?.ai_tools;
     const hasAiTools = !!(aiTools?.media_generation || aiTools?.writing_edit);
