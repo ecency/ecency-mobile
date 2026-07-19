@@ -132,6 +132,11 @@ class PostHeaderDescription extends PureComponent {
       handleOnDotPress,
     } = this.props;
 
+    // AI-usage disclosure (interoperable). Shows for any post that discloses it, not
+    // only Ecency posts. json_metadata may be an unparsed string in some paths -> safe.
+    const aiTools = content?.json_metadata?.ai_tools;
+    const hasAiTools = !!(aiTools?.media_generation || aiTools?.writing_edit);
+
     return (
       <View style={{ flex: 1 }}>
         <View style={[styles.container, customStyle]}>
@@ -165,6 +170,16 @@ class PostHeaderDescription extends PureComponent {
 
               {inlineTime && isFromEcency && (
                 <Image source={ECENCY_LOGO} style={styles.ecencySourceBadge} />
+              )}
+
+              {inlineTime && hasAiTools && (
+                <Icon
+                  name="robot-outline"
+                  iconType="MaterialCommunityIcons"
+                  style={styles.aiToolsBadge}
+                  accessible={true}
+                  accessibilityLabel={intl.formatMessage({ id: 'ai_usage.disclosed' })}
+                />
               )}
 
               {isShowOwnerIndicator && (
@@ -227,6 +242,16 @@ class PostHeaderDescription extends PureComponent {
 
               {!inlineTime && isFromEcency && (
                 <Image source={ECENCY_LOGO} style={styles.ecencySourceBadge} />
+              )}
+
+              {!inlineTime && hasAiTools && (
+                <Icon
+                  name="robot-outline"
+                  iconType="MaterialCommunityIcons"
+                  style={styles.aiToolsBadge}
+                  accessible={true}
+                  accessibilityLabel={intl.formatMessage({ id: 'ai_usage.disclosed' })}
+                />
               )}
             </View>
           </View>

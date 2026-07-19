@@ -6,7 +6,12 @@ import { get, isNull, isEqual } from 'lodash';
 // Utils
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getCommunityQueryOptions } from '@ecency/sdk';
-import { extractMetadata, getWordsCount, makeJsonMetadata } from '../../../utils/editor';
+import {
+  cleanAiTools,
+  extractMetadata,
+  getWordsCount,
+  makeJsonMetadata,
+} from '../../../utils/editor';
 
 // Components
 import {
@@ -27,7 +32,7 @@ import { isCommunity } from '../../../utils/communityValidation';
 import styles from './editorScreenStyles';
 import PostOptionsModal from '../children/postOptionsModal';
 import SaveTemplateModal from '../children/saveTemplateModal';
-import { CommunityRole, CommunityTypeId } from '../../../providers/hive/hive.types';
+import { AiToolsMeta, CommunityRole, CommunityTypeId } from '../../../providers/hive/hive.types';
 
 class EditorScreen extends Component {
   /* Props
@@ -53,6 +58,9 @@ class EditorScreen extends Component {
         tags: (props.draftPost && props.draftPost.tags) || props.tags || [],
         community: props.community || [],
         isValid: false,
+        // AI-usage disclosure flags, pre-checked when Ecency's own AI tools are used.
+        // Restored from a reopened draft so the disclosure survives save/reopen.
+        aiTools: (props.draftPost && props.draftPost.meta && props.draftPost.meta.ai_tools) || {},
       },
       isCommunitiesListModalOpen: false,
       selectedCommunity: null,
@@ -311,6 +319,18 @@ class EditorScreen extends Component {
     this.setState({ isFormValid, canPostToCommunity });
   };
 
+  // Records that an Ecency AI tool was used, pre-checking the AI-usage disclosure. The flag
+  // rides on state.fields.aiTools and is read at publish time. Additive only -- Ecency never
+  // un-discloses on the user's behalf.
+  _handleAiToolUsed = (key: keyof AiToolsMeta) => {
+    this.setState((prevState) => ({
+      fields: {
+        ...prevState.fields,
+        aiTools: { ...(prevState.fields.aiTools || {}), [key]: true },
+      },
+    }));
+  };
+
   _handleFormUpdate = async (componentID, content) => {
     const { handleFormChanged, thumbUrl, rewardType, getBeneficiaries, postDescription } =
       this.props;
@@ -338,6 +358,10 @@ class EditorScreen extends Component {
       description: postDescription,
     });
     const jsonMeta = makeJsonMetadata(meta, fields.tags);
+    const _aiTools = cleanAiTools(fields.aiTools);
+    if (_aiTools) {
+      jsonMeta.ai_tools = _aiTools;
+    }
     fields.meta = jsonMeta;
 
     if (
@@ -352,9 +376,14 @@ class EditorScreen extends Component {
       this._saveCurrentDraft(fields);
     }
 
-    this.setState({ fields }, () => {
-      this._handleIsFormValid();
-    });
+    // Merge aiTools from the latest state (not the snapshot taken before the awaits above),
+    // so a concurrent _handleAiToolUsed functional update isn't clobbered by this object set.
+    this.setState(
+      (prev) => ({ fields: { ...fields, aiTools: prev.fields.aiTools } }),
+      () => {
+        this._handleIsFormValid();
+      },
+    );
   };
 
   _handleOnTagAdded = async (tags) => {
@@ -567,6 +596,7 @@ class EditorScreen extends Component {
             onTitleChanged={this._handleChangeTitle}
             getCommunity={this._getCommunity}
             handleFormUpdate={this._handleFormUpdate}
+            handleAiToolUsed={this._handleAiToolUsed}
             handleBodyChange={this._setWordsCount}
             autoFocusText={autoFocusText}
             sharedSnippetText={sharedSnippetText}

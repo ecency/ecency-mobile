@@ -37,6 +37,7 @@ import {
   makeOptions,
   extractMetadata,
   makeJsonMetadataForUpdate,
+  cleanAiTools,
   createPatch,
 } from '../../../utils/editor';
 
@@ -696,6 +697,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           description: postDescription || postBodySummaryContent,
         });
 
+        // Persist the AI-usage disclosure so it survives a draft save/reopen round-trip.
+        const _draftAiTools = cleanAiTools(draftField.aiTools);
+        if (_draftAiTools) {
+          meta.ai_tools = _draftAiTools;
+        }
+
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
 
         const username = currentAccount.name;
@@ -1126,6 +1133,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
+      const aiTools = cleanAiTools(fields.aiTools);
+      if (aiTools) {
+        meta.ai_tools = aiTools;
+      }
+
       const jsonMeta = makeJsonMetadata(meta, _tags);
 
       let permlink = generatePermlink(fields.title || '');
@@ -1361,6 +1373,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           fetchRatios: true,
           postType: PostTypes.COMMENT,
         });
+        const aiTools = cleanAiTools(fields.aiTools);
+        if (aiTools) {
+          meta.ai_tools = aiTools;
+        }
         jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency']);
 
         author = currentAccount.name;
@@ -1534,6 +1550,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         postType: jsonMetadata.type,
         contentType: jsonMetadata.content_type,
       });
+
+      // Merge any newly-disclosed flags over the post's existing ai_tools so an edit stays
+      // additive: makeJsonMetadataForUpdate shallow-merges `meta`, which would otherwise
+      // replace (drop) a prior disclosure the author isn't touching.
+      const aiTools = cleanAiTools({ ...(jsonMetadata?.ai_tools || {}), ...fields.aiTools });
+      if (aiTools) {
+        meta.ai_tools = aiTools;
+      }
 
       let jsonMeta = {};
 

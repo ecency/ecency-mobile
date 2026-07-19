@@ -53,6 +53,7 @@ const MarkdownEditorView = ({
   isLoading,
   initialFields,
   handleFormUpdate,
+  handleAiToolUsed,
   handleBodyChange,
   isEdit,
   post,
@@ -395,6 +396,9 @@ const MarkdownEditorView = ({
   const _handleAiAssistResult = useCallback(
     (output: string, action: string) => {
       if (action === 'improve' || action === 'check_grammar' || action === 'summarize') {
+        // Only body-editing actions set the "writing_edit" disclosure. Title generation and
+        // tag suggestions aren't grammar/formatting edits, so they leave it unset.
+        handleAiToolUsed?.('writing_edit');
         // Replace entire body with AI output
         _setTextAndSelection({
           text: output,
@@ -420,7 +424,7 @@ const MarkdownEditorView = ({
         }
       }
     },
-    [_setTextAndSelection, onTitleChanged, onTagChanged],
+    [_setTextAndSelection, onTitleChanged, onTagChanged, handleAiToolUsed],
   );
 
   // Compose-side translation: the sheet builds an appendix from the current
@@ -567,6 +571,7 @@ const MarkdownEditorView = ({
           suggestedPrompt={fields?.title?.trim() || undefined}
           setIsUploading={setIsUploading}
           handleMediaInsert={_handleMediaInsert}
+          handleAiToolUsed={handleAiToolUsed}
           handleOnAddLinkPress={_handleOnAddLinkPress}
           handleShowSnippets={() => setIsSnippetsOpen(true)}
           handleOnClearPress={() => clearRef.current.show()}

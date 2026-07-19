@@ -91,6 +91,12 @@ export default EStyleSheet.create({
     marginLeft: 6,
     alignSelf: 'center',
   },
+  aiToolsBadge: {
+    color: '$iconColor',
+    fontSize: 14,
+    marginLeft: 6,
+    alignSelf: 'center',
+  },
   ownerIndicator: {
     color: '$primaryBlue',
     alignSelf: 'center',

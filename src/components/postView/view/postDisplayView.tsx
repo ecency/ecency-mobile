@@ -15,6 +15,7 @@ import { getTimeFromNow } from '../../../utils/time';
 // Components
 import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
 import { PostPlaceHolder, StickyBar, TextWithIcon, NoPost } from '../../basicUIElements';
+import { Icon } from '../../icon';
 import { ParentPost } from '../../parentPost';
 import { PostReadingMetadata } from '../children/postReadingMetadata';
 import { PostTranslateInline } from '../children/postTranslateInline';
@@ -385,6 +386,10 @@ const PostDisplayView = ({
     .toLowerCase()
     .includes('ecency');
 
+  // AI-usage disclosure (interoperable) shown next to the "posted via" line.
+  const _postAiTools = post?.json_metadata?.ai_tools;
+  const hasAiTools = !!(_postAiTools?.media_generation || _postAiTools?.writing_edit);
+
   const _handleOnPostBodyLoad = useCallback(() => {
     setPostBodyLoading(false);
   }, []);
@@ -513,6 +518,15 @@ const PostDisplayView = ({
                     </Text>
                     {isFromEcency && (
                       <Image source={ECENCY_LOGO} style={styles.ecencySourceBadge} />
+                    )}
+                    {hasAiTools && (
+                      <Icon
+                        name="robot-outline"
+                        iconType="MaterialCommunityIcons"
+                        style={styles.aiToolsBadge}
+                        accessible={true}
+                        accessibilityLabel={intl.formatMessage({ id: 'ai_usage.disclosed' })}
+                      />
                     )}
                   </View>
                   <WritePostButton
