@@ -179,6 +179,22 @@ export const makeJsonMetadata = (meta, tags) =>
     format: 'markdown+html',
   });
 
+// Optional AI-usage disclosure (PeakD-compatible `ai_tools`). Keeps only the truthy flags
+// and returns undefined when nothing is disclosed, so a normal post's metadata is untouched.
+export const cleanAiTools = (aiTools) => {
+  if (!aiTools) {
+    return undefined;
+  }
+  const out: { media_generation?: boolean; writing_edit?: boolean } = {};
+  if (aiTools.media_generation) {
+    out.media_generation = true;
+  }
+  if (aiTools.writing_edit) {
+    out.writing_edit = true;
+  }
+  return Object.keys(out).length > 0 ? out : undefined;
+};
+
 export const makeJsonMetadataForUpdate = (oldJson, meta, tags) => {
   const { meta: oldMeta } = oldJson;
   const mergedMeta = Object.assign({}, oldMeta, meta);

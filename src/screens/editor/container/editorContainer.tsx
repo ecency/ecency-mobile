@@ -37,6 +37,7 @@ import {
   makeOptions,
   extractMetadata,
   makeJsonMetadataForUpdate,
+  cleanAiTools,
   createPatch,
 } from '../../../utils/editor';
 
@@ -1126,6 +1127,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
+      const aiTools = cleanAiTools(fields.aiTools);
+      if (aiTools) {
+        meta.ai_tools = aiTools;
+      }
+
       const jsonMeta = makeJsonMetadata(meta, _tags);
 
       let permlink = generatePermlink(fields.title || '');
@@ -1361,6 +1367,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           fetchRatios: true,
           postType: PostTypes.COMMENT,
         });
+        const aiTools = cleanAiTools(fields.aiTools);
+        if (aiTools) {
+          meta.ai_tools = aiTools;
+        }
         jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency']);
 
         author = currentAccount.name;
@@ -1534,6 +1544,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         postType: jsonMetadata.type,
         contentType: jsonMetadata.content_type,
       });
+
+      const aiTools = cleanAiTools(fields.aiTools);
+      if (aiTools) {
+        meta.ai_tools = aiTools;
+      }
 
       let jsonMeta = {};
 

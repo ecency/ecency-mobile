@@ -78,6 +78,11 @@ export default EStyleSheet.create({
     height: 12,
     marginLeft: 3,
   },
+  aiToolsBadge: {
+    color: '$iconColor',
+    fontSize: 14,
+    marginLeft: 3,
+  },
   footerName: {
     color: '$primaryBlack',
     fontWeight: 'bold',
