@@ -378,9 +378,12 @@ class EditorScreen extends Component {
 
     // Merge aiTools from the latest state (not the snapshot taken before the awaits above),
     // so a concurrent _handleAiToolUsed functional update isn't clobbered by this object set.
-    this.setState((prev) => ({ fields: { ...fields, aiTools: prev.fields.aiTools } }), () => {
-      this._handleIsFormValid();
-    });
+    this.setState(
+      (prev) => ({ fields: { ...fields, aiTools: prev.fields.aiTools } }),
+      () => {
+        this._handleIsFormValid();
+      },
+    );
   };
 
   _handleOnTagAdded = async (tags) => {
