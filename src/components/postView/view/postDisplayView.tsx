@@ -524,6 +524,8 @@ const PostDisplayView = ({
                         name="robot-outline"
                         iconType="MaterialCommunityIcons"
                         style={styles.aiToolsBadge}
+                        accessible={true}
+                        accessibilityLabel={intl.formatMessage({ id: 'ai_usage.disclosed' })}
                       />
                     )}
                   </View>
