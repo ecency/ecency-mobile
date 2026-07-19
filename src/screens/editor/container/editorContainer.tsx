@@ -697,6 +697,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           description: postDescription || postBodySummaryContent,
         });
 
+        // Persist the AI-usage disclosure so it survives a draft save/reopen round-trip.
+        const _draftAiTools = cleanAiTools(draftField.aiTools);
+        if (_draftAiTools) {
+          meta.ai_tools = _draftAiTools;
+        }
+
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
 
         const username = currentAccount.name;
@@ -1545,7 +1551,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         contentType: jsonMetadata.content_type,
       });
 
-      const aiTools = cleanAiTools(fields.aiTools);
+      // Merge any newly-disclosed flags over the post's existing ai_tools so an edit stays
+      // additive: makeJsonMetadataForUpdate shallow-merges `meta`, which would otherwise
+      // replace (drop) a prior disclosure the author isn't touching.
+      const aiTools = cleanAiTools({ ...(jsonMetadata?.ai_tools || {}), ...fields.aiTools });
       if (aiTools) {
         meta.ai_tools = aiTools;
       }

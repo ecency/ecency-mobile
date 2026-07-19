@@ -32,7 +32,7 @@ import { isCommunity } from '../../../utils/communityValidation';
 import styles from './editorScreenStyles';
 import PostOptionsModal from '../children/postOptionsModal';
 import SaveTemplateModal from '../children/saveTemplateModal';
-import { CommunityRole, CommunityTypeId } from '../../../providers/hive/hive.types';
+import { AiToolsMeta, CommunityRole, CommunityTypeId } from '../../../providers/hive/hive.types';
 
 class EditorScreen extends Component {
   /* Props
@@ -59,7 +59,8 @@ class EditorScreen extends Component {
         community: props.community || [],
         isValid: false,
         // AI-usage disclosure flags, pre-checked when Ecency's own AI tools are used.
-        aiTools: {},
+        // Restored from a reopened draft so the disclosure survives save/reopen.
+        aiTools: (props.draftPost && props.draftPost.meta && props.draftPost.meta.ai_tools) || {},
       },
       isCommunitiesListModalOpen: false,
       selectedCommunity: null,
@@ -321,7 +322,7 @@ class EditorScreen extends Component {
   // Records that an Ecency AI tool was used, pre-checking the AI-usage disclosure. The flag
   // rides on state.fields.aiTools and is read at publish time. Additive only -- Ecency never
   // un-discloses on the user's behalf.
-  _handleAiToolUsed = (key) => {
+  _handleAiToolUsed = (key: keyof AiToolsMeta) => {
     this.setState((prevState) => ({
       fields: {
         ...prevState.fields,
