@@ -70,7 +70,7 @@ const UserListItem = ({
                   color: EStyleSheet.value('$white'),
                 }}
                 searchWords={[searchValue]}
-                textToHighlight={text || username}
+                textToHighlight={text}
                 style={styles.name}
               />
               <ProBadge username={username} />
