@@ -1192,10 +1192,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@ecency/render-helper@^2.5.19":
-  version "2.5.19"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.5.19.tgz#5ce8456b1599cdc63f7c6e916240d5cf5a5c250c"
-  integrity sha512-LXRd+IopOueZ47gBboSrBQp8rLSY4VB9Cr5rEMqUjY9OkzM3PZMgJfoau6pErDtP4xvPaX/VGXNbNdazHItduQ==
+"@ecency/render-helper@^2.5.22":
+  version "2.5.22"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.5.22.tgz#072e2747d9bfd64ce47a0aa680ff7aad57a6eebe"
+  integrity sha512-zRtk4nsLblY3xUef3TIQMpttzNMDBdQRC4lDRHNV58i6z3pcxz0SV/gcpgf/oXRVfv1Cb3p0B4Y83UAeK/wPiA==
   dependencies:
     "@xmldom/xmldom" "^0.9.10"
     dom-serializer "^2.0.0"
@@ -1203,7 +1203,6 @@
     htmlparser2 "^10.0.0"
     lolight "^1.4.0"
     lru-cache "^11.0.2"
-    multihashes "0.4.13"
     path "^0.12.7"
     querystring "^0.2.0"
     react-native-crypto-js "^1.0.0"
@@ -1211,10 +1210,10 @@
     url "^0.11.0"
     xss "^1.0.9"
 
-"@ecency/sdk@^2.3.54":
-  version "2.3.54"
-  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.3.54.tgz#35db14cffacaa25e1cf644d46e1f5cd016ee8cd6"
-  integrity sha512-WRdWMiif8MmC09t+jm+GnC2HAdwyRJnrgnrakarhEB3672lCMB7Je089wpGYaDFtt8iP+TtgRTJclTBWKa87Mg==
+"@ecency/sdk@^2.3.57":
+  version "2.3.57"
+  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.3.57.tgz#82571b8f3d126fb2639dbe370fa49aa822c95583"
+  integrity sha512-z03xpXgq6+TGbCGvuUxiKLmJ6vJz3cg8hiYO4ExhhFRIsXj176XH3y42toua7CEHmzbyx66VY1FjHCbHaUz/nQ==
   dependencies:
     "@noble/ciphers" "^2.1.1"
     "@noble/curves" "^2.0.1"
@@ -4408,13 +4407,6 @@ base-64@0.1.0:
   resolved "https://registry.npmjs.org/base-64/-/base-64-0.1.0.tgz"
   integrity sha512-Y5gU45svrR5tI2Vt/X9GPd3L0HNIKzGu202EjxrXMpuc2V2CiKgemAbUUsqYmZJvPtCXoUKjNZwBJzsNScUbXA==
 
-base-x@^3.0.2:
-  version "3.0.10"
-  resolved "https://registry.npmjs.org/base-x/-/base-x-3.0.10.tgz"
-  integrity sha512-7d0s06rR9rYaIWHkpfLIFICM/tkSVdoPC9qYAQRpxn9DdKNWNsKC0uk++akckyLq16Tx2WIinnZ6WRriAt6njQ==
-  dependencies:
-    safe-buffer "^5.0.1"
-
 base-x@^5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/base-x/-/base-x-5.0.1.tgz#16bf35254be1df8aca15e36b7c1dda74b2aa6b03"
@@ -4657,13 +4649,6 @@ bs58@6.0.0:
   integrity sha512-PD0wEnEYg6ijszw/u8s+iI3H17cTymlrwkKhDhPZq+Sokl3AU4htyBFTjAeNAlCCmg0f53g6ih3jATyCKftTfw==
   dependencies:
     base-x "^5.0.0"
-
-bs58@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.npmjs.org/bs58/-/bs58-4.0.1.tgz"
-  integrity sha512-Ok3Wdf5vOIlBrgCvTq96gBkJw+JUEzdBgyaza5HLtPm7yTHkjRy8+JzNyHF7BHa0bNWOQIp3m5YF0nnFcOIKLw==
-  dependencies:
-    base-x "^3.0.2"
 
 bser@2.1.1:
   version "2.1.1"
@@ -9836,14 +9821,6 @@ ms@2.1.3, ms@^2.1.1, ms@^2.1.3:
   resolved "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
-multihashes@0.4.13:
-  version "0.4.13"
-  resolved "https://registry.npmjs.org/multihashes/-/multihashes-0.4.13.tgz"
-  integrity sha512-HwJGEKPCpLlNlgGQA56CYh/Wsqa+c4JAq8+mheIgw7OK5T4QvNJqgp6TH8gZ4q4l1aiWeNat/H/MrFXmTuoFfQ==
-  dependencies:
-    bs58 "^4.0.1"
-    varint "^5.0.0"
-
 mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.npmjs.org/mute-stream/-/mute-stream-0.0.7.tgz"
@@ -13611,11 +13588,6 @@ validate-npm-package-name@^5.0.0:
   version "5.0.1"
   resolved "https://registry.npmjs.org/validate-npm-package-name/-/validate-npm-package-name-5.0.1.tgz"
   integrity sha512-OljLrQ9SQdOUqTaQxqL5dEfZWrXExyyWsozYlAWFawPVNuD83igl7uJD2RTkNMbniIYgt8l81eCJGIdQF7avLQ==
-
-varint@^5.0.0:
-  version "5.0.2"
-  resolved "https://registry.npmjs.org/varint/-/varint-5.0.2.tgz"
-  integrity sha512-lKxKYG6H03yCZUpAGOPOsMcGxd1RHCu1iKvEHYDPmTyq2HueGhD73ssNBqqQWfvYs04G9iUFRvmAVLW20Jw6ow==
 
 vary@~1.1.2:
   version "1.1.2"
