@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Components
 import { Tag } from '../../../basicUIElements';
 import { Icon } from '../../../icon';
 import { ProBadge } from '../../../proBadge';
+import { EcencySourceBadge } from '../../../ecencySourceBadge';
 import { UserAvatar } from '../../../userAvatar';
 // Styles
 import styles from './postHeaderDescriptionStyles';
@@ -16,7 +17,6 @@ import RootNavigation from '../../../../navigation/rootNavigation';
 
 // Constants
 import DEFAULT_IMAGE from '../../../../assets/ecency.png';
-import ECENCY_LOGO from '../../../../assets/ecency-logo-round.png';
 
 class PostHeaderDescription extends PureComponent {
   // Component Life Cycles
@@ -168,9 +168,7 @@ class PostHeaderDescription extends PureComponent {
 
               {inlineTime && <Text style={styles.date}>{date}</Text>}
 
-              {inlineTime && isFromEcency && (
-                <Image source={ECENCY_LOGO} style={styles.ecencySourceBadge} />
-              )}
+              {inlineTime && isFromEcency && <EcencySourceBadge style={styles.ecencySourceBadge} />}
 
               {inlineTime && hasAiTools && (
                 <Icon
@@ -241,7 +239,7 @@ class PostHeaderDescription extends PureComponent {
               {!inlineTime && <Text style={styles.date}>{date}</Text>}
 
               {!inlineTime && isFromEcency && (
-                <Image source={ECENCY_LOGO} style={styles.ecencySourceBadge} />
+                <EcencySourceBadge style={styles.ecencySourceBadge} />
               )}
 
               {!inlineTime && hasAiTools && (

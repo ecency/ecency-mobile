@@ -953,6 +953,7 @@
     "a11y_hide_replies": "Hide replies",
     "a11y_post_options": "Post options",
     "a11y_views": "{count, plural, one {# view} other {# views}}",
+    "source_ecency": "Published with Ecency",
     "a11y_stats_hint": "View post stats",
     "image": "Image",
     "reveal_muted": "MUTED\nTap to reveal content",
