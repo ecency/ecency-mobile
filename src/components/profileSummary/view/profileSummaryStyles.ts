@@ -47,10 +47,15 @@ export default EStyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 8,
   },
+  displayNameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   displayName: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '$primaryDarkText',
+    flexShrink: 1,
   },
   username: {
     fontSize: 14,

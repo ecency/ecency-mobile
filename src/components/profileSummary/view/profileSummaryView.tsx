@@ -14,6 +14,7 @@ import { TextWithIcon } from '../../basicUIElements';
 import { PercentBar } from '../../percentBar';
 import { DropdownButton } from '../../dropdownButton';
 import { UserAvatar } from '../../userAvatar';
+import { ProBadge } from '../../proBadge';
 
 // Utils
 import { makeCountFriendly } from '../../../utils/formatter';
@@ -193,9 +194,12 @@ class ProfileSummaryView extends PureComponent {
 
     return (
       <View style={styles.identitySection}>
-        <Text style={styles.displayName} numberOfLines={1}>
-          {displayName || username}
-        </Text>
+        <View style={styles.displayNameRow}>
+          <Text style={styles.displayName} numberOfLines={1}>
+            {displayName || username}
+          </Text>
+          <ProBadge username={username} size={18} />
+        </View>
         <Text style={styles.username}>
           {`@${username}`}
           {reputation ? ` (${reputation})` : ''}

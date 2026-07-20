@@ -31,6 +31,12 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
     fontFamily: '$primaryFont',
   },
+  // Keeps the Pro checkmark on the same baseline as the name. RTL-aware like
+  // userDescription so the badge stays on the trailing side of the handle.
+  nameRow: {
+    flexDirection: isRTL() ? 'row-reverse' : 'row',
+    alignItems: 'center',
+  },
   reputation: {
     fontWeight: 'normal',
     fontFamily: '$primaryFont',

@@ -5,6 +5,7 @@ import Highlighter from 'react-native-highlight-words';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { UserAvatar } from '../../../userAvatar';
+import { ProBadge } from '../../../proBadge';
 import styles from './userListItemStyles';
 
 const UserListItem = ({
@@ -55,17 +56,25 @@ const UserListItem = ({
         {!!itemIndex && <Text style={styles.itemIndex}>{itemIndex}</Text>}
         <UserAvatar noAction={true} style={styles.avatar} username={username} />
         <View style={styles.userDescription}>
-          {!searchValue && <Text style={styles.name}>{text || username}</Text>}
+          {!searchValue && (
+            <View style={styles.nameRow}>
+              <Text style={styles.name}>{text || username}</Text>
+              <ProBadge username={username} />
+            </View>
+          )}
           {!!searchValue && !!text && (
-            <Highlighter
-              highlightStyle={{
-                backgroundColor: EStyleSheet.value('$darkGrayBackground'),
-                color: EStyleSheet.value('$white'),
-              }}
-              searchWords={[searchValue]}
-              textToHighlight={text || username}
-              style={styles.name}
-            />
+            <View style={styles.nameRow}>
+              <Highlighter
+                highlightStyle={{
+                  backgroundColor: EStyleSheet.value('$darkGrayBackground'),
+                  color: EStyleSheet.value('$white'),
+                }}
+                searchWords={[searchValue]}
+                textToHighlight={text || username}
+                style={styles.name}
+              />
+              <ProBadge username={username} />
+            </View>
           )}
           {!!searchValue && !!description && (
             <Highlighter

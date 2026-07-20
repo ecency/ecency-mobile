@@ -5,6 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
 import styles from './quickProfileStyles';
 import { UserAvatar } from '../../..';
+import { ProBadge } from '../../../proBadge';
 
 interface Props {
   username: string;
@@ -54,7 +55,10 @@ export const ProfileBasic = ({
           </View>
         </View>
 
-        <Text style={styles.title}>{`@${username}`}</Text>
+        <Text style={styles.title}>
+          {`@${username}`}
+          <ProBadge username={username} size={16} />
+        </Text>
         {!!about && (
           <Text style={styles.bodyText} numberOfLines={2}>
             {about}
