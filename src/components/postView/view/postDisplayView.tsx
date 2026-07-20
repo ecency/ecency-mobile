@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, Image, useWindowDimensions } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
@@ -22,7 +22,7 @@ import { PostTranslateInline } from '../children/postTranslateInline';
 
 // Styles
 import styles from './postDisplayStyles';
-import ECENCY_LOGO from '../../../assets/ecency-logo-round.png';
+import { EcencySourceBadge } from '../../ecencySourceBadge';
 import { WritePostButton } from '../../atoms';
 import { PostTypes } from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
@@ -516,9 +516,7 @@ const PostDisplayView = ({
                       )}
                       {formatedTime}
                     </Text>
-                    {isFromEcency && (
-                      <Image source={ECENCY_LOGO} style={styles.ecencySourceBadge} />
-                    )}
+                    {isFromEcency && <EcencySourceBadge style={styles.ecencySourceBadge} />}
                     {hasAiTools && (
                       <Icon
                         name="robot-outline"

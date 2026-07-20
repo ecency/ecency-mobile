@@ -7,6 +7,7 @@ import { catchPostImage } from '@ecency/render-helper';
 import ROUTES from '../../../constants/routeNames';
 import { getTimeFromNow } from '../../../utils/time';
 import { Icon } from '../../icon';
+import { ProBadge } from '../../proBadge';
 import { HiddenImagePlaceholder } from '../../hiddenImagePlaceholder';
 import { useImageReveal } from '../../../hooks/useImageReveal';
 import styles from '../styles/similarEntries.styles';
@@ -72,6 +73,7 @@ const SimilarEntryItem = ({ entry }: Props) => {
         <View style={styles.meta}>
           <Text numberOfLines={1} style={styles.author}>
             @{entry.author}
+            <ProBadge username={entry.author} size={11} />
           </Text>
           {!!relativeDate && <Text style={styles.date}>{relativeDate}</Text>}
         </View>

@@ -5,6 +5,7 @@ import get from 'lodash/get';
 
 // Components
 import { UserAvatar } from '../../userAvatar';
+import { ProBadge } from '../../proBadge';
 
 import { rcFormatter, vestsToHp } from '../../../utils/conversions';
 import { formatNotificationTimestamp } from '../../../utils/time';
@@ -167,8 +168,8 @@ const NotificationLineView = ({
 
         <View style={styles.body}>
           <Text style={styles.title} numberOfLines={3} ellipsizeMode="tail">
-            <Text style={styles.name}>{notification.source} </Text>
-            {_title}
+            <Text style={styles.name}>{notification.source}</Text>
+            <ProBadge username={notification.source} size={13} /> {_title}
           </Text>
           {_moreinfo ? (
             <Text style={styles.moreinfo} numberOfLines={1} ellipsizeMode="tail">

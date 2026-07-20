@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import { ShortsFeedEntry } from '@ecency/sdk';
 
 import { FormattedCurrency, Icon, UserAvatar } from '../../../components';
+import { ProBadge } from '../../../components/proBadge';
 import WavesReelVideo from './wavesReelVideo';
 import styles from '../styles/wavesReels.styles';
 
@@ -106,6 +107,7 @@ const WavesReelItem = ({
         <View style={styles.authorRow}>
           <UserAvatar username={item.author} />
           <Text style={styles.authorName}>@{item.author}</Text>
+          <ProBadge username={item.author} />
         </View>
         {!!caption && (
           <Text style={styles.caption} numberOfLines={2}>
