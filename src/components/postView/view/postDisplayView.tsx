@@ -92,12 +92,15 @@ const PostDisplayView = ({
   );
 
   // Component Life Cycles
+  // Reading a post, comment or reply (incl. opened from notifications) is a check-in.
+  // Not mount-only: a cold start from a deep link can render this before persisted
+  // auth is restored, and `recordCheckIn` changes identity once the account lands,
+  // so the check-in still gets recorded. Its own throttle keeps repeats cheap.
   useEffect(() => {
-    // reading a post, comment or reply (incl. opened from notifications) is a check-in
     if (!isNewPost) {
       recordCheckIn();
     }
-  }, []);
+  }, [isNewPost, recordCheckIn]);
 
   const processedTags = useMemo(() => {
     if (!post) return [];

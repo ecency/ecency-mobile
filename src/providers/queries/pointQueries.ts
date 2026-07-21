@@ -131,7 +131,19 @@ export const useCheckIn = () => {
       return;
     }
 
+    // Claim the window before firing so parallel opens don't double-post, then
+    // release it if the request ends up failing: the activity is queued for
+    // replay, but a rejected call shouldn't also mute the next 15 minutes.
     lastCheckinAt[username] = now;
-    mutate({ pointsTy: PointActivityIds.CHECKIN });
+    mutate(
+      { pointsTy: PointActivityIds.CHECKIN },
+      {
+        onError: () => {
+          if (lastCheckinAt[username] === now) {
+            delete lastCheckinAt[username];
+          }
+        },
+      },
+    );
   }, [isLoggedIn, username, mutate]);
 };
