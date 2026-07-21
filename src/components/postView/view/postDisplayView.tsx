@@ -25,8 +25,7 @@ import styles from './postDisplayStyles';
 import { EcencySourceBadge } from '../../ecencySourceBadge';
 import { WritePostButton } from '../../atoms';
 import { PostTypes } from '../../../constants/postTypes';
-import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
-import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import { useCheckIn } from '../../../providers/queries/pointQueries';
 import { PostComments } from '../../postComments';
 import { SimilarEntries } from '../../similarEntries';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
@@ -59,7 +58,7 @@ const PostDisplayView = ({
   const insets = useSafeAreaInsets();
 
   const queryClient = useQueryClient();
-  const userActivityMutation = useUserActivityMutation();
+  const recordCheckIn = useCheckIn();
   const dims = useWindowDimensions();
   // Per-render (not memoized on `created`) so the `to` bound stays current if the
   // post screen lives across midnight; react-query value-hashes the range in the
@@ -93,14 +92,15 @@ const PostDisplayView = ({
   );
 
   // Component Life Cycles
+  // Reading a post, comment or reply (incl. opened from notifications) is a check-in.
+  // Not mount-only: a cold start from a deep link can render this before persisted
+  // auth is restored, and `recordCheckIn` changes identity once the account lands,
+  // so the check-in still gets recorded. Its own throttle keeps repeats cheap.
   useEffect(() => {
-    if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
-      // record a check-in (type 10) for reading a post
-      userActivityMutation.mutate({
-        pointsTy: PointActivityIds.CHECKIN,
-      });
+    if (!isNewPost) {
+      recordCheckIn();
     }
-  }, []);
+  }, [isNewPost, recordCheckIn]);
 
   const processedTags = useMemo(() => {
     if (!post) return [];

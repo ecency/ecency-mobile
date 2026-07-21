@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getPointsQueryOptions, getQuestsQueryOptions } from '@ecency/sdk';
 import { useAppSelector, useAppDispatch } from '../../hooks';
@@ -8,7 +9,7 @@ import {
 import { generateRndStr } from '../../utils/editor';
 import { PointActivity, PointActivityIds } from '../ecency/ecency.types';
 import { userActivity } from '../ecency/ePoint';
-import { selectCurrentAccount } from '../../redux/selectors';
+import { selectCurrentAccount, selectIsLoggedIn } from '../../redux/selectors';
 
 interface UserActivityMutationVars {
   pointsTy: PointActivityIds;
@@ -98,4 +99,51 @@ export const useUserActivityMutation = () => {
     ...mutation,
     lazyMutatePendingActivities,
   };
+};
+
+// The backend records at most one check-in per ~15 min window and drops
+// anything closer, so repeated content opens inside a window would only burn
+// requests. Kept at module scope so the spacing survives screen remounts, and
+// keyed by account so switching users still checks in.
+const CHECKIN_THROTTLE_MS = 15 * 60 * 1000;
+const lastCheckinAt: Record<string, number> = {};
+
+/**
+ * Records a daily check-in (point activity type 10) when the user actually
+ * reads something: opening a post/comment/reply, including from notifications,
+ * or browsing waves. Deliberately not wired to app startup, which already has
+ * plenty to do on launch.
+ */
+export const useCheckIn = () => {
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const { mutate } = useUserActivityMutation();
+
+  const username = currentAccount?.name;
+
+  return useCallback(() => {
+    if (!isLoggedIn || !username) {
+      return;
+    }
+
+    const now = Date.now();
+    if (now - (lastCheckinAt[username] || 0) < CHECKIN_THROTTLE_MS) {
+      return;
+    }
+
+    // Claim the window before firing so parallel opens don't double-post, then
+    // release it if the request ends up failing: the activity is queued for
+    // replay, but a rejected call shouldn't also mute the next 15 minutes.
+    lastCheckinAt[username] = now;
+    mutate(
+      { pointsTy: PointActivityIds.CHECKIN },
+      {
+        onError: () => {
+          if (lastCheckinAt[username] === now) {
+            delete lastCheckinAt[username];
+          }
+        },
+      },
+    );
+  }, [isLoggedIn, username, mutate]);
 };
