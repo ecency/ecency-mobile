@@ -26,7 +26,7 @@ import {
 import WavesTabBar from '../../../components/wavesTabBar/wavesTabBar';
 import { renderPillTabLabel } from '../../../components/tabbedPosts/view/renderPillTabLabel';
 import styles from '../styles/wavesScreen.styles';
-import { wavesQueries } from '../../../providers/queries';
+import { useCheckIn, wavesQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
 import { WavesHeader } from '../children/wavesHeader';
 import WavesOnboardingChecklist from '../children/wavesOnboardingChecklist';
@@ -222,6 +222,15 @@ const WavesScreen = () => {
   // bottom tab / pushed screen). Combined with the active waves tab below to
   // decide if the Shorts reels should actually be playing.
   const isScreenFocused = useIsFocused();
+
+  // Browsing waves is reading too, so it records a check-in like opening a post
+  // does; users who only ever scroll waves still complete the daily quest.
+  const recordCheckIn = useCheckIn();
+  useEffect(() => {
+    if (isScreenFocused) {
+      recordCheckIn();
+    }
+  }, [isScreenFocused, recordCheckIn]);
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const currentAccount = useAppSelector(selectCurrentAccount);
