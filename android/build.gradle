@@ -38,7 +38,10 @@ buildscript {
         classpath("com.android.tools.build:gradle:8.9.2")
         classpath 'com.google.gms:google-services:4.4.3'
         classpath("com.facebook.react:react-native-gradle-plugin")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+        // Unversioned, this resolves to 2.0.21 from React Native's version
+        // catalog, which is the compiler that fails on openiap's 2.2 metadata.
+        // The kotlinVersion ext above only changes what libraries declare.
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.0")
     }
 }
 
