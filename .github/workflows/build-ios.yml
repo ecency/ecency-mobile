@@ -8,7 +8,9 @@ on:
       - development
 
 concurrency:
-  group: ios-build
+  # Keyed by ref so a PR build cannot cancel the development build, which is the
+  # one that uploads to TestFlight.
+  group: ios-build-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
