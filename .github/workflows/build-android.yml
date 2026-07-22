@@ -9,7 +9,9 @@ on:
       - development
 
 concurrency:
-  group: android-build
+  # Keyed by ref so a PR build cannot cancel the development build, which is the
+  # one that publishes the alpha release.
+  group: android-build-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
