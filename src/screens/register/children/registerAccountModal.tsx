@@ -243,10 +243,10 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
               : intl.formatMessage(
                   { id: 'buy_account.btn_register' },
                   {
-                    price: Platform.select({
-                      ios: product.localizedPrice,
-                      android: product.oneTimePurchaseOfferDetails?.formattedPrice,
-                    }),
+                    // src/providers/iap fills localizedPrice on both platforms;
+                    // the Android-only oneTimePurchaseOfferDetails shape does not
+                    // exist in the Billing 9 product payload.
+                    price: product.localizedPrice,
                   },
                 ),
             onPress: () => {
