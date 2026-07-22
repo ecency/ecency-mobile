@@ -42,12 +42,16 @@
 
     </queries>
 
+    <!-- Predictive back defaults to on at targetSdk 36. enableOnBackInvokedCallback
+         keeps the current BackHandler behaviour until the gesture is verified
+         across screens. -->
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:largeHeap="true"
+      android:enableOnBackInvokedCallback="false"
       android:theme="@style/AppTheme"
       android:supportsRtl="true">
 
@@ -155,6 +159,16 @@
             <data android:mimeType="image/*" />
         </intent-filter>
       </activity>
+      <!-- Android 16 ignores orientation and resizability restrictions on screens
+           at least 600dp wide when targeting SDK 36, which would drop the tablet
+           startup lock (useInitApplication) and the video fullscreen landscape
+           lock (videoPlayerView), both of which go through setRequestedOrientation.
+           This opt-out is temporary: it stops working at targetSdk 37, so those
+           screens need to become adaptive before the next bump. -->
+      <property
+          android:name="android.window.PROPERTY_COMPAT_ALLOW_RESTRICTED_RESIZABILITY"
+          android:value="true" />
+
       <meta-data
           android:name="com.google.firebase.messaging.default_notification_icon"
           android:resource="@drawable/ic_notification" />
