@@ -42,12 +42,16 @@
 
     </queries>
 
+    <!-- Predictive back defaults to on at targetSdk 36. enableOnBackInvokedCallback
+         keeps the current BackHandler behaviour until the gesture is verified
+         across screens. -->
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:largeHeap="true"
+      android:enableOnBackInvokedCallback="false"
       android:theme="@style/AppTheme"
       android:supportsRtl="true">
 

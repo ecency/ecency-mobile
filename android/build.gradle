@@ -14,10 +14,10 @@ def getNpmVersionArray() { // major [0], minor [1], patch [2]
 
 buildscript {
     ext {
-        buildToolsVersion = "35.0.0"
+        buildToolsVersion = "36.0.0"
         minSdkVersion = 24
-        compileSdkVersion = 35
-        targetSdkVersion = 35
+        compileSdkVersion = 36
+        targetSdkVersion = 36
         ndkVersion = "28.1.13356709"
         kotlinVersion = "2.0.21"
         googlePlayServicesVisionVersion = "17.0.2"
@@ -30,7 +30,9 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle")
+        // Pinned above the version React Native 0.79 resolves (8.8.2), which caps
+        // compileSdk at 35. compileSdk 36 needs AGP 8.9.1+.
+        classpath("com.android.tools.build:gradle:8.9.2")
         classpath 'com.google.gms:google-services:4.4.3'
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
