@@ -10,6 +10,7 @@ import { selectCurrentAccount, selectIsDarkTheme, selectPin } from '../redux/sel
 import { uploadImage } from '../providers/ecency/ecency';
 
 import { signImage } from '../providers/hive/hive';
+import { isSignImageUnavailable } from '../constants/imageUpload';
 import { useAccountUpdateMutation } from '../providers/sdk/mutations';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 import { setAvatarCacheStamp } from '../redux/actions/uiAction';
@@ -80,7 +81,19 @@ class ProfileEditContainer extends Component {
 
     this.setState({ isUploading: true });
 
-    const sign = await signImage(media, currentAccount, pinCode);
+    let sign;
+    try {
+      sign = await signImage(media, currentAccount, pinCode);
+    } catch (error) {
+      this.setState({ isUploading: false });
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.fail' }),
+        intl.formatMessage({
+          id: isSignImageUnavailable(error) ? 'alert.decrypt_fail_alert' : 'alert.unknow_error',
+        }),
+      );
+      return;
+    }
 
     uploadImage(media, currentAccount.name, sign)
       .then((res) => {

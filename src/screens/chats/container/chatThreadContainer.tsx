@@ -50,6 +50,7 @@ import {
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
 import { signImage } from '../../../providers/hive/hive';
+import { isSignImageUnavailable } from '../../../constants/imageUpload';
 import { chatThreadStyles as styles } from '../styles/chatThread.styles';
 import { emojifyMessage } from '../../../utils/emoji';
 import { extractImageUrls, extractUrls } from '../../../utils/editor';
@@ -1421,6 +1422,12 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       }
     } catch (err: any) {
       if (isMediaPickerCancellation(err)) {
+        return;
+      }
+      // Not a picker failure — the account cannot produce an upload signature,
+      // so report it as itself and tell the user how to recover.
+      if (isSignImageUnavailable(err)) {
+        setError(intl.formatMessage({ id: 'alert.decrypt_fail_alert' }));
         return;
       }
       reportMediaPickerError(err, {
