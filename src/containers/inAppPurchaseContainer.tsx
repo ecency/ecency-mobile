@@ -150,7 +150,9 @@ class InAppPurchaseContainer extends Component {
       handleOnPurchaseFailure,
       handleOnPurchaseSuccess,
     } = this.props;
-    const data = {};
+    // Populated below and reported as Sentry context if anything throws, so it
+    // must not be shadowed by a block-scoped copy.
+    let data: Partial<PurchaseRequestData> = {};
 
     try {
       // Play purchase token on Android, StoreKit 2 signed transaction on iOS.
@@ -159,7 +161,7 @@ class InAppPurchaseContainer extends Component {
 
       if (token) {
         const isAccount = purchase.productId === '999accounts';
-        const data: PurchaseRequestData = {
+        data = {
           platform: Platform.OS === 'android' ? 'play_store' : 'app_store',
           product: get(purchase, 'productId'),
           receipt: token,
