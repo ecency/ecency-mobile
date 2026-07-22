@@ -10,6 +10,10 @@ import {
   CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
   CHANGE_SCHEDULED_PUBLISHED_NOTIFICATION,
+  CHANGE_DELEGATIONS_NOTIFICATION,
+  CHANGE_PAYOUTS_NOTIFICATION,
+  CHANGE_ACCOUNT_UPDATE_NOTIFICATION,
+  CHANGE_WEEKLY_EARNINGS_NOTIFICATION,
   CHANGE_VOTE_NOTIFICATION,
   CHANGE_ALL_NOTIFICATION_SETTINGS,
   IS_CONNECTED,
@@ -76,6 +80,10 @@ interface State {
     transfersNotification: boolean;
     voteNotification: boolean;
     scheduledPublishedNotification: boolean;
+    delegationsNotification: boolean;
+    payoutsNotification: boolean;
+    accountUpdateNotification: boolean;
+    weeklyEarningsNotification: boolean;
   };
   postUpvotePercent: number;
   commentUpvotePercent: number;
@@ -122,6 +130,10 @@ const initialState: State = {
     transfersNotification: true,
     voteNotification: true,
     scheduledPublishedNotification: true,
+    delegationsNotification: true,
+    payoutsNotification: true,
+    accountUpdateNotification: true,
+    weeklyEarningsNotification: true,
   },
   postUpvotePercent: 1,
   commentUpvotePercent: 1,
@@ -236,6 +248,34 @@ const applicationReducer = (state = initialState, action): State => {
         notificationDetails: {
           ...state.notificationDetails,
           scheduledPublishedNotification: action.payload,
+        },
+      });
+    case CHANGE_DELEGATIONS_NOTIFICATION:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          delegationsNotification: action.payload,
+        },
+      });
+    case CHANGE_PAYOUTS_NOTIFICATION:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          payoutsNotification: action.payload,
+        },
+      });
+    case CHANGE_ACCOUNT_UPDATE_NOTIFICATION:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          accountUpdateNotification: action.payload,
+        },
+      });
+    case CHANGE_WEEKLY_EARNINGS_NOTIFICATION:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          weeklyEarningsNotification: action.payload,
         },
       });
     case CHANGE_VOTE_NOTIFICATION:

@@ -9,6 +9,10 @@ import {
   CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
   CHANGE_SCHEDULED_PUBLISHED_NOTIFICATION,
+  CHANGE_DELEGATIONS_NOTIFICATION,
+  CHANGE_PAYOUTS_NOTIFICATION,
+  CHANGE_ACCOUNT_UPDATE_NOTIFICATION,
+  CHANGE_WEEKLY_EARNINGS_NOTIFICATION,
   CHANGE_ALL_NOTIFICATION_SETTINGS,
   CHANGE_VOTE_NOTIFICATION,
   IS_CONNECTED,
@@ -138,6 +142,30 @@ export const changeNotificationSettings = (payload) => {
       return {
         payload: payload.action,
         type: CHANGE_SCHEDULED_PUBLISHED_NOTIFICATION,
+      };
+
+    case 'notification.delegations':
+      return {
+        payload: payload.action,
+        type: CHANGE_DELEGATIONS_NOTIFICATION,
+      };
+
+    case 'notification.payouts':
+      return {
+        payload: payload.action,
+        type: CHANGE_PAYOUTS_NOTIFICATION,
+      };
+
+    case 'notification.accountUpdate':
+      return {
+        payload: payload.action,
+        type: CHANGE_ACCOUNT_UPDATE_NOTIFICATION,
+      };
+
+    case 'notification.weeklyEarnings':
+      return {
+        payload: payload.action,
+        type: CHANGE_WEEKLY_EARNINGS_NOTIFICATION,
       };
 
     case 'notification':

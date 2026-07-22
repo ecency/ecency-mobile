@@ -556,6 +556,20 @@ const reduxMigrations = {
     }
     return state;
   },
+  21: (state) => {
+    // Default the notification types that previously had no push toggle ON for
+    // existing installs, matching every other type (and 20 above): autoMergeLevel1
+    // keeps persisted notificationDetails as-is, so a new key is never picked up
+    // from initialState without a migration.
+    if (state.application?.notificationDetails) {
+      const details = state.application.notificationDetails;
+      details.delegationsNotification = details.delegationsNotification ?? true;
+      details.payoutsNotification = details.payoutsNotification ?? true;
+      details.accountUpdateNotification = details.accountUpdateNotification ?? true;
+      details.weeklyEarningsNotification = details.weeklyEarningsNotification ?? true;
+    }
+    return state;
+  },
 };
 
 // Wrap every migration so a throw degrades to "skip this migration" and keep the

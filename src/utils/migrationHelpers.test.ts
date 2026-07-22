@@ -424,6 +424,36 @@ describe('reduxMigrations', () => {
     });
   });
 
+  describe('v21: delegations/payouts/accountUpdate/weeklyEarnings notification defaults', () => {
+    it('defaults the four newly-toggleable notification settings ON when missing', () => {
+      const state = { application: { notificationDetails: { voteNotification: false } } } as any;
+      const result = reduxMigrations[21](state);
+      const details = result.application.notificationDetails;
+      expect(details.delegationsNotification).toBe(true);
+      expect(details.payoutsNotification).toBe(true);
+      expect(details.accountUpdateNotification).toBe(true);
+      expect(details.weeklyEarningsNotification).toBe(true);
+      // existing settings are untouched
+      expect(details.voteNotification).toBe(false);
+    });
+
+    it('preserves an explicit false', () => {
+      const state = {
+        application: { notificationDetails: { payoutsNotification: false } },
+      } as any;
+      const result = reduxMigrations[21](state);
+      expect(result.application.notificationDetails.payoutsNotification).toBe(false);
+      expect(result.application.notificationDetails.delegationsNotification).toBe(true);
+    });
+
+    it('is a no-op when notificationDetails is absent', () => {
+      const state = { application: {}, account: { keep: 'me' } } as any;
+      const result = reduxMigrations[21](state);
+      expect(result.application.notificationDetails).toBeUndefined();
+      expect(result.account.keep).toBe('me');
+    });
+  });
+
   describe('failure isolation', () => {
     it('rolls back a throwing migration and preserves the rest of the state', () => {
       // v1 writes state.application.notificationDetails.favoriteNotification; with

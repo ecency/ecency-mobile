@@ -16,14 +16,26 @@ import { selectIsDarkTheme } from '../../../redux/selectors';
 import styles from './notificationStyles';
 
 // Each `key` must match a NotificationFilters enum value (passed straight to the
-// notifications query) and have a `notification.<key>` locale string, which is
-// also the displayed label — so the key is the single source for both.
+// notifications query) and have a `notification.filters.<key>` locale string.
+// Labels live under their own `filters` namespace rather than reusing
+// `notification.<key>`: several of those are notification BODY strings
+// (`payouts` is "Payout received: ${amount}", `delegations` is "delegated"), so
+// using them as labels renders template text in the dropdown.
 const FILTERS = [
   { key: 'activities' },
   { key: 'replies' },
   { key: 'mentions' },
   { key: 'rvotes' },
   { key: 'follows' },
+  { key: 'reblogs' },
+  { key: 'transfers' },
+  { key: 'delegations' },
+  { key: 'nfavorites' },
+  { key: 'nbookmarks' },
+  { key: 'payouts' },
+  { key: 'scheduled_published' },
+  { key: 'account_updates' },
+  { key: 'weekly_earnings' },
 ];
 
 interface Props {
@@ -113,7 +125,7 @@ const NotificationView = ({
       <FilterBar
         dropdownIconName="arrow-drop-down"
         options={FILTERS.map((item) =>
-          intl.formatMessage({ id: `notification.${item.key}` }).toUpperCase(),
+          intl.formatMessage({ id: `notification.filters.${item.key}` }).toUpperCase(),
         )}
         defaultText="ALL"
         onDropdownSelect={_handleOnDropdownSelect}
