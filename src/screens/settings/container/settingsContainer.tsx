@@ -480,6 +480,10 @@ class SettingsContainer extends Component {
       case 'notification.reblog':
       case 'notification.transfers':
       case 'notification.scheduledPublished':
+      case 'notification.delegations':
+      case 'notification.payouts':
+      case 'notification.accountUpdate':
+      case 'notification.weeklyEarnings':
         this._handleNotification(action, actionType);
         break;
 
