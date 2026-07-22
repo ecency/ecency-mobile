@@ -1078,6 +1078,10 @@ class ApplicationContainer extends Component {
         transfersNotification: 6,
         favoriteNotification: 13,
         bookmarkNotification: 15,
+        delegationsNotification: 10,
+        payoutsNotification: 19,
+        accountUpdateNotification: 20,
+        weeklyEarningsNotification: 21,
         scheduledPublishedNotification: 22,
       };
 

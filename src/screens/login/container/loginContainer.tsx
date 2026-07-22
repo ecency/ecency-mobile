@@ -255,6 +255,10 @@ class LoginContainer extends PureComponent {
       transfers: 6,
       favorite: 13,
       bookmark: 15,
+      delegations: 10,
+      payouts: 19,
+      accountUpdate: 20,
+      weeklyEarnings: 21,
       scheduledPublished: 22,
     };
     const notifyTypes = [];

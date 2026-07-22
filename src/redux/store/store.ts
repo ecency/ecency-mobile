@@ -50,7 +50,7 @@ const persistConfig = {
   key: 'root',
   // Storage Method (React Native)
   storage: AsyncStorage,
-  version: 20, // v20: Default scheduledPublished notification ON, backfill bookmark setting
+  version: 21, // v21: Default delegations/payouts/accountUpdate/weeklyEarnings notifications ON
   // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   transforms: [transformCacheVoteMap, transformWalkthroughMap],

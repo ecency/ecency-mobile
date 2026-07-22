@@ -53,6 +53,10 @@ const SettingsScreen = ({
   transfersNotification,
   voteNotification,
   scheduledPublishedNotification,
+  delegationsNotification,
+  payoutsNotification,
+  accountUpdateNotification,
+  weeklyEarningsNotification,
   handleOnButtonPress,
   isLoading,
   isHideImages,
@@ -345,6 +349,42 @@ const SettingsScreen = ({
                 type="toggle"
                 actionType="notification.scheduledPublished"
                 isOn={scheduledPublishedNotification}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.notification.delegations',
+                })}
+                type="toggle"
+                actionType="notification.delegations"
+                isOn={delegationsNotification}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.notification.payouts',
+                })}
+                type="toggle"
+                actionType="notification.payouts"
+                isOn={payoutsNotification}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.notification.account_update',
+                })}
+                type="toggle"
+                actionType="notification.accountUpdate"
+                isOn={accountUpdateNotification}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.notification.weekly_earnings',
+                })}
+                type="toggle"
+                actionType="notification.weeklyEarnings"
+                isOn={weeklyEarningsNotification}
                 handleOnChange={handleOnChange}
               />
             </CollapsibleCard>

@@ -373,6 +373,22 @@
     "selected": "Selected {postfix}"
   },
   "notification": {
+    "filters": {
+      "activities": "All",
+      "replies": "Replies",
+      "mentions": "Mentions",
+      "rvotes": "Votes",
+      "follows": "Follows",
+      "reblogs": "Reblogs",
+      "transfers": "Transfers",
+      "delegations": "Delegations",
+      "nfavorites": "Favorites",
+      "nbookmarks": "Bookmarks",
+      "payouts": "Payouts",
+      "scheduled_published": "Scheduled posts",
+      "account_updates": "Account updates",
+      "weekly_earnings": "Weekly earnings"
+    },
     "this_week": "This Week",
     "reblog": "reblogged",
     "unfollow": "unfollowed you",
@@ -1581,6 +1597,9 @@
       "vote": "Vote",
       "follow": "Follow",
       "scheduled_published": "Scheduled post published",
+      "payouts": "Payouts",
+      "account_update": "Account updates",
+      "weekly_earnings": "Weekly earnings",
       "fcm_unavailable": "Push notifications are not supported on this device. You will receive notifications only while the app is open."
     },
     "keys_warning": "Sensitive account information!\nEcency must be secured with PIN code before viewing private keys.",

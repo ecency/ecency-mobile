@@ -538,6 +538,10 @@ class SettingsContainer extends Component {
       transfers: 6,
       favorite: 13,
       bookmark: 15,
+      delegations: 10,
+      payouts: 19,
+      accountUpdate: 20,
+      weeklyEarnings: 21,
       scheduledPublished: 22,
     };
     const notifyTypes = [];
@@ -888,6 +892,10 @@ const mapStateToProps = (state) => {
     transfersNotification: notificationDetails.transfersNotification,
     voteNotification: notificationDetails.voteNotification,
     scheduledPublishedNotification: notificationDetails.scheduledPublishedNotification,
+    delegationsNotification: notificationDetails.delegationsNotification,
+    payoutsNotification: notificationDetails.payoutsNotification,
+    accountUpdateNotification: notificationDetails.accountUpdateNotification,
+    weeklyEarningsNotification: notificationDetails.weeklyEarningsNotification,
     selectedApi: selectApi(state),
     selectedCurrency: selectCurrency(state),
     selectedLanguage: selectLanguage(state),
