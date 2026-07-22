@@ -19,7 +19,10 @@ buildscript {
         compileSdkVersion = 36
         targetSdkVersion = 36
         ndkVersion = "28.1.13356709"
-        kotlinVersion = "2.0.21"
+        // expo-iap pulls openiap-google, built with Kotlin 2.2, and the Kotlin
+        // compiler refuses metadata newer than its own -- 2.0.21 fails
+        // :expo:compileReleaseKotlin. Newer compilers read older metadata fine.
+        kotlinVersion = "2.2.0"
         googlePlayServicesVisionVersion = "17.0.2"
         googlePlayServicesVersion = "16.+"
         firebaseVersion = "17.3.4"
@@ -35,7 +38,10 @@ buildscript {
         classpath("com.android.tools.build:gradle:8.9.2")
         classpath 'com.google.gms:google-services:4.4.3'
         classpath("com.facebook.react:react-native-gradle-plugin")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+        // Unversioned, this resolves to 2.0.21 from React Native's version
+        // catalog, which is the compiler that fails on openiap's 2.2 metadata.
+        // The kotlinVersion ext above only changes what libraries declare.
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.0")
     }
 }
 
