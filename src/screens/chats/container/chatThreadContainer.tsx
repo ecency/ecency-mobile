@@ -50,6 +50,7 @@ import {
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
 import { signImage } from '../../../providers/hive/hive';
+import { isSignImageUnavailable } from '../../../constants/imageUpload';
 import { chatThreadStyles as styles } from '../styles/chatThread.styles';
 import { emojifyMessage } from '../../../utils/emoji';
 import { extractImageUrls, extractUrls } from '../../../utils/editor';
@@ -1423,6 +1424,16 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       if (isMediaPickerCancellation(err)) {
         return;
       }
+      // Not a picker failure — the account cannot produce an upload signature,
+      // so report it as itself and tell the user how to recover. This goes to an
+      // alert rather than `error`, which only renders in the empty-thread view.
+      if (isSignImageUnavailable(err)) {
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.fail' }),
+          intl.formatMessage({ id: 'alert.decrypt_fail_alert' }),
+        );
+        return;
+      }
       reportMediaPickerError(err, {
         feature: 'chat-thread',
         action: 'openPicker',
@@ -1432,7 +1443,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     } finally {
       setIsUploadingImage(false);
     }
-  }, [currentAccount, pinCode, _updateMentionState]);
+  }, [currentAccount, pinCode, intl, _updateMentionState]);
 
   // Render helpers
   const _showUserProfile = useCallback((username?: string | null) => {

@@ -22,6 +22,7 @@ import { uploadImage } from '../../ecency/ecency';
 import { MediaItem, Snippet } from '../../ecency/ecency.types';
 import { signImage } from '../../hive/hive';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
+import { isSignImageUnavailable } from '../../../constants/imageUpload';
 
 /**
  * EDITOR QUERIES - SDK MIGRATION STATUS
@@ -269,7 +270,13 @@ export const useMediaUploadMutation = () => {
       Sentry.captureException(err, (scope) => {
         scope.setContext('info', { message: 'Media upload failed' });
       });
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: isSignImageUnavailable(err) ? 'alert.decrypt_fail_alert' : 'alert.fail',
+          }),
+        ),
+      );
     },
   });
 };

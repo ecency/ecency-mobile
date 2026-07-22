@@ -19,6 +19,7 @@ import { MediaItem } from '../../../providers/ecency/ecency.types';
 import { SpeakUploaderModal } from '../children/speakUploaderModal';
 import { SheetNames } from '../../../navigation/sheets';
 import { selectIsLoggedIn } from '../../../redux/selectors';
+import { isSignImageUnavailable } from '../../../constants/imageUpload';
 
 export interface UploadsGalleryModalRef {
   showModal: () => void;
@@ -396,7 +397,13 @@ export const UploadsGalleryModal = forwardRef(
           const errorMessages = new Set<string>();
           failures.forEach((failure) => {
             const error = failure.status === 'rejected' ? failure.reason : failure;
-            if (error.toString().includes('code 413')) {
+            if (isSignImageUnavailable(error)) {
+              errorMessages.add(
+                intl.formatMessage({
+                  id: 'alert.decrypt_fail_alert',
+                }),
+              );
+            } else if (error.toString().includes('code 413')) {
               errorMessages.add(
                 intl.formatMessage({
                   id: 'alert.payloadTooLarge',

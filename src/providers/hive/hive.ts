@@ -34,6 +34,7 @@ import { resolveTxRequiredAuthority } from '../../utils/hiveOperationAuthority';
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 import { SERVER_LIST } from '../../constants/options/api';
+import { SIGN_IMAGE_UNAVAILABLE } from '../../constants/imageUpload';
 import { b64uEnc } from '../../utils/b64';
 import { delay } from '../../utils/editor';
 
@@ -540,7 +541,11 @@ export const signImage = async (file, currentAccount, pin) => {
   const key = getPostingKey(currentAccount.local, digitPinCode);
 
   if (isHsClientSupported(currentAccount.local.authType)) {
-    return decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const accessToken = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    if (!accessToken) {
+      throw new Error(SIGN_IMAGE_UNAVAILABLE);
+    }
+    return accessToken;
   }
   if (key) {
     const message = {
@@ -555,6 +560,11 @@ export const signImage = async (file, currentAccount, pin) => {
     message.signatures = [signature];
     return b64uEnc(JSON.stringify(message));
   }
+
+  // No posting key on file and no token-based auth to fall back on. Returning
+  // undefined here used to send the literal string "undefined" as the upload
+  // signature, so every upload failed with an opaque error.
+  throw new Error(SIGN_IMAGE_UNAVAILABLE);
 };
 
 // HELPERS
