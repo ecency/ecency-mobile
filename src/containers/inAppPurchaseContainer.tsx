@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Platform, Alert, EmitterSubscription } from 'react-native';
-import * as IAP from 'react-native-iap';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,6 +11,7 @@ import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
 import { selectCurrentAccount, selectIsLoggedIn } from '../redux/selectors';
 import { purchaseOrder } from '../providers/ecency/ecency';
+import * as IAP from '../providers/iap';
 
 // Utilities
 import { default as ROUTES } from '../constants/routeNames';
@@ -64,10 +64,10 @@ class InAppPurchaseContainer extends Component {
   _initContainer = async () => {
     const { intl, disablePurchaseListenerOnMount } = this.props;
     try {
+      // flushFailedPurchasesCachedAsPendingAndroid is gone with the move to
+      // Billing 9 on Android; openiap has no equivalent. Stale purchases are
+      // picked up by _consumeAvailablePurchases below instead.
       await IAP.initConnection();
-      if (Platform.OS === 'android') {
-        await IAP.flushFailedPurchasesCachedAsPendingAndroid();
-      }
 
       if (!disablePurchaseListenerOnMount) {
         await this._consumeAvailablePurchases();
@@ -292,7 +292,7 @@ class InAppPurchaseContainer extends Component {
       const { intl, handleOnPurchaseFailure } = this.props;
 
       Sentry.captureException(error);
-      if (get(error, 'responseCode') === '3' && Platform.OS === 'android') {
+      if (IAP.isBillingUnavailableError(error) && Platform.OS === 'android') {
         Alert.alert(
           intl.formatMessage({
             id: 'alert.warning',
@@ -301,7 +301,7 @@ class InAppPurchaseContainer extends Component {
             id: 'alert.google_play_version',
           }),
         );
-      } else if (get(error, 'responseCode') !== '2') {
+      } else if (!IAP.isUserCancelledError(error)) {
         console.warn('failed puchase:', error);
         Alert.alert(
           intl.formatMessage({
@@ -336,7 +336,7 @@ class InAppPurchaseContainer extends Component {
   _getItems = async () => {
     const { skus, intl } = this.props;
     try {
-      const products = await IAP.getProducts({ skus });
+      const products = await IAP.getProducts(skus);
       console.log(products);
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
       this.setState({ productList: products });
@@ -417,7 +417,7 @@ class InAppPurchaseContainer extends Component {
       }
 
       try {
-        IAP.requestPurchase(Platform.OS === 'ios' ? { sku } : { skus: [sku] });
+        IAP.requestPurchase(sku);
       } catch (err) {
         Sentry.captureException(err, (scope) => {
           scope.setContext('sku', { sku });
@@ -432,11 +432,11 @@ class InAppPurchaseContainer extends Component {
 
   _handleQrPurchase = async () => {
     const { skus, intl, route } = this.props;
-    const products = await IAP.getProducts({ skus });
+    const products = await IAP.getProducts(skus);
     const productId = route?.param?.productId ?? '';
     const username = route?.param?.username ?? '';
 
-    const product: IAP.Product =
+    const product: IAP.IapProduct =
       productId && products && products.find((product) => product.productId === productId);
 
     if (product) {
