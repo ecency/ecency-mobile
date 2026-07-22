@@ -388,6 +388,9 @@ class ApplicationContainer extends Component {
         'transfer',
         'delegations',
         'scheduled_published',
+        'payouts',
+        'account_update',
+        'weekly_earnings',
       ];
       const messageType = remoteMessage?.data?.type;
       if (notificationTypes.includes(messageType)) {
@@ -890,13 +893,58 @@ class ApplicationContainer extends Component {
             wsData.type === 'reply' ||
             wsData.type === 'transfer' ||
             wsData.type === 'delegations' ||
-            wsData.type === 'scheduled_published')
+            wsData.type === 'scheduled_published' ||
+            wsData.type === 'payouts' ||
+            wsData.type === 'account_update' ||
+            wsData.type === 'weekly_earnings')
         ) {
           // Re-fetch the authoritative unread count rather than a local +1:
           // FCM may deliver the same event, and a local increment in both
           // paths double-counted (daily-spin POINT transfers showed 2 not 1).
           this._refreshUnreadActivityCount();
           const { type, source, target, extra } = wsData;
+
+          // Title/body per type. A ternary chain here previously ended in a
+          // delegation fallback, so any unhandled type announced itself as a
+          // delegation — every type in the allowlist above needs a case.
+          let notifTitle = '';
+          let notifBody = '';
+          switch (type) {
+            case 'mention':
+              notifTitle = `@${source} mentioned @${target}`;
+              break;
+            case 'reply':
+              notifTitle = `@${source} replied to @${target}`;
+              notifBody = extra?.body ? extra.body.substring(0, 100) : '';
+              break;
+            case 'transfer':
+              notifTitle = `@${source} transferred to @${target}`;
+              notifBody = extra?.amount || '';
+              break;
+            case 'delegations':
+              notifTitle = `@${source} delegated to @${target}`;
+              notifBody = extra?.amount || '';
+              break;
+            case 'scheduled_published':
+              notifTitle = 'Scheduled post published';
+              notifBody = extra?.title || '';
+              break;
+            case 'payouts':
+              notifTitle = 'Rewards received';
+              notifBody = extra?.amount || '';
+              break;
+            case 'account_update':
+              notifTitle = 'Account updated';
+              notifBody = 'Your account details were updated';
+              break;
+            case 'weekly_earnings':
+              notifTitle = 'Weekly earnings';
+              notifBody = extra?.total_usd ? `$${extra.total_usd}` : '';
+              break;
+            default:
+              notifTitle = `@${source}`;
+              break;
+          }
 
           // Build FCM-compatible notification object
           const fcmFormat = {
@@ -914,24 +962,8 @@ class ApplicationContainer extends Component {
               amount: extra?.amount || '',
             },
             notification: {
-              title:
-                type === 'mention'
-                  ? `@${source} mentioned @${target}`
-                  : type === 'reply'
-                  ? `@${source} replied to @${target}`
-                  : type === 'transfer'
-                  ? `@${source} transferred to @${target}`
-                  : type === 'scheduled_published'
-                  ? 'Scheduled post published'
-                  : `@${source} delegated to @${target}`,
-              body:
-                type === 'reply' && extra?.body
-                  ? extra.body.substring(0, 100)
-                  : type === 'transfer' || type === 'delegations'
-                  ? extra?.amount || ''
-                  : type === 'scheduled_published'
-                  ? extra?.title || ''
-                  : '',
+              title: notifTitle,
+              body: notifBody,
             },
           };
 
