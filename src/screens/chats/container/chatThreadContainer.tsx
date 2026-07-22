@@ -1425,9 +1425,13 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         return;
       }
       // Not a picker failure — the account cannot produce an upload signature,
-      // so report it as itself and tell the user how to recover.
+      // so report it as itself and tell the user how to recover. This goes to an
+      // alert rather than `error`, which only renders in the empty-thread view.
       if (isSignImageUnavailable(err)) {
-        setError(intl.formatMessage({ id: 'alert.decrypt_fail_alert' }));
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.fail' }),
+          intl.formatMessage({ id: 'alert.decrypt_fail_alert' }),
+        );
         return;
       }
       reportMediaPickerError(err, {
@@ -1439,7 +1443,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     } finally {
       setIsUploadingImage(false);
     }
-  }, [currentAccount, pinCode, _updateMentionState]);
+  }, [currentAccount, pinCode, intl, _updateMentionState]);
 
   // Render helpers
   const _showUserProfile = useCallback((username?: string | null) => {
