@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Platform, Alert, EmitterSubscription } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -29,9 +29,9 @@ const PENDING_ACCOUNT_PURCHASE_KEY = 'pendingAccountPurchaseMeta';
 const PURCHASE_ORDER_MAX_ATTEMPTS = 3;
 
 class InAppPurchaseContainer extends Component {
-  purchaseUpdateSubscription: EmitterSubscription | null = null;
+  purchaseUpdateSubscription: IAP.IapSubscription | null = null;
 
-  purchaseErrorSubscription: EmitterSubscription | null = null;
+  purchaseErrorSubscription: IAP.IapSubscription | null = null;
 
   constructor(props) {
     super(props);
@@ -64,9 +64,8 @@ class InAppPurchaseContainer extends Component {
   _initContainer = async () => {
     const { intl, disablePurchaseListenerOnMount } = this.props;
     try {
-      // flushFailedPurchasesCachedAsPendingAndroid is gone with the move to
-      // Billing 9 on Android; openiap has no equivalent. Stale purchases are
-      // picked up by _consumeAvailablePurchases below instead.
+      // OpenIAP has no flushFailedPurchasesCachedAsPendingAndroid equivalent;
+      // stale purchases are picked up by _consumeAvailablePurchases below.
       await IAP.initConnection();
 
       if (!disablePurchaseListenerOnMount) {
@@ -151,18 +150,21 @@ class InAppPurchaseContainer extends Component {
       handleOnPurchaseFailure,
       handleOnPurchaseSuccess,
     } = this.props;
-    const data = {};
+    // Populated below and reported as Sentry context if anything throws, so it
+    // must not be shadowed by a block-scoped copy.
+    let data: Partial<PurchaseRequestData> = {};
 
     try {
-      const receipt = get(purchase, 'transactionReceipt');
+      // Play purchase token on Android, StoreKit 2 signed transaction on iOS.
+      // Both are verified by /private-api/purchase-order.
       const token = get(purchase, 'purchaseToken');
 
-      if (receipt) {
+      if (token) {
         const isAccount = purchase.productId === '999accounts';
-        const data: PurchaseRequestData = {
+        data = {
           platform: Platform.OS === 'android' ? 'play_store' : 'app_store',
           product: get(purchase, 'productId'),
-          receipt: Platform.OS === 'android' ? token : receipt,
+          receipt: token,
           user: this.props.username || name, // from nav params i-e got from url qr scan
         };
 
