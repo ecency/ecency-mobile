@@ -61,6 +61,7 @@ const Transfer = ({ navigation, route }) => {
               />
             );
           case TransferTypes.WITHDRAW_VESTING:
+          case TransferTypes.SET_WITHDRAW_VESTING_ROUTE:
             return (
               <PowerDownView
                 accounts={accounts}
