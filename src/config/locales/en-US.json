@@ -1237,6 +1237,7 @@
     "tokens_updatePrecision": "Tokens Update Precision",
     "tokens_transferOwnership": "Token Ownership Transferred",
     "withdraw_vesting": "Unstake",
+    "set_withdraw_vesting_route": "Withdraw Accounts",
     "delegate_engine": "Delegate",
     "market_close": "Order Closed",
     "nftmarket_transferFee": "Buy Order Fee",

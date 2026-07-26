@@ -15,6 +15,7 @@ const TransferTypes = {
   DELEGATE_VESTING_SHARES: 'delegate_vesting_shares',
   RECURRENT_TRANSFER: 'recurrent_transfer',
   WITHDRAW_VESTING: 'withdraw_vesting',
+  SET_WITHDRAW_VESTING_ROUTE: 'set_withdraw_vesting_route',
   UNSTAKE: 'unstake',
   STAKE: 'stake',
   DELEGATE: 'delegate',

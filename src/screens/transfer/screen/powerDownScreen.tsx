@@ -22,6 +22,7 @@ import parseToken from '../../../utils/parseToken';
 import parseDate from '../../../utils/parseDate';
 import { hpToVests, vestsToHp } from '../../../utils/conversions';
 import { isEmptyDate, daysTillDate } from '../../../utils/time';
+import TransferTypes from '../../../constants/transferTypes';
 
 import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
@@ -38,6 +39,11 @@ const PowerDownScreen = ({
 }) => {
   const intl = useIntl();
   const queryClient = useQueryClient();
+
+  // Reached from the dedicated HP "withdraw routes" action rather than the power down
+  // action. Only the destination accounts section applies, and unlike the power down
+  // flow it stays available while a power down is already running.
+  const isRoutesOnly = transferType === TransferTypes.SET_WITHDRAW_VESTING_ROUTE;
 
   const [amount, setAmount] = useState(0);
   const [hp, setHp] = useState(0.0);
@@ -406,10 +412,10 @@ const PowerDownScreen = ({
           style={styles.scroll}
           contentContainerStyle={styles.scrollContentContainer}
         >
-          {!poweringDown && renderBeneficiarySelectionContent()}
-          {!poweringDown && renderMiddleContent()}
-          {poweringDown && renderPowerDownInfo()}
-          {renderBottomContent()}
+          {(isRoutesOnly || !poweringDown) && renderBeneficiarySelectionContent()}
+          {!isRoutesOnly && !poweringDown && renderMiddleContent()}
+          {!isRoutesOnly && poweringDown && renderPowerDownInfo()}
+          {!isRoutesOnly && renderBottomContent()}
         </ScrollView>
       </KeyboardAvoidingView>
       <OptionsModal
