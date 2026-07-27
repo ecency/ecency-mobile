@@ -998,6 +998,8 @@
     "save_to_local": "Download to device",
     "muted": "Content is muted for violation",
     "community_muted": "Content muted for community guidelines violation",
+    "muted_low_reputation": "Content from a low reputation account",
+    "muted_downvoted": "Content downvoted by users",
     "promoted": "PROMOTED",
     "image_saved": "Image saved to Photo Gallery",
     "words": "Words",

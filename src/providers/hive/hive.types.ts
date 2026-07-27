@@ -2,6 +2,20 @@ export enum ContentType {
   POLL = 'poll',
 }
 
+/**
+ * Why a post or comment is collapsed behind the muted overlay. Each reason gets its
+ * own message so the UI never claims a guideline violation for content that was only
+ * flagged on reputation or downvotes. Assigned by getMutedReason in utils/postParser.
+ *
+ * Lives here rather than in postParser so components can read it without pulling the
+ * parser's import chain (postParser -> utils/image -> redux/store) into their bundle.
+ */
+export enum MutedReason {
+  MODERATED = 'moderated',
+  LOW_REPUTATION = 'low_reputation',
+  DOWNVOTED = 'downvoted',
+}
+
 export enum PollPreferredInterpretation {
   NUMBER_OF_VOTES = 'number_of_votes',
   TOKENS = 'tokens',

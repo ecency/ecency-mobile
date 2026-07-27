@@ -13,7 +13,7 @@ import { useLayoutState } from '@shopify/flash-list';
 import styles from '../styles/postCard.styles';
 import { PostCardActionIds } from '../container/postCard';
 import ROUTES from '../../../constants/routeNames';
-import { ContentType } from '../../../providers/hive/hive.types';
+import { ContentType, MutedReason } from '../../../providers/hive/hive.types';
 import { isCommunity } from '../../../utils/communityValidation';
 import { useImageReveal } from '../../../hooks/useImageReveal';
 import { HiddenImagePlaceholder } from '../../hiddenImagePlaceholder';
@@ -87,15 +87,23 @@ const PostCardContentComponent = ({ content, nsfw, handleCardInteraction }: Prop
   const _isMuted = content?.isMuted;
   const _isCommunityPost = isCommunity(content?.community);
 
-  const _mutedText = useMemo(
-    () =>
-      _isMuted
-        ? _isCommunityPost
+  // State the reason that actually fired. Posts cached by an older app version carry
+  // isMuted without a reason, so those fall back to the generic moderation message.
+  const _mutedText = useMemo(() => {
+    if (!_isMuted) {
+      return '';
+    }
+    switch (content?.mutedReason) {
+      case MutedReason.LOW_REPUTATION:
+        return intl.formatMessage({ id: 'post.muted_low_reputation' });
+      case MutedReason.DOWNVOTED:
+        return intl.formatMessage({ id: 'post.muted_downvoted' });
+      default:
+        return _isCommunityPost
           ? intl.formatMessage({ id: 'post.community_muted' })
-          : intl.formatMessage({ id: 'post.muted' })
-        : '',
-    [_isMuted, _isCommunityPost, intl],
-  );
+          : intl.formatMessage({ id: 'post.muted' });
+    }
+  }, [_isMuted, content?.mutedReason, _isCommunityPost, intl]);
 
   const _featuredText = useMemo(
     () =>
