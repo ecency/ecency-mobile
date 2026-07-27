@@ -10,6 +10,7 @@ import { PostTypes } from '../constants/postTypes';
 import { PollDraft } from '../providers/ecency/ecency.types';
 import { ContentType, PollMetadata, PostMetadata } from '../providers/hive/hive.types';
 import postUrlParser from './postUrlParser';
+import { hasThreeSpeakEmbed } from '../providers/speak/beneficiary';
 
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
@@ -271,9 +272,15 @@ export interface VideoThumb {
   thumbUrl: string;
 }
 
-/** 3Speak embeds in the body. Videos are inserted as a raw url on their own line. */
+/**
+ * 3Speak embeds in the body. Videos are inserted as a raw url on their own line.
+ *
+ * Deliberately reuses the same predicate as the threespeakfund beneficiary enforcement, so
+ * what counts as a video here cannot drift from what counts as one when the payout route is
+ * attached.
+ */
 export const extractVideoEmbedUrls = (body?: string): string[] =>
-  (body ? extractUrls(body) : []).filter((url) => /3speak\.tv/i.test(url));
+  (body ? extractUrls(body) : []).filter((url) => hasThreeSpeakEmbed(url));
 
 /**
  * Rebuilds the embed to thumbnail association that a saved draft could not carry.

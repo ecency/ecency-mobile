@@ -1730,6 +1730,7 @@
     "error-auth": "Authentication failed. Please log in again.",
     "error-generic": "Video upload failed. Please try again.",
     "error-too-long-short": "Short videos must be 60 seconds or less.",
+    "error-one-per-post": "A post can contain only one video. Remove the current video before adding another.",
     "select_source": "Add Video",
     "record": "Record Video",
     "choose_library": "Choose from Library"
