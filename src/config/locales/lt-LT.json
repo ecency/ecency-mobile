@@ -5,6 +5,9 @@
       "dismiss": "Atmesti"
     }
   },
+  "pro": {
+    "badge_a11y": "Ecency Pro member"
+  },
   "perks": {
     "header": "Privalumai",
     "quests_title": "Užduotys",
@@ -27,11 +30,43 @@
     "promote": "Reklamuoti įrašą",
     "promote_desc": "Pritraukite daugiau dėmesio savo įrašui",
     "account_boost": "Paskyros stiprinimas",
-    "account_boost_desc": "Sustiprinkite bet kurią paskyrą"
+    "account_boost_desc": "Sustiprinkite bet kurią paskyrą",
+    "rc_topup": "Top up RC",
+    "rc_topup_desc": "Keep posting when low on Resource Credits",
+    "streak_freeze_owned": "{n} in reserve",
+    "streak_freeze_buy": "Protect streak ({price} Points)",
+    "streak_freeze_buying": "Protecting",
+    "streak_freeze_error": "Could not buy a streak freeze. Please try again."
+  },
+  "quest_chip": {
+    "daily_post": "Daily post",
+    "streak": "{n} day streak",
+    "keep_streak": "Keep your streak alive"
   },
   "waves": {
     "for_you": "Jums",
-    "following": "Sekami"
+    "following": "Sekami",
+    "custom_feeds_title": "Custom feeds",
+    "custom_feeds_subtitle": "Pin sources and tags to add them as feed tabs.",
+    "add_tag_placeholder": "Add a tag",
+    "sources": "Sources",
+    "your_feeds": "Your feeds",
+    "trending_tags": "Trending tags",
+    "shorts_empty": "No shorts to show yet",
+    "mute": "Mute",
+    "unmute": "Unmute"
+  },
+  "waves_onboarding": {
+    "title": "Getting started",
+    "subtitle": "New here? Waves are short posts and the easiest way to jump in.",
+    "progress": "{completed}/{total}",
+    "dismiss": "Dismiss",
+    "item_wave": "Post your first Wave",
+    "item_vote": "Vote on a Wave you like",
+    "item_reply": "Reply to someone",
+    "item_checkin": "Check in to start your streak",
+    "all_done_title": "All done 🎉",
+    "all_done_subtitle": "You're all set. Keep the waves coming!"
   },
   "profile": {
     "havent_commented": "kolkas dar nieko nepakomentavo",
@@ -196,6 +231,26 @@
     "pin-reply": "Prisegti komentarą",
     "unpin-reply": "Atsegti komentarą"
   },
+  "post_translate": {
+    "banner_detected": "This post is in {lang}. Translate to {target}?",
+    "translate_to": "Translate to {lang}",
+    "show_original": "Show original",
+    "translated_from": "Translated from {lang}",
+    "change_language": "Change language"
+  },
+  "compose_translate": {
+    "title": "Translate post",
+    "source": "Source language",
+    "target": "Target language",
+    "detected": "Detected: {lang}",
+    "translate": "Translate",
+    "apply": "Apply",
+    "review_note": "Adds a machine translation of your own writing to the end of the post. Review and edit before publishing.",
+    "too_short": "Write a bit more first. Translation needs at least a few sentences.",
+    "progress": "Translating {done} of {total}...",
+    "error": "Translation failed. Please try again.",
+    "add_title_marker": "Add language marker to title"
+  },
   "side_menu": {
     "profile": "Profilis",
     "add_account": "Pridėti paskyrą",
@@ -241,7 +296,7 @@
     "hot": "Populiaru dabar",
     "popular": "Populiarūs",
     "new": "Nauja",
-    "friends": "Draugai",
+    "friends": "Following",
     "my_blog": "Mano tinklaraštis"
   },
   "bookmarks": {
@@ -300,6 +355,16 @@
     "unsynced_title": "Nesinchronizuotas juodraštis",
     "empty_list": "Nieko nėra"
   },
+  "templates": {
+    "title": "Templates",
+    "untitled": "Untitled template",
+    "empty_list": "Save a post as template from the editor to reuse it here.",
+    "delete_confirm": "Are you sure you want to delete this template?",
+    "applied": "Template applied as new post",
+    "save_as_template": "Save as template",
+    "name_placeholder": "Template name",
+    "saved": "Template saved"
+  },
   "selection_list": {
     "available": "Galima {postfix}",
     "no_selected": "Pridėkite iš galimų",
@@ -308,6 +373,22 @@
     "selected": "Pasirinkta {postfix}"
   },
   "notification": {
+    "filters": {
+      "activities": "All",
+      "replies": "Replies",
+      "mentions": "Mentions",
+      "rvotes": "Votes",
+      "follows": "Follows",
+      "reblogs": "Reblogs",
+      "transfers": "Transfers",
+      "delegations": "Delegations",
+      "nfavorites": "Favorites",
+      "nbookmarks": "Bookmarks",
+      "payouts": "Payouts",
+      "scheduled_published": "Scheduled posts",
+      "account_updates": "Account updates",
+      "weekly_earnings": "Weekly earnings"
+    },
     "this_week": "Šią savaitę",
     "reblog": "pasidalinta",
     "unfollow": "jūsų nebeseka",
@@ -353,7 +434,10 @@
     "account_update_active_authority": "{accounts} buvo suteikti aktyvieji įgaliojimai jūsų paskyroje. Jei to neleidote, panaikinkite šiuos įgaliojimus.",
     "account_update_posting_authority": "{accounts} dabar gali skelbti ir balsuoti jūsų vardu. Jei to neleidote, panaikinkite šiuos įgaliojimus.",
     "weekly_earnings": "Šią savaitę uždirbote ${amount}{breakdown}",
-    "payouts": "Gautas išmokėjimas: ${amount}"
+    "payouts": "Gautas išmokėjimas: ${amount}",
+    "scheduled_published": "published a scheduled post",
+    "scheduled_published_title": "Scheduled post published",
+    "scheduled_published_body": "Your scheduled post is now live, tap to view it"
   },
   "recurrent": {
     "delete_failed": "Nepavyko ištrinti pasikartojančio pervedimo, {error}",
@@ -455,6 +539,7 @@
     "video": "Vaizdo įrašai",
     "scheduled_later": "Vėliau",
     "settings_title": "Įrašo nustatymai",
+    "support_ecency": "Support Ecency {percent}%",
     "alert_btn_no": "Ne"
   },
   "time": {
@@ -641,6 +726,9 @@
     "description": "Kryžminio įrašo atlygio automatiškai atsisakoma, o diskusijos po kryžminiu įrašu skirsis ir vyks pagal kitas bendruomenės gaires.",
     "title": "Kryžminis įrašas"
   },
+  "ai_usage": {
+    "disclosed": "Author disclosed AI usage"
+  },
   "ai_assist": {
     "title": "DI rašymo asistentas",
     "balance_label": "Likutis",
@@ -656,7 +744,7 @@
     "action_suggest_tags_desc": "Gaukite tinkamų žymų savo įrašui",
     "action_generate_title": "Generuoti antraštę",
     "action_generate_title_desc": "Sukurkite patrauklių antraščių variantų",
-    "action_summarize": "Apibendrinti",
+    "action_summarize": "Recap",
     "action_summarize_desc": "Sukurkite glaustą santrauką",
     "action_check_grammar": "Tikrinti gramatiką",
     "action_check_grammar_desc": "Ištaisykite gramatikos ir rašybos klaidas",
@@ -861,8 +949,31 @@
     "video_attached": "Vaizdo įrašas pridėtas"
   },
   "post": {
+    "upvote": "Upvote",
+    "upvoted": "Upvoted",
+    "downvoted": "Downvoted",
+    "upvote_hint": "Double tap to open vote options",
+    "payout_details": "Payout details",
+    "a11y_votes": "{count, plural, one {# vote} other {# votes}}",
+    "a11y_voters_hint": "View voters",
+    "a11y_reblogs": "{count, plural, one {# reblog} other {# reblogs}}",
+    "a11y_reblogs_hint": "View reblogs",
+    "a11y_comments": "{count, plural, one {# comment} other {# comments}}",
+    "a11y_comments_hint": "View comments",
+    "a11y_reply_hint": "Reply",
+    "a11y_tip": "Send tip",
+    "a11y_tips": "{count, plural, one {# tip} other {# tips}}",
+    "a11y_edit": "Edit comment",
+    "a11y_delete": "Delete comment",
+    "a11y_show_replies": "Show replies",
+    "a11y_hide_replies": "Hide replies",
+    "a11y_post_options": "Post options",
+    "a11y_views": "{count, plural, one {# view} other {# views}}",
+    "source_ecency": "Published with Ecency",
+    "a11y_stats_hint": "View post stats",
     "image": "Vaizdas",
     "reveal_muted": "UŽTILDYTA\nPaspauskite, kad atidarytumėte turinį",
+    "tap_to_load_image": "Tap to load image",
     "in": "į",
     "poll": "APKLAUSA",
     "copy_link": "Kopijuoti nuorodą",
@@ -887,6 +998,8 @@
     "save_to_local": "Atsiųsti į įrenginį",
     "muted": "Turinys nutildytas dėl pažeidimo",
     "community_muted": "Turinys nutildytas dėl bendruomenės gairių pažeidimo",
+    "muted_low_reputation": "Content from a low reputation account",
+    "muted_downvoted": "Content downvoted by users",
     "promoted": "REKLAMUOJAMA",
     "image_saved": "Vaizdas išsaugotas fotogalerijoje",
     "words": "Žodžiai",
@@ -951,7 +1064,8 @@
     "invalid_amount_desc": "Įveskite tinkamą sumą tinkamu formatu",
     "open": "Atidaryti URL",
     "invalid_key_desc": "prisijunkite naudodami {key} raktą arba pagrindinį raktą, kad atliktumėte šią operaciją",
-    "auth_transfer_confirm": "Patvirtinti pavedimą gavėjui {username}?"
+    "auth_transfer_confirm": "Patvirtinti pavedimą gavėjui {username}?",
+    "sign_warning": "Only approve if you trust the source of this link. Approving broadcasts the operation below from your account using your {authority} key."
   },
   "voters_dropdown": {
     "rewards": "ATLYGIAI",
@@ -981,7 +1095,6 @@
   },
   "register": {
     "username": "Pasirinkite naudotojo vardą",
-    "error_message": "{message}\nBandykite dar kartą arba pabandykite vietoje to įsigyti paskyrą",
     "title_description": "Viena paskyra tam, kad viską sutvarkyti",
     "form_description": "Prisiregistruodami, jūs sutinkate su mūsų paslaugų tiekimo sąlygomis ir privatumo politika.",
     "registering": "Registruojama jūsų paskyra...",
@@ -1004,6 +1117,20 @@
       "username_contains_underscore": "Negali būti pabraukimo brūkšnio"
     },
     "500_error": "Jūsų užklausa negali būti įvykdyta, greičiausiai registracijos eilėje nėra vietos! Pabandykite vėl už kelių minučių...",
+    "error_codes": {
+      "13": "Username has already been taken",
+      "14": "Email address already registered",
+      "15": "Please enter a valid email address",
+      "16": "Please enter a valid username",
+      "17": "Username is too long, please choose a shorter one",
+      "19": "Please use a permanent email address, or get a Premium account instead",
+      "21": "This referral isn't valid",
+      "28": "Your request couldn't be processed — the signup queue is likely full. Please try again in a few minutes.",
+      "107": "VPN connection detected. Please turn off your VPN and try again, or get a Premium account instead.",
+      "110": "To prevent abuse, we limit the number of accounts per person/network. Please try again from a different network.",
+      "111": "Tor connection detected. Please disable Tor while signing up.",
+      "112": "We couldn't verify your connection right now. Please try again in a few minutes."
+    },
     "have_account_text": "Jau turite paskyrą?"
   },
   "messages": {
@@ -1112,6 +1239,7 @@
     "tokens_updatePrecision": "Žetonų tikslumo atnaujinimas",
     "tokens_transferOwnership": "Žetono nuosavybė perduota",
     "withdraw_vesting": "Išimti iš įstatymo",
+    "set_withdraw_vesting_route": "Withdraw Accounts",
     "delegate_engine": "Deleguoti",
     "market_close": "Užsakymas uždarytas",
     "nftmarket_transferFee": "Pirkimo užsakymo mokestis",
@@ -1297,6 +1425,13 @@
     "confirm_boost_plus": "Ar tikrai norite Boost naudodami pirkimą programėlėje?",
     "title": "Boost+"
   },
+  "rc_topup": {
+    "title": "Top up RC",
+    "desc": "A short-term RC boost so you can keep posting.",
+    "confirm": "Spend Points to top up your Resource Credits?",
+    "insufficient": "You do not have enough Points.",
+    "buy_points": "Buy Points"
+  },
   "ai_image_generator": {
     "title": "DI vaizdų generatorius",
     "prompt_label": "Apibūdinkite vaizdą, kurį norite sukurti",
@@ -1441,6 +1576,11 @@
     "backup_private_keys": "Tvarkyti įgaliojimus",
     "pincode": "PIN kodas",
     "general": "Bendra",
+    "support_ecency": "Support Ecency",
+    "support_beneficiary": "Share post rewards with Ecency",
+    "support_beneficiary_percent": "Post rewards share",
+    "support_curation": "Hold back part of curation rewards",
+    "support_curation_percent": "Curation rewards holdback",
     "feedback_body": "Rašykite savo žinutę čia!\n\nHive naudotojo vardas: {username}\nProgramėlės versija: {appVersion}\nPlatforma: {platform}\n",
     "show_imgs": "Rodyti vaizdus",
     "nsfw": {
@@ -1459,6 +1599,10 @@
       "transfers": "Pervedimai",
       "vote": "Balsai",
       "follow": "Sekti",
+      "scheduled_published": "Scheduled post published",
+      "payouts": "Payouts",
+      "account_update": "Account updates",
+      "weekly_earnings": "Weekly earnings",
       "fcm_unavailable": "Tiesioginiai pranešimai šiame įrenginyje nepalaikomi. Pranešimus gausite tik kai programėlė bus atidaryta."
     },
     "keys_warning": "Slapta paskyros informacija!\nPrieš peržiūrint privačius raktus, Ecency turi būti apsaugota PIN kodu.",
@@ -1588,6 +1732,7 @@
     "error-auth": "Autentifikavimas nepavyko. Prisijunkite iš naujo.",
     "error-generic": "Vaizdo įrašo įkelti nepavyko. Bandykite dar kartą.",
     "error-too-long-short": "Trumpi vaizdo įrašai turi būti ne ilgesni nei 60 sekundžių.",
+    "error-one-per-post": "A post can contain only one video. Remove the current video before adding another.",
     "select_source": "Pridėti vaizdo įrašą",
     "record": "Įrašyti vaizdo įrašą",
     "choose_library": "Pasirinkti iš bibliotekos"

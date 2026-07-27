@@ -5,6 +5,9 @@
       "dismiss": "关闭"
     }
   },
+  "pro": {
+    "badge_a11y": "Ecency Pro member"
+  },
   "perks": {
     "header": "权益",
     "quests_title": "任务",
@@ -27,11 +30,43 @@
     "promote": "推广帖子",
     "promote_desc": "让更多人看到你的帖子",
     "account_boost": "账户加速",
-    "account_boost_desc": "为任意账户加速"
+    "account_boost_desc": "为任意账户加速",
+    "rc_topup": "Top up RC",
+    "rc_topup_desc": "Keep posting when low on Resource Credits",
+    "streak_freeze_owned": "{n} in reserve",
+    "streak_freeze_buy": "Protect streak ({price} Points)",
+    "streak_freeze_buying": "Protecting",
+    "streak_freeze_error": "Could not buy a streak freeze. Please try again."
+  },
+  "quest_chip": {
+    "daily_post": "Daily post",
+    "streak": "{n} day streak",
+    "keep_streak": "Keep your streak alive"
   },
   "waves": {
     "for_you": "为你推荐",
-    "following": "关注中"
+    "following": "关注中",
+    "custom_feeds_title": "Custom feeds",
+    "custom_feeds_subtitle": "Pin sources and tags to add them as feed tabs.",
+    "add_tag_placeholder": "Add a tag",
+    "sources": "Sources",
+    "your_feeds": "Your feeds",
+    "trending_tags": "Trending tags",
+    "shorts_empty": "No shorts to show yet",
+    "mute": "Mute",
+    "unmute": "Unmute"
+  },
+  "waves_onboarding": {
+    "title": "Getting started",
+    "subtitle": "New here? Waves are short posts and the easiest way to jump in.",
+    "progress": "{completed}/{total}",
+    "dismiss": "Dismiss",
+    "item_wave": "Post your first Wave",
+    "item_vote": "Vote on a Wave you like",
+    "item_reply": "Reply to someone",
+    "item_checkin": "Check in to start your streak",
+    "all_done_title": "All done 🎉",
+    "all_done_subtitle": "You're all set. Keep the waves coming!"
   },
   "profile": {
     "havent_commented": "还没有任何评论",
@@ -196,6 +231,26 @@
     "pin-reply": "置顶评论",
     "unpin-reply": "取消置顶评论"
   },
+  "post_translate": {
+    "banner_detected": "This post is in {lang}. Translate to {target}?",
+    "translate_to": "Translate to {lang}",
+    "show_original": "Show original",
+    "translated_from": "Translated from {lang}",
+    "change_language": "Change language"
+  },
+  "compose_translate": {
+    "title": "Translate post",
+    "source": "Source language",
+    "target": "Target language",
+    "detected": "Detected: {lang}",
+    "translate": "Translate",
+    "apply": "Apply",
+    "review_note": "Adds a machine translation of your own writing to the end of the post. Review and edit before publishing.",
+    "too_short": "Write a bit more first. Translation needs at least a few sentences.",
+    "progress": "Translating {done} of {total}...",
+    "error": "Translation failed. Please try again.",
+    "add_title_marker": "Add language marker to title"
+  },
   "side_menu": {
     "profile": "个人资料",
     "add_account": "添加帐户",
@@ -241,7 +296,7 @@
     "hot": "热门",
     "popular": "热门",
     "new": "最新",
-    "friends": "好友",
+    "friends": "Following",
     "my_blog": "我的博客"
   },
   "bookmarks": {
@@ -300,6 +355,16 @@
     "unsynced_title": "未同步的草稿",
     "empty_list": "此处无内容"
   },
+  "templates": {
+    "title": "Templates",
+    "untitled": "Untitled template",
+    "empty_list": "Save a post as template from the editor to reuse it here.",
+    "delete_confirm": "Are you sure you want to delete this template?",
+    "applied": "Template applied as new post",
+    "save_as_template": "Save as template",
+    "name_placeholder": "Template name",
+    "saved": "Template saved"
+  },
   "selection_list": {
     "available": "可用{postfix}",
     "no_selected": "请从可用项中添加",
@@ -308,6 +373,22 @@
     "selected": "已选{postfix}"
   },
   "notification": {
+    "filters": {
+      "activities": "All",
+      "replies": "Replies",
+      "mentions": "Mentions",
+      "rvotes": "Votes",
+      "follows": "Follows",
+      "reblogs": "Reblogs",
+      "transfers": "Transfers",
+      "delegations": "Delegations",
+      "nfavorites": "Favorites",
+      "nbookmarks": "Bookmarks",
+      "payouts": "Payouts",
+      "scheduled_published": "Scheduled posts",
+      "account_updates": "Account updates",
+      "weekly_earnings": "Weekly earnings"
+    },
     "this_week": "本周",
     "reblog": "已转发",
     "unfollow": "取消对您的关注",
@@ -353,7 +434,10 @@
     "account_update_active_authority": "{accounts} 已被授予你账户的 active 权限。如未经你授权，请撤销该权限。",
     "account_update_posting_authority": "{accounts} 现在可以代表你发帖和点赞。如未经你授权，请撤销该权限。",
     "weekly_earnings": "你本周赚取了 ${amount}{breakdown}",
-    "payouts": "已收到收益：${amount}"
+    "payouts": "已收到收益：${amount}",
+    "scheduled_published": "published a scheduled post",
+    "scheduled_published_title": "Scheduled post published",
+    "scheduled_published_body": "Your scheduled post is now live, tap to view it"
   },
   "recurrent": {
     "delete_failed": "删除定期转账失败，{error}",
@@ -455,6 +539,7 @@
     "video": "视频",
     "scheduled_later": "稍后",
     "settings_title": "帖子选项",
+    "support_ecency": "Support Ecency {percent}%",
     "alert_btn_no": "否"
   },
   "time": {
@@ -641,6 +726,9 @@
     "description": "转贴将自动拒绝奖励，转贴下方的讨论将有所不同，并遵循不同的社区准则。",
     "title": "转贴"
   },
+  "ai_usage": {
+    "disclosed": "Author disclosed AI usage"
+  },
   "ai_assist": {
     "title": "AI 写作助手",
     "balance_label": "余额",
@@ -656,7 +744,7 @@
     "action_suggest_tags_desc": "为您的帖子获取相关标签",
     "action_generate_title": "生成标题",
     "action_generate_title_desc": "创建吸引人的标题选项",
-    "action_summarize": "总结",
+    "action_summarize": "Recap",
     "action_summarize_desc": "创建简洁的摘要",
     "action_check_grammar": "检查语法",
     "action_check_grammar_desc": "修正语法和拼写问题",
@@ -861,8 +949,31 @@
     "video_attached": "已附加视频"
   },
   "post": {
+    "upvote": "Upvote",
+    "upvoted": "Upvoted",
+    "downvoted": "Downvoted",
+    "upvote_hint": "Double tap to open vote options",
+    "payout_details": "Payout details",
+    "a11y_votes": "{count, plural, one {# vote} other {# votes}}",
+    "a11y_voters_hint": "View voters",
+    "a11y_reblogs": "{count, plural, one {# reblog} other {# reblogs}}",
+    "a11y_reblogs_hint": "View reblogs",
+    "a11y_comments": "{count, plural, one {# comment} other {# comments}}",
+    "a11y_comments_hint": "View comments",
+    "a11y_reply_hint": "Reply",
+    "a11y_tip": "Send tip",
+    "a11y_tips": "{count, plural, one {# tip} other {# tips}}",
+    "a11y_edit": "Edit comment",
+    "a11y_delete": "Delete comment",
+    "a11y_show_replies": "Show replies",
+    "a11y_hide_replies": "Hide replies",
+    "a11y_post_options": "Post options",
+    "a11y_views": "{count, plural, one {# view} other {# views}}",
+    "source_ecency": "Published with Ecency",
+    "a11y_stats_hint": "View post stats",
     "image": "图片",
     "reveal_muted": "已静音\n点按以显示内容",
+    "tap_to_load_image": "Tap to load image",
     "in": "于",
     "poll": "投票",
     "copy_link": "复制链接",
@@ -887,6 +998,8 @@
     "save_to_local": "下载到设备",
     "muted": "内容因违规已被静音",
     "community_muted": "内容因违反社区准则已被静音",
+    "muted_low_reputation": "Content from a low reputation account",
+    "muted_downvoted": "Content downvoted by users",
     "promoted": "推广",
     "image_saved": "图片已存到图库",
     "words": "字数",
@@ -951,7 +1064,8 @@
     "invalid_amount_desc": "请以正确的格式输入有效金额",
     "open": "打开网址",
     "invalid_key_desc": "请使用 {key} 密钥或主密钥登录以执行此交易",
-    "auth_transfer_confirm": "确认向 {username} 转账？"
+    "auth_transfer_confirm": "确认向 {username} 转账？",
+    "sign_warning": "Only approve if you trust the source of this link. Approving broadcasts the operation below from your account using your {authority} key."
   },
   "voters_dropdown": {
     "rewards": "奖励",
@@ -981,7 +1095,6 @@
   },
   "register": {
     "username": "选择一个用户名",
-    "error_message": "{message}\n请重试，或改为购买账户",
     "title_description": "一个账户管理一切",
     "form_description": "在我们这里注册即表示您同意我们的服务条款和隐私政策。",
     "registering": "正在注册您的账户…",
@@ -1004,6 +1117,20 @@
       "username_contains_underscore": "不能包含下划线"
     },
     "500_error": "您的请求无法处理，注册队列可能已满！请几分钟后再试……",
+    "error_codes": {
+      "13": "Username has already been taken",
+      "14": "Email address already registered",
+      "15": "Please enter a valid email address",
+      "16": "Please enter a valid username",
+      "17": "Username is too long, please choose a shorter one",
+      "19": "Please use a permanent email address, or get a Premium account instead",
+      "21": "This referral isn't valid",
+      "28": "Your request couldn't be processed — the signup queue is likely full. Please try again in a few minutes.",
+      "107": "VPN connection detected. Please turn off your VPN and try again, or get a Premium account instead.",
+      "110": "To prevent abuse, we limit the number of accounts per person/network. Please try again from a different network.",
+      "111": "Tor connection detected. Please disable Tor while signing up.",
+      "112": "We couldn't verify your connection right now. Please try again in a few minutes."
+    },
     "have_account_text": "已经有账户了？"
   },
   "messages": {
@@ -1112,6 +1239,7 @@
     "tokens_updatePrecision": "代币更新精度",
     "tokens_transferOwnership": "代币所有权已转移",
     "withdraw_vesting": "解除质押",
+    "set_withdraw_vesting_route": "Withdraw Accounts",
     "delegate_engine": "委托",
     "market_close": "订单已关闭",
     "nftmarket_transferFee": "买单手续费",
@@ -1297,6 +1425,13 @@
     "confirm_boost_plus": "确定要通过应用内购买进行 Boost 吗？",
     "title": "Boost+"
   },
+  "rc_topup": {
+    "title": "Top up RC",
+    "desc": "A short-term RC boost so you can keep posting.",
+    "confirm": "Spend Points to top up your Resource Credits?",
+    "insufficient": "You do not have enough Points.",
+    "buy_points": "Buy Points"
+  },
   "ai_image_generator": {
     "title": "AI 图像生成器",
     "prompt_label": "描述您想要创建的图像",
@@ -1441,6 +1576,11 @@
     "backup_private_keys": "管理授权",
     "pincode": "PIN 码",
     "general": "通用",
+    "support_ecency": "Support Ecency",
+    "support_beneficiary": "Share post rewards with Ecency",
+    "support_beneficiary_percent": "Post rewards share",
+    "support_curation": "Hold back part of curation rewards",
+    "support_curation_percent": "Curation rewards holdback",
     "feedback_body": "在此处填写您的留言！\n\nHive 用户名：{username}\n应用版本：{appVersion}\n平台：{platform}\n",
     "show_imgs": "显示图片",
     "nsfw": {
@@ -1459,6 +1599,10 @@
       "transfers": "转账",
       "vote": "投票",
       "follow": "关注",
+      "scheduled_published": "Scheduled post published",
+      "payouts": "Payouts",
+      "account_update": "Account updates",
+      "weekly_earnings": "Weekly earnings",
       "fcm_unavailable": "此设备不支持推送通知。您只能在应用打开时收到通知。"
     },
     "keys_warning": "敏感账户信息！\n查看私钥前，Ecency 必须使用 PIN 码进行保护。",
@@ -1588,6 +1732,7 @@
     "error-auth": "身份验证失败。请重新登录。",
     "error-generic": "视频上传失败。请重试。",
     "error-too-long-short": "短视频时长不得超过 60 秒。",
+    "error-one-per-post": "A post can contain only one video. Remove the current video before adding another.",
     "select_source": "添加视频",
     "record": "录制视频",
     "choose_library": "从相册选择"
