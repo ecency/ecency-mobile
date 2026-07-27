@@ -5,6 +5,9 @@
       "dismiss": "Затвори"
     }
   },
+  "pro": {
+    "badge_a11y": "Ecency Pro member"
+  },
   "perks": {
     "header": "Привилегии",
     "quests_title": "Задачи",
@@ -27,11 +30,43 @@
     "promote": "Промотирайте публикация",
     "promote_desc": "Достигнете до повече хора с публикацията си",
     "account_boost": "Засилване на акаунт",
-    "account_boost_desc": "Засилете всеки акаунт"
+    "account_boost_desc": "Засилете всеки акаунт",
+    "rc_topup": "Top up RC",
+    "rc_topup_desc": "Keep posting when low on Resource Credits",
+    "streak_freeze_owned": "{n} in reserve",
+    "streak_freeze_buy": "Protect streak ({price} Points)",
+    "streak_freeze_buying": "Protecting",
+    "streak_freeze_error": "Could not buy a streak freeze. Please try again."
+  },
+  "quest_chip": {
+    "daily_post": "Daily post",
+    "streak": "{n} day streak",
+    "keep_streak": "Keep your streak alive"
   },
   "waves": {
     "for_you": "За вас",
-    "following": "Следвани"
+    "following": "Следвани",
+    "custom_feeds_title": "Custom feeds",
+    "custom_feeds_subtitle": "Pin sources and tags to add them as feed tabs.",
+    "add_tag_placeholder": "Add a tag",
+    "sources": "Sources",
+    "your_feeds": "Your feeds",
+    "trending_tags": "Trending tags",
+    "shorts_empty": "No shorts to show yet",
+    "mute": "Mute",
+    "unmute": "Unmute"
+  },
+  "waves_onboarding": {
+    "title": "Getting started",
+    "subtitle": "New here? Waves are short posts and the easiest way to jump in.",
+    "progress": "{completed}/{total}",
+    "dismiss": "Dismiss",
+    "item_wave": "Post your first Wave",
+    "item_vote": "Vote on a Wave you like",
+    "item_reply": "Reply to someone",
+    "item_checkin": "Check in to start your streak",
+    "all_done_title": "All done 🎉",
+    "all_done_subtitle": "You're all set. Keep the waves coming!"
   },
   "profile": {
     "havent_commented": "Все още няма коментари",
@@ -196,6 +231,26 @@
     "pin-reply": "Закачи коментара",
     "unpin-reply": "Откачи коментара"
   },
+  "post_translate": {
+    "banner_detected": "This post is in {lang}. Translate to {target}?",
+    "translate_to": "Translate to {lang}",
+    "show_original": "Show original",
+    "translated_from": "Translated from {lang}",
+    "change_language": "Change language"
+  },
+  "compose_translate": {
+    "title": "Translate post",
+    "source": "Source language",
+    "target": "Target language",
+    "detected": "Detected: {lang}",
+    "translate": "Translate",
+    "apply": "Apply",
+    "review_note": "Adds a machine translation of your own writing to the end of the post. Review and edit before publishing.",
+    "too_short": "Write a bit more first. Translation needs at least a few sentences.",
+    "progress": "Translating {done} of {total}...",
+    "error": "Translation failed. Please try again.",
+    "add_title_marker": "Add language marker to title"
+  },
   "side_menu": {
     "profile": "Профил",
     "add_account": "Добавяне на профил",
@@ -241,7 +296,7 @@
     "hot": "Актуални",
     "popular": "Популярни",
     "new": "Нови",
-    "friends": "Приятели",
+    "friends": "Following",
     "my_blog": "Моят блог"
   },
   "bookmarks": {
@@ -300,6 +355,16 @@
     "unsynced_title": "Несинхронизирана чернова",
     "empty_list": "Няма нищо тук"
   },
+  "templates": {
+    "title": "Templates",
+    "untitled": "Untitled template",
+    "empty_list": "Save a post as template from the editor to reuse it here.",
+    "delete_confirm": "Are you sure you want to delete this template?",
+    "applied": "Template applied as new post",
+    "save_as_template": "Save as template",
+    "name_placeholder": "Template name",
+    "saved": "Template saved"
+  },
   "selection_list": {
     "available": "Налични {postfix}",
     "no_selected": "Моля, добавете от наличните",
@@ -308,6 +373,22 @@
     "selected": "Избрани {postfix}"
   },
   "notification": {
+    "filters": {
+      "activities": "All",
+      "replies": "Replies",
+      "mentions": "Mentions",
+      "rvotes": "Votes",
+      "follows": "Follows",
+      "reblogs": "Reblogs",
+      "transfers": "Transfers",
+      "delegations": "Delegations",
+      "nfavorites": "Favorites",
+      "nbookmarks": "Bookmarks",
+      "payouts": "Payouts",
+      "scheduled_published": "Scheduled posts",
+      "account_updates": "Account updates",
+      "weekly_earnings": "Weekly earnings"
+    },
     "this_week": "Тази седмица",
     "reblog": "споделено от",
     "unfollow": "не те следва вече",
@@ -353,7 +434,10 @@
     "account_update_active_authority": "На {accounts} беше предоставено active правомощие върху акаунта ви. Ако не сте упълномощили това, отменете го.",
     "account_update_posting_authority": "{accounts} вече може да публикува и гласува от ваше име. Ако не сте упълномощили това, отменете го.",
     "weekly_earnings": "Спечелихте ${amount} тази седмица{breakdown}",
-    "payouts": "Получено плащане: ${amount}"
+    "payouts": "Получено плащане: ${amount}",
+    "scheduled_published": "published a scheduled post",
+    "scheduled_published_title": "Scheduled post published",
+    "scheduled_published_body": "Your scheduled post is now live, tap to view it"
   },
   "recurrent": {
     "delete_failed": "Изтриването на повтарящия се превод е неуспешно, {error}",
@@ -455,6 +539,7 @@
     "video": "Видео",
     "scheduled_later": "По-късно",
     "settings_title": "Пост опции",
+    "support_ecency": "Support Ecency {percent}%",
     "alert_btn_no": "Не"
   },
   "time": {
@@ -641,6 +726,9 @@
     "description": "Наградите автоматично се отказват за кръстосаната публикация, а дискусиите под нея ще бъдат различни и ще следват различни насоки на общността.",
     "title": "Кръстосана публикация"
   },
+  "ai_usage": {
+    "disclosed": "Author disclosed AI usage"
+  },
   "ai_assist": {
     "title": "AI асистент за писане",
     "balance_label": "Баланс",
@@ -656,7 +744,7 @@
     "action_suggest_tags_desc": "Получете подходящи етикети за публикацията си",
     "action_generate_title": "Генерирай заглавие",
     "action_generate_title_desc": "Създайте привлекателни варианти за заглавие",
-    "action_summarize": "Обобщи",
+    "action_summarize": "Recap",
     "action_summarize_desc": "Създайте кратко резюме",
     "action_check_grammar": "Провери граматиката",
     "action_check_grammar_desc": "Поправи граматически и правописни грешки",
@@ -861,8 +949,31 @@
     "video_attached": "Видеото е прикачено"
   },
   "post": {
+    "upvote": "Upvote",
+    "upvoted": "Upvoted",
+    "downvoted": "Downvoted",
+    "upvote_hint": "Double tap to open vote options",
+    "payout_details": "Payout details",
+    "a11y_votes": "{count, plural, one {# vote} other {# votes}}",
+    "a11y_voters_hint": "View voters",
+    "a11y_reblogs": "{count, plural, one {# reblog} other {# reblogs}}",
+    "a11y_reblogs_hint": "View reblogs",
+    "a11y_comments": "{count, plural, one {# comment} other {# comments}}",
+    "a11y_comments_hint": "View comments",
+    "a11y_reply_hint": "Reply",
+    "a11y_tip": "Send tip",
+    "a11y_tips": "{count, plural, one {# tip} other {# tips}}",
+    "a11y_edit": "Edit comment",
+    "a11y_delete": "Delete comment",
+    "a11y_show_replies": "Show replies",
+    "a11y_hide_replies": "Hide replies",
+    "a11y_post_options": "Post options",
+    "a11y_views": "{count, plural, one {# view} other {# views}}",
+    "source_ecency": "Published with Ecency",
+    "a11y_stats_hint": "View post stats",
     "image": "Изображение",
     "reveal_muted": "Заглушен Натисни да вижиш съдържанието",
+    "tap_to_load_image": "Tap to load image",
     "in": "в",
     "poll": "АНКЕТА",
     "copy_link": "Копирай връзката/линка",
@@ -887,6 +998,8 @@
     "save_to_local": "Свали на устройството",
     "muted": "Съдържанието е заглушено заради нарушение",
     "community_muted": "Съдържанието е заглушено заради нарушение на правилата на общността",
+    "muted_low_reputation": "Content from a low reputation account",
+    "muted_downvoted": "Content downvoted by users",
     "promoted": "ПРОМОТИРАНО",
     "image_saved": "Изображението е запазено в галерията",
     "words": "Думи",
@@ -951,7 +1064,8 @@
     "invalid_amount_desc": "Въведете валидна сума в правилен формат",
     "open": "Отвори URL",
     "invalid_key_desc": "моля, влезте с {key} ключ или главен ключ, за да извършите тази транзакция",
-    "auth_transfer_confirm": "Да потвърдя ли превода към {username}?"
+    "auth_transfer_confirm": "Да потвърдя ли превода към {username}?",
+    "sign_warning": "Only approve if you trust the source of this link. Approving broadcasts the operation below from your account using your {authority} key."
   },
   "voters_dropdown": {
     "rewards": "НАГРАДИ",
@@ -981,7 +1095,6 @@
   },
   "register": {
     "username": "Избери потрбителско име",
-    "error_message": "{message}\nОпитайте отново или опитайте да закупите акаунт вместо това",
     "title_description": "Един потребител да ръководи всичко",
     "form_description": "Като се регистрирате с нас, вие се съгласявате с нашите Общи условия и Политики за поверителност.",
     "registering": "Регистриране на акаунта Ви...",
@@ -1004,6 +1117,20 @@
       "username_contains_underscore": "Не трябва да съдържа долна черта"
     },
     "500_error": "Заявката ви не можа да бъде обработена, опашката за регистрация вероятно е пълна! Опитайте отново след няколко минути ...",
+    "error_codes": {
+      "13": "Username has already been taken",
+      "14": "Email address already registered",
+      "15": "Please enter a valid email address",
+      "16": "Please enter a valid username",
+      "17": "Username is too long, please choose a shorter one",
+      "19": "Please use a permanent email address, or get a Premium account instead",
+      "21": "This referral isn't valid",
+      "28": "Your request couldn't be processed — the signup queue is likely full. Please try again in a few minutes.",
+      "107": "VPN connection detected. Please turn off your VPN and try again, or get a Premium account instead.",
+      "110": "To prevent abuse, we limit the number of accounts per person/network. Please try again from a different network.",
+      "111": "Tor connection detected. Please disable Tor while signing up.",
+      "112": "We couldn't verify your connection right now. Please try again in a few minutes."
+    },
     "have_account_text": "Вече имате акаунт?"
   },
   "messages": {
@@ -1112,6 +1239,7 @@
     "tokens_updatePrecision": "Обновяване на точността на токени",
     "tokens_transferOwnership": "Собствеността върху токена е прехвърлена",
     "withdraw_vesting": "Изтегли от стейк",
+    "set_withdraw_vesting_route": "Withdraw Accounts",
     "delegate_engine": "Делегирай",
     "market_close": "Поръчката е затворена",
     "nftmarket_transferFee": "Такса за поръчка за покупка",
@@ -1297,6 +1425,13 @@
     "confirm_boost_plus": "Сигурни ли сте, че искате да бустнете чрез покупка в приложението?",
     "title": "Boost+"
   },
+  "rc_topup": {
+    "title": "Top up RC",
+    "desc": "A short-term RC boost so you can keep posting.",
+    "confirm": "Spend Points to top up your Resource Credits?",
+    "insufficient": "You do not have enough Points.",
+    "buy_points": "Buy Points"
+  },
   "ai_image_generator": {
     "title": "AI генератор на изображения",
     "prompt_label": "Опишете изображението, което искате да създадете",
@@ -1441,6 +1576,11 @@
     "backup_private_keys": "Управление на правомощията",
     "pincode": "Pincode",
     "general": "Основни",
+    "support_ecency": "Support Ecency",
+    "support_beneficiary": "Share post rewards with Ecency",
+    "support_beneficiary_percent": "Post rewards share",
+    "support_curation": "Hold back part of curation rewards",
+    "support_curation_percent": "Curation rewards holdback",
     "feedback_body": "Напишете съобщението си тук!\n\nHive потребителско име: {username}\nВерсия на приложението: {appVersion}\nПлатформа: {platform}\n",
     "show_imgs": "Показване на изображения",
     "nsfw": {
@@ -1459,6 +1599,10 @@
       "transfers": "Преводи",
       "vote": "Глас",
       "follow": "Следвай",
+      "scheduled_published": "Scheduled post published",
+      "payouts": "Payouts",
+      "account_update": "Account updates",
+      "weekly_earnings": "Weekly earnings",
       "fcm_unavailable": "Push известията не се поддържат на това устройство. Ще получавате известия само докато приложението е отворено."
     },
     "keys_warning": "Чувствителна информация за акаунта!\nEcency трябва да бъде защитена с PIN код, преди да видите частните ключове.",
@@ -1588,6 +1732,7 @@
     "error-auth": "Удостоверяването е неуспешно. Моля, влезте отново.",
     "error-generic": "Качването на видео е неуспешно. Моля, опитайте отново.",
     "error-too-long-short": "Кратките видеа трябва да са с продължителност 60 секунди или по-малко.",
+    "error-one-per-post": "A post can contain only one video. Remove the current video before adding another.",
     "select_source": "Добавяне на видео",
     "record": "Запис на видео",
     "choose_library": "Избор от библиотеката"

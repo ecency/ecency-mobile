@@ -5,6 +5,9 @@
       "dismiss": "Bỏ qua"
     }
   },
+  "pro": {
+    "badge_a11y": "Ecency Pro member"
+  },
   "perks": {
     "header": "Đặc quyền",
     "quests_title": "Nhiệm vụ",
@@ -27,11 +30,43 @@
     "promote": "Quảng bá một bài viết",
     "promote_desc": "Tăng lượt xem cho bài viết của bạn",
     "account_boost": "Boost tài khoản",
-    "account_boost_desc": "Boost bất kỳ tài khoản nào"
+    "account_boost_desc": "Boost bất kỳ tài khoản nào",
+    "rc_topup": "Top up RC",
+    "rc_topup_desc": "Keep posting when low on Resource Credits",
+    "streak_freeze_owned": "{n} in reserve",
+    "streak_freeze_buy": "Protect streak ({price} Points)",
+    "streak_freeze_buying": "Protecting",
+    "streak_freeze_error": "Could not buy a streak freeze. Please try again."
+  },
+  "quest_chip": {
+    "daily_post": "Daily post",
+    "streak": "{n} day streak",
+    "keep_streak": "Keep your streak alive"
   },
   "waves": {
     "for_you": "Dành cho bạn",
-    "following": "Đang theo dõi"
+    "following": "Đang theo dõi",
+    "custom_feeds_title": "Custom feeds",
+    "custom_feeds_subtitle": "Pin sources and tags to add them as feed tabs.",
+    "add_tag_placeholder": "Add a tag",
+    "sources": "Sources",
+    "your_feeds": "Your feeds",
+    "trending_tags": "Trending tags",
+    "shorts_empty": "No shorts to show yet",
+    "mute": "Mute",
+    "unmute": "Unmute"
+  },
+  "waves_onboarding": {
+    "title": "Getting started",
+    "subtitle": "New here? Waves are short posts and the easiest way to jump in.",
+    "progress": "{completed}/{total}",
+    "dismiss": "Dismiss",
+    "item_wave": "Post your first Wave",
+    "item_vote": "Vote on a Wave you like",
+    "item_reply": "Reply to someone",
+    "item_checkin": "Check in to start your streak",
+    "all_done_title": "All done 🎉",
+    "all_done_subtitle": "You're all set. Keep the waves coming!"
   },
   "profile": {
     "havent_commented": "chưa bình luận gì cả",
@@ -196,6 +231,26 @@
     "pin-reply": "Ghim bình luận",
     "unpin-reply": "Bỏ ghim bình luận"
   },
+  "post_translate": {
+    "banner_detected": "This post is in {lang}. Translate to {target}?",
+    "translate_to": "Translate to {lang}",
+    "show_original": "Show original",
+    "translated_from": "Translated from {lang}",
+    "change_language": "Change language"
+  },
+  "compose_translate": {
+    "title": "Translate post",
+    "source": "Source language",
+    "target": "Target language",
+    "detected": "Detected: {lang}",
+    "translate": "Translate",
+    "apply": "Apply",
+    "review_note": "Adds a machine translation of your own writing to the end of the post. Review and edit before publishing.",
+    "too_short": "Write a bit more first. Translation needs at least a few sentences.",
+    "progress": "Translating {done} of {total}...",
+    "error": "Translation failed. Please try again.",
+    "add_title_marker": "Add language marker to title"
+  },
   "side_menu": {
     "profile": "Hồ sơ",
     "add_account": "Thêm tài khoản",
@@ -241,7 +296,7 @@
     "hot": "Nổi bật",
     "popular": "Phổ biến",
     "new": "Mới",
-    "friends": "Bạn bè",
+    "friends": "Following",
     "my_blog": "Blog của tôi"
   },
   "bookmarks": {
@@ -300,6 +355,16 @@
     "unsynced_title": "Bản nháp chưa đồng bộ",
     "empty_list": "Không có gì ở đây"
   },
+  "templates": {
+    "title": "Templates",
+    "untitled": "Untitled template",
+    "empty_list": "Save a post as template from the editor to reuse it here.",
+    "delete_confirm": "Are you sure you want to delete this template?",
+    "applied": "Template applied as new post",
+    "save_as_template": "Save as template",
+    "name_placeholder": "Template name",
+    "saved": "Template saved"
+  },
   "selection_list": {
     "available": "Khả dụng {postfix}",
     "no_selected": "Vui lòng thêm từ mục khả dụng",
@@ -308,6 +373,22 @@
     "selected": "Đã chọn {postfix}"
   },
   "notification": {
+    "filters": {
+      "activities": "All",
+      "replies": "Replies",
+      "mentions": "Mentions",
+      "rvotes": "Votes",
+      "follows": "Follows",
+      "reblogs": "Reblogs",
+      "transfers": "Transfers",
+      "delegations": "Delegations",
+      "nfavorites": "Favorites",
+      "nbookmarks": "Bookmarks",
+      "payouts": "Payouts",
+      "scheduled_published": "Scheduled posts",
+      "account_updates": "Account updates",
+      "weekly_earnings": "Weekly earnings"
+    },
     "this_week": "Tuần này",
     "reblog": "đã đăng lại",
     "unfollow": "đã bỏ theo dõi bạn",
@@ -353,7 +434,10 @@
     "account_update_active_authority": "{accounts} đã được cấp quyền active trên tài khoản của bạn. Nếu bạn không cho phép điều này, hãy thu hồi nó.",
     "account_update_posting_authority": "{accounts} hiện có thể đăng bài và bình chọn thay mặt bạn. Nếu bạn không cho phép điều này, hãy thu hồi nó.",
     "weekly_earnings": "Bạn đã kiếm được ${amount} trong tuần này{breakdown}",
-    "payouts": "Đã nhận khoản chi trả: ${amount}"
+    "payouts": "Đã nhận khoản chi trả: ${amount}",
+    "scheduled_published": "published a scheduled post",
+    "scheduled_published_title": "Scheduled post published",
+    "scheduled_published_body": "Your scheduled post is now live, tap to view it"
   },
   "recurrent": {
     "delete_failed": "Không thể xóa giao dịch chuyển định kỳ, {error}",
@@ -455,6 +539,7 @@
     "video": "Video",
     "scheduled_later": "Để sau",
     "settings_title": "Tùy chọn bài viết",
+    "support_ecency": "Support Ecency {percent}%",
     "alert_btn_no": "Không"
   },
   "time": {
@@ -641,6 +726,9 @@
     "description": "Phần thưởng sẽ tự động bị từ chối cho bài đăng chéo và các thảo luận dưới bài đăng chéo sẽ khác nhau và tuân theo các quy tắc cộng đồng khác.",
     "title": "Đăng chéo"
   },
+  "ai_usage": {
+    "disclosed": "Author disclosed AI usage"
+  },
   "ai_assist": {
     "title": "Trợ lý viết AI",
     "balance_label": "Số dư",
@@ -656,7 +744,7 @@
     "action_suggest_tags_desc": "Nhận các thẻ phù hợp cho bài viết của bạn",
     "action_generate_title": "Tạo tiêu đề",
     "action_generate_title_desc": "Tạo các phương án tiêu đề hấp dẫn",
-    "action_summarize": "Tóm tắt",
+    "action_summarize": "Recap",
     "action_summarize_desc": "Tạo bản tóm tắt ngắn gọn",
     "action_check_grammar": "Kiểm tra ngữ pháp",
     "action_check_grammar_desc": "Sửa lỗi ngữ pháp và chính tả",
@@ -861,8 +949,31 @@
     "video_attached": "Đã đính kèm video"
   },
   "post": {
+    "upvote": "Upvote",
+    "upvoted": "Upvoted",
+    "downvoted": "Downvoted",
+    "upvote_hint": "Double tap to open vote options",
+    "payout_details": "Payout details",
+    "a11y_votes": "{count, plural, one {# vote} other {# votes}}",
+    "a11y_voters_hint": "View voters",
+    "a11y_reblogs": "{count, plural, one {# reblog} other {# reblogs}}",
+    "a11y_reblogs_hint": "View reblogs",
+    "a11y_comments": "{count, plural, one {# comment} other {# comments}}",
+    "a11y_comments_hint": "View comments",
+    "a11y_reply_hint": "Reply",
+    "a11y_tip": "Send tip",
+    "a11y_tips": "{count, plural, one {# tip} other {# tips}}",
+    "a11y_edit": "Edit comment",
+    "a11y_delete": "Delete comment",
+    "a11y_show_replies": "Show replies",
+    "a11y_hide_replies": "Hide replies",
+    "a11y_post_options": "Post options",
+    "a11y_views": "{count, plural, one {# view} other {# views}}",
+    "source_ecency": "Published with Ecency",
+    "a11y_stats_hint": "View post stats",
     "image": "Hình ảnh",
     "reveal_muted": "ĐÃ ẨN\nChạm để hiện nội dung",
+    "tap_to_load_image": "Tap to load image",
     "in": "trong",
     "poll": "BÌNH CHỌN",
     "copy_link": "Sao chép liên kết",
@@ -887,6 +998,8 @@
     "save_to_local": "Tải về thiết bị",
     "muted": "Nội dung bị ẩn do vi phạm",
     "community_muted": "Nội dung bị ẩn do vi phạm quy tắc cộng đồng",
+    "muted_low_reputation": "Content from a low reputation account",
+    "muted_downvoted": "Content downvoted by users",
     "promoted": "ĐƯỢC QUẢNG BÁ",
     "image_saved": "Đã lưu hình ảnh vào Thư viện ảnh",
     "words": "Từ",
@@ -951,7 +1064,8 @@
     "invalid_amount_desc": "Nhập số tiền hợp lệ theo đúng định dạng",
     "open": "Mở URL",
     "invalid_key_desc": "vui lòng đăng nhập bằng khóa {key} hoặc khóa chính để thực hiện giao dịch này",
-    "auth_transfer_confirm": "Xác nhận chuyển cho {username}?"
+    "auth_transfer_confirm": "Xác nhận chuyển cho {username}?",
+    "sign_warning": "Only approve if you trust the source of this link. Approving broadcasts the operation below from your account using your {authority} key."
   },
   "voters_dropdown": {
     "rewards": "PHẦN THƯỞNG",
@@ -981,7 +1095,6 @@
   },
   "register": {
     "username": "Chọn một tên người dùng",
-    "error_message": "{message}\nThử lại hoặc thử mua tài khoản thay thế",
     "title_description": "Một tài khoản để quản lý mọi thứ",
     "form_description": "Bằng cách đăng ký với chúng tôi, bạn đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của chúng tôi.",
     "registering": "Đang đăng ký tài khoản của bạn...",
@@ -1004,6 +1117,20 @@
       "username_contains_underscore": "Không được chứa dấu gạch dưới"
     },
     "500_error": "Yêu cầu của bạn không thể được xử lý, hàng đợi đăng ký có thể đã đầy! Hãy thử lại sau vài phút...",
+    "error_codes": {
+      "13": "Username has already been taken",
+      "14": "Email address already registered",
+      "15": "Please enter a valid email address",
+      "16": "Please enter a valid username",
+      "17": "Username is too long, please choose a shorter one",
+      "19": "Please use a permanent email address, or get a Premium account instead",
+      "21": "This referral isn't valid",
+      "28": "Your request couldn't be processed — the signup queue is likely full. Please try again in a few minutes.",
+      "107": "VPN connection detected. Please turn off your VPN and try again, or get a Premium account instead.",
+      "110": "To prevent abuse, we limit the number of accounts per person/network. Please try again from a different network.",
+      "111": "Tor connection detected. Please disable Tor while signing up.",
+      "112": "We couldn't verify your connection right now. Please try again in a few minutes."
+    },
     "have_account_text": "Đã có tài khoản?"
   },
   "messages": {
@@ -1112,6 +1239,7 @@
     "tokens_updatePrecision": "Cập nhật độ chính xác token",
     "tokens_transferOwnership": "Đã chuyển quyền sở hữu token",
     "withdraw_vesting": "Rút cọc",
+    "set_withdraw_vesting_route": "Withdraw Accounts",
     "delegate_engine": "Ủy quyền",
     "market_close": "Đã đóng lệnh",
     "nftmarket_transferFee": "Phí lệnh mua",
@@ -1297,6 +1425,13 @@
     "confirm_boost_plus": "Bạn có chắc chắn muốn Boost bằng mua hàng trong ứng dụng?",
     "title": "Boost+"
   },
+  "rc_topup": {
+    "title": "Top up RC",
+    "desc": "A short-term RC boost so you can keep posting.",
+    "confirm": "Spend Points to top up your Resource Credits?",
+    "insufficient": "You do not have enough Points.",
+    "buy_points": "Buy Points"
+  },
   "ai_image_generator": {
     "title": "Trình tạo ảnh AI",
     "prompt_label": "Mô tả hình ảnh bạn muốn tạo",
@@ -1441,6 +1576,11 @@
     "backup_private_keys": "Quản lý quyền hạn",
     "pincode": "Mã PIN",
     "general": "Tổng quan",
+    "support_ecency": "Support Ecency",
+    "support_beneficiary": "Share post rewards with Ecency",
+    "support_beneficiary_percent": "Post rewards share",
+    "support_curation": "Hold back part of curation rewards",
+    "support_curation_percent": "Curation rewards holdback",
     "feedback_body": "Viết tin nhắn của bạn ở đây!\n\nTên người dùng Hive: {username}\nPhiên bản ứng dụng: {appVersion}\nNền tảng: {platform}\n",
     "show_imgs": "Hiển thị hình ảnh",
     "nsfw": {
@@ -1459,6 +1599,10 @@
       "transfers": "Những phần chuyển khoản",
       "vote": "Bình chọn",
       "follow": "Theo dõi",
+      "scheduled_published": "Scheduled post published",
+      "payouts": "Payouts",
+      "account_update": "Account updates",
+      "weekly_earnings": "Weekly earnings",
       "fcm_unavailable": "Thông báo đẩy không được hỗ trợ trên thiết bị này. Bạn sẽ chỉ nhận được thông báo khi ứng dụng đang mở."
     },
     "keys_warning": "Thông tin tài khoản nhạy cảm!\nEcency phải được bảo mật bằng mã PIN trước khi xem các khóa riêng tư.",
@@ -1588,6 +1732,7 @@
     "error-auth": "Xác thực thất bại. Vui lòng đăng nhập lại.",
     "error-generic": "Tải video lên thất bại. Vui lòng thử lại.",
     "error-too-long-short": "Video ngắn phải có độ dài 60 giây hoặc ít hơn.",
+    "error-one-per-post": "A post can contain only one video. Remove the current video before adding another.",
     "select_source": "Thêm video",
     "record": "Quay video",
     "choose_library": "Chọn từ thư viện"

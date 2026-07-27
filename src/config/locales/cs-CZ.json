@@ -5,6 +5,9 @@
       "dismiss": "Zavřít"
     }
   },
+  "pro": {
+    "badge_a11y": "Ecency Pro member"
+  },
   "perks": {
     "header": "Výhody",
     "quests_title": "Úkoly",
@@ -27,11 +30,43 @@
     "promote": "Propagovat příspěvek",
     "promote_desc": "Získejte více pozornosti na svůj příspěvek",
     "account_boost": "Boost účtu",
-    "account_boost_desc": "Boostněte libovolný účet"
+    "account_boost_desc": "Boostněte libovolný účet",
+    "rc_topup": "Top up RC",
+    "rc_topup_desc": "Keep posting when low on Resource Credits",
+    "streak_freeze_owned": "{n} in reserve",
+    "streak_freeze_buy": "Protect streak ({price} Points)",
+    "streak_freeze_buying": "Protecting",
+    "streak_freeze_error": "Could not buy a streak freeze. Please try again."
+  },
+  "quest_chip": {
+    "daily_post": "Daily post",
+    "streak": "{n} day streak",
+    "keep_streak": "Keep your streak alive"
   },
   "waves": {
     "for_you": "Pro vás",
-    "following": "Sledované"
+    "following": "Sledované",
+    "custom_feeds_title": "Custom feeds",
+    "custom_feeds_subtitle": "Pin sources and tags to add them as feed tabs.",
+    "add_tag_placeholder": "Add a tag",
+    "sources": "Sources",
+    "your_feeds": "Your feeds",
+    "trending_tags": "Trending tags",
+    "shorts_empty": "No shorts to show yet",
+    "mute": "Mute",
+    "unmute": "Unmute"
+  },
+  "waves_onboarding": {
+    "title": "Getting started",
+    "subtitle": "New here? Waves are short posts and the easiest way to jump in.",
+    "progress": "{completed}/{total}",
+    "dismiss": "Dismiss",
+    "item_wave": "Post your first Wave",
+    "item_vote": "Vote on a Wave you like",
+    "item_reply": "Reply to someone",
+    "item_checkin": "Check in to start your streak",
+    "all_done_title": "All done 🎉",
+    "all_done_subtitle": "You're all set. Keep the waves coming!"
   },
   "profile": {
     "havent_commented": "ještě nic neokomentoval/a",
@@ -196,6 +231,26 @@
     "pin-reply": "Připnout komentář",
     "unpin-reply": "Odepnout komentář"
   },
+  "post_translate": {
+    "banner_detected": "This post is in {lang}. Translate to {target}?",
+    "translate_to": "Translate to {lang}",
+    "show_original": "Show original",
+    "translated_from": "Translated from {lang}",
+    "change_language": "Change language"
+  },
+  "compose_translate": {
+    "title": "Translate post",
+    "source": "Source language",
+    "target": "Target language",
+    "detected": "Detected: {lang}",
+    "translate": "Translate",
+    "apply": "Apply",
+    "review_note": "Adds a machine translation of your own writing to the end of the post. Review and edit before publishing.",
+    "too_short": "Write a bit more first. Translation needs at least a few sentences.",
+    "progress": "Translating {done} of {total}...",
+    "error": "Translation failed. Please try again.",
+    "add_title_marker": "Add language marker to title"
+  },
   "side_menu": {
     "profile": "Profil",
     "add_account": "Přidat účet",
@@ -241,7 +296,7 @@
     "hot": "Na vzestupu",
     "popular": "Oblíbené",
     "new": "Nové",
-    "friends": "Přátelé",
+    "friends": "Following",
     "my_blog": "Můj blog"
   },
   "bookmarks": {
@@ -300,6 +355,16 @@
     "unsynced_title": "Nesynchronizovaný koncept",
     "empty_list": "Tady nic není"
   },
+  "templates": {
+    "title": "Templates",
+    "untitled": "Untitled template",
+    "empty_list": "Save a post as template from the editor to reuse it here.",
+    "delete_confirm": "Are you sure you want to delete this template?",
+    "applied": "Template applied as new post",
+    "save_as_template": "Save as template",
+    "name_placeholder": "Template name",
+    "saved": "Template saved"
+  },
   "selection_list": {
     "available": "Dostupné {postfix}",
     "no_selected": "Přidejte prosím z dostupných",
@@ -308,6 +373,22 @@
     "selected": "Vybrané {postfix}"
   },
   "notification": {
+    "filters": {
+      "activities": "All",
+      "replies": "Replies",
+      "mentions": "Mentions",
+      "rvotes": "Votes",
+      "follows": "Follows",
+      "reblogs": "Reblogs",
+      "transfers": "Transfers",
+      "delegations": "Delegations",
+      "nfavorites": "Favorites",
+      "nbookmarks": "Bookmarks",
+      "payouts": "Payouts",
+      "scheduled_published": "Scheduled posts",
+      "account_updates": "Account updates",
+      "weekly_earnings": "Weekly earnings"
+    },
     "this_week": "Tento týden",
     "reblog": "sdílel/a článek",
     "unfollow": "tě přestal/a sledovat",
@@ -353,7 +434,10 @@
     "account_update_active_authority": "Účtu {accounts} byla udělena active pravomoc na vašem účtu. Pokud jste to nepovolili, odvolejte to.",
     "account_update_posting_authority": "{accounts} nyní může publikovat a hlasovat vaším jménem. Pokud jste to nepovolili, odvolejte to.",
     "weekly_earnings": "Tento týden jste vydělali ${amount}{breakdown}",
-    "payouts": "Přijata výplata: ${amount}"
+    "payouts": "Přijata výplata: ${amount}",
+    "scheduled_published": "published a scheduled post",
+    "scheduled_published_title": "Scheduled post published",
+    "scheduled_published_body": "Your scheduled post is now live, tap to view it"
   },
   "recurrent": {
     "delete_failed": "Opakovaný převod se nepodařilo smazat, {error}",
@@ -455,6 +539,7 @@
     "video": "Video",
     "scheduled_later": "Později",
     "settings_title": "Možnosti příspěvku",
+    "support_ecency": "Support Ecency {percent}%",
     "alert_btn_no": "Ne"
   },
   "time": {
@@ -641,6 +726,9 @@
     "description": "Odměny jsou u cross-postu automaticky odmítnuty a diskuse pod cross-postem budou odlišné a budou se řídit jinými pravidly komunity.",
     "title": "Cross-post"
   },
+  "ai_usage": {
+    "disclosed": "Author disclosed AI usage"
+  },
   "ai_assist": {
     "title": "Asistent AI pro psaní",
     "balance_label": "Zůstatek",
@@ -656,7 +744,7 @@
     "action_suggest_tags_desc": "Získejte relevantní štítky pro svůj příspěvek",
     "action_generate_title": "Vygenerovat titulek",
     "action_generate_title_desc": "Vytvořte poutavé varianty titulku",
-    "action_summarize": "Shrnout",
+    "action_summarize": "Recap",
     "action_summarize_desc": "Vytvořte stručné shrnutí",
     "action_check_grammar": "Zkontrolovat gramatiku",
     "action_check_grammar_desc": "Opravte gramatické a pravopisné chyby",
@@ -861,8 +949,31 @@
     "video_attached": "Video připojeno"
   },
   "post": {
+    "upvote": "Upvote",
+    "upvoted": "Upvoted",
+    "downvoted": "Downvoted",
+    "upvote_hint": "Double tap to open vote options",
+    "payout_details": "Payout details",
+    "a11y_votes": "{count, plural, one {# vote} other {# votes}}",
+    "a11y_voters_hint": "View voters",
+    "a11y_reblogs": "{count, plural, one {# reblog} other {# reblogs}}",
+    "a11y_reblogs_hint": "View reblogs",
+    "a11y_comments": "{count, plural, one {# comment} other {# comments}}",
+    "a11y_comments_hint": "View comments",
+    "a11y_reply_hint": "Reply",
+    "a11y_tip": "Send tip",
+    "a11y_tips": "{count, plural, one {# tip} other {# tips}}",
+    "a11y_edit": "Edit comment",
+    "a11y_delete": "Delete comment",
+    "a11y_show_replies": "Show replies",
+    "a11y_hide_replies": "Hide replies",
+    "a11y_post_options": "Post options",
+    "a11y_views": "{count, plural, one {# view} other {# views}}",
+    "source_ecency": "Published with Ecency",
+    "a11y_stats_hint": "View post stats",
     "image": "Obrázek",
     "reveal_muted": "ZTLUMENO\nKlepnutím zobrazíte obsah",
+    "tap_to_load_image": "Tap to load image",
     "in": "v",
     "poll": "ANKETA",
     "copy_link": "Kopírovat odkaz",
@@ -887,6 +998,8 @@
     "save_to_local": "Stáhnout do zařízení",
     "muted": "Obsah je skrytý kvůli porušení pravidel",
     "community_muted": "Obsah skrytý kvůli porušení pravidel komunity",
+    "muted_low_reputation": "Content from a low reputation account",
+    "muted_downvoted": "Content downvoted by users",
     "promoted": "PROPAGOVÁNO",
     "image_saved": "Obrázek uložen do galerie",
     "words": "Slova",
@@ -951,7 +1064,8 @@
     "invalid_amount_desc": "Zadejte platnou částku ve správném formátu",
     "open": "Otevřít URL",
     "invalid_key_desc": "pro provedení této transakce se přihlaste pomocí klíče {key} nebo hlavního klíče",
-    "auth_transfer_confirm": "Potvrdit převod uživateli {username}?"
+    "auth_transfer_confirm": "Potvrdit převod uživateli {username}?",
+    "sign_warning": "Only approve if you trust the source of this link. Approving broadcasts the operation below from your account using your {authority} key."
   },
   "voters_dropdown": {
     "rewards": "ODMĚNY",
@@ -981,7 +1095,6 @@
   },
   "register": {
     "username": "Zvolte uživatelské jméno",
-    "error_message": "{message}\nZkuste to znovu nebo si místo toho zkuste účet zakoupit",
     "title_description": "Jeden účet pro správu všeho",
     "form_description": "Registrací u nás souhlasíte s našimi smluvními podmínkami a zásadami ochrany soukromí.",
     "registering": "Registrace vašeho účtu...",
@@ -1004,6 +1117,20 @@
       "username_contains_underscore": "Nemělo by obsahovat podtržítko"
     },
     "500_error": "Váš požadavek nebylo možné zpracovat, fronta registrací je pravděpodobně plná! Zkuste to znovu za pár minut...",
+    "error_codes": {
+      "13": "Username has already been taken",
+      "14": "Email address already registered",
+      "15": "Please enter a valid email address",
+      "16": "Please enter a valid username",
+      "17": "Username is too long, please choose a shorter one",
+      "19": "Please use a permanent email address, or get a Premium account instead",
+      "21": "This referral isn't valid",
+      "28": "Your request couldn't be processed — the signup queue is likely full. Please try again in a few minutes.",
+      "107": "VPN connection detected. Please turn off your VPN and try again, or get a Premium account instead.",
+      "110": "To prevent abuse, we limit the number of accounts per person/network. Please try again from a different network.",
+      "111": "Tor connection detected. Please disable Tor while signing up.",
+      "112": "We couldn't verify your connection right now. Please try again in a few minutes."
+    },
     "have_account_text": "Již máte účet?"
   },
   "messages": {
@@ -1112,6 +1239,7 @@
     "tokens_updatePrecision": "Upráva zaokrouhlení tokenů",
     "tokens_transferOwnership": "Vlastnictví tokenu bylo převedeno",
     "withdraw_vesting": "Odstakovat",
+    "set_withdraw_vesting_route": "Withdraw Accounts",
     "delegate_engine": "Delegovat",
     "market_close": "Pozice uzavřena",
     "nftmarket_transferFee": "Poplatek za nákupní objednávku",
@@ -1297,6 +1425,13 @@
     "confirm_boost_plus": "Opravdu chcete použít Boost pomocí nákupu v aplikaci?",
     "title": "Boost+"
   },
+  "rc_topup": {
+    "title": "Top up RC",
+    "desc": "A short-term RC boost so you can keep posting.",
+    "confirm": "Spend Points to top up your Resource Credits?",
+    "insufficient": "You do not have enough Points.",
+    "buy_points": "Buy Points"
+  },
   "ai_image_generator": {
     "title": "Generátor AI obrázků",
     "prompt_label": "Popište obrázek, který chcete vytvořit",
@@ -1441,6 +1576,11 @@
     "backup_private_keys": "Nastavení oprávnění",
     "pincode": "Pincode",
     "general": "Obecné",
+    "support_ecency": "Support Ecency",
+    "support_beneficiary": "Share post rewards with Ecency",
+    "support_beneficiary_percent": "Post rewards share",
+    "support_curation": "Hold back part of curation rewards",
+    "support_curation_percent": "Curation rewards holdback",
     "feedback_body": "Sem napište svou zprávu!\n\nUživatelské jméno Hive: {username}\nVerze aplikace: {appVersion}\nPlatforma: {platform}\n",
     "show_imgs": "Zobrazit obrázky",
     "nsfw": {
@@ -1459,6 +1599,10 @@
       "transfers": "Převody",
       "vote": "Hlasy",
       "follow": "Sledování",
+      "scheduled_published": "Scheduled post published",
+      "payouts": "Payouts",
+      "account_update": "Account updates",
+      "weekly_earnings": "Weekly earnings",
       "fcm_unavailable": "Push notifikace nejsou na tomto zařízení podporovány. Notifikace budete dostávat pouze tehdy, když je aplikace otevřená."
     },
     "keys_warning": "Toto jsou citlivé údaje!\nK zobrazování soukromých klíčů je potřeba Ecency zabezpečit pomocí PIN kódu.",
@@ -1588,6 +1732,7 @@
     "error-auth": "Ověření selhalo. Přihlaste se prosím znovu.",
     "error-generic": "Nahrání videa selhalo. Zkuste to prosím znovu.",
     "error-too-long-short": "Krátká videa musí mít 60 sekund nebo méně.",
+    "error-one-per-post": "A post can contain only one video. Remove the current video before adding another.",
     "select_source": "Přidat video",
     "record": "Nahrát video",
     "choose_library": "Vybrat z knihovny"

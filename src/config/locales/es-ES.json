@@ -5,6 +5,9 @@
       "dismiss": "Descartar"
     }
   },
+  "pro": {
+    "badge_a11y": "Miembro Pro de Ecency"
+  },
   "perks": {
     "header": "Ventajas",
     "quests_title": "Misiónes",
@@ -27,11 +30,43 @@
     "promote": "Promociona una publicación",
     "promote_desc": "Obtén más atención a tu publicación",
     "account_boost": "Impulsar la cuenta",
-    "account_boost_desc": "Optimizar cualquier cuenta"
+    "account_boost_desc": "Optimizar cualquier cuenta",
+    "rc_topup": "Top de subida de RC",
+    "rc_topup_desc": "Sigue publicando cuando tienes pocos Créditos de Recursos",
+    "streak_freeze_owned": "{n} en reserva",
+    "streak_freeze_buy": "Protege tu racha ({price} puntos)",
+    "streak_freeze_buying": "Protegiendo",
+    "streak_freeze_error": "No se pudo comprar un protector de racha. Por favor, inténtalo de nuevo."
+  },
+  "quest_chip": {
+    "daily_post": "Publicación diaria",
+    "streak": "Racha de {n} días",
+    "keep_streak": "Mantén viva tu racha"
   },
   "waves": {
     "for_you": "Para ti",
-    "following": "Siguiendo"
+    "following": "Siguiendo",
+    "custom_feeds_title": "Feeds personalizados",
+    "custom_feeds_subtitle": "Anclar fuentes y etiquetas para añadirlas como pestañas de fuentes.",
+    "add_tag_placeholder": "Añadir una etiqueta",
+    "sources": "Fuentes",
+    "your_feeds": "Tu Feed",
+    "trending_tags": "Etiquetas en Tendencia",
+    "shorts_empty": "Aún no hay cortos para mostrar",
+    "mute": "Silenciar",
+    "unmute": "Dejar de silenciar"
+  },
+  "waves_onboarding": {
+    "title": "Comenzando",
+    "subtitle": "¿Nuevo aquí? Las olas son mensajes cortos y la forma más fácil de saltar.",
+    "progress": "{completed}/{total}",
+    "dismiss": "Descartar",
+    "item_wave": "Publica tu primera ola",
+    "item_vote": "Votar en una ola que te guste",
+    "item_reply": "Responder a alguien",
+    "item_checkin": "Regístrate para iniciar tu racha",
+    "all_done_title": "Todo hecho 🎉",
+    "all_done_subtitle": "Todo listo. ¡Mantén las olas viniendo!"
   },
   "profile": {
     "havent_commented": "no has comentado nada aún",
@@ -196,6 +231,26 @@
     "pin-reply": "Anclar comentario",
     "unpin-reply": "Desanclar comentario"
   },
+  "post_translate": {
+    "banner_detected": "Esta publicación está en {lang}. ¿Traducir a {target}?",
+    "translate_to": "Traducir a {lang}",
+    "show_original": "Mostrar original",
+    "translated_from": "Traducido desde {lang}",
+    "change_language": "Cambiar idioma"
+  },
+  "compose_translate": {
+    "title": "Traducir post",
+    "source": "Idioma de origen",
+    "target": "Idioma destino",
+    "detected": "Detectado: {lang}",
+    "translate": "Traducir",
+    "apply": "Aplicar",
+    "review_note": "Añade una traducción automática de tu propia escritura al final del mensaje. Revisa y edita antes de publicar.",
+    "too_short": "Escribe un poco más primero. La traducción necesita al menos algunas frases.",
+    "progress": "Traduciendo {done} de {total}...",
+    "error": "Traducción fallida. Por favor, inténtelo de nuevo.",
+    "add_title_marker": "Añadir marcador de idioma al título"
+  },
   "side_menu": {
     "profile": "Perfil",
     "add_account": "Agregar cuenta",
@@ -241,7 +296,7 @@
     "hot": "Caliente",
     "popular": "Popular",
     "new": "Nuevo",
-    "friends": "Amigos",
+    "friends": "Siguiendo",
     "my_blog": "Mi blog"
   },
   "bookmarks": {
@@ -300,6 +355,16 @@
     "unsynced_title": "Borrador no sincronizado",
     "empty_list": "Nada aquí"
   },
+  "templates": {
+    "title": "Plantillas",
+    "untitled": "Plantilla sin título",
+    "empty_list": "Guardar un post como plantilla desde el editor para reutilizarlo aquí.",
+    "delete_confirm": "¿Estás seguro de que quieres eliminar esta plantilla?",
+    "applied": "Plantilla aplicada como nuevo post",
+    "save_as_template": "Guardar como plantilla",
+    "name_placeholder": "Nombre de plantilla",
+    "saved": "Plantilla guardada"
+  },
   "selection_list": {
     "available": "{postfix} disponible",
     "no_selected": "Por favor, añada desde lo disponible",
@@ -308,6 +373,22 @@
     "selected": "Seleccionado {postfix}"
   },
   "notification": {
+    "filters": {
+      "activities": "Todos",
+      "replies": "Respuestas",
+      "mentions": "Menciones",
+      "rvotes": "Votos",
+      "follows": "Seguidores",
+      "reblogs": "Reblogueos",
+      "transfers": "Transacciones",
+      "delegations": "Delegaciones",
+      "nfavorites": "Favoritos",
+      "nbookmarks": "Marcadores",
+      "payouts": "Pagos",
+      "scheduled_published": "Publicaciones programadas",
+      "account_updates": "Actualizaciones de cuenta",
+      "weekly_earnings": "Ganancias Semanales"
+    },
     "this_week": "Esta semana",
     "reblog": "reblogueado",
     "unfollow": "dejó de seguirte",
@@ -353,7 +434,10 @@
     "account_update_active_authority": "Se le ha otorgado a {accounts} autorización activa sobre tu cuenta. Si lo autorizaste tú, revoca dicha autorización.",
     "account_update_posting_authority": "{accounts} ahora puede publicar y votar en tu nombre. Si no has autorizado esto, revócalo.",
     "weekly_earnings": "Has ganado ${amount} esta semana{breakdown}",
-    "payouts": "Pago recibido: ${amount}"
+    "payouts": "Pago recibido: ${amount}",
+    "scheduled_published": "post programado publicado",
+    "scheduled_published_title": "Publicación programada",
+    "scheduled_published_body": "Tu publicación programada ahora está en vivo, pulsa para verla"
   },
   "recurrent": {
     "delete_failed": "No se pudo eliminar la transferencia recurrente, {error}",
@@ -455,6 +539,7 @@
     "video": "Vídeo",
     "scheduled_later": "Más tarde",
     "settings_title": "Opciones de Publicación",
+    "support_ecency": "Apoyo a Ecency {percent}%",
     "alert_btn_no": "No"
   },
   "time": {
@@ -641,6 +726,9 @@
     "description": "Las recompensas se rechazan automáticamente para la publicación cruzada y las discusiones bajo la publicación cruzada serán diferentes y seguirán diferentes pautas comunitarias.",
     "title": "Publicación cruzada"
   },
+  "ai_usage": {
+    "disclosed": "Uso de IA indicado por el autor"
+  },
   "ai_assist": {
     "title": "Asistente de Escritura de IA",
     "balance_label": "Balance",
@@ -656,7 +744,7 @@
     "action_suggest_tags_desc": "Obtén etiquetas relevantes para tu publicación",
     "action_generate_title": "Generar título",
     "action_generate_title_desc": "Crear opciones de título convincentes",
-    "action_summarize": "Resumir",
+    "action_summarize": "Recapitular",
     "action_summarize_desc": "Crear un resumen conciso",
     "action_check_grammar": "Revisar Gramática",
     "action_check_grammar_desc": "Corregir problemas de gramática y ortografía",
@@ -861,8 +949,31 @@
     "video_attached": "Vídeo adjuntado"
   },
   "post": {
+    "upvote": "Votar",
+    "upvoted": "Votado positivo",
+    "downvoted": "Votado negativo",
+    "upvote_hint": "Doble toque para abrir opciones de voto",
+    "payout_details": "Detalles del pago",
+    "a11y_votes": "{count, plural, one {# voto} other {# votos}}",
+    "a11y_voters_hint": "Ver votantes",
+    "a11y_reblogs": "{count, plural, one {# reblog} other {# reblogs}}",
+    "a11y_reblogs_hint": "Ver reblogs",
+    "a11y_comments": "{count, plural, one {# comentario} other {# comentarios}}",
+    "a11y_comments_hint": "Ver comentarios",
+    "a11y_reply_hint": "Responder",
+    "a11y_tip": "Enviar propina",
+    "a11y_tips": "{count, plural, one {# propina} other {# propinas}}",
+    "a11y_edit": "Editar comentario",
+    "a11y_delete": "Borrar comentario",
+    "a11y_show_replies": "Mostrar respuestas",
+    "a11y_hide_replies": "Ocultar respuestas",
+    "a11y_post_options": "Opciones de post",
+    "a11y_views": "{count, plural, one {# vista} other {# vistas}}",
+    "source_ecency": "Publicado con Ecency",
+    "a11y_stats_hint": "Ver estadísticas del post",
     "image": "Imágen",
     "reveal_muted": "SILENCIADO\nToca para revelar el contenido",
+    "tap_to_load_image": "Toca para cargar la imagen",
     "in": "en",
     "poll": "ENCUESTA",
     "copy_link": "Copiar enlace",
@@ -887,6 +998,8 @@
     "save_to_local": "Descargar al dispositivo",
     "muted": "Contenido silenciado por infracción",
     "community_muted": "Contenido silenciado por violación de las directrices comunitarias",
+    "muted_low_reputation": "Content from a low reputation account",
+    "muted_downvoted": "Content downvoted by users",
     "promoted": "PROMOCIONADO",
     "image_saved": "Imagen guardada en la galería de fotos",
     "words": "Palabras",
@@ -951,7 +1064,8 @@
     "invalid_amount_desc": "Introduzca una cantidad válida en el formato adecuado",
     "open": "Abrir URL",
     "invalid_key_desc": "iniciar sesión con la clave {key} o clave maestra para realizar esta transacción",
-    "auth_transfer_confirm": "¿Confirmar la transferencia a {username}?"
+    "auth_transfer_confirm": "¿Confirmar la transferencia a {username}?",
+    "sign_warning": "Aprobar solo si confías en la fuente de este enlace. Aprobar transmite la operación de abajo desde tu cuenta, usando tu clave {authority}."
   },
   "voters_dropdown": {
     "rewards": "RECOMPENSAS",
@@ -981,7 +1095,6 @@
   },
   "register": {
     "username": "Elige un nombre de usuario",
-    "error_message": "{message}\nInténtalo de nuevo o intenta comprar una cuenta en su lugar",
     "title_description": "Una cuenta para administrar todo",
     "form_description": "Al registrarte, estás de acuerdo con nuestros Términos de servicio &amp; Política de privacidad",
     "registering": "Registrando tu cuenta...",
@@ -999,11 +1112,25 @@
       "username_contains_symbols_error": "Sólo debe contener letras, números, símbolos",
       "username_no_ascii_first_letter_error": "Debe empezar con una letra",
       "username_contains_double_hyphens": "No debe contener Signos de Puntuación dobles",
-      "username_resembles_exchange": "This username is too similar to a crypto exchange account and may confuse others. Please choose a more unique name.",
-      "username_restricted_prefix": "Usernames that start with 'uid' followed by numbers are not allowed, as they are commonly used to impersonate others. Please choose a different name.",
+      "username_resembles_exchange": "Este nombre de usuario es demasiado similar al de una cuenta de intercambio de criptomonedas y podría confundir a otros. Por favor, elige un nombre más original.",
+      "username_restricted_prefix": "No se permiten nombres de usuario que comiencen con «uid» seguido de números, ya que se utilizan habitualmente para suplantar la identidad de otras personas. Por favor, elija un nombre diferente.",
       "username_contains_underscore": "No debe contener subrayado"
     },
     "500_error": "Su solicitud no pudo ser procesada, ¡la cola de registro probablemente está llena! Inténtelo de nuevo en unos minutos...",
+    "error_codes": {
+      "13": "El nombre de usuario ya está en uso",
+      "14": "Cuenta de correo ya registrada",
+      "15": "Por favor introduce una dirección de correo válida",
+      "16": "Por favor, introduce un nombre de usuario válido",
+      "17": "El nombre de usuario es demasiado largo, por favor elige uno más corto",
+      "19": "Por favor, utiliza una dirección de correo electrónico permanente o consigue una cuenta Premium en su lugar",
+      "21": "Esta referencia no es válida",
+      "28": "Su solicitud no pudo ser procesada, es probable que la cola de registro esté llena. Por favor, inténtelo de nuevo en unos minutos.",
+      "107": "Conexión VPN detectada. Por favor desactiva tu VPN y vuelve a intentarlo, o consigue una cuenta Premium en su lugar.",
+      "110": "Para evitar abusos, limitamos el número de cuentas por persona/red. Por favor, inténtalo de nuevo desde una red diferente.",
+      "111": "Conexión Tor detectada. Por favor deshabilite Tor mientras se registra.",
+      "112": "No pudimos verificar tu conexión en este momento. Por favor, inténtalo de nuevo en unos minutos."
+    },
     "have_account_text": "¿Ya tienes una cuenta?"
   },
   "messages": {
@@ -1112,6 +1239,7 @@
     "tokens_updatePrecision": "Actualización de precisión de Tokens",
     "tokens_transferOwnership": "Dueño de Token Transferido",
     "withdraw_vesting": "Retirar de Estaca",
+    "set_withdraw_vesting_route": "Cuentas de Retiro",
     "delegate_engine": "Delegar",
     "market_close": "Orden cerrada",
     "nftmarket_transferFee": "Tarifa de orden de compra",
@@ -1297,6 +1425,13 @@
     "confirm_boost_plus": "¿Está seguro de que desea comprar Impulso desde la aplicación?",
     "title": "Impulsar+"
   },
+  "rc_topup": {
+    "title": "Top de subida de RC",
+    "desc": "Un impulso de RC a corto plazo para que puedas seguir publicando.",
+    "confirm": "¿Gastar puntos para recargar sus créditos de recursos?",
+    "insufficient": "No tiene suficientes puntos.",
+    "buy_points": "Comprar puntos"
+  },
   "ai_image_generator": {
     "title": "Generador de imagen con IA",
     "prompt_label": "Describe la imagen que deseas crear",
@@ -1441,6 +1576,11 @@
     "backup_private_keys": "Administrar Autorizaciones",
     "pincode": "Pincode",
     "general": "General",
+    "support_ecency": "Apoyo a Ecency",
+    "support_beneficiary": "Compartir recompensas de post con Ecency",
+    "support_beneficiary_percent": "Compartir recompensas del post",
+    "support_curation": "Retirar parte de las recompensas de curaduría",
+    "support_curation_percent": "Retención de recompensas de curaduría",
     "feedback_body": "¡Escribe aquí tu mensaje!\n\nNombre de usuario de Hive: {username}\nVersión de la App: {appVersion}\nPlataforma: {platform}\n",
     "show_imgs": "Mostrar imágenes",
     "nsfw": {
@@ -1459,6 +1599,10 @@
       "transfers": "Transferencias",
       "vote": "Voto",
       "follow": "Seguir",
+      "scheduled_published": "Post programado publicado",
+      "payouts": "Pagos",
+      "account_update": "Actualizaciones de cuenta",
+      "weekly_earnings": "Ganancias Semanales",
       "fcm_unavailable": "Las notificaciones push no son compatibles con este dispositivo. Recibirás notificaciones sólo mientras la aplicación esté abierta."
     },
     "keys_warning": "¡Información sensitiva de la cuenta!\nLa aplicación Ecency debe estar asegurada con el código PIN antes de acceder a las claves.",
@@ -1588,6 +1732,7 @@
     "error-auth": "Error de autenticación. Inicie sesión de nuevo, por favor.",
     "error-generic": "Error al subir el vídeo. Vuelve a intentarlo, por favor.",
     "error-too-long-short": "Los videos cortos deben ser de 60 segundos o menos.",
+    "error-one-per-post": "A post can contain only one video. Remove the current video before adding another.",
     "select_source": "Añadir vídeos",
     "record": "Grabar video",
     "choose_library": "Elegir desde Galería"
