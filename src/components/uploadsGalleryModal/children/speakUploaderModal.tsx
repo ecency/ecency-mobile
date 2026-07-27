@@ -42,6 +42,42 @@ interface Props {
   isShort?: boolean;
 }
 
+const THUMBS_COUNT = 5;
+// react-native-image-crop-picker omits duration on some Android paths, fall back so
+// timestamps never end up NaN
+const FALLBACK_DURATION_MS = 10000;
+
+/**
+ * Samples THUMBS_COUNT evenly spread frames from the video. Frames are taken at the middle
+ * of each slice rather than at its start, so the very first frame (often black) is skipped.
+ * Individual failures are tolerated, a partial strip is better than none.
+ */
+const _generateThumbs = async (_video: VideoType): Promise<Thumbnail[]> => {
+  const _duration =
+    typeof _video.duration === 'number' && Number.isFinite(_video.duration) && _video.duration > 0
+      ? _video.duration
+      : FALLBACK_DURATION_MS;
+
+  const _url = _video.sourceURL || _video.path;
+  const _step = _duration / THUMBS_COUNT;
+  const _thumbs: Thumbnail[] = [];
+
+  for (let i = 0; i < THUMBS_COUNT; i++) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const _thumb = await createThumbnail({
+        url: _url,
+        timeStamp: Math.round((i + 0.5) * _step),
+      });
+      _thumbs.push(_thumb);
+    } catch (err) {
+      console.warn(`Thumbnail generation failed for frame ${i}:`, err);
+    }
+  }
+
+  return _thumbs;
+};
+
 export const SpeakUploaderModal = forwardRef(
   ({ setIsUploading, isUploading, onVideoUploaded, isShort = false }: Props, ref) => {
     const intl = useIntl();
@@ -78,23 +114,17 @@ export const SpeakUploaderModal = forwardRef(
           setVisible(true);
           setSelectedVideo(_video);
           setSelectedThumb(null);
+          setAvailableThumbs([]);
 
-          // Generate 5 thumbnails from video
-          const thumbs = [];
-          const _diff = _video.duration / 5;
-          for (let i = 0; i < 5; i++) {
-            // eslint-disable-next-line no-await-in-loop
-            const _thumb = await createThumbnail({
-              url: _video.sourceURL || _video.path,
-              timeStamp: i * _diff,
-            });
-            thumbs.push(_thumb);
-          }
-
-          setAvailableThumbs(thumbs);
+          setAvailableThumbs(await _generateThumbs(_video));
         }
       },
     }));
+
+    // Middle frame is the safest implicit default, opening and closing frames are
+    // commonly black or a fade
+    const _effectiveThumb = () =>
+      selectedThumb || availableThumbs[Math.floor(availableThumbs.length / 2)] || null;
 
     const _startUpload = async () => {
       if (!selectedVido || isUploading) {
@@ -111,7 +141,7 @@ export const SpeakUploaderModal = forwardRef(
         });
 
         // Upload thumbnail to Ecency image server, then set on 3Speak (fire-and-forget)
-        const thumbToUse = selectedThumb || availableThumbs[0];
+        const thumbToUse = _effectiveThumb();
         let uploadedThumbUrl: string | undefined;
 
         if (thumbToUse?.path && result.permlink) {
@@ -202,7 +232,7 @@ export const SpeakUploaderModal = forwardRef(
       const _renderHeader = () => (
         <View style={styles.selectedThumbContainer}>
           <>
-            {_renderThumb(selectedThumb?.path || '', _handleOpenImagePicker)}
+            {_renderThumb(_effectiveThumb()?.path || '', _handleOpenImagePicker)}
             <Icon
               iconType="MaterialCommunityIcons"
               style={{ position: 'absolute', top: 16, left: 8 }}
