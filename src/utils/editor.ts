@@ -273,16 +273,46 @@ export interface VideoThumb {
 
 /**
  * Video thumbnails live outside the body, so they cannot be rediscovered by parsing it and
- * have to be carried in state. Keeping them keyed by embed url lets a removed video drop its
- * thumbnail instead of leaving it selectable, or published, after the video is gone.
+ * have to be carried in state.
+ *
+ * `videoThumbs` are the associations built during this editing session, keyed by embed url so
+ * that a removed video drops its thumbnail instead of leaving it selectable, or published,
+ * after the video is gone. `restoredThumbUrls` come from a reopened draft, which no longer
+ * carries those associations, and are honoured only while the body still holds a 3Speak
+ * embed to attribute them to.
+ *
+ * Thumbnails already present as images in the body are left out, the caller merges this list
+ * with the body images and duplicates would otherwise reach `meta.image`.
  */
-export const filterActiveVideoThumbs = (
-  videoThumbs: VideoThumb[] | undefined,
-  body: string | undefined,
-): string[] =>
-  (videoThumbs || [])
-    .filter(({ embedUrl }) => !!body && !!embedUrl && body.includes(embedUrl))
+export const collectVideoThumbUrls = ({
+  videoThumbs,
+  restoredThumbUrls,
+  body,
+}: {
+  videoThumbs?: VideoThumb[];
+  restoredThumbUrls?: string[];
+  body?: string;
+}): string[] => {
+  if (!body) {
+    return [];
+  }
+
+  const bodyUrls = extractUrls(body);
+  // Exact match, not a substring test: one embed url can be a prefix of another, so
+  // `includes` would keep a removed video alive on the strength of the one replacing it
+  const bodyUrlSet = new Set(bodyUrls);
+  const active = (videoThumbs || [])
+    .filter(({ embedUrl }) => !!embedUrl && bodyUrlSet.has(embedUrl))
     .map(({ thumbUrl }) => thumbUrl);
+
+  const hasVideoEmbed = bodyUrls.some((url) => /3speak\.tv/i.test(url));
+  const restored = hasVideoEmbed ? restoredThumbUrls || [] : [];
+
+  const bodyImages = new Set(extractImageUrls({ body, urls: bodyUrls }));
+  return Array.from(new Set([...active, ...restored])).filter(
+    (url) => !!url && !bodyImages.has(url),
+  );
+};
 
 export const extractMetadata = async ({
   body,

@@ -1,36 +1,76 @@
-import { cleanAiTools, filterActiveVideoThumbs, makeJsonMetadata } from './editor';
+import { cleanAiTools, collectVideoThumbUrls, makeJsonMetadata } from './editor';
 
 // Video thumbnails are not present in the body, so they are carried in state keyed by the
 // embed they belong to. Only thumbnails whose embed is still in the body stay eligible.
-describe('filterActiveVideoThumbs', () => {
+describe('collectVideoThumbUrls', () => {
   const thumbA = { embedUrl: 'https://3speak.tv/embed?v=alice/aaa', thumbUrl: 'https://img/a.jpg' };
   const thumbB = { embedUrl: 'https://3speak.tv/embed?v=bob/bbb', thumbUrl: 'https://img/b.jpg' };
 
   it('returns an empty list for missing input', () => {
-    expect(filterActiveVideoThumbs(undefined, 'body')).toEqual([]);
-    expect(filterActiveVideoThumbs([], 'body')).toEqual([]);
-    expect(filterActiveVideoThumbs([thumbA], undefined)).toEqual([]);
-    expect(filterActiveVideoThumbs([thumbA], '')).toEqual([]);
+    expect(collectVideoThumbUrls({ body: 'body' })).toEqual([]);
+    expect(collectVideoThumbUrls({ videoThumbs: [], body: 'body' })).toEqual([]);
+    expect(collectVideoThumbUrls({ videoThumbs: [thumbA] })).toEqual([]);
+    expect(collectVideoThumbUrls({ videoThumbs: [thumbA], body: '' })).toEqual([]);
   });
 
   it('keeps a thumbnail while its embed is in the body', () => {
-    expect(filterActiveVideoThumbs([thumbA], `text\n${thumbA.embedUrl}\nmore`)).toEqual([
-      thumbA.thumbUrl,
-    ]);
+    expect(
+      collectVideoThumbUrls({ videoThumbs: [thumbA], body: `text\n${thumbA.embedUrl}\nmore` }),
+    ).toEqual([thumbA.thumbUrl]);
   });
 
   it('drops a thumbnail once its embed is removed from the body', () => {
-    expect(filterActiveVideoThumbs([thumbA], 'the video was deleted')).toEqual([]);
+    expect(collectVideoThumbUrls({ videoThumbs: [thumbA], body: 'the video was deleted' })).toEqual(
+      [],
+    );
   });
 
   it('keeps only the embeds still present when several were uploaded', () => {
-    expect(filterActiveVideoThumbs([thumbA, thumbB], `only ${thumbB.embedUrl} left`)).toEqual([
-      thumbB.thumbUrl,
-    ]);
+    expect(
+      collectVideoThumbUrls({
+        videoThumbs: [thumbA, thumbB],
+        body: `only ${thumbB.embedUrl} left`,
+      }),
+    ).toEqual([thumbB.thumbUrl]);
+  });
+
+  it('does not keep a removed video whose embed url is a prefix of the one replacing it', () => {
+    const replacement = { embedUrl: `${thumbA.embedUrl}2`, thumbUrl: 'https://img/a2.jpg' };
+    expect(
+      collectVideoThumbUrls({
+        videoThumbs: [thumbA, replacement],
+        body: `\n${replacement.embedUrl}\n`,
+      }),
+    ).toEqual([replacement.thumbUrl]);
   });
 
   it('drops everything when the editor is cleared', () => {
-    expect(filterActiveVideoThumbs([thumbA, thumbB], '')).toEqual([]);
+    expect(collectVideoThumbUrls({ videoThumbs: [thumbA, thumbB], body: '' })).toEqual([]);
+  });
+
+  it('restores a reopened draft cover while a video embed is still in the body', () => {
+    expect(
+      collectVideoThumbUrls({
+        restoredThumbUrls: [thumbA.thumbUrl],
+        body: `\n${thumbA.embedUrl}\n`,
+      }),
+    ).toEqual([thumbA.thumbUrl]);
+  });
+
+  it('ignores a restored cover when the body holds no video embed', () => {
+    expect(
+      collectVideoThumbUrls({ restoredThumbUrls: [thumbA.thumbUrl], body: 'just text' }),
+    ).toEqual([]);
+  });
+
+  it('omits thumbnails that are already images in the body, to avoid duplicates', () => {
+    const inBody = 'https://img/a.jpg';
+    expect(
+      collectVideoThumbUrls({
+        videoThumbs: [thumbA],
+        body: `![x](${inBody})\n${thumbA.embedUrl}\n`,
+      }),
+    ).toEqual([]);
   });
 });
 

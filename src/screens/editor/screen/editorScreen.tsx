@@ -8,8 +8,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { getCommunityQueryOptions } from '@ecency/sdk';
 import {
   cleanAiTools,
+  collectVideoThumbUrls,
   extractMetadata,
-  filterActiveVideoThumbs,
   getWordsCount,
   makeJsonMetadata,
 } from '../../../utils/editor';
@@ -501,6 +501,7 @@ class EditorScreen extends Component {
       onLoadDraftPress,
       thumbUrl,
       videoThumbs,
+      restoredThumbUrls,
       handleVideoThumb,
       uploadProgress,
       rewardType,
@@ -618,7 +619,11 @@ class EditorScreen extends Component {
           body={fields.body}
           draftId={draftId}
           thumbUrl={thumbUrl}
-          videoThumbUrls={filterActiveVideoThumbs(videoThumbs, fields.body)}
+          videoThumbUrls={collectVideoThumbUrls({
+            videoThumbs,
+            restoredThumbUrls,
+            body: fields.body,
+          })}
           isEdit={isEdit}
           isCommunityPost={selectedCommunity !== null}
           rewardType={rewardType}
