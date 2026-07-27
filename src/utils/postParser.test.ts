@@ -318,6 +318,43 @@ describe('parsePost', () => {
     expect(result!.mutedReason).toBeNull();
   });
 
+  it('judges a cross-post on the original entry, not the wrapper', () => {
+    // The wrapper is heavily downvoted but the displayed original is healthy: the
+    // reason must follow the content actually shown.
+    const post = makePost({
+      author_reputation: 50,
+      net_rshares: -8000000000,
+      original_entry: {
+        author: 'original',
+        permlink: 'orig-post',
+        body: 'original body',
+        author_reputation: 50,
+        net_rshares: 1000,
+        active_votes: [{ voter: 'a' }, { voter: 'b' }, { voter: 'c' }, { voter: 'd' }],
+      },
+    });
+    const result = parsePost(post, 'viewer', false);
+    expect(result!.isMuted).toBe(false);
+    expect(result!.mutedReason).toBeNull();
+  });
+
+  it('flags a downvoted original behind a healthy cross-post wrapper', () => {
+    const post = makePost({
+      author_reputation: 50,
+      net_rshares: 1000,
+      original_entry: {
+        author: 'original',
+        permlink: 'orig-post',
+        body: 'original body',
+        author_reputation: 50,
+        net_rshares: -8000000000,
+        active_votes: [{ voter: 'a' }, { voter: 'b' }, { voter: 'c' }, { voter: 'd' }],
+      },
+    });
+    const result = parsePost(post, 'viewer', false);
+    expect(result!.mutedReason).toBe(MutedReason.DOWNVOTED);
+  });
+
   it('stamps post_fetched_at', () => {
     const post = makePost();
     const result = parsePost(post, 'viewer', false, false, false, 1700000000);

@@ -106,6 +106,10 @@ export const parsePost = (
     post.active_votes = orig.active_votes;
     post.children = orig.children;
     post.stats = orig.stats;
+    // net_rshares belongs with active_votes: leaving the wrapper's value here produced a
+    // hybrid where a downvoted wrapper plus the original's healthy votes satisfied the
+    // downvote check, and a downvoted original went unflagged behind a healthy wrapper.
+    post.net_rshares = orig.net_rshares;
   }
 
   // extract cover image and thumbnail from post body
