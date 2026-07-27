@@ -47,6 +47,7 @@ interface PostOptionsModalProps {
   body: string;
   draftId: string;
   thumbUrl: string;
+  videoThumbUrls?: string[];
   isEdit: boolean;
   isCommunityPost: boolean;
   rewardType: string;
@@ -68,6 +69,7 @@ const PostOptionsModal = forwardRef(
       body,
       draftId,
       thumbUrl,
+      videoThumbUrls,
       isEdit,
       isCommunityPost,
       rewardType,
@@ -275,7 +277,7 @@ const PostOptionsModal = forwardRef(
             <ThumbSelectionContent
               body={body}
               thumbUrl={thumbUrl}
-              videoThumbUrls={[]}
+              videoThumbUrls={videoThumbUrls || []}
               isUploading={isUploading}
               onThumbSelection={_handleThumbIndexSelection}
             />

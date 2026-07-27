@@ -59,6 +59,7 @@ type Props = {
   suggestedPrompt?: string;
   setIsUploading: (isUploading: boolean) => void;
   handleMediaInsert: (data: MediaInsertData[]) => void;
+  handleVideoThumbUrl?: (url: string) => void;
   handleOnAddLinkPress: () => void;
   handleOnClearPress: () => void;
   handleOnMarkupButtonPress: (item) => void;
@@ -79,6 +80,7 @@ export const EditorToolbar = ({
   suggestedPrompt,
   setIsUploading,
   handleMediaInsert,
+  handleVideoThumbUrl,
   handleAiToolUsed,
   handleOnAddLinkPress,
   handleOnClearPress,
@@ -355,6 +357,7 @@ export const EditorToolbar = ({
               username={currentAccount.name}
               hideToolbarExtension={_hideExtension}
               handleMediaInsert={handleMediaInsert}
+              onVideoThumbUrl={handleVideoThumbUrl}
               setIsUploading={setIsUploading}
             />
             <TextFormatModal

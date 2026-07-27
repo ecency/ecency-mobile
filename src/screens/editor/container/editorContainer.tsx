@@ -138,6 +138,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       sharedSnippetText: null,
       onLoadDraftPress: false,
       thumbUrl: '',
+      videoThumbUrls: [],
       shouldReblog: false,
       postDescription: '',
     };
@@ -1902,6 +1903,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     });
   };
 
+  // Thumbnails extracted from uploaded 3Speak videos are not present in the post body,
+  // keep them here so they can be offered as post thumbnail candidates
+  _handleVideoThumbUrl = (url: string) => {
+    this.setState((prevState) =>
+      prevState.videoThumbUrls.includes(url)
+        ? null
+        : { videoThumbUrls: [...prevState.videoThumbUrls, url] },
+    );
+  };
+
   _setIsUploading = (status: boolean) => {
     this.setState({
       isUploading: status,
@@ -1928,6 +1939,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       sharedSnippetText,
       onLoadDraftPress,
       thumbUrl,
+      videoThumbUrls,
       uploadProgress,
       rewardType,
       postDescription,
@@ -1974,6 +1986,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         onLoadDraftPress={onLoadDraftPress}
         thumbUrl={thumbUrl}
         setThumbUrl={this._handleSetThumbUrl}
+        videoThumbUrls={videoThumbUrls}
+        handleVideoThumbUrl={this._handleVideoThumbUrl}
         uploadProgress={uploadProgress}
         rewardType={rewardType}
         postDescription={postDescription}

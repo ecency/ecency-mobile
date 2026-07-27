@@ -499,6 +499,8 @@ class EditorScreen extends Component {
       sharedSnippetText,
       onLoadDraftPress,
       thumbUrl,
+      videoThumbUrls,
+      handleVideoThumbUrl,
       uploadProgress,
       rewardType,
       postDescription,
@@ -603,6 +605,7 @@ class EditorScreen extends Component {
             onLoadDraftPress={onLoadDraftPress}
             uploadProgress={uploadProgress}
             setIsUploading={setIsUploading}
+            handleVideoThumbUrl={handleVideoThumbUrl}
             isPreviewActive={isPreviewActive}
           />
         </Fragment>
@@ -614,6 +617,7 @@ class EditorScreen extends Component {
           body={fields.body}
           draftId={draftId}
           thumbUrl={thumbUrl}
+          videoThumbUrls={videoThumbUrls}
           isEdit={isEdit}
           isCommunityPost={selectedCommunity !== null}
           rewardType={rewardType}
