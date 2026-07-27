@@ -37,6 +37,7 @@ import {
   makeOptions,
   extractMetadata,
   collectVideoThumbUrls,
+  restoreVideoThumbs,
   VideoThumb,
   makeJsonMetadataForUpdate,
   cleanAiTools,
@@ -141,8 +142,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       onLoadDraftPress: false,
       thumbUrl: '',
       videoThumbs: [],
-      // Cover of a reopened draft, whose embed associations are gone
-      restoredThumbUrls: [],
       shouldReblog: false,
       postDescription: '',
     };
@@ -474,9 +473,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       // const urls = extractImageUrls({ body });
       this.setState({
         thumbUrl: draft.meta.image[0],
-        // A video thumbnail is not in the body, so it cannot be recovered by parsing the
-        // draft. Keep the saved images as candidates so reopening does not drop the cover.
-        restoredThumbUrls: draft.meta.image,
+        // A video thumbnail is not in the body, so rebuild the association the draft could
+        // not carry, otherwise reopening silently drops the cover.
+        videoThumbs: restoreVideoThumbs(draft.body, draft.meta.image),
       });
     }
 
@@ -648,16 +647,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       return;
     }
 
-    const {
-      isDraftSaved,
-      draftId,
-      thumbUrl,
-      videoThumbs,
-      restoredThumbUrls,
-      isReply,
-      rewardType,
-      postDescription,
-    } = this.state;
+    const { isDraftSaved, draftId, thumbUrl, videoThumbs, isReply, rewardType, postDescription } =
+      this.state;
     const { currentAccount, dispatch, intl, queryClient, pinCode } = this.props;
 
     try {
@@ -703,11 +694,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         const _extractedMeta = await extractMetadata({
           body: draftField.body,
           thumbUrl,
-          videoThumbUrls: collectVideoThumbUrls({
-            videoThumbs,
-            restoredThumbUrls,
-            body: draftField.body,
-          }),
+          videoThumbUrls: collectVideoThumbUrls({ videoThumbs, body: draftField.body }),
           fetchRatios: false,
         });
 
@@ -860,15 +847,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   // isDraftSaving and never clears local draft caches, so the normal draft
   // autosave flow keeps working on whatever the user is writing.
   _saveAsTemplate = async (fields, templateName: string) => {
-    const {
-      isReply,
-      isEdit,
-      thumbUrl,
-      videoThumbs,
-      restoredThumbUrls,
-      rewardType,
-      postDescription,
-    } = this.state;
+    const { isReply, isEdit, thumbUrl, videoThumbs, rewardType, postDescription } = this.state;
     const { currentAccount, dispatch, intl, queryClient, pinCode } = this.props;
 
     if (isReply || isEdit || !fields) {
@@ -889,11 +868,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const _extractedMeta = await extractMetadata({
         body: draftField.body,
         thumbUrl,
-        videoThumbUrls: collectVideoThumbUrls({
-          videoThumbs,
-          restoredThumbUrls,
-          body: draftField.body,
-        }),
+        videoThumbUrls: collectVideoThumbUrls({ videoThumbs, body: draftField.body }),
         fetchRatios: false,
       });
 
@@ -1027,15 +1002,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     scheduleDate?: string;
   }) => {
     const { currentAccount, dispatch, intl, navigation, queryClient, pinCode } = this.props;
-    const {
-      rewardType,
-      isPostSending,
-      thumbUrl,
-      videoThumbs,
-      restoredThumbUrls,
-      draftId,
-      shouldReblog,
-    } = this.state;
+    const { rewardType, isPostSending, thumbUrl, videoThumbs, draftId, shouldReblog } = this.state;
 
     const fields = Object.assign({}, _fieldsBase);
     let beneficiaries = this._extractBeneficiaries();
@@ -1171,11 +1138,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const meta = await extractMetadata({
         body: fields.body,
         thumbUrl,
-        videoThumbUrls: collectVideoThumbUrls({
-          videoThumbs,
-          restoredThumbUrls,
-          body: fields.body,
-        }),
+        videoThumbUrls: collectVideoThumbUrls({ videoThumbs, body: fields.body }),
         fetchRatios: true,
         pollDraft,
       });
@@ -1494,7 +1457,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   _submitEdit = async (fields) => {
     const { currentAccount, postCachePrimer, updateReplyMutation } = this.props;
-    const { post, isPostSending, thumbUrl, videoThumbs, restoredThumbUrls, isReply } = this.state;
+    const { post, isPostSending, thumbUrl, videoThumbs, isReply } = this.state;
 
     if (isPostSending) {
       // `_handleSubmit` set `_isSubmitting=true` to gate the confirm Alert;
@@ -1594,11 +1557,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const meta = await extractMetadata({
         body: fields.body,
         thumbUrl,
-        videoThumbUrls: collectVideoThumbUrls({
-          videoThumbs,
-          restoredThumbUrls,
-          body: fields.body,
-        }),
+        videoThumbUrls: collectVideoThumbUrls({ videoThumbs, body: fields.body }),
         fetchRatios: true,
         postType: jsonMetadata.type,
         contentType: jsonMetadata.content_type,
@@ -1993,7 +1952,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       onLoadDraftPress,
       thumbUrl,
       videoThumbs,
-      restoredThumbUrls,
       uploadProgress,
       rewardType,
       postDescription,
@@ -2041,7 +1999,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         thumbUrl={thumbUrl}
         setThumbUrl={this._handleSetThumbUrl}
         videoThumbs={videoThumbs}
-        restoredThumbUrls={restoredThumbUrls}
         handleVideoThumb={this._handleVideoThumb}
         uploadProgress={uploadProgress}
         rewardType={rewardType}

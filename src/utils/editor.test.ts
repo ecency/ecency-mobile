@@ -1,4 +1,9 @@
-import { cleanAiTools, collectVideoThumbUrls, makeJsonMetadata } from './editor';
+import {
+  cleanAiTools,
+  collectVideoThumbUrls,
+  makeJsonMetadata,
+  restoreVideoThumbs,
+} from './editor';
 
 // Video thumbnails are not present in the body, so they are carried in state keyed by the
 // embed they belong to. Only thumbnails whose embed is still in the body stay eligible.
@@ -48,21 +53,6 @@ describe('collectVideoThumbUrls', () => {
     expect(collectVideoThumbUrls({ videoThumbs: [thumbA, thumbB], body: '' })).toEqual([]);
   });
 
-  it('restores a reopened draft cover while a video embed is still in the body', () => {
-    expect(
-      collectVideoThumbUrls({
-        restoredThumbUrls: [thumbA.thumbUrl],
-        body: `\n${thumbA.embedUrl}\n`,
-      }),
-    ).toEqual([thumbA.thumbUrl]);
-  });
-
-  it('ignores a restored cover when the body holds no video embed', () => {
-    expect(
-      collectVideoThumbUrls({ restoredThumbUrls: [thumbA.thumbUrl], body: 'just text' }),
-    ).toEqual([]);
-  });
-
   it('omits thumbnails that are already images in the body, to avoid duplicates', () => {
     const inBody = 'https://img/a.jpg';
     expect(
@@ -71,6 +61,47 @@ describe('collectVideoThumbUrls', () => {
         body: `![x](${inBody})\n${thumbA.embedUrl}\n`,
       }),
     ).toEqual([]);
+  });
+});
+
+// A saved draft stores its cover as a flat meta.image[0] with no link to the video it came
+// from, so the association has to be inferred, and only when it is unambiguous.
+describe('restoreVideoThumbs', () => {
+  const embedA = 'https://3speak.tv/embed?v=alice/aaa';
+  const embedB = 'https://3speak.tv/embed?v=bob/bbb';
+  const cover = 'https://img/a.jpg';
+
+  it('rebuilds the association for a single video draft', () => {
+    expect(restoreVideoThumbs(`text\n${embedA}\n`, [cover])).toEqual([
+      { embedUrl: embedA, thumbUrl: cover },
+    ]);
+  });
+
+  it('returns nothing when the draft has no cover or no embed', () => {
+    expect(restoreVideoThumbs(`\n${embedA}\n`, [])).toEqual([]);
+    expect(restoreVideoThumbs(`\n${embedA}\n`, undefined)).toEqual([]);
+    expect(restoreVideoThumbs('just text', [cover])).toEqual([]);
+    expect(restoreVideoThumbs(undefined, [cover])).toEqual([]);
+  });
+
+  // With several embeds the cover cannot be attributed to one of them. Guessing would let a
+  // removed video's cover survive into a post that no longer contains it.
+  it('refuses to guess in a multi video draft', () => {
+    expect(restoreVideoThumbs(`\n${embedA}\n${embedB}\n`, [cover])).toEqual([]);
+  });
+
+  it('drops the restored cover once its video is removed from the body', () => {
+    // Reopen a single video draft, then delete the video
+    const restored = restoreVideoThumbs(`\n${embedA}\n`, [cover]);
+    expect(collectVideoThumbUrls({ videoThumbs: restored, body: `\n${embedA}\n` })).toEqual([
+      cover,
+    ]);
+    expect(collectVideoThumbUrls({ videoThumbs: restored, body: 'video deleted' })).toEqual([]);
+  });
+
+  it('does not carry the cover over to a replacement video', () => {
+    const restored = restoreVideoThumbs(`\n${embedA}\n`, [cover]);
+    expect(collectVideoThumbUrls({ videoThumbs: restored, body: `\n${embedB}\n` })).toEqual([]);
   });
 });
 

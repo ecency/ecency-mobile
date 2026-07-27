@@ -501,7 +501,6 @@ class EditorScreen extends Component {
       onLoadDraftPress,
       thumbUrl,
       videoThumbs,
-      restoredThumbUrls,
       handleVideoThumb,
       uploadProgress,
       rewardType,
@@ -619,11 +618,7 @@ class EditorScreen extends Component {
           body={fields.body}
           draftId={draftId}
           thumbUrl={thumbUrl}
-          videoThumbUrls={collectVideoThumbUrls({
-            videoThumbs,
-            restoredThumbUrls,
-            body: fields.body,
-          })}
+          videoThumbUrls={collectVideoThumbUrls({ videoThumbs, body: fields.body })}
           isEdit={isEdit}
           isCommunityPost={selectedCommunity !== null}
           rewardType={rewardType}
