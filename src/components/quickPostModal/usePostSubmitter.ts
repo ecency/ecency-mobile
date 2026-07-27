@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { Alert, DeviceEventEmitter } from 'react-native';
 import { useIntl } from 'react-intl';
-import { useComment } from '@ecency/sdk';
+import { useComment, enforceThreeSpeakBeneficiary, hasThreeSpeakEmbed } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import { useAppSelector, useStateWithRef } from '../../hooks';
 import {
@@ -31,10 +31,6 @@ import {
   addOptimisticComment,
   removeOptimisticComment,
 } from '../../providers/queries/postQueries/commentQueries';
-import {
-  enforceThreeSpeakBeneficiary,
-  hasThreeSpeakEmbed,
-} from '../../providers/speak/beneficiary';
 import { extractPermlink, linkVideoToHive } from '../../providers/speak/speak';
 import { decryptKey } from '../../utils/crypto';
 
