@@ -18,6 +18,7 @@ import {
   getSupportSettingsQueryOptions,
   addDraft,
   updateDraft,
+  enforceThreeSpeakBeneficiary,
 } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
@@ -79,7 +80,6 @@ import {
 } from '../../../providers/queries/draftQueries';
 import { PostTypes } from '../../../constants/postTypes';
 
-import { enforceThreeSpeakBeneficiary } from '../../../providers/speak/beneficiary';
 import {
   ECENCY_SUPPORT_ACCOUNT,
   injectEcencySupportBeneficiary,

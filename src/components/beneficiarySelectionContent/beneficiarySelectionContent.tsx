@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { lookupAccountsQueryOptions } from '@ecency/sdk';
+import { lookupAccountsQueryOptions, isThreeSpeakBeneficiary } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import styles from './styles';
 
@@ -14,7 +14,6 @@ import { setBeneficiaries as setBeneficiariesAction } from '../../redux/actions/
 import { toastNotification } from '../../redux/actions/uiAction';
 import { DEFAULT_USER_DRAFT_ID } from '../../redux/constants/constants';
 import { Beneficiary } from '../../redux/reducers/editorReducer';
-import { isThreeSpeakBeneficiary } from '../../providers/speak/beneficiary';
 import {
   DEFAULT_SUPPORT_PERCENT,
   ECENCY_SUPPORT_ACCOUNT,

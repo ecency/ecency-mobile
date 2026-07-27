@@ -28,6 +28,7 @@ import Animated, {
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
+import { hasThreeSpeakEmbed } from '@ecency/sdk';
 import { IconButton, UploadsGalleryModal } from '../..';
 import { hasClipboardImage as detectClipboardImage } from '../../../utils/clipboard';
 import { deriveQuestChipState } from '../../../utils/questChip';
@@ -44,7 +45,6 @@ import ROUTES from '../../../constants/routeNames';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { TextFormatModal } from './textFormatModal';
 import { selectCurrentAccount } from '../../../redux/selectors';
-import { hasThreeSpeakEmbed } from '../../../providers/speak/beneficiary';
 
 // Per-account session dismissals for the quest chip; once closed it stays
 // hidden for that account until the app restarts.
