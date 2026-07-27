@@ -5,6 +5,11 @@ import Animated, { FlipInEasyX } from 'react-native-reanimated';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch } from 'react-redux';
 import {
+  hasThreeSpeakEmbed,
+  THREESPEAK_BENEFICIARY_ACCOUNT,
+  THREESPEAK_BENEFICIARY_WEIGHT,
+} from '@ecency/sdk';
+import {
   BeneficiarySelectionContent,
   CheckBox,
   DateTimePicker,
@@ -15,11 +20,6 @@ import {
 import styles from './postOptionsModalStyles';
 import ThumbSelectionContent from './thumbSelectionContent';
 import PostDescription from './postDescription';
-import { hasThreeSpeakEmbed } from '../../../providers/speak/beneficiary';
-import {
-  THREESPEAK_BENEFICIARY_ACCOUNT,
-  THREESPEAK_BENEFICIARY_WEIGHT,
-} from '../../../providers/speak/constants';
 import { Beneficiary } from '../../../redux/reducers/editorReducer';
 import { setDefaultRewardType } from '../../../redux/actions/editorActions';
 import { useAppSelector } from '../../../hooks';
