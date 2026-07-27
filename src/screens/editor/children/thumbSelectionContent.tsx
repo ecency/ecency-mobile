@@ -52,7 +52,7 @@ const ThumbSelectionContent = ({
       setThumbIndex(_urlIndex);
     }
     // join() keeps the dependency stable by value, the parent rebuilds the array each render
-  }, [body, videoThumbUrls.join(',')]);
+  }, [body, videoThumbUrls.join(','), thumbUrl]);
 
   // VIEW_RENDERERS
   const _renderImageItem = ({ item, index }: { item: string; index: number }) => {

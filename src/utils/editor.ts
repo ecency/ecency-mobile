@@ -265,6 +265,25 @@ export const extractFilenameFromPath = ({
   }
 };
 
+/** A thumbnail generated for an uploaded video, paired with the embed it belongs to. */
+export interface VideoThumb {
+  embedUrl: string;
+  thumbUrl: string;
+}
+
+/**
+ * Video thumbnails live outside the body, so they cannot be rediscovered by parsing it and
+ * have to be carried in state. Keeping them keyed by embed url lets a removed video drop its
+ * thumbnail instead of leaving it selectable, or published, after the video is gone.
+ */
+export const filterActiveVideoThumbs = (
+  videoThumbs: VideoThumb[] | undefined,
+  body: string | undefined,
+): string[] =>
+  (videoThumbs || [])
+    .filter(({ embedUrl }) => !!body && !!embedUrl && body.includes(embedUrl))
+    .map(({ thumbUrl }) => thumbUrl);
+
 export const extractMetadata = async ({
   body,
   thumbUrl,

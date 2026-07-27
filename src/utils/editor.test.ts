@@ -1,4 +1,38 @@
-import { cleanAiTools, makeJsonMetadata } from './editor';
+import { cleanAiTools, filterActiveVideoThumbs, makeJsonMetadata } from './editor';
+
+// Video thumbnails are not present in the body, so they are carried in state keyed by the
+// embed they belong to. Only thumbnails whose embed is still in the body stay eligible.
+describe('filterActiveVideoThumbs', () => {
+  const thumbA = { embedUrl: 'https://3speak.tv/embed?v=alice/aaa', thumbUrl: 'https://img/a.jpg' };
+  const thumbB = { embedUrl: 'https://3speak.tv/embed?v=bob/bbb', thumbUrl: 'https://img/b.jpg' };
+
+  it('returns an empty list for missing input', () => {
+    expect(filterActiveVideoThumbs(undefined, 'body')).toEqual([]);
+    expect(filterActiveVideoThumbs([], 'body')).toEqual([]);
+    expect(filterActiveVideoThumbs([thumbA], undefined)).toEqual([]);
+    expect(filterActiveVideoThumbs([thumbA], '')).toEqual([]);
+  });
+
+  it('keeps a thumbnail while its embed is in the body', () => {
+    expect(filterActiveVideoThumbs([thumbA], `text\n${thumbA.embedUrl}\nmore`)).toEqual([
+      thumbA.thumbUrl,
+    ]);
+  });
+
+  it('drops a thumbnail once its embed is removed from the body', () => {
+    expect(filterActiveVideoThumbs([thumbA], 'the video was deleted')).toEqual([]);
+  });
+
+  it('keeps only the embeds still present when several were uploaded', () => {
+    expect(filterActiveVideoThumbs([thumbA, thumbB], `only ${thumbB.embedUrl} left`)).toEqual([
+      thumbB.thumbUrl,
+    ]);
+  });
+
+  it('drops everything when the editor is cleared', () => {
+    expect(filterActiveVideoThumbs([thumbA, thumbB], '')).toEqual([]);
+  });
+});
 
 // The AI-usage disclosure is optional and interoperable with other Hive frontends: only
 // the truthy flags are kept,

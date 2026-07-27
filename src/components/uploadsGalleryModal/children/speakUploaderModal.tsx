@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -94,6 +94,8 @@ export const SpeakUploaderModal = forwardRef(
     const [availableThumbs, setAvailableThumbs] = useState<Thumbnail[]>([]);
 
     const [selectedVido, setSelectedVideo] = useState<VideoType | null>(null);
+    const [isGeneratingThumbs, setIsGeneratingThumbs] = useState(false);
+    const generationIdRef = useRef(0);
 
     useImperativeHandle(ref, () => ({
       showUploader: async (_video: VideoType) => {
@@ -111,12 +113,26 @@ export const SpeakUploaderModal = forwardRef(
             return;
           }
 
+          // Invalidate any generation still running for a previously selected video, so a
+          // slow batch cannot land on top of the frames for this one
+          const _generationId = ++generationIdRef.current;
+
           setVisible(true);
           setSelectedVideo(_video);
           setSelectedThumb(null);
           setAvailableThumbs([]);
+          setIsGeneratingThumbs(true);
 
-          setAvailableThumbs(await _generateThumbs(_video));
+          try {
+            const _thumbs = await _generateThumbs(_video);
+            if (_generationId === generationIdRef.current) {
+              setAvailableThumbs(_thumbs);
+            }
+          } finally {
+            if (_generationId === generationIdRef.current) {
+              setIsGeneratingThumbs(false);
+            }
+          }
         }
       },
     }));
@@ -290,7 +306,7 @@ export const SpeakUploaderModal = forwardRef(
             text={intl.formatMessage({
               id: `uploads_modal.${isUploading ? 'uploading' : 'start_upload'}`,
             })}
-            isDisable={isUploading}
+            isDisable={isUploading || isGeneratingThumbs}
           />
         </View>
       );

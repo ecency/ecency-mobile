@@ -9,6 +9,7 @@ import { getCommunityQueryOptions } from '@ecency/sdk';
 import {
   cleanAiTools,
   extractMetadata,
+  filterActiveVideoThumbs,
   getWordsCount,
   makeJsonMetadata,
 } from '../../../utils/editor';
@@ -499,8 +500,8 @@ class EditorScreen extends Component {
       sharedSnippetText,
       onLoadDraftPress,
       thumbUrl,
-      videoThumbUrls,
-      handleVideoThumbUrl,
+      videoThumbs,
+      handleVideoThumb,
       uploadProgress,
       rewardType,
       postDescription,
@@ -605,7 +606,7 @@ class EditorScreen extends Component {
             onLoadDraftPress={onLoadDraftPress}
             uploadProgress={uploadProgress}
             setIsUploading={setIsUploading}
-            handleVideoThumbUrl={handleVideoThumbUrl}
+            handleVideoThumb={handleVideoThumb}
             isPreviewActive={isPreviewActive}
           />
         </Fragment>
@@ -617,7 +618,7 @@ class EditorScreen extends Component {
           body={fields.body}
           draftId={draftId}
           thumbUrl={thumbUrl}
-          videoThumbUrls={videoThumbUrls}
+          videoThumbUrls={filterActiveVideoThumbs(videoThumbs, fields.body)}
           isEdit={isEdit}
           isCommunityPost={selectedCommunity !== null}
           rewardType={rewardType}

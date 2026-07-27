@@ -66,7 +66,7 @@ const MarkdownEditorView = ({
   sharedSnippetText,
   onLoadDraftPress,
   setIsUploading,
-  handleVideoThumbUrl,
+  handleVideoThumb,
 }) => {
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const pollDraft = useAppSelector(
@@ -572,7 +572,7 @@ const MarkdownEditorView = ({
           suggestedPrompt={fields?.title?.trim() || undefined}
           setIsUploading={setIsUploading}
           handleMediaInsert={_handleMediaInsert}
-          handleVideoThumbUrl={handleVideoThumbUrl}
+          handleVideoThumb={handleVideoThumb}
           handleAiToolUsed={handleAiToolUsed}
           handleOnAddLinkPress={_handleOnAddLinkPress}
           handleShowSnippets={() => setIsSnippetsOpen(true)}
