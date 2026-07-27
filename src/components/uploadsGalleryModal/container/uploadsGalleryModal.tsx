@@ -58,6 +58,11 @@ interface UploadsGalleryModalProps {
   hideToolbarExtension: () => void;
   handleMediaInsert: (data: Array<MediaInsertData>) => void;
   setIsUploading: (status: boolean) => void;
+  /**
+   * Receives the uploaded thumbnail of a 3Speak video along with the embed it belongs to,
+   * so the thumbnail can be dropped again if the embed is removed from the body.
+   */
+  onVideoThumb?: (embedUrl: string, thumbUrl: string) => void;
 }
 
 export const UploadsGalleryModal = forwardRef(
@@ -72,6 +77,7 @@ export const UploadsGalleryModal = forwardRef(
       hideToolbarExtension,
       handleMediaInsert,
       setIsUploading,
+      onVideoThumb,
     }: UploadsGalleryModalProps,
     ref,
   ) => {
@@ -614,7 +620,7 @@ export const UploadsGalleryModal = forwardRef(
           ref={speakUploaderRef}
           isUploading={isAddingToUploads}
           setIsUploading={_setIsSpeakUploading}
-          onVideoUploaded={(embedUrl) => {
+          onVideoUploaded={(embedUrl, thumbnailUrl) => {
             handleMediaInsert([
               {
                 url: embedUrl,
@@ -623,6 +629,9 @@ export const UploadsGalleryModal = forwardRef(
                 mode: Modes.MODE_VIDEO,
               },
             ]);
+            if (thumbnailUrl) {
+              onVideoThumb?.(embedUrl, thumbnailUrl);
+            }
           }}
         />
       </>

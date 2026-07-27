@@ -10,6 +10,7 @@ import { PostTypes } from '../constants/postTypes';
 import { PollDraft } from '../providers/ecency/ecency.types';
 import { ContentType, PollMetadata, PostMetadata } from '../providers/hive/hive.types';
 import postUrlParser from './postUrlParser';
+import { hasThreeSpeakEmbed } from '../providers/speak/beneficiary';
 
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
@@ -263,6 +264,72 @@ export const extractFilenameFromPath = ({
     }
     return `${generateRndStr()}.${_ext}`;
   }
+};
+
+/** A thumbnail generated for an uploaded video, paired with the embed it belongs to. */
+export interface VideoThumb {
+  embedUrl: string;
+  thumbUrl: string;
+}
+
+/**
+ * 3Speak embeds in the body. Videos are inserted as a raw url on their own line.
+ *
+ * Deliberately reuses the same predicate as the threespeakfund beneficiary enforcement, so
+ * what counts as a video here cannot drift from what counts as one when the payout route is
+ * attached.
+ */
+export const extractVideoEmbedUrls = (body?: string): string[] =>
+  (body ? extractUrls(body) : []).filter((url) => hasThreeSpeakEmbed(url));
+
+/**
+ * Rebuilds the embed to thumbnail association that a saved draft could not carry.
+ *
+ * A draft stores its cover as a flat `meta.image[0]` with no link to the video it came from.
+ * That link can only be inferred when the draft holds exactly one embed. With several, the
+ * cover cannot be attributed to any one of them, and guessing would let a removed video's
+ * cover stay selectable and publishable for a post that no longer contains it. Those drafts
+ * restore no cover, which is what happened before any of this was carried at all.
+ */
+export const restoreVideoThumbs = (body?: string, metaImages?: string[]): VideoThumb[] => {
+  const thumbUrl = metaImages?.[0];
+  const embedUrls = extractVideoEmbedUrls(body);
+  return thumbUrl && embedUrls.length === 1 ? [{ embedUrl: embedUrls[0], thumbUrl }] : [];
+};
+
+/**
+ * Video thumbnails live outside the body, so they cannot be rediscovered by parsing it and
+ * have to be carried in state, keyed by the embed they belong to so that a removed video
+ * drops its thumbnail instead of leaving it selectable, or published, after the video is
+ * gone. This holds for a reopened draft too, see `restoreVideoThumbs`.
+ *
+ * Thumbnails already present as images in the body are left out, the caller merges this list
+ * with the body images and duplicates would otherwise reach `meta.image`.
+ */
+export const collectVideoThumbUrls = ({
+  videoThumbs,
+  body,
+}: {
+  videoThumbs?: VideoThumb[];
+  body?: string;
+}): string[] => {
+  if (!body) {
+    return [];
+  }
+
+  const bodyUrls = extractUrls(body);
+  // Exact match, not a substring test: one embed url can be a prefix of another, so
+  // `includes` would keep a removed video alive on the strength of the one replacing it
+  const bodyUrlSet = new Set(bodyUrls);
+  const bodyImages = new Set(extractImageUrls({ body, urls: bodyUrls }));
+
+  return Array.from(
+    new Set(
+      (videoThumbs || [])
+        .filter(({ embedUrl }) => !!embedUrl && bodyUrlSet.has(embedUrl))
+        .map(({ thumbUrl }) => thumbUrl),
+    ),
+  ).filter((url) => !!url && !bodyImages.has(url));
 };
 
 export const extractMetadata = async ({

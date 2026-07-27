@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  Alert,
   AppState,
   Keyboard,
   View,
@@ -43,6 +44,7 @@ import ROUTES from '../../../constants/routeNames';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { TextFormatModal } from './textFormatModal';
 import { selectCurrentAccount } from '../../../redux/selectors';
+import { hasThreeSpeakEmbed } from '../../../providers/speak/beneficiary';
 
 // Per-account session dismissals for the quest chip; once closed it stays
 // hidden for that account until the app restarts.
@@ -59,6 +61,9 @@ type Props = {
   suggestedPrompt?: string;
   setIsUploading: (isUploading: boolean) => void;
   handleMediaInsert: (data: MediaInsertData[]) => void;
+  handleVideoThumb?: (embedUrl: string, thumbUrl: string) => void;
+  /** Reads the live body. `postBody` is only as fresh as the last render. */
+  getPostBody?: () => string;
   handleOnAddLinkPress: () => void;
   handleOnClearPress: () => void;
   handleOnMarkupButtonPress: (item) => void;
@@ -79,6 +84,8 @@ export const EditorToolbar = ({
   suggestedPrompt,
   setIsUploading,
   handleMediaInsert,
+  handleVideoThumb,
+  getPostBody,
   handleAiToolUsed,
   handleOnAddLinkPress,
   handleOnClearPress,
@@ -245,6 +252,15 @@ export const EditorToolbar = ({
   };
 
   const _showVideoUploads = () => {
+    // One 3Speak video per post, matching web. The threespeakfund beneficiary is a single
+    // flat share on the post, so a second video would publish without its own payout route.
+    if (hasThreeSpeakEmbed(getPostBody?.() ?? postBody ?? '')) {
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.notice' }),
+        intl.formatMessage({ id: 'video-upload.error-one-per-post' }),
+      );
+      return;
+    }
     _showUploadsExtension(Modes.MODE_VIDEO);
   };
 
@@ -355,6 +371,7 @@ export const EditorToolbar = ({
               username={currentAccount.name}
               hideToolbarExtension={_hideExtension}
               handleMediaInsert={handleMediaInsert}
+              onVideoThumb={handleVideoThumb}
               setIsUploading={setIsUploading}
             />
             <TextFormatModal

@@ -66,6 +66,7 @@ const MarkdownEditorView = ({
   sharedSnippetText,
   onLoadDraftPress,
   setIsUploading,
+  handleVideoThumb,
 }) => {
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const pollDraft = useAppSelector(
@@ -571,6 +572,10 @@ const MarkdownEditorView = ({
           suggestedPrompt={fields?.title?.trim() || undefined}
           setIsUploading={setIsUploading}
           handleMediaInsert={_handleMediaInsert}
+          handleVideoThumb={handleVideoThumb}
+          // The editor is uncontrolled, so `postBody` above is only as fresh as the last
+          // render. Reads that must see the current text go through this.
+          getPostBody={() => bodyTextRef.current}
           handleAiToolUsed={handleAiToolUsed}
           handleOnAddLinkPress={_handleOnAddLinkPress}
           handleShowSnippets={() => setIsSnippetsOpen(true)}
