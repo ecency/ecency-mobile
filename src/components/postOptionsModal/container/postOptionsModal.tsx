@@ -216,15 +216,19 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
       currentAccount?.name,
     );
 
-    const _canUpdateCommunityPin = _isCommunityPost && _isCommunityModerator;
-    const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
-
     // Moderating a cross-post is not expressible: `parsePost` swaps author and
     // permlink to the original entry but leaves `community` as the wrapper's,
     // so the {community, author, permlink} tuple would not match anything
     // hivemind knows about. Moderate the original post instead.
-    const _canMuteCommunityPost =
+    //
+    // Both pin and mute build that same tuple, so both are withheld.
+    const _canModerateCommunityPost =
       _isCommunityPost && _isCommunityModerator && !content.crosspostMeta;
+
+    const _canUpdateCommunityPin = _canModerateCommunityPost;
+    const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
+
+    const _canMuteCommunityPost = _canModerateCommunityPost;
 
     // Read `stats.gray` directly rather than the parsed `isMuted`. getMutedReason
     // also reports MODERATED for low-reputation and downvoted posts, which would
