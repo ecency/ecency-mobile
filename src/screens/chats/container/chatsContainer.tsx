@@ -30,6 +30,7 @@ import {
   markMattermostChannelViewed,
   normalizeMattermostChannels,
   calculateGlobalUnreadTotal,
+  getChannelUnreadMeta,
 } from '../../../providers/chat/mattermost';
 import { Header } from '../../../components';
 import { chatsStyles as styles } from '../styles/chats.styles';
@@ -125,58 +126,11 @@ const ChatsContainer = () => {
   // Unread Meta Calculation
   // ============================================================================
 
-  const _getUnreadMeta = useCallback((channel: any) => {
-    const _zeroUnread = {
-      unreadMentions: 0,
-      unreadMessages: 0,
-      unreadCount: 0,
-      totalUnread: 0,
-    };
-
-    if (channel?.is_muted) {
-      return _zeroUnread;
-    }
-
-    // Channels that have never been viewed (null/undefined) should
-    // not show unreads — prevents auto-joined channels from showing
-    // all historical messages as new
-    const lastViewed = channel?.last_viewed_at ?? channel?.last_view_at;
-    if (lastViewed == null) {
-      return _zeroUnread;
-    }
-
-    const unreadMentionValues = [
-      channel?.unread_mentions,
-      channel?.mention_count,
-      channel?.mentions_count,
-      channel?.mention_count_root,
-      channel?.urgent_mention_count,
-      channel?.channel_wide_mention_count,
-    ].filter((value) => Number.isFinite(value)) as number[];
-
-    const unreadMentions = unreadMentionValues.length ? Math.max(0, ...unreadMentionValues) : 0;
-
-    const unreadMessages = Number.isFinite(channel?.message_count)
-      ? channel.message_count
-      : Number.isFinite(channel?.unread_messages)
-      ? channel.unread_messages
-      : Number.isFinite(channel?.unread_msg_count)
-      ? channel.unread_msg_count
-      : Number.isFinite(channel?.unread_count)
-      ? channel.unread_count
-      : 0;
-
-    const unreadCount = unreadMentions || unreadMessages || 0;
-    // mentions are a subset of unread messages, use max to avoid double-counting
-    const totalUnread = Math.max(unreadMentions, unreadMessages);
-
-    return {
-      unreadMentions,
-      unreadMessages,
-      unreadCount,
-      totalUnread,
-    };
-  }, []);
+  // Row badges, sorting and the channel-options sheet all read this. It has to
+  // be the SAME rule the global badge uses (calculateGlobalUnreadTotal), or a
+  // row shows a count the badge does not include — or worse, the badge counts a
+  // channel whose row shows nothing to clear.
+  const _getUnreadMeta = useCallback((channel: any) => getChannelUnreadMeta(channel), []);
 
   const _refreshGlobalUnreadChatCount = useCallback(async () => {
     try {
