@@ -17,6 +17,7 @@ import {
   AiAssistModal,
   ComposeTranslateModal,
   TransferFavoritesSheet,
+  ModNotesSheet,
 } from '../components';
 import { ShareIntentSheet } from '../components/shareIntentSheet';
 import SignConfirmSheet from '../screens/dappBrowser/components/signConfirmSheet';
@@ -49,6 +50,7 @@ export enum SheetNames {
   RECEIVE_QR = 'receive_qr',
   BALANCE_ANALYTICS = 'balance_analytics',
   TRANSFER_FAVORITES = 'transfer_favorites',
+  MOD_NOTES = 'mod_notes',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -73,6 +75,7 @@ registerSheet(SheetNames.SIGN_CONFIRM, SignConfirmSheet);
 registerSheet(SheetNames.RECEIVE_QR, ReceiveQrSheet);
 registerSheet(SheetNames.BALANCE_ANALYTICS, BalanceAnalyticsSheet);
 registerSheet(SheetNames.TRANSFER_FAVORITES, TransferFavoritesSheet);
+registerSheet(SheetNames.MOD_NOTES, ModNotesSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -226,6 +229,19 @@ declare module 'react-native-actions-sheet' {
         limit?: number;
       };
       returnValue: string | undefined;
+    }>;
+    [SheetNames.MOD_NOTES]: SheetDefinition<{
+      payload?: {
+        title?: string;
+        description?: string;
+        placeholder?: string;
+        maxLength?: number;
+        confirmLabel?: string;
+      };
+      // Trimmed note on confirm, false on explicit cancel. Backdrop dismissal
+      // resolves undefined, so callers should treat any falsy value as a
+      // cancellation.
+      returnValue: string | false | undefined;
     }>;
   }
 }
