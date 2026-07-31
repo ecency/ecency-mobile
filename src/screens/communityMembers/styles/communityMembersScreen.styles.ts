@@ -14,6 +14,13 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     fontSize: 14,
   },
+  footerNote: {
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    textAlign: 'center',
+    color: '$primaryDarkGray',
+    fontSize: 12,
+  },
   roleChip: {
     paddingHorizontal: 10,
     paddingVertical: 4,

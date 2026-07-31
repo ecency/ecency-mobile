@@ -5,16 +5,17 @@ import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getCommunityQueryOptions, getCommunitySubscribersQueryOptions, ROLES } from '@ecency/sdk';
+import { getCommunityQueryOptions, ROLES } from '@ecency/sdk';
 
 import { BasicHeader, UserListItem } from '../../../components';
 import ROUTES from '../../../constants/routeNames';
 import { useAppSelector } from '../../../hooks';
+import { useCommunitySubscribersQuery } from '../../../providers/queries';
 import { selectCurrentAccount, selectIsDarkTheme } from '../../../redux/selectors';
 import { isCommunity } from '../../../utils/communityValidation';
 import styles from '../styles/communityMembersScreen.styles';
 
-// hivemind returns both `community.team` and the subscriber list as positional
+// hivemind returns both `community.team` and each subscriber row as positional
 // tuples of [account, role, title]. Never index these inline elsewhere; the
 // helpers in utils/communityModeration.ts exist for that reason.
 const ACCOUNT_INDEX = 0;
@@ -50,10 +51,7 @@ const CommunityMembersScreen = ({ route }) => {
   const communityQuery = useQuery(
     getCommunityQueryOptions(communityId, currentAccount?.name, !!communityId),
   );
-  const subscribersQuery = useQuery({
-    ...getCommunitySubscribersQueryOptions(communityId),
-    enabled: !!communityId,
-  });
+  const subscribersQuery = useCommunitySubscribersQuery(communityId);
 
   const members: Member[] = useMemo(() => {
     const byAccount = new Map<string, Member>();
@@ -78,7 +76,7 @@ const CommunityMembersScreen = ({ route }) => {
     };
 
     (communityQuery.data?.team || []).forEach(add);
-    (subscribersQuery.data || []).forEach(add);
+    (subscribersQuery.data?.pages?.flat() || []).forEach(add);
 
     return [...byAccount.values()].sort((a, b) => {
       const rank = (ROLE_ORDER[a.role] ?? 99) - (ROLE_ORDER[b.role] ?? 99);
@@ -87,10 +85,20 @@ const CommunityMembersScreen = ({ route }) => {
   }, [communityQuery.data, subscribersQuery.data]);
 
   const isLoading = communityQuery.isLoading || subscribersQuery.isLoading;
+  // Surfaced separately from the empty case: a failed query also yields zero
+  // rows, and rendering "no members" for it reads as an authoritative answer
+  // when the roster is simply unknown.
+  const isError = communityQuery.isError || subscribersQuery.isError;
 
   const _refresh = () => {
     communityQuery.refetch();
     subscribersQuery.refetch();
+  };
+
+  const _loadMore = () => {
+    if (subscribersQuery.hasNextPage && !subscribersQuery.isFetchingNextPage) {
+      subscribersQuery.fetchNextPage();
+    }
   };
 
   const _handleOnUserPress = (username: string) => {
@@ -124,8 +132,27 @@ const CommunityMembersScreen = ({ route }) => {
       return <ActivityIndicator style={styles.loading} />;
     }
     return (
-      <Text style={styles.emptyText}>{intl.formatMessage({ id: 'community.no_members' })}</Text>
+      <Text style={styles.emptyText}>
+        {intl.formatMessage({
+          id: isError ? 'community.members_load_failed' : 'community.no_members',
+        })}
+      </Text>
     );
+  };
+
+  const _renderFooter = () => {
+    if (subscribersQuery.isFetchingNextPage) {
+      return <ActivityIndicator style={styles.loading} />;
+    }
+    // A partially loaded roster must not read as complete.
+    if (isError && members.length > 0) {
+      return (
+        <Text style={styles.footerNote}>
+          {intl.formatMessage({ id: 'community.members_incomplete' })}
+        </Text>
+      );
+    }
+    return null;
   };
 
   return (
@@ -140,6 +167,9 @@ const CommunityMembersScreen = ({ route }) => {
         keyExtractor={(item) => item.account}
         renderItem={_renderItem}
         ListEmptyComponent={_renderEmpty}
+        ListFooterComponent={_renderFooter}
+        onEndReachedThreshold={0.5}
+        onEndReached={_loadMore}
         refreshControl={
           <RefreshControl
             refreshing={communityQuery.isRefetching || subscribersQuery.isRefetching}

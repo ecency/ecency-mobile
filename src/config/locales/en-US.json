@@ -190,6 +190,8 @@
     "manage_members": "Members and roles",
     "members": "members",
     "no_members": "No members found",
+    "members_incomplete": "Some members could not be loaded. Pull to refresh.",
+    "members_load_failed": "Could not load members. Pull to refresh.",
     "role_owner": "Owner",
     "role_admin": "Admin",
     "role_mod": "Mod",
