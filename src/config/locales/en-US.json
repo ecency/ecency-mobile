@@ -1159,7 +1159,8 @@
     "error_insufficient_points": "Not enough Points to transcribe that recording.",
     "error_rate_limited": "Too many recordings for now. Please try again shortly.",
     "error_too_long": "That recording is too long to transcribe.",
-    "error_failed": "Could not transcribe that recording. Please try again."
+    "error_failed": "Could not transcribe that recording. Please try again.",
+    "error_recorder": "Could not start recording. Please try again."
   },
   "wallet": {
     "delegations_out": "Delegations Out",

@@ -149,6 +149,13 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
           <Text style={styles.error}>{intl.formatMessage({ id: 'dictation.denied' })}</Text>
         )}
 
+        {state === 'failed' && (
+          // Distinct from 'denied': nothing was refused, the audio session or recorder
+          // itself failed, so retrying is worth offering rather than sending the user
+          // to Settings.
+          <Text style={styles.error}>{intl.formatMessage({ id: 'dictation.error_recorder' })}</Text>
+        )}
+
         {isPriceError && (
           <View>
             <Text style={styles.error}>{intl.formatMessage({ id: 'dictation.price_error' })}</Text>

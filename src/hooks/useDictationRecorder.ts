@@ -7,7 +7,17 @@ import {
   useAudioRecorderState,
 } from 'expo-audio';
 
-export type DictationRecorderState = 'idle' | 'requesting' | 'recording' | 'stopped' | 'denied';
+export type DictationRecorderState =
+  | 'idle'
+  | 'requesting'
+  | 'recording'
+  | 'stopped'
+  | 'denied'
+  // A native call rejected. Distinct from 'denied' because the user did not refuse
+  // anything -- the audio session or the recorder itself failed, and retrying is
+  // reasonable. Without it a rejection stranded the hook in 'requesting' or
+  // 'recording' with its button disabled and no way out but closing the sheet.
+  | 'failed';
 
 interface Options {
   /** Server cap. Recording stops itself before this rather than being rejected after upload. */
@@ -43,8 +53,18 @@ export function useDictationRecorder({ maxSeconds }: Options) {
     if (!recorder.isRecording) {
       return;
     }
+    // Read the duration BEFORE stopping: the recorder resets it, and this is what
+    // the charge is quoted from.
     const elapsed = recorderState.durationMillis ?? 0;
-    await recorder.stop();
+    try {
+      await recorder.stop();
+    } catch {
+      // Leaving state as 'recording' would strand the sheet: the stop button stays
+      // up but no longer works, and there is no recording to submit either.
+      setResult(null);
+      setState('failed');
+      return;
+    }
     setResult(recorder.uri ? { uri: recorder.uri, durationMs: elapsed } : null);
     setState('stopped');
   }, [recorder, recorderState.durationMillis]);
@@ -55,36 +75,52 @@ export function useDictationRecorder({ maxSeconds }: Options) {
 
     const generation = generationRef.current;
 
-    const permission = await requestRecordingPermissionsAsync();
-    if (generation !== generationRef.current) {
-      // Superseded while the OS prompt was open.
-      return;
-    }
-    if (!permission.granted) {
-      setState('denied');
-      return;
-    }
+    // Every step here is a native call that can reject -- a denied prompt is only
+    // the expected failure. An audio-service interruption rejects setAudioModeAsync
+    // or prepareToRecordAsync, and without this the hook sat in 'requesting'
+    // forever: Record disabled, an unhandled rejection logged, and no way out
+    // except closing and reopening the sheet.
+    try {
+      const permission = await requestRecordingPermissionsAsync();
+      if (generation !== generationRef.current) {
+        // Superseded while the OS prompt was open.
+        return;
+      }
+      if (!permission.granted) {
+        setState('denied');
+        return;
+      }
 
-    // iOS records nothing unless the session allows it, and stays muted by the
-    // hardware silent switch without playsInSilentMode.
-    await setAudioModeAsync({ allowsRecording: true, playsInSilentMode: true });
-    if (generation !== generationRef.current) {
-      return;
-    }
+      // iOS records nothing unless the session allows it, and stays muted by the
+      // hardware silent switch without playsInSilentMode.
+      await setAudioModeAsync({ allowsRecording: true, playsInSilentMode: true });
+      if (generation !== generationRef.current) {
+        return;
+      }
 
-    await recorder.prepareToRecordAsync();
-    if (generation !== generationRef.current) {
-      return;
-    }
+      await recorder.prepareToRecordAsync();
+      if (generation !== generationRef.current) {
+        return;
+      }
 
-    recorder.record();
-    setState('recording');
+      recorder.record();
+      setState('recording');
+    } catch {
+      if (generation !== generationRef.current) {
+        // A rejection from a superseded attempt must not clobber the recording that
+        // replaced it, same as the denial path above.
+        return;
+      }
+      setState('failed');
+    }
   }, [recorder]);
 
   const reset = useCallback(() => {
     generationRef.current += 1;
     if (recorder.isRecording) {
-      recorder.stop();
+      // Fire-and-forget, but caught: an unhandled rejection here would surface as a
+      // redbox in dev over a teardown the user cannot act on anyway.
+      recorder.stop().catch(() => undefined);
     }
     setResult(null);
     setState('idle');
@@ -94,7 +130,9 @@ export function useDictationRecorder({ maxSeconds }: Options) {
   // once the user has already waited through the upload.
   useEffect(() => {
     if (state === 'recording' && durationMs >= (maxSeconds - 1) * 1000) {
-      stop();
+      // stop() handles its own failures; this catch only stops the floated promise
+      // from becoming an unhandled rejection.
+      stop().catch(() => undefined);
     }
   }, [state, durationMs, maxSeconds, stop]);
 
@@ -104,7 +142,7 @@ export function useDictationRecorder({ maxSeconds }: Options) {
     () => () => {
       generationRef.current += 1;
       if (recorder.isRecording) {
-        recorder.stop();
+        recorder.stop().catch(() => undefined);
       }
       setAudioModeAsync({ allowsRecording: false }).catch(() => {
         // Restoring the audio mode is best-effort; failing it must not crash unmount.
