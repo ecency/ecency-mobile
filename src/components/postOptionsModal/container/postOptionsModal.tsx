@@ -141,8 +141,28 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
     if (content && !reblogsQuery.isLoading) {
       _initOptions();
     }
+    // `currentAccount?.profile?.pinned` is included so the blog pin/unpin
+    // option recomputes after pinning from the detail modal (where the stored
+    // `content` and its stats don't change).
+    //
+    // `communityQuery.data` is included because `_initOptions` computes the
+    // menu imperatively when the sheet opens. On a cold cache the community
+    // resolves after that first pass, and without this the moderator would see
+    // a menu with no pin action until the sheet was reopened.
+  }, [
+    content,
+    reblogsQuery.data,
+    reblogsQuery.isLoading,
+    currentAccount?.profile?.pinned,
+    communityQuery.data,
+  ]);
 
-    return () => {
+  // Timers are cleared on unmount only. These fire after the sheet has already
+  // hidden (copy/share/report defer 300-700ms before their toast or sheet), so
+  // tearing them down whenever an option input changes would cancel an action
+  // the user had already selected. A late-resolving query was enough to do it.
+  useEffect(
+    () => () => {
       if (alertTimer.current) {
         clearTimeout(alertTimer.current);
         alertTimer.current = null;
@@ -161,22 +181,9 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
         clearTimeout(reportTimer.current);
         reportTimer.current = null;
       }
-    };
-    // `currentAccount?.profile?.pinned` is included so the blog pin/unpin
-    // option recomputes after pinning from the detail modal (where the stored
-    // `content` and its stats don't change).
-    //
-    // `communityQuery.data` is included because `_initOptions` computes the
-    // menu imperatively when the sheet opens. On a cold cache the community
-    // resolves after that first pass, and without this the moderator would see
-    // a menu with no pin action until the sheet was reopened.
-  }, [
-    content,
-    reblogsQuery.data,
-    reblogsQuery.isLoading,
-    currentAccount?.profile?.pinned,
-    communityQuery.data,
-  ]);
+    },
+    [],
+  );
 
   const _initOptions = () => {
     // check if post is owned by current user or not, if so pinned or not
