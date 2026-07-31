@@ -1,4 +1,4 @@
-import { getChannelUnreadTotal } from './mattermost';
+import { getChannelUnreadMeta, getChannelUnreadTotal } from './mattermost';
 
 // The module pulls in the API client, realm and crypto at import time; none of
 // them are involved in the pure badge math under test.
@@ -76,5 +76,64 @@ describe('getChannelUnreadTotal', () => {
         mention_count: 5,
       }),
     ).toBe(5);
+  });
+
+  // Group messages cannot be auto-joined either, so the never-viewed guard has
+  // nothing to protect against there.
+  it('counts a never-viewed group message', () => {
+    expect(getChannelUnreadTotal({ type: 'G', last_viewed_at: 0, message_count: 3 })).toBe(3);
+  });
+});
+
+// The channel list used to carry its own copy of this rule, so a row could show
+// a badge the global count did not include. Both now read the same helper.
+describe('getChannelUnreadMeta', () => {
+  it('returns the full breakdown for an eligible channel', () => {
+    expect(
+      getChannelUnreadMeta({
+        type: 'O',
+        last_viewed_at: 1000,
+        message_count: 4,
+        mention_count: 2,
+      }),
+    ).toEqual({
+      unreadMentions: 2,
+      unreadMessages: 4,
+      unreadCount: 2,
+      totalUnread: 4,
+    });
+  });
+
+  it('zeroes every field of an ineligible channel', () => {
+    expect(
+      getChannelUnreadMeta({
+        type: 'O',
+        last_viewed_at: 0,
+        message_count: 900,
+        mention_count: 7,
+      }),
+    ).toEqual({
+      unreadMentions: 0,
+      unreadMessages: 0,
+      unreadCount: 0,
+      totalUnread: 0,
+    });
+  });
+
+  it('agrees with getChannelUnreadTotal across every branch', () => {
+    const channels = [
+      { type: 'O', last_viewed_at: 1000, message_count: 4 },
+      { type: 'O', last_viewed_at: 0, message_count: 900 },
+      { type: 'O', last_viewed_at: null, message_count: 9 },
+      { type: 'D', last_viewed_at: 0, message_count: 2 },
+      { type: 'G', last_viewed_at: 0, message_count: 3 },
+      { type: 'D', last_viewed_at: 0, message_count: 2, is_muted: true },
+      { type: 'D', last_viewed_at: 1000, message_count: 2, unread_eligible: false },
+      { type: 'O', last_viewed_at: 1000, message_count: 1, mention_count: 5 },
+    ];
+
+    channels.forEach((channel) => {
+      expect(getChannelUnreadMeta(channel).totalUnread).toBe(getChannelUnreadTotal(channel));
+    });
   });
 });

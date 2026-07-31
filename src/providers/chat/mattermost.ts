@@ -176,27 +176,55 @@ const isChannelNeverViewed = (channel: any): boolean => {
   return lastViewed == null || lastViewed === 0;
 };
 
-export const getChannelUnreadTotal = (channel: any): number => {
+// Direct and group messages. Neither can be auto-joined — someone has to be put
+// in one deliberately — which is what exempts them from the never-viewed rule.
+const isDirectLikeChannel = (channel: any): boolean =>
+  channel?.type === 'D' || channel?.type === 'G';
+
+/**
+ * Whether a channel may contribute to the unread badge at all.
+ *
+ * Shared by the global badge and the channel list. They used to carry separate
+ * copies of this rule, which is how a channel could show a row badge that the
+ * global count did not include.
+ */
+export const isChannelUnreadEligible = (channel: any): boolean => {
   // The server decides eligibility when it can, and it knows things the channel
   // payload cannot express — a DM whose posts were all deleted still reports
   // unread, because Mattermost never decrements total_msg_count on delete.
   // Trust that verdict; the local rules below are the fallback for servers that
   // do not send the flag yet.
   if (channel?.unread_eligible === false) {
-    return 0;
+    return false;
   }
 
   if (channel?.is_muted) {
-    return 0;
+    return false;
   }
 
   // Never-viewed channels should not count unreads — prevents auto-joined
   // channels from inflating the badge with all historical messages.
   //
-  // DMs are exempt: last_viewed_at is 0 for a first message from someone new,
-  // so applying this to them would hide every first-contact DM instead.
-  if (channel?.type !== 'D' && isChannelNeverViewed(channel)) {
-    return 0;
+  // DMs and group messages are exempt: last_viewed_at is 0 for a first message
+  // from someone new, so applying this to them would hide every first-contact
+  // conversation instead.
+  if (!isDirectLikeChannel(channel) && isChannelNeverViewed(channel)) {
+    return false;
+  }
+
+  return true;
+};
+
+const ZERO_UNREAD_META = {
+  unreadMentions: 0,
+  unreadMessages: 0,
+  unreadCount: 0,
+  totalUnread: 0,
+};
+
+export const getChannelUnreadMeta = (channel: any) => {
+  if (!isChannelUnreadEligible(channel)) {
+    return ZERO_UNREAD_META;
   }
 
   const unreadMentionValues = [
@@ -220,9 +248,17 @@ export const getChannelUnreadTotal = (channel: any): number => {
     ? channel.unread_count
     : 0;
 
-  // mentions are a subset of unread messages, use max to avoid double-counting
-  return Math.max(unreadMentions, unreadMessages);
+  return {
+    unreadMentions,
+    unreadMessages,
+    unreadCount: unreadMentions || unreadMessages || 0,
+    // mentions are a subset of unread messages, use max to avoid double-counting
+    totalUnread: Math.max(unreadMentions, unreadMessages),
+  };
 };
+
+export const getChannelUnreadTotal = (channel: any): number =>
+  getChannelUnreadMeta(channel).totalUnread;
 
 export const calculateGlobalUnreadTotal = async (): Promise<number> => {
   const channelResponse = await fetchMattermostChannels();
