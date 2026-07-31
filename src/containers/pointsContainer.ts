@@ -21,7 +21,7 @@ import { useGetPointsQuery } from '../providers/queries/pointQueries';
 import { useClaimPointsMutation } from '../providers/sdk/mutations';
 
 // Constant
-import POINTS from '../constants/options/points';
+import { resolvePointType } from '../constants/options/points';
 
 // Constants
 import ROUTES from '../constants/routeNames';
@@ -66,7 +66,7 @@ const PointsContainer = ({
   const _groomUserActivities = useCallback(
     (_userActivities) =>
       _userActivities.map((item) => {
-        const pointType = POINTS[get(item, 'type')] || POINTS.default;
+        const pointType = resolvePointType(item);
         return groomingPointsTransactionData({
           ...item,
           icon: get(pointType, 'icon'),

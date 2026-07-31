@@ -1,5 +1,18 @@
-export default {
-  997: {
+export const BURN_TYPE = 997;
+
+// A refunded burn comes back as the SAME type with a positive amount, so it needs
+// its own metadata rather than a second map entry -- see resolvePointType.
+export const BURN_REFUND = {
+  icon: 'cash-refund',
+  textKey: 'burn_refund_title',
+  nameKey: 'wallet.burn_refund_title',
+  descriptionKey: 'wallet.burn_refund_description',
+  iconType: 'MaterialCommunityIcons',
+  point: 0.1,
+};
+
+const POINTS = {
+  [BURN_TYPE]: {
     icon: 'fire',
     textKey: 'burned_title',
     nameKey: 'wallet.burned_title',
@@ -107,7 +120,7 @@ export default {
     iconType: 'MaterialIcons',
     point: 0.1,
   },
-} as const;
+};
 
 export const POINTS_KEYS = [
   { type: 160 },
@@ -141,3 +154,23 @@ export const PROMOTE_STATUS_FORMAT_ERR = 7;
 export const PROMOTED_POST_STATUS_ON = 1;
 export const PROMOTED_POST_STATUS_EXPIRED = 2;
 export const PROMOTED_POST_STATUS_DISABLED = 3;
+
+/**
+ * Metadata for a points transaction, resolving the one type that is ambiguous.
+ *
+ * Type 997 covers BOTH halves of a burn: the debit and its refund. A burn has no
+ * counterparty at all -- that absence is what separates it from a treasury transfer
+ * -- so the sign of the amount is the only thing distinguishing "spent" from
+ * "returned". Mapping 997 straight to the spend label puts "AI usage" next to a
+ * credit.
+ */
+export const resolvePointType = (item: any) => {
+  const type = item?.type;
+  const entry = POINTS[type] || POINTS.default;
+  if (type === BURN_TYPE && parseFloat(String(item?.amount ?? 0)) > 0) {
+    return BURN_REFUND;
+  }
+  return entry;
+};
+
+export default POINTS;
