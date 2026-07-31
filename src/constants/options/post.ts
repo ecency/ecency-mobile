@@ -12,6 +12,10 @@ export default [
   'unpin-community',
   'pin-reply',
   'unpin-reply',
+  // Community moderation. Distinct from 'mute' below, which is the personal
+  // author ignore rather than a moderator action.
+  'mute-post',
+  'unmute-post',
   'edit-history',
   'share',
   'bookmarks',
