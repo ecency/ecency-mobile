@@ -92,7 +92,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To choose and share current location</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Ecency requires access to your camera to let you insert recordings and videos to content you are creating.</string>
+	<string>Ecency uses your microphone so you can dictate posts and comments, and record audio for content you are creating.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Ecency needs to access your camera roll so that you can upload and insert images to your content. Your images will not be shared without your permission</string>
 	<key>NSPhotoLibraryUsageDescription</key>

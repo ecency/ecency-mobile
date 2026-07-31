@@ -1,4 +1,12 @@
 export default {
+  997: {
+    icon: 'fire',
+    textKey: 'burned_title',
+    nameKey: 'wallet.burned_title',
+    descriptionKey: 'wallet.burned_description',
+    iconType: 'MaterialCommunityIcons',
+    point: 0.1,
+  },
   999: {
     icon: 'compare-arrows',
     textKey: 'incoming_transfer_title',
