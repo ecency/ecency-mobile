@@ -168,16 +168,34 @@ export const normalizeMattermostChannels = (rawChannels: any): any[] => {
   return [];
 };
 
+// Mattermost writes "never viewed" as the int64 zero, not as a missing value,
+// so both have to count. Checking only for null let every never-opened channel
+// through, and an unopened channel reports its ENTIRE history as unread.
+const isChannelNeverViewed = (channel: any): boolean => {
+  const lastViewed = channel?.last_viewed_at ?? channel?.last_view_at;
+  return lastViewed == null || lastViewed === 0;
+};
+
 export const getChannelUnreadTotal = (channel: any): number => {
+  // The server decides eligibility when it can, and it knows things the channel
+  // payload cannot express — a DM whose posts were all deleted still reports
+  // unread, because Mattermost never decrements total_msg_count on delete.
+  // Trust that verdict; the local rules below are the fallback for servers that
+  // do not send the flag yet.
+  if (channel?.unread_eligible === false) {
+    return 0;
+  }
+
   if (channel?.is_muted) {
     return 0;
   }
 
-  // Channels that have never been viewed (null/undefined last_viewed_at)
-  // should not count unreads — prevents auto-joined channels from
-  // inflating the badge with all historical messages.
-  const lastViewed = channel?.last_viewed_at ?? channel?.last_view_at;
-  if (lastViewed == null) {
+  // Never-viewed channels should not count unreads — prevents auto-joined
+  // channels from inflating the badge with all historical messages.
+  //
+  // DMs are exempt: last_viewed_at is 0 for a first message from someone new,
+  // so applying this to them would hide every first-contact DM instead.
+  if (channel?.type !== 'D' && isChannelNeverViewed(channel)) {
     return 0;
   }
 
