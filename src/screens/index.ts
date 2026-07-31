@@ -28,6 +28,7 @@ import Register from './register/registerScreen';
 import TagResult from './tagResult';
 import { Community } from './community';
 import { CommunityMembers } from './communityMembers';
+import { CommunitySettings } from './communitySettings';
 import Communities from './communities';
 import ReferScreen from './referScreen/referScreen';
 import AssetDetails from './assetDetails';
@@ -74,6 +75,7 @@ export {
   TagResult,
   Community,
   CommunityMembers,
+  CommunitySettings,
   Communities,
   WebBrowser,
   ReferScreen,

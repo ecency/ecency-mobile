@@ -34,6 +34,7 @@ const ROUTES = {
     COMMUNITY: `Community${SCREEN_SUFFIX}`,
     COMMUNITIES: `Communities${SCREEN_SUFFIX}`,
     COMMUNITY_MEMBERS: `CommunityMembers${SCREEN_SUFFIX}`,
+    COMMUNITY_SETTINGS: `CommunitySettings${SCREEN_SUFFIX}`,
     WEB_BROWSER: `WebBrowser${SCREEN_SUFFIX}`,
     REFER: `Refer${SCREEN_SUFFIX}`,
     QR: `QR${SCREEN_SUFFIX}`,
