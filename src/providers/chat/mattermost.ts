@@ -189,11 +189,13 @@ const isDirectLikeChannel = (channel: any): boolean =>
  * global count did not include.
  */
 export const isChannelUnreadEligible = (channel: any): boolean => {
-  // The server decides eligibility when it can, and it knows things the channel
-  // payload cannot express — a DM whose posts were all deleted still reports
-  // unread, because Mattermost never decrements total_msg_count on delete.
-  // Trust that verdict; the local rules below are the fallback for servers that
-  // do not send the flag yet.
+  // Only `false` is authoritative, and deliberately so: it carries information
+  // the channel payload cannot express — a DM whose posts were all deleted
+  // still reports unread, because Mattermost never decrements total_msg_count
+  // on delete, so no client-side rule could infer it. A `true` (or absent)
+  // value is not a licence to skip the checks below; they still run. The server
+  // applies the same rules, so agreeing twice costs nothing, and older servers
+  // that never send the field stay correct.
   if (channel?.unread_eligible === false) {
     return false;
   }
