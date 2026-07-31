@@ -1147,6 +1147,27 @@
     "btn_register": "Register Free",
     "title": "Free Account"
   },
+  "dictation": {
+    "title": "Dictate",
+    "start": "Record",
+    "stop": "Stop",
+    "rerecord": "Record again",
+    "insert": "Insert",
+    "recording": "Recording",
+    "transcribing": "Transcribing",
+    "cost": "{n} Points",
+    "free": "Free",
+    "max": "Up to {n} minutes",
+    "price_loading": "Checking price",
+    "price_error": "Could not load transcription pricing.",
+    "denied": "Ecency needs microphone access to dictate. Allow it in Settings and try again.",
+    "error_empty": "No speech was detected in that recording.",
+    "error_insufficient_points": "Not enough Points to transcribe that recording.",
+    "error_rate_limited": "Too many recordings for now. Please try again shortly.",
+    "error_too_long": "That recording is too long to transcribe.",
+    "error_failed": "Could not transcribe that recording. Please try again.",
+    "error_recorder": "Could not start recording. Please try again."
+  },
   "wallet": {
     "delegations_out": "Delegations Out",
     "estimated_value_desc": "According to purchase value",

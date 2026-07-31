@@ -116,6 +116,7 @@ import { WalkthroughMarker } from './walkthroughMarker';
 import { LinkPreview, HiveLinkPreview } from './linkPreview';
 import { CrossPostModal } from './crossPostModal';
 import { AiAssistModal } from './aiAssistModal';
+import { DictationModal } from './dictationModal';
 import { ComposeTranslateModal } from './composeTranslateModal';
 import { ChatOptionsSheet } from './chatOptionsSheet';
 import { ChatChannelOptionsSheet } from './chatChannelOptionsSheet';
@@ -296,6 +297,7 @@ export {
   HiveLinkPreview,
   CrossPostModal,
   AiAssistModal,
+  DictationModal,
   ComposeTranslateModal,
   CopyModal,
   ChatOptionsSheet,
