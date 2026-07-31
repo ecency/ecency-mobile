@@ -1747,5 +1747,11 @@
     "blog_post_desc": "Create a full blog post in the editor",
     "wave": "Wave",
     "wave_desc": "Share a quick update"
+  },
+  "mod_notes": {
+    "title": "Add a reason",
+    "placeholder": "Reason (visible to other moderators)",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   }
 }

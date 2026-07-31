@@ -17,7 +17,9 @@ import {
   AiAssistModal,
   ComposeTranslateModal,
   TransferFavoritesSheet,
+  ModNotesSheet,
 } from '../components';
+import type { ModNotesResult } from '../components/modNotesSheet/modNotesSheet';
 import { ShareIntentSheet } from '../components/shareIntentSheet';
 import SignConfirmSheet from '../screens/dappBrowser/components/signConfirmSheet';
 import ReceiveQrSheet from '../components/receiveQrSheet/receiveQrSheet';
@@ -49,6 +51,7 @@ export enum SheetNames {
   RECEIVE_QR = 'receive_qr',
   BALANCE_ANALYTICS = 'balance_analytics',
   TRANSFER_FAVORITES = 'transfer_favorites',
+  MOD_NOTES = 'mod_notes',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -73,6 +76,7 @@ registerSheet(SheetNames.SIGN_CONFIRM, SignConfirmSheet);
 registerSheet(SheetNames.RECEIVE_QR, ReceiveQrSheet);
 registerSheet(SheetNames.BALANCE_ANALYTICS, BalanceAnalyticsSheet);
 registerSheet(SheetNames.TRANSFER_FAVORITES, TransferFavoritesSheet);
+registerSheet(SheetNames.MOD_NOTES, ModNotesSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -226,6 +230,21 @@ declare module 'react-native-actions-sheet' {
         limit?: number;
       };
       returnValue: string | undefined;
+    }>;
+    [SheetNames.MOD_NOTES]: SheetDefinition<{
+      payload?: {
+        title?: string;
+        description?: string;
+        placeholder?: string;
+        maxLength?: number;
+        confirmLabel?: string;
+      };
+      // `{ notes }` on confirm, `{ cancelled: true }` on explicit cancel.
+      // Dismissing by backdrop, swipe or back button resolves the payload
+      // object instead, because the library publishes
+      // `data || payloadRef.current` on close. Gate on a string `notes`, never
+      // on truthiness.
+      returnValue: ModNotesResult | undefined;
     }>;
   }
 }
