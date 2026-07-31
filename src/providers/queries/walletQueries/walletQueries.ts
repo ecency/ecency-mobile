@@ -19,7 +19,7 @@ import {
   buildRecurrentTransferOp,
 } from '@ecency/sdk';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
-import POINTS from '../../../constants/options/points';
+import { resolvePointType } from '../../../constants/options/points';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { claimPoints } from '../../ecency/ePoint';
 import { getAccount } from '../../hive/hive';
@@ -412,7 +412,7 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
       // For POINTS, use transactions from SDK points query
       const transactions = pointsQuery.data?.transactions || [];
       return transactions.map((item) => {
-        const pointType = POINTS[get(item, 'type')] || POINTS.default;
+        const pointType = resolvePointType(item);
         return groomingPointsTransactionData({
           ...item,
           icon: get(pointType, 'icon'),
