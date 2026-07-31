@@ -57,6 +57,7 @@ import { extractImageUrls, extractUrls } from '../../../utils/editor';
 import postUrlParser from '../../../utils/postUrlParser';
 import { fetchLinkMetadata } from '../../../utils/linkMetadata';
 import { isMediaPickerCancellation, reportMediaPickerError } from '../../../utils/mediaPickerError';
+import { isCommunityModerator } from '../../../utils/communityModeration';
 import { LinkPreview, HiveLinkPreview } from '../../../components';
 import { SheetNames } from '../../../navigation/sheets';
 
@@ -663,6 +664,13 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
 
   // Resolve moderation status effect
   useEffect(() => {
+    // The lookup is async, so a pending request from a previous account or
+    // community can resolve after the deps change and grant moderation in a
+    // context it was never resolved for (logging out clears the flag, then a
+    // stale resolve sets it back to true). Ignore any result whose effect run
+    // has already been cleaned up.
+    let cancelled = false;
+
     const resolveModeration = async () => {
       if (!derivedCommunityIdentifier || !currentAccount?.name) {
         setCanModerate(false);
@@ -673,19 +681,22 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         const community = await queryClient.fetchQuery(
           getCommunityQueryOptions(derivedCommunityIdentifier, currentAccount.name),
         );
-        const team = community?.team || [];
-        const isModerator = team.some(
-          (member: any) =>
-            member?.account === currentAccount.name &&
-            ['mod', 'admin', 'owner'].includes(member?.role as string),
-        );
-        setCanModerate(isModerator);
+        if (cancelled) {
+          return;
+        }
+        setCanModerate(isCommunityModerator(community?.team, currentAccount.name));
       } catch (err) {
-        setCanModerate(false);
+        if (!cancelled) {
+          setCanModerate(false);
+        }
       }
     };
 
     resolveModeration();
+
+    return () => {
+      cancelled = true;
+    };
   }, [currentAccount?.name, derivedCommunityIdentifier, queryClient]);
 
   // Detect and fetch link metadata when message changes
