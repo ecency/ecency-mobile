@@ -181,7 +181,11 @@
     "payout": "Payout",
     "details": "Details",
     "community": "community",
-    "new_post": "New Post"
+    "new_post": "New Post",
+    "mute_post_title": "Mute this post",
+    "unmute_post_title": "Unmute this post",
+    "mute_post_reason": "Why is this being muted?",
+    "unmute_post_reason": "Why is this being restored?"
   },
   "trade": {
     "swap_for": "Swapping {fromAmount} for {toAmount}",
@@ -213,6 +217,8 @@
     "pin-blog": "Pin to blog",
     "copy": "copy link",
     "unpin-community": "Unpin from community",
+    "mute-post": "Mute post",
+    "unmute-post": "Unmute post",
     "mute": "Mute / Block",
     "reblog": "reblog",
     "undo-reblog": "undo reblog",

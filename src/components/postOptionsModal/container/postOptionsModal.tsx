@@ -20,6 +20,7 @@ import { useAuthContext } from '../../../providers/sdk';
 import {
   useReblogMutation,
   usePinPostMutation,
+  useMutePostMutation,
   useAccountUpdateMutation,
   useIgnoreUserMutation,
   useUpdateReplyMutation,
@@ -94,6 +95,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
   const deleteCommentMutation = useDeleteComment(currentAccount?.name, authContext, 'async');
   const reblogMutation = useReblogMutation();
   const pinPostMutation = usePinPostMutation();
+  const mutePostMutation = useMutePostMutation();
   const accountUpdateMutation = useAccountUpdateMutation();
   const ignoreUserMutation = useIgnoreUserMutation();
   const updateReplyMutation = useUpdateReplyMutation();
@@ -209,9 +211,29 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
     // check community pin update eligibility
     const _isCommunityPost = !!content && !!content.community;
 
-    const _canUpdateCommunityPin =
-      _isCommunityPost && isCommunityModerator(communityQuery.data?.team, currentAccount?.name);
+    const _isCommunityModerator = isCommunityModerator(
+      communityQuery.data?.team,
+      currentAccount?.name,
+    );
+
+    // Moderating a cross-post is not expressible: `parsePost` swaps author and
+    // permlink to the original entry but leaves `community` as the wrapper's,
+    // so the {community, author, permlink} tuple would not match anything
+    // hivemind knows about. Moderate the original post instead.
+    //
+    // Both pin and mute build that same tuple, so both are withheld.
+    const _canModerateCommunityPost =
+      _isCommunityPost && _isCommunityModerator && !content.crosspostMeta;
+
+    const _canUpdateCommunityPin = _canModerateCommunityPost;
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
+
+    const _canMuteCommunityPost = _canModerateCommunityPost;
+
+    // Read `stats.gray` directly rather than the parsed `isMuted`. getMutedReason
+    // also reports MODERATED for low-reputation and downvoted posts, which would
+    // offer "unmute" on posts no moderator ever muted.
+    const _isMutedInCommunity = !!content && !!content.stats?.gray;
 
     // check if post can be deleted
     // Hive's on-chain rule is: no children AND no net positive rshares. Using
@@ -275,6 +297,10 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
           return _canPinReply && !_isPinnedReply;
         case 'unpin-reply':
           return _canPinReply && _isPinnedReply;
+        case 'mute-post':
+          return _canMuteCommunityPost && !_isMutedInCommunity;
+        case 'unmute-post':
+          return _canMuteCommunityPost && _isMutedInCommunity;
         case 'translate':
           return isVisibleTranslateModal;
         case 'delete-post':
@@ -642,6 +668,67 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
     }
   };
 
+  const _muteCommunityPost = async ({ unmute }: { unmute: boolean } = { unmute: false }) => {
+    // hivemind requires a note on both mute and unmute.
+    const result = await SheetManager.show(SheetNames.MOD_NOTES, {
+      payload: {
+        title: intl.formatMessage({
+          id: unmute ? 'community.unmute_post_title' : 'community.mute_post_title',
+        }),
+        description: `@${content.author}/${content.permlink}`,
+        placeholder: intl.formatMessage({
+          id: unmute ? 'community.unmute_post_reason' : 'community.mute_post_reason',
+        }),
+        confirmLabel: intl.formatMessage({
+          id: unmute ? 'post_dropdown.unmute-post' : 'post_dropdown.mute-post',
+        }),
+      },
+    });
+
+    // Only a confirmation carries a string `notes`. Cancelling yields
+    // { cancelled: true }, and a backdrop, swipe or back dismissal yields the
+    // payload object, because the library publishes `data || payloadRef.current`
+    // on close. Testing truthiness here would broadcast on every dismissal.
+    const notes = typeof result?.notes === 'string' ? result.notes.trim() : '';
+    if (!notes) {
+      return;
+    }
+
+    try {
+      await mutePostMutation.mutateAsync({
+        community: content.community,
+        author: content.author,
+        permlink: content.permlink,
+        notes,
+        mute: !unmute,
+      });
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+
+      const { queryKey: entryQueryKey } = getPostQueryOptions(
+        content.author,
+        content.permlink,
+        currentAccount?.name || '',
+      );
+      queryClient.invalidateQueries({ queryKey: entryQueryKey });
+
+      // Refresh the community feeds so the post is hidden or restored.
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0] === 'posts' &&
+          query.queryKey[1] === 'posts-ranked' &&
+          query.queryKey[3] === content.community,
+      });
+    } catch (err) {
+      console.warn('Failed to update mute status of community post', err);
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        get(err, 'message') || String(err) || 'Unknown error',
+      );
+    }
+  };
+
   const _updatePinnedReply = async ({ unpin }: { unpin: boolean } = { unpin: false }) => {
     const observer = currentAccount?.name || currentAccount?.username;
     const parentPost = queryClient.getQueryData(
@@ -794,6 +881,16 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
         break;
       case 'unpin-reply':
         _updatePinnedReply({ unpin: true });
+        break;
+      // Delayed like the other cases that open a sheet, so this one is not
+      // swallowed by the options sheet's own hide animation.
+      case 'mute-post':
+        await delay(700);
+        _muteCommunityPost();
+        break;
+      case 'unmute-post':
+        await delay(700);
+        _muteCommunityPost({ unmute: true });
         break;
       case 'edit-history':
         navigation.navigate({
