@@ -27,6 +27,7 @@ import AccountBoost from './accountBoost/screen/accountBoostScreen';
 import Register from './register/registerScreen';
 import TagResult from './tagResult';
 import { Community } from './community';
+import { CommunityMembers } from './communityMembers';
 import Communities from './communities';
 import ReferScreen from './referScreen/referScreen';
 import AssetDetails from './assetDetails';
@@ -72,6 +73,7 @@ export {
   ChatThread,
   TagResult,
   Community,
+  CommunityMembers,
   Communities,
   WebBrowser,
   ReferScreen,

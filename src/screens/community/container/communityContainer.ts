@@ -11,6 +11,7 @@ import { updateSubscribedCommunitiesCache } from '../../../redux/actions/cacheAc
 import { statusMessage } from '../../../redux/constants/communitiesConstants';
 import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
 import { useAppSelector, useCommunitySubscriptionAction } from '../../../hooks';
+import { isCommunityModerator } from '../../../utils/communityModeration';
 
 const CommunityContainer = ({ tag, children, currentAccount, isLoggedIn }) => {
   const navigation = useNavigation();
@@ -87,6 +88,11 @@ const CommunityContainer = ({ tag, children, currentAccount, isLoggedIn }) => {
     });
   };
 
+  // Moderator authority comes from the community team, not from the Redux
+  // subscription list: it does not depend on being subscribed, and the role slot
+  // in that list is overwritable.
+  const isModerator = isCommunityModerator(data?.team, currentAccount?.name);
+
   return (
     children &&
     children({
@@ -95,6 +101,7 @@ const CommunityContainer = ({ tag, children, currentAccount, isLoggedIn }) => {
       handleNewPostButtonPress: _handleNewPostButtonPress,
       isSubscribed,
       isLoggedIn,
+      isModerator,
     })
   );
 };

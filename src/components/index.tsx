@@ -126,6 +126,7 @@ import { HiveAuthBroadcastSheet } from './hiveAuthBroadcastSheet';
 import EmojiPickerSheet from './emojiPickerSheet';
 import { AuthUpgradeSheet } from './authUpgradeSheet';
 import { ModNotesSheet } from './modNotesSheet';
+import { CommunityManageSheet } from './communityManageSheet';
 import TransferFavoritesSheet from './transferFavoritesSheet/transferFavoritesSheet';
 
 // Basic UI Elements
@@ -308,5 +309,6 @@ export {
   EmojiPickerSheet,
   AuthUpgradeSheet,
   ModNotesSheet,
+  CommunityManageSheet,
   TransferFavoritesSheet,
 };

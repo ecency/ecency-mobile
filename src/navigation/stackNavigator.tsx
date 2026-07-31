@@ -28,6 +28,7 @@ import {
   AccountBoost,
   TagResult,
   Community,
+  CommunityMembers,
   Communities,
   WebBrowser,
   ReferScreen,
@@ -68,6 +69,7 @@ const MainStackNavigator = () => {
       <MainStack.Screen name={ROUTES.SCREENS.PERKS} component={Perks} />
       <MainStack.Screen name={ROUTES.SCREENS.ACCOUNT_BOOST} component={AccountBoost} />
       <MainStack.Screen name={ROUTES.SCREENS.COMMUNITY} component={Community} />
+      <MainStack.Screen name={ROUTES.SCREENS.COMMUNITY_MEMBERS} component={CommunityMembers} />
       <MainStack.Screen name={ROUTES.SCREENS.COMMUNITIES} component={Communities} />
       <MainStack.Screen name={ROUTES.SCREENS.REFER} component={ReferScreen} />
       <MainStack.Screen name={ROUTES.SCREENS.ASSET_DETAILS} component={AssetDetails} />

@@ -139,3 +139,4 @@ export * from './proposalQueries';
 export * from './proQueries';
 export * from './statsQueries';
 export * from './searchQueries';
+export * from './communityQueries';

@@ -19,8 +19,10 @@ import {
   ComposeTranslateModal,
   TransferFavoritesSheet,
   ModNotesSheet,
+  CommunityManageSheet,
 } from '../components';
 import type { ModNotesResult } from '../components/modNotesSheet/modNotesSheet';
+import type { CommunityManageAction } from '../components/communityManageSheet/communityManageSheet';
 import { ShareIntentSheet } from '../components/shareIntentSheet';
 import SignConfirmSheet from '../screens/dappBrowser/components/signConfirmSheet';
 import ReceiveQrSheet from '../components/receiveQrSheet/receiveQrSheet';
@@ -54,6 +56,7 @@ export enum SheetNames {
   BALANCE_ANALYTICS = 'balance_analytics',
   TRANSFER_FAVORITES = 'transfer_favorites',
   MOD_NOTES = 'mod_notes',
+  COMMUNITY_MANAGE = 'community_manage',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -80,6 +83,7 @@ registerSheet(SheetNames.RECEIVE_QR, ReceiveQrSheet);
 registerSheet(SheetNames.BALANCE_ANALYTICS, BalanceAnalyticsSheet);
 registerSheet(SheetNames.TRANSFER_FAVORITES, TransferFavoritesSheet);
 registerSheet(SheetNames.MOD_NOTES, ModNotesSheet);
+registerSheet(SheetNames.COMMUNITY_MANAGE, CommunityManageSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -253,6 +257,13 @@ declare module 'react-native-actions-sheet' {
       // `data || payloadRef.current` on close. Gate on a string `notes`, never
       // on truthiness.
       returnValue: ModNotesResult | undefined;
+    }>;
+    [SheetNames.COMMUNITY_MANAGE]: SheetDefinition<{
+      // `{ action }` on selection. Dismissing by backdrop, swipe or back
+      // resolves the payload object instead, because the library publishes
+      // `data || payloadRef.current` on close, so match on a known action
+      // rather than on truthiness.
+      returnValue: { action?: CommunityManageAction } | undefined;
     }>;
   }
 }
