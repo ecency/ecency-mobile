@@ -20,9 +20,11 @@ import {
   TransferFavoritesSheet,
   ModNotesSheet,
   CommunityManageSheet,
+  CommunityRoleEditSheet,
 } from '../components';
 import type { ModNotesResult } from '../components/modNotesSheet/modNotesSheet';
 import type { CommunityManageAction } from '../components/communityManageSheet/communityManageSheet';
+import type { CommunityRoleEditResult } from '../components/communityRoleEditSheet/communityRoleEditSheet';
 import { ShareIntentSheet } from '../components/shareIntentSheet';
 import SignConfirmSheet from '../screens/dappBrowser/components/signConfirmSheet';
 import ReceiveQrSheet from '../components/receiveQrSheet/receiveQrSheet';
@@ -57,6 +59,7 @@ export enum SheetNames {
   TRANSFER_FAVORITES = 'transfer_favorites',
   MOD_NOTES = 'mod_notes',
   COMMUNITY_MANAGE = 'community_manage',
+  COMMUNITY_ROLE_EDIT = 'community_role_edit',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -84,6 +87,7 @@ registerSheet(SheetNames.BALANCE_ANALYTICS, BalanceAnalyticsSheet);
 registerSheet(SheetNames.TRANSFER_FAVORITES, TransferFavoritesSheet);
 registerSheet(SheetNames.MOD_NOTES, ModNotesSheet);
 registerSheet(SheetNames.COMMUNITY_MANAGE, CommunityManageSheet);
+registerSheet(SheetNames.COMMUNITY_ROLE_EDIT, CommunityRoleEditSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -264,6 +268,18 @@ declare module 'react-native-actions-sheet' {
       // `data || payloadRef.current` on close, so match on a known action
       // rather than on truthiness.
       returnValue: { action?: CommunityManageAction } | undefined;
+    }>;
+    [SheetNames.COMMUNITY_ROLE_EDIT]: SheetDefinition<{
+      payload: {
+        account: string;
+        currentRole: string;
+        assignableRoles: string[];
+      };
+      // `{ role }` on selection, `{ cancelled: true }` on cancel. A backdrop,
+      // swipe or back dismissal resolves the payload object instead, because
+      // the library publishes `data || payloadRef.current` on close. Gate on a
+      // string `role`, never on truthiness.
+      returnValue: CommunityRoleEditResult | undefined;
     }>;
   }
 }

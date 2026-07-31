@@ -20,9 +20,16 @@ export type SubscriberRow = string[];
  * `last` + `limit` cursor instead, where `last` is the previous page's final
  * account name.
  */
+export const communitySubscribersQueryKey = (community: string) => [
+  'communities',
+  'subscribers',
+  'infinite',
+  community,
+];
+
 export const useCommunitySubscribersQuery = (community: string, enabled = true) =>
   useInfiniteQuery({
-    queryKey: ['communities', 'subscribers', 'infinite', community],
+    queryKey: communitySubscribersQueryKey(community),
     enabled: enabled && !!community,
     initialPageParam: '',
     queryFn: async ({ pageParam }) => {
@@ -45,3 +52,44 @@ export const useCommunitySubscribersQuery = (community: string, enabled = true) 
       return lastPage[lastPage.length - 1]?.[0];
     },
   });
+
+/** Shape of the cached infinite subscribers query. */
+export interface SubscribersCache {
+  pages?: SubscriberRow[][];
+  pageParams?: unknown[];
+}
+
+const ACCOUNT_INDEX = 0;
+const TITLE_INDEX = 2;
+
+/**
+ * Rewrites one account's role in the cached subscriber pages, preserving the
+ * rest of each tuple.
+ *
+ * Used after a successful setRole instead of invalidating. setRole broadcasts
+ * async, so mutateAsync resolves on mempool acceptance and any refetch issued
+ * now returns pre-transaction state from hivemind. The SDK patches the cached
+ * community `team` for the same reason, but never touches the subscriber list,
+ * which is what the roster falls back to once a demotion drops an account off
+ * the team.
+ */
+export const applyRoleToSubscribersCache = (
+  cached: SubscribersCache | undefined,
+  account: string,
+  role: string,
+): SubscribersCache | undefined => {
+  if (!cached?.pages) {
+    return cached;
+  }
+
+  return {
+    ...cached,
+    pages: cached.pages.map((page) =>
+      page.map((tuple) =>
+        tuple?.[ACCOUNT_INDEX] === account
+          ? [tuple[ACCOUNT_INDEX], role, ...tuple.slice(TITLE_INDEX)]
+          : tuple,
+      ),
+    ),
+  };
+};
