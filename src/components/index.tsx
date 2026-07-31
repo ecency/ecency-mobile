@@ -127,6 +127,7 @@ import EmojiPickerSheet from './emojiPickerSheet';
 import { AuthUpgradeSheet } from './authUpgradeSheet';
 import { ModNotesSheet } from './modNotesSheet';
 import { CommunityManageSheet } from './communityManageSheet';
+import { CommunityRoleEditSheet } from './communityRoleEditSheet';
 import TransferFavoritesSheet from './transferFavoritesSheet/transferFavoritesSheet';
 
 // Basic UI Elements
@@ -310,5 +311,6 @@ export {
   AuthUpgradeSheet,
   ModNotesSheet,
   CommunityManageSheet,
+  CommunityRoleEditSheet,
   TransferFavoritesSheet,
 };

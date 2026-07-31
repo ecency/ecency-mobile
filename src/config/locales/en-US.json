@@ -188,6 +188,7 @@
     "unmute_post_reason": "Why is this being restored?",
     "manage": "Manage community",
     "manage_members": "Members and roles",
+    "set_role": "Set role",
     "members": "members",
     "no_members": "No members found",
     "members_incomplete": "Some members could not be loaded. Pull to refresh.",

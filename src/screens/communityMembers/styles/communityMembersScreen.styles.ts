@@ -27,6 +27,10 @@ export default EStyleSheet.create({
     borderRadius: 12,
     backgroundColor: '$primaryLightBackground',
   },
+  roleChipEditable: {
+    borderWidth: 1,
+    borderColor: '$primaryBlue',
+  },
   roleChipText: {
     fontSize: 12,
     color: '$primaryDarkGray',

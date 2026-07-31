@@ -1,15 +1,28 @@
 import React, { useMemo } from 'react';
-import { ActivityIndicator, FlatList, RefreshControl, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getCommunityQueryOptions, ROLES } from '@ecency/sdk';
+import { SheetManager } from 'react-native-actions-sheet';
+import { getCommunityQueryOptions, ROLES, roleMap } from '@ecency/sdk';
 
 import { BasicHeader, UserListItem } from '../../../components';
 import ROUTES from '../../../constants/routeNames';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { SheetNames } from '../../../navigation/sheets';
+import { useSetCommunityRoleMutation } from '../../../providers/sdk/mutations';
+import { toastNotification } from '../../../redux/actions/uiAction';
+import { getCommunityRole } from '../../../utils/communityModeration';
 import { useCommunitySubscribersQuery } from '../../../providers/queries';
 import { selectCurrentAccount, selectIsDarkTheme } from '../../../redux/selectors';
 import { isCommunity } from '../../../utils/communityValidation';
@@ -45,8 +58,11 @@ const CommunityMembersScreen = ({ route }) => {
   const communityId: string = route.params?.communityId ?? '';
   const communityTitle: string = route.params?.communityTitle ?? '';
 
+  const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
   const currentAccount = useAppSelector(selectCurrentAccount);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
+  const setCommunityRoleMutation = useSetCommunityRoleMutation(communityId);
 
   const communityQuery = useQuery(
     getCommunityQueryOptions(communityId, currentAccount?.name, !!communityId),
@@ -84,6 +100,14 @@ const CommunityMembersScreen = ({ route }) => {
     });
   }, [communityQuery.data, subscribersQuery.data]);
 
+  // hivemind only lets you assign roles strictly below your own, and only to
+  // accounts already below you. roleMap encodes the first half; the second is
+  // why a row is editable only when the target's current role is assignable.
+  const assignableRoles: string[] = useMemo(
+    () => roleMap[getCommunityRole(communityQuery.data?.team, currentAccount?.name) ?? ''] ?? [],
+    [communityQuery.data, currentAccount?.name],
+  );
+
   const isLoading = communityQuery.isLoading || subscribersQuery.isLoading;
   // Surfaced separately from the empty case: a failed query also yields zero
   // rows, and rendering "no members" for it reads as an authoritative answer
@@ -109,13 +133,55 @@ const CommunityMembersScreen = ({ route }) => {
     });
   };
 
-  const _renderRoleChip = (member: Member) => (
-    <View style={styles.roleChip}>
-      <Text style={styles.roleChipText}>
-        {intl.formatMessage({ id: `community.role_${member.role}` })}
-      </Text>
-    </View>
-  );
+  const _canEdit = (member: Member) =>
+    assignableRoles.length > 0 &&
+    member.account !== currentAccount?.name &&
+    assignableRoles.includes(member.role);
+
+  const _handleEditRole = async (member: Member) => {
+    const result = await SheetManager.show(SheetNames.COMMUNITY_ROLE_EDIT, {
+      payload: {
+        account: member.account,
+        currentRole: member.role,
+        assignableRoles,
+      },
+    });
+
+    // Only a selection carries a string role. Cancel resolves { cancelled },
+    // and a backdrop, swipe or back dismissal resolves the payload object,
+    // because the library publishes `data || payloadRef.current` on close.
+    const role = typeof result?.role === 'string' ? result.role : '';
+    if (!role || role === member.role) {
+      return;
+    }
+
+    try {
+      await setCommunityRoleMutation.mutateAsync({ account: member.account, role });
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+      // The team drives both the roster and the gate above, so it has to refetch.
+      queryClient.invalidateQueries({
+        queryKey: getCommunityQueryOptions(communityId, currentAccount?.name).queryKey,
+      });
+    } catch (err) {
+      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), (err as Error)?.message || String(err));
+    }
+  };
+
+  const _renderRoleChip = (member: Member) => {
+    const chip = (
+      <View style={[styles.roleChip, _canEdit(member) && styles.roleChipEditable]}>
+        <Text style={styles.roleChipText}>
+          {intl.formatMessage({ id: `community.role_${member.role}` })}
+        </Text>
+      </View>
+    );
+
+    if (!_canEdit(member)) {
+      return chip;
+    }
+
+    return <TouchableOpacity onPress={() => _handleEditRole(member)}>{chip}</TouchableOpacity>;
+  };
 
   const _renderItem = ({ item, index }: { item: Member; index: number }) => (
     <UserListItem
