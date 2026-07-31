@@ -57,6 +57,7 @@ import { extractImageUrls, extractUrls } from '../../../utils/editor';
 import postUrlParser from '../../../utils/postUrlParser';
 import { fetchLinkMetadata } from '../../../utils/linkMetadata';
 import { isMediaPickerCancellation, reportMediaPickerError } from '../../../utils/mediaPickerError';
+import { isCommunityModerator } from '../../../utils/communityModeration';
 import { LinkPreview, HiveLinkPreview } from '../../../components';
 import { SheetNames } from '../../../navigation/sheets';
 
@@ -673,13 +674,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         const community = await queryClient.fetchQuery(
           getCommunityQueryOptions(derivedCommunityIdentifier, currentAccount.name),
         );
-        const team = community?.team || [];
-        const isModerator = team.some(
-          (member: any) =>
-            member?.account === currentAccount.name &&
-            ['mod', 'admin', 'owner'].includes(member?.role as string),
-        );
-        setCanModerate(isModerator);
+        setCanModerate(isCommunityModerator(community?.team, currentAccount.name));
       } catch (err) {
         setCanModerate(false);
       }
