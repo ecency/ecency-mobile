@@ -7,6 +7,18 @@ import { MainButton } from '../mainButton';
 
 const FALLBACK_SHEET_ID = 'mod_notes';
 
+/**
+ * Result of the sheet. Both variants are objects because
+ * react-native-actions-sheet 0.9.7 publishes `data || payloadRef.current` on
+ * close (dist/src/index.js:403), so a falsy return value is silently replaced
+ * by the original payload object. Any `false`/`undefined`/`''` contract would
+ * therefore reach the caller as a truthy object and read as a confirmation.
+ */
+export interface ModNotesResult {
+  notes?: string;
+  cancelled?: boolean;
+}
+
 // Hivemind stores the note on the moderation action itself. Web caps the same
 // field at 120 characters, so keep the two clients consistent.
 const DEFAULT_MAX_LENGTH = 120;
@@ -15,9 +27,10 @@ const DEFAULT_MAX_LENGTH = 120;
  * Prompts a moderator for the free-text reason that community moderation
  * operations carry (mutePost/unmutePost take a required `notes` field).
  *
- * Resolves the `SheetManager.show` promise with the trimmed note, or `false`
- * when the moderator backs out. Backdrop dismissal resolves `undefined`, so
- * callers should treat any falsy result as a cancellation.
+ * Resolves the `SheetManager.show` promise with `{ notes }` on confirm and
+ * `{ cancelled: true }` on an explicit cancel. Dismissing by backdrop, swipe or
+ * back button resolves the original payload object instead (see ModNotesResult),
+ * so callers must gate on a string `notes` rather than on truthiness.
  */
 const ModNotesSheet: React.FC<SheetProps<'mod_notes'>> = ({ sheetId, payload }) => {
   const intl = useIntl();
@@ -45,7 +58,7 @@ const ModNotesSheet: React.FC<SheetProps<'mod_notes'>> = ({ sheetId, payload }) 
     _reset();
   }, [payload, _reset]);
 
-  const _close = (result: string | false) => {
+  const _close = (result: ModNotesResult) => {
     if (closedRef.current) {
       return;
     }
@@ -58,7 +71,7 @@ const ModNotesSheet: React.FC<SheetProps<'mod_notes'>> = ({ sheetId, payload }) 
     if (!notes) {
       return;
     }
-    _close(notes);
+    _close({ notes });
   };
 
   return (
@@ -100,7 +113,7 @@ const ModNotesSheet: React.FC<SheetProps<'mod_notes'>> = ({ sheetId, payload }) 
         />
 
         <MainButton
-          onPress={() => _close(false)}
+          onPress={() => _close({ cancelled: true })}
           text={intl.formatMessage({ id: 'mod_notes.cancel' })}
           style={styles.cancelButton}
           textStyle={styles.cancelButtonText}

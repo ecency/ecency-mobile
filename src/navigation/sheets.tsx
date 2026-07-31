@@ -19,6 +19,7 @@ import {
   TransferFavoritesSheet,
   ModNotesSheet,
 } from '../components';
+import type { ModNotesResult } from '../components/modNotesSheet/modNotesSheet';
 import { ShareIntentSheet } from '../components/shareIntentSheet';
 import SignConfirmSheet from '../screens/dappBrowser/components/signConfirmSheet';
 import ReceiveQrSheet from '../components/receiveQrSheet/receiveQrSheet';
@@ -238,10 +239,12 @@ declare module 'react-native-actions-sheet' {
         maxLength?: number;
         confirmLabel?: string;
       };
-      // Trimmed note on confirm, false on explicit cancel. Backdrop dismissal
-      // resolves undefined, so callers should treat any falsy value as a
-      // cancellation.
-      returnValue: string | false | undefined;
+      // `{ notes }` on confirm, `{ cancelled: true }` on explicit cancel.
+      // Dismissing by backdrop, swipe or back button resolves the payload
+      // object instead, because the library publishes
+      // `data || payloadRef.current` on close. Gate on a string `notes`, never
+      // on truthiness.
+      returnValue: ModNotesResult | undefined;
     }>;
   }
 }
