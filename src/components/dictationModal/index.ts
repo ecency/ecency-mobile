@@ -1,0 +1,1 @@
+export { DictationModal } from './dictationModal';

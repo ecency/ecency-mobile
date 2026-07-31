@@ -49,6 +49,28 @@ jest.mock('@react-native-async-storage/async-storage', () =>
 );
 
 // Mock Expo crypto
+// expo-audio is a native module: importing it unmocked fails any test that reaches
+// the dictation sheet. Mirrors the shape useDictationRecorder actually consumes.
+jest.mock('expo-audio', () => ({
+  RecordingPresets: { HIGH_QUALITY: {} },
+  requestRecordingPermissionsAsync: jest.fn(async () => ({ granted: true })),
+  setAudioModeAsync: jest.fn(async () => undefined),
+  useAudioRecorder: jest.fn(() => ({
+    isRecording: false,
+    uri: null,
+    record: jest.fn(),
+    stop: jest.fn(async () => undefined),
+    prepareToRecordAsync: jest.fn(async () => undefined),
+  })),
+  useAudioRecorderState: jest.fn(() => ({
+    canRecord: true,
+    isRecording: false,
+    durationMillis: 0,
+    mediaServicesDidReset: false,
+    url: null,
+  })),
+}));
+
 jest.mock('expo-crypto', () => ({
   digestStringAsync: jest.fn(),
 }));

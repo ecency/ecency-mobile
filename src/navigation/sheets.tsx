@@ -15,6 +15,7 @@ import {
   EmojiPickerSheet,
   AuthUpgradeSheet,
   AiAssistModal,
+  DictationModal,
   ComposeTranslateModal,
   TransferFavoritesSheet,
 } from '../components';
@@ -43,6 +44,7 @@ export enum SheetNames {
   EMOJI_PICKER = 'emoji_picker',
   AUTH_UPGRADE = 'auth_upgrade',
   AI_ASSIST = 'ai_assist',
+  DICTATION = 'dictation',
   COMPOSE_TRANSLATE = 'compose_translate',
   SHARE_INTENT = 'share_intent',
   SIGN_CONFIRM = 'sign_confirm',
@@ -67,6 +69,7 @@ registerSheet(SheetNames.HIVE_AUTH_BROADCAST, HiveAuthBroadcastSheet);
 registerSheet(SheetNames.EMOJI_PICKER, EmojiPickerSheet);
 registerSheet(SheetNames.AUTH_UPGRADE, AuthUpgradeSheet);
 registerSheet(SheetNames.AI_ASSIST, AiAssistModal);
+registerSheet(SheetNames.DICTATION, DictationModal);
 registerSheet(SheetNames.COMPOSE_TRANSLATE, ComposeTranslateModal);
 registerSheet(SheetNames.SHARE_INTENT, ShareIntentSheet);
 registerSheet(SheetNames.SIGN_CONFIRM, SignConfirmSheet);
@@ -191,6 +194,11 @@ declare module 'react-native-actions-sheet' {
         text: string;
         onApply?: (output: string, action: string) => void;
         supportedActions?: string[];
+      };
+    }>;
+    [SheetNames.DICTATION]: SheetDefinition<{
+      payload: {
+        onInsert: (text: string) => void;
       };
     }>;
     [SheetNames.COMPOSE_TRANSLATE]: SheetDefinition<{

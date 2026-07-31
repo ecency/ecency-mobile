@@ -71,6 +71,7 @@ type Props = {
   handleAiAssistResult?: (output: string, action: string) => void;
   handleAiToolUsed?: (key: string) => void;
   handleShowTranslate?: () => void;
+  handleOnDictationResult?: (text: string) => void;
 };
 
 export const EditorToolbar = ({
@@ -93,6 +94,7 @@ export const EditorToolbar = ({
   handleShowSnippets,
   handleAiAssistResult,
   handleShowTranslate,
+  handleOnDictationResult,
 }: Props) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
@@ -219,6 +221,14 @@ export const EditorToolbar = ({
 
   const _openPerks = () => {
     navigation.navigate(ROUTES.SCREENS.PERKS);
+  };
+
+  const _showDictation = () => {
+    SheetManager.show(SheetNames.DICTATION, {
+      payload: {
+        onInsert: (text: string) => handleOnDictationResult?.(text),
+      },
+    });
   };
 
   const _showAiAssist = () => {
@@ -581,6 +591,17 @@ export const EditorToolbar = ({
               iconStyle={styles.icon}
               iconType="MaterialCommunityIcons"
               name="video-outline"
+            />
+            <IconButton
+              onPress={_showDictation}
+              style={styles.rightIcons}
+              size={22}
+              iconStyle={styles.icon}
+              iconType="MaterialCommunityIcons"
+              name="microphone-outline"
+              badgeCount="AI"
+              badgeStyle={styles.aiBadge}
+              badgeTextStyle={styles.aiBadgeText}
             />
           </ScrollView>
 

@@ -394,6 +394,20 @@ const MarkdownEditorView = ({
     insertLinkModalRef.current?.hideModal();
   };
 
+  // Dictated text goes in at the caret, like a snippet -- not replacing the body the
+  // way the AI assist edit actions do. Someone dictating mid-draft is adding to it.
+  const _handleDictationResult = useCallback(
+    (text: string) => {
+      applySnippet({
+        text: bodyTextRef.current,
+        selection: bodySelectionRef.current,
+        setTextAndSelection: _setTextAndSelection,
+        snippetText: text,
+      });
+    },
+    [_setTextAndSelection],
+  );
+
   const _handleAiAssistResult = useCallback(
     (output: string, action: string) => {
       if (action === 'improve' || action === 'check_grammar' || action === 'summarize') {
@@ -581,6 +595,7 @@ const MarkdownEditorView = ({
           handleShowSnippets={() => setIsSnippetsOpen(true)}
           handleOnClearPress={() => clearRef.current.show()}
           handleAiAssistResult={_handleAiAssistResult}
+          handleOnDictationResult={_handleDictationResult}
           handleShowTranslate={_showTranslateModal}
           handleOnMarkupButtonPress={(item) => {
             item.onPress({

@@ -6596,6 +6596,11 @@ expo-asset@~11.1.7:
     "@expo/image-utils" "^0.7.6"
     expo-constants "~17.1.7"
 
+expo-audio@~0.4.9:
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/expo-audio/-/expo-audio-0.4.9.tgz#f15f64652785ecd416ad351bf42666315e1e0b69"
+  integrity sha512-J4mMYEt2mqRqqwmSsXFylMGlrNWa+MbCzGl1IZBs+smvPAMJ3Ni8fNplzCQ0I9RnRzygKhRwJNpnAVL+n4MuyA==
+
 expo-constants@~17.1.7:
   version "17.1.7"
   resolved "https://registry.npmjs.org/expo-constants/-/expo-constants-17.1.7.tgz"
