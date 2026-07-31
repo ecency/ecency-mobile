@@ -23,7 +23,11 @@ import { SheetNames } from '../../../navigation/sheets';
 import { useSetCommunityRoleMutation } from '../../../providers/sdk/mutations';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { getCommunityRole } from '../../../utils/communityModeration';
-import { useCommunitySubscribersQuery } from '../../../providers/queries';
+import {
+  applyRoleToSubscribersCache,
+  communitySubscribersQueryKey,
+  useCommunitySubscribersQuery,
+} from '../../../providers/queries';
 import { selectCurrentAccount, selectIsDarkTheme } from '../../../redux/selectors';
 import { isCommunity } from '../../../utils/communityValidation';
 import styles from '../styles/communityMembersScreen.styles';
@@ -158,10 +162,21 @@ const CommunityMembersScreen = ({ route }) => {
     try {
       await setCommunityRoleMutation.mutateAsync({ account: member.account, role });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-      // The team drives both the roster and the gate above, so it has to refetch.
-      queryClient.invalidateQueries({
-        queryKey: getCommunityQueryOptions(communityId, currentAccount?.name).queryKey,
-      });
+
+      // Deliberately no invalidation here. The SDK's useSetCommunityRole already
+      // patches the cached `team` optimistically and invalidates the community
+      // query itself, and setRole broadcasts async: mutateAsync resolves on
+      // mempool acceptance, so anything refetched now returns pre-transaction
+      // state from hivemind and undoes the optimistic value.
+      //
+      // The subscriber roster is the gap. The SDK never touches it, and it is
+      // what the list falls back to when a demotion drops an account off the
+      // team, so it would keep serving the old role and keep the row editable
+      // against stale data. Patch it in place for the same reason: refetching
+      // would race indexing.
+      queryClient.setQueryData(communitySubscribersQueryKey(communityId), (cached) =>
+        applyRoleToSubscribersCache(cached, member.account, role),
+      );
     } catch (err) {
       Alert.alert(intl.formatMessage({ id: 'alert.fail' }), (err as Error)?.message || String(err));
     }
