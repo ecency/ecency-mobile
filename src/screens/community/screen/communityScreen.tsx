@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useIntl } from 'react-intl';
 
@@ -6,6 +6,8 @@ import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { TabItem } from 'components/tabbedPosts/types/tabbedPosts.types';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { SheetManager } from 'react-native-actions-sheet';
+import { useNavigation } from '@react-navigation/native';
 import { CollapsibleCard, BasicHeader, TabbedPosts } from '../../../components';
 import { Tag, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
 
@@ -15,12 +17,15 @@ import CommunityContainer from '../container/communityContainer';
 import styles from './communityStyles';
 
 import { COMMUNITY_SCREEN_FILTER_MAP, getDefaultFilters } from '../../../constants/options/filters';
+import ROUTES from '../../../constants/routeNames';
+import { SheetNames } from '../../../navigation/sheets';
 import { useAppSelector } from '../../../hooks';
 
 const CommunityScreen = ({ route }) => {
   const tag = route.params?.tag ?? '';
   const filter = route.params?.filter ?? '';
   const intl = useIntl();
+  const navigation = useNavigation();
   const [isExpanded, setIsExpanded] = useState(true);
 
   const communityTabs = useAppSelector(
@@ -61,6 +66,29 @@ const CommunityScreen = ({ route }) => {
     }
   };
 
+  const _handleManagePress = useCallback(
+    async (data) => {
+      const result = await SheetManager.show(SheetNames.COMMUNITY_MANAGE);
+
+      // Only a selection carries a known action. Backdrop, swipe and back
+      // dismissals resolve the sheet's payload object instead, so match on the
+      // action rather than on truthiness.
+      if (result?.action !== 'members') {
+        return;
+      }
+
+      navigation.navigate({
+        name: ROUTES.SCREENS.COMMUNITY_MEMBERS,
+        key: `community_members_${tag}`,
+        params: {
+          communityId: data?.name || tag,
+          communityTitle: data?.title || '',
+        },
+      });
+    },
+    [navigation, tag],
+  );
+
   return (
     <CommunityContainer tag={tag}>
       {({
@@ -69,6 +97,7 @@ const CommunityScreen = ({ route }) => {
         handleNewPostButtonPress,
         isSubscribed,
         isLoggedIn,
+        isModerator,
       }) => (
         <SafeAreaView style={styles.container}>
           <BasicHeader
@@ -76,6 +105,9 @@ const CommunityScreen = ({ route }) => {
               id: 'community.community',
             })}`}
             enableViewModeToggle={true}
+            rightIconName={isModerator ? 'shield-account-outline' : undefined}
+            iconType="MaterialCommunityIcons"
+            handleRightIconPress={() => _handleManagePress(data)}
           />
           {data ? (
             <CollapsibleCard

@@ -185,7 +185,17 @@
     "mute_post_title": "Mute this post",
     "unmute_post_title": "Unmute this post",
     "mute_post_reason": "Why is this being muted?",
-    "unmute_post_reason": "Why is this being restored?"
+    "unmute_post_reason": "Why is this being restored?",
+    "manage": "Manage community",
+    "manage_members": "Members and roles",
+    "members": "members",
+    "no_members": "No members found",
+    "role_owner": "Owner",
+    "role_admin": "Admin",
+    "role_mod": "Mod",
+    "role_member": "Member",
+    "role_guest": "Guest",
+    "role_muted": "Muted"
   },
   "trade": {
     "swap_for": "Swapping {fromAmount} for {toAmount}",
