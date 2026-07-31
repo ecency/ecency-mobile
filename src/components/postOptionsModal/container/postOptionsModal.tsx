@@ -666,7 +666,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
 
   const _muteCommunityPost = async ({ unmute }: { unmute: boolean } = { unmute: false }) => {
     // hivemind requires a note on both mute and unmute.
-    const notes = await SheetManager.show(SheetNames.MOD_NOTES, {
+    const result = await SheetManager.show(SheetNames.MOD_NOTES, {
       payload: {
         title: intl.formatMessage({
           id: unmute ? 'community.unmute_post_title' : 'community.mute_post_title',
@@ -681,7 +681,11 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
       },
     });
 
-    // Explicit cancel resolves false, backdrop dismissal resolves undefined.
+    // Only a confirmation carries a string `notes`. Cancelling yields
+    // { cancelled: true }, and a backdrop, swipe or back dismissal yields the
+    // payload object, because the library publishes `data || payloadRef.current`
+    // on close. Testing truthiness here would broadcast on every dismissal.
+    const notes = typeof result?.notes === 'string' ? result.notes.trim() : '';
     if (!notes) {
       return;
     }
