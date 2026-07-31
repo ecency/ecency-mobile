@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
@@ -26,12 +26,24 @@ const ModNotesSheet: React.FC<SheetProps<'mod_notes'>> = ({ sheetId, payload }) 
 
   const maxLength = payload?.maxLength ?? DEFAULT_MAX_LENGTH;
 
-  // react-native-actions-sheet keeps registered sheets mounted, so without this
-  // the previous moderator's note would be prefilled on the next open.
-  useEffect(() => {
+  const _reset = useCallback(() => {
     closedRef.current = false;
     setValue('');
-  }, [payload]);
+  }, []);
+
+  // react-native-actions-sheet keeps registered sheets mounted, so without a
+  // reset the previous moderator's note would be prefilled on the next open and
+  // closedRef would still be true, leaving confirm and cancel unable to close
+  // the sheet at all.
+  //
+  // Resetting on `payload` identity alone is not enough: payload is optional
+  // and a caller may reopen with no payload or the same object, in which case
+  // the effect never re-runs. onBeforeShow fires on every presentation, so it
+  // is the authoritative reset; the effect covers a payload swap while the
+  // sheet is already open.
+  useEffect(() => {
+    _reset();
+  }, [payload, _reset]);
 
   const _close = (result: string | false) => {
     if (closedRef.current) {
@@ -54,6 +66,7 @@ const ModNotesSheet: React.FC<SheetProps<'mod_notes'>> = ({ sheetId, payload }) 
       id={sheetId || FALLBACK_SHEET_ID}
       gestureEnabled
       closeOnTouchBackdrop
+      onBeforeShow={_reset}
       containerStyle={styles.sheetContainer}
     >
       <View style={styles.container}>
