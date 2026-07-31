@@ -8,10 +8,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getPostQueryOptions,
   getAccountFullQueryOptions,
+  getCommunityQueryOptions,
   parseProfileMetadata,
   useDeleteComment,
 } from '@ecency/sdk';
@@ -34,6 +35,7 @@ import ROUTES from '../../../constants/routeNames';
 import { writeToClipboard } from '../../../utils/clipboard';
 import { resolveProfileMergeBase } from '../../../utils/profileMergeBase';
 import { getPostUrl, stripCategoryFromPostPath } from '../../../utils/post';
+import { isCommunityModerator } from '../../../utils/communityModeration';
 
 // Component
 
@@ -96,7 +98,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
   const ignoreUserMutation = useIgnoreUserMutation();
   const updateReplyMutation = useUpdateReplyMutation();
   const isPinCodeOpen = useAppSelector(selectIsPinCodeOpen);
-  const subscribedCommunities = useAppSelector((state) => state.communities.subscribedCommunities);
 
   const [content, setContent] = useState<any>(null);
   const [options, setOptions] = useState(OPTIONS);
@@ -109,6 +110,14 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
     content?.author || '',
     content?.permlink || '',
     shouldFetchReblogs, // Only fetch when needed
+  );
+
+  // Authoritative source for the moderator gate on community pin/unpin. The
+  // Redux `subscribedCommunities` tuple this replaced only covered communities
+  // the moderator had subscribed to, and its role slot can be blanked by the
+  // Discover-tab subscribe path, which silently removed the action.
+  const communityQuery = useQuery(
+    getCommunityQueryOptions(content?.community, currentAccount?.name, !!content?.community),
   );
 
   useImperativeHandle(ref, () => ({
@@ -156,7 +165,18 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
     // `currentAccount?.profile?.pinned` is included so the blog pin/unpin
     // option recomputes after pinning from the detail modal (where the stored
     // `content` and its stats don't change).
-  }, [content, reblogsQuery.data, reblogsQuery.isLoading, currentAccount?.profile?.pinned]);
+    //
+    // `communityQuery.data` is included because `_initOptions` computes the
+    // menu imperatively when the sheet opens. On a cold cache the community
+    // resolves after that first pass, and without this the moderator would see
+    // a menu with no pin action until the sheet was reopened.
+  }, [
+    content,
+    reblogsQuery.data,
+    reblogsQuery.isLoading,
+    currentAccount?.profile?.pinned,
+    communityQuery.data,
+  ]);
 
   const _initOptions = () => {
     // check if post is owned by current user or not, if so pinned or not
@@ -183,14 +203,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
     const _isCommunityPost = !!content && !!content.community;
 
     const _canUpdateCommunityPin =
-      subscribedCommunities.data && !!content && content.community
-        ? subscribedCommunities.data.reduce((role, subscription) => {
-            if (content.community === subscription[0]) {
-              return ['owner', 'admin', 'mod'].includes(subscription[2]);
-            }
-            return role;
-          }, false)
-        : false;
+      _isCommunityPost && isCommunityModerator(communityQuery.data?.team, currentAccount?.name);
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
     // check if post can be deleted
