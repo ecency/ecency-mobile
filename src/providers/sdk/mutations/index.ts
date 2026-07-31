@@ -56,6 +56,9 @@ export { useEngineMarketOrderMutation } from './useEngineMarketOrderMutation';
 // Community
 export { useSubscribeCommunityMutation } from './useSubscribeCommunityMutation';
 export { useUnsubscribeCommunityMutation } from './useUnsubscribeCommunityMutation';
+// These two take a `community` argument, unlike every other wrapper here. The SDK
+// bakes the community into the mutation key, so it cannot move into the payload.
+// Do not "fix" them back to the zero-argument shape.
 export { useSetCommunityRoleMutation } from './useSetCommunityRoleMutation';
 export { useUpdateCommunityMutation } from './useUpdateCommunityMutation';
 
