@@ -1,10 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import debounce from 'lodash/debounce';
+import { getQueryClient, lookupAccountsQueryOptions } from '@ecency/sdk';
 import { Icon } from '../icon';
-import { getUsernameError } from '../../utils/usernameValidation';
+import { UserAvatar } from '../userAvatar';
+
+// Enough to disambiguate without turning the sheet into a scroller.
+const MAX_SUGGESTIONS = 6;
 
 const FALLBACK_SHEET_ID = 'community_role_edit';
 
@@ -42,10 +47,50 @@ const CommunityRoleEditSheet: React.FC<SheetProps<'community_role_edit'>> = ({
   const assignableRoles = payload?.assignableRoles ?? [];
 
   const [account, setAccount] = useState('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  // lookup_accounts is a prefix search that returns neighbouring names even for
+  // nonsense input, so an account only counts as real on an exact match. Same
+  // rule the transfer screen uses.
+  const [isKnownAccount, setIsKnownAccount] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const [error, setError] = useState('');
 
+  const _lookup = useMemo(
+    () =>
+      debounce(async (value: string) => {
+        if (!value) {
+          setSuggestions([]);
+          setIsKnownAccount(false);
+          setIsSearching(false);
+          return;
+        }
+        try {
+          const results: string[] =
+            (await getQueryClient().fetchQuery(lookupAccountsQueryOptions(value, 20))) ?? [];
+          setSuggestions(results.slice(0, MAX_SUGGESTIONS));
+          setIsKnownAccount(results.includes(value));
+        } catch {
+          setSuggestions([]);
+          setIsKnownAccount(false);
+        } finally {
+          setIsSearching(false);
+        }
+      }, 300),
+    [],
+  );
+
+  const lookupRef = useRef(_lookup);
+  lookupRef.current = _lookup;
+
+  useEffect(() => () => lookupRef.current?.cancel(), []);
+
   const _reset = useCallback(() => {
-    setAccount(payload?.account ?? '');
+    const seeded = payload?.account ?? '';
+    setAccount(seeded);
+    setSuggestions([]);
+    // A row-opened sheet already names a real member; a typed one starts unknown.
+    setIsKnownAccount(!!seeded);
+    setIsSearching(false);
     setError('');
   }, [payload?.account]);
 
@@ -60,24 +105,40 @@ const CommunityRoleEditSheet: React.FC<SheetProps<'community_role_edit'>> = ({
     SheetManager.hide(sheetId || FALLBACK_SHEET_ID, { payload: result });
   };
 
+  const _normalize = (value: string) => value.trim().toLowerCase().replace(/^@/, '');
+
+  const _handleChangeAccount = (text: string) => {
+    const name = _normalize(text);
+    setAccount(name);
+    setIsKnownAccount(false);
+    setError('');
+    setIsSearching(!!name);
+    _lookup(name);
+  };
+
+  const _handlePickSuggestion = (name: string) => {
+    _lookup.cancel();
+    setAccount(name);
+    setSuggestions([]);
+    setIsKnownAccount(true);
+    setIsSearching(false);
+    setError('');
+  };
+
   const _handleSelect = (role: string) => {
     if (!editableAccount) {
       _close({ account: payload?.account, role });
       return;
     }
 
-    const name = account.trim().toLowerCase().replace(/^@/, '');
-    const formatError = getUsernameError(name);
-
-    // `exchange` and `restricted` are registration policy rather than chain
-    // validity, and a moderator may specifically need to mute those accounts,
-    // so only genuine format errors block here.
-    if (!name || (formatError && formatError !== 'exchange' && formatError !== 'restricted')) {
+    // Resolved against the chain rather than a format rule, so an account that
+    // merely looks valid cannot be sent to a transaction that would fail.
+    if (!account || !isKnownAccount) {
       setError(intl.formatMessage({ id: 'community.invalid_username' }));
       return;
     }
 
-    _close({ account: name, role });
+    _close({ account, role });
   };
 
   return (
@@ -97,19 +158,47 @@ const CommunityRoleEditSheet: React.FC<SheetProps<'community_role_edit'>> = ({
 
         {editableAccount ? (
           <>
-            <TextInput
-              style={styles.input}
-              placeholder={intl.formatMessage({ id: 'community.username_placeholder' })}
-              placeholderTextColor={EStyleSheet.value('$primaryDarkGray')}
-              autoCapitalize="none"
-              autoCorrect={false}
-              value={account}
-              onChangeText={(text) => {
-                setAccount(text);
-                setError('');
-              }}
-            />
+            <View style={styles.inputRow}>
+              <TextInput
+                style={styles.input}
+                placeholder={intl.formatMessage({ id: 'community.username_placeholder' })}
+                placeholderTextColor={EStyleSheet.value('$primaryDarkGray')}
+                autoCapitalize="none"
+                autoCorrect={false}
+                value={account}
+                onChangeText={_handleChangeAccount}
+              />
+              {isSearching && <ActivityIndicator style={styles.inputSpinner} size="small" />}
+              {!isSearching && isKnownAccount && (
+                <Icon
+                  iconType="MaterialCommunityIcons"
+                  name="check-circle"
+                  size={20}
+                  style={styles.inputSpinner}
+                  color={EStyleSheet.value('$primaryBlue')}
+                />
+              )}
+            </View>
+
             {!!error && <Text style={styles.error}>{error}</Text>}
+
+            {/* Plain views rather than a FlatList: nesting a VirtualizedList
+                inside the sheet's scroll view warns and breaks taps. */}
+            {suggestions.length > 0 && !isKnownAccount && (
+              <View style={styles.suggestions}>
+                {suggestions.map((name) => (
+                  <TouchableOpacity
+                    key={name}
+                    style={styles.suggestionRow}
+                    onPress={() => _handlePickSuggestion(name)}
+                  >
+                    <UserAvatar username={name} size="small" noAction />
+                    <Text style={styles.suggestionText}>{name}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+
             <Text style={styles.hint}>
               {intl.formatMessage({ id: 'community.assign_role_hint' })}
             </Text>
@@ -122,14 +211,15 @@ const CommunityRoleEditSheet: React.FC<SheetProps<'community_role_edit'>> = ({
           // Only meaningful with a fixed account; while typing a name we do not
           // know that account's current role yet.
           const isCurrent = !editableAccount && role === currentRole;
+          const isBlocked = isCurrent || (editableAccount && !isKnownAccount);
           return (
             <TouchableOpacity
               key={role}
               style={styles.row}
-              disabled={isCurrent}
+              disabled={isBlocked}
               onPress={() => _handleSelect(role)}
             >
-              <Text style={[styles.rowLabel, isCurrent && styles.rowLabelCurrent]}>
+              <Text style={[styles.rowLabel, isBlocked && styles.rowLabelCurrent]}>
                 {intl.formatMessage({ id: `community.role_${role}` })}
               </Text>
               {isCurrent && (
@@ -175,16 +265,43 @@ const styles = EStyleSheet.create({
     marginTop: 4,
     marginBottom: 16,
   },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 12,
+  },
   input: {
+    flex: 1,
     borderWidth: 1,
     borderColor: '$primaryLightGray',
     borderRadius: 8,
     paddingHorizontal: 14,
     paddingVertical: 12,
+    paddingRight: 40,
     fontSize: 15,
     color: '$primaryBlack',
     backgroundColor: '$primaryLightBackground',
-    marginTop: 12,
+  },
+  inputSpinner: {
+    position: 'absolute',
+    right: 12,
+  },
+  suggestions: {
+    marginTop: 8,
+    borderRadius: 8,
+    backgroundColor: '$primaryLightBackground',
+    overflow: 'hidden',
+  },
+  suggestionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+  },
+  suggestionText: {
+    marginLeft: 10,
+    fontSize: 15,
+    color: '$primaryBlack',
   },
   error: {
     marginTop: 6,
