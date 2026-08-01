@@ -93,3 +93,60 @@ export const applyRoleToSubscribersCache = (
     ),
   };
 };
+
+export const ACTIVITIES_PAGE_SIZE = 50;
+
+/** An activity entry as hivemind returns it. */
+export interface CommunityActivity {
+  id: string;
+  msg: string;
+  url: string;
+  date: string;
+  type: string;
+}
+
+export const communityActivitiesQueryKey = (community: string) => [
+  'communities',
+  'account-notifications',
+  'infinite',
+  community,
+];
+
+/**
+ * Resolves the cursor for the next page: the last entry's id, or undefined at
+ * the end of the log.
+ *
+ * A short page means there is nothing after it. Exported so the stop conditions
+ * are testable without a network round trip.
+ */
+export const getActivitiesNextPageParam = (lastPage: CommunityActivity[]): string | undefined => {
+  if (!lastPage?.length || lastPage.length < ACTIVITIES_PAGE_SIZE) {
+    return undefined;
+  }
+  return lastPage[lastPage.length - 1]?.id;
+};
+
+/**
+ * Paginated community activity log.
+ *
+ * The SDK's `getAccountNotificationsInfiniteQueryOptions` wraps its fetch in
+ * `try { ... } catch { return [] }`, so a failed request is indistinguishable
+ * from an empty log: `isError` never becomes true, the screen reports "no
+ * activity" for an RPC outage, and a failed page ends pagination silently
+ * because an empty page yields no cursor. This lets the error surface.
+ */
+export const useCommunityActivitiesQuery = (community: string, enabled = true) =>
+  useInfiniteQuery({
+    queryKey: communityActivitiesQueryKey(community),
+    enabled: enabled && !!community,
+    initialPageParam: '',
+    queryFn: async ({ pageParam }) =>
+      (await bridgeApiCall<CommunityActivity[]>('account_notifications', {
+        account: community,
+        limit: ACTIVITIES_PAGE_SIZE,
+        // Unlike list_subscribers, an explicit null here behaves the same as
+        // omitting it, but stay consistent and only send a real cursor.
+        last_id: pageParam || undefined,
+      })) ?? [],
+    getNextPageParam: getActivitiesNextPageParam,
+  });

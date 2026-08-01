@@ -2,19 +2,15 @@ import React, { useMemo } from 'react';
 import { ActivityIndicator, FlatList, RefreshControl, Text, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
-import { useInfiniteQuery } from '@tanstack/react-query';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getAccountNotificationsInfiniteQueryOptions } from '@ecency/sdk';
-
 import { BasicHeader, UserAvatar } from '../../../components';
 import ROUTES from '../../../constants/routeNames';
 import { useAppSelector } from '../../../hooks';
+import { CommunityActivity, useCommunityActivitiesQuery } from '../../../providers/queries';
 import { selectIsDarkTheme } from '../../../redux/selectors';
 import { getTimeFromNow } from '../../../utils/time';
 import styles from '../styles/communityActivitiesScreen.styles';
-
-const PAGE_SIZE = 50;
 
 // A set_props entry embeds the whole props payload in its message, which runs to
 // hundreds of characters. Cap the row rather than let one entry dominate the list.
@@ -22,14 +18,6 @@ const MAX_LINES = 4;
 
 // Account names, and post references of the form @author/permlink.
 const MENTION_REGEX = /@[\w.\d-]+(?:\/[\w.\d-]+)?/gi;
-
-interface Activity {
-  id: string;
-  msg: string;
-  url: string;
-  date: string;
-  type: string;
-}
 
 const CommunityActivitiesScreen = ({ route }) => {
   const intl = useIntl();
@@ -40,13 +28,10 @@ const CommunityActivitiesScreen = ({ route }) => {
 
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
-  const activitiesQuery = useInfiniteQuery({
-    ...getAccountNotificationsInfiniteQueryOptions(communityId, PAGE_SIZE),
-    enabled: !!communityId,
-  });
+  const activitiesQuery = useCommunityActivitiesQuery(communityId);
 
-  const activities: Activity[] = useMemo(
-    () => (activitiesQuery.data?.pages?.flat() ?? []) as Activity[],
+  const activities: CommunityActivity[] = useMemo(
+    () => activitiesQuery.data?.pages?.flat() ?? [],
     [activitiesQuery.data],
   );
 
@@ -76,7 +61,7 @@ const CommunityActivitiesScreen = ({ route }) => {
    * drops any entry without a mention; here they still render, just without
    * links, so the log stays complete.
    */
-  const _renderMessage = (activity: Activity) => {
+  const _renderMessage = (activity: CommunityActivity) => {
     const parts = activity.msg.split(new RegExp(`(${MENTION_REGEX.source})`, 'gi'));
 
     return (
@@ -107,7 +92,7 @@ const CommunityActivitiesScreen = ({ route }) => {
     );
   };
 
-  const _renderItem = ({ item }: { item: Activity }) => {
+  const _renderItem = ({ item }: { item: CommunityActivity }) => {
     // The acting account is the first mention; entries without one (rare) still
     // render, just without an avatar.
     const actor = item.msg.match(MENTION_REGEX)?.[0]?.slice(1).split('/')[0];
