@@ -1,20 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import {
-  ACTIVITIES_PAGE_SIZE,
-  applyRoleToSubscribersCache,
-  getActivitiesNextPageParam,
-  useCommunityActivitiesQuery,
-  useCommunitySubscribersQuery,
-  SUBSCRIBERS_PAGE_SIZE,
-} from './communityQueries';
+import { applyRoleToSubscribersCache, communitySubscribersQueryKey } from './communityQueries';
 
 describe('communityQueries module surface', () => {
-  it('exports useCommunitySubscribersQuery as a function', () => {
-    expect(typeof useCommunitySubscribersQuery).toBe('function');
-  });
-
-  // The members screen imports this hook through the `providers/queries` barrel.
+  // The members screen imports these through the `providers/queries` barrel.
   // Shipping the module without the re-export resolves that import to undefined
   // and crashes the screen on mount, which neither eslint nor any other test
   // catches. The barrel itself cannot be imported here (it pulls in native
@@ -24,16 +13,16 @@ describe('communityQueries module surface', () => {
     expect(barrel).toMatch(/export \* from '\.\/communityQueries';/);
   });
 
-  it('exports useCommunityActivitiesQuery as a function', () => {
-    expect(typeof useCommunityActivitiesQuery).toBe('function');
-  });
-
-  it("pages at hivemind's list_subscribers cap", () => {
-    // hivemind caps list_subscribers at 100 rows regardless of a larger limit,
-    // and getNextPageParam treats a short page as the end of the list. A page
-    // size above the cap would make every full page look short and stop paging
-    // after the first one.
-    expect(SUBSCRIBERS_PAGE_SIZE).toBeLessThanOrEqual(100);
+  // The cache patch below writes to whatever key this returns, so it has to be
+  // the same key the SDK's subscriber query reads from. Taking it from the SDK
+  // rather than rebuilding it locally is what keeps those two in step.
+  it('takes the subscribers cache key from the SDK', () => {
+    expect(communitySubscribersQueryKey('hive-125125')).toEqual([
+      'communities',
+      'subscribers',
+      'infinite',
+      'hive-125125',
+    ]);
   });
 });
 
@@ -83,38 +72,5 @@ describe('applyRoleToSubscribersCache', () => {
   it('handles an absent or empty cache', () => {
     expect(applyRoleToSubscribersCache(undefined, 'bob', 'mod')).toBeUndefined();
     expect(applyRoleToSubscribersCache({}, 'bob', 'mod')).toEqual({});
-  });
-});
-
-describe('getActivitiesNextPageParam', () => {
-  const page = (n: number) =>
-    Array.from({ length: n }, (_v, i) => ({
-      id: `id-${i}`,
-      msg: '',
-      url: '',
-      date: '',
-      type: 'subscribe',
-    }));
-
-  it('returns the last id when the page is full', () => {
-    expect(getActivitiesNextPageParam(page(ACTIVITIES_PAGE_SIZE))).toBe(
-      `id-${ACTIVITIES_PAGE_SIZE - 1}`,
-    );
-  });
-
-  it('stops on a short page', () => {
-    expect(getActivitiesNextPageParam(page(ACTIVITIES_PAGE_SIZE - 1))).toBeUndefined();
-  });
-
-  it('stops on an empty page', () => {
-    expect(getActivitiesNextPageParam([])).toBeUndefined();
-  });
-
-  // The SDK helper this replaced swallowed fetch errors into [], which both hid
-  // the failure and ended pagination as though the log had run out. The local
-  // query lets the error propagate, so this path is only reached on a genuinely
-  // short page.
-  it('stops on a missing page rather than throwing', () => {
-    expect(getActivitiesNextPageParam(undefined as never)).toBeUndefined();
   });
 });
