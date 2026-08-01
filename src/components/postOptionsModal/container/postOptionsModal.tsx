@@ -245,10 +245,13 @@ const PostOptionsModal = (
     // offer "unmute" on posts no moderator ever muted.
     const _isMutedInCommunity = !!content && !!content.stats?.gray;
 
-    // Carried over from the legacy comment menu. Copying the text needs a body
-    // to copy; opening a thread only means something where a handler was given.
-    const _canCopyText = !!content?.markdownBody;
-    const _canOpenThread = !!onOpenThread;
+    // Carried over from the legacy comment menu, so both are scoped to comments
+    // rather than widening the post detail sheet. A comment is anything with a
+    // parent; copying the text also needs a body to copy, and opening a thread
+    // only means something where a handler was given.
+    const _isCommentContent = !!content && (content.depth > 0 || !!content.parent_author);
+    const _canCopyText = _isCommentContent && !!content?.markdownBody;
+    const _canOpenThread = _isCommentContent && !!onOpenThread;
 
     // check if post can be deleted
     // Hive's on-chain rule is: no children AND no net positive rshares. Using
@@ -852,8 +855,14 @@ const PostOptionsModal = (
       case 'copy-text': {
         // The legacy comment menu copied a plain-text summary rather than raw
         // markdown, so links and images do not come through as syntax.
+        // writeToClipboard returns false for empty text, and the summary can be
+        // empty where the body is only an image or markup, so the success toast
+        // has to follow the result rather than the attempt.
         const _body = postBodySummary(content.markdownBody, null, Platform.OS);
-        await writeToClipboard(_body);
+        const _copied = await writeToClipboard(_body);
+        if (!_copied) {
+          break;
+        }
         alertTimer.current = setTimeout(() => {
           dispatch(toastNotification(intl.formatMessage({ id: 'alert.copied' })));
           alertTimer.current = null;

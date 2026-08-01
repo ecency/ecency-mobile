@@ -61,6 +61,19 @@ const CommentsView = ({
     }
   };
 
+  // Without this the sheet falls back to its own delete, which calls
+  // navigation.goBack() and would pop the profile or bot-comments screen the
+  // list is embedded in. It would also skip the in-place list removal and, on
+  // waves, the container's wave-specific delete path.
+  const _handleDeleteFromMenu = (item) =>
+    handleDeleteComment(
+      item.permlink,
+      item.parent_permlink,
+      item.parent_author,
+      item.root_author,
+      item.root_permlink,
+    );
+
   const _openReplyThread = (item) => {
     if (item && openReplyThread) {
       openReplyThread(item);
@@ -178,6 +191,7 @@ const CommentsView = ({
           ref={postOptionsModalRef}
           isVisibleTranslateModal={true}
           onOpenThread={_openReplyThread}
+          onDelete={_handleDeleteFromMenu}
         />
       )}
       <UpvotePopover ref={upvotePopoverRef} />
