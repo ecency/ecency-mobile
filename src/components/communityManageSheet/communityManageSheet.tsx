@@ -8,7 +8,7 @@ import { Icon } from '../icon';
 const FALLBACK_SHEET_ID = 'community_manage';
 
 /** Destinations offered to a community moderator. */
-export type CommunityManageAction = 'members' | 'settings';
+export type CommunityManageAction = 'members' | 'settings' | 'activities';
 
 interface Row {
   action: CommunityManageAction;
@@ -30,6 +30,12 @@ const ROWS: Row[] = [
     icon: 'cog-outline',
     iconType: 'MaterialCommunityIcons',
     labelId: 'community.manage_settings',
+  },
+  {
+    action: 'activities',
+    icon: 'history',
+    iconType: 'MaterialCommunityIcons',
+    labelId: 'community.manage_activities',
   },
 ];
 

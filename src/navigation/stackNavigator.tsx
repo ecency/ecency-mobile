@@ -30,6 +30,7 @@ import {
   Community,
   CommunityMembers,
   CommunitySettings,
+  CommunityActivities,
   Communities,
   WebBrowser,
   ReferScreen,
@@ -72,6 +73,10 @@ const MainStackNavigator = () => {
       <MainStack.Screen name={ROUTES.SCREENS.COMMUNITY} component={Community} />
       <MainStack.Screen name={ROUTES.SCREENS.COMMUNITY_MEMBERS} component={CommunityMembers} />
       <MainStack.Screen name={ROUTES.SCREENS.COMMUNITY_SETTINGS} component={CommunitySettings} />
+      <MainStack.Screen
+        name={ROUTES.SCREENS.COMMUNITY_ACTIVITIES}
+        component={CommunityActivities}
+      />
       <MainStack.Screen name={ROUTES.SCREENS.COMMUNITIES} component={Communities} />
       <MainStack.Screen name={ROUTES.SCREENS.REFER} component={ReferScreen} />
       <MainStack.Screen name={ROUTES.SCREENS.ASSET_DETAILS} component={AssetDetails} />
