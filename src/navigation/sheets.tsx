@@ -263,9 +263,6 @@ declare module 'react-native-actions-sheet' {
       returnValue: ModNotesResult | undefined;
     }>;
     [SheetNames.COMMUNITY_MANAGE]: SheetDefinition<{
-      payload?: {
-        canEditSettings?: boolean;
-      };
       // `{ action }` on selection. Dismissing by backdrop, swipe or back
       // resolves the payload object instead, because the library publishes
       // `data || payloadRef.current` on close, so match on a known action
@@ -274,9 +271,11 @@ declare module 'react-native-actions-sheet' {
     }>;
     [SheetNames.COMMUNITY_ROLE_EDIT]: SheetDefinition<{
       payload: {
-        account: string;
-        currentRole: string;
+        // Omitted when editableAccount is set: the moderator types the name.
+        account?: string;
+        currentRole?: string;
         assignableRoles: string[];
+        editableAccount?: boolean;
       };
       // `{ role }` on selection, `{ cancelled: true }` on cancel. A backdrop,
       // swipe or back dismissal resolves the payload object instead, because
