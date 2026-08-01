@@ -270,6 +270,22 @@ const PostComments = forwardRef(
       });
     }, []);
 
+    // The sheet is opened for comments here, so its own delete path would call
+    // navigation.goBack() and leave the post the user is reading, and would skip
+    // the error handling and deleted-key cache work this screen already owns.
+    // Same arguments the inline delete button passes.
+    const _handleDeleteFromMenu = useCallback(
+      (comment) =>
+        _handleDeleteComment(
+          comment.permlink,
+          comment.parent_permlink,
+          comment.parent_author,
+          comment.root_author,
+          comment.root_permlink,
+        ),
+      [_handleDeleteComment],
+    );
+
     const _handleShowOptionsMenu = useCallback((comment) => {
       if (postOptionsModalRef.current) {
         postOptionsModalRef.current.show(comment);
@@ -454,7 +470,11 @@ const PostComments = forwardRef(
           overScrollMode="never"
         />
         <PostHtmlInteractionHandler ref={postInteractionRef} />
-        <PostOptionsModal ref={postOptionsModalRef} isVisibleTranslateModal={true} />
+        <PostOptionsModal
+          ref={postOptionsModalRef}
+          isVisibleTranslateModal={true}
+          onDelete={_handleDeleteFromMenu}
+        />
       </Fragment>
     );
   },
