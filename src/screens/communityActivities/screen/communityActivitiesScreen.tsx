@@ -4,13 +4,18 @@ import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { AccountNotification, getAccountNotificationsInfiniteQueryOptions } from '@ecency/sdk';
+import { useInfiniteQuery } from '@tanstack/react-query';
+
 import { BasicHeader, UserAvatar } from '../../../components';
 import ROUTES from '../../../constants/routeNames';
 import { useAppSelector } from '../../../hooks';
-import { CommunityActivity, useCommunityActivitiesQuery } from '../../../providers/queries';
+
 import { selectIsDarkTheme } from '../../../redux/selectors';
 import { getTimeFromNow } from '../../../utils/time';
 import styles from '../styles/communityActivitiesScreen.styles';
+
+const PAGE_SIZE = 50;
 
 // A set_props entry embeds the whole props payload in its message, which runs to
 // hundreds of characters. Cap the row rather than let one entry dominate the list.
@@ -28,9 +33,12 @@ const CommunityActivitiesScreen = ({ route }) => {
 
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
-  const activitiesQuery = useCommunityActivitiesQuery(communityId);
+  const activitiesQuery = useInfiniteQuery({
+    ...getAccountNotificationsInfiniteQueryOptions(communityId, PAGE_SIZE),
+    enabled: !!communityId,
+  });
 
-  const activities: CommunityActivity[] = useMemo(
+  const activities: AccountNotification[] = useMemo(
     () => activitiesQuery.data?.pages?.flat() ?? [],
     [activitiesQuery.data],
   );
@@ -61,7 +69,7 @@ const CommunityActivitiesScreen = ({ route }) => {
    * drops any entry without a mention; here they still render, just without
    * links, so the log stays complete.
    */
-  const _renderMessage = (activity: CommunityActivity) => {
+  const _renderMessage = (activity: AccountNotification) => {
     const parts = activity.msg.split(new RegExp(`(${MENTION_REGEX.source})`, 'gi'));
 
     return (
@@ -92,7 +100,7 @@ const CommunityActivitiesScreen = ({ route }) => {
     );
   };
 
-  const _renderItem = ({ item }: { item: CommunityActivity }) => {
+  const _renderItem = ({ item }: { item: AccountNotification }) => {
     // The acting account is the first mention; entries without one (rare) still
     // render, just without an avatar.
     const actor = item.msg.match(MENTION_REGEX)?.[0]?.slice(1).split('/')[0];

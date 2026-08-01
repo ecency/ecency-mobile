@@ -10,11 +10,16 @@ import {
 } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
-import { getCommunityQueryOptions, ROLES, roleMap } from '@ecency/sdk';
+import {
+  getCommunityQueryOptions,
+  getCommunitySubscribersInfiniteQueryOptions,
+  ROLES,
+  roleMap,
+} from '@ecency/sdk';
 
 import { BasicHeader, UserListItem } from '../../../components';
 import ROUTES from '../../../constants/routeNames';
@@ -26,7 +31,6 @@ import { getCommunityRole } from '../../../utils/communityModeration';
 import {
   applyRoleToSubscribersCache,
   communitySubscribersQueryKey,
-  useCommunitySubscribersQuery,
 } from '../../../providers/queries';
 import { selectCurrentAccount, selectIsDarkTheme } from '../../../redux/selectors';
 import { isCommunity } from '../../../utils/communityValidation';
@@ -71,7 +75,10 @@ const CommunityMembersScreen = ({ route }) => {
   const communityQuery = useQuery(
     getCommunityQueryOptions(communityId, currentAccount?.name, !!communityId),
   );
-  const subscribersQuery = useCommunitySubscribersQuery(communityId);
+  const subscribersQuery = useInfiniteQuery({
+    ...getCommunitySubscribersInfiniteQueryOptions(communityId),
+    enabled: !!communityId,
+  });
 
   const members: Member[] = useMemo(() => {
     const byAccount = new Map<string, Member>();
