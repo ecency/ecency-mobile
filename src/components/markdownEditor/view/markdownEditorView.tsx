@@ -396,13 +396,25 @@ const MarkdownEditorView = ({
 
   // Dictated text goes in at the caret, like a snippet -- not replacing the body the
   // way the AI assist edit actions do. Someone dictating mid-draft is adding to it.
+  // Deliberately not applySnippet: that leaves the inserted text SELECTED
+  // ({start, start + len}), and replaceBetween overwrites whatever is selected. With
+  // dictation inserting repeatedly while the sheet stays open, each segment would
+  // have replaced the one before it instead of following it.
   const _handleDictationResult = useCallback(
     (text: string) => {
-      applySnippet({
-        text: bodyTextRef.current,
-        selection: bodySelectionRef.current,
-        setTextAndSelection: _setTextAndSelection,
-        snippetText: text,
+      const body = bodyTextRef.current;
+      const selection = bodySelectionRef.current;
+      const before = body.substring(0, selection.start);
+      // Space between segments so dictated sentences do not run together, but not a
+      // double space when the caret already sits after whitespace or at the start.
+      const separator = before.length === 0 || /\s$/.test(before) ? '' : ' ';
+      const insertion = `${separator}${text}`;
+      const caret = selection.start + insertion.length;
+
+      _setTextAndSelection({
+        text: before + insertion + body.substring(selection.end),
+        // Collapsed AFTER the insertion, so the next segment continues from here.
+        selection: { start: caret, end: caret },
       });
     },
     [_setTextAndSelection],
