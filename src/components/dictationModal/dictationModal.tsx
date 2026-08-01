@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Text, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
@@ -19,12 +19,19 @@ function formatClock(totalSeconds: number) {
 }
 
 /**
- * Dictation: record, see the cost while recording, insert the transcript.
+ * Dictation: record, stop, and the transcript goes straight into the editor.
  *
- * Billing is metered per 30s block, so the cost shown has to match the server's
- * arithmetic exactly -- rounding up to whole units, minimum one unit, and a free
- * allowance that discounts units rather than whole clips. All of those numbers come
- * from the price endpoint so a pricing change does not need an app release.
+ * Transcription fires on stop rather than behind an Insert button, and the sheet
+ * stays open afterwards, so dictating several paragraphs is record-stop-record-stop
+ * rather than a four-tap cycle per paragraph.
+ *
+ * That makes stopping the moment Points are spent, with no separate confirmation, so
+ * the running cost is shown throughout recording and the button says as much.
+ *
+ * Billing is metered per 30s block and the numbers all come from the price endpoint,
+ * so the quote matches the server's arithmetic and a pricing change needs no app
+ * release: round up to whole units, minimum one unit, free allowance discounting
+ * units rather than whole clips.
  */
 export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) => {
   const intl = useIntl();
@@ -42,10 +49,19 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
   const maxSeconds = price?.max_seconds ?? DEFAULT_MAX_SECONDS;
   const { state, seconds, result, start, stop, reset } = useDictationRecorder({ maxSeconds });
 
-  // One key per recording, reused across retries. A retry after a lost response must
-  // replay the finished transcription rather than pay for a second one.
+  // One key per recording, reused across retries so a request that landed but lost
+  // its response replays instead of transcribing and charging a second time.
   const idempotencyKeyRef = useRef<string | null>(null);
   const closedRef = useRef(false);
+  // Guards the auto-submit effect against firing twice for the same recording.
+  const submittedForRef = useRef<string | null>(null);
+
+  // Segments inserted this session. Tells the user their words landed even though
+  // the sheet never closed, and switches the button to "Record more".
+  const [segments, setSegments] = useState(0);
+  // Transcription failed. The audio is kept so retrying reuses it rather than making
+  // the user say it all again.
+  const [needsRetry, setNeedsRetry] = useState(false);
 
   const isPriceReady = !!price && !isPriceLoading && !isPriceError;
 
@@ -65,23 +81,17 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
     SheetManager.hide(SheetNames.DICTATION);
   }, [reset]);
 
-  // A new recording is a different operation and gets a fresh key.
-  useEffect(() => {
-    if (state === 'recording') {
-      idempotencyKeyRef.current = null;
-    }
-  }, [state]);
-
   // Sheets in this app STAY MOUNTED, so the unmount cleanup below effectively never
-  // fires and state would otherwise persist into the next open -- an old recording
-  // still sitting there, ready to be inserted into a different draft. Reset per
-  // open, which is the documented convention for sheets here.
+  // fires and state would otherwise persist into the next open -- stale segment
+  // counts, or a failed recording offered for retry against a different draft.
+  // Reset per open, which is the documented convention for sheets here.
   useEffect(() => {
     closedRef.current = false;
     reset();
     idempotencyKeyRef.current = null;
-    setServerRejectedForPoints(false);
-    setPendingCost(0);
+    submittedForRef.current = null;
+    setSegments(0);
+    setNeedsRetry(false);
   }, [payload, reset]);
 
   useEffect(
@@ -101,6 +111,8 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
       idempotencyKeyRef.current = `m${Date.now()}${Math.random().toString(36).slice(2, 10)}`;
     }
 
+    setNeedsRetry(false);
+
     try {
       const response = await transcribe({
         audio: { uri: result.uri, name: 'dictation.m4a', type: 'audio/m4a' } as any,
@@ -114,16 +126,23 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
       }
 
       if (!response.text.trim()) {
-        // A silent clip still costs Points, so say so rather than closing as if it worked.
+        // A silent clip still costs Points, so say so rather than quietly resetting
+        // as though it had worked.
         Alert.alert(
           intl.formatMessage({ id: 'alert.fail' }),
           intl.formatMessage({ id: 'dictation.error_empty' }),
         );
+        idempotencyKeyRef.current = null;
+        reset();
         return;
       }
 
       payload?.onInsert?.(response.text);
-      close();
+      // Stay open with a clean recorder: the whole point of transcribing on stop is
+      // that someone can keep dictating without reopening the sheet each time.
+      setSegments((n) => n + 1);
+      idempotencyKeyRef.current = null;
+      reset();
     } catch (err: any) {
       if (closedRef.current) {
         return;
@@ -138,16 +157,29 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
           ? 'dictation.error_too_long'
           : 'dictation.error_failed';
       Alert.alert(intl.formatMessage({ id: 'alert.fail' }), intl.formatMessage({ id }));
-      // The key is kept deliberately so a retry replays instead of re-charging.
+      // Recording and key are both kept: retry reuses the audio, and the same key
+      // means a request that actually landed replays rather than charging twice.
+      setNeedsRetry(true);
     }
-  }, [result, isTranscribing, transcribe, payload, close, intl]);
+  }, [result, isTranscribing, transcribe, payload, reset, intl]);
+
+  // Transcribe as soon as recording stops. Keyed on the recording's uri so a retry
+  // or a re-render cannot fire a second paid request for the same audio.
+  useEffect(() => {
+    if (state === 'stopped' && result && submittedForRef.current !== result.uri) {
+      submittedForRef.current = result.uri;
+      submit();
+    }
+  }, [state, result, submit]);
+
+  const busy = isTranscribing || state === 'requesting';
 
   return (
     <ActionSheet
       id={SheetNames.DICTATION}
-      gestureEnabled={!isTranscribing}
-      closeOnPressBack={!isTranscribing}
-      closeOnTouchBackdrop={!isTranscribing}
+      gestureEnabled={!busy}
+      closeOnPressBack={!busy}
+      closeOnTouchBackdrop={!busy}
       onClose={() => {
         closedRef.current = true;
         reset();
@@ -181,12 +213,6 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
 
         <Text style={styles.clock}>{formatClock(seconds)}</Text>
 
-        {state === 'stopped' && result && (
-          // Without this the clock is just a number sitting at the end of a
-          // recording, with nothing saying it IS the recording.
-          <Text style={styles.cost}>{intl.formatMessage({ id: 'dictation.recorded' })}</Text>
-        )}
-
         {state === 'recording' && (
           <View style={styles.recordingRow}>
             <View style={styles.recordingDot} />
@@ -204,9 +230,12 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
             : intl.formatMessage({ id: 'dictation.free' })}
         </Text>
 
-        {isPriceReady && (
+        {isPriceReady && !isTranscribing && (
           <Text style={styles.hint}>
-            {intl.formatMessage({ id: 'dictation.max' }, { n: Math.floor(maxSeconds / 60) })}
+            {intl.formatMessage(
+              { id: segments > 0 ? 'dictation.inserted' : 'dictation.stop_hint' },
+              { m: Math.floor(maxSeconds / 60) },
+            )}
           </Text>
         )}
 
@@ -219,33 +248,35 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
               iconType="MaterialIcons"
               text={intl.formatMessage({ id: 'dictation.stop' })}
             />
+          ) : needsRetry ? (
+            <MainButton
+              style={styles.button}
+              isDisabled={busy}
+              onPress={submit}
+              iconName="refresh"
+              iconType="MaterialIcons"
+              text={intl.formatMessage({ id: 'alert.try_again' })}
+            />
           ) : (
             <MainButton
               style={styles.button}
-              isDisabled={state === 'requesting' || isTranscribing || !isPriceReady}
+              isDisabled={busy || !isPriceReady}
               onPress={start}
               iconName="mic"
               iconType="MaterialIcons"
               text={intl.formatMessage({
-                id: result ? 'dictation.rerecord' : 'dictation.start',
+                id: segments > 0 ? 'dictation.record_more' : 'dictation.start',
               })}
             />
           )}
 
           <MainButton
             style={styles.button}
-            isDisabled={!result || isTranscribing || !isPriceReady}
-            isLoading={isTranscribing}
-            onPress={submit}
-            text={intl.formatMessage({ id: 'dictation.insert' })}
+            isDisabled={busy}
+            onPress={close}
+            text={intl.formatMessage({ id: 'dictation.done' })}
           />
         </View>
-
-        {state === 'stopped' && result && (
-          <Text style={styles.hint}>
-            {intl.formatMessage({ id: 'dictation.rerecord_warning' })}
-          </Text>
-        )}
 
         {isTranscribing && (
           <View style={styles.transcribingRow}>
