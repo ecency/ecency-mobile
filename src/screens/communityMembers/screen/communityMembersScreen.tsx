@@ -142,6 +142,39 @@ const CommunityMembersScreen = ({ route }) => {
     member.account !== currentAccount?.name &&
     assignableRoles.includes(member.role);
 
+  const _applyRole = async (targetAccount: string, role: string) => {
+    try {
+      await setCommunityRoleMutation.mutateAsync({ account: targetAccount, role });
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+
+      // Patched rather than invalidated: setRole broadcasts async, so a refetch
+      // now returns pre-transaction state. See the comment in _handleEditRole.
+      queryClient.setQueryData(communitySubscribersQueryKey(communityId), (cached) =>
+        applyRoleToSubscribersCache(cached, targetAccount, role),
+      );
+    } catch (err) {
+      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), (err as Error)?.message || String(err));
+    }
+  };
+
+  const _handleAssignRole = async () => {
+    const result = await SheetManager.show(SheetNames.COMMUNITY_ROLE_EDIT, {
+      payload: { assignableRoles, editableAccount: true },
+    });
+
+    const account = typeof result?.account === 'string' ? result.account : '';
+    const role = typeof result?.role === 'string' ? result.role : '';
+    if (!account || !role) {
+      return;
+    }
+
+    // An account being given a role for the first time is usually not in the
+    // cached subscriber pages, so the patch is a no-op for it and the row
+    // appears on the next refresh. Assigning to an existing member updates in
+    // place, which is the common case.
+    await _applyRole(account, role);
+  };
+
   const _handleEditRole = async (member: Member) => {
     const result = await SheetManager.show(SheetNames.COMMUNITY_ROLE_EDIT, {
       payload: {
@@ -159,27 +192,17 @@ const CommunityMembersScreen = ({ route }) => {
       return;
     }
 
-    try {
-      await setCommunityRoleMutation.mutateAsync({ account: member.account, role });
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-
-      // Deliberately no invalidation here. The SDK's useSetCommunityRole already
-      // patches the cached `team` optimistically and invalidates the community
-      // query itself, and setRole broadcasts async: mutateAsync resolves on
-      // mempool acceptance, so anything refetched now returns pre-transaction
-      // state from hivemind and undoes the optimistic value.
-      //
-      // The subscriber roster is the gap. The SDK never touches it, and it is
-      // what the list falls back to when a demotion drops an account off the
-      // team, so it would keep serving the old role and keep the row editable
-      // against stale data. Patch it in place for the same reason: refetching
-      // would race indexing.
-      queryClient.setQueryData(communitySubscribersQueryKey(communityId), (cached) =>
-        applyRoleToSubscribersCache(cached, member.account, role),
-      );
-    } catch (err) {
-      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), (err as Error)?.message || String(err));
-    }
+    // Deliberately no invalidation. The SDK's useSetCommunityRole already
+    // patches the cached `team` optimistically and invalidates the community
+    // query itself, and setRole broadcasts async: mutateAsync resolves on
+    // mempool acceptance, so anything refetched now returns pre-transaction
+    // state from hivemind and undoes the optimistic value.
+    //
+    // The subscriber roster is the gap. The SDK never touches it, and it is
+    // what the list falls back to when a demotion drops an account off the
+    // team, so it would keep serving the old role and keep the row editable
+    // against stale data.
+    await _applyRole(member.account, role);
   };
 
   const _renderRoleChip = (member: Member) => {
@@ -242,6 +265,9 @@ const CommunityMembersScreen = ({ route }) => {
         title={`${communityTitle || communityId} ${intl.formatMessage({
           id: 'community.members',
         })}`}
+        rightIconName={assignableRoles.length > 0 ? 'account-plus-outline' : undefined}
+        iconType="MaterialCommunityIcons"
+        handleRightIconPress={_handleAssignRole}
       />
       <FlatList
         data={members}

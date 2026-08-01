@@ -67,10 +67,8 @@ const CommunityScreen = ({ route }) => {
   };
 
   const _handleManagePress = useCallback(
-    async (data, canEdit) => {
-      const result = await SheetManager.show(SheetNames.COMMUNITY_MANAGE, {
-        payload: { canEditSettings: canEdit },
-      });
+    async (data) => {
+      const result = await SheetManager.show(SheetNames.COMMUNITY_MANAGE);
 
       // Only a selection carries a known action. Backdrop, swipe and back
       // dismissals resolve the sheet's payload object instead, so match on the
@@ -111,7 +109,6 @@ const CommunityScreen = ({ route }) => {
         isSubscribed,
         isLoggedIn,
         isModerator,
-        canEditSettings,
       }) => (
         <SafeAreaView style={styles.container}>
           <BasicHeader
@@ -121,7 +118,7 @@ const CommunityScreen = ({ route }) => {
             enableViewModeToggle={true}
             rightIconName={isModerator ? 'shield-account-outline' : undefined}
             iconType="MaterialCommunityIcons"
-            handleRightIconPress={() => _handleManagePress(data, canEditSettings)}
+            handleRightIconPress={() => _handleManagePress(data)}
           />
           {data ? (
             <CollapsibleCard
