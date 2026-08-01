@@ -478,15 +478,15 @@ const PostOptionsModal = (
           parentAuthor: content.parent_author || '',
           parentPermlink: content.parent_permlink || '',
         });
-        // Going back only makes sense when the deleted content *is* the screen,
-        // which is true for a root post and false for a comment in a list:
-        // there, popping navigates away from the profile or post the user was
-        // reading. Consumers that own the surrounding list should pass
-        // `onDelete` and handle removal themselves; this keeps the fallback
-        // from popping the wrong screen when they do not.
-        if (!content?.parent_author) {
-          navigation.goBack();
-        }
+        // Always pops, because only the caller knows whether the deleted content
+        // *is* the screen. postScreen renders comments and waves as primary
+        // content too, so `parent_author` cannot stand in for that: gating on it
+        // left a comment's own detail screen showing deleted content.
+        //
+        // Consumers that own a surrounding list must therefore pass `onDelete`
+        // and handle removal themselves. See #3407 for inverting this into an
+        // explicit opt-in, which fails safe in the other direction.
+        navigation.goBack();
         dispatch(
           toastNotification(
             intl.formatMessage({
