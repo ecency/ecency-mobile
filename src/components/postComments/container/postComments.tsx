@@ -171,59 +171,64 @@ const PostComments = forwardRef(
       [navigation],
     );
 
-    const _handleDeleteComment = useCallback(
+    // Mutation only, no confirmation. The options sheet confirms before invoking
+    // its onDelete, so a handler that prompts again would ask twice for one
+    // action, and let the user cancel the second after confirming the first.
+    const _deleteCommentConfirmed = useCallback(
       async (_permlink, _parentPermlink?, _parentAuthor?, _rootAuthor?, _rootPermlink?) => {
-        const _onConfirmDelete = async () => {
-          const deletedKey = `${currentAccountName}/${_permlink}`;
-          const extractErrorDetail = (error: any) => {
-            const detail =
-              error?.message ||
-              error?.response?.message ||
-              error?.response?.data?.message ||
-              error?.data?.message ||
-              error?.error_description ||
-              error?.jse_shortmsg;
-            return typeof detail === 'string' ? detail : JSON.stringify(error);
-          };
-
-          setHiddenCommentKeys((prev) => {
-            const next = new Set(prev);
-            next.add(deletedKey);
-            return next;
-          });
-
-          try {
-            await deleteComment({
-              author: currentAccountName,
-              permlink: _permlink,
-              parentAuthor: _parentAuthor,
-              parentPermlink: _parentPermlink || permlink,
-              rootAuthor: _rootAuthor || author,
-              rootPermlink: _rootPermlink || permlink,
-            });
-            console.log('deleted comment', `${currentAccountName}/${_permlink}`);
-          } catch (err) {
-            const stillExists = !!discussionQuery.data?.[deletedKey];
-            if (stillExists) {
-              setHiddenCommentKeys((prev) => {
-                const next = new Set(prev);
-                next.delete(deletedKey);
-                return next;
-              });
-            }
-            const errorDetail = extractErrorDetail(err);
-            if (stillExists) {
-              dispatch(toastNotification(`Failed to delete comment: ${errorDetail}`));
-            } else {
-              console.log(
-                'delete returned error but comment is already absent in cache',
-                deletedKey,
-              );
-            }
-            console.warn('Failed to delete comment', err);
-          }
+        const deletedKey = `${currentAccountName}/${_permlink}`;
+        const extractErrorDetail = (error: any) => {
+          const detail =
+            error?.message ||
+            error?.response?.message ||
+            error?.response?.data?.message ||
+            error?.data?.message ||
+            error?.error_description ||
+            error?.jse_shortmsg;
+          return typeof detail === 'string' ? detail : JSON.stringify(error);
         };
 
+        setHiddenCommentKeys((prev) => {
+          const next = new Set(prev);
+          next.add(deletedKey);
+          return next;
+        });
+
+        try {
+          await deleteComment({
+            author: currentAccountName,
+            permlink: _permlink,
+            parentAuthor: _parentAuthor,
+            parentPermlink: _parentPermlink || permlink,
+            rootAuthor: _rootAuthor || author,
+            rootPermlink: _rootPermlink || permlink,
+          });
+          console.log('deleted comment', `${currentAccountName}/${_permlink}`);
+        } catch (err) {
+          const stillExists = !!discussionQuery.data?.[deletedKey];
+          if (stillExists) {
+            setHiddenCommentKeys((prev) => {
+              const next = new Set(prev);
+              next.delete(deletedKey);
+              return next;
+            });
+          }
+          const errorDetail = extractErrorDetail(err);
+          if (stillExists) {
+            dispatch(toastNotification(`Failed to delete comment: ${errorDetail}`));
+          } else {
+            console.log('delete returned error but comment is already absent in cache', deletedKey);
+          }
+          console.warn('Failed to delete comment', err);
+        }
+      },
+      [author, currentAccountName, deleteComment, dispatch, discussionQuery.data, intl, permlink],
+    );
+
+    // Confirms, then mutates. Used by the inline delete button, which has no
+    // confirmation of its own.
+    const _handleDeleteComment = useCallback(
+      async (_permlink, _parentPermlink?, _parentAuthor?, _rootAuthor?, _rootPermlink?) => {
         const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
           payload: {
             title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
@@ -241,10 +246,16 @@ const PostComments = forwardRef(
         });
 
         if (action === 'confirm') {
-          _onConfirmDelete();
+          _deleteCommentConfirmed(
+            _permlink,
+            _parentPermlink,
+            _parentAuthor,
+            _rootAuthor,
+            _rootPermlink,
+          );
         }
       },
-      [author, currentAccountName, deleteComment, dispatch, discussionQuery.data, intl, permlink],
+      [_deleteCommentConfirmed, intl],
     );
 
     const _openReplyThread = useCallback(
@@ -269,6 +280,22 @@ const PostComments = forwardRef(
         },
       });
     }, []);
+
+    // The sheet is opened for comments here, so its own delete path would call
+    // navigation.goBack() and leave the post the user is reading, and would skip
+    // the error handling and deleted-key cache work this screen already owns.
+    // Same arguments the inline delete button passes.
+    const _handleDeleteFromMenu = useCallback(
+      (comment) =>
+        _deleteCommentConfirmed(
+          comment.permlink,
+          comment.parent_permlink,
+          comment.parent_author,
+          comment.root_author,
+          comment.root_permlink,
+        ),
+      [_deleteCommentConfirmed],
+    );
 
     const _handleShowOptionsMenu = useCallback((comment) => {
       if (postOptionsModalRef.current) {
@@ -454,7 +481,11 @@ const PostComments = forwardRef(
           overScrollMode="never"
         />
         <PostHtmlInteractionHandler ref={postInteractionRef} />
-        <PostOptionsModal ref={postOptionsModalRef} isVisibleTranslateModal={true} />
+        <PostOptionsModal
+          ref={postOptionsModalRef}
+          isVisibleTranslateModal={true}
+          onDelete={_handleDeleteFromMenu}
+        />
       </Fragment>
     );
   },

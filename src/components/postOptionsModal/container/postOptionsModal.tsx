@@ -478,6 +478,14 @@ const PostOptionsModal = (
           parentAuthor: content.parent_author || '',
           parentPermlink: content.parent_permlink || '',
         });
+        // Always pops, because only the caller knows whether the deleted content
+        // *is* the screen. postScreen renders comments and waves as primary
+        // content too, so `parent_author` cannot stand in for that: gating on it
+        // left a comment's own detail screen showing deleted content.
+        //
+        // Consumers that own a surrounding list must therefore pass `onDelete`
+        // and handle removal themselves. See #3407 for inverting this into an
+        // explicit opt-in, which fails safe in the other direction.
         navigation.goBack();
         dispatch(
           toastNotification(
