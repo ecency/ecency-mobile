@@ -2,6 +2,11 @@ export default [
   'cross-post',
   'promote',
   'copy',
+  // Comment surfaces only. Carried over from the legacy comment menu that
+  // PostOptionsModal replaced, which offered copy-link, copy-text and
+  // open-thread and nothing else.
+  'copy-text',
+  'open-thread',
   'reply',
   'translate',
   'reblog',

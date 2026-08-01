@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
-import { postBodySummary } from '@ecency/render-helper';
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
 import { getDiscussionsQueryOptions, useDeleteComment } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 // Services and Actions
-import { writeToClipboard } from '../../../utils/clipboard';
-import { stripCategoryFromPostPath } from '../../../utils/post';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Constants
@@ -34,7 +30,6 @@ const CommentsContainer = ({
   currentAccount,
   comments,
   dispatch,
-  intl,
   commentCount,
   isLoggedIn,
   commentNumber,
@@ -274,32 +269,6 @@ const CommentsContainer = ({
     });
   };
 
-  const _handleOnPressCommentMenu = (index, selectedComment) => {
-    const _showCopiedToast = () => {
-      dispatch(
-        toastNotification(
-          intl.formatMessage({
-            id: 'alert.copied',
-          }),
-        ),
-      );
-    };
-
-    if (index === 0) {
-      // Normalize legacy `/<category>/@author/permlink…` to the canonical
-      // `/@author/permlink…` form that ecency.com now treats as canonical
-      // (the legacy form is 302'd to this one).
-      const _commentPath = stripCategoryFromPostPath(get(selectedComment, 'url'));
-      writeToClipboard(`https://ecency.com${_commentPath}`).then(_showCopiedToast);
-    }
-    if (index === 1) {
-      const body = postBodySummary(selectedComment.markdownBody, null, Platform.OS);
-      writeToClipboard(body).then(_showCopiedToast);
-    } else if (index === 2) {
-      _openReplyThread(selectedComment);
-    }
-  };
-
   return (
     <CommentsView
       key={selectedFilter}
@@ -318,7 +287,6 @@ const CommentsContainer = ({
       isLoggedIn={isLoggedIn}
       fetchPost={fetchPost}
       handleDeleteComment={_handleDeleteComment}
-      handleOnPressCommentMenu={_handleOnPressCommentMenu}
       handleOnOptionsPress={handleOnOptionsPress}
       handleOnUserPress={_handleOnUserPress}
       isOwnProfile={isOwnProfile}

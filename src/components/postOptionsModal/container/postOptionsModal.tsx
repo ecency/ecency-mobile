@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from 'react';
-import { Alert, Share, Text, TouchableHighlight } from 'react-native';
+import { Alert, Platform, Share, Text, TouchableHighlight } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -16,6 +16,7 @@ import {
   parseProfileMetadata,
   useDeleteComment,
 } from '@ecency/sdk';
+import { postBodySummary } from '@ecency/render-helper';
 import { useAuthContext } from '../../../providers/sdk';
 import {
   useReblogMutation,
@@ -74,9 +75,18 @@ interface Props {
    * disappears from the feed.
    */
   onDelete?: (content: any) => void | Promise<void>;
+  /**
+   * Optional thread handler. When provided, the "open-thread" action is offered
+   * and delegates here. Only comment surfaces can open a thread, so the option
+   * is hidden wherever this is absent.
+   */
+  onOpenThread?: (content: any) => void;
 }
 
-const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete }: Props, ref) => {
+const PostOptionsModal = (
+  { pageType, isWave, isVisibleTranslateModal, onDelete, onOpenThread }: Props,
+  ref,
+) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
@@ -235,6 +245,11 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
     // offer "unmute" on posts no moderator ever muted.
     const _isMutedInCommunity = !!content && !!content.stats?.gray;
 
+    // Carried over from the legacy comment menu. Copying the text needs a body
+    // to copy; opening a thread only means something where a handler was given.
+    const _canCopyText = !!content?.markdownBody;
+    const _canOpenThread = !!onOpenThread;
+
     // check if post can be deleted
     // Hive's on-chain rule is: no children AND no net positive rshares. Using
     // `active_votes.length` was stricter than the chain (a self-vote or a
@@ -301,6 +316,10 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
           return _canMuteCommunityPost && !_isMutedInCommunity;
         case 'unmute-post':
           return _canMuteCommunityPost && _isMutedInCommunity;
+        case 'copy-text':
+          return _canCopyText;
+        case 'open-thread':
+          return _canOpenThread;
         case 'translate':
           return isVisibleTranslateModal;
         case 'delete-post':
@@ -830,6 +849,23 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal, onDelete 
         }, 300);
         break;
       }
+      case 'copy-text': {
+        // The legacy comment menu copied a plain-text summary rather than raw
+        // markdown, so links and images do not come through as syntax.
+        const _body = postBodySummary(content.markdownBody, null, Platform.OS);
+        await writeToClipboard(_body);
+        alertTimer.current = setTimeout(() => {
+          dispatch(toastNotification(intl.formatMessage({ id: 'alert.copied' })));
+          alertTimer.current = null;
+        }, 300);
+        break;
+      }
+      case 'open-thread':
+        // Deferred like the other cases that leave this sheet, so the
+        // navigation is not swallowed by the sheet's own hide animation.
+        await delay(700);
+        onOpenThread?.(content);
+        break;
 
       case 'reblog':
         _reblog(false);

@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useRef } from 'react';
+import React, { Fragment, useRef } from 'react';
 import { Text } from 'react-native';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
@@ -6,8 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Components
 import { FlashList } from '@shopify/flash-list';
-import { Comment, TextButton, UpvotePopover } from '../..';
-import { OptionsModal } from '../../atoms';
+import { Comment, PostOptionsModal, TextButton, UpvotePopover } from '../..';
 import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 
 // Styles
@@ -24,7 +23,6 @@ const CommentsView = ({
   fetchPost,
   handleDeleteComment,
   handleOnEditPress,
-  handleOnPressCommentMenu,
   handleOnReplyPress,
   handleOnUserPress,
   handleOnVotersPress,
@@ -46,18 +44,20 @@ const CommentsView = ({
   onTagPress,
   onAuthorPress,
 }) => {
-  const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
-  const commentMenu = useRef<any>();
+  // Surfaces that pass `handleOnOptionsPress` (waves) route to their own sheet.
+  // Everywhere else used to fall back to a four-item menu with no delete, edit,
+  // report or moderation action; it now gets the same sheet the post detail
+  // screen uses.
+  const postOptionsModalRef = useRef<any>(null);
   const upvotePopoverRef = useRef();
   const postInteractionRef = useRef(null);
 
   const _openCommentMenu = (item) => {
     if (handleOnOptionsPress) {
       handleOnOptionsPress(item);
-    } else if (commentMenu.current) {
-      setSelectedComment(item);
-      commentMenu.current.show();
+    } else if (postOptionsModalRef.current) {
+      postOptionsModalRef.current.show(item);
     }
   };
 
@@ -73,11 +73,6 @@ const CommentsView = ({
     }
   };
 
-  const _onMenuItemPress = (index) => {
-    handleOnPressCommentMenu(index, selectedComment);
-    setSelectedComment(null);
-  };
-
   const _onUpvotePress = ({ content, sourceRef, showPayoutDetails, onVotingStart }) => {
     if (upvotePopoverRef.current) {
       const postType = isWavesHost(content.parent_author) ? PostTypes.WAVE : PostTypes.COMMENT;
@@ -91,13 +86,6 @@ const CommentsView = ({
       });
     }
   };
-
-  const menuItems = [
-    intl.formatMessage({ id: 'post.copy_link' }),
-    intl.formatMessage({ id: 'post.copy_text' }),
-    intl.formatMessage({ id: 'post.open_thread' }),
-    intl.formatMessage({ id: 'alert.cancel' }),
-  ];
 
   if (!hideManyCommentsButton && hasManyComments) {
     return (
@@ -186,12 +174,10 @@ const CommentsView = ({
         {...flatListProps}
       />
       {!handleOnOptionsPress && (
-        <OptionsModal
-          ref={commentMenu}
-          options={menuItems}
-          title={get(selectedComment, 'summary')}
-          cancelButtonIndex={3}
-          onPress={_onMenuItemPress}
+        <PostOptionsModal
+          ref={postOptionsModalRef}
+          isVisibleTranslateModal={true}
+          onOpenThread={_openReplyThread}
         />
       )}
       <UpvotePopover ref={upvotePopoverRef} />
