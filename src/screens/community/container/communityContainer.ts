@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
-import { getCommunityQueryOptions } from '@ecency/sdk';
+import { getCommunityQueryOptions, ROLES } from '@ecency/sdk';
 import { useQuery } from '@tanstack/react-query';
 
 import ROUTES from '../../../constants/routeNames';
@@ -11,7 +11,7 @@ import { updateSubscribedCommunitiesCache } from '../../../redux/actions/cacheAc
 import { statusMessage } from '../../../redux/constants/communitiesConstants';
 import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
 import { useAppSelector, useCommunitySubscriptionAction } from '../../../hooks';
-import { isCommunityModerator } from '../../../utils/communityModeration';
+import { getCommunityRole, isCommunityModerator } from '../../../utils/communityModeration';
 
 const CommunityContainer = ({ tag, children, currentAccount, isLoggedIn }) => {
   const navigation = useNavigation();
@@ -93,6 +93,12 @@ const CommunityContainer = ({ tag, children, currentAccount, isLoggedIn }) => {
   // in that list is overwritable.
   const isModerator = isCommunityModerator(data?.team, currentAccount?.name);
 
+  // Editing community props is owner and admin only, so a mod is not offered a
+  // settings screen where every field would be read-only.
+  const canEditSettings = [ROLES.OWNER, ROLES.ADMIN].includes(
+    getCommunityRole(data?.team, currentAccount?.name) ?? '',
+  );
+
   return (
     children &&
     children({
@@ -102,6 +108,7 @@ const CommunityContainer = ({ tag, children, currentAccount, isLoggedIn }) => {
       isSubscribed,
       isLoggedIn,
       isModerator,
+      canEditSettings,
     })
   );
 };

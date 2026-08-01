@@ -67,24 +67,37 @@ const CommunityScreen = ({ route }) => {
   };
 
   const _handleManagePress = useCallback(
-    async (data) => {
-      const result = await SheetManager.show(SheetNames.COMMUNITY_MANAGE);
+    async (data, canEdit) => {
+      const result = await SheetManager.show(SheetNames.COMMUNITY_MANAGE, {
+        payload: { canEditSettings: canEdit },
+      });
 
       // Only a selection carries a known action. Backdrop, swipe and back
       // dismissals resolve the sheet's payload object instead, so match on the
       // action rather than on truthiness.
-      if (result?.action !== 'members') {
-        return;
-      }
+      const params = {
+        communityId: data?.name || tag,
+        communityTitle: data?.title || '',
+      };
 
-      navigation.navigate({
-        name: ROUTES.SCREENS.COMMUNITY_MEMBERS,
-        key: `community_members_${tag}`,
-        params: {
-          communityId: data?.name || tag,
-          communityTitle: data?.title || '',
-        },
-      });
+      switch (result?.action) {
+        case 'members':
+          navigation.navigate({
+            name: ROUTES.SCREENS.COMMUNITY_MEMBERS,
+            key: `community_members_${tag}`,
+            params,
+          });
+          break;
+        case 'settings':
+          navigation.navigate({
+            name: ROUTES.SCREENS.COMMUNITY_SETTINGS,
+            key: `community_settings_${tag}`,
+            params,
+          });
+          break;
+        default:
+          break;
+      }
     },
     [navigation, tag],
   );
@@ -98,6 +111,7 @@ const CommunityScreen = ({ route }) => {
         isSubscribed,
         isLoggedIn,
         isModerator,
+        canEditSettings,
       }) => (
         <SafeAreaView style={styles.container}>
           <BasicHeader
@@ -107,7 +121,7 @@ const CommunityScreen = ({ route }) => {
             enableViewModeToggle={true}
             rightIconName={isModerator ? 'shield-account-outline' : undefined}
             iconType="MaterialCommunityIcons"
-            handleRightIconPress={() => _handleManagePress(data)}
+            handleRightIconPress={() => _handleManagePress(data, canEditSettings)}
           />
           {data ? (
             <CollapsibleCard

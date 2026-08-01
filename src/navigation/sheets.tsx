@@ -263,6 +263,9 @@ declare module 'react-native-actions-sheet' {
       returnValue: ModNotesResult | undefined;
     }>;
     [SheetNames.COMMUNITY_MANAGE]: SheetDefinition<{
+      payload?: {
+        canEditSettings?: boolean;
+      };
       // `{ action }` on selection. Dismissing by backdrop, swipe or back
       // resolves the payload object instead, because the library publishes
       // `data || payloadRef.current` on close, so match on a known action

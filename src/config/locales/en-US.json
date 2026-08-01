@@ -188,6 +188,7 @@
     "unmute_post_reason": "Why is this being restored?",
     "manage": "Manage community",
     "manage_members": "Members and roles",
+    "manage_settings": "Community settings",
     "set_role": "Set role",
     "members": "members",
     "no_members": "No members found",
@@ -1793,5 +1794,18 @@
     "placeholder": "Reason (visible to other moderators)",
     "confirm": "Confirm",
     "cancel": "Cancel"
+  },
+  "community_settings": {
+    "title_header": "Community settings",
+    "title_label": "Title",
+    "about": "About",
+    "lang": "Language",
+    "description": "Description",
+    "rules": "Rules",
+    "nsfw": "Not safe for work",
+    "save": "Save",
+    "required": "Required",
+    "title_length": "Between {min} and {max} characters",
+    "owner_admin_only": "Only the owner and admins can change these settings."
   }
 }

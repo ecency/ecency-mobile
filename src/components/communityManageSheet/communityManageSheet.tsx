@@ -8,13 +8,15 @@ import { Icon } from '../icon';
 const FALLBACK_SHEET_ID = 'community_manage';
 
 /** Destinations offered to a community moderator. */
-export type CommunityManageAction = 'members';
+export type CommunityManageAction = 'members' | 'settings';
 
 interface Row {
   action: CommunityManageAction;
   icon: string;
   iconType: string;
   labelId: string;
+  /** Rendered only when the viewer can actually use the destination. */
+  requires?: 'settings';
 }
 
 // Rows are added here as each destination screen lands.
@@ -24,6 +26,13 @@ const ROWS: Row[] = [
     icon: 'account-group',
     iconType: 'MaterialCommunityIcons',
     labelId: 'community.manage_members',
+  },
+  {
+    action: 'settings',
+    icon: 'cog-outline',
+    iconType: 'MaterialCommunityIcons',
+    labelId: 'community.manage_settings',
+    requires: 'settings',
   },
 ];
 
@@ -35,8 +44,12 @@ const ROWS: Row[] = [
  * because the library publishes `data || payloadRef.current` on close, so
  * callers must gate on a known `action` value rather than on truthiness.
  */
-const CommunityManageSheet: React.FC<SheetProps<'community_manage'>> = ({ sheetId }) => {
+const CommunityManageSheet: React.FC<SheetProps<'community_manage'>> = ({ sheetId, payload }) => {
   const intl = useIntl();
+
+  // Editing community props is owner and admin only, so a plain mod is not
+  // offered a screen where every field would be read-only.
+  const rows = ROWS.filter((row) => row.requires !== 'settings' || !!payload?.canEditSettings);
 
   const _select = (action: CommunityManageAction) => {
     SheetManager.hide(sheetId || FALLBACK_SHEET_ID, { payload: { action } });
@@ -52,7 +65,7 @@ const CommunityManageSheet: React.FC<SheetProps<'community_manage'>> = ({ sheetI
       <View style={styles.container}>
         <Text style={styles.title}>{intl.formatMessage({ id: 'community.manage' })}</Text>
 
-        {ROWS.map((row) => (
+        {rows.map((row) => (
           <TouchableOpacity key={row.action} style={styles.row} onPress={() => _select(row.action)}>
             <Icon
               iconType={row.iconType}
