@@ -222,13 +222,31 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
           </View>
         )}
 
+        {/* Before recording this must show the RATE, not the cost of a hypothetical
+            minimum clip. Showing "15 Points" next to "up to 5 minutes" reads as
+            15 Points for five minutes, when it is 15 Points per 30s block. Once
+            recording, the running total is the honest number. */}
         <Text style={styles.cost}>
           {!isPriceReady
             ? intl.formatMessage({ id: 'dictation.price_loading' })
-            : estimatedCost > 0
-            ? intl.formatMessage({ id: 'dictation.cost' }, { n: estimatedCost })
-            : intl.formatMessage({ id: 'dictation.free' })}
+            : state === 'recording'
+            ? estimatedCost > 0
+              ? intl.formatMessage({ id: 'dictation.cost_running' }, { n: estimatedCost })
+              : intl.formatMessage({ id: 'dictation.cost_running_free' })
+            : intl.formatMessage(
+                { id: 'dictation.rate' },
+                { n: price!.unit_cost, s: price!.unit_seconds },
+              )}
         </Text>
+
+        {isPriceReady && state !== 'recording' && (price!.free_remaining ?? 0) > 0 && (
+          <Text style={styles.hint}>
+            {intl.formatMessage(
+              { id: 'dictation.free_remaining' },
+              { n: price!.free_remaining, s: price!.unit_seconds },
+            )}
+          </Text>
+        )}
 
         {isPriceReady && !isTranscribing && (
           <Text style={styles.hint}>
