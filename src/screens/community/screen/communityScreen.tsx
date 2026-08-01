@@ -93,6 +93,13 @@ const CommunityScreen = ({ route }) => {
             params,
           });
           break;
+        case 'activities':
+          navigation.navigate({
+            name: ROUTES.SCREENS.COMMUNITY_ACTIVITIES,
+            key: `community_activities_${tag}`,
+            params,
+          });
+          break;
         default:
           break;
       }
