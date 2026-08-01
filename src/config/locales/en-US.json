@@ -1168,6 +1168,8 @@
     "rerecord": "Record again",
     "insert": "Insert",
     "recording": "Recording",
+    "recorded": "Recorded. Insert it, or record again.",
+    "rerecord_warning": "Recording again discards this one.",
     "transcribing": "Transcribing",
     "cost": "{n} Points",
     "free": "Free",

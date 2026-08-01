@@ -72,6 +72,18 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
     }
   }, [state]);
 
+  // Sheets in this app STAY MOUNTED, so the unmount cleanup below effectively never
+  // fires and state would otherwise persist into the next open -- an old recording
+  // still sitting there, ready to be inserted into a different draft. Reset per
+  // open, which is the documented convention for sheets here.
+  useEffect(() => {
+    closedRef.current = false;
+    reset();
+    idempotencyKeyRef.current = null;
+    setServerRejectedForPoints(false);
+    setPendingCost(0);
+  }, [payload, reset]);
+
   useEffect(
     () => () => {
       closedRef.current = true;
@@ -169,6 +181,12 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
 
         <Text style={styles.clock}>{formatClock(seconds)}</Text>
 
+        {state === 'stopped' && result && (
+          // Without this the clock is just a number sitting at the end of a
+          // recording, with nothing saying it IS the recording.
+          <Text style={styles.cost}>{intl.formatMessage({ id: 'dictation.recorded' })}</Text>
+        )}
+
         {state === 'recording' && (
           <View style={styles.recordingRow}>
             <View style={styles.recordingDot} />
@@ -222,6 +240,12 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
             text={intl.formatMessage({ id: 'dictation.insert' })}
           />
         </View>
+
+        {state === 'stopped' && result && (
+          <Text style={styles.hint}>
+            {intl.formatMessage({ id: 'dictation.rerecord_warning' })}
+          </Text>
+        )}
 
         {isTranscribing && (
           <View style={styles.transcribingRow}>
