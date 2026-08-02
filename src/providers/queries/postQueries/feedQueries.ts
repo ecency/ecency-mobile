@@ -243,11 +243,16 @@ export const useFeedQuery = ({
         }
         return {
           ...oldData,
+          // Guarded like `select` above: a page is not assumed to be an array,
+          // and an unguarded filter here would throw and abort the whole cache
+          // update rather than skipping one page.
           pages: oldData.pages.map((page) =>
-            page.filter(
-              (post) =>
-                !(post?.author === currentAccount.name && post?.permlink === content.permlink),
-            ),
+            Array.isArray(page)
+              ? page.filter(
+                  (post) =>
+                    !(post?.author === currentAccount.name && post?.permlink === content.permlink),
+                )
+              : page,
           ),
         };
       });
