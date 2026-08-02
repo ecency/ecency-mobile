@@ -6,7 +6,6 @@ import {
   getPostsRankedInfiniteQueryOptions,
   getAccountPostsInfiniteQueryOptions,
   getPromotedPostsQuery,
-  getPostQueryOptions,
   useDeleteComment,
 } from '@ecency/sdk';
 import { useIntl } from 'react-intl';
@@ -30,6 +29,18 @@ interface FeedQueryParams {
   pinnedPermlink?: string;
 }
 
+/**
+ * `author/permlink` of posts deleted during this app session.
+ *
+ * Module level rather than component state on purpose. The delete broadcasts
+ * async, so hivemind has not indexed it yet and any query refetching in that
+ * window returns the post again. Component state is lost when the screen
+ * unmounts, so leaving a profile and returning was enough to bring a deleted
+ * post back. Keeping it here suppresses the row whatever any cache holds,
+ * without forcing a fetch that would lose the race anyway.
+ */
+const deletedPostKeys = new Set<string>();
+
 export const useFeedQuery = ({
   feedUsername,
   filterKey,
@@ -42,14 +53,15 @@ export const useFeedQuery = ({
   const appStateSubRef = useRef<NativeEventSubscription | null>(null);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
-  // `author/permlink` of posts deleted in this session. Applied to the assembled
-  // list rather than only the feed cache, because the list is assembled from
-  // more than that cache and the cache holds *raw* posts:
+  // Bumped when a delete lands, to re-run the memo below against the module set
+  // above. It is applied to the assembled list rather than only the feed cache,
+  // because the list is assembled from more than that cache and the cache holds
+  // *raw* posts:
   //  - the pinned post comes from its own query and is prepended
   //  - `select` parses a shallow copy, so a cross-post's cached author/permlink
   //    are the wrapper's while the rendered ones are the original's
   // Matching on the displayed identity is what the user actually acted on.
-  const [deletedKeys, setDeletedKeys] = useState<Set<string>>(() => new Set());
+  const [deletedVersion, setDeletedVersion] = useState(0);
 
   const cache = useAppSelector((state) => state.cache);
   const cacheRef = useRef(cache);
@@ -206,9 +218,10 @@ export const useFeedQuery = ({
       _data.filter(
         (post) =>
           (mutesSet ? !mutesSet.has(post?.author) : true) &&
-          !deletedKeys.has(`${post?.author}/${post?.permlink}`),
+          !deletedPostKeys.has(`${post?.author}/${post?.permlink}`),
       ),
-    [mutesSet, _data, deletedKeys],
+
+    [mutesSet, _data, deletedVersion],
   );
 
   /**
@@ -258,26 +271,14 @@ export const useFeedQuery = ({
         };
       });
 
-      // The pinned post is served from its own query, not the feed cache, so it
-      // has to be cleared there too. `deletedKeys` below only hides it for the
-      // life of this hook: leaving the profile and returning would remount with
-      // an empty set and prepend the still-cached pinned post again.
-      if (
-        pinnedPermlink &&
-        content.permlink === pinnedPermlink &&
-        content.author === feedUsername
-      ) {
-        const { queryKey: pinnedKey } = getPostQueryOptions(
-          feedUsername,
-          pinnedPermlink,
-          currentAccount?.name,
-        );
-        queryClient.setQueryData(pinnedKey, null);
-      }
-
-      // Covers cross-post rows, whose cached identity is the wrapper's while the
-      // rendered one is the original's, and keeps removal immediate elsewhere.
-      setDeletedKeys((prev) => new Set(prev).add(`${content.author}/${content.permlink}`));
+      // Deliberately does not clear the pinned post's own query. Emptying it
+      // forces a refetch, and the delete broadcasts async, so that refetch
+      // returns the not-yet-indexed post and puts it straight back. Recording
+      // the key suppresses the row whatever any cache still holds, and covers
+      // the cross-post case too, where the cached identity is the wrapper's
+      // while the rendered one is the original's.
+      deletedPostKeys.add(`${content.author}/${content.permlink}`);
+      setDeletedVersion((v) => v + 1);
 
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.removed' })));
     },
@@ -289,8 +290,6 @@ export const useFeedQuery = ({
       queryClient,
       dispatch,
       intl,
-      pinnedPermlink,
-      feedUsername,
     ],
   );
 
