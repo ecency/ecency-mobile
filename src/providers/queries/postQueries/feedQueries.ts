@@ -6,6 +6,7 @@ import {
   getPostsRankedInfiniteQueryOptions,
   getAccountPostsInfiniteQueryOptions,
   getPromotedPostsQuery,
+  getPostQueryOptions,
   useDeleteComment,
 } from '@ecency/sdk';
 import { useIntl } from 'react-intl';
@@ -257,8 +258,25 @@ export const useFeedQuery = ({
         };
       });
 
-      // Covers the pinned post and cross-post wrappers, which the cache patch
-      // above cannot reach.
+      // The pinned post is served from its own query, not the feed cache, so it
+      // has to be cleared there too. `deletedKeys` below only hides it for the
+      // life of this hook: leaving the profile and returning would remount with
+      // an empty set and prepend the still-cached pinned post again.
+      if (
+        pinnedPermlink &&
+        content.permlink === pinnedPermlink &&
+        content.author === feedUsername
+      ) {
+        const { queryKey: pinnedKey } = getPostQueryOptions(
+          feedUsername,
+          pinnedPermlink,
+          currentAccount?.name,
+        );
+        queryClient.setQueryData(pinnedKey, null);
+      }
+
+      // Covers cross-post rows, whose cached identity is the wrapper's while the
+      // rendered one is the original's, and keeps removal immediate elsewhere.
       setDeletedKeys((prev) => new Set(prev).add(`${content.author}/${content.permlink}`));
 
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.removed' })));
@@ -271,6 +289,8 @@ export const useFeedQuery = ({
       queryClient,
       dispatch,
       intl,
+      pinnedPermlink,
+      feedUsername,
     ],
   );
 
