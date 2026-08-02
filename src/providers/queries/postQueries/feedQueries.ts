@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
+import { InfiniteData, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { unionBy, isArray } from 'lodash';
 import { AppState, NativeEventSubscription } from 'react-native';
@@ -6,9 +6,13 @@ import {
   getPostsRankedInfiniteQueryOptions,
   getAccountPostsInfiniteQueryOptions,
   getPromotedPostsQuery,
+  useDeleteComment,
 } from '@ecency/sdk';
+import { useIntl } from 'react-intl';
 import QUERIES from '../queryKeys';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { toastNotification } from '../../../redux/actions/uiAction';
+import { useAuthContext } from '../../sdk';
 import filterNsfwPost from '../../../utils/filterNsfwPost';
 import { useGetPostQuery } from './postQueries';
 import { selectNsfw, selectCurrentAccount } from '../../../redux/selectors';
@@ -43,6 +47,11 @@ export const useFeedQuery = ({
   const currentAccount = useAppSelector(selectCurrentAccount);
   const nsfw = useAppSelector(selectNsfw);
   const mutes = currentAccount?.mutes || [];
+
+  const intl = useIntl();
+  const dispatch = useAppDispatch();
+  const authContext = useAuthContext();
+  const sdkDeleteMutation = useDeleteComment(currentAccount?.name, authContext, 'async');
 
   const pinnedPostQuery = useGetPostQuery({
     author: feedUsername,
@@ -188,12 +197,68 @@ export const useFeedQuery = ({
     [mutesSet, _data],
   );
 
+  /**
+   * Deletes a post and prunes it from this feed's cache.
+   *
+   * The options sheet's own delete path calls `navigation.goBack()`, which on a
+   * feed pops the screen the list is on, and it never touches the feed cache, so
+   * the deleted post stays visible. Consumers pass this as `onDelete` so the
+   * sheet delegates instead.
+   *
+   * The cache is patched rather than invalidated because the delete broadcasts
+   * async: `mutateAsync` resolves on mempool acceptance, so a refetch issued
+   * here would return pre-transaction state and bring the post straight back.
+   */
+  const deletePost = useCallback(
+    async (content: any) => {
+      if (!currentAccount?.name || !content?.permlink) {
+        return;
+      }
+
+      await sdkDeleteMutation.mutateAsync({
+        author: currentAccount.name,
+        permlink: content.permlink,
+        parentAuthor: content.parent_author || '',
+        parentPermlink: content.parent_permlink || '',
+      });
+
+      // Match author as well as permlink: a permlink is only unique per author,
+      // so filtering on it alone could drop someone else's post.
+      queryClient.setQueryData<InfiniteData<any[]>>(queryOptions.queryKey, (oldData) => {
+        if (!oldData?.pages) {
+          return oldData;
+        }
+        return {
+          ...oldData,
+          pages: oldData.pages.map((page) =>
+            page.filter(
+              (post) =>
+                !(post?.author === currentAccount.name && post?.permlink === content.permlink),
+            ),
+          ),
+        };
+      });
+
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.removed' })));
+    },
+    [
+      currentAccount?.name,
+      // mutateAsync is stable across renders; the mutation result object is not.
+      sdkDeleteMutation.mutateAsync,
+      queryOptions.queryKey,
+      queryClient,
+      dispatch,
+      intl,
+    ],
+  );
+
   return {
     data: _filteredData,
     isRefreshing,
     isLoading: feedQuery.isLoading,
     fetchNextPage: feedQuery.fetchNextPage,
     refresh: _refresh,
+    deletePost,
   };
 };
 
