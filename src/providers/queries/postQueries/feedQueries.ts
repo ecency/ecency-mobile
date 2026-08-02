@@ -41,6 +41,14 @@ export const useFeedQuery = ({
   const appStateSubRef = useRef<NativeEventSubscription | null>(null);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
+  // `author/permlink` of posts deleted in this session. Applied to the assembled
+  // list rather than only the feed cache, because the list is assembled from
+  // more than that cache and the cache holds *raw* posts:
+  //  - the pinned post comes from its own query and is prepended
+  //  - `select` parses a shallow copy, so a cross-post's cached author/permlink
+  //    are the wrapper's while the rendered ones are the original's
+  // Matching on the displayed identity is what the user actually acted on.
+  const [deletedKeys, setDeletedKeys] = useState<Set<string>>(() => new Set());
 
   const cache = useAppSelector((state) => state.cache);
   const cacheRef = useRef(cache);
@@ -193,8 +201,13 @@ export const useFeedQuery = ({
   // Apply mute filtering — Set for O(1) lookup instead of O(n) indexOf
   const mutesSet = useMemo(() => (isArray(mutes) ? new Set(mutes) : null), [mutes]);
   const _filteredData = useMemo(
-    () => _data.filter((post) => (mutesSet ? !mutesSet.has(post?.author) : true)),
-    [mutesSet, _data],
+    () =>
+      _data.filter(
+        (post) =>
+          (mutesSet ? !mutesSet.has(post?.author) : true) &&
+          !deletedKeys.has(`${post?.author}/${post?.permlink}`),
+      ),
+    [mutesSet, _data, deletedKeys],
   );
 
   /**
@@ -238,6 +251,10 @@ export const useFeedQuery = ({
           ),
         };
       });
+
+      // Covers the pinned post and cross-post wrappers, which the cache patch
+      // above cannot reach.
+      setDeletedKeys((prev) => new Set(prev).add(`${content.author}/${content.permlink}`));
 
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.removed' })));
     },
