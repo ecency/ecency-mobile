@@ -259,8 +259,15 @@ const PostOptionsModal = (
     // downvote made the option silently disappear), which surfaced as
     // "I can't delete this wave" when a duplicate had any vote at all.
     const _netRshares = Number(content.net_rshares ?? 0);
+    // Withheld on cross-posts for the same reason as mute and pin: `parsePost`
+    // swaps author and permlink to the original entry, so `content` here is the
+    // ORIGINAL, not the wrapper the user is looking at. On a self cross-post the
+    // author check passes and deleting would destroy the original post while
+    // leaving the wrapper, which is not what "delete" on that card means. Delete
+    // the original from its own card or screen instead.
     const _canDeletePost =
       currentAccount.name === content.author &&
+      !content.crosspostMeta &&
       !content.is_paidout &&
       !content.children &&
       _netRshares <= 0;
