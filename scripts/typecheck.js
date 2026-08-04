@@ -73,8 +73,14 @@ if (globalErrors.length) {
   process.exit(1);
 }
 
-if (tsc.status !== 0 && total === 0) {
-  console.error(`tsc exited with code ${tsc.status} without reporting diagnostics; output tail:\n`);
+// tsc --noEmit exits 0 (clean) or 2 (diagnostics reported). Any other status,
+// or a status that disagrees with the parsed output, means the run aborted
+// midway (crash, OOM) and its partial output must not be trusted or baselined.
+const statusMatchesOutput = (tsc.status === 0 && total === 0) || (tsc.status === 2 && total > 0);
+if (!statusMatchesOutput) {
+  console.error(
+    `unexpected tsc exit (code ${tsc.status}, ${total} diagnostics parsed); output tail:\n`,
+  );
   console.error(output.split('\n').slice(-20).join('\n'));
   process.exit(1);
 }
