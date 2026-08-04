@@ -133,6 +133,7 @@ const SearchFiltersSheet: React.FC<SheetProps<'search_filters'>> = ({ sheetId, p
             <TouchableOpacity
               key={option || 'all'}
               style={[styles.chip, isSelected && styles.selectedChip]}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
               onPress={() => onSelect(option)}
               accessibilityRole="button"
               accessibilityState={{ selected: isSelected }}
