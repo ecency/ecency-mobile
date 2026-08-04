@@ -1,199 +1,132 @@
-import { useState, useEffect, useRef } from 'react';
+import { useCallback, useMemo } from 'react';
 import get from 'lodash/get';
 
 import { useNavigation } from '@react-navigation/native';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import {
   getPostQueryOptions,
   getAccountPostsQueryOptions,
-  searchQueryOptions,
-  search,
+  getSearchApiInfiniteQueryOptions,
 } from '@ecency/sdk';
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { getQueryClient, postQueries } from '../../../../../../providers/queries';
+import { postQueries } from '../../../../../../providers/queries';
 import postUrlParser from '../../../../../../utils/postUrlParser';
 import { selectCurrentAccountUsername } from '../../../../../../redux/selectors';
 import { useAppSelector } from '../../../../../../hooks';
 
+// Where a sort filter would plug in. The screen has no control for it, and the
+// unused state this replaces was hardcoded the same way.
+const SORT = 'relevance';
+
+// Unlike the website, this app has never filtered low payout content. Keeping
+// that, so results do not silently change under existing users.
+const HIDE_LOW = false;
+
 const PostsResultsContainer = ({ children, searchValue }) => {
   const navigation = useNavigation();
   const postsCacherPrimer = postQueries.usePostsCachePrimer();
-
-  const [data, setData] = useState<any>([]);
-  const [sort] = useState('relevance');
-  const [scrollId, setScrollId] = useState('');
-  const [noResult, setNoResult] = useState(false);
-  // Kept apart from noResult: a search that failed is not a search that found
-  // nothing, and telling the user "no results" for a dropped request sends them
-  // rewording a query that never ran.
-  const [isError, setIsError] = useState(false);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const requestSequence = useRef(0);
-
   const currentAccountUsername = useAppSelector(selectCurrentAccountUsername);
 
-  useEffect(() => {
-    const requestId = ++requestSequence.current;
-    _fetchResults(requestId);
+  // Three modes, one query each, gated by `enabled` so only the applicable one
+  // runs. React Query keys the search by its query string, so a response for an
+  // abandoned search can no longer land on a newer one - which is what the
+  // hand-rolled request-sequence guard existed for.
+  const { author, permlink } = postUrlParser(searchValue) || {};
+  const isPostUrl = !!(author && permlink);
+  const isSearch = !!searchValue && !isPostUrl;
 
-    return () => {
-      if (requestSequence.current === requestId) {
-        requestSequence.current += 1;
-      }
-    };
-  }, [searchValue]);
+  const postQuery = useQuery({
+    // Falls back to empty strings because this is built on every render, not
+    // only when the value parses as a post URL. They never reach the network:
+    // the query is disabled unless both are present.
+    ...getPostQueryOptions(author ?? '', permlink ?? '', currentAccountUsername),
+    enabled: isPostUrl,
+  });
 
-  const normalizeSearchResponse = (res) => {
-    if (!res) {
-      return { results: [], scrollId: '' };
+  const initialPostsQuery = useQuery({
+    ...getAccountPostsQueryOptions(
+      'ecency',
+      'blog',
+      undefined,
+      undefined,
+      7,
+      currentAccountUsername,
+    ),
+    enabled: !searchValue,
+  });
+
+  const searchQuery = useInfiniteQuery({
+    ...getSearchApiInfiniteQueryOptions(`${searchValue} type:post`, SORT, HIDE_LOW),
+    // The factory enables itself on a non-empty q, and q is never empty here
+    // because of the appended type:post. Gate on the real condition instead.
+    enabled: isSearch,
+  });
+
+  const activeQuery = isPostUrl ? postQuery : isSearch ? searchQuery : initialPostsQuery;
+
+  const data = useMemo(() => {
+    if (isPostUrl) {
+      return postQuery.data ? [postQuery.data] : [];
     }
-    if (Array.isArray(res)) {
-      return { results: res, scrollId: '' };
-    }
-    if (res.pages && Array.isArray(res.pages)) {
-      const { pages } = res;
-      const results = pages.flatMap((page) => page?.results || page?.items || []);
-      const lastPage = pages[pages.length - 1];
-      return { results, scrollId: lastPage?.scroll_id || '' };
-    }
-    if (Array.isArray(res.results)) {
-      return { results: res.results, scrollId: res.scroll_id || '' };
-    }
-    if (Array.isArray(res.items)) {
-      return { results: res.items, scrollId: res.scroll_id || '' };
-    }
-    return { results: [], scrollId: '' };
-  };
 
-  const _fetchResults = async (requestId) => {
-    let _data: any = [];
+    if (!isSearch) {
+      return initialPostsQuery.data ?? [];
+    }
 
-    setNoResult(false);
-    setIsError(false);
-    setData(_data);
-    setScrollId('');
-    setIsLoading(true);
-    setIsLoadingMore(false);
-
-    try {
-      // parse author and permlink if url
-      const { author, permlink } = postUrlParser(searchValue) || {};
-
-      // fetch based on post url
-      if (author && permlink) {
-        const queryClient = getQueryClient();
-        const post = await queryClient.fetchQuery(
-          getPostQueryOptions(author, permlink, currentAccountUsername),
-        );
-        _data = post ? [post] : [];
-      }
-      // search with query
-      else if (searchValue) {
-        const queryClient = getQueryClient();
-        const res = await queryClient.fetchQuery(
-          searchQueryOptions(`${searchValue} type:post`, sort, '0'),
-        );
-        const normalized = normalizeSearchResponse(res);
-        _data = normalized.results;
-        if (requestSequence.current === requestId) {
-          setScrollId(normalized.scrollId);
+    // author + permlink: a permlink is only unique per author, and the same one
+    // can legitimately appear under two ("re-...", the same slugified title).
+    // Scroll pages can overlap too, so dedupe as they are flattened.
+    const seen = new Set<string>();
+    return (searchQuery.data?.pages ?? [])
+      .flatMap((page) => page?.results ?? [])
+      .filter((item) => {
+        const key = `${item.author}/${item.permlink}`;
+        if (seen.has(key)) {
+          return false;
         }
-      }
-      // get initial posts if not search value
-      else {
-        _data = await getInitialPosts();
-      }
+        seen.add(key);
+        return true;
+      });
+  }, [isPostUrl, isSearch, postQuery.data, initialPostsQuery.data, searchQuery.data]);
 
-      if (requestSequence.current === requestId) {
-        setData(_data);
-        setNoResult(_data.length === 0);
-      }
-    } catch (error) {
-      console.warn('[PostsSearch] Search failed:', error);
-      if (requestSequence.current === requestId) {
-        setData([]);
-        setIsError(true);
-      }
-    } finally {
-      if (requestSequence.current === requestId) {
-        setIsLoading(false);
-      }
+  const { isLoading } = activeQuery;
+  // A failed search is not an empty one. The SDK keeps the backend's reason on
+  // the error and will not retry a query it has already rejected, so this is
+  // reached promptly rather than after four attempts.
+  //
+  // Only fatal when there is nothing to show. An infinite query raises the same
+  // isError for a failed "show more", and the view swaps the whole list for its
+  // error state, so without this a transient later-page failure would blank
+  // results the user is already reading. The website makes the same call by
+  // checking its error branch after the results branch.
+  const isError = activeQuery.isError && data.length === 0;
+  const noResult = !isLoading && !isError && data.length === 0;
+
+  const { hasNextPage, isFetchingNextPage, fetchNextPage } = searchQuery;
+  const _loadMore = useCallback(() => {
+    if (!isSearch || !hasNextPage || isFetchingNextPage) {
+      return;
     }
-  };
-
-  const getInitialPosts = async () => {
-    const queryClient = getQueryClient();
-    return queryClient.fetchQuery(
-      getAccountPostsQueryOptions(
-        'ecency',
-        'blog',
-        undefined,
-        undefined,
-        7,
-        currentAccountUsername,
-      ),
-    );
-  };
+    fetchNextPage();
+  }, [isSearch, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   // Component Functions
 
   const _handleOnPress = (item) => {
-    const author = get(item, 'author');
-    const permlink = get(item, 'permlink');
+    const itemAuthor = get(item, 'author');
+    const itemPermlink = get(item, 'permlink');
 
     postsCacherPrimer.cachePost(item);
     navigation.navigate({
       name: ROUTES.SCREENS.POST,
       params: {
-        author,
-        permlink,
+        author: itemAuthor,
+        permlink: itemPermlink,
       },
-      key: `${author}/${permlink}`,
+      key: `${itemAuthor}/${itemPermlink}`,
     });
-  };
-
-  const _loadMore = async () => {
-    if (!scrollId || !searchValue || isLoadingMore) {
-      return;
-    }
-    const requestId = requestSequence.current;
-    try {
-      setIsLoadingMore(true);
-      const res = await search(`${searchValue} type:post`, sort, '0', undefined, scrollId);
-      // Read the cursor through the same normalizer as the results, rather than
-      // off res directly. normalizeSearchResponse knows where the cursor lives
-      // in each response shape it accepts (a paged one carries it on the last
-      // page), so reading it twice two different ways is how pagination stops
-      // silently on any shape but the plain one.
-      const { results: newResults, scrollId: nextScrollId } = normalizeSearchResponse(res);
-
-      if (requestSequence.current !== requestId) {
-        return;
-      }
-
-      // Use functional updater to avoid stale closure reads
-      setData((prev) => {
-        // author + permlink: a permlink is only unique per author, and two
-        // authors sharing one ("re-...", the same slugified title) is common
-        // enough that deduping on it alone dropped legitimate results.
-        const seen = new Set(prev.map((item) => `${item.author}/${item.permlink}`));
-        const filteredNewResults = newResults.filter(
-          (item) => !seen.has(`${item.author}/${item.permlink}`),
-        );
-        return [...prev, ...filteredNewResults];
-      });
-      setScrollId(nextScrollId);
-    } catch (error) {
-      if (requestSequence.current === requestId) {
-        console.warn('Search Failed', error);
-      }
-    } finally {
-      if (requestSequence.current === requestId) {
-        setIsLoadingMore(false);
-      }
-    }
   };
 
   return (
