@@ -44,4 +44,14 @@ export default EStyleSheet.create({
   tabLabelColor: {
     color: '$primaryDarkText',
   },
+  searchRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  searchInputWrapper: {
+    flex: 1,
+  },
+  filterButton: {
+    paddingHorizontal: 12,
+  },
 });

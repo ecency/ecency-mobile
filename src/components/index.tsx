@@ -128,6 +128,7 @@ import { AuthUpgradeSheet } from './authUpgradeSheet';
 import { ModNotesSheet } from './modNotesSheet';
 import { CommunityManageSheet } from './communityManageSheet';
 import { CommunityRoleEditSheet } from './communityRoleEditSheet';
+import { SearchFiltersSheet } from './searchFiltersSheet';
 import TransferFavoritesSheet from './transferFavoritesSheet/transferFavoritesSheet';
 
 // Basic UI Elements
@@ -312,5 +313,6 @@ export {
   ModNotesSheet,
   CommunityManageSheet,
   CommunityRoleEditSheet,
+  SearchFiltersSheet,
   TransferFavoritesSheet,
 };

@@ -5,9 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import {
+  buildSearchQuery,
   getPostQueryOptions,
   getAccountPostsQueryOptions,
   getSearchApiInfiniteQueryOptions,
+  SearchType,
 } from '@ecency/sdk';
 import ROUTES from '../../../../../../constants/routeNames';
 
@@ -16,15 +18,30 @@ import postUrlParser from '../../../../../../utils/postUrlParser';
 import { selectCurrentAccountUsername } from '../../../../../../redux/selectors';
 import { useAppSelector } from '../../../../../../hooks';
 
-// Where a sort filter would plug in. The screen has no control for it, and the
-// unused state this replaces was hardcoded the same way.
-const SORT = 'relevance';
-
 // Unlike the website, this app has never filtered low payout content. Keeping
 // that, so results do not silently change under existing users.
 const HIDE_LOW = false;
 
-const PostsResultsContainer = ({ children, searchValue }) => {
+const DEFAULT_FILTERS = {
+  author: '',
+  category: '',
+  tags: '',
+  type: SearchType.ALL,
+  date: 'all' as const,
+  sort: 'relevance' as const,
+};
+
+// The API takes the window as an absolute timestamp, not a keyword.
+const sinceFor = (date: string): string | undefined => {
+  const days = date === 'week' ? 7 : date === 'month' ? 30 : date === 'year' ? 365 : 0;
+  if (!days) {
+    return undefined;
+  }
+  const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+  return since.toISOString().split('.')[0];
+};
+
+const PostsResultsContainer = ({ children, searchValue, filters = DEFAULT_FILTERS }) => {
   const navigation = useNavigation();
   const postsCacherPrimer = postQueries.usePostsCachePrimer();
   const currentAccountUsername = useAppSelector(selectCurrentAccountUsername);
@@ -57,10 +74,21 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     enabled: !searchValue,
   });
 
+  // Built by the SDK's buildSearchQuery, the same one the website uses, so the
+  // tokens parse identically in the search API. Type defaults to post because
+  // this is the posts tab; an explicit choice in the filters wins.
+  const { q } = buildSearchQuery({
+    search: searchValue,
+    author: filters.author,
+    type: filters.type || SearchType.POST,
+    category: filters.category,
+    tags: filters.tags,
+  });
+
   const searchQuery = useInfiniteQuery({
-    ...getSearchApiInfiniteQueryOptions(`${searchValue} type:post`, SORT, HIDE_LOW),
+    ...getSearchApiInfiniteQueryOptions(q, filters.sort, HIDE_LOW, sinceFor(filters.date)),
     // The factory enables itself on a non-empty q, and q is never empty here
-    // because of the appended type:post. Gate on the real condition instead.
+    // because of the type token. Gate on the real condition instead.
     enabled: isSearch,
   });
 

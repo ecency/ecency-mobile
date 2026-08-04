@@ -1,13 +1,16 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { useIntl } from 'react-intl';
+import { SheetManager } from 'react-native-actions-sheet';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { TabView } from 'react-native-tab-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import useDebounce from '../../../utils/useDebounceHook';
 
 // Components
-import { SearchInput, TabBar } from '../../../components';
+import { IconButton, SearchInput, TabBar } from '../../../components';
+import { EMPTY_SEARCH_FILTERS, type SearchFilters } from '../../../components/searchFiltersSheet';
+import { SheetNames } from '../../../navigation/sheets';
 import Communities from './tabs/communities/view/communitiesResults';
 import PostsResults from './tabs/best/view/postsResults';
 // import TopicsResults from './tabs/topics/view/topicsResults';
@@ -23,6 +26,7 @@ const SearchResultScreen = ({ navigation }) => {
 
   const [searchInputValue, setSearchInputValue] = useState('');
   const [searchValue, setSearchValue] = useState('');
+  const [filters, setFilters] = useState<SearchFilters>(EMPTY_SEARCH_FILTERS);
 
   const _handleChangeText = (value) => {
     setSearchInputValue(value);
@@ -40,120 +44,162 @@ const SearchResultScreen = ({ navigation }) => {
     navigation.goBack();
   };
 
+  // Only the posts tab is filtered, so the button lives with the search bar and
+  // reports how many filters are set rather than which.
+  const activeFilterCount = [
+    filters.author,
+    filters.category,
+    filters.tags,
+    filters.type,
+    filters.date === 'all' ? '' : filters.date,
+    filters.sort === 'relevance' ? '' : filters.sort,
+  ].filter(Boolean).length;
+
+  const _openFilters = useCallback(async () => {
+    const result = await SheetManager.show(SheetNames.SEARCH_FILTERS, {
+      payload: { filters, searchValue },
+    });
+
+    // Gate on `filters` being an object, never on truthiness: a backdrop,
+    // swipe or back dismissal resolves the original payload object, which is
+    // truthy, so `if (result)` would read a cancel as an apply.
+    if (result && typeof result === 'object' && result.filters) {
+      setFilters(result.filters);
+    }
+  }, [filters, searchValue]);
+
   return (
     <SafeAreaView style={styles.container}>
-      <SearchInput
-        showClearButton={true}
-        placeholder={intl.formatMessage({ id: 'header.search' })}
-        onChangeText={debouncedSearch}
-        value={searchInputValue}
-        backEnabled={true}
-        onBackPress={_navigationGoBack}
-      />
-      <SearchResultsTabView searchValue={searchValue} />
+      <View style={styles.searchRow}>
+        <View style={styles.searchInputWrapper}>
+          <SearchInput
+            showClearButton={true}
+            placeholder={intl.formatMessage({ id: 'header.search' })}
+            onChangeText={debouncedSearch}
+            value={searchInputValue}
+            backEnabled={true}
+            onBackPress={_navigationGoBack}
+          />
+        </View>
+        <IconButton
+          style={styles.filterButton}
+          iconType="MaterialCommunityIcons"
+          name={activeFilterCount > 0 ? 'filter' : 'filter-outline'}
+          size={22}
+          onPress={_openFilters}
+          accessibilityLabel={intl.formatMessage({ id: 'search_result.filters.open' })}
+        />
+      </View>
+      <SearchResultsTabView searchValue={searchValue} filters={filters} />
     </SafeAreaView>
   );
 };
 
-const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => {
-  const intl = useIntl();
-  const [index, setIndex] = React.useState(0);
-  const postsListRef = React.useRef<FlatList>(null);
-  const peopleListRef = React.useRef<FlatList>(null);
-  const communitiesListRef = React.useRef<FlatList>(null);
-  const [routes] = React.useState([
-    {
-      key: 'posts',
-      title: intl.formatMessage({
-        id: 'search_result.best.title',
-      }),
-    },
-    {
-      key: 'people',
-      title: intl.formatMessage({
-        id: 'search_result.people.title',
-      }),
-    },
-    // TOOD: removed topics tab uptill tags search api is resolved
-    // {
-    //   key: 'topics',
-    //   title: intl.formatMessage({
-    //     id: 'search_result.topics.title',
-    //   }),
-    // },
-    {
-      key: 'communities',
-      title: intl.formatMessage({
-        id: 'search_result.communities.title',
-      }),
-    },
-  ]);
-
-  const clippedSearchValue =
-    searchValue.startsWith('#') || searchValue.startsWith('@')
-      ? searchValue.substring(1).trim().toLowerCase()
-      : searchValue.trim().toLowerCase();
-  const isUsername = !!(searchValue.startsWith('#') || searchValue.startsWith('@'));
-
-  const renderScene = ({ route }) => {
-    switch (route.key) {
-      case 'posts':
-        return (
-          <View style={styles.tabbarItem}>
-            <PostsResults searchValue={clippedSearchValue} listRef={postsListRef} />
-          </View>
-        );
-      case 'people':
-        return (
-          <View style={styles.tabbarItem}>
-            <PeopleResults
-              searchValue={clippedSearchValue}
-              isUsername={isUsername}
-              listRef={peopleListRef}
-            />
-          </View>
-        );
+const SearchResultsTabView = memo(
+  ({ searchValue, filters }: { searchValue: string; filters: SearchFilters }) => {
+    const intl = useIntl();
+    const [index, setIndex] = React.useState(0);
+    const postsListRef = React.useRef<FlatList>(null);
+    const peopleListRef = React.useRef<FlatList>(null);
+    const communitiesListRef = React.useRef<FlatList>(null);
+    const [routes] = React.useState([
+      {
+        key: 'posts',
+        title: intl.formatMessage({
+          id: 'search_result.best.title',
+        }),
+      },
+      {
+        key: 'people',
+        title: intl.formatMessage({
+          id: 'search_result.people.title',
+        }),
+      },
       // TOOD: removed topics tab uptill tags search api is resolved
-      // case 'topics':
-      //   return (
-      //     <View style={styles.tabbarItem}>
-      //       <TopicsResults searchValue={clippedSearchValue} />
-      //     </View>
-      //   );
-      case 'communities':
-        return (
-          <View style={styles.tabbarItem}>
-            <Communities searchValue={clippedSearchValue} listRef={communitiesListRef} />
-          </View>
-        );
-    }
-  };
+      // {
+      //   key: 'topics',
+      //   title: intl.formatMessage({
+      //     id: 'search_result.topics.title',
+      //   }),
+      // },
+      {
+        key: 'communities',
+        title: intl.formatMessage({
+          id: 'search_result.communities.title',
+        }),
+      },
+    ]);
 
-  return (
-    <TabView
-      style={globalStyles.tabView}
-      renderTabBar={(tabProps) => (
-        <TabBar
-          {...tabProps}
-          onTabPress={({ route }) => {
-            const listRef =
-              route.key === 'people'
-                ? peopleListRef
-                : route.key === 'communities'
-                ? communitiesListRef
-                : postsListRef;
-            listRef.current?.scrollToOffset({ offset: 0, animated: true });
-          }}
-        />
-      )}
-      renderScene={renderScene}
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      commonOptions={{
-        labelStyle: styles.tabLabelColor,
-      }}
-    />
-  );
-});
+    const clippedSearchValue =
+      searchValue.startsWith('#') || searchValue.startsWith('@')
+        ? searchValue.substring(1).trim().toLowerCase()
+        : searchValue.trim().toLowerCase();
+    const isUsername = !!(searchValue.startsWith('#') || searchValue.startsWith('@'));
+
+    const renderScene = ({ route }) => {
+      switch (route.key) {
+        case 'posts':
+          return (
+            <View style={styles.tabbarItem}>
+              <PostsResults
+                searchValue={clippedSearchValue}
+                filters={filters}
+                listRef={postsListRef}
+              />
+            </View>
+          );
+        case 'people':
+          return (
+            <View style={styles.tabbarItem}>
+              <PeopleResults
+                searchValue={clippedSearchValue}
+                isUsername={isUsername}
+                listRef={peopleListRef}
+              />
+            </View>
+          );
+        // TOOD: removed topics tab uptill tags search api is resolved
+        // case 'topics':
+        //   return (
+        //     <View style={styles.tabbarItem}>
+        //       <TopicsResults searchValue={clippedSearchValue} />
+        //     </View>
+        //   );
+        case 'communities':
+          return (
+            <View style={styles.tabbarItem}>
+              <Communities searchValue={clippedSearchValue} listRef={communitiesListRef} />
+            </View>
+          );
+      }
+    };
+
+    return (
+      <TabView
+        style={globalStyles.tabView}
+        renderTabBar={(tabProps) => (
+          <TabBar
+            {...tabProps}
+            onTabPress={({ route }) => {
+              const listRef =
+                route.key === 'people'
+                  ? peopleListRef
+                  : route.key === 'communities'
+                  ? communitiesListRef
+                  : postsListRef;
+              listRef.current?.scrollToOffset({ offset: 0, animated: true });
+            }}
+          />
+        )}
+        renderScene={renderScene}
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        commonOptions={{
+          labelStyle: styles.tabLabelColor,
+        }}
+      />
+    );
+  },
+);
 
 export default gestureHandlerRootHOC(SearchResultScreen);

@@ -21,10 +21,12 @@ import {
   ModNotesSheet,
   CommunityManageSheet,
   CommunityRoleEditSheet,
+  SearchFiltersSheet,
 } from '../components';
 import type { ModNotesResult } from '../components/modNotesSheet/modNotesSheet';
 import type { CommunityManageAction } from '../components/communityManageSheet/communityManageSheet';
 import type { CommunityRoleEditResult } from '../components/communityRoleEditSheet/communityRoleEditSheet';
+import type { SearchFilters } from '../components/searchFiltersSheet';
 import { ShareIntentSheet } from '../components/shareIntentSheet';
 import SignConfirmSheet from '../screens/dappBrowser/components/signConfirmSheet';
 import ReceiveQrSheet from '../components/receiveQrSheet/receiveQrSheet';
@@ -60,6 +62,7 @@ export enum SheetNames {
   MOD_NOTES = 'mod_notes',
   COMMUNITY_MANAGE = 'community_manage',
   COMMUNITY_ROLE_EDIT = 'community_role_edit',
+  SEARCH_FILTERS = 'search_filters',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -88,6 +91,7 @@ registerSheet(SheetNames.TRANSFER_FAVORITES, TransferFavoritesSheet);
 registerSheet(SheetNames.MOD_NOTES, ModNotesSheet);
 registerSheet(SheetNames.COMMUNITY_MANAGE, CommunityManageSheet);
 registerSheet(SheetNames.COMMUNITY_ROLE_EDIT, CommunityRoleEditSheet);
+registerSheet(SheetNames.SEARCH_FILTERS, SearchFiltersSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -282,6 +286,22 @@ declare module 'react-native-actions-sheet' {
       // the library publishes `data || payloadRef.current` on close. Gate on a
       // string `role`, never on truthiness.
       returnValue: CommunityRoleEditResult | undefined;
+    }>;
+    [SheetNames.SEARCH_FILTERS]: SheetDefinition<{
+      payload: {
+        // Current filters, so reopening shows what is applied rather than a
+        // blank form.
+        filters?: SearchFilters;
+        // The free text from the search bar. The length cap the API enforces
+        // covers the whole q string, so it has to be measured together with
+        // the filter tokens rather than after them.
+        searchValue?: string;
+      };
+      // `{ filters }` on apply, `{ cancelled: true }` on cancel. A backdrop,
+      // swipe or back dismissal resolves the payload object instead, because
+      // the library publishes `data || payloadRef.current` on close, so gate on
+      // `filters` being an object rather than on truthiness.
+      returnValue: { filters?: SearchFilters; cancelled?: boolean } | undefined;
     }>;
   }
 }

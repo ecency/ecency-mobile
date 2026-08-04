@@ -20,7 +20,7 @@ import { getTimeFromNow } from '../../../../../../utils/time';
 import styles from './postsResultsStyles';
 import { SheetNames } from '../../../../../../navigation/sheets';
 
-const PostsResults = ({ searchValue, listRef }) => {
+const PostsResults = ({ searchValue, filters, listRef }) => {
   const intl = useIntl();
   const _showProfileModal = (username) => {
     if (username) {
@@ -102,7 +102,7 @@ const PostsResults = ({ searchValue, listRef }) => {
   };
 
   return (
-    <PostsResultsContainer searchValue={searchValue}>
+    <PostsResultsContainer searchValue={searchValue} filters={filters}>
       {({ data, handleOnPress, loadMore, noResult, isError, isLoading }) => (
         <>
           {noResult || isError ? (
