@@ -91,10 +91,17 @@ const PostsResultsContainer = ({ children, searchValue }) => {
       });
   }, [isPostUrl, isSearch, postQuery.data, initialPostsQuery.data, searchQuery.data]);
 
-  const { isLoading, isError } = activeQuery;
+  const { isLoading } = activeQuery;
   // A failed search is not an empty one. The SDK keeps the backend's reason on
   // the error and will not retry a query it has already rejected, so this is
   // reached promptly rather than after four attempts.
+  //
+  // Only fatal when there is nothing to show. An infinite query raises the same
+  // isError for a failed "show more", and the view swaps the whole list for its
+  // error state, so without this a transient later-page failure would blank
+  // results the user is already reading. The website makes the same call by
+  // checking its error branch after the results branch.
+  const isError = activeQuery.isError && data.length === 0;
   const noResult = !isLoading && !isError && data.length === 0;
 
   const { hasNextPage, isFetchingNextPage, fetchNextPage } = searchQuery;
