@@ -255,8 +255,10 @@ const styles = EStyleSheet.create({
     flexWrap: 'wrap',
   },
   chip: {
-    marginRight: 8,
-    marginBottom: 6,
+    // Keep at least 20 points between chips so the 10-point hit slop on each
+    // side restores the original touch area without overlapping a neighbour.
+    marginRight: 20,
+    marginBottom: 20,
     minHeight: 32,
     paddingHorizontal: 12,
     borderRadius: 16,
