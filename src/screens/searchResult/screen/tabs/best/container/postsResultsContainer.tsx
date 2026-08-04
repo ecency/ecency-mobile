@@ -162,9 +162,12 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     try {
       setIsLoadingMore(true);
       const res = await search(`${searchValue} type:post`, sort, '0', undefined, scrollId);
-      const newResults = normalizeSearchResponse(res).results;
-      const nextScrollId =
-        res && typeof res === 'object' && 'scroll_id' in res ? res.scroll_id || '' : '';
+      // Read the cursor through the same normalizer as the results, rather than
+      // off res directly. normalizeSearchResponse knows where the cursor lives
+      // in each response shape it accepts (a paged one carries it on the last
+      // page), so reading it twice two different ways is how pagination stops
+      // silently on any shape but the plain one.
+      const { results: newResults, scrollId: nextScrollId } = normalizeSearchResponse(res);
 
       if (requestSequence.current !== requestId) {
         return;
