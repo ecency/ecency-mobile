@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import get from 'lodash/get';
 
 import { useNavigation } from '@react-navigation/native';
@@ -30,11 +30,19 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   const [isError, setIsError] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const requestSequence = useRef(0);
 
   const currentAccountUsername = useAppSelector(selectCurrentAccountUsername);
 
   useEffect(() => {
-    _fetchResults();
+    const requestId = ++requestSequence.current;
+    _fetchResults(requestId);
+
+    return () => {
+      if (requestSequence.current === requestId) {
+        requestSequence.current += 1;
+      }
+    };
   }, [searchValue]);
 
   const normalizeSearchResponse = (res) => {
@@ -59,7 +67,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     return { results: [], scrollId: '' };
   };
 
-  const _fetchResults = async () => {
+  const _fetchResults = async (requestId) => {
     let _data: any = [];
 
     setNoResult(false);
@@ -67,6 +75,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     setData(_data);
     setScrollId('');
     setIsLoading(true);
+    setIsLoadingMore(false);
 
     try {
       // parse author and permlink if url
@@ -88,21 +97,29 @@ const PostsResultsContainer = ({ children, searchValue }) => {
         );
         const normalized = normalizeSearchResponse(res);
         _data = normalized.results;
-        setScrollId(normalized.scrollId);
+        if (requestSequence.current === requestId) {
+          setScrollId(normalized.scrollId);
+        }
       }
       // get initial posts if not search value
       else {
         _data = await getInitialPosts();
       }
 
-      setData(_data);
-      setNoResult(_data.length === 0);
+      if (requestSequence.current === requestId) {
+        setData(_data);
+        setNoResult(_data.length === 0);
+      }
     } catch (error) {
       console.warn('[PostsSearch] Search failed:', error);
-      setData([]);
-      setIsError(true);
+      if (requestSequence.current === requestId) {
+        setData([]);
+        setIsError(true);
+      }
     } finally {
-      setIsLoading(false);
+      if (requestSequence.current === requestId) {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -123,14 +140,17 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   // Component Functions
 
   const _handleOnPress = (item) => {
+    const author = get(item, 'author');
+    const permlink = get(item, 'permlink');
+
     postsCacherPrimer.cachePost(item);
     navigation.navigate({
       name: ROUTES.SCREENS.POST,
       params: {
-        author: get(item, 'author'),
-        permlink: get(item, 'permlink'),
+        author,
+        permlink,
       },
-      key: get(item, 'permlink'),
+      key: `${author}/${permlink}`,
     });
   };
 
@@ -138,12 +158,17 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     if (!scrollId || !searchValue || isLoadingMore) {
       return;
     }
+    const requestId = requestSequence.current;
     try {
       setIsLoadingMore(true);
       const res = await search(`${searchValue} type:post`, sort, '0', undefined, scrollId);
       const newResults = normalizeSearchResponse(res).results;
       const nextScrollId =
         res && typeof res === 'object' && 'scroll_id' in res ? res.scroll_id || '' : '';
+
+      if (requestSequence.current !== requestId) {
+        return;
+      }
 
       // Use functional updater to avoid stale closure reads
       setData((prev) => {
@@ -158,9 +183,13 @@ const PostsResultsContainer = ({ children, searchValue }) => {
       });
       setScrollId(nextScrollId);
     } catch (error) {
-      console.warn('Search Failed', error);
+      if (requestSequence.current === requestId) {
+        console.warn('Search Failed', error);
+      }
     } finally {
-      setIsLoadingMore(false);
+      if (requestSequence.current === requestId) {
+        setIsLoadingMore(false);
+      }
     }
   };
 

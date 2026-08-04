@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 
@@ -15,8 +15,10 @@ const OtherResultContainer = ({ children, searchValue }) => {
   // See the people tab: an empty result and a failed lookup are different
   // answers and used to be reported with the same one.
   const [isError, setIsError] = useState(false);
+  const requestSequence = useRef(0);
 
   useEffect(() => {
+    const requestId = ++requestSequence.current;
     const queryClient = getQueryClient();
     const trimmed = searchValue?.trim();
 
@@ -24,7 +26,11 @@ const OtherResultContainer = ({ children, searchValue }) => {
       setNoResult(false);
       setIsError(false);
       setTags([]);
-      return;
+      return () => {
+        if (requestSequence.current === requestId) {
+          requestSequence.current += 1;
+        }
+      };
     }
 
     setNoResult(false);
@@ -34,16 +40,27 @@ const OtherResultContainer = ({ children, searchValue }) => {
     queryClient
       .fetchQuery(getSearchTopicsQueryOptions(trimmed, 20))
       .then((res) => {
+        if (requestSequence.current !== requestId) {
+          return;
+        }
         if (res && res.length === 0) {
           setNoResult(true);
         }
         setTags(res);
       })
       .catch((error) => {
-        console.warn('[TopicsSearch] Lookup failed:', error);
-        setIsError(true);
-        setTags([]);
+        if (requestSequence.current === requestId) {
+          console.warn('[TopicsSearch] Lookup failed:', error);
+          setIsError(true);
+          setTags([]);
+        }
       });
+
+    return () => {
+      if (requestSequence.current === requestId) {
+        requestSequence.current += 1;
+      }
+    };
   }, [searchValue]);
 
   // Component Functions

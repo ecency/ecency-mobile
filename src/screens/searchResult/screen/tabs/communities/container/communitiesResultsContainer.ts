@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { shuffle } from 'lodash';
@@ -24,6 +24,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   // answers and used to be reported with the same one.
   const [isError, setIsError] = useState(false);
   const [isDiscoversLoading, setIsDiscoversLoading] = useState(false);
+  const requestSequence = useRef(0);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const handleCommunitySubscription = useCommunitySubscriptionAction();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -47,6 +48,8 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
 
   // Intentionally omit subscribedCommunitiesCache to avoid full refetches on cache updates.
   useEffect(() => {
+    const requestId = ++requestSequence.current;
+
     const fetchCommunities = async () => {
       setData([]);
       setNoResult(false);
@@ -61,6 +64,10 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
             currentAccount?.name || undefined,
           ),
         );
+
+        if (requestSequence.current !== requestId) {
+          return;
+        }
 
         if (currentAccount && currentAccount.name) {
           const nextCommunities = communities.map((community) => {
@@ -98,14 +105,22 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
         }
         setIsDiscoversLoading(false);
       } catch (error) {
-        console.warn('[CommunitiesSearch] Search failed:', error);
-        setIsError(true);
-        setData([]);
-        setIsDiscoversLoading(false);
+        if (requestSequence.current === requestId) {
+          console.warn('[CommunitiesSearch] Search failed:', error);
+          setIsError(true);
+          setData([]);
+          setIsDiscoversLoading(false);
+        }
       }
     };
 
     fetchCommunities();
+
+    return () => {
+      if (requestSequence.current === requestId) {
+        requestSequence.current += 1;
+      }
+    };
   }, [searchValue, queryClient, currentAccount, subscribedCommunities]);
 
   useEffect(() => {
