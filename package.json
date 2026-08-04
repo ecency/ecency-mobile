@@ -21,6 +21,8 @@
     "test": "node node_modules/jest/bin/jest.js --watch",
     "test:ci": "node node_modules/jest/bin/jest.js --ci --forceExit --maxWorkers=2",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
+    "typecheck": "node scripts/typecheck.js",
+    "typecheck:update-baseline": "node scripts/typecheck.js --update",
     "lint:fix": "eslint src/ --fix --quiet",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}' && yarn lint:fix",
     "lint-staged": "lint-staged",

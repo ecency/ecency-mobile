@@ -272,7 +272,7 @@ Uses `rn-nodeify` to polyfill Node.js modules (crypto, stream, buffer, etc.) for
 - Uses `reactivecircus/android-emulator-runner@v2` with API 34
 
 ### CI Workflows
-- `.github/workflows/test.yml` — lint + unit tests (runs on all PRs)
+- `.github/workflows/test.yml` — lint + typecheck + unit tests (runs on all PRs)
 - Build workflows (`.github/workflows/build-android.yml`, `build-ios.yml`) gate on `lint-and-test` job
 
 ## Code Style (ESLint)
@@ -284,9 +284,13 @@ Uses `rn-nodeify` to polyfill Node.js modules (crypto, stream, buffer, etc.) for
 
 ## TypeScript
 
-- Config: `tsconfig.json` extends `@react-native/typescript-config`
+- Config: `tsconfig.json` extends `@react-native/typescript-config` (`moduleResolution: bundler`)
 - Base URL: `src/` for absolute imports
-- Strict typing disabled on explicit any types
+- `yarn typecheck` — runs `tsc --noEmit` and compares per-file error counts against the
+  committed `tsc-baseline.json` (~5k pre-existing errors); CI fails on any file whose count
+  exceeds its baseline entry, or errors in a file not in the baseline
+- After fixing pre-existing errors, ratchet the baseline down with `yarn typecheck:update-baseline`
+- Never add new entries to the baseline for new code — fix the types instead
 
 ## Pre-commit Hooks
 
