@@ -21,6 +21,10 @@ const PeopleResultsContainer = ({ children, searchValue }) => {
   useEffect(() => {
     if (!searchValue) {
       setUsers([]);
+      // Clearing the field is not a failed lookup. _lookupAccounts is the only
+      // other place this resets and it does not run for an empty query, so
+      // without this the previous failure's message stays on screen.
+      setIsError(false);
     }
 
     // if serachValue is url parse author
