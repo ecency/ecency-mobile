@@ -1,4 +1,4 @@
-import { registerSheet, SheetDefinition } from 'react-native-actions-sheet';
+import { registerSheet, SheetDefinition, type Sheets } from 'react-native-actions-sheet';
 import type { Operation } from '@ecency/sdk';
 import {
   ActionModal,
@@ -95,9 +95,13 @@ registerSheet(SheetNames.SEARCH_FILTERS, SearchFiltersSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
+// Keys must be string literals, not [SheetNames.X] computed keys: string enum
+// member types are nominal, so with enum keys `keyof Sheets` only accepts the
+// enum members and every SheetProps<'name'> literal fails TS2344. Literal keys
+// accept both styles (enum members are assignable to their literal values).
 declare module 'react-native-actions-sheet' {
   interface Sheets {
-    [SheetNames.POST_TRANSLATION]: SheetDefinition<{
+    post_translation: SheetDefinition<{
       payload: {
         content: any;
         // Pre-select the target language (from the inline banner / a chip).
@@ -105,35 +109,35 @@ declare module 'react-native-actions-sheet' {
         initialSource?: string;
       };
     }>;
-    [SheetNames.QUICK_PROFILE]: SheetDefinition<{
+    quick_profile: SheetDefinition<{
       payload: {
         username: string;
       };
     }>;
-    [SheetNames.QUICK_POST]: SheetDefinition<{
+    quick_post: SheetDefinition<{
       payload: {
         mode: 'comment' | 'wave';
         parentPost?: any;
         files?: any[];
       };
     }>;
-    [SheetNames.CROSS_POST]: SheetDefinition<{
+    cross_post: SheetDefinition<{
       payload: {
         postContent: any;
       };
     }>;
-    [SheetNames.ACTION_MODAL]: SheetDefinition<{
+    action_modal: SheetDefinition<{
       payload: ActionModalPayload;
       returnValue: string | undefined;
     }>;
-    [SheetNames.ACCOUNTS_SHEET]: SheetDefinition;
-    [SheetNames.QR_SCAN]: SheetDefinition<{
+    accounts_sheet: SheetDefinition;
+    qr_sheet: SheetDefinition<{
       payload?: {
         onScan?: (value: string) => void;
       };
       returnValue: string | undefined;
     }>;
-    [SheetNames.CHAT_OPTIONS]: SheetDefinition<{
+    chat_options: SheetDefinition<{
       payload: {
         post: any;
         channelId: string;
@@ -149,7 +153,7 @@ declare module 'react-native-actions-sheet' {
         canModerate?: boolean;
       };
     }>;
-    [SheetNames.CHAT_CHANNEL_OPTIONS]: SheetDefinition<{
+    chat_channel_options: SheetDefinition<{
       payload: {
         title?: string;
         hasUnread?: boolean;
@@ -162,36 +166,36 @@ declare module 'react-native-actions-sheet' {
         onLeave?: () => void;
       };
     }>;
-    [SheetNames.TIPPING_DIALOG]: SheetDefinition<{
+    tipping_dialog: SheetDefinition<{
       payload: {
         post: any;
         onSuccess?: (data: any) => void;
       };
     }>;
-    [SheetNames.TTS_SETTINGS]: SheetDefinition<{
+    tts_settings: SheetDefinition<{
       payload?: {
         onSettingsChanged?: () => void;
       };
     }>;
-    [SheetNames.POSTING_AUTHORITY_PROMPT]: SheetDefinition<{
+    posting_authority_prompt: SheetDefinition<{
       payload?: {
         onGranted?: () => void | Promise<void>;
         onSkipped?: () => void | Promise<void>;
         onError?: (error: Error) => void;
       };
     }>;
-    [SheetNames.HIVE_AUTH_BROADCAST]: SheetDefinition<{
+    hive_auth_broadcast: SheetDefinition<{
       payload: {
         operations: Operation[];
       };
       returnValue: { success: true; result: any } | { success: false; error: Error };
     }>;
-    [SheetNames.EMOJI_PICKER]: SheetDefinition<{
+    emoji_picker: SheetDefinition<{
       payload: {
         onEmojiSelected: (emojiName: string) => void;
       };
     }>;
-    [SheetNames.AUTH_UPGRADE]: SheetDefinition<{
+    auth_upgrade: SheetDefinition<{
       payload: {
         requiredAuthority: 'posting' | 'active';
         operation: string;
@@ -199,32 +203,32 @@ declare module 'react-native-actions-sheet' {
       };
       returnValue: 'key' | 'hivesigner' | 'hiveauth' | false;
     }>;
-    [SheetNames.SHARE_INTENT]: SheetDefinition<{
+    share_intent: SheetDefinition<{
       payload: {
         files: any[];
       };
       returnValue: 'blog' | 'wave' | undefined;
     }>;
-    [SheetNames.AI_ASSIST]: SheetDefinition<{
+    ai_assist: SheetDefinition<{
       payload: {
         text: string;
         onApply?: (output: string, action: string) => void;
         supportedActions?: string[];
       };
     }>;
-    [SheetNames.DICTATION]: SheetDefinition<{
+    dictation: SheetDefinition<{
       payload: {
         onInsert: (text: string) => void;
       };
     }>;
-    [SheetNames.COMPOSE_TRANSLATE]: SheetDefinition<{
+    compose_translate: SheetDefinition<{
       payload: {
         body: string;
         title?: string;
         onApply: (appendix: string, titleMarker?: string) => void;
       };
     }>;
-    [SheetNames.SIGN_CONFIRM]: SheetDefinition<{
+    sign_confirm: SheetDefinition<{
       payload: {
         type: string;
         domain: string;
@@ -234,24 +238,24 @@ declare module 'react-native-actions-sheet' {
       };
       returnValue: boolean;
     }>;
-    [SheetNames.RECEIVE_QR]: SheetDefinition<{
+    receive_qr: SheetDefinition<{
       payload: {
         username: string;
       };
     }>;
-    [SheetNames.BALANCE_ANALYTICS]: SheetDefinition<{
+    balance_analytics: SheetDefinition<{
       payload: {
         coinType: string;
         username: string;
       };
     }>;
-    [SheetNames.TRANSFER_FAVORITES]: SheetDefinition<{
+    transfer_favorites: SheetDefinition<{
       payload?: {
         limit?: number;
       };
       returnValue: string | undefined;
     }>;
-    [SheetNames.MOD_NOTES]: SheetDefinition<{
+    mod_notes: SheetDefinition<{
       payload?: {
         title?: string;
         description?: string;
@@ -266,14 +270,14 @@ declare module 'react-native-actions-sheet' {
       // on truthiness.
       returnValue: ModNotesResult | undefined;
     }>;
-    [SheetNames.COMMUNITY_MANAGE]: SheetDefinition<{
+    community_manage: SheetDefinition<{
       // `{ action }` on selection. Dismissing by backdrop, swipe or back
       // resolves the payload object instead, because the library publishes
       // `data || payloadRef.current` on close, so match on a known action
       // rather than on truthiness.
       returnValue: { action?: CommunityManageAction } | undefined;
     }>;
-    [SheetNames.COMMUNITY_ROLE_EDIT]: SheetDefinition<{
+    community_role_edit: SheetDefinition<{
       payload: {
         // Omitted when editableAccount is set: the moderator types the name.
         account?: string;
@@ -287,7 +291,7 @@ declare module 'react-native-actions-sheet' {
       // string `role`, never on truthiness.
       returnValue: CommunityRoleEditResult | undefined;
     }>;
-    [SheetNames.SEARCH_FILTERS]: SheetDefinition<{
+    search_filters: SheetDefinition<{
       payload: {
         // Current filters, so reopening shows what is applied rather than a
         // blank form.
@@ -305,5 +309,13 @@ declare module 'react-native-actions-sheet' {
     }>;
   }
 }
+
+// Compile-time completeness check: a SheetNames member missing from the Sheets
+// augmentation above makes MissingSheetDefinitions non-never, so this
+// assignment fails and the error names the missing sheet.
+type MissingSheetDefinitions = Exclude<`${SheetNames}`, keyof Sheets>;
+export const everySheetHasDefinition: [MissingSheetDefinitions] extends [never]
+  ? true
+  : MissingSheetDefinitions = true;
 
 export {};
