@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
+import { InfiniteData, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { unionBy, isArray } from 'lodash';
 import { AppState, NativeEventSubscription } from 'react-native';
@@ -6,9 +6,13 @@ import {
   getPostsRankedInfiniteQueryOptions,
   getAccountPostsInfiniteQueryOptions,
   getPromotedPostsQuery,
+  useDeleteComment,
 } from '@ecency/sdk';
+import { useIntl } from 'react-intl';
 import QUERIES from '../queryKeys';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { toastNotification } from '../../../redux/actions/uiAction';
+import { useAuthContext } from '../../sdk';
 import filterNsfwPost from '../../../utils/filterNsfwPost';
 import { useGetPostQuery } from './postQueries';
 import { selectNsfw, selectCurrentAccount } from '../../../redux/selectors';
@@ -25,6 +29,18 @@ interface FeedQueryParams {
   pinnedPermlink?: string;
 }
 
+/**
+ * `author/permlink` of posts deleted during this app session.
+ *
+ * Module level rather than component state on purpose. The delete broadcasts
+ * async, so hivemind has not indexed it yet and any query refetching in that
+ * window returns the post again. Component state is lost when the screen
+ * unmounts, so leaving a profile and returning was enough to bring a deleted
+ * post back. Keeping it here suppresses the row whatever any cache holds,
+ * without forcing a fetch that would lose the race anyway.
+ */
+const deletedPostKeys = new Set<string>();
+
 export const useFeedQuery = ({
   feedUsername,
   filterKey,
@@ -37,12 +53,26 @@ export const useFeedQuery = ({
   const appStateSubRef = useRef<NativeEventSubscription | null>(null);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
+  // Bumped when a delete lands, to re-run the memo below against the module set
+  // above. It is applied to the assembled list rather than only the feed cache,
+  // because the list is assembled from more than that cache and the cache holds
+  // *raw* posts:
+  //  - the pinned post comes from its own query and is prepended
+  //  - `select` parses a shallow copy, so a cross-post's cached author/permlink
+  //    are the wrapper's while the rendered ones are the original's
+  // Matching on the displayed identity is what the user actually acted on.
+  const [deletedVersion, setDeletedVersion] = useState(0);
 
   const cache = useAppSelector((state) => state.cache);
   const cacheRef = useRef(cache);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const nsfw = useAppSelector(selectNsfw);
   const mutes = currentAccount?.mutes || [];
+
+  const intl = useIntl();
+  const dispatch = useAppDispatch();
+  const authContext = useAuthContext();
+  const sdkDeleteMutation = useDeleteComment(currentAccount?.name, authContext, 'async');
 
   const pinnedPostQuery = useGetPostQuery({
     author: feedUsername,
@@ -184,8 +214,83 @@ export const useFeedQuery = ({
   // Apply mute filtering — Set for O(1) lookup instead of O(n) indexOf
   const mutesSet = useMemo(() => (isArray(mutes) ? new Set(mutes) : null), [mutes]);
   const _filteredData = useMemo(
-    () => _data.filter((post) => (mutesSet ? !mutesSet.has(post?.author) : true)),
-    [mutesSet, _data],
+    () =>
+      _data.filter(
+        (post) =>
+          (mutesSet ? !mutesSet.has(post?.author) : true) &&
+          !deletedPostKeys.has(`${post?.author}/${post?.permlink}`),
+      ),
+
+    [mutesSet, _data, deletedVersion],
+  );
+
+  /**
+   * Deletes a post and prunes it from this feed's cache.
+   *
+   * The options sheet's own delete path calls `navigation.goBack()`, which on a
+   * feed pops the screen the list is on, and it never touches the feed cache, so
+   * the deleted post stays visible. Consumers pass this as `onDelete` so the
+   * sheet delegates instead.
+   *
+   * The cache is patched rather than invalidated because the delete broadcasts
+   * async: `mutateAsync` resolves on mempool acceptance, so a refetch issued
+   * here would return pre-transaction state and bring the post straight back.
+   */
+  const deletePost = useCallback(
+    async (content: any) => {
+      if (!currentAccount?.name || !content?.permlink) {
+        return;
+      }
+
+      await sdkDeleteMutation.mutateAsync({
+        author: currentAccount.name,
+        permlink: content.permlink,
+        parentAuthor: content.parent_author || '',
+        parentPermlink: content.parent_permlink || '',
+      });
+
+      // Match author as well as permlink: a permlink is only unique per author,
+      // so filtering on it alone could drop someone else's post.
+      queryClient.setQueryData<InfiniteData<any[]>>(queryOptions.queryKey, (oldData) => {
+        if (!oldData?.pages) {
+          return oldData;
+        }
+        return {
+          ...oldData,
+          // Guarded like `select` above: a page is not assumed to be an array,
+          // and an unguarded filter here would throw and abort the whole cache
+          // update rather than skipping one page.
+          pages: oldData.pages.map((page) =>
+            Array.isArray(page)
+              ? page.filter(
+                  (post) =>
+                    !(post?.author === currentAccount.name && post?.permlink === content.permlink),
+                )
+              : page,
+          ),
+        };
+      });
+
+      // Deliberately does not clear the pinned post's own query. Emptying it
+      // forces a refetch, and the delete broadcasts async, so that refetch
+      // returns the not-yet-indexed post and puts it straight back. Recording
+      // the key suppresses the row whatever any cache still holds, and covers
+      // the cross-post case too, where the cached identity is the wrapper's
+      // while the rendered one is the original's.
+      deletedPostKeys.add(`${content.author}/${content.permlink}`);
+      setDeletedVersion((v) => v + 1);
+
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.removed' })));
+    },
+    [
+      currentAccount?.name,
+      // mutateAsync is stable across renders; the mutation result object is not.
+      sdkDeleteMutation.mutateAsync,
+      queryOptions.queryKey,
+      queryClient,
+      dispatch,
+      intl,
+    ],
   );
 
   return {
@@ -194,6 +299,7 @@ export const useFeedQuery = ({
     isLoading: feedQuery.isLoading,
     fetchNextPage: feedQuery.fetchNextPage,
     refresh: _refresh,
+    deletePost,
   };
 };
 

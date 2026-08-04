@@ -41,6 +41,12 @@ interface postsListContainerProps extends FlatListProps<any> {
   isRefreshing: boolean;
   pageType: 'main' | 'profile' | 'ownProfile' | 'community';
   showQuickReplyModal: (post: any) => void;
+  /**
+   * Delete handler owned by whoever owns the list. Without it the options sheet
+   * falls back to its own path, which calls navigation.goBack() and pops the
+   * feed screen, and never removes the post from the feed cache.
+   */
+  onDeletePost?: (content: any) => void | Promise<void>;
 }
 
 let _onEndReachedCalledDuringMomentum = true;
@@ -55,6 +61,7 @@ const postsListContainer = (
     isLoading,
     pageType,
     showQuickReplyModal,
+    onDeletePost,
     refreshControl: _refreshControl,
     extraData: propsExtraData,
     ...props
@@ -301,7 +308,7 @@ const postsListContainer = (
         {...props}
       />
       <UpvotePopover ref={upvotePopoverRef} />
-      <PostOptionsModal ref={postDropdownRef} pageType={pageType} />
+      <PostOptionsModal ref={postDropdownRef} pageType={pageType} onDelete={onDeletePost} />
     </Fragment>
   );
 };

@@ -215,6 +215,7 @@ const PostsTabContent = ({
       <PostsList
         ref={postsListRef}
         posts={feedQuery.data}
+        onDeletePost={feedQuery.deletePost}
         isFeedScreen={isFeedScreen}
         promotedPosts={!skipPromotedPosts ? promotedPostsQuery.data || [] : []}
         onLoadPosts={(shouldReset) => {
