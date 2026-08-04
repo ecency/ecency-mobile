@@ -9,7 +9,11 @@ import useDebounce from '../../../utils/useDebounceHook';
 
 // Components
 import { IconButton, SearchInput, TabBar } from '../../../components';
-import { EMPTY_SEARCH_FILTERS, type SearchFilters } from '../../../components/searchFiltersSheet';
+import {
+  activeSearchFilterCount,
+  EMPTY_SEARCH_FILTERS,
+  type SearchFilters,
+} from '../../../components/searchFiltersSheet';
 import { SheetNames } from '../../../navigation/sheets';
 import Communities from './tabs/communities/view/communitiesResults';
 import PostsResults from './tabs/best/view/postsResults';
@@ -53,14 +57,9 @@ const SearchResultScreen = ({ navigation }) => {
 
   // Only the posts tab is filtered, so the button lives with the search bar and
   // reports how many filters are set rather than which.
-  const activeFilterCount = [
-    filters.author,
-    filters.category,
-    filters.tags,
-    filters.type,
-    filters.date === 'all' ? '' : filters.date,
-    filters.sort === 'relevance' ? '' : filters.sort,
-  ].filter(Boolean).length;
+  // Compare against the defaults rather than truthiness: type defaults to
+  // Posts, so counting its value directly lights the icon before any change.
+  const activeFilterCount = activeSearchFilterCount(filters);
 
   const _openFilters = useCallback(async () => {
     const result = await SheetManager.show(SheetNames.SEARCH_FILTERS, {

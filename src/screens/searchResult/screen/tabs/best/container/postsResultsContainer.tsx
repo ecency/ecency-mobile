@@ -9,11 +9,12 @@ import {
   getPostQueryOptions,
   getAccountPostsQueryOptions,
   getSearchApiInfiniteQueryOptions,
-  MAX_SEARCH_QUERY_LENGTH,
-  MAX_SEARCH_TAGS,
-  SearchQuery,
 } from '@ecency/sdk';
-import { EMPTY_SEARCH_FILTERS } from '../../../../../../components/searchFiltersSheet';
+import {
+  EMPTY_SEARCH_FILTERS,
+  hasActiveSearchFilters,
+  validateSearchQuery,
+} from '../../../../../../components/searchFiltersSheet';
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { postQueries } from '../../../../../../providers/queries';
@@ -46,12 +47,11 @@ const PostsResultsContainer = ({ children, searchValue, filters = EMPTY_SEARCH_F
   // hand-rolled request-sequence guard existed for.
   const { author, permlink } = postUrlParser(searchValue) || {};
   const isPostUrl = !!(author && permlink);
-  // A filter on its own is a complete search - "everything by @user" needs no
-  // text, and the API has accepted filter-only queries since hivesearcher-api#10.
-  // Keying this off the text alone left those searches disabled and the initial
-  // Ecency posts on screen. Type and sort are not selective by themselves.
-  const hasSelectiveFilter = !!(filters.author || filters.category || filters.tags);
-  const isSearch = !isPostUrl && (!!searchValue || hasSelectiveFilter);
+  // Any changed filter keeps the screen in search mode. Author, category and
+  // tags can form a filter-only query; type, date and sort cannot, so if text is
+  // later cleared the validator below explains that criteria are required
+  // instead of silently replacing the active filters with the initial feed.
+  const isSearch = !isPostUrl && (!!searchValue || hasActiveSearchFilters(filters));
 
   const postQuery = useQuery({
     // Falls back to empty strings because this is built on every render, not
@@ -102,14 +102,7 @@ const PostsResultsContainer = ({ children, searchValue, filters = EMPTY_SEARCH_F
       return undefined;
     }
 
-    const parsed = new SearchQuery(q);
-    if (parsed.tags.length > MAX_SEARCH_TAGS) {
-      return { id: 'search_result.filters.too_many_tags', values: { n: MAX_SEARCH_TAGS } };
-    }
-    if (q.length > MAX_SEARCH_QUERY_LENGTH) {
-      return { id: 'search_result.filters.too_long', values: { n: MAX_SEARCH_QUERY_LENGTH } };
-    }
-    return undefined;
+    return validateSearchQuery(q);
   }, [isSearch, q]);
 
   const searchQuery = useInfiniteQuery({

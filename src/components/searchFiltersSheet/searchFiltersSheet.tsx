@@ -3,41 +3,18 @@ import { Text, TextInput, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {
-  buildSearchQuery,
-  MAX_SEARCH_QUERY_LENGTH,
-  MAX_SEARCH_TAGS,
-  SearchQuery,
-  SearchType,
-} from '@ecency/sdk';
+import { buildSearchQuery, SearchType } from '@ecency/sdk';
 import { MainButton } from '../mainButton';
 import { Tag } from '../basicUIElements';
+import {
+  EMPTY_SEARCH_FILTERS,
+  type SearchDateOption,
+  type SearchFilters,
+  type SearchSortOption,
+  validateSearchQuery,
+} from './searchFilters';
 
 const FALLBACK_SHEET_ID = 'search_filters';
-
-export type SearchDateOption = 'week' | 'month' | 'year' | 'all';
-export type SearchSortOption = 'relevance' | 'popularity' | 'newest';
-
-export interface SearchFilters {
-  author: string;
-  category: string;
-  tags: string;
-  type: SearchType;
-  date: SearchDateOption;
-  sort: SearchSortOption;
-}
-
-export const EMPTY_SEARCH_FILTERS: SearchFilters = {
-  author: '',
-  category: '',
-  tags: '',
-  // Posts, not All: this is the posts tab and it has always searched posts
-  // only. "All" is now an explicit opt-in to include comments, and it means
-  // exactly that, because the query is built from this value verbatim.
-  type: SearchType.POST,
-  date: 'all',
-  sort: 'relevance',
-};
 
 /**
  * Result of the sheet. Both variants are objects because
@@ -109,27 +86,9 @@ const SearchFiltersSheet: React.FC<SheetProps<'search_filters'>> = ({ sheetId, p
       category: filters.category,
       tags: filters.tags,
     });
-    const parsed = new SearchQuery(built.q);
-
-    if (!parsed.search && !parsed.author && !parsed.category && parsed.tags.length === 0) {
-      setError(intl.formatMessage({ id: 'search_result.filters.needs_criteria' }));
-      return;
-    }
-
-    if (parsed.tags.length > MAX_SEARCH_TAGS) {
-      setError(
-        intl.formatMessage({ id: 'search_result.filters.too_many_tags' }, { n: MAX_SEARCH_TAGS }),
-      );
-      return;
-    }
-
-    if (built.q.length > MAX_SEARCH_QUERY_LENGTH) {
-      setError(
-        intl.formatMessage(
-          { id: 'search_result.filters.too_long' },
-          { n: MAX_SEARCH_QUERY_LENGTH },
-        ),
-      );
+    const validationError = validateSearchQuery(built.q);
+    if (validationError) {
+      setError(intl.formatMessage({ id: validationError.id }, validationError.values));
       return;
     }
 

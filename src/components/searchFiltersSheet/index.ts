@@ -1,7 +1,14 @@
-export { default as SearchFiltersSheet, EMPTY_SEARCH_FILTERS } from './searchFiltersSheet';
+export { default as SearchFiltersSheet } from './searchFiltersSheet';
 export type {
+  SearchQueryValidationError,
   SearchFilters,
-  SearchFiltersResult,
   SearchDateOption,
   SearchSortOption,
-} from './searchFiltersSheet';
+} from './searchFilters';
+export {
+  activeSearchFilterCount,
+  EMPTY_SEARCH_FILTERS,
+  hasActiveSearchFilters,
+  validateSearchQuery,
+} from './searchFilters';
+export type { SearchFiltersResult } from './searchFiltersSheet';
