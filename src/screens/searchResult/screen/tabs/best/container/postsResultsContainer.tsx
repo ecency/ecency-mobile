@@ -5,10 +5,16 @@ import { useNavigation } from '@react-navigation/native';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import {
+  buildSearchQuery,
   getPostQueryOptions,
   getAccountPostsQueryOptions,
   getSearchApiInfiniteQueryOptions,
 } from '@ecency/sdk';
+import {
+  EMPTY_SEARCH_FILTERS,
+  hasActiveSearchFilters,
+  validateSearchQuery,
+} from '../../../../../../components/searchFiltersSheet';
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { postQueries } from '../../../../../../providers/queries';
@@ -16,15 +22,21 @@ import postUrlParser from '../../../../../../utils/postUrlParser';
 import { selectCurrentAccountUsername } from '../../../../../../redux/selectors';
 import { useAppSelector } from '../../../../../../hooks';
 
-// Where a sort filter would plug in. The screen has no control for it, and the
-// unused state this replaces was hardcoded the same way.
-const SORT = 'relevance';
-
 // Unlike the website, this app has never filtered low payout content. Keeping
 // that, so results do not silently change under existing users.
 const HIDE_LOW = false;
 
-const PostsResultsContainer = ({ children, searchValue }) => {
+// The API takes the window as an absolute timestamp, not a keyword.
+const sinceFor = (date: string): string | undefined => {
+  const days = date === 'week' ? 7 : date === 'month' ? 30 : date === 'year' ? 365 : 0;
+  if (!days) {
+    return undefined;
+  }
+  const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+  return since.toISOString().split('.')[0];
+};
+
+const PostsResultsContainer = ({ children, searchValue, filters = EMPTY_SEARCH_FILTERS }) => {
   const navigation = useNavigation();
   const postsCacherPrimer = postQueries.usePostsCachePrimer();
   const currentAccountUsername = useAppSelector(selectCurrentAccountUsername);
@@ -35,7 +47,11 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   // hand-rolled request-sequence guard existed for.
   const { author, permlink } = postUrlParser(searchValue) || {};
   const isPostUrl = !!(author && permlink);
-  const isSearch = !!searchValue && !isPostUrl;
+  // Any changed filter keeps the screen in search mode. Author, category and
+  // tags can form a filter-only query; type, date and sort cannot, so if text is
+  // later cleared the validator below explains that criteria are required
+  // instead of silently replacing the active filters with the initial feed.
+  const isSearch = !isPostUrl && (!!searchValue || hasActiveSearchFilters(filters));
 
   const postQuery = useQuery({
     // Falls back to empty strings because this is built on every render, not
@@ -54,14 +70,46 @@ const PostsResultsContainer = ({ children, searchValue }) => {
       7,
       currentAccountUsername,
     ),
-    enabled: !searchValue,
+    // Only when there is nothing to search for at all.
+    enabled: !isSearch && !isPostUrl,
   });
 
+  // Memoized on the selected window rather than recomputed per render: `since`
+  // is part of the React Query key, and a value derived from Date.now() changes
+  // every second, which would swap the observer onto a fresh query mid
+  // pagination and drop the pages already loaded.
+  const since = useMemo(() => sinceFor(filters.date), [filters.date]);
+
+  // Built by the SDK's buildSearchQuery, the same one the website uses, so the
+  // tokens parse identically in the search API. `type` is passed exactly as
+  // chosen: forcing type:post when the user picked "All" made this query differ
+  // from the one the sheet validated, and made the visible choice a lie. The
+  // default is Posts, so the tab behaves as it always has until changed.
+  const { q } = buildSearchQuery({
+    search: searchValue,
+    author: filters.author,
+    type: filters.type,
+    category: filters.category,
+    tags: filters.tags,
+  });
+
+  // The sheet validates on apply, but the text keeps changing after that, and
+  // the API's caps cover the whole q string. This is the last point before the
+  // request, so it is where a combination that grew too large gets caught -
+  // with the specific reason rather than a generic failure from the API.
+  const validationError = useMemo(() => {
+    if (!isSearch) {
+      return undefined;
+    }
+
+    return validateSearchQuery(q);
+  }, [isSearch, q]);
+
   const searchQuery = useInfiniteQuery({
-    ...getSearchApiInfiniteQueryOptions(`${searchValue} type:post`, SORT, HIDE_LOW),
+    ...getSearchApiInfiniteQueryOptions(q, filters.sort, HIDE_LOW, since),
     // The factory enables itself on a non-empty q, and q is never empty here
-    // because of the appended type:post. Gate on the real condition instead.
-    enabled: isSearch,
+    // because of the type token. Gate on the real condition instead.
+    enabled: isSearch && !validationError,
   });
 
   const activeQuery = isPostUrl ? postQuery : isSearch ? searchQuery : initialPostsQuery;
@@ -138,6 +186,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
       noResult,
       isError,
       isLoading,
+      validationError,
     })
   );
 };

@@ -20,7 +20,7 @@ import { getTimeFromNow } from '../../../../../../utils/time';
 import styles from './postsResultsStyles';
 import { SheetNames } from '../../../../../../navigation/sheets';
 
-const PostsResults = ({ searchValue, listRef }) => {
+const PostsResults = ({ searchValue, filters, listRef }) => {
   const intl = useIntl();
   const _showProfileModal = (username) => {
     if (username) {
@@ -102,12 +102,20 @@ const PostsResults = ({ searchValue, listRef }) => {
   };
 
   return (
-    <PostsResultsContainer searchValue={searchValue}>
-      {({ data, handleOnPress, loadMore, noResult, isError, isLoading }) => (
+    <PostsResultsContainer searchValue={searchValue} filters={filters}>
+      {({ data, handleOnPress, loadMore, noResult, isError, isLoading, validationError }) => (
         <>
-          {noResult || isError ? (
+          {noResult || isError || validationError ? (
             <EmptyScreen
-              text={isError ? intl.formatMessage({ id: 'search_result.error' }) : undefined}
+              // Precedence: a query we refused to send explains itself first, a
+              // failed one next, and only then the genuinely empty result.
+              text={
+                validationError
+                  ? intl.formatMessage({ id: validationError.id }, validationError.values)
+                  : isError
+                  ? intl.formatMessage({ id: 'search_result.error' })
+                  : undefined
+              }
             />
           ) : (
             <FlatList
