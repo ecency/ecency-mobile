@@ -28,13 +28,13 @@ interface ThreadMessageItemProps {
     rootId: string,
     parentPreview: any,
     isOwnMessage: boolean,
-  ) => JSX.Element | null;
+  ) => React.JSX.Element | null;
   renderReactions: (
     reactions: any[] | undefined,
     isOwnMessage: boolean,
     post: any,
-  ) => JSX.Element | null;
-  renderLinkPreview: (linkMeta: any) => JSX.Element | null;
+  ) => React.JSX.Element | null;
+  renderLinkPreview: (linkMeta: any) => React.JSX.Element | null;
   linkifyInstance: any;
   handleLink: (url: string) => void;
 }

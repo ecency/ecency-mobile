@@ -62,7 +62,7 @@ const AccountsBottomSheet = forwardRef(
       },
     }));
 
-    const _renderLoginMethodIcon = (authType?: string): JSX.Element | null => {
+    const _renderLoginMethodIcon = (authType?: string): React.JSX.Element | null => {
       switch (authType) {
         case AUTH_TYPE.STEEM_CONNECT:
           return (

@@ -14,7 +14,7 @@ interface GroupedSystemMessage {
 interface ThreadMessageListProps {
   listRef: React.RefObject<FlatList>;
   processedPosts: Array<ChatPost | GroupedSystemMessage>;
-  renderItem: (info: { item: any; index: number }) => JSX.Element;
+  renderItem: (info: { item: any; index: number }) => React.JSX.Element;
   isRefreshing: boolean;
   onRefresh: () => void;
   isLoading: boolean;

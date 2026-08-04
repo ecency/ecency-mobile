@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import {} from 'react-native';
+import { View } from 'react-native';
 
 // Constants
 
@@ -27,7 +27,7 @@ class ExampleView extends Component {
   render() {
     const {} = this.props;
 
-    return <ElementName />;
+    return <View />;
   }
 }
 

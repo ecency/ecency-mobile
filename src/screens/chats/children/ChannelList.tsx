@@ -5,14 +5,14 @@ import { chatsStyles as styles } from '../styles/chats.styles';
 
 interface ChannelListProps {
   channels: any[];
-  renderChannel: (info: { item: any }) => JSX.Element;
+  renderChannel: (info: { item: any }) => React.JSX.Element;
   isRefreshing: boolean;
   onRefresh: () => void;
   isLoading: boolean;
   isSearching: boolean;
   error: string | null;
   isLoggedIn: boolean;
-  searchResultsComponent: JSX.Element;
+  searchResultsComponent: React.JSX.Element;
 }
 
 export const ChannelList: React.FC<ChannelListProps> = React.memo(

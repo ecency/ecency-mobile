@@ -11,8 +11,12 @@ export interface InputSupportModalProps {
 }
 
 export const InputSupportModal = ({ children, visible, onClose }: InputSupportModalProps) => {
-  const container = useRef<AnimatedView>(null);
-  const innerContainer = useRef<AnimatedView>(null);
+  // TODO: these refs attach to reanimated Animated.View, which has no
+  // slideOutDown/fadeOut - those are react-native-animatable methods left
+  // over from before the reanimated migration, so the close animation path
+  // needs a rework with exiting={} animations before it can be typed.
+  const container = useRef<any>(null);
+  const innerContainer = useRef<any>(null);
 
   const [showModal, setShowModal] = useState(visible);
 
