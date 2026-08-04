@@ -92,6 +92,7 @@ const SearchResultScreen = ({ navigation }) => {
         </View>
         <IconButton
           style={styles.filterButton}
+          iconStyle={styles.filterIcon}
           iconType="MaterialCommunityIcons"
           name={activeFilterCount > 0 ? 'filter' : 'filter-outline'}
           size={22}

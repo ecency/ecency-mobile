@@ -52,6 +52,11 @@ export default EStyleSheet.create({
     flex: 1,
   },
   filterButton: {
-    paddingHorizontal: 12,
+    marginTop: 20,
+    marginRight: 12,
+    paddingHorizontal: 8,
+  },
+  filterIcon: {
+    color: '$iconColor',
   },
 });

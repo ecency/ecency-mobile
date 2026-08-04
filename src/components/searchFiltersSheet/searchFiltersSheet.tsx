@@ -1,11 +1,10 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { buildSearchQuery, SearchType } from '@ecency/sdk';
 import { MainButton } from '../mainButton';
-import { Tag } from '../basicUIElements';
 import {
   EMPTY_SEARCH_FILTERS,
   type SearchDateOption,
@@ -114,8 +113,10 @@ const SearchFiltersSheet: React.FC<SheetProps<'search_filters'>> = ({ sheetId, p
     </View>
   );
 
-  // Chips rather than a dropdown: every option set here is three or four items,
-  // and the same Tag component already backs the feed's filter bar.
+  // Chips rather than a dropdown: every option set here is three or four items.
+  // Keep these local instead of using the shared Tag component. Tag always calls
+  // useNavigation(), but registered sheets are rendered by SheetProvider outside
+  // the app's NavigationContainer and would throw as soon as this sheet opens.
   const _renderChoice = <T extends string>(
     labelId: string,
     options: T[],
@@ -126,17 +127,22 @@ const SearchFiltersSheet: React.FC<SheetProps<'search_filters'>> = ({ sheetId, p
     <View style={styles.field}>
       <Text style={styles.label}>{intl.formatMessage({ id: labelId })}</Text>
       <View style={styles.chipRow}>
-        {options.map((option) => (
-          <Tag
-            key={option || 'all'}
-            value={option}
-            label={labelFor(option)}
-            isFilter={true}
-            isPin={option === selected}
-            onPress={() => onSelect(option)}
-            style={styles.chip}
-          />
-        ))}
+        {options.map((option) => {
+          const isSelected = option === selected;
+          return (
+            <TouchableOpacity
+              key={option || 'all'}
+              style={[styles.chip, isSelected && styles.selectedChip]}
+              onPress={() => onSelect(option)}
+              accessibilityRole="button"
+              accessibilityState={{ selected: isSelected }}
+            >
+              <Text style={[styles.chipText, isSelected && styles.selectedChipText]}>
+                {labelFor(option)}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
     </View>
   );
@@ -250,6 +256,21 @@ const styles = EStyleSheet.create({
   chip: {
     marginRight: 8,
     marginBottom: 6,
+    minHeight: 32,
+    paddingHorizontal: 12,
+    borderRadius: 16,
+    justifyContent: 'center',
+  },
+  selectedChip: {
+    backgroundColor: '$primaryBlue',
+  },
+  chipText: {
+    color: '$primaryDarkGray',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  selectedChipText: {
+    color: '$pureWhite',
   },
   label: {
     color: '$primaryDarkText',
