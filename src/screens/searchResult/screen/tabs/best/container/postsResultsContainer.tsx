@@ -52,7 +52,12 @@ const PostsResultsContainer = ({ children, searchValue, filters = DEFAULT_FILTER
   // hand-rolled request-sequence guard existed for.
   const { author, permlink } = postUrlParser(searchValue) || {};
   const isPostUrl = !!(author && permlink);
-  const isSearch = !!searchValue && !isPostUrl;
+  // A filter on its own is a complete search - "everything by @user" needs no
+  // text, and the API has accepted filter-only queries since hivesearcher-api#10.
+  // Keying this off the text alone left those searches disabled and the initial
+  // Ecency posts on screen. Type and sort are not selective by themselves.
+  const hasSelectiveFilter = !!(filters.author || filters.category || filters.tags);
+  const isSearch = !isPostUrl && (!!searchValue || hasSelectiveFilter);
 
   const postQuery = useQuery({
     // Falls back to empty strings because this is built on every render, not
@@ -71,12 +76,19 @@ const PostsResultsContainer = ({ children, searchValue, filters = DEFAULT_FILTER
       7,
       currentAccountUsername,
     ),
-    enabled: !searchValue,
+    // Only when there is nothing to search for at all.
+    enabled: !isSearch && !isPostUrl,
   });
 
   // Built by the SDK's buildSearchQuery, the same one the website uses, so the
   // tokens parse identically in the search API. Type defaults to post because
   // this is the posts tab; an explicit choice in the filters wins.
+  // Memoized on the selected window rather than recomputed per render: `since`
+  // is part of the React Query key, and a value derived from Date.now() changes
+  // every second, which would swap the observer onto a fresh query mid
+  // pagination and drop the pages already loaded.
+  const since = useMemo(() => sinceFor(filters.date), [filters.date]);
+
   const { q } = buildSearchQuery({
     search: searchValue,
     author: filters.author,
@@ -86,7 +98,7 @@ const PostsResultsContainer = ({ children, searchValue, filters = DEFAULT_FILTER
   });
 
   const searchQuery = useInfiniteQuery({
-    ...getSearchApiInfiniteQueryOptions(q, filters.sort, HIDE_LOW, sinceFor(filters.date)),
+    ...getSearchApiInfiniteQueryOptions(q, filters.sort, HIDE_LOW, since),
     // The factory enables itself on a non-empty q, and q is never empty here
     // because of the type token. Gate on the real condition instead.
     enabled: isSearch,

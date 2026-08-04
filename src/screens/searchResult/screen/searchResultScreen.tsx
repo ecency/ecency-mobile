@@ -20,6 +20,13 @@ import PeopleResults from './tabs/people/view/peopleResults';
 import styles from './searchResultStyles';
 import globalStyles from '../../../globalStyles';
 
+// A leading @ or # is a prefix for the people and topics tabs, not part of the
+// term. Shared so the filters sheet can measure exactly what will be sent.
+const clipSearchValue = (value: string) =>
+  value.startsWith('#') || value.startsWith('@')
+    ? value.substring(1).trim().toLowerCase()
+    : value.trim().toLowerCase();
+
 const SearchResultScreen = ({ navigation }) => {
   const intl = useIntl();
   const { debounce } = useDebounce();
@@ -57,7 +64,10 @@ const SearchResultScreen = ({ navigation }) => {
 
   const _openFilters = useCallback(async () => {
     const result = await SheetManager.show(SheetNames.SEARCH_FILTERS, {
-      payload: { filters, searchValue },
+      // The live input, not the debounced value: opening the sheet inside the
+      // 500ms window would otherwise validate the previous text, and the API's
+      // length cap covers the whole q string, filters included.
+      payload: { filters, searchValue: clipSearchValue(searchInputValue) },
     });
 
     // Gate on `filters` being an object, never on truthiness: a backdrop,
@@ -66,7 +76,7 @@ const SearchResultScreen = ({ navigation }) => {
     if (result && typeof result === 'object' && result.filters) {
       setFilters(result.filters);
     }
-  }, [filters, searchValue]);
+  }, [filters, searchInputValue]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -130,10 +140,7 @@ const SearchResultsTabView = memo(
       },
     ]);
 
-    const clippedSearchValue =
-      searchValue.startsWith('#') || searchValue.startsWith('@')
-        ? searchValue.substring(1).trim().toLowerCase()
-        : searchValue.trim().toLowerCase();
+    const clippedSearchValue = clipSearchValue(searchValue);
     const isUsername = !!(searchValue.startsWith('#') || searchValue.startsWith('@'));
 
     const renderScene = ({ route }) => {
