@@ -20,6 +20,9 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
 
   const [data, setData] = useState([]);
   const [noResult, setNoResult] = useState(false);
+  // See the people tab: an empty result and a failed lookup are different
+  // answers and used to be reported with the same one.
+  const [isError, setIsError] = useState(false);
   const [isDiscoversLoading, setIsDiscoversLoading] = useState(false);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const handleCommunitySubscription = useCommunitySubscriptionAction();
@@ -47,6 +50,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
     const fetchCommunities = async () => {
       setData([]);
       setNoResult(false);
+      setIsError(false);
       setIsDiscoversLoading(true);
       try {
         const communities = await queryClient.fetchQuery(
@@ -95,7 +99,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
         setIsDiscoversLoading(false);
       } catch (error) {
         console.warn('[CommunitiesSearch] Search failed:', error);
-        setNoResult(true);
+        setIsError(true);
         setData([]);
         setIsDiscoversLoading(false);
       }
@@ -162,6 +166,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
       handleSubscribeButtonPress: _handleSubscribeButtonPress,
       isLoggedIn,
       noResult,
+      isError,
       isDiscoversLoading,
     })
   );

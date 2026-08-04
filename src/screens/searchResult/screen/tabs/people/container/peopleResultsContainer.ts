@@ -14,6 +14,9 @@ const PeopleResultsContainer = ({ children, searchValue }) => {
 
   const [users, setUsers] = useState([]);
   const [noResult, setNoResult] = useState(true);
+  // A failed lookup is not an empty one. These used to share a single flag, so
+  // an RPC that never answered was reported as "no such account".
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     if (!searchValue) {
@@ -30,16 +33,17 @@ const PeopleResultsContainer = ({ children, searchValue }) => {
 
   const _lookupAccounts = async (username) => {
     setNoResult(false);
+    setIsError(false);
     setUsers([]);
 
     try {
       const usernames = await queryClient.fetchQuery(lookupAccountsQueryOptions(username));
-      if (!usernames || usernames.length === 0) {
-        throw new Error('No users found');
-      }
-      setUsers(usernames.map((username) => ({ name: username })));
+      const accounts = usernames ?? [];
+      setUsers(accounts.map((name) => ({ name })));
+      setNoResult(accounts.length === 0);
     } catch (error) {
-      setNoResult(true);
+      console.warn('[PeopleSearch] Lookup failed:', error);
+      setIsError(true);
       setUsers([]);
     }
   };
@@ -62,6 +66,7 @@ const PeopleResultsContainer = ({ children, searchValue }) => {
       users,
       handleOnPress: _handleOnPress,
       noResult,
+      isError,
     })
   );
 };

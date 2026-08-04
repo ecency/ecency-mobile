@@ -714,6 +714,7 @@
     "transaction_fail": "Transaction Failed"
   },
   "search_result": {
+    "error": "Search could not be completed. Please try again",
     "communities_filter": {
       "new": "New",
       "my": "My Communities",

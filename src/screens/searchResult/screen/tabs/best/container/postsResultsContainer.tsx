@@ -24,6 +24,10 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   const [sort] = useState('relevance');
   const [scrollId, setScrollId] = useState('');
   const [noResult, setNoResult] = useState(false);
+  // Kept apart from noResult: a search that failed is not a search that found
+  // nothing, and telling the user "no results" for a dropped request sends them
+  // rewording a query that never ran.
+  const [isError, setIsError] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -59,6 +63,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     let _data: any = [];
 
     setNoResult(false);
+    setIsError(false);
     setData(_data);
     setScrollId('');
     setIsLoading(true);
@@ -95,7 +100,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     } catch (error) {
       console.warn('[PostsSearch] Search failed:', error);
       setData([]);
-      setNoResult(true);
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
@@ -135,16 +140,19 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     }
     try {
       setIsLoadingMore(true);
-      const res = await search(`${searchValue} type:post`, sort, 0, undefined, scrollId);
+      const res = await search(`${searchValue} type:post`, sort, '0', undefined, scrollId);
       const newResults = normalizeSearchResponse(res).results;
       const nextScrollId =
         res && typeof res === 'object' && 'scroll_id' in res ? res.scroll_id || '' : '';
 
       // Use functional updater to avoid stale closure reads
       setData((prev) => {
-        const existingPermlinks = new Set(prev.map((item) => item.permlink));
+        // author + permlink: a permlink is only unique per author, and two
+        // authors sharing one ("re-...", the same slugified title) is common
+        // enough that deduping on it alone dropped legitimate results.
+        const seen = new Set(prev.map((item) => `${item.author}/${item.permlink}`));
         const filteredNewResults = newResults.filter(
-          (item) => !existingPermlinks.has(item.permlink),
+          (item) => !seen.has(`${item.author}/${item.permlink}`),
         );
         return [...prev, ...filteredNewResults];
       });
@@ -163,6 +171,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
       handleOnPress: _handleOnPress,
       loadMore: _loadMore,
       noResult,
+      isError,
       isLoading,
     })
   );

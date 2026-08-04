@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList, View, Text, TouchableOpacity } from 'react-native';
+import { useIntl } from 'react-intl';
 
 // Components
 import { ListPlaceHolder, EmptyScreen } from '../../../../../../components/basicUIElements';
@@ -8,6 +9,7 @@ import TopicsResultsContainer from '../container/topicsResultsContainer';
 import styles from './topicsResultsStyles';
 
 const TopicsResults = ({ searchValue }) => {
+  const intl = useIntl();
   const _renderTagItem = (item, index) => (
     <View style={[styles.itemWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
       <Text style={styles.username}>{`#${item.tag}`}</Text>
@@ -24,10 +26,12 @@ const TopicsResults = ({ searchValue }) => {
 
   return (
     <TopicsResultsContainer searchValue={searchValue}>
-      {({ tags, handleOnPress, noResult }) => (
+      {({ tags, handleOnPress, noResult, isError }) => (
         <>
-          {noResult ? (
-            <EmptyScreen />
+          {noResult || isError ? (
+            <EmptyScreen
+              text={isError ? intl.formatMessage({ id: 'search_result.error' }) : undefined}
+            />
           ) : (
             <FlatList
               data={tags}

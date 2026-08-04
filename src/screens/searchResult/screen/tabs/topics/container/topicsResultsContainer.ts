@@ -12,6 +12,9 @@ const OtherResultContainer = ({ children, searchValue }) => {
 
   const [tags, setTags] = useState([]);
   const [noResult, setNoResult] = useState(false);
+  // See the people tab: an empty result and a failed lookup are different
+  // answers and used to be reported with the same one.
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const queryClient = getQueryClient();
@@ -19,11 +22,13 @@ const OtherResultContainer = ({ children, searchValue }) => {
 
     if (!trimmed) {
       setNoResult(false);
+      setIsError(false);
       setTags([]);
       return;
     }
 
     setNoResult(false);
+    setIsError(false);
     setTags([]);
 
     queryClient
@@ -34,8 +39,9 @@ const OtherResultContainer = ({ children, searchValue }) => {
         }
         setTags(res);
       })
-      .catch(() => {
-        setNoResult(true);
+      .catch((error) => {
+        console.warn('[TopicsSearch] Lookup failed:', error);
+        setIsError(true);
         setTags([]);
       });
   }, [searchValue]);
@@ -57,6 +63,7 @@ const OtherResultContainer = ({ children, searchValue }) => {
       tags,
       handleOnPress: _handleOnPress,
       noResult,
+      isError,
     })
   );
 };

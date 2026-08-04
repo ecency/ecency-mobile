@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlatList, View, Text, TouchableOpacity } from 'react-native';
 import get from 'lodash/get';
+import { useIntl } from 'react-intl';
 import isUndefined from 'lodash/isUndefined';
 import Highlighter from 'react-native-highlight-words';
 
@@ -20,6 +21,7 @@ import styles from './postsResultsStyles';
 import { SheetNames } from '../../../../../../navigation/sheets';
 
 const PostsResults = ({ searchValue, listRef }) => {
+  const intl = useIntl();
   const _showProfileModal = (username) => {
     if (username) {
       SheetManager.show(SheetNames.QUICK_PROFILE, {
@@ -101,10 +103,12 @@ const PostsResults = ({ searchValue, listRef }) => {
 
   return (
     <PostsResultsContainer searchValue={searchValue}>
-      {({ data, handleOnPress, loadMore, noResult, isLoading }) => (
+      {({ data, handleOnPress, loadMore, noResult, isError, isLoading }) => (
         <>
-          {noResult ? (
-            <EmptyScreen />
+          {noResult || isError ? (
+            <EmptyScreen
+              text={isError ? intl.formatMessage({ id: 'search_result.error' }) : undefined}
+            />
           ) : (
             <FlatList
               ref={listRef}
