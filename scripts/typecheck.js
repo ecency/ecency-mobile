@@ -47,6 +47,11 @@ output.split('\n').forEach((line) => {
   const match = line.match(errorLine);
   if (match) {
     const file = match[1];
+    if (file.endsWith('.json')) {
+      // config-level diagnostics (e.g. TS5098 on tsconfig.json) must never be baselined
+      globalErrors.push(line);
+      return;
+    }
     byFile[file] = (byFile[file] || 0) + 1;
     (linesByFile[file] = linesByFile[file] || []).push(line);
   } else if (globalErrorLine.test(line)) {
@@ -56,9 +61,21 @@ output.split('\n').forEach((line) => {
 
 const total = Object.values(byFile).reduce((sum, count) => sum + count, 0);
 
+if (tsc.signal) {
+  console.error(`tsc was killed by signal ${tsc.signal}; output tail:\n`);
+  console.error(output.split('\n').slice(-20).join('\n'));
+  process.exit(1);
+}
+
 if (globalErrors.length) {
   console.error('tsc reported project-level errors (never baselined):\n');
   globalErrors.forEach((line) => console.error(`  ${line}`));
+  process.exit(1);
+}
+
+if (tsc.status !== 0 && total === 0) {
+  console.error(`tsc exited with code ${tsc.status} without reporting diagnostics; output tail:\n`);
+  console.error(output.split('\n').slice(-20).join('\n'));
   process.exit(1);
 }
 
