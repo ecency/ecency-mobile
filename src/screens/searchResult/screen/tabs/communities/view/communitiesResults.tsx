@@ -1,5 +1,6 @@
 import React from 'react';
 import get from 'lodash/get';
+import { useIntl } from 'react-intl';
 
 // Components
 import { CommunitiesList, EmptyScreen } from '../../../../../../components';
@@ -7,6 +8,7 @@ import { CommunitiesList, EmptyScreen } from '../../../../../../components';
 import CommunitiesResultsContainer from '../container/communitiesResultsContainer';
 
 const CommunitiesResultsScreen = ({ navigation, searchValue, listRef }) => {
+  const intl = useIntl();
   const activeVotes = get(navigation, 'state.params.activeVotes');
 
   return (
@@ -18,10 +20,13 @@ const CommunitiesResultsScreen = ({ navigation, searchValue, listRef }) => {
         handleSubscribeButtonPress,
         isLoggedIn,
         noResult,
+        isError,
         isDiscoversLoading,
       }) =>
-        noResult ? (
-          <EmptyScreen />
+        noResult || isError ? (
+          <EmptyScreen
+            text={isError ? intl.formatMessage({ id: 'search_result.error' }) : undefined}
+          />
         ) : (
           <CommunitiesList
             data={data}

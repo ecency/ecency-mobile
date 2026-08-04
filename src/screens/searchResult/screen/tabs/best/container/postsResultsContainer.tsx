@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import get from 'lodash/get';
 
 import { useNavigation } from '@react-navigation/native';
@@ -24,13 +24,25 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   const [sort] = useState('relevance');
   const [scrollId, setScrollId] = useState('');
   const [noResult, setNoResult] = useState(false);
+  // Kept apart from noResult: a search that failed is not a search that found
+  // nothing, and telling the user "no results" for a dropped request sends them
+  // rewording a query that never ran.
+  const [isError, setIsError] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const requestSequence = useRef(0);
 
   const currentAccountUsername = useAppSelector(selectCurrentAccountUsername);
 
   useEffect(() => {
-    _fetchResults();
+    const requestId = ++requestSequence.current;
+    _fetchResults(requestId);
+
+    return () => {
+      if (requestSequence.current === requestId) {
+        requestSequence.current += 1;
+      }
+    };
   }, [searchValue]);
 
   const normalizeSearchResponse = (res) => {
@@ -55,13 +67,15 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     return { results: [], scrollId: '' };
   };
 
-  const _fetchResults = async () => {
+  const _fetchResults = async (requestId) => {
     let _data: any = [];
 
     setNoResult(false);
+    setIsError(false);
     setData(_data);
     setScrollId('');
     setIsLoading(true);
+    setIsLoadingMore(false);
 
     try {
       // parse author and permlink if url
@@ -83,21 +97,29 @@ const PostsResultsContainer = ({ children, searchValue }) => {
         );
         const normalized = normalizeSearchResponse(res);
         _data = normalized.results;
-        setScrollId(normalized.scrollId);
+        if (requestSequence.current === requestId) {
+          setScrollId(normalized.scrollId);
+        }
       }
       // get initial posts if not search value
       else {
         _data = await getInitialPosts();
       }
 
-      setData(_data);
-      setNoResult(_data.length === 0);
+      if (requestSequence.current === requestId) {
+        setData(_data);
+        setNoResult(_data.length === 0);
+      }
     } catch (error) {
       console.warn('[PostsSearch] Search failed:', error);
-      setData([]);
-      setNoResult(true);
+      if (requestSequence.current === requestId) {
+        setData([]);
+        setIsError(true);
+      }
     } finally {
-      setIsLoading(false);
+      if (requestSequence.current === requestId) {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -118,14 +140,17 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   // Component Functions
 
   const _handleOnPress = (item) => {
+    const author = get(item, 'author');
+    const permlink = get(item, 'permlink');
+
     postsCacherPrimer.cachePost(item);
     navigation.navigate({
       name: ROUTES.SCREENS.POST,
       params: {
-        author: get(item, 'author'),
-        permlink: get(item, 'permlink'),
+        author,
+        permlink,
       },
-      key: get(item, 'permlink'),
+      key: `${author}/${permlink}`,
     });
   };
 
@@ -133,26 +158,41 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     if (!scrollId || !searchValue || isLoadingMore) {
       return;
     }
+    const requestId = requestSequence.current;
     try {
       setIsLoadingMore(true);
-      const res = await search(`${searchValue} type:post`, sort, 0, undefined, scrollId);
-      const newResults = normalizeSearchResponse(res).results;
-      const nextScrollId =
-        res && typeof res === 'object' && 'scroll_id' in res ? res.scroll_id || '' : '';
+      const res = await search(`${searchValue} type:post`, sort, '0', undefined, scrollId);
+      // Read the cursor through the same normalizer as the results, rather than
+      // off res directly. normalizeSearchResponse knows where the cursor lives
+      // in each response shape it accepts (a paged one carries it on the last
+      // page), so reading it twice two different ways is how pagination stops
+      // silently on any shape but the plain one.
+      const { results: newResults, scrollId: nextScrollId } = normalizeSearchResponse(res);
+
+      if (requestSequence.current !== requestId) {
+        return;
+      }
 
       // Use functional updater to avoid stale closure reads
       setData((prev) => {
-        const existingPermlinks = new Set(prev.map((item) => item.permlink));
+        // author + permlink: a permlink is only unique per author, and two
+        // authors sharing one ("re-...", the same slugified title) is common
+        // enough that deduping on it alone dropped legitimate results.
+        const seen = new Set(prev.map((item) => `${item.author}/${item.permlink}`));
         const filteredNewResults = newResults.filter(
-          (item) => !existingPermlinks.has(item.permlink),
+          (item) => !seen.has(`${item.author}/${item.permlink}`),
         );
         return [...prev, ...filteredNewResults];
       });
       setScrollId(nextScrollId);
     } catch (error) {
-      console.warn('Search Failed', error);
+      if (requestSequence.current === requestId) {
+        console.warn('Search Failed', error);
+      }
     } finally {
-      setIsLoadingMore(false);
+      if (requestSequence.current === requestId) {
+        setIsLoadingMore(false);
+      }
     }
   };
 
@@ -163,6 +203,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
       handleOnPress: _handleOnPress,
       loadMore: _loadMore,
       noResult,
+      isError,
       isLoading,
     })
   );

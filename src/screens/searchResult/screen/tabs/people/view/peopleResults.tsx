@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native';
+import { useIntl } from 'react-intl';
 
 // Components
 import {
@@ -12,6 +13,7 @@ import PeopleResultsContainer from '../container/peopleResultsContainer';
 import styles from './peopleResultsStyles';
 
 const PeopleResults = ({ searchValue, isUsername, listRef }) => {
+  const intl = useIntl();
   const _renderEmptyContent = () => {
     return (
       <>
@@ -22,10 +24,12 @@ const PeopleResults = ({ searchValue, isUsername, listRef }) => {
 
   return (
     <PeopleResultsContainer searchValue={searchValue} isUsername={isUsername}>
-      {({ users, handleOnPress, noResult }) => (
+      {({ users, handleOnPress, noResult, isError }) => (
         <>
-          {noResult && !users.length ? (
-            <EmptyScreen />
+          {(noResult || isError) && !users.length ? (
+            <EmptyScreen
+              text={isError ? intl.formatMessage({ id: 'search_result.error' }) : undefined}
+            />
           ) : (
             <FlatList
               ref={listRef}
