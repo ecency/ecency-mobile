@@ -31,7 +31,10 @@ export const EMPTY_SEARCH_FILTERS: SearchFilters = {
   author: '',
   category: '',
   tags: '',
-  type: SearchType.ALL,
+  // Posts, not All: this is the posts tab and it has always searched posts
+  // only. "All" is now an explicit opt-in to include comments, and it means
+  // exactly that, because the query is built from this value verbatim.
+  type: SearchType.POST,
   date: 'all',
   sort: 'relevance',
 };

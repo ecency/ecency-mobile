@@ -103,11 +103,19 @@ const PostsResults = ({ searchValue, filters, listRef }) => {
 
   return (
     <PostsResultsContainer searchValue={searchValue} filters={filters}>
-      {({ data, handleOnPress, loadMore, noResult, isError, isLoading }) => (
+      {({ data, handleOnPress, loadMore, noResult, isError, isLoading, validationError }) => (
         <>
-          {noResult || isError ? (
+          {noResult || isError || validationError ? (
             <EmptyScreen
-              text={isError ? intl.formatMessage({ id: 'search_result.error' }) : undefined}
+              // Precedence: a query we refused to send explains itself first, a
+              // failed one next, and only then the genuinely empty result.
+              text={
+                validationError
+                  ? intl.formatMessage({ id: validationError.id }, validationError.values)
+                  : isError
+                  ? intl.formatMessage({ id: 'search_result.error' })
+                  : undefined
+              }
             />
           ) : (
             <FlatList

@@ -9,8 +9,11 @@ import {
   getPostQueryOptions,
   getAccountPostsQueryOptions,
   getSearchApiInfiniteQueryOptions,
-  SearchType,
+  MAX_SEARCH_QUERY_LENGTH,
+  MAX_SEARCH_TAGS,
+  SearchQuery,
 } from '@ecency/sdk';
+import { EMPTY_SEARCH_FILTERS } from '../../../../../../components/searchFiltersSheet';
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { postQueries } from '../../../../../../providers/queries';
@@ -22,15 +25,6 @@ import { useAppSelector } from '../../../../../../hooks';
 // that, so results do not silently change under existing users.
 const HIDE_LOW = false;
 
-const DEFAULT_FILTERS = {
-  author: '',
-  category: '',
-  tags: '',
-  type: SearchType.ALL,
-  date: 'all' as const,
-  sort: 'relevance' as const,
-};
-
 // The API takes the window as an absolute timestamp, not a keyword.
 const sinceFor = (date: string): string | undefined => {
   const days = date === 'week' ? 7 : date === 'month' ? 30 : date === 'year' ? 365 : 0;
@@ -41,7 +35,7 @@ const sinceFor = (date: string): string | undefined => {
   return since.toISOString().split('.')[0];
 };
 
-const PostsResultsContainer = ({ children, searchValue, filters = DEFAULT_FILTERS }) => {
+const PostsResultsContainer = ({ children, searchValue, filters = EMPTY_SEARCH_FILTERS }) => {
   const navigation = useNavigation();
   const postsCacherPrimer = postQueries.usePostsCachePrimer();
   const currentAccountUsername = useAppSelector(selectCurrentAccountUsername);
@@ -80,28 +74,49 @@ const PostsResultsContainer = ({ children, searchValue, filters = DEFAULT_FILTER
     enabled: !isSearch && !isPostUrl,
   });
 
-  // Built by the SDK's buildSearchQuery, the same one the website uses, so the
-  // tokens parse identically in the search API. Type defaults to post because
-  // this is the posts tab; an explicit choice in the filters wins.
   // Memoized on the selected window rather than recomputed per render: `since`
   // is part of the React Query key, and a value derived from Date.now() changes
   // every second, which would swap the observer onto a fresh query mid
   // pagination and drop the pages already loaded.
   const since = useMemo(() => sinceFor(filters.date), [filters.date]);
 
+  // Built by the SDK's buildSearchQuery, the same one the website uses, so the
+  // tokens parse identically in the search API. `type` is passed exactly as
+  // chosen: forcing type:post when the user picked "All" made this query differ
+  // from the one the sheet validated, and made the visible choice a lie. The
+  // default is Posts, so the tab behaves as it always has until changed.
   const { q } = buildSearchQuery({
     search: searchValue,
     author: filters.author,
-    type: filters.type || SearchType.POST,
+    type: filters.type,
     category: filters.category,
     tags: filters.tags,
   });
+
+  // The sheet validates on apply, but the text keeps changing after that, and
+  // the API's caps cover the whole q string. This is the last point before the
+  // request, so it is where a combination that grew too large gets caught -
+  // with the specific reason rather than a generic failure from the API.
+  const validationError = useMemo(() => {
+    if (!isSearch) {
+      return undefined;
+    }
+
+    const parsed = new SearchQuery(q);
+    if (parsed.tags.length > MAX_SEARCH_TAGS) {
+      return { id: 'search_result.filters.too_many_tags', values: { n: MAX_SEARCH_TAGS } };
+    }
+    if (q.length > MAX_SEARCH_QUERY_LENGTH) {
+      return { id: 'search_result.filters.too_long', values: { n: MAX_SEARCH_QUERY_LENGTH } };
+    }
+    return undefined;
+  }, [isSearch, q]);
 
   const searchQuery = useInfiniteQuery({
     ...getSearchApiInfiniteQueryOptions(q, filters.sort, HIDE_LOW, since),
     // The factory enables itself on a non-empty q, and q is never empty here
     // because of the type token. Gate on the real condition instead.
-    enabled: isSearch,
+    enabled: isSearch && !validationError,
   });
 
   const activeQuery = isPostUrl ? postQuery : isSearch ? searchQuery : initialPostsQuery;
@@ -178,6 +193,7 @@ const PostsResultsContainer = ({ children, searchValue, filters = DEFAULT_FILTER
       noResult,
       isError,
       isLoading,
+      validationError,
     })
   );
 };
