@@ -9,7 +9,7 @@ jest.mock('../../config/chatApi', () => ({
 }));
 jest.mock('../hive/hive', () => ({ getDigitPinCode: jest.fn() }));
 jest.mock('../../utils/crypto', () => ({ decryptKey: jest.fn() }));
-jest.mock('../../realm/realm', () => ({ getSCAccount: jest.fn() }));
+jest.mock('../../storage/storage', () => ({ getSCAccount: jest.fn() }));
 
 describe('getChannelUnreadTotal', () => {
   it('counts unread messages of a viewed channel', () => {

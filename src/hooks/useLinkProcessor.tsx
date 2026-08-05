@@ -24,7 +24,7 @@ import getWindowDimensions from '../utils/getWindowDimensions';
 import { useAppSelector } from './index';
 import { usePostLoginActions } from './usePostLogin';
 import authType from '../constants/authType';
-import { getUserDataWithUsername } from '../realm/realm';
+import { getUserDataWithUsername } from '../storage/storage';
 import { decryptKey } from '../utils/crypto';
 import { loginWithAuthTransfer } from '../providers/hive/auth';
 import {

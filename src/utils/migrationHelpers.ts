@@ -19,7 +19,7 @@ import { getQueryClient } from '../providers/queries';
 import AUTH_TYPE from '../constants/authType';
 
 // Services
-import { getSCAccount, getSettings, removeUserData } from '../realm/realm';
+import { getSCAccount, getSettings, removeUserData } from '../storage/storage';
 import { updateCurrentAccount, updateOtherAccount } from '../redux/actions/accountAction';
 
 import {

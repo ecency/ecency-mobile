@@ -20,7 +20,7 @@ jest.mock('../providers/queries', () => ({
   getQueryClient: jest.fn(() => ({ fetchQuery: jest.fn() })),
 }));
 jest.mock('../providers/ecency/ePoint', () => ({ getPointsSummary: jest.fn() }));
-jest.mock('../realm/realm', () => ({
+jest.mock('../storage/storage', () => ({
   getSCAccount: jest.fn(),
   getSettings: jest.fn(),
   getUserDataWithUsername: jest.fn(),

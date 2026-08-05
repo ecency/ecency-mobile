@@ -1,7 +1,7 @@
 import { ConfigManager, hiveTxConfig } from '@ecency/sdk';
 import Config from 'react-native-config';
 import { QueryClient } from '@tanstack/react-query';
-import { getServer } from '../../realm/realm';
+import { getServer } from '../../storage/storage';
 import { getNodes } from '../ecency/ecency';
 
 /**

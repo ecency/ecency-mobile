@@ -7,7 +7,7 @@ import { SheetManager } from 'react-native-actions-sheet';
 import { Icon } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { useGetQuestsQuery } from '../../../providers/queries/pointQueries';
-import { getItemFromStorage, setItemToStorage } from '../../../realm/realm';
+import { getItemFromStorage, setItemToStorage } from '../../../storage/storage';
 import { selectCurrentAccount } from '../../../redux/selectors';
 import { SheetNames } from '../../../navigation/sheets';
 import RootNavigation from '../../../navigation/rootNavigation';

@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SheetManager } from 'react-native-actions-sheet';
-import { getStorageType } from '../../../realm/realm';
+import { getStorageType } from '../../../storage/storage';
 
 // Components
 import { Icon } from '../../icon';

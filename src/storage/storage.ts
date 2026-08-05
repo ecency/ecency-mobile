@@ -34,7 +34,7 @@ export const getUserData = async () => {
   try {
     const user = await getItemFromStorage(USER_SCHEMA);
     return user;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -47,7 +47,7 @@ export const getUserDataWithUsername = async (username: string) => {
       return userObj;
     }
     return [];
-  } catch (error) {
+  } catch (error: any) {
     console.warn('Failed to get user data: ', error);
     return error;
   }
@@ -64,7 +64,7 @@ export const setUserData = async (userData: any) => {
     await setItemToStorage(USER_SCHEMA, _newData);
 
     return userData;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -81,7 +81,7 @@ export const updateUserData = async (userData: any) => {
       return true;
     }
     return 'User not found';
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -96,7 +96,7 @@ export const removeUserData = async (username: string) => {
     }
 
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -106,7 +106,7 @@ export const removeAllUserData = async () => {
     await setItemToStorage(USER_SCHEMA, []);
     await setItemToStorage(SC_ACCOUNTS, []);
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -115,7 +115,7 @@ export const removeAllSCAccounts = async () => {
   try {
     await setItemToStorage(SC_ACCOUNTS, []);
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -151,7 +151,7 @@ export const setDraftPost = async (fields: any, username: string, draftId?: stri
     }
     await setItemToStorage(DRAFT_SCHEMA, draft);
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -165,7 +165,7 @@ export const getDraftPost = async (username: string, draftId?: string) => {
     );
 
     return draftObj[0];
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -177,7 +177,7 @@ export const getAuthStatus = async () => {
       return auth;
     }
     return false;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -192,7 +192,7 @@ export const setAuthStatus = async (authStatus: any) => {
     }
     await setItemToStorage(AUTH_SCHEMA, { ...authStatus, pinCode: '' });
     return authStatus;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -214,7 +214,7 @@ export const updateCurrentUsername = async (username: string) => {
 
     await setItemToStorage(AUTH_SCHEMA, { ...authData });
     return authData;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -228,7 +228,7 @@ export const setPinCode = async (pinCode: string) => {
     await setItemToStorage(AUTH_SCHEMA, auth);
 
     return auth;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -241,7 +241,7 @@ export const removePinCode = async () => {
     await setItemToStorage(AUTH_SCHEMA, auth);
 
     return auth;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -254,7 +254,7 @@ export const getPinCode = async () => {
       return auth.pinCode;
     }
     return '';
-  } catch (error) {
+  } catch (error: any) {
     console.warn('Failed get auth from storage: ', error);
     return error;
   }
@@ -269,7 +269,7 @@ export const getPinCodeOpen = async () => {
       return setting.isPinCodeOpen;
     }
     return false;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -282,7 +282,7 @@ export const setPinCodeOpen = async (status: boolean) => {
     await setItemToStorage(SETTINGS_SCHEMA, setting);
 
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -294,7 +294,7 @@ export const getLastUpdateCheck = async () => {
       return setting.lastUpdateCheck;
     }
     return false;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -307,7 +307,7 @@ export const setLastUpdateCheck = async (lastUpdateCheck: any) => {
     await setItemToStorage(SETTINGS_SCHEMA, setting);
 
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -320,7 +320,7 @@ export const setDefaultFooter = async (isDefaultFooter: boolean) => {
     await setItemToStorage(SETTINGS_SCHEMA, setting);
 
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -332,7 +332,7 @@ export const getNsfw = async () => {
       return setting.nsfw;
     }
     return false;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -345,7 +345,7 @@ export const setNsfw = async (nsfw: string) => {
     await setItemToStorage(SETTINGS_SCHEMA, setting);
 
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -358,7 +358,7 @@ export const setLanguage = async (selectedLanguage: string) => {
     await setItemToStorage(SETTINGS_SCHEMA, setting);
 
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -371,7 +371,7 @@ export const setServer = async (selectedServer: string) => {
     await setItemToStorage(SETTINGS_SCHEMA, setting);
 
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -417,7 +417,7 @@ export const setNotificationSettings = async ({
 
     await setItemToStorage(SETTINGS_SCHEMA, setting);
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -429,7 +429,7 @@ export const setCurrency = async (currencyProps: any) => {
     await setItemToStorage(SETTINGS_SCHEMA, setting);
 
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -441,7 +441,7 @@ export const getCurrency = async () => {
       return setting.currency;
     }
     return false;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -451,7 +451,7 @@ export const setCache = async (params: string, value: any) => {
     cache[params] = value;
     await setItemToStorage(CACHE_SCHEMA, cache);
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -462,7 +462,7 @@ export const getCache = async (params: string) => {
       return cache[params];
     }
     return false;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -474,7 +474,7 @@ export const getLanguage = async () => {
       return setting.language;
     }
     return false;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -486,7 +486,7 @@ export const getServer = async () => {
       return setting.server;
     }
     return false;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -518,7 +518,7 @@ export const getSettings = async () => {
     };
     await setItemToStorage(SETTINGS_SCHEMA, settingData);
     return settingData;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -534,7 +534,7 @@ export const getPushTokenSaved = async () => {
       return application.isPushTokenSaved;
     }
     return false;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -552,7 +552,7 @@ export const setPushTokenSaved = async (pushTokenSaved: boolean) => {
     };
     await setItemToStorage(APPLICATION_SCHEMA, { ...applicationData });
     return applicationData;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -568,7 +568,7 @@ export const getExistUser = async () => {
       return application.isExistUser;
     }
     return false;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -586,7 +586,7 @@ export const setExistUser = async (existUser: boolean) => {
     };
     await setItemToStorage(APPLICATION_SCHEMA, { ...applicationData });
     return applicationData;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -613,7 +613,7 @@ export const setSCAccount = async (data: any) => {
     }
     await setItemToStorage(SC_ACCOUNTS, scAccount);
     return scAccount;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -626,7 +626,7 @@ export const getSCAccount = async (username: string) => {
       return scAccount[0];
     }
     return false;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -638,7 +638,7 @@ export const getAllSCAccounts = async () => {
       return scAccountStr;
     }
     return [];
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -655,7 +655,7 @@ export const removeSCAccount = async (username: string) => {
       return true;
     }
     return new Error('Could not remove selected user');
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -667,7 +667,7 @@ export const getStorageType = async () => {
       return storageType;
     }
     return 'R';
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -679,7 +679,7 @@ export const getVersionForWelcomeModal = async () => {
       return parseVersionNumber(application.versionForWelcomeModal);
     }
     return 0;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -697,7 +697,7 @@ export const setVersionForWelcomeModal = async (version: any) => {
     };
     await setItemToStorage(APPLICATION_SCHEMA, { ...applicationData });
     return applicationData;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };

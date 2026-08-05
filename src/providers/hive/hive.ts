@@ -24,7 +24,7 @@ import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import * as hiveuri from 'hive-uri';
 import * as Sentry from '@sentry/react-native';
-import { getServer, getCache, setCache } from '../../realm/realm';
+import { getServer, getCache, setCache } from '../../storage/storage';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
@@ -405,7 +405,7 @@ export const buildActiveCustomJsonOpArr = (
   ];
 };
 
-export const getDigitPinCode = (pin: string) => decryptKey(pin, Config.PIN_KEY!);
+export const getDigitPinCode = (pin: string | null | undefined) => decryptKey(pin, Config.PIN_KEY!);
 
 const getDynamicGlobalProperties = async () => {
   const queryClient = getQueryClient();

@@ -23,7 +23,7 @@ import {
   setSCAccount,
   getSCAccount,
   setPinCode,
-} from '../../realm/realm';
+} from '../../storage/storage';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
 import { delay } from '../../utils/editor';
@@ -510,7 +510,7 @@ export const updatePinCode = (data: any) =>
     }
   });
 
-export const refreshSCToken = async (userData: any, pinCode: string) => {
+export const refreshSCToken = async (userData: any, pinCode: string | undefined) => {
   const scAccount = await getSCAccount(userData.username);
 
   if (!scAccount || !scAccount.refreshToken) {

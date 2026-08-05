@@ -16,7 +16,7 @@ import {
   selectActiveBottomTab,
 } from '../redux/selectors';
 import { getQueryClient } from '../providers/queries';
-import { getUserDataWithUsername } from '../realm/realm';
+import { getUserDataWithUsername } from '../storage/storage';
 import { useGetPointsQuery } from '../providers/queries/pointQueries';
 import { useClaimPointsMutation } from '../providers/sdk/mutations';
 

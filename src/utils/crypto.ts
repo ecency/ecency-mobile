@@ -14,13 +14,15 @@ export const encryptKey = (data: string, key: string): string => {
   return encData;
 };
 
+// Tolerates missing data/key: any failure inside is caught and yields
+// undefined, which every caller already handles.
 export const decryptKey = (
-  data: string,
-  key: string,
+  data: string | null | undefined,
+  key: string | null | undefined,
   onError?: (err: unknown) => void,
 ): string | undefined => {
   try {
-    const response = decryptKeyNew(data, key);
+    const response = decryptKeyNew(data!, key!);
     return response;
   } catch (err) {
     console.log('decryption with new method failed, trying legacy', err);
