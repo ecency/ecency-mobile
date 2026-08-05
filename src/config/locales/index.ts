@@ -38,7 +38,11 @@ import nlNL from './nl-NL.json';
 import heIL from './he-IL.json';
 import csCZ from './cs-CZ.json';
 
-const messages: Record<string, typeof enUS> = {
+// Translations lag the en-US catalog on Crowdin, so every locale is a
+// structural subset of it rather than an exact match.
+type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> };
+
+const messages: Record<string, DeepPartial<typeof enUS>> = {
   'en-US': enUS,
   'hi-IN': hiIN,
   'id-ID': idID,

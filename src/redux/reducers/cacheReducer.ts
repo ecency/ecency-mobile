@@ -94,7 +94,7 @@ export interface LastUpdateMeta {
   type: 'vote' | 'comment' | 'draft' | 'poll-vote';
 }
 
-interface State {
+export interface State {
   votesCollection: { [key: string]: VoteCache };
   pollVotesCollection: { [key: string]: PollVoteCache };
   draftsCollection: { [key: string]: Draft };
@@ -105,7 +105,7 @@ interface State {
   announcementsMeta: { [key: string]: AnnouncementMeta };
   spotlightMeta: { [key: string]: SpotlightMeta };
   proposalsVoteMeta: { [key: string]: ProposalVoteMeta }; // proposal cache id: [proposalId]_[username]
-  lastUpdate: LastUpdateMeta;
+  lastUpdate: LastUpdateMeta | null;
 }
 
 const initialState: State = {
@@ -122,7 +122,7 @@ const initialState: State = {
   lastUpdate: null,
 };
 
-const cacheReducer = (state = initialState, action) => {
+const cacheReducer = (state = initialState, action: any) => {
   const { type, payload } = action;
   switch (type) {
     case UPDATE_POLL_VOTE_CACHE:
@@ -378,7 +378,7 @@ const cacheReducer = (state = initialState, action) => {
 
       if (state.subscribedCommunities && state.subscribedCommunities.size) {
         Array.from(state.subscribedCommunities).forEach((entry) => {
-          if (entry[1].expiresAt < currentTime) {
+          if (entry[1].expiresAt != null && entry[1].expiresAt < currentTime) {
             state.subscribedCommunities.delete(entry[0]);
           }
         });

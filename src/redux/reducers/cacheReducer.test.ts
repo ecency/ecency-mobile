@@ -1,4 +1,4 @@
-import cacheReducer, { CacheStatus } from './cacheReducer';
+import cacheReducer, { CacheStatus, State } from './cacheReducer';
 import {
   PURGE_EXPIRED_CACHE,
   DELETE_DRAFT_CACHE_ENTRY,
@@ -18,7 +18,7 @@ import {
   UPDATE_PROPOSALS_VOTE_META,
 } from '../constants/constants';
 
-const initialState = () => ({
+const initialState = (): State => ({
   votesCollection: {},
   pollVotesCollection: {},
   draftsCollection: {},
@@ -52,7 +52,7 @@ describe('cacheReducer', () => {
       expect(result.draftsCollection['draft-1'].created).toBeDefined();
       expect(result.draftsCollection['draft-1'].updated).toBeDefined();
       expect(result.draftsCollection['draft-1'].expiresAt).toBeDefined();
-      expect(result.lastUpdate.type).toBe('draft');
+      expect(result.lastUpdate!.type).toBe('draft');
     });
 
     it('preserves created timestamp on update', () => {
@@ -166,7 +166,7 @@ describe('cacheReducer', () => {
         payload: { postPath: 'author/post', pollVote },
       });
       expect(result.pollVotesCollection['author/post']).toEqual(pollVote);
-      expect(result.lastUpdate.type).toBe('poll-vote');
+      expect(result.lastUpdate!.type).toBe('poll-vote');
     });
   });
 
