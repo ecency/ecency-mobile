@@ -555,7 +555,7 @@ export const signImage = async (file: any, currentAccount: any, pin: any) => {
     const message: any = {
       signed_message: { type: 'posting', app: 'ecency.app' },
       authors: [currentAccount.name],
-      timestamp: parseInt(String(new Date().getTime() / 1000), 10),
+      timestamp: Math.floor(Date.now() / 1000),
     };
     const hash = hiveTxSha256(JSON.stringify(message));
 

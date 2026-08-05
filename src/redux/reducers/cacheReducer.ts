@@ -378,7 +378,7 @@ const cacheReducer = (state = initialState, action: any) => {
 
       if (state.subscribedCommunities && state.subscribedCommunities.size) {
         Array.from(state.subscribedCommunities).forEach((entry) => {
-          if (entry[1].expiresAt != null && entry[1].expiresAt < currentTime) {
+          if ((entry[1].expiresAt || 0) < currentTime) {
             state.subscribedCommunities.delete(entry[0]);
           }
         });

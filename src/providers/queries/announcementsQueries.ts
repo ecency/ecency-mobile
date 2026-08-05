@@ -31,7 +31,8 @@ export const useAnnouncementsQuery = () => {
   // Prepare access token for SDK
 
   // Use SDK query options
-  // SDK options take no arguments; auth flows through the shared config
+  // SDK options take no arguments; the announcements endpoint is a plain
+  // unauthenticated GET (it is in ecencyApi's no-token list)
   const announcementsQuery = useQuery(getAnnouncementsQueryOptions());
 
   useEffect(() => {
