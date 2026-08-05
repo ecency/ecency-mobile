@@ -13,34 +13,39 @@ export interface InputSupportModalProps {
 export const InputSupportModal = ({ children, visible, onClose }: InputSupportModalProps) => {
   // Reanimated defers the unmount until the exiting animations below finish,
   // so rendering can track `visible` directly with no delayed-hide state.
+  // The Portal stays mounted with the conditional inside: exit interception
+  // needs the non-animated parent to survive while the animated children are
+  // removed.
   // iOS-only gating per 2d26cc4: declarative entering/exiting on
   // conditionally-mounted views race Fabric's transaction merging on Android
   // ("Unable to find viewState for tag" native crash); Android shows/hides
   // instantly instead.
-  return visible ? (
+  return (
     <Portal>
-      <Animated.View
-        entering={Platform.OS === 'ios' ? FadeIn : undefined}
-        exiting={Platform.OS === 'ios' ? FadeOut : undefined}
-        style={styles.container}
-      >
+      {visible ? (
         <Animated.View
-          style={{ flex: 1 }}
-          entering={Platform.OS === 'ios' ? SlideInUp.easing(Easing.ease) : undefined}
-          exiting={Platform.OS === 'ios' ? SlideOutDown.easing(Easing.ease) : undefined}
+          entering={Platform.OS === 'ios' ? FadeIn : undefined}
+          exiting={Platform.OS === 'ios' ? FadeOut : undefined}
+          style={styles.container}
         >
-          <View style={{ flex: 1 }} onTouchEnd={onClose} />
+          <Animated.View
+            style={{ flex: 1 }}
+            entering={Platform.OS === 'ios' ? SlideInUp.easing(Easing.ease) : undefined}
+            exiting={Platform.OS === 'ios' ? SlideOutDown.easing(Easing.ease) : undefined}
+          >
+            <View style={{ flex: 1 }} onTouchEnd={onClose} />
 
-          {Platform.select({
-            ios: (
-              <KeyboardAvoidingView behavior="padding" style={{}}>
-                {children}
-              </KeyboardAvoidingView>
-            ),
-            android: <View>{children}</View>,
-          })}
+            {Platform.select({
+              ios: (
+                <KeyboardAvoidingView behavior="padding" style={{}}>
+                  {children}
+                </KeyboardAvoidingView>
+              ),
+              android: <View>{children}</View>,
+            })}
+          </Animated.View>
         </Animated.View>
-      </Animated.View>
+      ) : null}
     </Portal>
-  ) : null;
+  );
 };
