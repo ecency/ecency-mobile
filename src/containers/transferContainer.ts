@@ -33,8 +33,8 @@ import { normalizeTransferType, getNativeAccountBalance } from '../utils/transfe
  *
  */
 
-class TransferContainer extends Component {
-  constructor(props) {
+class TransferContainer extends Component<any, any> {
+  constructor(props: any) {
     super(props);
     const routeParams = props.route.params ?? {};
     const transferType = normalizeTransferType(routeParams.transferType ?? '');
@@ -71,7 +71,7 @@ class TransferContainer extends Component {
 
   // Component Functions
 
-  _getUserPointsBalance = async (username) => {
+  _getUserPointsBalance = async (username: any) => {
     await getPointsSummary(username)
       .then((userPoints) => {
         // Ignore a late points response if the fund type changed while it was in
@@ -89,7 +89,7 @@ class TransferContainer extends Component {
       });
   };
 
-  fetchBalance = async (username) => {
+  fetchBalance = async (username: any) => {
     const { fundType, transferType, tokenAddress } = this.state;
 
     // Fetch account using SDK
@@ -100,7 +100,7 @@ class TransferContainer extends Component {
       await queryClient.invalidateQueries({ queryKey: accountQuery.queryKey, exact: true });
       const accounts = await queryClient.fetchQuery(accountQuery);
       const account = accounts?.[0] ?? {};
-      let balance;
+      let balance: any;
       let enginePrecision;
 
       const assetLayer = this.props.route.params?.assetLayer ?? this.props.route.params?.tokenLayer;
@@ -182,13 +182,13 @@ class TransferContainer extends Component {
     }
   };
 
-  _getAccountsWithUsername = async (username) => {
+  _getAccountsWithUsername = async (username: any) => {
     const queryClient = getQueryClient();
     const validUsers = await queryClient.fetchQuery(lookupAccountsQueryOptions(username, 20));
     return validUsers;
   };
 
-  _fetchRecurrentTransfers = async (username) => {
+  _fetchRecurrentTransfers = async (username: any) => {
     const queryClient = getQueryClient();
     const recTransfers = await queryClient.fetchQuery(getRecurrentTransfersQueryOptions(username));
 
@@ -255,10 +255,10 @@ class TransferContainer extends Component {
   };
 
   _transferToAccount = async (
-    from,
-    destination,
-    amount,
-    memo,
+    from: any,
+    destination: any,
+    amount: any,
+    memo: any,
     recurrence = null,
     executions = 0,
     overrideTransferType = null,
@@ -300,7 +300,7 @@ class TransferContainer extends Component {
       navigation.goBack();
     };
 
-    const _onError = (error) => {
+    const _onError = (error: any) => {
       navigation.goBack();
       Sentry.captureException(error);
 
@@ -311,7 +311,7 @@ class TransferContainer extends Component {
       }
 
       const operationLabel = intl.formatMessage({ id: `wallet.${transferType}` });
-      const errorDetail = (error?.message ?? '').toString().split('\n')[0];
+      const errorDetail = ((error as any)?.message ?? '').toString().split('\n')[0];
 
       if (alertId === 'alert.key_warning') {
         dispatch(
@@ -543,7 +543,7 @@ class TransferContainer extends Component {
     }
   };
 
-  _setWithdrawVestingRoute = async (_from, to, percentage, autoVest) => {
+  _setWithdrawVestingRoute = async (_from: any, to: any, percentage: any, autoVest: any) => {
     const { mutations, dispatch, intl } = this.props;
 
     try {
@@ -555,7 +555,7 @@ class TransferContainer extends Component {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
       this._delayedRefreshCoinsData();
     } catch (error) {
-      const errorDetail = (error?.message ?? '').toString().split('\n')[0];
+      const errorDetail = ((error as any)?.message ?? '').toString().split('\n')[0];
       const operationLabel = intl.formatMessage({ id: 'transfer.withdraw_accounts' });
       dispatch(
         toastNotification(
@@ -644,14 +644,14 @@ class TransferContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   accounts: selectOtherAccounts(state),
   currentAccount: selectCurrentAccount(state),
   hivePerMVests: selectGlobalProps(state).hivePerMVests,
   actionModalVisible: state.ui.actionModalVisible,
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = (props: any) => {
   const navigation = useNavigation();
   const mutations = useTransferMutations();
   return React.createElement(TransferContainer, {

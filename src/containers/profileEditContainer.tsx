@@ -45,13 +45,13 @@ const FORM_DATA = [
   },
 ];
 
-class ProfileEditContainer extends Component {
+class ProfileEditContainer extends Component<any, any> {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     const profile = props.currentAccount.profile || {};
     this.state = {
@@ -72,11 +72,11 @@ class ProfileEditContainer extends Component {
 
   // Component Functions
 
-  _handleOnItemChange = (val, item) => {
+  _handleOnItemChange = (val: any, item: any) => {
     this.setState({ [item]: val, saveEnabled: true });
   };
 
-  _uploadImage = async (media, action) => {
+  _uploadImage = async (media: any, action: any) => {
     const { intl, currentAccount, pinCode } = this.props;
 
     this.setState({ isUploading: true });
@@ -128,7 +128,7 @@ class ProfileEditContainer extends Component {
       });
   };
 
-  _handleMediaAction = (type, uploadAction) => {
+  _handleMediaAction = (type: any, uploadAction: any) => {
     if (type === 'camera') {
       this._handleOpenCamera(uploadAction);
     } else if (type === 'image') {
@@ -136,7 +136,7 @@ class ProfileEditContainer extends Component {
     }
   };
 
-  _handleOpenImagePicker = (action) => {
+  _handleOpenImagePicker = (action: any) => {
     ImagePicker.openPicker(
       action == 'avatarUrl' ? IMAGE_PICKER_AVATAR_OPTIONS : IMAGE_PICKER_COVER_OPTIONS,
     )
@@ -148,7 +148,7 @@ class ProfileEditContainer extends Component {
       });
   };
 
-  _handleOpenCamera = (action) => {
+  _handleOpenCamera = (action: any) => {
     ImagePicker.openCamera(
       action == 'avatarUrl' ? IMAGE_PICKER_AVATAR_OPTIONS : IMAGE_PICKER_COVER_OPTIONS,
     )
@@ -160,7 +160,7 @@ class ProfileEditContainer extends Component {
       });
   };
 
-  _handleMediaOnSelectFailure = (error, action = 'openPicker') => {
+  _handleMediaOnSelectFailure = (error: any, action: any = 'openPicker') => {
     const { intl } = this.props;
 
     reportMediaPickerError(error, {
@@ -181,7 +181,7 @@ class ProfileEditContainer extends Component {
     }
   };
 
-  _handleOnSubmit = async ({ goBack }) => {
+  _handleOnSubmit = async ({ goBack }: any) => {
     const { currentAccount, dispatch, navigation, intl, route } = this.props;
     const { name, location, website, about, coverUrl, avatarUrl, pinned } = this.state;
 
@@ -219,7 +219,7 @@ class ProfileEditContainer extends Component {
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        get(err, 'message', err.toString()),
+        get(err, 'message', (err as any).toString()),
       );
       this.setState({ isLoading: false });
     }
@@ -263,13 +263,13 @@ class ProfileEditContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   currentAccount: selectCurrentAccount(state),
   isDarkTheme: selectIsDarkTheme(state),
   pinCode: selectPin(state),
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = (props: any) => {
   const navigation = useNavigation();
   const accountUpdateMutation = useAccountUpdateMutation();
   return (

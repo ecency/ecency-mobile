@@ -46,7 +46,7 @@ const PointsContainer = ({
   isPinCodeOpen,
   currency,
   route,
-}) => {
+}: any) => {
   const navigation = useNavigation();
   const claimPointsMutation = useClaimPointsMutation();
 
@@ -64,8 +64,8 @@ const PointsContainer = ({
 
   // Helper function to groom user activities
   const _groomUserActivities = useCallback(
-    (_userActivities) =>
-      _userActivities.map((item) => {
+    (_userActivities: any) =>
+      _userActivities.map((item: any) => {
         const pointType = resolvePointType(item);
         return groomingPointsTransactionData({
           ...item,
@@ -139,7 +139,7 @@ const PointsContainer = ({
 
   // Component Functions
 
-  const _handleOnDropdownSelected = (index) => {
+  const _handleOnDropdownSelected = (index: any) => {
     let navigateTo;
     let navigateParams;
 
@@ -171,7 +171,7 @@ const PointsContainer = ({
     }
 
     if (isPinCodeOpen) {
-      navigation.navigate({
+      (navigation as any).navigate({
         name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo,
@@ -179,7 +179,7 @@ const PointsContainer = ({
         },
       });
     } else {
-      navigation.navigate({
+      (navigation as any).navigate({
         name: navigateTo,
         params: navigateParams,
       });
@@ -197,7 +197,7 @@ const PointsContainer = ({
     [username, pointsQuery],
   );
 
-  const _getUserBalance = async (_username) => {
+  const _getUserBalance = async (_username: any) => {
     // Refetch points data to get latest balance
     const result = await pointsQuery.refetch();
     if (result.data) {
@@ -211,10 +211,10 @@ const PointsContainer = ({
   const _claimPoints = async () => {
     setIsClaiming(true);
     try {
-      await claimPointsMutation.mutateAsync();
+      await claimPointsMutation.mutateAsync(undefined);
       await _fetchUserPointActivities(username);
     } catch (error) {
-      const msg = (error && (error.message ?? String(error))) || 'unknown error';
+      const msg = (error && ((error as any).message ?? String(error))) || 'unknown error';
       Alert.alert(
         `PointsClaim - Connection issue, try again or write to support@ecency.com \n${msg.slice(
           0,
@@ -226,7 +226,7 @@ const PointsContainer = ({
     }
   };
 
-  const _getESTMPrice = (points) => {
+  const _getESTMPrice = (points: any) => {
     return points / 150;
   };
 
@@ -269,7 +269,7 @@ const PointsContainer = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   user: selectCurrentAccount(state),
   username: selectCurrentAccount(state).name,
   activeBottomTab: selectActiveBottomTab(state),

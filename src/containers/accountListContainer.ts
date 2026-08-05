@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../constants/routeNames';
 
-const AccountListContainer = ({ data, children }) => {
+const AccountListContainer = ({ data, children }: any) => {
   const navigation = useNavigation();
 
   const [vdata, setVData] = useState(data);
@@ -14,8 +14,8 @@ const AccountListContainer = ({ data, children }) => {
     setVData(data);
   }, [data]);
 
-  const _handleSearch = (searchText, key) => {
-    const newData = vdata.filter((item) => {
+  const _handleSearch = (searchText: any, key: any) => {
+    const newData = vdata.filter((item: any) => {
       const itemName = item[key].toUpperCase();
       const _text = searchText.toUpperCase();
 
@@ -29,9 +29,9 @@ const AccountListContainer = ({ data, children }) => {
     }
   };
 
-  const _handleOnVotersDropdownSelect = (index, text, oldData) => {
+  const _handleOnVotersDropdownSelect = (index: any, text: any, oldData: any) => {
     const _data = Object.assign([], oldData || vdata);
-    const getRewardValue = (vote) => {
+    const getRewardValue = (vote: any) => {
       const reward = parseFloat(vote?.reward);
       if (Number.isFinite(reward)) return reward;
       const rshares = parseFloat(vote?.rshares);
@@ -40,14 +40,14 @@ const AccountListContainer = ({ data, children }) => {
       if (Number.isFinite(value)) return value;
       return 0;
     };
-    const getPercentValue = (vote) => {
+    const getPercentValue = (vote: any) => {
       const percent = parseFloat(vote?.percent);
       if (Number.isFinite(percent)) return percent;
       const percent100 = parseFloat(vote?.percent100);
       if (Number.isFinite(percent100)) return percent100 * 100;
       return 0;
     };
-    const getTimeValue = (vote) => {
+    const getTimeValue = (vote: any) => {
       if (!vote?.time) return 0;
       const ts = new Date(vote.time).getTime();
       return Number.isFinite(ts) ? ts : 0;
@@ -56,13 +56,13 @@ const AccountListContainer = ({ data, children }) => {
     if (filterIndex === index) {
       switch (index) {
         case 0:
-          _data.sort((a, b) => getRewardValue(a) - getRewardValue(b));
+          _data.sort((a: any, b: any) => getRewardValue(a) - getRewardValue(b));
           break;
         case 1:
-          _data.sort((a, b) => getPercentValue(a) - getPercentValue(b));
+          _data.sort((a: any, b: any) => getPercentValue(a) - getPercentValue(b));
           break;
         case 2:
-          _data.sort((a, b) => getTimeValue(a) - getTimeValue(b));
+          _data.sort((a: any, b: any) => getTimeValue(a) - getTimeValue(b));
           break;
         default:
           break;
@@ -70,13 +70,13 @@ const AccountListContainer = ({ data, children }) => {
     } else {
       switch (index) {
         case 0:
-          _data.sort((a, b) => getRewardValue(b) - getRewardValue(a));
+          _data.sort((a: any, b: any) => getRewardValue(b) - getRewardValue(a));
           break;
         case 1:
-          _data.sort((a, b) => getPercentValue(b) - getPercentValue(a));
+          _data.sort((a: any, b: any) => getPercentValue(b) - getPercentValue(a));
           break;
         case 2:
-          _data.sort((a, b) => getTimeValue(b) - getTimeValue(a));
+          _data.sort((a: any, b: any) => getTimeValue(b) - getTimeValue(a));
           break;
         default:
           break;
@@ -86,8 +86,8 @@ const AccountListContainer = ({ data, children }) => {
     setFilterIndex(index);
   };
 
-  const _handleOnUserPress = (username) => {
-    navigation.navigate({
+  const _handleOnUserPress = (username: any) => {
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.PROFILE,
       params: {
         username,

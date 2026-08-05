@@ -8,7 +8,7 @@ import { selectIsLoggedIn, selectIsLoginDone } from '../redux/selectors';
 
 import { NoPost } from '../components';
 
-const LoggedInContainer = ({ isLoggedIn, isLoginDone, children }) => {
+const LoggedInContainer = ({ isLoggedIn, isLoginDone, children }: any) => {
   const intl = useIntl();
 
   if (!isLoggedIn) {
@@ -33,7 +33,7 @@ const LoggedInContainer = ({ isLoggedIn, isLoginDone, children }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   isLoggedIn: selectIsLoggedIn(state),
   isLoginDone: selectIsLoginDone(state),
 });

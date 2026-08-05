@@ -27,8 +27,8 @@ import {
  *
  */
 
-class RedeemContainer extends Component {
-  constructor(props) {
+class RedeemContainer extends Component<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = {
       isLoading: false,
@@ -41,7 +41,13 @@ class RedeemContainer extends Component {
 
   // Component Functions
 
-  _redeemAction = async (user, redeemType = 'promote', actionSpecificParam, author, permlink) => {
+  _redeemAction = async (
+    user: any,
+    redeemType = 'promote',
+    actionSpecificParam: any,
+    author: any,
+    permlink: any,
+  ) => {
     const { dispatch, intl, navigation } = this.props;
     const { promoteMutation, boostPlusMutation, rcDelegationMutation } = this.props;
 
@@ -79,18 +85,18 @@ class RedeemContainer extends Component {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
     } catch (error) {
       this.setState({ isLoading: false });
-      if (error?.message) {
-        const msg = `${intl.formatMessage({ id: 'alert.key_warning' })}\n${error.message}`;
+      if ((error as any)?.message) {
+        const msg = `${intl.formatMessage({ id: 'alert.key_warning' })}\n${(error as any).message}`;
         dispatch(toastNotification(msg));
       }
     }
   };
 
   _handleOnSubmit = async (
-    redeemType,
-    actionSpecificParam,
-    fullPermlinkOrUsername,
-    selectedUser,
+    redeemType: any,
+    actionSpecificParam: any,
+    fullPermlinkOrUsername: any,
+    selectedUser: any,
   ) => {
     const { intl, currentAccount, accounts } = this.props;
     let _author;
@@ -122,7 +128,7 @@ class RedeemContainer extends Component {
     const user =
       selectedUser === currentAccount.name
         ? currentAccount
-        : accounts.find((item) => item.username === selectedUser);
+        : accounts.find((item: any) => item.username === selectedUser);
 
     this._redeemAction(user, redeemType, actionSpecificParam, _author, _permlink);
   };
@@ -133,7 +139,7 @@ class RedeemContainer extends Component {
 
   render() {
     const { children } = this.props;
-    const { isLoading, isSCModalOpen, SCPath, actionSpecificParam } = this.state;
+    const { isLoading, isSCModalOpen, SCPath } = this.state;
 
     return (
       children &&
@@ -142,14 +148,13 @@ class RedeemContainer extends Component {
         isSCModalOpen,
         SCPath,
         handleOnSubmit: this._handleOnSubmit,
-        actionSpecificParam,
         handleOnSCModalClose: this._handleOnSCModalClose,
       })
     );
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   username: selectCurrentAccount(state)?.name || '',
   activeBottomTab: state.ui.activeBottomTab,
   isConnected: selectIsConnected(state),
@@ -159,7 +164,7 @@ const mapStateToProps = (state) => ({
   globalProps: selectGlobalProps(state),
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = (props: any) => {
   const navigation = useNavigation();
   const promoteMutation = usePromoteMutation();
   const boostPlusMutation = useBoostPlusMutation();

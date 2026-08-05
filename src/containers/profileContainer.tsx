@@ -53,8 +53,8 @@ import { SheetNames } from '../navigation/sheets';
 
 const MAX_PROFILE_RETRIES = 2;
 
-class ProfileContainer extends Component {
-  constructor(props) {
+class ProfileContainer extends Component<any, any> {
+  constructor(props: any) {
     super(props);
 
     // check if is signed in user profile
@@ -114,7 +114,7 @@ class ProfileContainer extends Component {
     this._loadProfile(targetUsername);
   }
 
-  _getReplies = async (query) => {
+  _getReplies = async (query: any) => {
     const { isOwnProfile, comments, username } = this.state;
     const {
       currentAccount: { name: currentUsername },
@@ -152,7 +152,7 @@ class ProfileContainer extends Component {
     }
   };
 
-  _handleFollowUnfollowUser = async (isFollowAction) => {
+  _handleFollowUnfollowUser = async (isFollowAction?: any) => {
     const { isFollowing, username } = this.state;
     const { currentAccount, dispatch, intl, followMutation, unfollowMutation } = this.props;
 
@@ -193,12 +193,12 @@ class ProfileContainer extends Component {
 
         this._profileActionDone({ shouldFetchProfile: false });
       })
-      .catch((err) => {
+      .catch((err: any) => {
         this._profileActionDone({ error: err });
       });
   };
 
-  _handleMuteUnmuteUser = async (isMuteAction) => {
+  _handleMuteUnmuteUser = async (isMuteAction: any) => {
     if (isMuteAction) {
       this._muteUser();
     } else {
@@ -271,12 +271,12 @@ class ProfileContainer extends Component {
           ),
         );
       })
-      .catch((err) => {
+      .catch((err: any) => {
         this._profileActionDone({ error: err });
       });
   };
 
-  _profileActionDone = ({ error = null, shouldFetchProfile = true }) => {
+  _profileActionDone = ({ error = null, shouldFetchProfile = true }: any) => {
     const { username } = this.state;
     const { intl, dispatch } = this.props;
 
@@ -284,7 +284,7 @@ class ProfileContainer extends Component {
       isProfileLoading: false,
     });
     if (error) {
-      if (error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
+      if ((error as any).jse_shortmsg && (error as any).jse_shortmsg.includes('wait to transact')) {
         // when RC is not enough, offer boosting account
         dispatch(setRcOffer(true));
       } else {
@@ -298,7 +298,7 @@ class ProfileContainer extends Component {
               intl.formatMessage({
                 id: 'alert.fail',
               }),
-              error.message || error.toString(),
+              (error as any).message || (error as any).toString(),
             ),
         );
       }
@@ -389,7 +389,7 @@ class ProfileContainer extends Component {
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        error.message || error.toString(),
+        (error as any).message || (error as any).toString(),
       );
     }
   };
@@ -399,7 +399,9 @@ class ProfileContainer extends Component {
     let rcAccount = null;
     try {
       const queryClient = getQueryClient();
-      const rawAccount = await queryClient.fetchQuery(getAccountFullQueryOptions(username));
+      const rawAccount = await queryClient.fetchQuery(
+        getAccountFullQueryOptions(username as any) as any,
+      );
 
       // SDK now resolves null for a missing/unresolved account instead of
       // throwing; treat it the same as a failed load to preserve the
@@ -415,7 +417,9 @@ class ProfileContainer extends Component {
       };
 
       try {
-        const rcResult = await queryClient.fetchQuery(getAccountRcQueryOptions(username));
+        const rcResult = await queryClient.fetchQuery(
+          getAccountRcQueryOptions(username as any) as any,
+        );
         // SDK may return array or single object
         rcAccount = Array.isArray(rcResult) ? rcResult[0] ?? null : rcResult ?? null;
       } catch (error) {
@@ -427,7 +431,7 @@ class ProfileContainer extends Component {
       return;
     }
 
-    this.setState((prevState) => ({
+    this.setState((prevState: any) => ({
       quickProfile: {
         ...prevState.quickProfile,
         display_name: get(user, 'profile.name'),
@@ -443,7 +447,7 @@ class ProfileContainer extends Component {
     this._getReplies({ author: username, permlink: undefined });
   };
 
-  _handleFollowsPress = async (isFollowingPress) => {
+  _handleFollowsPress = async (isFollowingPress: any) => {
     const { navigation } = this.props;
     const { username, follows } = this.state;
     const count = get(follows, !isFollowingPress ? 'follower_count' : 'following_count');
@@ -475,14 +479,14 @@ class ProfileContainer extends Component {
       .then(() => {
         this.setState({ isFavorite: !isFavorite, isProfileLoading: false });
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.warn('Failed to perform favorite action');
         this.setState({ isProfileLoading: false });
         Alert.alert(
           intl.formatMessage({
             id: 'alert.fail',
           }),
-          error.message || error.toString(),
+          (error as any).message || (error as any).toString(),
         );
       });
   };
@@ -557,7 +561,7 @@ class ProfileContainer extends Component {
     }
   };
 
-  _changeForceLoadPostState = (value) => {
+  _changeForceLoadPostState = (value: any) => {
     this.setState({ forceLoadPost: value });
   };
 
@@ -572,7 +576,7 @@ class ProfileContainer extends Component {
     });
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (!nextProps.isConnected) {
       return;
     }
@@ -586,7 +590,6 @@ class ProfileContainer extends Component {
 
   render() {
     const {
-      avatar,
       comments,
       error,
       follows,
@@ -622,7 +625,6 @@ class ProfileContainer extends Component {
       children({
         about: get(user, 'profile', {}),
         activePage,
-        avatar,
         changeForceLoadPostState: this._changeForceLoadPostState,
         comments,
         currency,
@@ -660,7 +662,7 @@ class ProfileContainer extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   currency: selectCurrency(state),
   isConnected: selectIsConnected(state),
   isDarkTheme: selectIsDarkTheme(state),
@@ -670,7 +672,7 @@ const mapStateToProps = (state) => ({
   currentAccount: selectCurrentAccount(state),
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = (props: any) => {
   const navigation = useNavigation();
   const addFavouriteMutation = useAddFavouriteMutation();
   const deleteFavouriteMutation = useDeleteFavouriteMutation();
