@@ -63,7 +63,7 @@ export interface PostMetadata extends Partial<PollMetadata> {
 
   // LINKS
   links?: string[];
-  links_meta?: Record<string, { title?: string; summary?: string; image?: string[] } | null>;
+  links_meta?: Record<string, { title?: string; summary?: string; image?: string | null } | null>;
 
   // IMAGE
   image?: string[];
