@@ -244,7 +244,8 @@ export const useMediaUploadMutation = () => {
   //   });
   // };
 
-  return useMutation<Image, undefined, MediaUploadVars>({
+  // resolves the imagehoster response, not the picker Image the vars carry
+  return useMutation<{ url: string }, any, MediaUploadVars>({
     mutationFn: async ({ media }) => {
       console.log('uploading media', media);
       const sign = await signImage(media, currentAccount, pinCode);

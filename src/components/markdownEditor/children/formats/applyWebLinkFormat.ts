@@ -10,7 +10,7 @@ export default async ({
   item,
   isImage = null,
   isVideo = null,
-}) => {
+}: any) => {
   const imagePrefix = isImage ? '!' : '';
   const itemText = item ? item.text : writeTextHereString;
   const itemUrl = item ? item.url : writeUrlTextHere;

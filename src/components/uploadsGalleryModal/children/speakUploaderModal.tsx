@@ -211,7 +211,7 @@ export const SpeakUploaderModal = forwardRef(
       };
 
       ImagePicker.openPicker(_options)
-        .then((items) => {
+        .then((items: any) => {
           if (items && !Array.isArray(items)) {
             items = [items];
           }
@@ -231,13 +231,13 @@ export const SpeakUploaderModal = forwardRef(
     };
 
     const _renderThumbSelection = () => {
-      const _renderThumb = (uri, onPress) => (
+      const _renderThumb = (uri: any, onPress: any) => (
         <TouchableOpacity onPress={onPress} disabled={isUploading}>
           <Image source={uri && { uri }} style={styles.thumbnail} />
         </TouchableOpacity>
       );
 
-      const _renderThumbItem = ({ item }) => {
+      const _renderThumbItem = ({ item }: any) => {
         const _onPress = () => {
           setSelectedThumb(item);
         };

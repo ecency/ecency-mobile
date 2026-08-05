@@ -1,7 +1,7 @@
 import { extractWordAtIndex } from '../../../../utils/editor';
 import { replaceBetween } from './utils';
 
-export default async ({ text, selection, setTextAndSelection, username }) => {
+export default async ({ text, selection, setTextAndSelection, username }: any) => {
   const _word = extractWordAtIndex(text, selection.start);
   const _insertAt = text.indexOf(_word, selection.start - _word.length);
   const _text = replaceBetween(

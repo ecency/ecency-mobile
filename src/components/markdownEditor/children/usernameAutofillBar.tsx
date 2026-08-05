@@ -18,7 +18,7 @@ interface Props {
 
 export const UsernameAutofillBar = ({ text, selection, onApplyUsername }: Props) => {
   const queryClient = useQueryClient();
-  const [searchedUsers, setSearchedUsers] = useState([]);
+  const [searchedUsers, setSearchedUsers] = useState<any[]>([]);
   const [query, setQuery] = useState('');
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export const UsernameAutofillBar = ({ text, selection, onApplyUsername }: Props)
     debounce(
       async (username) => {
         if (query !== username) {
-          let users = [];
+          let users: any[] = [];
           if (username) {
             setQuery(username);
             users = await queryClient.fetchQuery(lookupAccountsQueryOptions(username));
@@ -65,7 +65,7 @@ export const UsernameAutofillBar = ({ text, selection, onApplyUsername }: Props)
     [queryClient, query],
   );
 
-  const _onUserSelect = (username) => {
+  const _onUserSelect = (username: any) => {
     onApplyUsername(username);
     setSearchedUsers([]);
     setQuery('');

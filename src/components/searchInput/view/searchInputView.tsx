@@ -21,7 +21,7 @@ const SearchInputView = ({
   backEnabled = false,
   onBackPress,
   backIconName,
-}) => {
+}: any) => {
   const inputRef = useRef<RNTextInput | null>(null);
   const lastTextRef = useRef<string>(`${prefix}${value || ''}`);
   const isFocusedRef = useRef(false);

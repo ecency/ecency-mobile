@@ -18,7 +18,7 @@ const SelectCommunityAreaView = ({
   onPressIn,
   onPressOut,
   intl,
-}) => {
+}: any) => {
   let username = null;
   let title = intl.formatMessage({ id: 'editor.select_community' });
 

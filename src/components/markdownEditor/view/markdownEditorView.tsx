@@ -67,7 +67,7 @@ const MarkdownEditorView = ({
   onLoadDraftPress,
   setIsUploading,
   handleVideoThumb,
-}) => {
+}: any) => {
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const pollDraft = useAppSelector(
     (state) => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID],
@@ -108,7 +108,7 @@ const MarkdownEditorView = ({
 
   const draftBtnTooltipState = useAppSelector((state) => state.walkthrough.walkthroughMap);
   const draftBtnTooltipRegistered = draftBtnTooltipState.get(walkthrough.EDITOR_DRAFT_BTN);
-  const headerText = post && (post.summary || postBodySummary(post, 150, Platform.OS));
+  const headerText = post && (post.summary || postBodySummary(post, 150, Platform.OS as any));
 
   const _bodyHtmlForPreview = useMemo(
     () => isPreviewActive && renderPostBody(bodyTextRef.current || '...', true, false),
@@ -179,7 +179,7 @@ const MarkdownEditorView = ({
       const isCreating =
         get(fields, 'title', '') !== '' ||
         get(fields, 'body', '') !== '' ||
-        get(fields, 'tags', []) !== [];
+        get(fields, 'tags', []).length !== 0;
 
       if (isCreating) {
         setShowDraftLoadButton(false);
@@ -257,7 +257,7 @@ const MarkdownEditorView = ({
   );
 
   const _changeText = useCallback(
-    (input) => {
+    (input: any) => {
       // Uncontrolled — only refs are updated during typing to avoid
       // re-rendering the editor on every keystroke (was causing Android typing race).
       bodyTextRef.current = input;
@@ -294,7 +294,7 @@ const MarkdownEditorView = ({
     [_persistCaret, _debouncedOnTextChange],
   );
 
-  const _handleOnSelectionChange = async (event) => {
+  const _handleOnSelectionChange = async (event: any) => {
     const { selection } = event.nativeEvent;
     bodySelectionRef.current = selection;
     // Only persist caret moves the user actually made. A user caret change requires a
@@ -309,7 +309,7 @@ const MarkdownEditorView = ({
   };
 
   const _setTextAndSelection = useCallback(
-    ({ selection: _selection, text: _text }) => {
+    ({ selection: _selection, text: _text }: any) => {
       bodySelectionRef.current = _selection;
       bodyTextRef.current = _text;
       // Programmatic write (snippet/media/link insert, draft restore, reset).
@@ -347,7 +347,7 @@ const MarkdownEditorView = ({
     </ScrollView>
   );
 
-  const _handleOnSnippetReceived = (snippetText) => {
+  const _handleOnSnippetReceived = (snippetText: any) => {
     applySnippet({
       text: bodyTextRef.current,
       selection: bodySelectionRef.current,
@@ -383,7 +383,7 @@ const MarkdownEditorView = ({
     inputRef?.current?.focus();
   };
 
-  const _handleInsertLink = ({ snippetText, selection }) => {
+  const _handleInsertLink = ({ snippetText, selection }: any) => {
     applySnippet({
       text: bodyTextRef.current,
       selection,
@@ -500,7 +500,7 @@ const MarkdownEditorView = ({
     }
   };
 
-  const _handleClear = (index) => {
+  const _handleClear = (index: any) => {
     if (index === 0) {
       initialFields();
 

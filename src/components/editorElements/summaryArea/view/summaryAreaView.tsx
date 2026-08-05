@@ -7,13 +7,13 @@ import { View, Text } from 'react-native';
 import styles from './summaryAreaStyles';
 import globalStyles from '../../../../globalStyles';
 
-export default class SummaryAreaView extends PureComponent {
+export default class SummaryAreaView extends PureComponent<any, any> {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }

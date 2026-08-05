@@ -8,13 +8,15 @@ import { Chip } from '../../../basicUIElements';
 import styles from './tagAreaStyles';
 import globalStyles from '../../../../globalStyles';
 
-export default class TagAreaView extends Component {
+export default class TagAreaView extends Component<any, any> {
+  inputs: any;
+
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       currentText: '',
@@ -25,10 +27,10 @@ export default class TagAreaView extends Component {
   }
 
   // Component Functions
-  _handleOnChange = (text, i) => {
+  _handleOnChange = (text: any, i: any) => {
     if (text.indexOf(' ') > 0) {
       let ssp = [];
-      ssp = text.split(' ').filter((iii) => iii);
+      ssp = text.split(' ').filter((iii: any) => iii);
       if (ssp.length > 1) {
         for (let ii = i; ii < i + ssp.length; ii++) {
           const element = ssp[ii - i];
@@ -50,7 +52,7 @@ export default class TagAreaView extends Component {
     }
   };
 
-  _handleOnBlur = (i) => {
+  _handleOnBlur = (i: any) => {
     this._handleTagAdded(i);
   };
 
@@ -79,16 +81,16 @@ export default class TagAreaView extends Component {
     this.setState({ currentText: '' });
   };
 
-  _handleTagRemove = (i) => {
+  _handleTagRemove = (i: any) => {
     const { chips } = this.state;
     const { handleTagChanged } = this.props;
 
     this.setState({
-      chips: chips.filter((_, _i) => _i !== i),
+      chips: chips.filter((_: any, _i: any) => _i !== i),
     });
 
     if (handleTagChanged) {
-      handleTagChanged(chips.filter((_, _i) => _i !== i));
+      handleTagChanged(chips.filter((_: any, _i: any) => _i !== i));
     }
 
     // Restart chips
@@ -98,7 +100,7 @@ export default class TagAreaView extends Component {
   };
 
   // Component Life Cycles
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     const { draftChips, isRemoveTag } = this.props;
 
     if (nextProps.draftChips && nextProps.draftChips !== draftChips) {
@@ -121,12 +123,12 @@ export default class TagAreaView extends Component {
       <View style={globalStyles.containerHorizontal16}>
         <ScrollView horizontal style={styles.tagWrapper}>
           {chips.map(
-            (chip, i) =>
+            (chip: any, i: any) =>
               i < 7 && (
                 <Chip
                   // eslint-disable-next-line react/no-array-index-key
                   key={i}
-                  refs={(input) => {
+                  refs={(input: any) => {
                     this.inputs[i] = input;
                   }}
                   isPin={i === 0 && chips[1]}
@@ -138,7 +140,7 @@ export default class TagAreaView extends Component {
                   placeholder="tags"
                   autoFocus={i !== 0 && chips.length - 1 === i}
                   multiline={false}
-                  handleOnChange={(text) => this._handleOnChange(text, i)}
+                  handleOnChange={(text: any) => this._handleOnChange(text, i)}
                   handleOnBlur={() => this._handleOnBlur(i)}
                   blurOnSubmit
                   value={

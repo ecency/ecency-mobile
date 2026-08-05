@@ -91,7 +91,7 @@ export const MediaPreviewItem = ({
     }
   };
 
-  const _onLoad = (evt) => {
+  const _onLoad = (evt: any) => {
     const _isAnimated = evt.source?.isAnimated;
     setIsAnimated(_isAnimated);
     if (_isAnimated) {

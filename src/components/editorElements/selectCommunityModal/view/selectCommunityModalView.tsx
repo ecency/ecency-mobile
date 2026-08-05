@@ -20,7 +20,7 @@ const SelectCommunityModalView = ({
   onCloseModal,
   intl,
   showSubscribedOnly,
-}) => {
+}: any) => {
   const [sections, setSections] = useState<any[]>([]);
 
   useEffect(() => {
@@ -80,17 +80,12 @@ const SelectCommunityModalView = ({
     </>
   );
 
-  const _renderSectionHeader = ({ section }) => (
+  const _renderSectionHeader = ({ section }: any) => (
     <Text style={[globalStyles.label, styles.title]}>{section.sectionTitle}</Text>
   );
 
-  const _renderItem = ({ item, index, separators }) => (
-    <CommunityCard
-      community={item}
-      key={index.toString()}
-      onPress={onPressCommunity}
-      separators={separators}
-    />
+  const _renderItem = ({ item, index }: any) => (
+    <CommunityCard community={item} key={index.toString()} onPress={onPressCommunity} />
   );
 
   return (

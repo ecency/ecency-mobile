@@ -1,9 +1,9 @@
 import regexValidator from './webLinkValidator';
 
-export const replaceBetween = (text, selection, what) =>
+export const replaceBetween = (text: any, selection: any, what: any) =>
   text.substring(0, selection.start) + what + text.substring(selection.end);
 
-export const isStringWebLink = (text) => {
+export const isStringWebLink = (text: any) => {
   const pattern = regexValidator;
   return pattern.test(text);
 };

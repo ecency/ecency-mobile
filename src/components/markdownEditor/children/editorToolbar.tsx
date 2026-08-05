@@ -44,7 +44,6 @@ import styles from '../styles/editorToolbarStyles';
 import ROUTES from '../../../constants/routeNames';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { TextFormatModal } from './textFormatModal';
-import { selectCurrentAccount } from '../../../redux/selectors';
 
 // Per-account session dismissals for the quest chip; once closed it stays
 // hidden for that account until the app restarts.
@@ -54,7 +53,7 @@ type Props = {
   draftId?: string;
   postBody: string;
   paramFiles: any[];
-  isEditing: boolean;
+  isEditing?: boolean;
   isPreviewActive: boolean;
   isEditMode: boolean;
   isReply?: boolean;
@@ -66,7 +65,7 @@ type Props = {
   getPostBody?: () => string;
   handleOnAddLinkPress: () => void;
   handleOnClearPress: () => void;
-  handleOnMarkupButtonPress: (item) => void;
+  handleOnMarkupButtonPress: (item: any) => void;
   handleShowSnippets: () => void;
   handleAiAssistResult?: (output: string, action: string) => void;
   handleAiToolUsed?: (key: string) => void;
@@ -100,7 +99,6 @@ export const EditorToolbar = ({
   const insets = useSafeAreaInsets();
   const intl = useIntl();
 
-  const currentAccount = useAppSelector(selectCurrentAccount);
   const pollDraft = useAppSelector(
     (state) => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID],
   );
@@ -108,8 +106,8 @@ export const EditorToolbar = ({
   const { username } = useAuth();
   const { data: questsData } = useGetQuestsQuery(isReply || isEditMode ? undefined : username);
 
-  const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
-  const textFormatModalRef = useRef(null);
+  const uploadsGalleryModalRef = useRef<any>(null);
+  const textFormatModalRef = useRef<any>(null);
   const extensionHeight = useRef(0);
 
   const translateY = useSharedValue(200);
@@ -162,7 +160,7 @@ export const EditorToolbar = ({
     return () => sub.remove();
   }, []);
 
-  const _prepareExtensionToggle = (revealWhenReady, onReady) => {
+  const _prepareExtensionToggle = (revealWhenReady: any, onReady: any) => {
     const _runRevealRoutine = () => {
       if (revealWhenReady) {
         onReady();
@@ -192,7 +190,7 @@ export const EditorToolbar = ({
   };
 
   const _showPollsExtension = async () => {
-    navigation.navigate(ROUTES.MODALS.POLL_WIZARD, {
+    (navigation as any).navigate(ROUTES.MODALS.POLL_WIZARD, {
       draftId,
     });
   };
@@ -220,7 +218,7 @@ export const EditorToolbar = ({
   };
 
   const _openPerks = () => {
-    navigation.navigate(ROUTES.SCREENS.PERKS);
+    (navigation as any).navigate(ROUTES.SCREENS.PERKS);
   };
 
   const _showDictation = () => {
@@ -241,7 +239,7 @@ export const EditorToolbar = ({
   };
 
   const _showAiImageGenerator = () => {
-    navigation.navigate({
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.AI_IMAGE_GENERATOR,
       params: {
         suggestedPrompt: suggestedPrompt || undefined,
@@ -372,13 +370,11 @@ export const EditorToolbar = ({
           >
             {isExtensionVisible && <View style={styles.indicator} />}
             <UploadsGalleryModal
-              draftId={draftId}
               ref={uploadsGalleryModalRef}
               postBody={postBody}
               isPreviewActive={isPreviewActive}
               paramFiles={paramFiles}
-              isEditing={isEditing}
-              username={currentAccount.name}
+              isEditing={!!isEditing}
               hideToolbarExtension={_hideExtension}
               handleMediaInsert={handleMediaInsert}
               onVideoThumb={handleVideoThumb}

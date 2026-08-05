@@ -11,8 +11,8 @@ import { ModalHeader } from '../../modalHeader';
  *
  */
 
-export default class Modal extends PureComponent {
-  constructor(props) {
+export default class Modal extends PureComponent<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }
