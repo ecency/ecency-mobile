@@ -32,7 +32,8 @@ export interface PostsListRef {
   scrollToTop: () => void;
 }
 
-interface postsListContainerProps extends FlatListProps<any> {
+// Partial: the container supplies data/renderItem to the list itself
+interface postsListContainerProps extends Partial<FlatListProps<any>> {
   posts: any[];
   promotedPosts: Array<any>;
   isFeedScreen: boolean;

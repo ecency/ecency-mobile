@@ -51,14 +51,14 @@ const CommentsContainer = ({
   handleCommentDelete,
   onTagPress,
   onAuthorPress,
-}) => {
+}: any) => {
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
   const queryClient = useQueryClient();
   const authContext = useAuthContext();
   const deleteCommentMutation = useDeleteComment(currentAccount?.name, authContext, 'async');
 
-  const [lcomments, setLComments] = useState([]);
+  const [lcomments, setLComments] = useState<any[]>([]);
   const [propComments, setPropComments] = useState(comments);
 
   useEffect(() => {
@@ -78,16 +78,16 @@ const CommentsContainer = ({
 
   // Component Functions
 
-  const _sortComments = (sortOrder = 'trending', _comments) => {
+  const _sortComments = (sortOrder = 'trending', _comments?: any) => {
     const _source = _comments || lcomments;
     // Guard against non-array inputs (discussion map / undefined) reaching .sort —
     // was a top Sentry crash ("undefined is not a function").
     const sortedComments = Array.isArray(_source) ? _source : [];
 
-    const absNegative = (a) => a.net_rshares < 0;
+    const absNegative = (a: any) => a.net_rshares < 0;
 
     const sortOrders = {
-      trending: (a, b) => {
+      trending: (a: any, b: any) => {
         if (absNegative(a)) {
           return 1;
         }
@@ -105,7 +105,7 @@ const CommentsContainer = ({
 
         return 0;
       },
-      reputation: (a, b) => {
+      reputation: (a: any, b: any) => {
         const keyA = get(a, 'author_reputation');
         const keyB = get(b, 'author_reputation');
 
@@ -118,7 +118,7 @@ const CommentsContainer = ({
 
         return 0;
       },
-      votes: (a, b) => {
+      votes: (a: any, b: any) => {
         const keyA = a.active_votes.length;
         const keyB = b.active_votes.length;
 
@@ -131,7 +131,7 @@ const CommentsContainer = ({
 
         return 0;
       },
-      age: (a, b) => {
+      age: (a: any, b: any) => {
         if (absNegative(a)) {
           return 1;
         }
@@ -154,7 +154,7 @@ const CommentsContainer = ({
       },
     };
 
-    sortedComments.sort(sortOrders[sortOrder]);
+    sortedComments.sort((sortOrders as any)[sortOrder]);
 
     return sortedComments;
   };
@@ -185,8 +185,8 @@ const CommentsContainer = ({
     }
   };
 
-  const _handleOnVotersPress = (activeVotes, content) => {
-    navigation.navigate({
+  const _handleOnVotersPress = (activeVotes: any, content: any) => {
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
@@ -196,8 +196,8 @@ const CommentsContainer = ({
     });
   };
 
-  const _handleOnEditPress = (item) => {
-    navigation.navigate({
+  const _handleOnEditPress = (item: any) => {
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.EDITOR,
       key: `editor_edit_reply_${item.permlink}`,
       params: {
@@ -210,11 +210,11 @@ const CommentsContainer = ({
   };
 
   const _handleDeleteComment = (
-    _permlink,
-    _parent_permlink,
-    _parent_author,
-    _root_author?,
-    _root_permlink?,
+    _permlink: any,
+    _parent_permlink: any,
+    _parent_author: any,
+    _root_author?: any,
+    _root_permlink?: any,
   ) => {
     if (postType === PostTypes.WAVE && handleCommentDelete) {
       handleCommentDelete({
@@ -238,7 +238,7 @@ const CommentsContainer = ({
       .then(() => {
         // Remove from local state for immediate UI update
         setLComments((prev) => prev.filter((item) => item.permlink !== _permlink));
-        setPropComments((prev) => prev.filter((item) => item.permlink !== _permlink));
+        setPropComments((prev: any) => prev.filter((item: any) => item.permlink !== _permlink));
       })
       .catch((err) => {
         const errorDetail = err?.message ? String(err.message) : String(err);
@@ -247,7 +247,7 @@ const CommentsContainer = ({
       });
   };
 
-  const _handleOnUserPress = (username) => {
+  const _handleOnUserPress = (username: any) => {
     if (username) {
       SheetManager.show(SheetNames.QUICK_PROFILE, {
         payload: {
@@ -257,9 +257,9 @@ const CommentsContainer = ({
     }
   };
 
-  const _openReplyThread = (comment) => {
+  const _openReplyThread = (comment: any) => {
     postsCachePrimer.cachePost(comment);
-    navigation.navigate({
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.POST,
       params: {
         author: comment.author,
@@ -306,7 +306,7 @@ const CommentsContainer = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   isLoggedIn: selectIsLoggedIn(state),
   currentAccount: selectCurrentAccount(state),
 });

@@ -14,7 +14,7 @@ import {
 } from '../constants/constants';
 
 // Fetch Communities
-export const fetchCommunities = (limit: any, query: any, sort: any, observer: any) => {
+export const fetchCommunities = (limit: any, query?: any, sort?: any, observer?: any) => {
   return async (dispatch: Dispatch) => {
     dispatch({ type: FETCH_COMMUNITIES });
     try {

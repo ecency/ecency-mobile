@@ -8,8 +8,8 @@ import { Tag } from '../../../basicUIElements';
 import styles from './tagsStyles';
 
 // Constants
-class TagsView extends PureComponent {
-  constructor(props) {
+class TagsView extends PureComponent<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }

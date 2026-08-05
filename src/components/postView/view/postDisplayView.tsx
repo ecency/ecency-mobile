@@ -54,7 +54,7 @@ const PostDisplayView = ({
   permlink,
   isWavePost,
   activeVotesCount,
-}) => {
+}: any) => {
   const insets = useSafeAreaInsets();
 
   const queryClient = useQueryClient();
@@ -70,14 +70,14 @@ const PostDisplayView = ({
     permlink: post?.permlink,
   });
 
-  const postCommentsRef = useRef<PostComments>(null);
-  const upvotePopoverRef = useRef<UpvotePopover>(null);
-  const postStatsModalRef = useRef<typeof PostStatsModal>(null);
+  const postCommentsRef = useRef<any>(null);
+  const upvotePopoverRef = useRef<any>(null);
+  const postStatsModalRef = useRef<any>(null);
 
   const [isLoadedComments, setIsLoadedComments] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [postBodyLoading, setPostBodyLoading] = useState(true);
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState<any[]>([]);
   // Full plain-text translation shown in place of the body; reset per post.
   const [translatedBody, setTranslatedBody] = useState<{ text: string; rtl: boolean } | null>(null);
 
@@ -106,7 +106,7 @@ const PostDisplayView = ({
     if (!post) return [];
 
     const rawTags = get(post.json_metadata, 'tags', []);
-    let _tags = [];
+    let _tags: any[] = [];
     if (Array.isArray(rawTags)) {
       _tags = [...rawTags];
     } else if (typeof rawTags === 'string') {
@@ -202,14 +202,14 @@ const PostDisplayView = ({
   const parentType = useMemo(() => (parentPost ? PostTypes.COMMENT : PostTypes.POST), [parentPost]);
 
   const handleUpvotePress = useCallback(
-    (sourceRef, onVotingStart) => {
+    (sourceRef: any, onVotingStart: any) => {
       _onUpvotePress({ sourceRef, content: post, onVotingStart });
     },
     [_onUpvotePress, post],
   );
 
   const handlePayoutDetailsPress = useCallback(
-    (sourceRef) => {
+    (sourceRef: any) => {
       _onUpvotePress({ sourceRef, content: post, showPayoutDetails: true });
     },
     [_onUpvotePress, post],
@@ -374,7 +374,7 @@ const PostDisplayView = ({
 
   const formatedTime = post && getTimeFromNow(post.created);
 
-  const capitalize = (appname) => appname && appname[0].toUpperCase() + appname.slice(1);
+  const capitalize = (appname: any) => appname && appname[0].toUpperCase() + appname.slice(1);
 
   // matches the "via {appname}" label, which defaults to Ecency when no app metadata is set
   const isFromEcency = (post?.json_metadata?.app?.split('/')[0] || 'ecency')
@@ -390,7 +390,7 @@ const PostDisplayView = ({
   }, []);
 
   // show quick reply modal
-  const _showQuickProfileModal = useCallback((username) => {
+  const _showQuickProfileModal = useCallback((username: any) => {
     if (username) {
       SheetManager.show(SheetNames.QUICK_PROFILE, {
         payload: {
@@ -400,7 +400,7 @@ const PostDisplayView = ({
     }
   }, []);
 
-  const _openProfilePage = useCallback((username) => {
+  const _openProfilePage = useCallback((username: any) => {
     if (!username) {
       return;
     }
@@ -415,7 +415,7 @@ const PostDisplayView = ({
     setIsLoadedComments((prev) => prev || true);
   }, []);
 
-  const _handleContentLayout = useCallback((event) => {
+  const _handleContentLayout = useCallback((event: any) => {
     if (__DEV__) {
       console.log('content view height', event.nativeEvent.layout.height);
     }

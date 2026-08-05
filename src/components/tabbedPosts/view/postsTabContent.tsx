@@ -5,7 +5,6 @@ import { SheetManager } from 'react-native-actions-sheet';
 import PostsList from '../../postsList';
 import { PostsTabContentProps } from '../types/tabbedPosts.types';
 import TabEmptyView from './listEmptyView';
-import { PostsListRef } from '../../postsList/container/postsListContainer';
 import {
   useFeedQuery,
   usePromotedPostsQuery,
@@ -47,7 +46,7 @@ const PostsTabContent = ({
   const [curPinned, setCurPinned] = useState(pinnedPermlink);
 
   // refs
-  const postsListRef = useRef<PostsListRef>();
+  const postsListRef = useRef<any>(null);
 
   const sessionUserRef = useRef(sessionUser);
   const blockPopupRef = useRef(false);
@@ -138,7 +137,7 @@ const PostsTabContent = ({
     }, 1000);
   };
 
-  const _handleOnScroll = (event) => {
+  const _handleOnScroll = (event: any) => {
     if (handleOnScroll) {
       handleOnScroll(event);
     }

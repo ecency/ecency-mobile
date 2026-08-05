@@ -14,7 +14,7 @@ import IconButton from '../../iconButton';
  */
 
 interface FilterBarProps {
-  isHide: boolean;
+  isHide?: boolean;
   options: string[];
   selectedOptionIndex: number;
   onDropdownSelect: (index: number) => void;
