@@ -590,7 +590,6 @@ class ProfileContainer extends Component<any, any> {
 
   render() {
     const {
-      avatar,
       comments,
       error,
       follows,
@@ -626,7 +625,6 @@ class ProfileContainer extends Component<any, any> {
       children({
         about: get(user, 'profile', {}),
         activePage,
-        avatar,
         changeForceLoadPostState: this._changeForceLoadPostState,
         comments,
         currency,

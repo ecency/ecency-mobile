@@ -139,7 +139,7 @@ class RedeemContainer extends Component<any, any> {
 
   render() {
     const { children } = this.props;
-    const { isLoading, isSCModalOpen, SCPath, actionSpecificParam } = this.state;
+    const { isLoading, isSCModalOpen, SCPath } = this.state;
 
     return (
       children &&
@@ -148,7 +148,6 @@ class RedeemContainer extends Component<any, any> {
         isSCModalOpen,
         SCPath,
         handleOnSubmit: this._handleOnSubmit,
-        actionSpecificParam,
         handleOnSCModalClose: this._handleOnSCModalClose,
       })
     );
