@@ -18,11 +18,18 @@ import { selectIsDarkTheme } from '../../../../redux/selectors';
 
 const SEPARATOR_REGEX = /[,\s]/;
 
-const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, setCommunity }) => {
+const TagInput = ({
+  value,
+  handleTagChanged,
+  intl,
+  isPreviewActive,
+  autoFocus,
+  setCommunity,
+}: any) => {
   const dispatch = useAppDispatch();
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
-  const scrollRef = useRef<ScrollView>();
+  const scrollRef = useRef<ScrollView | null>(null);
   const inputRef = useRef<RNTextInput>(null);
   const textRef = useRef('');
   const tagsRef = useRef<string[]>([]);
@@ -38,7 +45,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
 
   useEffect(() => {
     // read and add tag items
-    const _tags = (typeof value === 'string' ? value.split(' ') : value).filter((t) => !!t);
+    const _tags = (typeof value === 'string' ? value.split(' ') : value).filter((t: any) => !!t);
     tagsRef.current = _tags;
     setTags(_tags);
     _verifyTagsUpdate(_tags);
@@ -142,7 +149,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
     }
   };
 
-  const _renderTag = (tag, index) => {
+  const _renderTag = (tag: any, index: any) => {
     const _onPress = () => {
       const updatedTags = [...tags];
       updatedTags.splice(index, 1);

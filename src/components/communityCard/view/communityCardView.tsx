@@ -5,7 +5,7 @@ import { UserAvatar } from '../../userAvatar';
 
 import styles from './communityCardStyles';
 
-const CommunityCardView = ({ community, onPress, style }) => {
+const CommunityCardView = ({ community, onPress, style }: any) => {
   return (
     <TouchableOpacity onPress={() => onPress(community)} style={[styles.communityCard, style]}>
       <UserAvatar username={community.name} noAction />

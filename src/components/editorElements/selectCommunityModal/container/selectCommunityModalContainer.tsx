@@ -26,13 +26,13 @@ const SelectCommunityModalContainer = ({
   currentAccount,
   onCloseModal,
   showSubscribedOnly,
-}) => {
+}: any) => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
-  const [searchedCommunities, setSearchedCommunities] = useState([]);
+  const [searchedCommunities, setSearchedCommunities] = useState<any[]>([]);
   const [showSearchedCommunities, setShowSearchedCommunities] = useState(false);
-  const [subscriptions, setSubscriptions] = useState(null);
+  const [subscriptions, setSubscriptions] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   const topCommunities = useAppSelector(selectTopCommunities);
@@ -45,7 +45,7 @@ const SelectCommunityModalContainer = ({
   }, []);
 
   const callTopCommunities = () =>
-    dispatch(fetchCommunities(15, null, 'rank', currentAccount.name));
+    dispatch(fetchCommunities(15, null, 'rank', currentAccount.name) as any);
 
   const callSubscribedCommunities = () => {
     if (
@@ -65,7 +65,7 @@ const SelectCommunityModalContainer = ({
         );
       }
     }
-    dispatch(fetchSubscribedCommunities(currentAccount.name));
+    dispatch(fetchSubscribedCommunities(currentAccount.name) as any);
   };
 
   // Use SDK query for community search
@@ -74,9 +74,9 @@ const SelectCommunityModalContainer = ({
     enabled: !showSubscribedOnly && searchQuery.length >= 3,
   });
 
-  const handleChangeSearch = (text) => {
+  const handleChangeSearch = (text: any) => {
     if (showSubscribedOnly) {
-      const filteredSubscriptions = subscriptions?.filter((item) =>
+      const filteredSubscriptions = subscriptions?.filter((item: any) =>
         item.title.toLowerCase().includes(text.toLowerCase()),
       );
       setSearchedCommunities(filteredSubscriptions);
@@ -97,7 +97,7 @@ const SelectCommunityModalContainer = ({
     }
   }, [searchResults, searchQuery, showSubscribedOnly]);
 
-  const _onPressCommunity = async (community) => {
+  const _onPressCommunity = async (community: any) => {
     // intercept press community and fetch complete community object
     if (community && community.name && !community.type_id) {
       try {

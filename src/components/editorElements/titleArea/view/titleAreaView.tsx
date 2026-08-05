@@ -12,13 +12,17 @@ import styles from './titleAreaStyles';
 import globalStyles from '../../../../globalStyles';
 import isAndroidOreo from '../../../../utils/isAndroidOreo';
 
-class TitleAreaView extends Component {
+class TitleAreaView extends Component<any, any> {
+  inputRef: any;
+
+  textRef: any;
+
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       height: 0,
@@ -28,7 +32,7 @@ class TitleAreaView extends Component {
   }
 
   // Component Life Cycles
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: any) {
     const { value } = this.props;
     const { value: prevValue } = prevProps;
 
@@ -40,7 +44,7 @@ class TitleAreaView extends Component {
   }
 
   // Component Functions
-  _handleContentSizeChange = (event) => {
+  _handleContentSizeChange = (event: any) => {
     const nextHeight = event.nativeEvent.contentSize.height;
     const { height } = this.state;
 
@@ -49,7 +53,7 @@ class TitleAreaView extends Component {
     }
   };
 
-  _handleOnChange = (text) => {
+  _handleOnChange = (text: any) => {
     const { onChange, handleIsValid, componentID } = this.props;
 
     this.textRef = text;
@@ -72,7 +76,7 @@ class TitleAreaView extends Component {
       <View style={[globalStyles.containerHorizontal16, { height: Math.max(maxHeight, height) }]}>
         <TextInput
           innerRef={this.inputRef}
-          style={[styles.textInput, { height: Math.max(maxHeight, height) }]}
+          style={[styles.textInput, { height: Math.max(maxHeight, height) }] as any}
           placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
           editable={!isPreviewActive}
           maxLength={250}
@@ -94,7 +98,7 @@ class TitleAreaView extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   isDarkTheme: selectIsDarkTheme(state),
 });
 

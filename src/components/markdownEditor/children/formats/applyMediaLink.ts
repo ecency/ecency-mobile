@@ -13,7 +13,7 @@ interface Selection {
 interface Args {
   text: string;
   selection: Selection;
-  setTextAndSelection: ({ selection: Selection, text: string }) => void;
+  setTextAndSelection: (args: { selection: Selection; text: string }) => void;
   items: MediaInsertData[];
 }
 
@@ -30,7 +30,7 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
   let newText = text;
   let newSelection = selection;
 
-  const _insertFormatedString = (text, value, mode) => {
+  const _insertFormatedString = (text: any, value: any, mode?: any) => {
     // Video embeds: insert raw URL so the post renderer detects the 3Speak embed
     const formatedText =
       mode === Modes.MODE_VIDEO ? `\n${value}\n` : `\n${imagePrefix}[${text}](${value})\n`;
@@ -60,7 +60,7 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
     }
   };
 
-  const _removeFormatedString = (placeholder) => {
+  const _removeFormatedString = (placeholder: any) => {
     const formatedText = `${imagePrefix}[](${placeholder})`;
     const formatedTextIndex = newText.indexOf(formatedText);
     newText = newText.replace(formatedText, '');

@@ -23,12 +23,12 @@ import { SheetNames } from '../../../../navigation/sheets';
 
 interface PostBodyProps {
   body: string;
-  metadata: any;
+  metadata?: any;
   author?: string;
   permlink?: string;
-  width: number;
+  width?: number;
   enableViewabilityTracker?: boolean;
-  onLoadEnd: () => void;
+  onLoadEnd?: () => void;
 }
 
 const PostBody = ({

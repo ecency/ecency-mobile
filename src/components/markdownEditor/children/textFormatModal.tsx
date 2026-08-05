@@ -32,7 +32,7 @@ export const TextFormatModal = forwardRef(
       return null;
     }
 
-    const _renderMarkupButton = ({ item }) => (
+    const _renderMarkupButton = ({ item }: any) => (
       <View style={styles.buttonWrapper}>
         <IconButton
           size={20}

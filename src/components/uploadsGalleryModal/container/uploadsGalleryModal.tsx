@@ -45,11 +45,11 @@ export interface MediaInsertData {
   filename?: string;
   text: string;
   status: MediaInsertStatus;
-  mode: Modes;
+  // absent for image inserts and failed uploads; only video inserts carry it
+  mode?: Modes;
 }
 
 interface UploadsGalleryModalProps {
-  draftId?: string;
   postBody: string;
   paramFiles: any[];
   isEditing: boolean;
@@ -68,7 +68,6 @@ interface UploadsGalleryModalProps {
 export const UploadsGalleryModal = forwardRef(
   (
     {
-      draftId,
       postBody,
       paramFiles,
       isEditing,
@@ -88,7 +87,7 @@ export const UploadsGalleryModal = forwardRef(
     const mediaUploadMutation = editorQueries.useMediaUploadMutation();
 
     const pendingInserts = useRef<MediaInsertData[]>([]);
-    const speakUploaderRef = useRef<SpeakUploaderModal>();
+    const speakUploaderRef = useRef<any>(null);
 
     const [showModal, setShowModal] = useState(false);
     const [isAddingToUploads, setIsAddingToUploads] = useState(false);
@@ -175,7 +174,7 @@ export const UploadsGalleryModal = forwardRef(
           // invoke upload handling when something remains.
           const _validMediaItems = _mediaItems.filter(Boolean);
           if (_validMediaItems.length) {
-            _handleMediaOnSelected(_validMediaItems, true);
+            _handleMediaOnSelected(_validMediaItems as any, true);
           }
         });
       }
@@ -220,7 +219,7 @@ export const UploadsGalleryModal = forwardRef(
           };
 
       ImagePicker.openPicker(_options)
-        .then((items) => {
+        .then((items: any) => {
           if (items && !Array.isArray(items)) {
             items = [items];
           }
@@ -253,7 +252,7 @@ export const UploadsGalleryModal = forwardRef(
           };
 
       ImagePicker.openCamera(_options)
-        .then((media) => {
+        .then((media: any) => {
           if (_vidMode) {
             _handleVideoSelection(media);
           } else {
@@ -346,7 +345,7 @@ export const UploadsGalleryModal = forwardRef(
                 element.filename ||
                 extractFilenameFromPath({ path: element.path, mimeType: element.mime });
               uploadingInserts.push({
-                filename: element.filename,
+                filename: element.filename || '',
                 url: '',
                 text: '',
                 status: MediaInsertStatus.UPLOADING,
@@ -377,13 +376,13 @@ export const UploadsGalleryModal = forwardRef(
 
         // Batch insert all successful uploads in a single call to avoid race conditions
         // where parallel onSuccess callbacks read stale body text from refs
-        if (shouldInsert && handleMediaInsert) {
+        if (shouldInsert) {
           const successfulInserts = results
             .map((result, index) => {
-              if (result.status === 'fulfilled' && result.value?.url) {
+              if (result.status === 'fulfilled' && (result as any).value?.url) {
                 return {
                   filename: media[index]?.filename || '',
-                  url: result.value.url,
+                  url: (result as any).value.url,
                   text: '',
                   status: MediaInsertStatus.READY,
                 };
@@ -393,7 +392,7 @@ export const UploadsGalleryModal = forwardRef(
             .filter(Boolean);
 
           if (successfulInserts.length > 0) {
-            _handleMediaInsertion(successfulInserts);
+            _handleMediaInsertion(successfulInserts as any);
           }
         }
 
@@ -456,7 +455,7 @@ export const UploadsGalleryModal = forwardRef(
       }
     };
 
-    const _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
+    const _uploadImage = async (media: any, { shouldInsert } = { shouldInsert: false }) => {
       if (!isLoggedIn) return;
       try {
         const data = await mediaUploadMutation.mutateAsync({
@@ -492,7 +491,7 @@ export const UploadsGalleryModal = forwardRef(
     };
 
     const _handleMediaOnSelectFailure = (
-      error,
+      error: any,
       action: 'openPicker' | 'openCamera' = 'openPicker',
       mediaType: 'photo' | 'video' | 'mixed' = 'photo',
     ) => {
@@ -577,7 +576,7 @@ export const UploadsGalleryModal = forwardRef(
 
       map.forEach((value, index) => {
         console.log(index);
-        const item: MediaItem = mediaUploadsQuery.data[index];
+        const item: MediaItem = mediaUploadsQuery.data[index] as any;
         data.push({
           url: item.url,
           text: '',
@@ -600,11 +599,9 @@ export const UploadsGalleryModal = forwardRef(
         {showModal && (
           <UploadsGalleryContent
             mode={mode}
-            draftId={draftId}
             insertedMediaUrls={mediaUrls}
-            mediaUploads={data}
+            mediaUploads={data as any}
             isAddingToUploads={isAddingToUploads}
-            getMediaUploads={_getMediaUploads}
             insertMedia={_insertMedia}
             handleOpenCamera={_handleOpenCamera}
             handleOpenGallery={_handleOpenImagePicker}

@@ -1,6 +1,6 @@
 import { replaceBetween } from './utils';
 
-export default async ({ text, selection, setTextAndSelection, snippetText }) => {
+export default async ({ text, selection, setTextAndSelection, snippetText }: any) => {
   const newText = replaceBetween(text, selection, `${snippetText}`);
   const newSelection = {
     start: selection.start,
