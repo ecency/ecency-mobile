@@ -202,7 +202,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         ...navigateParams,
         referredUsername:
           baseActivity.receiver !== username ? baseActivity.receiver : baseActivity.sender,
-        initialAmount: `${Math.abs(parseAsset(baseActivity.value.trim()).amount)}`,
+        initialAmount: `${Math.abs(parseAsset((baseActivity.value ?? '').trim()).amount)}`,
         initialMemo: baseActivity.memo,
       };
     }

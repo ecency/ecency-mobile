@@ -150,6 +150,7 @@ export interface MarketData {
 
 export interface HistoryItem {
   _id: string;
+  id?: string;
   blockNumber: number;
   transactionId: string;
   timestamp: number;
