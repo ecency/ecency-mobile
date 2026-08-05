@@ -379,10 +379,10 @@ export const UploadsGalleryModal = forwardRef(
         if (shouldInsert) {
           const successfulInserts = results
             .map((result, index) => {
-              if (result.status === 'fulfilled' && (result as any).value?.url) {
+              if (result.status === 'fulfilled' && result.value?.url) {
                 return {
                   filename: media[index]?.filename || '',
-                  url: (result as any).value.url,
+                  url: result.value.url,
                   text: '',
                   status: MediaInsertStatus.READY,
                 };
