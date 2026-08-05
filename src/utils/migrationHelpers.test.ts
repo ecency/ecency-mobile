@@ -92,8 +92,8 @@ describe('migrateSelectedTokens', () => {
       ];
       const result = migrateSelectedTokens(tokens);
       expect(result).toHaveLength(2);
-      expect(result[0].meta).toEqual({ show: true });
-      expect(result[1].meta).toEqual({ show: true });
+      expect(result![0].meta).toEqual({ show: true });
+      expect(result![1].meta).toEqual({ show: true });
     });
 
     it('deduplicates by symbol+type, preferring entry with meta', () => {
@@ -103,7 +103,7 @@ describe('migrateSelectedTokens', () => {
       ];
       const result = migrateSelectedTokens(tokens);
       expect(result).toHaveLength(1);
-      expect(result[0].meta).toEqual({ show: true });
+      expect(result![0].meta).toEqual({ show: true });
     });
   });
 
@@ -342,7 +342,7 @@ describe('reduxMigrations', () => {
     it('no-ops when the application slice is absent', () => {
       const state = { account: { keep: 'me' } } as any;
       const result = reduxMigrations[17](state);
-      expect(result.account.keep).toBe('me');
+      expect(result!.account.keep).toBe('me');
       expect(result.application).toBeUndefined();
     });
   });
@@ -392,7 +392,7 @@ describe('reduxMigrations', () => {
     it('is a no-op when the wallet slice is absent', () => {
       const state = { account: { keep: 'me' } } as any;
       const result = reduxMigrations[19](state);
-      expect(result.account.keep).toBe('me');
+      expect(result!.account.keep).toBe('me');
       expect(result.wallet).toBeUndefined();
     });
   });
@@ -419,8 +419,8 @@ describe('reduxMigrations', () => {
     it('is a no-op when notificationDetails is absent', () => {
       const state = { application: {}, account: { keep: 'me' } } as any;
       const result = reduxMigrations[20](state);
-      expect(result.application.notificationDetails).toBeUndefined();
-      expect(result.account.keep).toBe('me');
+      expect(result!.application.notificationDetails).toBeUndefined();
+      expect(result!.account.keep).toBe('me');
     });
   });
 
@@ -449,8 +449,8 @@ describe('reduxMigrations', () => {
     it('is a no-op when notificationDetails is absent', () => {
       const state = { application: {}, account: { keep: 'me' } } as any;
       const result = reduxMigrations[21](state);
-      expect(result.application.notificationDetails).toBeUndefined();
-      expect(result.account.keep).toBe('me');
+      expect(result!.application.notificationDetails).toBeUndefined();
+      expect(result!.account.keep).toBe('me');
     });
   });
 
@@ -465,9 +465,9 @@ describe('reduxMigrations', () => {
         result = reduxMigrations[1](state);
       }).not.toThrow();
       // unrelated persisted state survives
-      expect(result.account.keep).toBe('me');
+      expect(result!.account.keep).toBe('me');
       // the failed migration's partial change is not applied
-      expect(result.application.notificationDetails).toBeUndefined();
+      expect(result!.application.notificationDetails).toBeUndefined();
     });
 
     it('returns a clean snapshot (not a partially-mutated object) on a mid-migration throw', () => {
@@ -479,7 +479,7 @@ describe('reduxMigrations', () => {
         account: { keep: 'me' },
       } as any;
       const result = reduxMigrations[13](state);
-      expect(result.account.keep).toBe('me');
+      expect(result!.account.keep).toBe('me');
       // selectedCoins was NOT deleted (rolled back), selectedAssets was NOT added
       expect(result.wallet.selectedCoins).toBeDefined();
       expect(result.wallet.selectedAssets).toBeUndefined();

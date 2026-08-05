@@ -100,14 +100,19 @@ export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean
 };
 
 // migrates local user data to use default pin encruption instead of user pin encryption
-export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin, onFailure) => {
-  const oldPinCode = decryptKey(encUserPin, Config.PIN_KEY);
+export const migrateUserEncryption = async (
+  dispatch: any,
+  currentAccount: any,
+  encUserPin: string,
+  onFailure: (error: unknown) => void,
+) => {
+  const oldPinCode = decryptKey(encUserPin, Config.PIN_KEY!);
 
   if (oldPinCode === undefined || oldPinCode === Config.DEFAULT_PIN) {
     return true;
   }
 
-  let migratedLocal;
+  let migratedLocal: any;
   try {
     const pinData = {
       pinCode: Config.DEFAULT_PIN,
@@ -135,7 +140,7 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
       }),
     );
 
-    const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+    const encryptedPin = encryptKey(Config.DEFAULT_PIN!, Config.PIN_KEY!);
     dispatch(setPinCode(encryptedPin));
   } catch (err) {
     // Re-encryption to DEFAULT_PIN failed. Do NOT mark the migration complete
@@ -158,7 +163,7 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
   _currentAccount.local = migratedLocal;
 
   try {
-    const pinHash = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+    const pinHash = encryptKey(Config.DEFAULT_PIN!, Config.PIN_KEY!);
     // migration script for previously mast key based logged in user not having access token
     if (migratedLocal.authType !== AUTH_TYPE.STEEM_CONNECT && migratedLocal.accessToken === '') {
       _currentAccount = await migrateToMasterKeyWithAccessToken(
@@ -180,7 +185,7 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
     const queryClient = getQueryClient();
     const accessToken =
       (_currentAccount?.local?.accessToken
-        ? decryptKey(_currentAccount.local.accessToken, Config.DEFAULT_PIN)
+        ? decryptKey(_currentAccount.local.accessToken, Config.DEFAULT_PIN!)
         : '') ?? '';
     _currentAccount.unread_activity_count = await queryClient.fetchQuery(
       getNotificationsUnreadCountQueryOptions(_currentAccount.name, accessToken),
@@ -200,7 +205,13 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
   return true;
 };
 
-export const repairUserAccountData = async (username, dispatch, intl, accounts, pinHash) => {
+export const repairUserAccountData = async (
+  username: string,
+  dispatch: any,
+  intl: any,
+  accounts: any[],
+  pinHash: string,
+) => {
   let authData: any[] = [];
   try {
     // clean realm data just in case, to avoid already logged error
@@ -231,7 +242,7 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
       // if already expired, prompt for relogin
     } else {
       const _encryptedKey = _userAccount.local[_authType];
-      const _key = decryptKey(_encryptedKey, getDigitPinCode(pinHash));
+      const _key = decryptKey(_encryptedKey, getDigitPinCode(pinHash)!);
       if (!_key) {
         throw new Error('Pin decryption failed');
       }
@@ -276,12 +287,12 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
   return authData;
 };
 
-export const repairOtherAccountsData = (accounts, realmAuthData, dispatch) => {
+export const repairOtherAccountsData = (accounts: any[], realmAuthData: any, dispatch: any) => {
   accounts.forEach((account) => {
     // otherAccounts entries are keyed by username; account.name can be undefined on some
     // (e.g. HiveSigner) entries, so match realm data on either field.
     const accRealmData = realmAuthData.find(
-      (data) => data.username === (account.username || account.name),
+      (data: any) => data.username === (account.username || account.name),
     );
     if (!account.local?.accessToken && accRealmData) {
       account.local = accRealmData;
@@ -340,24 +351,24 @@ export const migrateSelectedTokens = (tokens: any) => {
 };
 
 const reduxMigrations = {
-  0: (state) => {
+  0: (state: any) => {
     const { upvotePercent } = state.application;
     state.application.postUpvotePercent = upvotePercent;
     state.application.commentUpvotePercent = upvotePercent;
     state.application.upvotePercent = undefined;
     return state;
   },
-  1: (state) => {
+  1: (state: any) => {
     state.application.notificationDetails.favoriteNotification = true;
     return state;
   },
-  2: (state) => {
+  2: (state: any) => {
     state.application.notificationDetails.bookmarkNotification = true;
     return state;
   },
-  3: (state) => {
+  3: (state: any) => {
     const { drafts } = state.cache;
-    const _draftsCollection = {};
+    const _draftsCollection: Record<string, any> = {};
     if (drafts instanceof Array) {
       drafts.forEach(([key, data]) => {
         if (key && data.body && data.author && data.updated) {
@@ -369,9 +380,9 @@ const reduxMigrations = {
     delete state.cache.drafts;
     return state;
   },
-  4: (state) => {
+  4: (state: any) => {
     const { comments } = state.cache;
-    const _collection = {};
+    const _collection: Record<string, any> = {};
     if (comments instanceof Array) {
       comments.forEach(([key, data]) => {
         if (key && data.body && data.parent_author && data.parent_permlink) {
@@ -383,39 +394,39 @@ const reduxMigrations = {
     delete state.cache.comments;
     return state;
   },
-  5: (state) => {
+  5: (state: any) => {
     state.cache.votesCollection = {};
     return state;
   },
-  6: (state) => {
+  6: (state: any) => {
     state.application.waveUpvotePercent = state.application.commentUpvotePercent;
     return state;
   },
-  7: (state) => {
+  7: (state: any) => {
     state.cache.announcementsMeta = {};
     return state;
   },
-  8: (state) => {
+  8: (state: any) => {
     state.cache.pollVotesCollection = {};
     return state;
   },
-  9: (state) => {
+  9: (state: any) => {
     state.editor.pollDraftsMap = {};
     return state;
   },
-  10: (state) => {
+  10: (state: any) => {
     state.customTabs.mainTabs = DEFAULT_FEED_FILTERS;
     return state;
   },
-  11: (state) => {
+  11: (state: any) => {
     state.cache.proposalsVoteMeta = {};
     return state;
   },
-  12: (state) => {
-    state.application.pin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+  12: (state: any) => {
+    state.application.pin = encryptKey(Config.DEFAULT_PIN!, Config.PIN_KEY!);
     return state;
   },
-  13: (state) => {
+  13: (state: any) => {
     state.wallet.selectedAssets = state.wallet.selectedCoins || DEFAULT_ASSETS;
     // Fix first asset symbol if it's not POINTS (migration from old data)
     if (state.wallet.selectedAssets[0] && state.wallet.selectedAssets[0].symbol !== 'POINTS') {
@@ -429,13 +440,13 @@ const reduxMigrations = {
 
     return state;
   },
-  14: (state) => {
+  14: (state: any) => {
     // Migrate reply and wave drafts from draftsCollection to replyCache
     state.cache.replyCache = {};
 
     if (state.cache.draftsCollection) {
-      const _replyCache = {};
-      const _draftsToKeep = {};
+      const _replyCache: Record<string, any> = {};
+      const _draftsToKeep: Record<string, any> = {};
 
       Object.keys(state.cache.draftsCollection).forEach((key) => {
         const draft = state.cache.draftsCollection[key];
@@ -461,9 +472,9 @@ const reduxMigrations = {
 
     return state;
   },
-  15: (state) => {
+  15: (state: any) => {
     // Add 'waves' tab to profile and own-profile custom tabs for existing users
-    const _insertWaves = (tabs, defaults) => {
+    const _insertWaves = (tabs: any, defaults: any) => {
       if (!tabs || tabs.indexOf('waves') !== -1) {
         return tabs;
       }
@@ -484,7 +495,7 @@ const reduxMigrations = {
     );
     return state;
   },
-  16: (state) => {
+  16: (state: any) => {
     // Backfill account.globalProps fields added later (votePowerReserveRate,
     // authorRewardCurve, contentConstant, currentHardforkVersion, lastHardfork).
     // Without these, vote estimation can throw on first launch after upgrade
@@ -502,7 +513,7 @@ const reduxMigrations = {
     }
     return state;
   },
-  17: (state) => {
+  17: (state: any) => {
     // Backfill appRating for users upgrading from a build before the in-app
     // review prompt. autoMergeLevel1 replaces the whole persisted `application`
     // slice on rehydration, so a missing appRating key is NOT defaulted from
@@ -518,7 +529,7 @@ const reduxMigrations = {
     }
     return state;
   },
-  18: (state) => {
+  18: (state: any) => {
     // Backfill editor.caretMap for users upgrading from a build before per-draft
     // caret persistence existed. autoMergeLevel1 keeps the persisted `editor`
     // slice as-is on rehydration, so the new key is not defaulted from
@@ -529,7 +540,7 @@ const reduxMigrations = {
     }
     return state;
   },
-  19: (state) => {
+  19: (state: any) => {
     // SPK Network support removed: purge persisted SPK/LARYNX/LP entries from
     // wallet.selectedAssets so stale selections don't linger in the wallet list.
     // The symbol check catches legacy entries persisted before the isSpk flag;
@@ -537,13 +548,13 @@ const reduxMigrations = {
     // symbols is never purged.
     if (state.wallet) {
       state.wallet.selectedAssets = (state.wallet.selectedAssets || []).filter(
-        (asset) =>
+        (asset: any) =>
           !asset?.isSpk && (asset?.isEngine || !['SPK', 'LARYNX', 'LP'].includes(asset?.symbol)),
       );
     }
     return state;
   },
-  20: (state) => {
+  20: (state: any) => {
     // Default the scheduled-post-published notification setting ON for existing
     // installs; autoMergeLevel1 keeps the persisted notificationDetails as-is on
     // rehydration, so the new key is never defaulted from initialState (see 17).
@@ -556,7 +567,7 @@ const reduxMigrations = {
     }
     return state;
   },
-  21: (state) => {
+  21: (state: any) => {
     // Default the notification types that previously had no push toggle ON for
     // existing installs, matching every other type (and 20 above): autoMergeLevel1
     // keeps persisted notificationDetails as-is, so a new key is never picked up
