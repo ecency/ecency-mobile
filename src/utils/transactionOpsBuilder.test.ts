@@ -23,7 +23,7 @@ describe('buildTransferOpsArray', () => {
   describe('decimal normalization', () => {
     it('pads amount to 3 decimal places when fewer', () => {
       const ops = buildTransferOpsArray(TransferTypes.TRANSFER, { ...baseData, amount: '10' });
-      expect(ops[0][1].amount).toBe('10.000 HIVE');
+      expect((ops[0][1] as any).amount).toBe('10.000 HIVE');
     });
 
     it('normalizes an over-precise amount down to the asset precision (3 dp for HIVE)', () => {
@@ -31,7 +31,7 @@ describe('buildTransferOpsArray', () => {
         ...baseData,
         amount: '10.12345',
       });
-      expect(ops[0][1].amount).toBe('10.123 HIVE');
+      expect((ops[0][1] as any).amount).toBe('10.123 HIVE');
     });
 
     it('uses 6 dp for VESTS amounts', () => {
@@ -40,7 +40,7 @@ describe('buildTransferOpsArray', () => {
         amount: '10',
         fundType: 'VESTS',
       });
-      expect(ops[0][1].vesting_shares).toBe('10.000000 VESTS');
+      expect((ops[0][1] as any).vesting_shares).toBe('10.000000 VESTS');
     });
 
     it('does not force engine-token quantities to 3 dp (mock shape: [op, action, from, to, amount, symbol, memo])', () => {
@@ -111,8 +111,8 @@ describe('buildTransferOpsArray', () => {
         to: 'bob, charlie',
       });
       expect(ops).toHaveLength(2);
-      expect(ops[0][1].to).toBe('bob');
-      expect(ops[1][1].to).toBe('charlie');
+      expect((ops[0][1] as any).to).toBe('bob');
+      expect((ops[1][1] as any).to).toBe('charlie');
     });
 
     it('splits multi-recipient by space', () => {
@@ -135,7 +135,7 @@ describe('buildTransferOpsArray', () => {
 
     it('includes memo when provided', () => {
       const ops = buildTransferOpsArray(TransferTypes.TRANSFER, { ...baseData, memo: 'thanks' });
-      expect(ops[0][1].memo).toBe('thanks');
+      expect((ops[0][1] as any).memo).toBe('thanks');
     });
   });
 
@@ -143,9 +143,9 @@ describe('buildTransferOpsArray', () => {
     it('builds convert op with requestid', () => {
       const ops = buildTransferOpsArray(TransferTypes.CONVERT, baseData);
       expect(ops[0][0]).toBe('convert');
-      expect(ops[0][1].owner).toBe('alice');
-      expect(ops[0][1].amount).toBe('10.000 HIVE');
-      expect(typeof ops[0][1].requestid).toBe('number');
+      expect((ops[0][1] as any).owner).toBe('alice');
+      expect((ops[0][1] as any).amount).toBe('10.000 HIVE');
+      expect(typeof (ops[0][1] as any).requestid).toBe('number');
     });
   });
 
@@ -153,9 +153,9 @@ describe('buildTransferOpsArray', () => {
     it('builds delegation op', () => {
       const ops = buildTransferOpsArray(TransferTypes.DELEGATE_VESTING_SHARES, baseData);
       expect(ops[0][0]).toBe('delegate_vesting_shares');
-      expect(ops[0][1].delegator).toBe('alice');
-      expect(ops[0][1].delegatee).toBe('bob');
-      expect(ops[0][1].vesting_shares).toBe('10.000 HIVE');
+      expect((ops[0][1] as any).delegator).toBe('alice');
+      expect((ops[0][1] as any).delegatee).toBe('bob');
+      expect((ops[0][1] as any).vesting_shares).toBe('10.000 HIVE');
     });
   });
 
@@ -163,8 +163,8 @@ describe('buildTransferOpsArray', () => {
     it('builds savings transfer op', () => {
       const ops = buildTransferOpsArray(TransferTypes.TRANSFER_TO_SAVINGS, baseData);
       expect(ops[0][0]).toBe('transfer_to_savings');
-      expect(ops[0][1].from).toBe('alice');
-      expect(ops[0][1].to).toBe('bob');
+      expect((ops[0][1] as any).from).toBe('alice');
+      expect((ops[0][1] as any).to).toBe('bob');
     });
   });
 
@@ -175,7 +175,7 @@ describe('buildTransferOpsArray', () => {
         memo: 'ignored',
       });
       expect(ops[0][0]).toBe('transfer_to_vesting');
-      expect(ops[0][1].memo).toBeUndefined();
+      expect((ops[0][1] as any).memo).toBeUndefined();
     });
   });
 
@@ -183,7 +183,7 @@ describe('buildTransferOpsArray', () => {
     it('builds savings withdrawal with request_id', () => {
       const ops = buildTransferOpsArray(TransferTypes.TRANSFER_FROM_SAVINGS, baseData);
       expect(ops[0][0]).toBe('transfer_from_savings');
-      expect(typeof ops[0][1].request_id).toBe('number');
+      expect(typeof (ops[0][1] as any).request_id).toBe('number');
     });
   });
 
@@ -191,8 +191,8 @@ describe('buildTransferOpsArray', () => {
     it('builds power down op', () => {
       const ops = buildTransferOpsArray(TransferTypes.WITHDRAW_VESTING, baseData);
       expect(ops[0][0]).toBe('withdraw_vesting');
-      expect(ops[0][1].account).toBe('alice');
-      expect(ops[0][1].vesting_shares).toBe('10.000 HIVE');
+      expect((ops[0][1] as any).account).toBe('alice');
+      expect((ops[0][1] as any).vesting_shares).toBe('10.000 HIVE');
     });
   });
 
@@ -204,9 +204,9 @@ describe('buildTransferOpsArray', () => {
         executions: 7,
       });
       expect(ops[0][0]).toBe('recurrent_transfer');
-      expect(ops[0][1].recurrence).toBe(24);
-      expect(ops[0][1].executions).toBe(7);
-      expect(ops[0][1].extensions).toEqual([]);
+      expect((ops[0][1] as any).recurrence).toBe(24);
+      expect((ops[0][1] as any).executions).toBe(7);
+      expect((ops[0][1] as any).extensions).toEqual([]);
     });
   });
 

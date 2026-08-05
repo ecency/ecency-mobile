@@ -35,7 +35,7 @@ export const parseReputation = (input: string | number): number => {
   return Math.floor(reputationLevel);
 };
 
-export const getName = (about) => {
+export const getName = (about: any) => {
   // Guard against null/undefined
   if (!about) {
     return null;
@@ -50,7 +50,7 @@ export const getName = (about) => {
   return null;
 };
 
-export const getAvatar = (about) => {
+export const getAvatar = (about: any) => {
   // Guard against null/undefined
   if (!about) {
     return null;
@@ -65,7 +65,7 @@ export const getAvatar = (about) => {
   return null;
 };
 
-export const validateUsername = (username) => {
+export const validateUsername = (username: string) => {
   const usernameRegex = /^[a-zA-Z0-9]+$/g;
 
   return usernameRegex.test(username);

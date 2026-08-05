@@ -26,7 +26,7 @@ export const shouldPrefetchImages = () => {
   }
 };
 
-export const generateSignature = (media, privateKey) => {
+export const generateSignature = (media: any, privateKey: string) => {
   const STRING = 'ImageSigningChallenge';
   const prefix = Buffer.from(STRING);
 
@@ -34,7 +34,8 @@ export const generateSignature = (media, privateKey) => {
   const dataBs64 = media.data.substring(commaIdx + 1);
   const data = Buffer.from(dataBs64, 'base64');
 
-  const hash = CryptoJS.SHA256(prefix, data);
+  // CryptoJS coerces the Buffers; the produced signature is what imagehoster accepts
+  const hash = CryptoJS.SHA256(prefix as any, data as any);
   const buffer = Buffer.from(hash.toString(CryptoJS.enc.Hex), 'hex');
   const array = new Uint8Array(buffer);
   const key = PrivateKey.fromString(privateKey);
@@ -42,7 +43,7 @@ export const generateSignature = (media, privateKey) => {
   return key.sign(Buffer.from(array)).toString();
 };
 
-export const catchEntryImage = (entry, width = 0, height = 0, format = 'match') => {
+export const catchEntryImage = (entry: any, width = 0, height = 0, format = 'match') => {
   // return from json metadata if exists
   let meta;
 
@@ -82,7 +83,7 @@ export const catchEntryImage = (entry, width = 0, height = 0, format = 'match') 
   return null;
 };
 
-export const catchDraftImage = (body, format = 'match', thumbnail = false) => {
+export const catchDraftImage = (body: any, format = 'match', thumbnail = false) => {
   const imgRegex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|heic|webp))/gim;
 
   if (body && imgRegex.test(body)) {
@@ -96,7 +97,7 @@ export const catchDraftImage = (body, format = 'match', thumbnail = false) => {
 };
 
 // get the image from meta data
-export const catchImageFromMetadata = (meta, format = 'match', thumbnail = false) => {
+export const catchImageFromMetadata = (meta: any, format = 'match', thumbnail = false) => {
   if (meta && meta.image) {
     const images = meta.image;
     // console.log('images : ',images);
@@ -109,7 +110,7 @@ export const catchImageFromMetadata = (meta, format = 'match', thumbnail = false
   return null;
 };
 
-export const getResizedImage = (url, size = 600, format = 'match') => {
+export const getResizedImage = (url: any, size = 600, format = 'match') => {
   // TODO: implement fallback onError, for imagehoster is down case
   if (!url) {
     return '';
@@ -117,7 +118,7 @@ export const getResizedImage = (url, size = 600, format = 'match') => {
   return proxifyImageSrc(url, size, 0, format);
 };
 
-export const getResizedAvatar = (author, sizeString = 'small') => {
+export const getResizedAvatar = (author: any, sizeString = 'small') => {
   if (!author) {
     return '';
   }

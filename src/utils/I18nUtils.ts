@@ -4,7 +4,7 @@ import rtlDetect from 'rtl-detect';
 
 export const isRTL = () => I18nManager.isRTL;
 
-export const languageRestart = (prevLang, lang, intl) => {
+export const languageRestart = (prevLang: string, lang: string, intl: any) => {
   if (prevLang != lang) {
     // if selected lang is RTL, switch the layout
     if (rtlDetect.isRtlLang(lang)) {

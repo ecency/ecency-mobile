@@ -1,16 +1,22 @@
-export const vestsToHp = (vests, hivePerMVests) => {
+export const vestsToHp = (
+  vests: string | number | null | undefined,
+  hivePerMVests: number | null | undefined,
+) => {
   if (!vests || !hivePerMVests) {
     return 0;
   }
 
-  return (parseFloat(vests) / 1e6) * hivePerMVests;
+  return (parseFloat(String(vests)) / 1e6) * hivePerMVests;
 };
 
-export const hpToVests = (hp, hivePerMVests) => {
+export const hpToVests = (
+  hp: string | number | null | undefined,
+  hivePerMVests: number | null | undefined,
+) => {
   if (!hp || !hivePerMVests) {
     return 0;
   }
-  return (parseFloat(hp) * 1e6) / hivePerMVests;
+  return (parseFloat(String(hp)) * 1e6) / hivePerMVests;
 };
 
 export const vestsToRshares = (vests: number, votingPower: number, weight: number) => {
