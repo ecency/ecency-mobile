@@ -9,13 +9,13 @@ import { Icon } from '../../icon';
 // Styles
 import styles from './containerHeaderStyles';
 
-class ContainerHeaderView extends PureComponent {
+class ContainerHeaderView extends PureComponent<any, any> {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    title            - Renderable title for header.
    *
    */
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }

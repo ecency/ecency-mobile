@@ -193,7 +193,7 @@ export const ComposeTranslateModal = ({ payload }: SheetProps<SheetNames.COMPOSE
             defaultText={languageDisplayName(source)}
             isHasChildIcon
             noHighlight
-            onSelect={(index) => setSource(LIBRETRANSLATE_CODES[index])}
+            onSelect={(index: any) => setSource(LIBRETRANSLATE_CODES[index])}
             options={sourceOptions}
             textStyle={styles.dropdownRowTextStyle}
             disableFrameAdjustment={true}
@@ -208,7 +208,7 @@ export const ComposeTranslateModal = ({ payload }: SheetProps<SheetNames.COMPOSE
             defaultText={languageDisplayName(target)}
             isHasChildIcon
             noHighlight
-            onSelect={(index) => setTarget(targetCodes[index])}
+            onSelect={(index: any) => setTarget(targetCodes[index])}
             options={targetOptions}
             textStyle={styles.dropdownRowTextStyle}
             disableFrameAdjustment={true}

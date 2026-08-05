@@ -7,7 +7,6 @@ import {
   Text,
   TouchableOpacity,
   Keyboard,
-  TextInput as RNTextInput,
 } from 'react-native';
 import { Image as ExpoImage } from 'expo-image';
 import Popover from 'react-native-popover-view';
@@ -29,17 +28,17 @@ export interface FormInputHandle {
   blur: () => void;
 }
 
-interface Props extends TextInputProps {
-  type: string;
-  isFirstImage: boolean;
+interface Props extends Omit<TextInputProps, 'onChange'> {
+  type?: string;
+  isFirstImage?: boolean;
   isEditable?: boolean;
   leftIconName?: string;
   rightIconName?: string;
   iconType?: string;
-  wrapperStyle: ViewStyle;
-  height: number;
-  inputStyle: TextStyle;
-  isValid: boolean;
+  wrapperStyle?: ViewStyle;
+  height?: number;
+  inputStyle?: TextStyle;
+  isValid?: boolean;
   rightInfoIcon?: boolean;
   errorInfo?: string;
   onChange?: (value: string) => void;
@@ -73,8 +72,8 @@ const FormInputView = forwardRef<FormInputHandle, Props>(
     },
     ref,
   ) => {
-    const inputRef = useRef<RNTextInput>(null);
-    const popoverRef = useRef(null);
+    const inputRef = useRef<any>(null);
+    const popoverRef = useRef<any>(null);
 
     const [popoverVisible, setPopoverVisible] = useState(false);
     const [inputBorderColor, setInputBorderColor] = useState('#e7e7e7');
@@ -220,7 +219,7 @@ const FormInputView = forwardRef<FormInputHandle, Props>(
         <View style={styles.textInput}>
           <TextInput
             innerRef={inputRef}
-            style={inputStyle}
+            style={inputStyle as any}
             onFocus={_handleOnFocus}
             onBlur={_handleOnBlur}
             autoCapitalize="none"
@@ -228,7 +227,7 @@ const FormInputView = forwardRef<FormInputHandle, Props>(
             height={height}
             placeholder={placeholder}
             editable={isEditable}
-            textContentType={type}
+            textContentType={type as any}
             onChangeText={_handleOnChange}
             defaultValue={initialText}
             placeholderTextColor={isDarkTheme ? '#526d91' : '#788187'}

@@ -221,7 +221,7 @@ const ensureHasConnection = (forceReconnect = false) => {
       .then(() => {
         console.log('has status', HAS.status());
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.warn('HAS connection failed, will retry on next use:', err);
         _hasConnectionPromise = null; // allow retry on failure
       });
@@ -409,9 +409,14 @@ export const useHiveAuth = () => {
       messageObj.signatures = [authRes.data.challenge.challenge];
       const hsCode = btoa(JSON.stringify(messageObj));
 
-      const accountData = await loginWithHiveAuth(hsCode, auth.key, auth.expire, auth.token);
+      const accountData = await loginWithHiveAuth(
+        hsCode,
+        auth.key,
+        auth.expire,
+        (auth as any).token,
+      );
 
-      if (!auth.token) {
+      if (!(auth as any).token) {
         console.warn(
           '[HiveAuth] auth.token not set after authenticate; session reuse may not work',
         );
@@ -430,7 +435,7 @@ export const useHiveAuth = () => {
 
       return true;
     } catch (error) {
-      setStatusText(intl.formatMessage({ id: error?.message || 'hiveauth.auth_fail' }));
+      setStatusText(intl.formatMessage({ id: (error as any)?.message || 'hiveauth.auth_fail' }));
       setStatus(HiveAuthStatus.ERROR);
 
       console.warn('Login failed', error);
@@ -743,7 +748,9 @@ export const useHiveAuth = () => {
       return res;
     } catch (error) {
       setStatus(HiveAuthStatus.ERROR);
-      setStatusText(intl.formatMessage({ id: error?.message || 'hiveauth.transaction_fail' }));
+      setStatusText(
+        intl.formatMessage({ id: (error as any)?.message || 'hiveauth.transaction_fail' }),
+      );
 
       console.warn('Transaction failed', error);
       Sentry.captureException(error);

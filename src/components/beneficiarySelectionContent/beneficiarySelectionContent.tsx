@@ -8,7 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import styles from './styles';
 
 import { CheckBox, FormInput, IconButton, TextButton } from '..';
-import type { FormInputHandle } from '../formInput';
+import type {} from '../formInput';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setBeneficiaries as setBeneficiariesAction } from '../../redux/actions/editorActions';
 import { toastNotification } from '../../redux/actions/uiAction';
@@ -64,7 +64,7 @@ const BeneficiarySelectionContent = ({
     { account: username, weight: 10000, autoPowerUp: false },
   ]);
 
-  const weightInputRef = useRef<FormInputHandle>(null);
+  const weightInputRef = useRef<any>(null);
 
   const [newUsername, setNewUsername] = useState('');
   const [newWeight, setNewWeight] = useState(0);
@@ -156,7 +156,9 @@ const BeneficiarySelectionContent = ({
 
     if (beneficiariesMap && beneficiariesMap[_draftId]) {
       const _cachedBenef = beneficiariesMap[_draftId];
-      const _filteredBenef = _cachedBenef.filter((bene) => !isThreeSpeakBeneficiary(bene.account));
+      const _filteredBenef = _cachedBenef.filter(
+        (bene: any) => !isThreeSpeakBeneficiary(bene.account),
+      );
       savedBeneficiareis = [...savedBeneficiareis, ..._filteredBenef];
     }
 
@@ -240,7 +242,7 @@ const BeneficiarySelectionContent = ({
     });
   }, 1000);
 
-  const _onUsernameInputChange = (value) => {
+  const _onUsernameInputChange = (value: any) => {
     setNewUsername(value);
     _lookupAccounts(value);
   };
@@ -358,7 +360,7 @@ const BeneficiarySelectionContent = ({
     </View>
   );
 
-  const _handleCheckboxClick = (value, isCheck) => {
+  const _handleCheckboxClick = (value: any, isCheck: any) => {
     setNewAutoPowerUp(isCheck);
   };
   const _renderCheckBox = ({ locked, isChecked }: { locked: boolean; isChecked: boolean }) => (
@@ -367,7 +369,7 @@ const BeneficiarySelectionContent = ({
         locked={locked}
         isChecked={isChecked}
         clicked={_handleCheckboxClick}
-        value={newAutoPowerUp}
+        value={newAutoPowerUp as any}
       />
     </View>
   );
@@ -404,7 +406,7 @@ const BeneficiarySelectionContent = ({
             isFirstImage
             returnKeyType="done"
             value={newUsername}
-            onSubmitEditing={isWeightValid && isUsernameValid && _onSavePress}
+            onSubmitEditing={(isWeightValid && isUsernameValid && _onSavePress) as any}
             inputStyle={styles.usernameInput}
             wrapperStyle={styles.usernameFormInputWrapper}
           />
@@ -452,7 +454,7 @@ const BeneficiarySelectionContent = ({
     </>
   );
 
-  const _renderItem = (item, index) => {
+  const _renderItem = (item: any, index: any) => {
     const _isCurrentUser = item.account === username;
 
     const _onRemovePress = () => {

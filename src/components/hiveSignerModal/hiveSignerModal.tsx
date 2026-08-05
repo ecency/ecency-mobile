@@ -13,7 +13,7 @@ import AUTH_TYPE from '../../constants/authType';
 import { useAppSelector } from '../../hooks';
 import { selectCurrentAccount } from '../../redux/selectors';
 
-export const HiveSignerModal = ({ route, navigation }) => {
+export const HiveSignerModal = ({ route, navigation }: any) => {
   const intl = useIntl();
   const hiveAuth = useHiveAuth();
   const currentAccount = useAppSelector(selectCurrentAccount);
@@ -137,7 +137,7 @@ export const HiveSignerModal = ({ route, navigation }) => {
   // Render HiveAuth status for HiveAuth operations
   if (isHiveAuthOperation) {
     return (
-      <SafeAreaView style={styles.container} edges={_safeAreaEdges}>
+      <SafeAreaView style={styles.container} edges={_safeAreaEdges as any}>
         <ModalHeader
           title={intl.formatMessage({ id: 'hiveauth.title' })}
           isCloseButton={true}
@@ -159,7 +159,7 @@ export const HiveSignerModal = ({ route, navigation }) => {
 
   // Render HiveSigner WebView for HiveSigner operations
   return (
-    <SafeAreaView style={styles.container} edges={_safeAreaEdges}>
+    <SafeAreaView style={styles.container} edges={_safeAreaEdges as any}>
       <ModalHeader
         title={intl.formatMessage({ id: 'qr.confirmTransaction' })}
         isCloseButton={true}

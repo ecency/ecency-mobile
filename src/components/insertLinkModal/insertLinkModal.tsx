@@ -39,11 +39,11 @@ export const InsertLinkModal = forwardRef(
     const [selectedUrlType, setSelectedUrlType] = useState(0);
     const [previewBody, setPreviewBody] = useState('');
 
-    const labelInputRef = useRef(null);
-    const urlInputRef = useRef(null);
+    const labelInputRef = useRef<any>(null);
+    const urlInputRef = useRef<any>(null);
 
     useImperativeHandle(ref, () => ({
-      showModal: async ({ selectedText, selection }) => {
+      showModal: async ({ selectedText, selection }: any) => {
         if (selectedText) {
           setSelection(selection);
           if (selection && selection.start !== selection.end) {
@@ -94,15 +94,15 @@ export const InsertLinkModal = forwardRef(
       }
     };
 
-    const _setFormattedTextAndSelection = ({ text }) => {
+    const _setFormattedTextAndSelection = ({ text }: any) => {
       setPreviewBody(renderPostBody(text, true, false));
       setFormattedText(text);
     };
 
-    const _handleLabelChange = (text) => {
+    const _handleLabelChange = (text: any) => {
       setLabel(text);
     };
-    const _handleUrlChange = (text) => {
+    const _handleUrlChange = (text: any) => {
       setUrl(text.trim());
     };
 
@@ -197,7 +197,7 @@ export const InsertLinkModal = forwardRef(
           })}
         </Text>
         <TextInput
-          style={[styles.input, selectedUrlType !== 0 && styles.disabled]}
+          style={[styles.input, selectedUrlType !== 0 && styles.disabled] as any}
           value={label}
           onChangeText={_handleLabelChange}
           placeholder={intl.formatMessage({

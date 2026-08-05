@@ -9,7 +9,7 @@ import getWindowDimensions from '../../../utils/getWindowDimensions';
 // Styles
 import styles from './percentBarStyles';
 
-class PercentBarView extends PureComponent {
+class PercentBarView extends PureComponent<any, any> {
   /* Props
    * ------------------------------------------------
    *   @prop { string }    barColor                - Bar color proferties

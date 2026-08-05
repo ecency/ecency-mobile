@@ -7,9 +7,9 @@ import styles from './horizontalIconListStyles';
 
 import { IconButton, PopoverWrapper } from '..';
 
-const HorizontalIconList = ({ options, optionsKeys }) => {
+const HorizontalIconList = ({ options, optionsKeys }: any) => {
   const intl = useIntl();
-  const _getTranslation = (id) => {
+  const _getTranslation = (id: any) => {
     let translation;
 
     try {
@@ -20,9 +20,9 @@ const HorizontalIconList = ({ options, optionsKeys }) => {
 
     return translation;
   };
-  const _renderItem = ({ item }) => (
+  const _renderItem = ({ item }: any) => (
     <PopoverWrapper text={_getTranslation(get(options[get(item, 'type')], 'descriptionKey'))}>
-      <View styles={styles.iconWrapper} key={get(item, 'type')}>
+      <View key={get(item, 'type')}>
         <View style={styles.iconWrapper}>
           <IconButton
             iconStyle={styles.icon}

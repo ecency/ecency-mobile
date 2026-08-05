@@ -7,7 +7,7 @@ import LOGO from '../../assets/ecency_logo_transparent.png';
 import styles from './logoStyles';
 import globalStyles from '../../globalStyles';
 
-const Logo = (props) => (
+const Logo = (props: any) => (
   <View style={globalStyles.container}>
     <Image
       source={props.source ? props.source : LOGO}

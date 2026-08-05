@@ -16,7 +16,7 @@ import { LineBreak } from '../../basicUIElements';
 import styles from './loginHeaderStyles';
 import { IconButton } from '../..';
 
-const LoginHeaderView = ({ description, isKeyboardOpen, title, onBackPress }) => {
+const LoginHeaderView = ({ description, isKeyboardOpen, title, onBackPress }: any) => {
   // Shared value to track animation progress
   const progress = useSharedValue(isKeyboardOpen ? 0 : 1);
 
@@ -38,7 +38,7 @@ const LoginHeaderView = ({ description, isKeyboardOpen, title, onBackPress }) =>
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <View styles={styles.container}>
+      <View>
         <View style={styles.headerRow}>
           <View style={styles.backIconContainer}>
             <IconButton

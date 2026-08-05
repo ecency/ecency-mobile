@@ -8,7 +8,7 @@ const FormattedCurrency = ({
   currency,
   isApproximate = false,
   isToken = false,
-}) => {
+}: any) => {
   const { currencyRate, currencySymbol } = currency;
   const valueInCurrency = value * (isToken ? 1 : currencyRate);
   const toFixedValue = valueInCurrency.toFixed(fixAt);
@@ -20,7 +20,7 @@ const FormattedCurrency = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   currency: selectCurrency(state),
 });
 

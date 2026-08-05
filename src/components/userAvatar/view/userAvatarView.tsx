@@ -25,7 +25,7 @@ import DEFAULT_IMAGE from '../../../assets/avatar_default.png';
 interface UserAvatarProps {
   username: string;
   avatarUrl?: string;
-  size?: 'xl' | 'xxl';
+  size?: string;
   style?: ViewStyle;
   disableSize?: boolean;
   noAction?: boolean;

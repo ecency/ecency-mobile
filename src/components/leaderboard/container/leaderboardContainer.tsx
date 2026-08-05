@@ -36,8 +36,8 @@ const LeaderboardContainer = () => {
     if (selectedIndex !== 0 || !Array.isArray(data)) {
       return data;
     }
-    const done = [];
-    const rest = [];
+    const done: any[] = [];
+    const rest: any[] = [];
     data.forEach((item) => (item?.quests_done ? done : rest).push(item));
     return [...done, ...rest];
   }, [leaderboardQuery.data, selectedIndex]);
@@ -56,7 +56,7 @@ const LeaderboardContainer = () => {
     }
   }, [leaderboardQuery.error, leaderboardQuery.isFetching, dispatch, intl]);
 
-  const _handleOnUserPress = (username) => {
+  const _handleOnUserPress = (username: any) => {
     SheetManager.show(SheetNames.QUICK_PROFILE, {
       payload: {
         username,
@@ -64,7 +64,7 @@ const LeaderboardContainer = () => {
     });
   };
 
-  const _fetchLeaderBoard = (selectedFilter, index) => {
+  const _fetchLeaderBoard = (selectedFilter: any, index: any) => {
     // pull-to-refresh: no args → refetch the active query directly so its
     // isFetching cycle drives the spinner. The previous code invalidated a
     // mismatched key so isFetching never flipped and the spinner stuck.

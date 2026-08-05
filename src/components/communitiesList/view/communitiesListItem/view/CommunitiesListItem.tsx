@@ -23,7 +23,7 @@ const CommunitiesListItem = ({
   isLoggedIn,
   loading,
   screen,
-}) => {
+}: any) => {
   const intl = useIntl();
 
   const _handleSubscribeButtonPress = () => {

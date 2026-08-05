@@ -14,8 +14,8 @@ const CommunitiesList = ({
   screen,
   isDiscoversLoading,
   listRef,
-}) => {
-  const _renderItem = ({ item, index }) => {
+}: any) => {
+  const _renderItem = ({ item, index }: any) => {
     return (
       <CommunitiesListItem
         index={index}

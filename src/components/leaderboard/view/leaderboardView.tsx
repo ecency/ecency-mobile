@@ -13,14 +13,14 @@ import FILTER_OPTIONS, { VALUE } from '../../../constants/options/leaderboard';
 import styles from './leaderboardStyles';
 import EmptyScreenView from '../../basicUIElements/view/emptyScreen/emptyScreenView';
 
-class LeaderboardView extends PureComponent {
+class LeaderboardView extends PureComponent<any, any> {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
 
   // Component Functions
-  _renderItem = ({ item, index }) => {
+  _renderItem = ({ item, index }: any) => {
     const { handleOnUserPress, intl, selectedIndex } = this.props;
 
     return (
@@ -66,10 +66,8 @@ class LeaderboardView extends PureComponent {
     return (
       <Fragment>
         <FilterBar
-          dropdownIconName="arrow-drop-down"
           options={VALUE.map((val) => intl.formatMessage({ id: `leaderboard.${val}` }))}
           selectedOptionIndex={selectedIndex}
-          defaultText={intl.formatMessage({ id: `leaderboard.${VALUE[0]}` })}
           onDropdownSelect={(selectedIndexM) =>
             fetchLeaderBoard(FILTER_OPTIONS[selectedIndexM], selectedIndexM)
           }

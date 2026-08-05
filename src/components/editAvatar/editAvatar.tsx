@@ -5,7 +5,7 @@ import { IconButton } from '../iconButton';
 // Styles
 import styles from './editAvatarStyles';
 
-const EditAvatar = ({ username, avatarUrl, showImageUploadActions, isUploading }) => {
+const EditAvatar = ({ username, avatarUrl, showImageUploadActions, isUploading }: any) => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.wrapper}>

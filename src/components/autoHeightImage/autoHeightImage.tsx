@@ -34,7 +34,7 @@ export const AutoHeightImage = ({
   enableViewabilityTracker,
   onPress,
 }: AutoHeightImageProps) => {
-  const imgRef = useRef<ExpoImage>(null);
+  const imgRef = useRef<any>(null);
 
   const { isHidden, reveal } = useImageReveal(imgUrl);
 
@@ -55,7 +55,7 @@ export const AutoHeightImage = ({
   const _initialHeight = useMemo(() => {
     let _height = contentWidth / (aspectRatio || 16 / 9);
     if (metadata && metadata.image && metadata.image_ratios) {
-      metadata.image_ratios.forEach((_ratio, index) => {
+      metadata.image_ratios.forEach((_ratio: any, index: any) => {
         const url = metadata.image[index];
 
         // make sure ratio is of the target image proxified source
@@ -128,7 +128,7 @@ export const AutoHeightImage = ({
     opacity: 1,
   };
 
-  const _onLoad = (evt) => {
+  const _onLoad = (evt: any) => {
     const _isAnimated = evt.source.isAnimated;
     if (!hasSetBounds.current) {
       _setImageBounds(evt.source.width, evt.source.height);

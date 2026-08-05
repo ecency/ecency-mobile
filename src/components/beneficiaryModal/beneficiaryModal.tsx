@@ -9,7 +9,7 @@ import { lookupAccountsQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { FormInput, MainButton, TextButton } from '..';
-import type { FormInputHandle } from '../formInput';
+import type {} from '../formInput';
 
 import styles from './beneficiaryModalStyles';
 import IconButton from '../iconButton';
@@ -23,7 +23,7 @@ interface BeneficiaryModal {
   handleOnSaveBeneficiaries: () => void;
 }
 
-const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
+const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }: any) => {
   const intl = useIntl();
   const queryClient = useQueryClient();
 
@@ -33,7 +33,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
     { account: username, weight: 10000, isValid: true },
   ]);
 
-  const weightInputRef = useRef<FormInputHandle>(null);
+  const weightInputRef = useRef<any>(null);
 
   const [newUsername, setNewUsername] = useState('');
   const [newWeight, setNewWeight] = useState(0);
@@ -84,7 +84,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
     setNewEditable(true);
   };
 
-  const _onWeightInputChange = (value) => {
+  const _onWeightInputChange = (value: any) => {
     const parsed = parseInt(value, 10);
     const numericText = Number.isFinite(parsed) && parsed >= 0 ? `${parsed}` : '';
     if (numericText !== value) {
@@ -109,7 +109,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
     });
   }, 1000);
 
-  const _onUsernameInputChange = (value) => {
+  const _onUsernameInputChange = (value: any) => {
     setNewUsername(value);
     _lookupAccounts(value);
   };
@@ -215,7 +215,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
     </>
   );
 
-  const _renderItem = ({ item, index }) => {
+  const _renderItem = ({ item, index }: any) => {
     const _isCurrentUser = item.account === username;
 
     const _onRemovePress = () => {

@@ -26,7 +26,7 @@ const CommentsTabContent = ({
   const intl = useIntl();
   const queryClient = useQueryClient();
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
   const [lastAuthor, setLastAuthor] = useState('');
   const [lastPermlink, setLastPermlink] = useState('');
   const [loading, setLoading] = useState(false);

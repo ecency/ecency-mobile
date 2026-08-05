@@ -23,7 +23,7 @@ import { MainButton } from '../mainButton';
 interface ProfileEditFormProps {
   coverUrl: string;
   formData: any;
-  handleOnItemChange: () => void;
+  handleOnItemChange: (value?: any, key?: any) => void;
   handleOnSubmit: ({ goBack }: { goBack: boolean }) => void;
   intl: any;
   isDarkTheme: boolean;
@@ -63,7 +63,7 @@ const ProfileEditFormView = ({
           <TouchableOpacity
             disabled={isUploading}
             style={styles.coverImgWrapper}
-            onPress={showImageUploadActions}
+            onPress={showImageUploadActions as any}
           >
             <ExpoImage
               style={styles.coverImg}
@@ -77,14 +77,14 @@ const ProfileEditFormView = ({
               isLoading={isUploading}
               iconStyle={styles.addIcon}
               style={styles.addButton}
-              onPress={showImageUploadActions}
+              onPress={showImageUploadActions as any}
               iconType="MaterialIcons"
               name="edit"
               size={18}
             />
           </TouchableOpacity>
         </View>
-        {formData.map((item) => (
+        {formData.map((item: any) => (
           <View style={styles.formItem} key={item.valueKey}>
             <Text style={styles.label}>
               {intl.formatMessage({
@@ -99,7 +99,7 @@ const ProfileEditFormView = ({
               placeholder={item.placeholder}
               isEditable
               type="none"
-              value={props[item.valueKey]}
+              value={(props as any)[item.valueKey]}
               inputStyle={styles.input}
             />
           </View>

@@ -43,9 +43,9 @@ const DraftListItemView = ({
   handleLongPress,
   isSelected,
   batchSelectionActive,
-}) => {
-  const actionSheet = useRef(null);
-  const moveActionSheet = useRef(null);
+}: any) => {
+  const actionSheet = useRef<any>(null);
+  const moveActionSheet = useRef<any>(null);
   const [deleteRequested, setIsDeleteRequested] = useState(false);
   const [cloneRequested, setIsCloneRequested] = useState(false);
 

@@ -17,7 +17,7 @@ import { TextWithIcon } from '../../basicUIElements';
 import styles from './commentStyles';
 import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
-import { PostTypes } from '../../../constants/postTypes';
+
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import { PostPoll } from '../../postPoll';
 import { ContentType } from '../../../providers/hive/hive.types';
@@ -123,7 +123,7 @@ const CommentView = ({
     });
   }, [isLoggedIn, comment]);
 
-  const _openProfilePage = useCallback((username) => {
+  const _openProfilePage = useCallback((username: any) => {
     if (!username) {
       return;
     }
@@ -193,7 +193,6 @@ const CommentView = ({
         <UpvoteButton
           content={comment}
           isShowPayoutValue={true}
-          parentType={PostTypes.COMMENT}
           onUpvotePress={(sourceRef, onVotingStart) => {
             onUpvotePress({ content: comment, sourceRef, onVotingStart });
           }}

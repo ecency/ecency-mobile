@@ -48,7 +48,7 @@ const render = (imgUrl = IMG_URL) => {
 
 // expo-image is globally mocked to the host component 'Image' (see jest.setup).
 const imageCount = (tree: TestRenderer.ReactTestRenderer) =>
-  tree.root.findAllByType('Image').length;
+  tree.root.findAllByType('Image' as any).length;
 
 describe('AutoHeightImage — "Show Images" gating', () => {
   beforeEach(() => {
@@ -69,7 +69,7 @@ describe('AutoHeightImage — "Show Images" gating', () => {
   it('renders a tappable placeholder in place of the hidden image', () => {
     setHideImages(true);
     const tree = render();
-    expect(tree.root.findAllByType('Icon').length).toBe(1);
+    expect(tree.root.findAllByType('Icon' as any).length).toBe(1);
   });
 
   it('loads the image once its placeholder is tapped', () => {

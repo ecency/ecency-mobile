@@ -21,12 +21,12 @@ const CommentsDisplayView = forwardRef(
       handleOnVotersPress,
       handleOnReplyPress,
       handleOnCommentsLoaded,
-    },
+    }: any,
     ref,
   ) => {
     const intl = useIntl();
 
-    const writeCommentRef = useRef(null);
+    const writeCommentRef = useRef<any>(null);
 
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
@@ -40,7 +40,7 @@ const CommentsDisplayView = forwardRef(
       },
     }));
 
-    const _handleOnDropdownSelect = (option, index) => {
+    const _handleOnDropdownSelect = (option: any, index: any) => {
       setSelectedFilter(option);
       setSelectedOptionIndex(index);
     };
@@ -50,9 +50,7 @@ const CommentsDisplayView = forwardRef(
         {postContentView && postContentView}
         {!isLoading && (
           <FilterBar
-            dropdownIconName="arrow-drop-down"
             options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
-            defaultText={intl.formatMessage({ id: `comment_filter.${VALUE[0]}` })}
             onDropdownSelect={(selectedIndex) =>
               _handleOnDropdownSelect(COMMENT_FILTER[selectedIndex], selectedIndex)
             }

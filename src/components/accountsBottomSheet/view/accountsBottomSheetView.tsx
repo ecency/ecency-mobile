@@ -48,8 +48,8 @@ const AccountsBottomSheet = forwardRef(
     }: AccountsBottomSheetProps,
     ref,
   ) => {
-    const bottomSheetModalRef = useRef();
-    const userList = useRef();
+    const bottomSheetModalRef = useRef<any>(null);
+    const userList = useRef<any>(null);
     const insets = useSafeAreaInsets();
     const intl = useIntl();
 
@@ -83,7 +83,7 @@ const AccountsBottomSheet = forwardRef(
       }
     };
 
-    const _renderAccountTile = ({ item }) => {
+    const _renderAccountTile = ({ item }: any) => {
       const authType = get(item, 'local.authType') || get(item, 'authType') || undefined;
       const loginMethodIcon = _renderLoginMethodIcon(authType);
       const isCurrentAccount = get(currentAccount, 'name') === item.username;
@@ -108,13 +108,13 @@ const AccountsBottomSheet = forwardRef(
       );
     };
 
-    const _handlePressLoggedOutAccountTile = (item) => {
+    const _handlePressLoggedOutAccountTile = (item: any) => {
       if (item && item?.isLoggedOut === true) {
         navigateToRoute(ROUTES.SCREENS.LOGIN, { username: item?.username || '' });
       }
     };
 
-    const _renderLoggedOutAccountTile = ({ item }) => {
+    const _renderLoggedOutAccountTile = ({ item }: any) => {
       if (
         item &&
         item?.isLoggedOut === true &&
@@ -159,7 +159,7 @@ const AccountsBottomSheet = forwardRef(
             ref={userList}
             scrollEnabled
             keyExtractor={(item, index) => `${item.name || item.username}${index}`}
-            renderItem={_renderLoggedOutAccountTile}
+            renderItem={_renderLoggedOutAccountTile as any}
             nestedScrollEnabled={true}
             onScrollEndDrag={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
             onScrollAnimationEnd={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
@@ -169,7 +169,7 @@ const AccountsBottomSheet = forwardRef(
       ) : null;
 
     // update previously loggedIn users list,
-    const _removePrevLoggedInUsersList = (username) => {
+    const _removePrevLoggedInUsersList = (username: any) => {
       if (prevLoggedInUsers && prevLoggedInUsers.length > 0) {
         const userIndex = prevLoggedInUsers.findIndex((el) => el?.username === username);
         if (userIndex > -1) {
@@ -240,7 +240,7 @@ const AccountsBottomSheet = forwardRef(
       <ActionSheet
         ref={bottomSheetModalRef}
         gestureEnabled={true}
-        hideUnderlay
+        {...({ hideUnderlay: true } as any)}
         containerStyle={styles.sheetContent}
         indicatorStyle={styles.sheetIndicator}
       >

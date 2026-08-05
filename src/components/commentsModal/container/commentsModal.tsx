@@ -15,12 +15,12 @@ import styles from '../styles/commentsModal.styles';
  */
 
 export const CommentsModal = forwardRef((_, ref) => {
-  const bottomSheetModalRef = useRef<ActionSheet | null>(null);
+  const bottomSheetModalRef = useRef<any>(null);
 
   const [comments, setComments] = useState<any>(null);
 
   useImperativeHandle(ref, () => ({
-    show: (_comments) => {
+    show: (_comments: any) => {
       if (bottomSheetModalRef.current) {
         setComments(_comments);
         bottomSheetModalRef.current.show();
@@ -43,7 +43,7 @@ export const CommentsModal = forwardRef((_, ref) => {
     <ActionSheet
       ref={bottomSheetModalRef}
       gestureEnabled={true}
-      hideUnderlay={true}
+      {...({ hideUnderlay: true } as any)}
       containerStyle={styles.sheetContent}
       indicatorStyle={styles.indicator}
     >

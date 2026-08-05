@@ -55,7 +55,7 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps) => {
             <MainButton
               key={props.text}
               text={props.textId ? intl.formatMessage({ id: props.textId }) : props.text}
-              onPress={(evn) => {
+              onPress={(evn: any) => {
                 onClose(props.returnValue ?? props.textId ?? props.text);
                 props.onPress?.(evn);
               }}

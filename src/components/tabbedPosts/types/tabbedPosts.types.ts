@@ -9,11 +9,15 @@ export interface TabbedPostsProps {
   feedUsername: string;
   selectedOptionIndex: number;
   pageType: 'main' | 'community' | 'profile' | 'ownProfile';
-  tag: string;
-  forceLoadPosts: boolean;
+  // absent on profile pages; the container falls back to ''
+  tag?: string;
+  // optional: the feed screen omits both; the tab content guards the callback
+  forceLoadPosts?: boolean;
+  changeForceLoadPostState?: (value: boolean) => void;
+  onChangeTab?: (event: any) => void;
   tabContentOverrides?: Map<number, any>;
   pinnedPermlink?: string;
-  handleOnScroll: (event?: any) => void;
+  handleOnScroll?: (event?: any) => void;
 }
 
 export interface PostsTabContentProps {
