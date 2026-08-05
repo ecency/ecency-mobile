@@ -24,9 +24,9 @@ import {
 interface VideoPlayerProps {
   mode: 'uri' | 'youtube';
   contentWidth?: number;
-  youtubeVideoId?: string;
+  youtubeVideoId?: string | null;
   startTime?: number;
-  uri?: string;
+  uri?: string | null;
   // prop for youtube player
   disableAutoplay?: boolean;
   // thumbnail URL used to detect portrait video orientation

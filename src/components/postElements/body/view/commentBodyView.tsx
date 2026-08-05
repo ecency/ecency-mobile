@@ -25,8 +25,8 @@ interface CommentBodyProps {
   permlink?: string;
   commentDepth: number;
   hideContent: boolean;
-  handleOnUserPress: () => void;
-  handleOnPostPress: () => void;
+  handleOnUserPress: (username?: any) => void;
+  handleOnPostPress: (permlink?: any, author?: any) => void;
   handleVideoPress: () => void;
   handleYoutubePress: () => void;
   handleImagePress: () => void;
@@ -85,7 +85,7 @@ const CommentBody = ({
     }
   };
 
-  const _handleOnPostPress = (permlink, author) => {
+  const _handleOnPostPress = (permlink: any, author: any) => {
     if (handleOnPostPress) {
       handleOnPostPress(permlink, author);
       return;
@@ -102,7 +102,7 @@ const CommentBody = ({
     }
   };
 
-  const _handleOnUserPress = (username) => {
+  const _handleOnUserPress = (username: any) => {
     if (handleOnUserPress) {
       handleOnUserPress(username);
       return;

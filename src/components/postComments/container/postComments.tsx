@@ -8,7 +8,7 @@ import React, {
   useCallback,
   Fragment,
 } from 'react';
-import { ActivityIndicator, FlatList, Text } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { RefreshControl } from 'react-native-gesture-handler';
@@ -51,7 +51,7 @@ const PostComments = forwardRef(
       onUpvotePress,
       refreshing,
       setRefreshing,
-    },
+    }: any,
     ref,
   ) => {
     const intl = useIntl();
@@ -69,12 +69,12 @@ const PostComments = forwardRef(
     const discussionQuery = postQueries.useDiscussionQuery(author, permlink);
     const postsCachePrimer = postQueries.usePostsCachePrimer();
 
-    const writeCommentRef = useRef(null);
-    const postInteractionRef = useRef<typeof PostHtmlInteractionHandler | null>(null);
+    const writeCommentRef = useRef<any>(null);
+    const postInteractionRef = useRef<any>(null);
 
-    const commentsListRef = useRef<FlatList<any> | null>(null);
+    const commentsListRef = useRef<any>(null);
     const postOptionsModalRef = useRef<any>(null);
-    const viewabilityFrameRef = useRef<number | null>(null);
+    const viewabilityFrameRef = useRef<any>(null);
 
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
@@ -94,7 +94,7 @@ const PostComments = forwardRef(
         return sortedSections;
       }
       return sortedSections.filter(
-        (item) => !hiddenCommentKeys.has(`${item.author}/${item.permlink}`),
+        (item: any) => !hiddenCommentKeys.has(`${item.author}/${item.permlink}`),
       );
     }, [isPostLoading, sortedSections, hiddenCommentKeys]);
 
@@ -137,14 +137,14 @@ const PostComments = forwardRef(
       }
     }, [discussionQuery.refetch, onRefresh, setRefreshing]);
 
-    const _handleOnDropdownSelect = useCallback((option, index) => {
+    const _handleOnDropdownSelect = useCallback((option: any, index: any) => {
       setSelectedFilter(option);
       setSelectedOptionIndex(index);
     }, []);
 
     const _handleOnVotersPress = useCallback(
-      (activeVotes, content) => {
-        navigation.navigate({
+      (activeVotes: any, content: any) => {
+        (navigation as any).navigate({
           name: ROUTES.SCREENS.VOTERS,
           params: {
             activeVotes,
@@ -157,8 +157,8 @@ const PostComments = forwardRef(
     );
 
     const _handleOnEditPress = useCallback(
-      (item) => {
-        navigation.navigate({
+      (item: any) => {
+        (navigation as any).navigate({
           name: ROUTES.SCREENS.EDITOR,
           key: `editor_edit_reply_${item.permlink}`,
           params: {
@@ -175,7 +175,13 @@ const PostComments = forwardRef(
     // its onDelete, so a handler that prompts again would ask twice for one
     // action, and let the user cancel the second after confirming the first.
     const _deleteCommentConfirmed = useCallback(
-      async (_permlink, _parentPermlink?, _parentAuthor?, _rootAuthor?, _rootPermlink?) => {
+      async (
+        _permlink: any,
+        _parentPermlink?: any,
+        _parentAuthor?: any,
+        _rootAuthor?: any,
+        _rootPermlink?: any,
+      ) => {
         const deletedKey = `${currentAccountName}/${_permlink}`;
         const extractErrorDetail = (error: any) => {
           const detail =
@@ -205,7 +211,7 @@ const PostComments = forwardRef(
           });
           console.log('deleted comment', `${currentAccountName}/${_permlink}`);
         } catch (err) {
-          const stillExists = !!discussionQuery.data?.[deletedKey];
+          const stillExists = !!(discussionQuery.data as any)?.[deletedKey];
           if (stillExists) {
             setHiddenCommentKeys((prev) => {
               const next = new Set(prev);
@@ -228,7 +234,13 @@ const PostComments = forwardRef(
     // Confirms, then mutates. Used by the inline delete button, which has no
     // confirmation of its own.
     const _handleDeleteComment = useCallback(
-      async (_permlink, _parentPermlink?, _parentAuthor?, _rootAuthor?, _rootPermlink?) => {
+      async (
+        _permlink: any,
+        _parentPermlink?: any,
+        _parentAuthor?: any,
+        _rootAuthor?: any,
+        _rootPermlink?: any,
+      ) => {
         const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
           payload: {
             title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
@@ -259,9 +271,9 @@ const PostComments = forwardRef(
     );
 
     const _openReplyThread = useCallback(
-      (comment) => {
+      (comment: any) => {
         postsCachePrimer.cachePost(comment);
-        navigation.navigate({
+        (navigation as any).navigate({
           name: ROUTES.SCREENS.POST,
           key: comment.permlink,
           params: {
@@ -273,7 +285,7 @@ const PostComments = forwardRef(
       [postsCachePrimer, navigation],
     );
 
-    const _handleOnUserPress = useCallback((username) => {
+    const _handleOnUserPress = useCallback((username: any) => {
       SheetManager.show(SheetNames.QUICK_PROFILE, {
         payload: {
           username,
@@ -286,7 +298,7 @@ const PostComments = forwardRef(
     // the error handling and deleted-key cache work this screen already owns.
     // Same arguments the inline delete button passes.
     const _handleDeleteFromMenu = useCallback(
-      (comment) =>
+      (comment: any) =>
         _deleteCommentConfirmed(
           comment.permlink,
           comment.parent_permlink,
@@ -297,7 +309,7 @@ const PostComments = forwardRef(
       [_deleteCommentConfirmed],
     );
 
-    const _handleShowOptionsMenu = useCallback((comment) => {
+    const _handleShowOptionsMenu = useCallback((comment: any) => {
       if (postOptionsModalRef.current) {
         postOptionsModalRef.current.show(comment);
       }
@@ -314,7 +326,7 @@ const PostComments = forwardRef(
       }
     }, []);
 
-    const _onScroll = useCallback((event) => {
+    const _onScroll = useCallback((event: any) => {
       if (viewabilityFrameRef.current !== null) {
         return;
       }
@@ -358,9 +370,7 @@ const PostComments = forwardRef(
 
           {!isPostLoading && (
             <FilterBar
-              dropdownIconName="arrow-drop-down"
               options={filterOptions}
-              defaultText={filterDefaultText}
               onDropdownSelect={handleFilterSelect}
               selectedOptionIndex={selectedOptionIndex}
             />
@@ -419,7 +429,7 @@ const PostComments = forwardRef(
     ]);
 
     const _renderItem = useCallback(
-      ({ item, index }) => {
+      ({ item, index }: any) => {
         return (
           <CommentsSection
             item={item}
@@ -438,7 +448,7 @@ const PostComments = forwardRef(
             handleYoutubePress={postInteractionRef.current?.handleYoutubePress}
             handleParaSelection={postInteractionRef.current?.handleParaSelection}
             openReplyThread={_openReplyThread}
-            onUpvotePress={(args) => onUpvotePress({ ...args, postType: PostTypes.COMMENT })}
+            onUpvotePress={(args: any) => onUpvotePress({ ...args, postType: PostTypes.COMMENT })}
           />
         );
       },
@@ -460,7 +470,7 @@ const PostComments = forwardRef(
       <Fragment>
         <FlashList
           ref={commentsListRef}
-          keyExtractor={(item) => `${item.author}/${item.permlink}`}
+          keyExtractor={(item: any) => `${item.author}/${item.permlink}`}
           contentContainerStyle={styles.listContent}
           ListHeaderComponent={_postContentView}
           ListEmptyComponent={_renderEmptyContent}

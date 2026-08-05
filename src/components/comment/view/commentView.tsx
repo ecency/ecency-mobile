@@ -48,7 +48,7 @@ const CommentView = ({
   handleParaSelection,
   onTagPress,
   onAuthorPress,
-}) => {
+}: any) => {
   const intl = useIntl();
 
   const currentAccount = useAppSelector(selectCurrentAccount);

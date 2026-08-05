@@ -44,8 +44,8 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   );
 
   const prevLoggedInUsers = useAppSelector(selectPrevLoggedInUsers);
-  const [recommendedCommunities, setRecommendedCommunities] = useState([]);
-  const [recommendedUsers, setRecommendedUsers] = useState([]);
+  const [recommendedCommunities, setRecommendedCommunities] = useState<any[]>([]);
+  const [recommendedUsers, setRecommendedUsers] = useState<any[]>([]);
   const followingUsers = useAppSelector((state) => state.user.followingUsersInFeedScreen);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const handleCommunitySubscription = useCommunitySubscriptionAction();
@@ -141,11 +141,11 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   }, [followingUsers]);
 
   // fetching
-  const _getRecommendedUsers = () => dispatch(fetchLeaderboard());
-  const _getRecommendedCommunities = () => dispatch(fetchCommunities(10));
+  const _getRecommendedUsers = () => dispatch(fetchLeaderboard() as any);
+  const _getRecommendedCommunities = () => dispatch(fetchCommunities(10) as any);
 
   // formating
-  const _formatRecommendedCommunities = async (communitiesArray) => {
+  const _formatRecommendedCommunities = async (communitiesArray: any) => {
     try {
       const ecency = await queryClient.fetchQuery(getCommunityQueryOptions('hive-125125'));
 
@@ -158,19 +158,19 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
     }
   };
 
-  const _formatRecommendedUsers = (usersArray) => {
+  const _formatRecommendedUsers = (usersArray: any) => {
     const recommendeds = usersArray.slice(0, 10);
 
     recommendeds.unshift({ _id: 'good-karma' });
     recommendeds.unshift({ _id: 'ecency' });
 
-    recommendeds.forEach((item) => Object.assign(item, { isFollowing: false }));
+    recommendeds.forEach((item: any) => Object.assign(item, { isFollowing: false }));
 
     setRecommendedUsers(recommendeds);
   };
 
   // actions related routines
-  const _handleSubscribeCommunityButtonPress = (data) => {
+  const _handleSubscribeCommunityButtonPress = (data: any) => {
     const successToastText = intl.formatMessage({
       id: data.isSubscribed ? 'alert.success_leave' : 'alert.success_subscribe',
     });
@@ -181,7 +181,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
     handleCommunitySubscription(data, successToastText, failToastText, 'feedScreen');
   };
 
-  const _handleFollowUserButtonPress = (data, isFollowing) => {
+  const _handleFollowUserButtonPress = (data: any, isFollowing: any) => {
     const successToastText = intl.formatMessage({
       id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
     });
@@ -198,7 +198,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
     if (prevLoggedInUsers && prevLoggedInUsers?.length > 0) {
       SheetManager.show(SheetNames.ACCOUNTS_SHEET);
     } else {
-      navigation.navigate(ROUTES.SCREENS.LOGIN);
+      (navigation as any).navigate(ROUTES.SCREENS.LOGIN);
     }
   };
 
@@ -245,8 +245,8 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
                 isFollowing={item.isFollowing}
                 isLoadingRightAction={followingUsers[item._id]?.loading}
                 onPressRightText={_handleFollowUserButtonPress}
-                handleOnPress={(username) =>
-                  navigation.navigate({
+                handleOnPress={(username: any) =>
+                  (navigation as any).navigate({
                     name: ROUTES.SCREENS.PROFILE,
                     params: {
                       username,
@@ -280,8 +280,8 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
                 subscribers={item.subscribers}
                 isNsfw={item.is_nsfw}
                 name={item.name}
-                handleOnPress={(name) =>
-                  navigation.navigate({
+                handleOnPress={(name: any) =>
+                  (navigation as any).navigate({
                     name: ROUTES.SCREENS.COMMUNITY,
                     params: {
                       tag: name,

@@ -253,7 +253,7 @@ const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
                 defaultText={targetLang?.name || 'English'}
                 isHasChildIcon
                 noHighlight
-                onSelect={(index) => setTargetLang(languages[index])}
+                onSelect={(index: any) => setTargetLang(languages[index])}
                 options={langOptions}
                 textStyle={styles.langDropdownText}
                 dropdownStyle={styles.langDropdownList}

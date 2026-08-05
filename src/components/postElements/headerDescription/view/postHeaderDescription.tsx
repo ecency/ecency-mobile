@@ -16,13 +16,12 @@ import { IconButton } from '../../..';
 import RootNavigation from '../../../../navigation/rootNavigation';
 
 // Constants
-import DEFAULT_IMAGE from '../../../../assets/ecency.png';
 
-class PostHeaderDescription extends PureComponent {
+class PostHeaderDescription extends PureComponent<any, any> {
   // Component Life Cycles
 
   // Component Functions
-  _navigateToProfile = (username) => {
+  _navigateToProfile = (username: any) => {
     if (!username) {
       return;
     }
@@ -33,7 +32,7 @@ class PostHeaderDescription extends PureComponent {
     });
   };
 
-  _handleOnAvatarPress = (username) => {
+  _handleOnAvatarPress = (username: any) => {
     const { avatarOnPress, profileOnPress } = this.props;
 
     if (!username) {
@@ -53,7 +52,7 @@ class PostHeaderDescription extends PureComponent {
     this._navigateToProfile(username);
   };
 
-  _handleOnUserPress = (username) => {
+  _handleOnUserPress = (username: any) => {
     const { profileOnPress } = this.props;
 
     if (!username) {
@@ -68,7 +67,7 @@ class PostHeaderDescription extends PureComponent {
     this._navigateToProfile(username);
   };
 
-  _handleOnTagPress = (content) => {
+  _handleOnTagPress = (content: any) => {
     const { handleTagPress } = this.props;
     let navParams = {};
     if (content && content.category && /hive-[1-3]\d{4,6}$/.test(content.category)) {
@@ -147,10 +146,9 @@ class PostHeaderDescription extends PureComponent {
             {/* Avatars are deliberately not gated on "Show Images": they are tiny,
                 cached, and part of identity. The setting suppresses content images. */}
             <UserAvatar
-              style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }]}
+              style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }] as any}
               disableSize
               username={name}
-              defaultSource={DEFAULT_IMAGE}
               noAction
             />
           </TouchableOpacity>

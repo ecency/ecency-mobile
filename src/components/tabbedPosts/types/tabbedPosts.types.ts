@@ -24,7 +24,7 @@ export interface PostsTabContentProps {
   feedUsername: string;
   tag: string;
   forceLoadPosts: boolean;
-  filterScrollRequest: string;
+  filterScrollRequest: string | null;
   pinnedPermlink?: string;
   onScrollRequestProcessed: () => void;
   handleOnScroll: (event?: any) => void;

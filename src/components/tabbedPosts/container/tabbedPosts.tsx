@@ -68,7 +68,7 @@ export const TabbedPosts = ({
   };
 
   // Dynamically create scenes for each tab
-  const renderScene = ({ route }) => {
+  const renderScene = ({ route }: any) => {
     if (tabContentOverrides && tabContentOverrides.has(index)) {
       return tabContentOverrides.get(index);
     }
@@ -99,7 +99,7 @@ export const TabbedPosts = ({
         renderScene={renderScene}
         onIndexChange={_setIndex}
         commonOptions={{
-          label: _renderTabLabel,
+          label: _renderTabLabel as any,
         }}
         initialLayout={{ width: deferredLayoutWidth }}
       />

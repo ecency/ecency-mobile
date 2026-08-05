@@ -55,7 +55,7 @@ interface PostHtmlRendererProps {
   handleVideoPress: (videoUrl: string, thumbnailUrl?: string) => void;
   handleYoutubePress: (videoId: string, startTime: number) => void;
   handleParaSelection: (selectedText: string) => void;
-  handleOnContentPress: () => void;
+  handleOnContentPress?: () => void;
 }
 
 export const PostHtmlRenderer = memo(

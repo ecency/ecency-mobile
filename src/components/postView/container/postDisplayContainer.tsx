@@ -23,7 +23,7 @@ const PostDisplayContainer = ({
   isWavePost,
   author,
   permlink,
-}) => {
+}: any) => {
   const navigation = useNavigation();
 
   const currentAccount = useAppSelector(selectCurrentAccount);

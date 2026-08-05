@@ -55,10 +55,10 @@ const PostBody = ({
   const [videoThumbUrl, setVideoThumbUrl] = useState<string | undefined>(undefined);
   const [videoStartTime, setVideoStartTime] = useState(0);
 
-  const actionLink = useRef(null);
-  const imageViewerRef = useRef(null);
-  const youtubePlayerRef = useRef(null);
-  const copyModalRef = useRef(null);
+  const actionLink = useRef<any>(null);
+  const imageViewerRef = useRef<any>(null);
+  const youtubePlayerRef = useRef<any>(null);
+  const copyModalRef = useRef<any>(null);
 
   useEffect(() => {
     if (body) {
@@ -66,7 +66,7 @@ const PostBody = ({
     }
   }, [body]);
 
-  const _handleYoutubePress = (videoId, startTime) => {
+  const _handleYoutubePress = (videoId: any, startTime: any) => {
     if (videoId && youtubePlayerRef.current) {
       setYoutubeVideoId(videoId);
       setVideoStartTime(startTime);
@@ -74,7 +74,7 @@ const PostBody = ({
     }
   };
 
-  const _handleVideoPress = (embedUrl, thumbUrl?: string) => {
+  const _handleVideoPress = (embedUrl: any, thumbUrl?: string) => {
     if (embedUrl && youtubePlayerRef.current) {
       setVideoUrl(embedUrl);
       setVideoThumbUrl(thumbUrl);
@@ -83,7 +83,7 @@ const PostBody = ({
     }
   };
 
-  const handleLinkPress = (ind) => {
+  const handleLinkPress = (ind: any) => {
     if (!selectedLink) {
       setSelectedLink(null);
       return;
@@ -112,7 +112,7 @@ const PostBody = ({
             intl,
             url: link,
             onConfirm: () =>
-              navigation.navigate({
+              (navigation as any).navigate({
                 name: ROUTES.SCREENS.DAPP_BROWSER,
                 params: {
                   url: link,
@@ -145,11 +145,11 @@ const PostBody = ({
     setSelectedLink(null);
   };
 
-  const _handleTagPress = (tag, filter = GLOBAL_POST_FILTERS_VALUE[0]) => {
+  const _handleTagPress = (tag: any, filter = GLOBAL_POST_FILTERS_VALUE[0]) => {
     if (tag) {
       const name = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
       const key = `${filter}/${tag}`;
-      navigation.navigate({
+      (navigation as any).navigate({
         name,
         params: {
           tag,
@@ -160,7 +160,7 @@ const PostBody = ({
     }
   };
 
-  const _handleOnPostPress = (permlink, author) => {
+  const _handleOnPostPress = (permlink: any, author: any) => {
     if (permlink) {
       // snippets checks if there is anchored post inside permlink and use that instead
       const anchoredPostRegex = /(.*?\#\@)(.*)\/(.*)/;
@@ -175,7 +175,7 @@ const PostBody = ({
         permlink = permlink.substring(0, queryIndex);
       }
 
-      navigation.navigate({
+      (navigation as any).navigate({
         name: ROUTES.SCREENS.POST,
         params: {
           author,
@@ -186,11 +186,11 @@ const PostBody = ({
     }
   };
 
-  const _handleParaSelection = (selectedText) => {
+  const _handleParaSelection = (selectedText: any) => {
     copyModalRef.current.show(selectedText);
   };
 
-  const _handleOnUserPress = (username) => {
+  const _handleOnUserPress = (username: any) => {
     if (username) {
       SheetManager.show(SheetNames.QUICK_PROFILE, {
         payload: {
@@ -214,7 +214,7 @@ const PostBody = ({
     }
   };
 
-  const _handleSetSelectedLink = (link) => {
+  const _handleSetSelectedLink = (link: any) => {
     if (isHiveUri(link)) {
       linkProcessor.handleLink(link);
       return;
@@ -232,7 +232,7 @@ const PostBody = ({
     actionLink.current.show();
   };
 
-  const _handleSetSelectedImage = (imageLink, postImgUrls) => {
+  const _handleSetSelectedImage = (imageLink: any, postImgUrls: any) => {
     if (imageViewerRef.current) {
       imageViewerRef.current.show(imageLink, postImgUrls);
     }
@@ -245,7 +245,7 @@ const PostBody = ({
       <ActionSheetView
         ref={youtubePlayerRef}
         gestureEnabled={true}
-        hideUnderlay
+        {...({ hideUnderlay: true } as any)}
         containerStyle={{ backgroundColor: 'black' }}
         indicatorStyle={{ backgroundColor: EStyleSheet.value('$primaryWhiteLightBackground') }}
         onClose={() => {
@@ -304,7 +304,7 @@ const PostBody = ({
   );
 };
 
-const areEqual = (prevProps, nextProps) => {
+const areEqual = (prevProps: any, nextProps: any) => {
   if (prevProps.body === nextProps.body) {
     return true;
   }

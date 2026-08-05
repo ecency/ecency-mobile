@@ -13,14 +13,14 @@ interface BotCommentsProps {
 export const BotCommentsPreview = ({ comments }: BotCommentsProps) => {
   const navigation = useNavigation();
 
-  const commentsModalRef = useRef<typeof CommentsModal>();
+  const commentsModalRef = useRef<any>(null);
 
   if (!comments?.length) {
     return null;
   }
 
   const _onPress = () => {
-    navigation.navigate({
+    (navigation as any).navigate({
       name: ROUTES.MODALS.BOT_COMMENTS,
       params: {
         comments,

@@ -4,7 +4,7 @@ import Animated, { LinearTransition, Easing } from 'react-native-reanimated';
 import { useLayoutState, useMappingHelper } from '@shopify/flash-list';
 import { Comment } from '../..';
 
-export const CommentsSection = ({ item, hiddenCommentKeys, pinnedReply, ...props }) => {
+export const CommentsSection = ({ item, hiddenCommentKeys, pinnedReply, ...props }: any) => {
   const { getMappingKey } = useMappingHelper();
   const [toggle, setToggle] = useLayoutState(false);
   const isHidden = (comment: any) =>
@@ -18,13 +18,13 @@ export const CommentsSection = ({ item, hiddenCommentKeys, pinnedReply, ...props
     // (renderOnTop is set on freshly cached comments by injectPostCache)
     if (
       !toggle &&
-      item.repliesThread?.some((reply) => reply.renderOnTop || reply.expandedReplies)
+      item.repliesThread?.some((reply: any) => reply.renderOnTop || reply.expandedReplies)
     ) {
       setToggle(true);
     }
   }, [item.expandedReplies, item.repliesThread]);
 
-  const _renderComment = (commentItem, index = 0) => {
+  const _renderComment = (commentItem: any, index = 0) => {
     if (isHidden(commentItem)) {
       return null;
     }
@@ -52,8 +52,8 @@ export const CommentsSection = ({ item, hiddenCommentKeys, pinnedReply, ...props
       <Animated.View layout={_animation} style={{ overflow: 'hidden' }}>
         {toggle &&
           item.repliesThread
-            .filter((reply) => !isHidden(reply))
-            .map((reply, index) => _renderComment(reply, index))}
+            .filter((reply: any) => !isHidden(reply))
+            .map((reply: any, index: any) => _renderComment(reply, index))}
       </Animated.View>
     );
   };

@@ -1,12 +1,12 @@
-export const sortComments = (sortOrder = 'trending', _comments, pinnedReply?: string) => {
+export const sortComments = (sortOrder = 'trending', _comments: any, pinnedReply?: string) => {
   if (!Array.isArray(_comments) || _comments.length === 0) {
     return _comments;
   }
 
-  const absNegative = (a) => a.net_rshares < 0;
+  const absNegative = (a: any) => a.net_rshares < 0;
 
   const sortOrders = {
-    trending: (a, b) => {
+    trending: (a: any, b: any) => {
       if (a.renderOnTop && !b.renderOnTop) {
         return -1;
       }
@@ -31,7 +31,7 @@ export const sortComments = (sortOrder = 'trending', _comments, pinnedReply?: st
 
       return 0;
     },
-    reputation: (a, b) => {
+    reputation: (a: any, b: any) => {
       if (a.renderOnTop && !b.renderOnTop) {
         return -1;
       }
@@ -51,7 +51,7 @@ export const sortComments = (sortOrder = 'trending', _comments, pinnedReply?: st
 
       return 0;
     },
-    votes: (a, b) => {
+    votes: (a: any, b: any) => {
       if (a.renderOnTop && !b.renderOnTop) {
         return -1;
       }
@@ -71,7 +71,7 @@ export const sortComments = (sortOrder = 'trending', _comments, pinnedReply?: st
 
       return 0;
     },
-    age: (a, b) => {
+    age: (a: any, b: any) => {
       if (a.renderOnTop && !b.renderOnTop) {
         return -1;
       }
@@ -101,7 +101,7 @@ export const sortComments = (sortOrder = 'trending', _comments, pinnedReply?: st
     },
   };
 
-  const sorter = sortOrders[sortOrder] || sortOrders.trending;
+  const sorter = (sortOrders as any)[sortOrder] || sortOrders.trending;
 
   // Check if array is already sorted to avoid creating new array
   let needsSort = false;
