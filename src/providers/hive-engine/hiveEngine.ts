@@ -119,7 +119,7 @@ export const fetchEngineMarketData = async (
     return days > 1 && data.length > days ? data.slice(data.length - days) : data;
   } catch (err) {
     Sentry.captureException(err);
-    console.warn('failed to get chart data', err.message);
+    console.warn('failed to get chart data', (err as any).message);
     return [];
   }
 };

@@ -20,18 +20,19 @@ const createStore = (initialState: StoreState) => {
 
   const getState = () => state;
 
-  const setState = (updater) => {
+  const setState = (updater: any) => {
     const nextState = typeof updater === 'function' ? updater(state) : updater;
     state = nextState;
     listeners.forEach((l) => l());
   };
 
-  const subscribe = (listener) => {
+  const subscribe = (listener: any) => {
     listeners.add(listener);
     return () => listeners.delete(listener);
   };
 
-  const useStore = (selector = (s) => s) => useSyncExternalStore(subscribe, () => selector(state));
+  const useStore = (selector = (s: any) => s) =>
+    useSyncExternalStore(subscribe, () => selector(state));
 
   return { getState, setState, useStore };
 };
@@ -46,7 +47,7 @@ export const viewabilityStore = createStore({
 
 // Set visible items
 export function setViewable(keys: string[]) {
-  viewabilityStore.setState((s) => {
+  viewabilityStore.setState((s: any) => {
     const newItems = { ...s.items };
     Object.keys(newItems).forEach((k) => {
       newItems[k] = { ...newItems[k], visible: keys.includes(k) };
@@ -56,7 +57,7 @@ export function setViewable(keys: string[]) {
 }
 
 export function registerRef(key: string, ref: RefObject<View>) {
-  viewabilityStore.setState((s) => ({
+  viewabilityStore.setState((s: any) => ({
     items: {
       ...s.items,
       [key]: { ...(s.items[key] || { visible: false }), ref },
@@ -65,7 +66,7 @@ export function registerRef(key: string, ref: RefObject<View>) {
 }
 
 export function unregisterKey(key: string) {
-  viewabilityStore.setState((s) => {
+  viewabilityStore.setState((s: any) => {
     const newItems = { ...s.items };
     delete newItems[key];
     return { ...s, items: newItems };
@@ -93,7 +94,7 @@ export function checkViewability(windowHeight: number) {
   const visibleKeys: string[] = [];
 
   Object.entries(state.items).forEach(([key, { ref }]) => {
-    if (isViewable(ref, windowHeight)) {
+    if (isViewable(ref as any, windowHeight)) {
       visibleKeys.push(key);
     }
   });
@@ -113,7 +114,7 @@ export const useViewabilityTracker = (isDisabled = false) => {
   // Register ref once
   useEffect(() => {
     if (!isDisabled) {
-      registerRef(key, ref);
+      registerRef(key, ref as any);
     }
 
     return () => {

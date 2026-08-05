@@ -22,7 +22,7 @@ import {
 } from '../../../redux/actions/accountAction';
 import { login as loginAction, setPinCode } from '../../../redux/actions/applicationActions';
 import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
-import { setPushTokenSaved, setExistUser } from '../../../realm/realm';
+import { setPushTokenSaved, setExistUser } from '../../../storage/storage';
 import { decodeBase64, encryptKey } from '../../../utils/crypto';
 
 // Middleware

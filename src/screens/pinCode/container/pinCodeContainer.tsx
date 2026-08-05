@@ -21,7 +21,7 @@ import {
   removeAllUserData,
   removePinCode,
   setAuthStatus,
-} from '../../../realm/realm';
+} from '../../../storage/storage';
 import { updateCurrentAccount, removeOtherAccount } from '../../../redux/actions/accountAction';
 import {
   selectCurrentAccount,

@@ -23,7 +23,7 @@ import {
   setSCAccount,
   getSCAccount,
   setPinCode,
-} from '../../realm/realm';
+} from '../../storage/storage';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
 import { delay } from '../../utils/editor';
@@ -62,7 +62,7 @@ const fetchAccount = async (username: string) => {
     }
   }
 
-  const resolvedName = account.name || account.username || username;
+  const resolvedName = account.name || (account as any).username || username;
 
   return {
     ...account,
@@ -91,12 +91,12 @@ const getSCAccessToken = async (code: string, retriesCount = 3, delayMs = 200): 
   }
 };
 
-export const login = async (username, password) => {
+export const login = async (username: string, password: string) => {
   let _keyMatched = false;
   let avatar = '';
   let authType = '';
   // Get user account data from HIVE Blockchain
-  const account = await fetchAccount(username);
+  const account: any = await fetchAccount(username);
 
   if (!account) {
     return Promise.reject(new Error('auth.invalid_username'));
@@ -104,10 +104,10 @@ export const login = async (username, password) => {
 
   // Public keys of user
   const publicKeys = {
-    activeKey: get(account, 'active.key_auths', []).map((x) => x[0]),
+    activeKey: get(account, 'active.key_auths', []).map((x: any) => x[0]),
     memoKey: [get(account, 'memo_key', '')],
-    ownerKey: get(account, 'owner.key_auths', []).map((x) => x[0]),
-    postingKey: get(account, 'posting.key_auths', []).map((x) => x[0]),
+    ownerKey: get(account, 'owner.key_auths', []).map((x: any) => x[0]),
+    postingKey: get(account, 'posting.key_auths', []).map((x: any) => x[0]),
   };
 
   // // Set private keys of user
@@ -115,8 +115,8 @@ export const login = async (username, password) => {
 
   // Check all keys
   Object.keys(publicKeys).forEach((pubKey) => {
-    const _genPublicKey = privateKeys[pubKey].createPublic().toString();
-    if (publicKeys[pubKey].some((key) => key === _genPublicKey)) {
+    const _genPublicKey = (privateKeys as any)[pubKey].createPublic().toString();
+    if ((publicKeys as any)[pubKey].some((key: string) => key === _genPublicKey)) {
       _keyMatched = true;
       if (privateKeys.isMasterKey) {
         authType = AUTH_TYPE.MASTER_KEY;
@@ -190,7 +190,7 @@ export const login = async (username, password) => {
   };
 };
 
-export const loginWithSC2 = async (code) => {
+export const loginWithSC2 = async (code: string) => {
   try {
     const scTokens = await getSCAccessToken(code);
     hsApi.setAccessToken(get(scTokens, 'access_token', ''));
@@ -198,7 +198,7 @@ export const loginWithSC2 = async (code) => {
 
     // NOTE: hsApi account data is missing fields like account.username,
     // so we fetch full account data via SDK.
-    const account = await fetchAccount(scAccount.account.name);
+    const account: any = await fetchAccount(scAccount.account.name);
     if (!account) {
       throw new Error('auth.invalid_username');
     }
@@ -272,7 +272,7 @@ export const loginWithAuthTransfer = async (
   expiresIn: number,
 ) => {
   try {
-    const account = await fetchAccount(username);
+    const account: any = await fetchAccount(username);
     if (!account) {
       throw new Error('auth.invalid_username');
     }
@@ -339,7 +339,12 @@ export const loginWithAuthTransfer = async (
   }
 };
 
-export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry, hiveAuthToken?) => {
+export const loginWithHiveAuth = async (
+  hsCode: any,
+  hiveAuthKey: any,
+  hiveAuthExpiry: any,
+  hiveAuthToken?: any,
+) => {
   try {
     const scTokens = await getSCAccessToken(hsCode);
 
@@ -348,7 +353,7 @@ export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry, hiv
 
     // NOTE: hsApi account data is missing fields like account.username,
     // so we fetch full account data via SDK.
-    const account = await fetchAccount(scAccount.account.name);
+    const account: any = await fetchAccount(scAccount.account.name);
     if (!account) {
       throw new Error('auth.invalid_username');
     }
@@ -417,9 +422,9 @@ export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry, hiv
   }
 };
 
-export const updatePinCode = (data) =>
+export const updatePinCode = (data: any) =>
   new Promise((resolve, reject) => {
-    let currentUser = null;
+    let currentUser: any = null;
     try {
       setPinCode(get(data, 'pinCode'));
       getUserData()
@@ -428,7 +433,7 @@ export const updatePinCode = (data) =>
             throw new Error('Decryption failed');
           };
           if (users && users.length > 0) {
-            users.forEach((userData) => {
+            users.forEach((userData: any) => {
               if (
                 get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
                 get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY ||
@@ -501,11 +506,11 @@ export const updatePinCode = (data) =>
           reject(err);
         });
     } catch (error) {
-      reject(error.message);
+      reject((error as any).message);
     }
   });
 
-export const refreshSCToken = async (userData, pinCode) => {
+export const refreshSCToken = async (userData: any, pinCode: string | undefined) => {
   const scAccount = await getSCAccount(userData.username);
 
   if (!scAccount || !scAccount.refreshToken) {
@@ -521,7 +526,7 @@ export const refreshSCToken = async (userData, pinCode) => {
 
     await setSCAccount(newSCAccountData);
     const accessToken = newSCAccountData.access_token;
-    const encryptedAccessToken = encryptKey(accessToken, pinCode);
+    const encryptedAccessToken = encryptKey(accessToken, pinCode!);
     await updateUserData({
       ...userData,
       accessToken: encryptedAccessToken,
@@ -560,7 +565,7 @@ export const updateHiveAuthSession = async (
   });
 };
 
-export const switchAccount = (username) =>
+export const switchAccount = (username: string) =>
   new Promise((resolve, reject) => {
     fetchAccount(username)
       .then((account) => {
@@ -581,7 +586,7 @@ export const switchAccount = (username) =>
       });
   });
 
-export const getPrivateKeys = (username, password) => {
+export const getPrivateKeys = (username: string, password: string) => {
   try {
     return {
       activeKey: PrivateKey.from(password),
@@ -601,7 +606,7 @@ export const getPrivateKeys = (username, password) => {
   }
 };
 
-const getUpdatedUserData = (userData, data) => {
+const getUpdatedUserData = (userData: any, data: any) => {
   const privateKeys = getPrivateKeys(get(userData, 'username', ''), get(data, 'password'));
 
   return {
@@ -645,16 +650,16 @@ const getUpdatedUserData = (userData, data) => {
   };
 };
 
-export const getUpdatedUserKeys = async (currentAccountData, data) => {
+export const getUpdatedUserKeys = async (currentAccountData: any, data: any) => {
   let loginFlag = false;
   // Get user account data from HIVE Blockchain
   // const account = await getUser(username);
   // Public keys of user
   const publicKeys = {
-    activeKey: get(currentAccountData, 'active.key_auths', []).map((x) => x[0]),
+    activeKey: get(currentAccountData, 'active.key_auths', []).map((x: any) => x[0]),
     memoKey: [get(currentAccountData, 'memo_key', '')],
-    ownerKey: get(currentAccountData, 'owner.key_auths', []).map((x) => x[0]),
-    postingKey: get(currentAccountData, 'posting.key_auths', []).map((x) => x[0]),
+    ownerKey: get(currentAccountData, 'owner.key_auths', []).map((x: any) => x[0]),
+    postingKey: get(currentAccountData, 'posting.key_auths', []).map((x: any) => x[0]),
   };
 
   // // Set private keys of user
@@ -663,8 +668,8 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
   // Check all keys and set authType
   let authType = '';
   Object.keys(publicKeys).forEach((pubKey) => {
-    const _genPublicKey = privateKeys[pubKey].createPublic().toString();
-    if (publicKeys[pubKey].some((key) => key === _genPublicKey)) {
+    const _genPublicKey = (privateKeys as any)[pubKey].createPublic().toString();
+    if ((publicKeys as any)[pubKey].some((key: string) => key === _genPublicKey)) {
       loginFlag = true;
       if (privateKeys.isMasterKey) {
         authType = AUTH_TYPE.MASTER_KEY;
@@ -700,16 +705,20 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
  * This migration snippet is used to update access token for users logged in using masterKey
  * accessToken is required for all ecency api calls even for non hivesigner users.
  */
-export const migrateToMasterKeyWithAccessToken = async (account, userData, pinHash) => {
+export const migrateToMasterKeyWithAccessToken = async (
+  account: any,
+  userData: any,
+  pinHash: string,
+) => {
   // get username, user local data from account;
   const username = account.name;
 
   // decrypt password from local data
-  const pinCode = getDigitPinCode(pinHash);
+  const pinCode = getDigitPinCode(pinHash)!;
   const password = decryptKey(
     userData.masterKey || userData.activeKey || userData.postingKey || userData.memoKey,
     pinCode,
-  );
+  )!;
 
   // Set private keys of user
   const privateKeys = getPrivateKeys(username, password);

@@ -35,7 +35,7 @@ import {
   setExistUser,
   getLastUpdateCheck,
   setLastUpdateCheck,
-} from '../../../realm/realm';
+} from '../../../storage/storage';
 import { getDigitPinCode, getUser } from '../../../providers/hive/hive';
 import { getQueryClient } from '../../../providers/queries';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';

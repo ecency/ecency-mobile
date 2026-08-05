@@ -29,12 +29,12 @@ ecencyApi.interceptors.request.use((request) => {
     request.url === '/private-api/announcements' ||
     request.url === '/private-api/public/bots' ||
     request.url === '/private-api/proposal/active' ||
-    request.url.startsWith('private-api/leaderboard') ||
-    request.url.startsWith('/private-api/received-vesting/') ||
-    request.url.startsWith('/private-api/referrals/') ||
-    request.url.startsWith('/private-api/market-data') ||
-    request.url.startsWith('/private-api/comment-history') ||
-    request.url.startsWith('/private-api/engine')
+    request.url?.startsWith('private-api/leaderboard') ||
+    request.url?.startsWith('/private-api/received-vesting/') ||
+    request.url?.startsWith('/private-api/referrals/') ||
+    request.url?.startsWith('/private-api/market-data') ||
+    request.url?.startsWith('/private-api/comment-history') ||
+    request.url?.startsWith('/private-api/engine')
   ) {
     return request;
   }
@@ -56,14 +56,14 @@ ecencyApi.interceptors.request.use((request) => {
     } else if (selectIsLoggedIn(state)) {
       const errMsg = 'Failed to inject accessToken';
       console.warn(errMsg);
-      Sentry.captureException(new Error(errMsg), (scope) => {
+      Sentry.captureException(new Error(errMsg), ((scope: any) => {
         scope.setUser({ username: currentAccount.name });
         scope.setTag('context', 'ecency_api_interceptor');
         scope.setContext('meta', {
           url: request.url,
           accessTokenExist: !!token,
         });
-      });
+      }) as any);
     }
   }
 

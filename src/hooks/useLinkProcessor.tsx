@@ -24,7 +24,7 @@ import getWindowDimensions from '../utils/getWindowDimensions';
 import { useAppSelector } from './index';
 import { usePostLoginActions } from './usePostLogin';
 import authType from '../constants/authType';
-import { getUserDataWithUsername } from '../realm/realm';
+import { getUserDataWithUsername } from '../storage/storage';
 import { decryptKey } from '../utils/crypto';
 import { loginWithAuthTransfer } from '../providers/hive/auth';
 import {
@@ -372,7 +372,7 @@ export const useLinkProcessor = (onClose?: () => void) => {
       const isKnownAccount =
         currentAccountName === normalizedUsername ||
         otherAccounts?.some(
-          (account) => (account?.username || '').toLowerCase() === normalizedUsername,
+          (account: any) => (account?.username || '').toLowerCase() === normalizedUsername,
         );
 
       const requesterLabel = _getRequesterLabel(callbackParam);
@@ -660,8 +660,8 @@ export const useLinkProcessor = (onClose?: () => void) => {
                 onPress: () => {
                   if (options?.callbackUrl || parsed.params?.callback) {
                     _openCallback(
-                      options?.callbackUrl || parsed.params?.callback,
-                      options?.requestId || parsed.params?.request_id || null,
+                      (options?.callbackUrl || parsed.params?.callback)!,
+                      options?.requestId || (parsed.params as any)?.request_id || null,
                       {
                         status: 'error',
                         error: 'user_cancelled',
@@ -683,8 +683,8 @@ export const useLinkProcessor = (onClose?: () => void) => {
                           payload.id = `${result.id}`;
                         }
                         _openCallback(
-                          options?.callbackUrl || parsed.params?.callback,
-                          options?.requestId || parsed.params?.request_id || null,
+                          (options?.callbackUrl || parsed.params?.callback)!,
+                          options?.requestId || (parsed.params as any)?.request_id || null,
                           payload,
                         );
                       }
@@ -699,8 +699,8 @@ export const useLinkProcessor = (onClose?: () => void) => {
                       }
                       if (options?.callbackUrl || parsed.params?.callback) {
                         _openCallback(
-                          options?.callbackUrl || parsed.params?.callback,
-                          options?.requestId || parsed.params?.request_id || null,
+                          (options?.callbackUrl || parsed.params?.callback)!,
+                          options?.requestId || (parsed.params as any)?.request_id || null,
                           {
                             status: 'error',
                             error: typeof err === 'string' ? err : 'qr.transaction_failed',

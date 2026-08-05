@@ -31,7 +31,7 @@ const initialState: State = {
   waveContainers: [],
 };
 
-const customTabsReducer = (state: State = initialState, action): State => {
+const customTabsReducer = (state: State = initialState, action: any): State => {
   switch (action.type) {
     case SET_MAIN_TABS:
       return {

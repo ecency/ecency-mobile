@@ -185,7 +185,7 @@ export function addOptimisticComment(params: {
   };
 
   addOptimisticDiscussionEntry(
-    optimisticEntry,
+    optimisticEntry as any,
     params.rootAuthor,
     params.rootPermlink,
     queryClient,

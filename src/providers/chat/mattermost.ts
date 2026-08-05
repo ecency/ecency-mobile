@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import chatApi, { setChatApiToken } from '../../config/chatApi';
 import { getDigitPinCode } from '../hive/hive';
 import { decryptKey } from '../../utils/crypto';
-import { getSCAccount } from '../../realm/realm';
+import { getSCAccount } from '../../storage/storage';
 
 interface MattermostBootstrapPayload {
   accessToken: string;

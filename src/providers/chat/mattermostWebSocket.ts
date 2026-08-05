@@ -194,7 +194,7 @@ class MattermostWebSocketClient {
             if (this.receivedMessageIds.size > 1000) {
               const iterator = this.receivedMessageIds.values();
               const firstValue = iterator.next().value;
-              this.receivedMessageIds.delete(firstValue);
+              this.receivedMessageIds.delete(firstValue!);
             }
           }
 

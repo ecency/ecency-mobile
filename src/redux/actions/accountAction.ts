@@ -13,7 +13,7 @@ import {
 } from '../constants/constants';
 import { PrevLoggedInUsers } from '../reducers/accountReducer';
 
-export const fetchGlobalProperties = () => async (dispatch) => {
+export const fetchGlobalProperties = () => async (dispatch: any) => {
   try {
     const queryClient = getQueryClient();
     const props: DynamicProps = await queryClient.fetchQuery(getDynamicPropsQueryOptions());
@@ -43,7 +43,7 @@ export const fetchGlobalProperties = () => async (dispatch) => {
   }
 };
 
-export const updateCurrentAccount = (data) => {
+export const updateCurrentAccount = (data: any) => {
   if (!data) {
     return {
       type: UPDATE_CURRENT_ACCOUNT,
@@ -65,27 +65,27 @@ export const updateCurrentAccount = (data) => {
   };
 };
 
-export const addOtherAccount = (data) => ({
+export const addOtherAccount = (data: any) => ({
   type: ADD_OTHER_ACCOUNT,
   payload: data,
 });
 
-export const updateOtherAccount = (accountObj) => ({
+export const updateOtherAccount = (accountObj: any) => ({
   type: UPDATE_OTHER_ACCOUNT,
   payload: accountObj,
 });
 
-export const failedAccount = (data) => ({
+export const failedAccount = (data: any) => ({
   type: FETCH_ACCOUNT_FAIL,
   payload: data,
 });
 
-export const updateUnreadActivityCount = (data) => ({
+export const updateUnreadActivityCount = (data: any) => ({
   type: UPDATE_UNREAD_ACTIVITY_COUNT,
   payload: data,
 });
 
-export const removeOtherAccount = (data) => ({
+export const removeOtherAccount = (data: any) => ({
   type: REMOVE_OTHER_ACCOUNT,
   payload: data,
 });
@@ -94,7 +94,7 @@ export const removeAllOtherAccount = () => ({
   type: REMOVE_ALL_OTHER_ACCOUNT,
 });
 
-export const setGlobalProps = (data) => ({
+export const setGlobalProps = (data: any) => ({
   type: SET_GLOBAL_PROPS,
   payload: data,
 });

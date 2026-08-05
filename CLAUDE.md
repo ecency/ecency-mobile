@@ -77,7 +77,7 @@ Uses React Navigation v6 with nested navigators:
 - Uses converters in `src/providers/ecency/converters/`
 
 **Local Storage**:
-- AsyncStorage wrapper: `src/realm/realm.ts` (historically called "realm", now uses AsyncStorage)
+- AsyncStorage wrapper: `src/storage/storage.ts` (historically `src/realm/realm.ts` when it used Realm DB)
 - Stores user credentials, drafts, settings, and cached data
 - User data, auth tokens, and drafts are schema-organized
 

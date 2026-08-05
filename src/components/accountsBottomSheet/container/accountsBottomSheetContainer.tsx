@@ -14,7 +14,7 @@ import {
   refreshSCToken,
   switchAccount,
 } from '../../../providers/hive/auth';
-import { getUserDataWithUsername } from '../../../realm/realm';
+import { getUserDataWithUsername } from '../../../storage/storage';
 
 import { logout } from '../../../redux/actions/uiAction';
 import AccountsBottomSheet, { AccountsBottomSheetRef } from '../view/accountsBottomSheetView';

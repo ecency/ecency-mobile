@@ -12,10 +12,8 @@ import { isProposalAnnouncement, resolveAnnouncementAction } from '../../utils/a
 import { delay } from '../../utils/editor';
 import { ButtonTypes } from '../../components/actionModal/container/actionModalContainer';
 import parseVersionNumber from '../../utils/parseVersionNumber';
-import { decryptKey } from '../../utils/crypto';
-import { getDigitPinCode } from '../hive/hive';
 import { SheetNames } from '../../navigation/sheets';
-import { selectPin, selectCurrentAccount, selectLastAppVersion } from '../../redux/selectors';
+import { selectCurrentAccount, selectLastAppVersion } from '../../redux/selectors';
 
 const PROMPT_AGAIN_INTERVAL = 48 * 3600 * 1000; // 2 days
 
@@ -24,8 +22,6 @@ export const useAnnouncementsQuery = () => {
   const dispatch = useDispatch();
   const linkProcessor = useLinkProcessor();
 
-  const pinHash = useAppSelector(selectPin);
-
   const lastAppVersion = useAppSelector(selectLastAppVersion);
   const appVersion = useMemo(() => VersionNumber.appVersion, []);
 
@@ -33,11 +29,11 @@ export const useAnnouncementsQuery = () => {
   const announcementsMeta = useAppSelector((state) => state.cache.announcementsMeta);
 
   // Prepare access token for SDK
-  const encToken = currentAccount?.local?.accessToken;
-  const accessToken = encToken ? decryptKey(encToken, getDigitPinCode(pinHash)) : '';
 
   // Use SDK query options
-  const announcementsQuery = useQuery(getAnnouncementsQueryOptions(accessToken));
+  // SDK options take no arguments; the announcements endpoint is a plain
+  // unauthenticated GET (it is in ecencyApi's no-token list)
+  const announcementsQuery = useQuery(getAnnouncementsQueryOptions());
 
   useEffect(() => {
     // bypass if it's first launch after new version install/update
@@ -71,7 +67,7 @@ export const useAnnouncementsQuery = () => {
     _showAnnouncement(firstAnnounce, _metaId);
   }, [announcementsQuery.data, currentAccount?.name, lastAppVersion]);
 
-  const _showAnnouncement = async (data, metaId) => {
+  const _showAnnouncement = async (data: any, metaId: any) => {
     const _markAsSeen = () => {
       dispatch(updateAnnoucementsMeta(metaId, false));
     };

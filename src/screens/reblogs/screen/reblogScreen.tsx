@@ -85,7 +85,7 @@ const ReblogScreen = ({ route }) => {
           }
           return {
             account,
-            timestamp: typeof item === 'object' ? item.timestamp || null : null,
+            timestamp: typeof item === 'object' ? (item as any).timestamp || null : null,
           };
         })
         .filter(Boolean); // Remove null entries

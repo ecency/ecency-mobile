@@ -57,44 +57,50 @@ const MainStackNavigator = () => {
   return (
     <MainStack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
       <MainStack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />
-      <MainStack.Screen name={ROUTES.SCREENS.PROFILE} component={Profile} />
+      <MainStack.Screen name={ROUTES.SCREENS.PROFILE} component={Profile as any} />
       <MainStack.Screen name={ROUTES.SCREENS.PROFILE_EDIT} component={ProfileEdit} />
       <MainStack.Screen name={ROUTES.SCREENS.SETTINGS} component={Settings} />
       <MainStack.Screen name={ROUTES.SCREENS.DRAFTS} component={Drafts} />
       <MainStack.Screen name={ROUTES.SCREENS.BOOKMARKS} component={Bookmarks} />
-      <MainStack.Screen name={ROUTES.SCREENS.SEARCH_RESULT} component={SearchResult} />
+      <MainStack.Screen name={ROUTES.SCREENS.SEARCH_RESULT} component={SearchResult as any} />
       <MainStack.Screen name={ROUTES.SCREENS.TAG_RESULT} component={TagResult} />
-      <MainStack.Screen name={ROUTES.SCREENS.BOOST} component={Boost} />
+      <MainStack.Screen name={ROUTES.SCREENS.BOOST} component={Boost as any} />
       <MainStack.Screen name={ROUTES.SCREENS.REDEEM} component={Redeem} />
       <MainStack.Screen name={ROUTES.SCREENS.AI_IMAGE_GENERATOR} component={AiImageGenerator} />
       <MainStack.Screen name={ROUTES.SCREENS.SPIN_GAME} component={SpinGame} />
       <MainStack.Screen name={ROUTES.SCREENS.PERKS} component={Perks} />
-      <MainStack.Screen name={ROUTES.SCREENS.ACCOUNT_BOOST} component={AccountBoost} />
-      <MainStack.Screen name={ROUTES.SCREENS.COMMUNITY} component={Community} />
-      <MainStack.Screen name={ROUTES.SCREENS.COMMUNITY_MEMBERS} component={CommunityMembers} />
-      <MainStack.Screen name={ROUTES.SCREENS.COMMUNITY_SETTINGS} component={CommunitySettings} />
+      <MainStack.Screen name={ROUTES.SCREENS.ACCOUNT_BOOST} component={AccountBoost as any} />
+      <MainStack.Screen name={ROUTES.SCREENS.COMMUNITY} component={Community as any} />
+      <MainStack.Screen
+        name={ROUTES.SCREENS.COMMUNITY_MEMBERS}
+        component={CommunityMembers as any}
+      />
+      <MainStack.Screen
+        name={ROUTES.SCREENS.COMMUNITY_SETTINGS}
+        component={CommunitySettings as any}
+      />
       <MainStack.Screen
         name={ROUTES.SCREENS.COMMUNITY_ACTIVITIES}
-        component={CommunityActivities}
+        component={CommunityActivities as any}
       />
       <MainStack.Screen name={ROUTES.SCREENS.COMMUNITIES} component={Communities} />
       <MainStack.Screen name={ROUTES.SCREENS.REFER} component={ReferScreen} />
       <MainStack.Screen name={ROUTES.SCREENS.ASSET_DETAILS} component={AssetDetails} />
-      <MainStack.Screen name={ROUTES.SCREENS.EDIT_HISTORY} component={EditHistoryScreen} />
+      <MainStack.Screen name={ROUTES.SCREENS.EDIT_HISTORY} component={EditHistoryScreen as any} />
       <MainStack.Screen name={ROUTES.SCREENS.POST} component={Post} />
-      <MainStack.Screen name={ROUTES.SCREENS.CHAT_THREAD} component={ChatThread} />
+      <MainStack.Screen name={ROUTES.SCREENS.CHAT_THREAD} component={ChatThread as any} />
       <MainStack.Screen name={ROUTES.SCREENS.DAPP_BROWSER} component={DappBrowser} />
       <MainStack.Group screenOptions={{ animation: 'slide_from_bottom' }}>
-        <MainStack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs} />
-        <MainStack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters} />
-        <MainStack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} />
+        <MainStack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs as any} />
+        <MainStack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters as any} />
+        <MainStack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows as any} />
         <MainStack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} />
         <MainStack.Screen name={ROUTES.SCREENS.TRADE} component={TradeScreen} />
         <MainStack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} />
         <MainStack.Screen name={ROUTES.SCREENS.BACKUP_KEYS} component={BackupKeysScreen} />
         <MainStack.Screen
           name={ROUTES.MODALS.ASSETS_SELECT}
-          component={AssetsSelect}
+          component={AssetsSelect as any}
           options={{ presentation: 'modal' }}
         />
         <MainStack.Screen
@@ -108,7 +114,7 @@ const MainStackNavigator = () => {
   );
 };
 
-export const StackNavigator = ({ initRoute }) => {
+export const StackNavigator = ({ initRoute }: { initRoute?: string }) => {
   return (
     <RootStack.Navigator
       initialRouteName={initRoute}
@@ -119,7 +125,7 @@ export const StackNavigator = ({ initRoute }) => {
       <RootStack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} />
       <RootStack.Screen name={ROUTES.SCREENS.WELCOME} component={WelcomeScreen} />
       <RootStack.Screen name={ROUTES.SCREENS.ACCOUNT_LIST} component={AccountList} />
-      <RootStack.Screen name={ROUTES.SCREENS.WEB_BROWSER} component={WebBrowser} />
+      <RootStack.Screen name={ROUTES.SCREENS.WEB_BROWSER} component={WebBrowser as any} />
 
       <RootStack.Screen
         name={ROUTES.MODALS.POLL_WIZARD}

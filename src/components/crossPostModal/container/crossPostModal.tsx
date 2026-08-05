@@ -89,7 +89,7 @@ export const CrossPostModal = ({ payload }: SheetProps<SheetNames.CROSS_POST>) =
           onPress={handleCrossPost}
           style={styles.btnMain}
           isDisable={!selectedCommunityId}
-          isLoading={crossPostMutation.isLoading}
+          isLoading={crossPostMutation.isPending}
         />
         <TextButton
           style={styles.btnClose}

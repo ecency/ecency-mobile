@@ -19,9 +19,9 @@ export const usePostLoginActions = () => {
   const prevLoggedInUsers = useAppSelector(selectPrevLoggedInUsers);
 
   // update previously loggedin users list,
-  const _updatePrevLoggedInUsersList = (username) => {
+  const _updatePrevLoggedInUsersList = (username: string) => {
     if (prevLoggedInUsers && prevLoggedInUsers.length > 0) {
-      const userIndex = prevLoggedInUsers.findIndex((el) => el?.username === username);
+      const userIndex = prevLoggedInUsers.findIndex((el: any) => el?.username === username);
       if (userIndex > -1) {
         const updatedPrevLoggedInUsers = [...prevLoggedInUsers];
         updatedPrevLoggedInUsers[userIndex] = { username, isLoggedOut: false };
@@ -36,12 +36,12 @@ export const usePostLoginActions = () => {
     }
   };
 
-  const updateAccountsData = (accountData) => {
+  const updateAccountsData = (accountData: any) => {
     if (accountData) {
       const persistAccountData = persistAccountGenerator(accountData);
 
       dispatch(updateCurrentAccount({ ...accountData }));
-      dispatch(fetchSubscribedCommunities(accountData.username));
+      dispatch(fetchSubscribedCommunities(accountData.username) as any);
       dispatch(addOtherAccount({ ...persistAccountData }));
       dispatch(loginAction(true));
       // Clear cached posts to show new account's feed

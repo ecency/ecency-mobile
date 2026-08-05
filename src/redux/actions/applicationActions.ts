@@ -44,7 +44,7 @@ import {
 } from '../constants/constants';
 import { requestInAppReview } from '../../utils/storeReview';
 
-export const login = (payload) => ({
+export const login = (payload: any) => ({
   payload,
   type: LOGIN,
 });
@@ -54,31 +54,31 @@ export const isLoginDone = () => ({
 });
 
 // Settings actions
-export const setLanguage = (payload) => ({
+export const setLanguage = (payload: any) => ({
   payload,
   type: SET_LANGUAGE,
 });
 
-export const setApi = (payload) => ({
+export const setApi = (payload: any) => ({
   payload,
   type: SET_API,
 });
 
-export const setPostUpvotePercent = (payload) => ({
+export const setPostUpvotePercent = (payload: any) => ({
   payload,
   type: SET_POST_UPVOTE_PERCENT,
 });
 
-export const setCommentUpvotePercent = (payload) => ({
+export const setCommentUpvotePercent = (payload: any) => ({
   payload,
   type: SET_COMMENT_UPVOTE_PERCENT,
 });
-export const setWaveUpvotePercent = (payload) => ({
+export const setWaveUpvotePercent = (payload: any) => ({
   payload,
   type: SET_WAVE_UPVOTE_PERCENT,
 });
 
-export const changeAllNotificationSettings = (payload) => ({
+export const changeAllNotificationSettings = (payload: any) => ({
   payload,
   type: CHANGE_ALL_NOTIFICATION_SETTINGS,
 });
@@ -88,7 +88,7 @@ export const setFCMAvailable = (payload: boolean) => ({
   type: SET_FCM_AVAILABLE,
 });
 
-export const changeNotificationSettings = (payload) => {
+export const changeNotificationSettings = (payload: any) => {
   switch (payload.type) {
     case 'notification.follow':
       return {
@@ -179,7 +179,7 @@ export const changeNotificationSettings = (payload) => {
   }
 };
 
-export const setIsDarkTheme = (payload) => ({
+export const setIsDarkTheme = (payload: any) => ({
   payload,
   type: IS_DARK_THEME,
 });
@@ -189,22 +189,22 @@ export const setColorTheme = (payload: number) => ({
   type: SET_COLOR_THEME,
 });
 
-export const isPinCodeOpen = (payload) => ({
+export const isPinCodeOpen = (payload: any) => ({
   payload,
   type: IS_PIN_CODE_OPEN,
 });
 
-export const setConnectivityStatus = (payload) => ({
+export const setConnectivityStatus = (payload: any) => ({
   payload,
   type: IS_CONNECTED,
 });
 
-export const setNsfw = (payload) => ({
+export const setNsfw = (payload: any) => ({
   payload,
   type: SET_NSFW,
 });
 
-export const isDefaultFooter = (payload) => ({
+export const isDefaultFooter = (payload: any) => ({
   payload,
   type: IS_DEFAULT_FOOTER,
 });
@@ -212,7 +212,7 @@ export const isDefaultFooter = (payload) => ({
 /**
  * MW
  */
-export const setCurrency = (currency) => async (dispatch) => {
+export const setCurrency = (currency: any) => async (dispatch: any) => {
   const currencySymbol = getSymbolFromCurrency(currency);
 
   let currencyRate = 1;
@@ -232,12 +232,12 @@ export const setCurrency = (currency) => async (dispatch) => {
   });
 };
 
-export const setPinCode = (data) => ({
+export const setPinCode = (data: any) => ({
   type: SET_PIN_CODE,
   payload: data,
 });
 
-export const isRenderRequired = (payload) => ({
+export const isRenderRequired = (payload: any) => ({
   payload,
   type: IS_RENDER_REQUIRED,
 });
@@ -307,7 +307,7 @@ export const updateAppRatingMeta = (payload: {
  * first-use time once and increments the session counter — the inputs the
  * review prompt eligibility check relies on.
  */
-export const recordAppSession = () => (dispatch, getState) => {
+export const recordAppSession = () => (dispatch: any, getState: any) => {
   // appRating can be undefined for users upgrading from a build before this
   // feature: redux-persist's autoMergeLevel1 replaces the whole persisted
   // `application` slice, so the new key isn't defaulted from initialState until
@@ -327,7 +327,7 @@ export const recordAppSession = () => (dispatch, getState) => {
  * before. Call this only after a positive action (e.g. publishing a post or
  * casting a vote). No-ops silently when not eligible.
  */
-export const maybeRequestReview = () => (dispatch, getState) => {
+export const maybeRequestReview = () => (dispatch: any, getState: any) => {
   const { appRating } = getState().application;
   const { firstUseTime, sessionCount = 0, hasRequestedReview } = appRating ?? {};
 

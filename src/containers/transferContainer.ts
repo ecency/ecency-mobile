@@ -17,7 +17,7 @@ import { useTransferMutations } from '../hooks';
 import { getQueryClient } from '../providers/queries';
 import QUERIES from '../providers/queries/queryKeys';
 import { toastNotification } from '../redux/actions/uiAction';
-import { getUserDataWithUsername } from '../realm/realm';
+import { getUserDataWithUsername } from '../storage/storage';
 import { getPointsSummary } from '../providers/ecency/ePoint';
 
 // Utils

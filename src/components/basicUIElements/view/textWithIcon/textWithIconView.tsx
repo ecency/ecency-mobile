@@ -18,6 +18,20 @@ const TextWithIcon = ({
   isLoading,
   accessibilityLabel,
   accessibilityHint,
+}: {
+  iconName: string;
+  text: any;
+  isClickable?: boolean;
+  onPress?: () => void;
+  iconStyle?: any;
+  iconType?: string;
+  iconSize?: number;
+  wrapperStyle?: any;
+  textStyle?: any;
+  onLongPress?: () => void;
+  isLoading?: boolean;
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
 }) => {
   const [ltext, setLtext] = useState(text);
   useEffect(() => {

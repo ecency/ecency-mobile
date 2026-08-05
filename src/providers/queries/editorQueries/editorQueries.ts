@@ -134,8 +134,8 @@ export const useAddToUploadsMutation = () => {
     return null;
   };
 
-  return useMutation<any[], Error, string>({
-    mutationFn: async (url) => {
+  return useMutation<any, Error, string>({
+    mutationFn: async (url: string) => {
       return addImageMutation.mutateAsync({ url });
     },
     retry: 3,
@@ -260,16 +260,16 @@ export const useMediaUploadMutation = () => {
     },
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
 
-    onSuccess: (response, { addToUploads }) => {
+    onSuccess: (response: any, { addToUploads }: any) => {
       if (addToUploads && response && response.url) {
         console.log('adding image to gallery', response.url);
         addToUploadsMutation.mutate(response.url);
       }
     },
     onError: (err) => {
-      Sentry.captureException(err, (scope) => {
+      Sentry.captureException(err, ((scope: any) => {
         scope.setContext('info', { message: 'Media upload failed' });
-      });
+      }) as any);
       dispatch(
         toastNotification(
           intl.formatMessage({
@@ -298,8 +298,8 @@ export const useSnippetsMutation = () => {
     code,
   ).queryKey.slice(0, -1);
 
-  return useMutation<Snippet[], undefined, SnippetMutationVars>({
-    mutationFn: async (vars) => {
+  return useMutation<any, any, SnippetMutationVars>({
+    mutationFn: async (vars: any) => {
       console.log('going to add/update snippet', vars);
       if (vars.id) {
         return editFragmentMutation.mutateAsync({
@@ -417,8 +417,8 @@ export const useSnippetDeleteMutation = () => {
     code,
   ).queryKey.slice(0, -1);
 
-  return useMutation<Snippet[], undefined, string>({
-    mutationFn: async (fragmentId) => {
+  return useMutation<any, any, string>({
+    mutationFn: async (fragmentId: string) => {
       return removeFragmentMutation.mutateAsync({ fragmentId });
     },
     retry: 3,

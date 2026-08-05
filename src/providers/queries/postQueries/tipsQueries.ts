@@ -34,7 +34,7 @@ export interface TipParams {
  */
 export const usePostTipsQuery = ({ author, permlink, enabled = true }: UsePostTipsQueryProps) => {
   return useQuery<PostTipsResponse | null>({
-    ...getPostTipsQueryOptions(author || '', permlink || ''),
+    ...(getPostTipsQueryOptions(author || '', permlink || '') as any),
     enabled: enabled && !!author && !!permlink,
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 30 * 60 * 1000, // 30 minutes

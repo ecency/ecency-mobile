@@ -18,7 +18,7 @@ import { mapAuthTypeToLoginType } from '../../../utils/authMapper';
 export const useGetReblogsQuery = (author: string, permlink: string, enabled = true) => {
   const sdkOptions = getRebloggedByQueryOptions(author, permlink);
   const query = useQuery<string[]>({
-    ...sdkOptions,
+    ...(sdkOptions as any),
     // Override queryKey to keep local cache key stable
     queryKey: [QUERIES.POST.GET_REBLOGS, author, permlink],
     initialData: [],
@@ -66,7 +66,7 @@ export function useCrossPostMutation() {
   }>(
     [QUERIES.POST.CROSS_POST],
     currentAccount?.name || '',
-    ({ post, communityId, message }) => {
+    ({ post, communityId, message }: any) => {
       const { title } = post;
       const author = currentAccount?.name || currentAccount?.username || '';
       const permlink = `${post.permlink}-${communityId}`;
@@ -78,7 +78,7 @@ export function useCrossPostMutation() {
       };
 
       const jsonMetadata = makeJsonMetadata(metadata, ['cross-post']);
-      const options = makeOptions({ author, permlink, operationType: 'dp' });
+      const options: any = makeOptions({ author, permlink, operationType: 'dp' });
       options.allow_curation_rewards = false;
 
       return [
@@ -152,7 +152,7 @@ export function useCrossPostMutation() {
         ),
       );
     },
-    onError: (error) => {
+    onError: (error: any) => {
       if (error?.jse_shortmsg?.split(': ')[1]?.includes('wait to transact')) {
         // when RC is not enough, offer boosting account
         dispatch(setRcOffer(true));

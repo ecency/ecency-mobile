@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SheetManager } from 'react-native-actions-sheet';
 import { postBodySummary } from '@ecency/render-helper';
-import { getItemFromStorage, setItemToStorage } from '../../../realm/realm';
+import { getItemFromStorage, setItemToStorage } from '../../../storage/storage';
 import { Icon } from '../../icon';
 import { useContentLanguageGate } from '../../../hooks/useContentLanguageGate';
 import { isRtlLang, languageDisplayName, normLang } from '../../../utils/iso639';

@@ -25,7 +25,7 @@ export const useSearchQuery = (
   hideLowRated: boolean = false,
 ) => {
   return useQuery({
-    ...getSearchQueryOptions(query, sort, hideLowRated),
+    ...(getSearchQueryOptions(query, sort, hideLowRated) as any),
     enabled: !!query && query.length >= 3,
   });
 };

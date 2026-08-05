@@ -24,7 +24,7 @@ import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import * as hiveuri from 'hive-uri';
 import * as Sentry from '@sentry/react-native';
-import { getServer, getCache, setCache } from '../../realm/realm';
+import { getServer, getCache, setCache } from '../../storage/storage';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
@@ -240,7 +240,7 @@ const _executeHiveAuthFallback = async (
         ? rawError
         : new Error(
             typeof rawError === 'object' && rawError !== null && 'message' in rawError
-              ? String(rawError.message)
+              ? String((rawError as any).message)
               : rawError
               ? String(rawError)
               : 'HiveAuth broadcast failed',
@@ -376,7 +376,7 @@ export const sendHiveOperations = async (
   }
 };
 
-const isHsClientSupported = (authType) => {
+const isHsClientSupported = (authType: any) => {
   switch (authType) {
     case AUTH_TYPE.STEEM_CONNECT:
     case AUTH_TYPE.HIVE_AUTH:
@@ -405,7 +405,7 @@ export const buildActiveCustomJsonOpArr = (
   ];
 };
 
-export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
+export const getDigitPinCode = (pin: string | null | undefined) => decryptKey(pin, Config.PIN_KEY!);
 
 const getDynamicGlobalProperties = async () => {
   const queryClient = getQueryClient();
@@ -421,7 +421,7 @@ export const getMarketStatistics = () => {
  * @method getAccount fetch raw account data without post processings
  * @param username username
  */
-export const getAccount = async (username) => {
+export const getAccount = async (username: string) => {
   const queryClient = getQueryClient();
   const accounts = await queryClient.fetchQuery(getAccountsQueryOptions([username]));
 
@@ -431,7 +431,7 @@ export const getAccount = async (username) => {
   throw new Error(`Account not found, ${username}`);
 };
 
-const getUserReputation = async (author) => {
+const getUserReputation = async (author: string) => {
   try {
     const response = await callRPC('condenser_api.get_account_reputations', [author, 1]);
 
@@ -439,7 +439,7 @@ const getUserReputation = async (author) => {
       return 0;
     }
 
-    const _account = {
+    const _account: any = {
       ...response[0],
     };
 
@@ -450,7 +450,11 @@ const getUserReputation = async (author) => {
   }
 };
 
-const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) =>
+const vestToSteem = async (
+  vestingShares: any,
+  totalVestingShares: any,
+  totalVestingFundSteem: any,
+) =>
   (
     parseFloat(totalVestingFundSteem) *
     (parseFloat(vestingShares) / parseFloat(totalVestingShares))
@@ -460,7 +464,7 @@ const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSt
  * @method getUser get account data with calculated fields
  * @param user username
  */
-export const getUser = async (user) => {
+export const getUser = async (user: string) => {
   try {
     const queryClient = getQueryClient();
 
@@ -469,7 +473,7 @@ export const getUser = async (user) => {
       return null;
     }
 
-    const _account = {
+    const _account: any = {
       ...accountData,
     };
     const unreadActivityCount = 0;
@@ -478,7 +482,7 @@ export const getUser = async (user) => {
     try {
       globalProperties = await getDynamicGlobalProperties();
     } catch (error) {
-      globalProperties = getCache('globalDynamic');
+      globalProperties = await getCache('globalDynamic');
     }
 
     const rcPower =
@@ -486,7 +490,7 @@ export const getUser = async (user) => {
         (await callRPC('rc_api.find_rc_accounts', {
           accounts: [user],
         }))) ||
-      getCache('rcPower');
+      (await getCache('rcPower'));
     await setCache('rcPower', rcPower);
 
     _account.reputation = await getUserReputation(user);
@@ -516,9 +520,9 @@ export const getUser = async (user) => {
       get(rawGlobalProps, 'total_vesting_fund_hive'),
     );
 
-    if (has(_account, 'posting_json_metadata')) {
+    if (has(_account as object, 'posting_json_metadata')) {
       try {
-        const parsed = parseProfileMetadata(get(_account, 'posting_json_metadata'));
+        const parsed: any = parseProfileMetadata(get(_account, 'posting_json_metadata'));
         _account.profile = parsed?.profile || parsed || {};
       } catch (e) {
         _account.profile = {};
@@ -536,8 +540,8 @@ export const getUser = async (user) => {
   }
 };
 
-export const signImage = async (file, currentAccount, pin) => {
-  const digitPinCode = getDigitPinCode(pin);
+export const signImage = async (file: any, currentAccount: any, pin: any) => {
+  const digitPinCode = getDigitPinCode(pin)!;
   const key = getPostingKey(currentAccount.local, digitPinCode);
 
   if (isHsClientSupported(currentAccount.local.authType)) {
@@ -548,10 +552,10 @@ export const signImage = async (file, currentAccount, pin) => {
     return accessToken;
   }
   if (key) {
-    const message = {
+    const message: any = {
       signed_message: { type: 'posting', app: 'ecency.app' },
       authors: [currentAccount.name],
-      timestamp: parseInt(new Date().getTime() / 1000, 10),
+      timestamp: Math.floor(Date.now() / 1000),
     };
     const hash = hiveTxSha256(JSON.stringify(message));
 
@@ -569,7 +573,7 @@ export const signImage = async (file, currentAccount, pin) => {
 
 // HELPERS
 
-export const getPostingKey = (local, pin) => {
+export const getPostingKey = (local: any, pin: any) => {
   if (local?.postingKey) {
     return decryptKey(local.postingKey, pin);
   }
@@ -577,7 +581,7 @@ export const getPostingKey = (local, pin) => {
   return false;
 };
 
-export const getActiveKey = (local, pin) => {
+export const getActiveKey = (local: any, pin: any) => {
   if (local?.activeKey) {
     return decryptKey(local.activeKey, pin);
   }
@@ -585,7 +589,7 @@ export const getActiveKey = (local, pin) => {
   return false;
 };
 
-export const votingPower = (account) => {
+export const votingPower = (account: any) => {
   const calc = calculateVPMana(account);
   const { percentage } = calc;
 
@@ -687,10 +691,10 @@ export const shouldPromptPostingAuthority = (account: any): boolean => {
   return true;
 };
 
-export const resolveTransaction = async (parsedTx, parsedParams, signer) => {
+export const resolveTransaction = async (parsedTx: any, parsedParams: any, signer: any) => {
   const EXPIRE_TIME = 60 * 1000;
   const dynamicProps = await getDynamicGlobalProperties();
-  const props = dynamicProps.raw.globalDynamic;
+  const props = dynamicProps.raw!.globalDynamic;
 
   const { tx } = hiveuri.resolveTransaction(parsedTx, parsedParams, {
     ref_block_num: props.head_block_number & 0xffff,
@@ -739,7 +743,7 @@ export const handleHiveUriOperation = async (
   pin: any,
   tx: any,
 ): Promise<TransactionConfirmation> => {
-  const digitPinCode = getDigitPinCode(pin);
+  const digitPinCode = getDigitPinCode(pin)!;
   const requiredAuthority = resolveTxRequiredAuthority(tx?.operations || []);
   const key =
     requiredAuthority === 'posting'
