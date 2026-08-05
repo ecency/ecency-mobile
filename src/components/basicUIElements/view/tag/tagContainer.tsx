@@ -32,7 +32,7 @@ const TagContainer = ({
   prefix,
   suffix,
   removeEnabled,
-}) => {
+}: any) => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
 
@@ -41,7 +41,7 @@ const TagContainer = ({
 
   useEffect(() => {
     let isCancelled = false;
-    const fetchData = async (val) => {
+    const fetchData = async (val: any) => {
       try {
         const community = await queryClient.fetchQuery(getCommunityQueryOptions(val, ''));
         const dd = community?.title || val;
@@ -82,7 +82,7 @@ const TagContainer = ({
     if (onPress) {
       onPress();
     } else {
-      navigation.navigate({
+      (navigation as any).navigate({
         name: isCommunity ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT,
         params: {
           tag: value,

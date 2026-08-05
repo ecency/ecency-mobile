@@ -20,10 +20,10 @@ const BasicHeaderContainer = (props: BackHeaderProps) => {
   const isHideImages = useAppSelector(selectHidePostsThumbnails);
 
   const _handleOnPressBackButton = () => {
-    const { isNewPost, handleOnBackPress } = props;
+    const { isNewPost, handleOnBackPress } = props as any;
 
     if (isNewPost) {
-      navigation.navigate({
+      (navigation as any).navigate({
         name: ROUTES.SCREENS.FEED,
       });
     } else {

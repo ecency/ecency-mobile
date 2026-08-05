@@ -27,12 +27,11 @@ const IconButton = ({
   isLoading,
   accessibilityLabel,
   accessibilityHint,
-}) => (
+}: any) => (
   <Fragment>
     <TouchableOpacity
       style={[styles.iconButton, style]}
       onPress={() => !isLoading && onPress && onPress()}
-      underlayColor={backgroundColor || 'white'}
       disabled={disabled}
       onLongPress={() => !isLoading && onLongPress && onLongPress()}
       accessibilityRole={onPress ? 'button' : undefined}

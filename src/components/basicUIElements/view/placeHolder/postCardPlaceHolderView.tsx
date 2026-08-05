@@ -22,7 +22,7 @@ const PostCardPlaceHolder = () => {
         source={require('../../../../assets/animations/postList.json')}
         autoPlay
         loop={true}
-        autoSize={true}
+        {...({ autoSize: true } as any)}
         resizeMode="cover"
         colorFilters={[
           {

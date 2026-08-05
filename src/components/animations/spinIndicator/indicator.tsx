@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import { Animated, Easing } from 'react-native';
 
-export default class Indicator extends PureComponent {
-  constructor(props) {
+export default class Indicator extends PureComponent<any, any> {
+  mounted: any;
+
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -22,7 +24,7 @@ export default class Indicator extends PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: any) {
     const { animating } = this.props;
 
     if (animating !== prevProps.animating) {
@@ -38,7 +40,7 @@ export default class Indicator extends PureComponent {
     this.mounted = false;
   }
 
-  _startAnimation = ({ finished } = {}) => {
+  _startAnimation = ({ finished }: any = {}) => {
     const { progress } = this.state;
     const { interaction, animationEasing, animationDuration } = this.props;
 
@@ -47,6 +49,7 @@ export default class Indicator extends PureComponent {
     }
 
     const animation = Animated.timing(progress, {
+      useNativeDriver: false,
       duration: animationDuration,
       easing: animationEasing,
       isInteraction: interaction,
@@ -70,7 +73,7 @@ export default class Indicator extends PureComponent {
     this.setState({ animation: null });
   };
 
-  _renderComponent = (undefined, index) => {
+  _renderComponent = (undefined: any, index: any) => {
     const { progress } = this.state;
     const { renderComponent } = this.props;
 
@@ -92,7 +95,7 @@ export default class Indicator extends PureComponent {
   }
 }
 
-Indicator.defaultProps = {
+(Indicator as any).defaultProps = {
   animationEasing: Easing.linear,
   animationDuration: 1200,
   animating: true,

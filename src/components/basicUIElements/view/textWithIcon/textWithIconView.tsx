@@ -32,9 +32,6 @@ const TextWithIcon = ({
   isLoading?: boolean;
   accessibilityLabel?: string;
   accessibilityHint?: string;
-  // accepted from existing callers but not currently rendered
-  // eslint-disable-next-line react/no-unused-prop-types
-  textMarginLeft?: number;
 }) => {
   const [ltext, setLtext] = useState(text);
   useEffect(() => {

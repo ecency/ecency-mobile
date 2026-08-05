@@ -21,7 +21,7 @@ const CommunityListItem = ({
   isSubscribed,
   isLoggedIn,
   isLoadingRightAction,
-}) => {
+}: any) => {
   const intl = useIntl();
 
   const _handleSubscribeButtonPress = () => {

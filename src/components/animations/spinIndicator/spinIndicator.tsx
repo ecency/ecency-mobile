@@ -4,8 +4,8 @@ import { View, Animated, Easing } from 'react-native';
 import { Indicator } from './indicator';
 import styles from './spinIndicatorStyles';
 
-class SpinIndicator extends PureComponent {
-  _renderComponent = ({ index, progress }) => {
+class SpinIndicator extends PureComponent<any, any> {
+  _renderComponent = ({ index, progress }: any) => {
     const { size, color, animationDuration, breadth, animating, initStart } = this.props;
 
     const frames = (60 * animationDuration) / 1000;
@@ -75,9 +75,9 @@ class SpinIndicator extends PureComponent {
     return (
       <Animated.View style={styles.layer} {...{ key: index }}>
         <Animated.View style={layerStyle}>
-          <Animated.View style={[containerStyle, offsetStyle]} collapsable={false}>
+          <Animated.View style={[containerStyle, offsetStyle] as any} collapsable={false}>
             <Animated.View style={viewportStyle}>
-              <Animated.View style={containerStyle} collapsable={false}>
+              <Animated.View style={containerStyle as any} collapsable={false}>
                 <Animated.View style={lineStyle} />
               </Animated.View>
             </Animated.View>
@@ -114,7 +114,7 @@ class SpinIndicator extends PureComponent {
   }
 }
 
-SpinIndicator.defaultProps = {
+(SpinIndicator as any).defaultProps = {
   animationDuration: 2400,
   color: '#1a509a',
   animating: true,

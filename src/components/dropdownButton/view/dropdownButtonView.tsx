@@ -18,12 +18,12 @@ import styles from './dropdownButtonStyles';
  */
 
 const renderDropdownRow = (
-  rowData,
-  rowID,
-  highlighted,
-  rowTextStyle,
-  noHighlight,
-  dropdownRowWrapper,
+  rowData: any,
+  rowID: any,
+  highlighted: any,
+  rowTextStyle: any,
+  noHighlight: any,
+  dropdownRowWrapper: any,
 ) => (
   <View
     key={rowID}
@@ -65,7 +65,7 @@ const DropdownButtonView = ({
   dropdownRef,
   dropdownRowWrapper,
   disableFrameAdjustment,
-}) => {
+}: any) => {
   const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
 
@@ -75,7 +75,7 @@ const DropdownButtonView = ({
       return screenWidth / 2;
     }
     const longestOption = options.reduce(
-      (a, b) => (String(b).length > String(a).length ? b : a),
+      (a: any, b: any) => (String(b).length > String(a).length ? b : a),
       '',
     );
     // ~7px per char at fontSize 10, plus row padding
@@ -136,12 +136,12 @@ const DropdownButtonView = ({
         ]}
         dropdownTextStyle={[dropdownTextStyle || styles.dropdownText]}
         options={options}
-        onSelect={(e) => onSelect && onSelect(e, options[e])}
+        onSelect={(e: any) => onSelect && onSelect(e, options[e])}
         defaultIndex={selectedOptionIndex}
         defaultValue={defaultText}
         renderSeparator={() => null}
         showsVerticalScrollIndicator={false}
-        renderRow={(rowData, rowID, highlighted) =>
+        renderRow={(rowData: any, rowID: any, highlighted: any) =>
           renderDropdownRow(
             rowData,
             rowID,

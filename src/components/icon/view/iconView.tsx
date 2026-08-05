@@ -11,8 +11,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import styles from './iconStyles';
 
-class IconView extends PureComponent {
-  constructor(props) {
+class IconView extends PureComponent<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }
@@ -42,25 +42,25 @@ class IconView extends PureComponent {
 
     switch (iconType) {
       case 'Feather':
-        return <Feather {...this.props} />;
+        return <Feather {...(this.props as any)} />;
       case 'FontAwesome':
-        return <FontAwesome {...this.props} />;
+        return <FontAwesome {...(this.props as any)} />;
       case 'FontAwesome5':
-        return <FontAwesome5 {...this.props} />;
+        return <FontAwesome5 {...(this.props as any)} />;
       case 'SimpleLineIcons':
-        return <SimpleLineIcons {...this.props}>{children}</SimpleLineIcons>;
+        return <SimpleLineIcons {...(this.props as any)}>{children}</SimpleLineIcons>;
       case 'AntDesign':
-        return <AntDesign {...this.props}>{children}</AntDesign>;
+        return <AntDesign {...(this.props as any)}>{children}</AntDesign>;
       case 'MaterialIcons':
-        return <MaterialIcons {...this.props}>{children}</MaterialIcons>;
+        return <MaterialIcons {...(this.props as any)}>{children}</MaterialIcons>;
       case 'MaterialCommunityIcons':
-        return <MaterialCommunityIcons {...this.props}>{children}</MaterialCommunityIcons>;
+        return <MaterialCommunityIcons {...(this.props as any)}>{children}</MaterialCommunityIcons>;
       default:
-        return <Ionicons name={_name} {...this.props} />;
+        return <Ionicons name={_name} {...(this.props as any)} />;
     }
   };
 
-  _getIconWithBadge = (badgeCount) => {
+  _getIconWithBadge = (badgeCount: any) => {
     const { badgeStyle, badgeTextStyle } = this.props;
 
     return (

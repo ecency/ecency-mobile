@@ -32,14 +32,14 @@ const HeaderView = ({
   showQR,
   showBoost,
   hideSearch,
-}) => {
+}: any) => {
   const navigation = useNavigation();
 
   const intl = useIntl();
   const gradientColor = isDarkTheme ? ['#081c36', '#43638e'] : ['#2d5aa0', '#357ce6'];
 
   const _onPressSearchButton = () => {
-    navigation.navigate(ROUTES.SCREENS.SEARCH_RESULT);
+    (navigation as any).navigate(ROUTES.SCREENS.SEARCH_RESULT);
   };
 
   const _renderAvatar = () => (
@@ -47,7 +47,7 @@ const HeaderView = ({
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        colors={isReverse ? gradientColor.reverse() : gradientColor}
+        colors={(isReverse ? gradientColor.reverse() : gradientColor) as any}
         style={[
           styles.avatarButtonWrapper,
           isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,

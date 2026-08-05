@@ -5,7 +5,7 @@ import { IconButton } from '../../../iconButton';
 
 import styles from './chipStyle';
 
-const Chip = (props) => (
+const Chip = (props: any) => (
   <View style={[styles.wrapper, props.isPin && styles.isPin]}>
     <TextInput
       style={[styles.textInput, props.removeButton && styles.textInputWithButton]}

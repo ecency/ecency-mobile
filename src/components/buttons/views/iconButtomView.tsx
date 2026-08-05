@@ -18,8 +18,8 @@ import styles from './iconButtonStyles';
  *
  */
 
-class IconButtonView extends Component {
-  constructor(props) {
+class IconButtonView extends Component<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }

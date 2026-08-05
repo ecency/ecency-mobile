@@ -33,13 +33,13 @@ const UserListItem = ({
   rightTooltipText,
   leftItemRenderer,
   rightItemRenderer,
-}) => {
-  const popoverRef = useRef();
+}: any) => {
+  const popoverRef = useRef<any>(null);
   const [showPopover, setShowPopover] = useState(false);
 
   const _handleRightButtonPress = () => {
     if (onPressRightText) {
-      const _data = {};
+      const _data: any = {};
       _data.following = username;
       onPressRightText(_data);
     }
@@ -141,7 +141,7 @@ const UserListItem = ({
 
               <Popover
                 popoverStyle={styles.popoverDetails}
-                arrowStyle={styles.arrow}
+                {...({ arrowStyle: styles.arrow } as any)}
                 backgroundStyle={styles.overlay}
                 isVisible={showPopover}
                 onRequestClose={() => setShowPopover(false)}

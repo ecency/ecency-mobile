@@ -50,7 +50,7 @@ const BasicHeaderView = ({
   handleSettingsPress,
   backIconName,
   isLoadingRightIcon,
-}) => {
+}: any) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const rewardMenuRef = useRef(null);
 
@@ -78,11 +78,11 @@ const BasicHeaderView = ({
     }
   };
 
-  const _handleOnSearch = (value) => {
+  const _handleOnSearch = (value: any) => {
     handleOnSearch(value);
   };
 
-  const _handleRewardMenuSelect = (index) => {
+  const _handleRewardMenuSelect = (index: any) => {
     let rewardType = 'default';
 
     switch (index) {

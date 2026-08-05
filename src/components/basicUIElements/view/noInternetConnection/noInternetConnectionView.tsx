@@ -7,7 +7,7 @@ import { Icon } from '../../../icon';
 
 import styles from './noInternetConnectionStyle';
 
-const NoInternetConnection = ({ intl }) => {
+const NoInternetConnection = ({ intl }: any) => {
   const insets = useSafeAreaInsets();
 
   return (
