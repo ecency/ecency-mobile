@@ -186,7 +186,7 @@ const CommentsContainer = ({
   };
 
   const _handleOnVotersPress = (activeVotes: any, content: any) => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
@@ -197,7 +197,7 @@ const CommentsContainer = ({
   };
 
   const _handleOnEditPress = (item: any) => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.EDITOR,
       key: `editor_edit_reply_${item.permlink}`,
       params: {
@@ -259,7 +259,7 @@ const CommentsContainer = ({
 
   const _openReplyThread = (comment: any) => {
     postsCachePrimer.cachePost(comment);
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.POST,
       params: {
         author: comment.author,

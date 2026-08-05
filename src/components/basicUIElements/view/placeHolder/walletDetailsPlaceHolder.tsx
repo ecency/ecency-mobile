@@ -14,7 +14,7 @@ const listPlaceHolderView = (color: any) => {
   const ratio = (dim.height - 300) / 50;
   const listElements: any[] = [];
 
-  times(parseInt(ratio as any), (i) => {
+  times(Math.floor(ratio), (i) => {
     listElements.push(
       <View key={i} style={styles.textWrapper}>
         <Placeholder.Box animate="fade" height={30} width="100%" radius={5} color={color} />

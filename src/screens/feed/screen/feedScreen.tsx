@@ -94,7 +94,7 @@ const FeedScreen = () => {
       return;
     }
 
-    (navigation as any).navigate(ROUTES.SCREENS.EDITOR, { key: 'editor_post' });
+    navigation.navigate(ROUTES.SCREENS.EDITOR, { key: 'editor_post' });
   };
 
   return (

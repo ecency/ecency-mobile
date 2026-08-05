@@ -1,5 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import { ActivityIndicator, Image, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+  StyleProp,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 
 // Components
 import { Icon } from '../../icon';
@@ -7,23 +16,39 @@ import { Icon } from '../../icon';
 // Styles
 import styles from './mainButtonStyles';
 
-class MainButton extends Component<any, any> {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { string }     isLoading          - TODO:
-   *   @prop { string }     text               - TODO:
-   *   @prop { boolean }    secondText         - TODO:
-   *   @prop { boolean }    iconColor          - TODO:
-   *   @prop { boolean }    iconName           - TODO:
-   *   @prop { boolean }    isDisable          - TODO:
-   *
-   *
-   */
-  constructor(props: any) {
+interface MainButtonProps {
+  text?: string;
+  secondText?: string;
+  isLoading?: boolean;
+  isDisable?: boolean;
+  onPress?: (event?: any) => void;
+  iconName?: string;
+  iconType?: string;
+  iconColor?: string;
+  iconPosition?: string;
+  iconStyle?: StyleProp<any>;
+  // image source rendered instead of a glyph (avatar-style buttons)
+  source?: any;
+  renderIcon?: React.ReactNode;
+  textStyle?: StyleProp<TextStyle>;
+  secondTextStyle?: StyleProp<TextStyle>;
+  style?: StyleProp<ViewStyle>;
+  wrapperStyle?: StyleProp<ViewStyle>;
+  bodyWrapperStyle?: StyleProp<ViewStyle>;
+  height?: number;
+  children?: React.ReactNode;
+}
+
+interface MainButtonState {
+  isDisable: boolean;
+}
+
+class MainButton extends Component<MainButtonProps, MainButtonState> {
+  constructor(props: MainButtonProps) {
     super(props);
 
     this.state = {
-      isDisable: !props.isLoading && props.isDisable,
+      isDisable: !!(!props.isLoading && props.isDisable),
     };
   }
 
@@ -103,11 +128,11 @@ class MainButton extends Component<any, any> {
   _getIndicator = () => <ActivityIndicator color="white" style={styles.activityIndicator} />;
 
   // Component Life Cycles
-  UNSAFE_componentWillReceiveProps(nextProps: any) {
+  UNSAFE_componentWillReceiveProps(nextProps: MainButtonProps) {
     const { isLoading, isDisable } = this.props;
     if (nextProps.isLoading !== isLoading || nextProps.isDisable !== isDisable) {
       this.setState({
-        isDisable: !nextProps.isLoading && nextProps.isDisable,
+        isDisable: !!(!nextProps.isLoading && nextProps.isDisable),
       });
     }
   }

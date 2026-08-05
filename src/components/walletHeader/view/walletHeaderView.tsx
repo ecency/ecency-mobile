@@ -100,7 +100,7 @@ const WalletHeaderView = ({
             onPress={() =>
               unclaimedBalance
                 ? claim()
-                : (navigation as any).navigate(ROUTES.SCREENS.BOOST, {
+                : navigation.navigate(ROUTES.SCREENS.BOOST, {
                     username: currentAccount?.name,
                   })
             }

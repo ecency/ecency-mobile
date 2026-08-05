@@ -74,7 +74,7 @@ const PeopleResultsContainer = ({ children, searchValue }: any) => {
   // Component Functions
 
   const _handleOnPress = (item: any) => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.PROFILE,
       params: {
         username: item.name,

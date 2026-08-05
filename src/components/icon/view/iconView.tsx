@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Platform, View, Text } from 'react-native';
+import { Platform, View, Text, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -11,12 +11,23 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import styles from './iconStyles';
 
-class IconView extends PureComponent<any, any> {
-  constructor(props: any) {
-    super(props);
-    this.state = {};
-  }
+interface IconProps {
+  iconType?: string;
+  name?: string;
+  // Android sometimes needs a different glyph name for the same icon
+  androidName?: string;
+  size?: number;
+  color?: string;
+  style?: StyleProp<TextStyle>;
+  badgeCount?: number | string;
+  badgeStyle?: StyleProp<ViewStyle>;
+  badgeTextStyle?: StyleProp<TextStyle>;
+  children?: React.ReactNode;
+  // remaining props spread into the underlying vector-icon set
+  [key: string]: any;
+}
 
+class IconView extends PureComponent<IconProps> {
   _getIconName = () => {
     const { name, androidName } = this.props;
 
@@ -34,7 +45,7 @@ class IconView extends PureComponent<any, any> {
 
   _getIcon = () => {
     const { iconType, children, name } = this.props;
-    let _name = name;
+    let _name: any = name;
 
     if (iconType !== 'MaterialIcons') {
       _name = this._getIconName();
@@ -77,7 +88,7 @@ class IconView extends PureComponent<any, any> {
     const { badgeCount } = this.props;
     let _badgeCount = badgeCount;
 
-    if (_badgeCount && _badgeCount >= 99) {
+    if (_badgeCount && (_badgeCount as any) >= 99) {
       _badgeCount = '99+';
     }
 

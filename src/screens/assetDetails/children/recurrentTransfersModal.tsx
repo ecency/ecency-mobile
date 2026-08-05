@@ -38,7 +38,7 @@ export const RecurrentTransfersModal = forwardRef(
     }));
 
     const _handleOnUserPress = (username: string) => {
-      (navigation as any).navigate({
+      navigation.navigate({
         name: ROUTES.SCREENS.PROFILE,
         params: {
           username,

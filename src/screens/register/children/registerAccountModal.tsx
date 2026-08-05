@@ -58,7 +58,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   }));
 
   const _onContinuePress = () => {
-    (navigation as any).navigate(ROUTES.DRAWER.MAIN);
+    navigation.navigate(ROUTES.DRAWER.MAIN);
     openInbox();
   };
 

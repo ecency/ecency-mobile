@@ -307,7 +307,6 @@ const AiImageGeneratorScreen = () => {
         style={styles.generateAgainButton}
         onPress={_handleGenerateAgain}
         text={intl.formatMessage({ id: 'ai_image_generator.generate_again' })}
-        isTransparent
       />
     </View>
   );

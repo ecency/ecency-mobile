@@ -14,7 +14,7 @@ const BoostPlaceHolder = () => {
   const listElements: any[] = [];
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
-  times(parseInt(ratio as any), (i) => {
+  times(Math.floor(ratio), (i) => {
     listElements.push(
       <View style={styles.container} key={`key-${i.toString()}`}>
         <View style={styles.line}>

@@ -112,7 +112,7 @@ const PostBody = ({
             intl,
             url: link,
             onConfirm: () =>
-              (navigation as any).navigate({
+              navigation.navigate({
                 name: ROUTES.SCREENS.DAPP_BROWSER,
                 params: {
                   url: link,
@@ -149,7 +149,7 @@ const PostBody = ({
     if (tag) {
       const name = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
       const key = `${filter}/${tag}`;
-      (navigation as any).navigate({
+      navigation.navigate({
         name,
         params: {
           tag,
@@ -175,7 +175,7 @@ const PostBody = ({
         permlink = permlink.substring(0, queryIndex);
       }
 
-      (navigation as any).navigate({
+      navigation.navigate({
         name: ROUTES.SCREENS.POST,
         params: {
           author,

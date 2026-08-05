@@ -128,7 +128,7 @@ const NotificationContainer = ({ navigation }: any) => {
     }
 
     if (routeName) {
-      (navigation as any).navigate({
+      navigation.navigate({
         name: routeName,
         params,
         key,

@@ -144,7 +144,7 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
       .filter((item) => item.choices.includes(choiceNum))
       .map((voter) => ({ account: voter.name }));
 
-    (navigation as any).navigate(ROUTES.MODALS.ACCOUNT_LIST, {
+    navigation.navigate(ROUTES.MODALS.ACCOUNT_LIST, {
       title: intl.formatMessage({ id: 'post_poll.voters' }),
       users: _filteredVoters,
     });

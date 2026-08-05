@@ -14,7 +14,7 @@ const ParentPost = ({ post }: any) => {
       <TouchableOpacity
         onPress={() =>
           get(navigation, 'navigate')
-            ? (navigation as any).navigate({
+            ? navigation.navigate({
                 name: ROUTES.SCREENS.POST,
                 params: {
                   author: post.author,

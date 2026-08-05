@@ -12,6 +12,8 @@ import BasicHeaderView from '../view/basicHeaderView';
 
 interface BackHeaderProps {
   backIconName?: 'close' | 'arrow-back';
+  isNewPost?: boolean;
+  handleOnBackPress?: () => void;
   // passes every remaining prop through to BasicHeaderView
   [key: string]: any;
 }
@@ -22,12 +24,10 @@ const BasicHeaderContainer = (props: BackHeaderProps) => {
   const isHideImages = useAppSelector(selectHidePostsThumbnails);
 
   const _handleOnPressBackButton = () => {
-    const { isNewPost, handleOnBackPress } = props as any;
+    const { isNewPost, handleOnBackPress } = props;
 
     if (isNewPost) {
-      (navigation as any).navigate({
-        name: ROUTES.SCREENS.FEED,
-      });
+      navigation.navigate({ name: ROUTES.SCREENS.FEED, params: undefined });
     } else {
       navigation.goBack();
     }

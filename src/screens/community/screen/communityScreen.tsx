@@ -80,21 +80,21 @@ const CommunityScreen = ({ route }: any) => {
 
       switch (result?.action) {
         case 'members':
-          (navigation as any).navigate({
+          navigation.navigate({
             name: ROUTES.SCREENS.COMMUNITY_MEMBERS,
             key: `community_members_${tag}`,
             params,
           });
           break;
         case 'settings':
-          (navigation as any).navigate({
+          navigation.navigate({
             name: ROUTES.SCREENS.COMMUNITY_SETTINGS,
             key: `community_settings_${tag}`,
             params,
           });
           break;
         case 'activities':
-          (navigation as any).navigate({
+          navigation.navigate({
             name: ROUTES.SCREENS.COMMUNITY_ACTIVITIES,
             key: `community_activities_${tag}`,
             params,

@@ -144,7 +144,7 @@ const LoginScreen = ({
           id: 'login.signup',
         })}
         onBackPress={() => {
-          (navigation as any).navigate({
+          navigation.navigate({
             name: ROUTES.DRAWER.MAIN,
           });
         }}

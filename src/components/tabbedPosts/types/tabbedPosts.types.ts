@@ -11,9 +11,7 @@ export interface TabbedPostsProps {
   pageType: 'main' | 'community' | 'profile' | 'ownProfile';
   // absent on profile pages; the container falls back to ''
   tag?: string;
-  // optional: the feed screen omits both; the tab content guards the callback
-  forceLoadPosts?: boolean;
-  changeForceLoadPostState?: (value: boolean) => void;
+  // optional: the feed screen omits it; the tab content guards the callback
   onChangeTab?: (event: any) => void;
   tabContentOverrides?: Map<number, any>;
   pinnedPermlink?: string;
@@ -28,7 +26,6 @@ export interface PostsTabContentProps {
   pageType: 'main' | 'profile' | 'ownProfile' | 'community';
   feedUsername?: string;
   tag: string;
-  forceLoadPosts?: boolean;
   filterScrollRequest?: string | null;
   pinnedPermlink?: string;
   onScrollRequestProcessed: () => void;

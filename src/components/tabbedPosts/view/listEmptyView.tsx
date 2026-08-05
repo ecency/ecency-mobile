@@ -198,7 +198,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
     if (prevLoggedInUsers && prevLoggedInUsers?.length > 0) {
       SheetManager.show(SheetNames.ACCOUNTS_SHEET);
     } else {
-      (navigation as any).navigate(ROUTES.SCREENS.LOGIN);
+      navigation.navigate(ROUTES.SCREENS.LOGIN);
     }
   };
 
@@ -246,7 +246,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
                 isLoadingRightAction={followingUsers[item._id]?.loading}
                 onPressRightText={_handleFollowUserButtonPress}
                 handleOnPress={(username: any) =>
-                  (navigation as any).navigate({
+                  navigation.navigate({
                     name: ROUTES.SCREENS.PROFILE,
                     params: {
                       username,
@@ -281,7 +281,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
                 isNsfw={item.is_nsfw}
                 name={item.name}
                 handleOnPress={(name: any) =>
-                  (navigation as any).navigate({
+                  navigation.navigate({
                     name: ROUTES.SCREENS.COMMUNITY,
                     params: {
                       tag: name,

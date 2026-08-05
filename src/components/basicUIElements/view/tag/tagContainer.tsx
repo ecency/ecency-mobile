@@ -82,7 +82,7 @@ const TagContainer = ({
     if (onPress) {
       onPress();
     } else {
-      (navigation as any).navigate({
+      navigation.navigate({
         name: isCommunity ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT,
         params: {
           tag: value,

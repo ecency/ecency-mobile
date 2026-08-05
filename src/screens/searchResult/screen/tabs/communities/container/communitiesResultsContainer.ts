@@ -153,7 +153,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }: any) => {
 
   // Component Functions
   const _handleOnPress = (name: any) => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.COMMUNITY,
       params: {
         tag: name,

@@ -16,7 +16,8 @@ export default class TabBar extends Component<any, any> {
 
     const { selectedIndex, children } = props;
 
-    let value;
+    // segment width by tab count; 5 tabs is what the app renders
+    let value = 120;
     switch (children.length) {
       case 2:
         value = 480;
@@ -36,9 +37,9 @@ export default class TabBar extends Component<any, any> {
 
     this.state = {
       selectedIndex,
-      circleRadius: new Animated.Value(91 + selectedIndex * value!),
-      pathD: new Animated.Value(selectedIndex * value!),
-      pathX: selectedIndex * value!,
+      circleRadius: new Animated.Value(91 + selectedIndex * value),
+      pathD: new Animated.Value(selectedIndex * value),
+      pathX: selectedIndex * value,
       animateConstant: value,
       animating: false,
     };
@@ -58,11 +59,11 @@ export default class TabBar extends Component<any, any> {
     const { selectedIndex } = this.props;
 
     if (prevProps.selectedIndex !== selectedIndex) {
-      (this as any)._onPress(selectedIndex);
+      this._onPress(selectedIndex);
     }
   }
 
-  _onPress = (i: any, disabled: any) => {
+  _onPress = (i: number, disabled?: boolean) => {
     const { onChange } = this.props;
     if (!disabled) {
       this._move(i);

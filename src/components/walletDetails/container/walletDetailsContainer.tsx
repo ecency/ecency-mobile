@@ -50,7 +50,7 @@ class WalletContainer extends PureComponent<any, any> {
     }
 
     if (isPinCodeOpen) {
-      (navigation as any).navigate({
+      navigation.navigate({
         name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo: ROUTES.SCREENS.TRANSFER,
@@ -58,7 +58,7 @@ class WalletContainer extends PureComponent<any, any> {
         },
       });
     } else {
-      (navigation as any).navigate({
+      navigation.navigate({
         name: ROUTES.SCREENS.TRANSFER,
         params: { transferType, fundType, balance },
       });

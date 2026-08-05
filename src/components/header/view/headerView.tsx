@@ -39,7 +39,7 @@ const HeaderView = ({
   const gradientColor = isDarkTheme ? ['#081c36', '#43638e'] : ['#2d5aa0', '#357ce6'];
 
   const _onPressSearchButton = () => {
-    (navigation as any).navigate(ROUTES.SCREENS.SEARCH_RESULT);
+    navigation.navigate(ROUTES.SCREENS.SEARCH_RESULT);
   };
 
   const _renderAvatar = () => (

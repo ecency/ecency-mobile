@@ -99,7 +99,7 @@ const PostScreen = ({ route }: any) => {
     if (getPostQuery.data) {
       const isReply = parentAuthor;
 
-      (navigation as any).navigate({
+      navigation.navigate({
         name: ROUTES.SCREENS.EDITOR,
         key: `editor_post_${permlink}`,
         params: {

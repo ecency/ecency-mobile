@@ -167,7 +167,7 @@ const PostsResultsContainer = ({ children, searchValue, filters = EMPTY_SEARCH_F
     const itemPermlink = get(item, 'permlink');
 
     postsCacherPrimer.cachePost(item);
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.POST,
       params: {
         author: itemAuthor,

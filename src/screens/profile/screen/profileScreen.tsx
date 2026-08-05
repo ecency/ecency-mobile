@@ -10,14 +10,12 @@ const ProfileScreen = ({ route }: any) => (
       about,
       activePage,
       avatar,
-      changeForceLoadPostState,
       comments,
       currency,
       currencyRate,
       currencySymbol,
       error,
       follows,
-      forceLoadPost,
       getReplies,
       handleFollowUnfollowUser,
       handleMessage,
@@ -48,14 +46,12 @@ const ProfileScreen = ({ route }: any) => (
         about={about}
         activePage={activePage}
         avatar={avatar}
-        changeForceLoadPostState={changeForceLoadPostState}
         comments={comments}
         currency={currency}
         currencyRate={currencyRate}
         currencySymbol={currencySymbol}
         error={error}
         follows={follows}
-        forceLoadPost={forceLoadPost}
         getReplies={getReplies}
         handleFollowUnfollowUser={handleFollowUnfollowUser}
         handleMessage={handleMessage}

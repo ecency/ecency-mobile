@@ -78,7 +78,7 @@ class HiveSigner extends PureComponent<any, any> {
               this._updatePrevLoggedInUsersList(result.username);
 
               if (isPinCodeOpen) {
-                (navigation as any).navigate({
+                navigation.navigate({
                   name: ROUTES.SCREENS.PINCODE,
                   params: {
                     accessToken: result.accessToken,
@@ -86,7 +86,7 @@ class HiveSigner extends PureComponent<any, any> {
                   },
                 });
               } else {
-                (navigation as any).navigate({
+                navigation.navigate({
                   name: ROUTES.DRAWER.MAIN,
                   params: { accessToken: result.accessToken },
                 });
