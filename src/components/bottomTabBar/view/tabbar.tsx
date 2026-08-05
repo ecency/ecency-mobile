@@ -8,8 +8,10 @@ import styles from './bottomTabBarStyles';
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
-export default class TabBar extends Component {
-  constructor(props) {
+export default class TabBar extends Component<any, any> {
+  _myCircle: any;
+
+  constructor(props: any) {
     super(props);
 
     const { selectedIndex, children } = props;
@@ -34,33 +36,33 @@ export default class TabBar extends Component {
 
     this.state = {
       selectedIndex,
-      circleRadius: new Animated.Value(91 + selectedIndex * value),
-      pathD: new Animated.Value(selectedIndex * value),
-      pathX: selectedIndex * value,
+      circleRadius: new Animated.Value(91 + selectedIndex * value!),
+      pathD: new Animated.Value(selectedIndex * value!),
+      pathX: selectedIndex * value!,
       animateConstant: value,
       animating: false,
     };
 
-    this.state.circleRadius.addListener((circleRadius) => {
+    this.state.circleRadius.addListener((circleRadius: any) => {
       this._myCircle.setNativeProps({ cx: parseInt(circleRadius.value, 10) });
     });
 
-    this.state.pathD.addListener((a) => {
+    this.state.pathD.addListener((a: any) => {
       this.setState({
         pathX: parseInt(a.value, 10),
       });
     });
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: any) {
     const { selectedIndex } = this.props;
 
     if (prevProps.selectedIndex !== selectedIndex) {
-      this._onPress(selectedIndex);
+      (this as any)._onPress(selectedIndex);
     }
   }
 
-  _onPress = (i, disabled) => {
+  _onPress = (i: any, disabled: any) => {
     const { onChange } = this.props;
     if (!disabled) {
       this._move(i);
@@ -70,15 +72,17 @@ export default class TabBar extends Component {
     }
   };
 
-  _move = (index) => {
+  _move = (index: any) => {
     const { animateConstant, pathD, circleRadius } = this.state;
 
     this.setState({ selectedIndex: index, animating: true });
     Animated.timing(pathD, {
+      useNativeDriver: false,
       toValue: 0 + index * animateConstant,
       duration: 350,
     }).start();
     Animated.timing(circleRadius, {
+      useNativeDriver: false,
       toValue: 91 + index * animateConstant,
       duration: 350,
     }).start(() => {
@@ -99,7 +103,7 @@ export default class TabBar extends Component {
     return (
       <View style={style}>
         <View style={styles.subContent}>
-          {children.map((route, i) => {
+          {children.map((route: any, i: any) => {
             return React.cloneElement(route, {
               selected: selectedIndex === i,
               onPress: this._onPress,
@@ -113,14 +117,12 @@ export default class TabBar extends Component {
         </View>
 
         <Svg
-          version="1.1"
           id="bottom-bar"
           x="0px"
           y="0px"
           width="100%"
           height={roundPx(100)}
           viewBox="0 0 661 100"
-          space="preserve"
         >
           <AnimatedPath
             fill={backgroundColor}
@@ -139,8 +141,9 @@ export default class TabBar extends Component {
             }.941653,71.4462087 ${31 + pathX}.454074,80.6628108 Z`}
           />
           <AnimatedCircle
-            // eslint-disable-next-line no-return-assign
-            ref={(ref) => (this._myCircle = ref)}
+            ref={(ref) => {
+              this._myCircle = ref;
+            }}
             fill={circleBackgroundColor}
             cx={circleRadius}
             cy="50.5"
@@ -161,7 +164,7 @@ const TabBarItem = ({
   showIcon,
   disabled,
   animating,
-}) => {
+}: any) => {
   if (selected) {
     if (animating) {
       return <View style={styles.navItem} />;
@@ -188,4 +191,4 @@ const TabBarItem = ({
   );
 };
 
-TabBar.Item = TabBarItem;
+(TabBar as any).Item = TabBarItem;

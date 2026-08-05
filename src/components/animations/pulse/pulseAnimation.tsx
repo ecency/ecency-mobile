@@ -14,7 +14,11 @@ const styles = StyleSheet.create({
   },
 });
 
-class PulseAnimation extends Component {
+class PulseAnimation extends Component<any, any> {
+  createPulseTimer: any;
+
+  timer: any;
+
   mounted = true;
 
   static defaultProps = {
@@ -35,7 +39,7 @@ class PulseAnimation extends Component {
     },
   };
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -77,7 +81,7 @@ class PulseAnimation extends Component {
     clearInterval(this.timer);
   }
 
-  createPulse = () => {
+  createPulse = (_index?: any) => {
     if (this.mounted) {
       const { pulses, maxDiameter } = this.state;
       const { initialDiameter } = this.props;
@@ -98,7 +102,7 @@ class PulseAnimation extends Component {
   updatePulse = () => {
     if (this.mounted) {
       // eslint-disable-next-line react/no-access-state-in-setstate
-      const pulses = this.state.pulses.map((p, i) => {
+      const pulses = this.state.pulses.map((p: any, i: any) => {
         const { maxDiameter } = this.state;
         const newDiameter = p.diameter > maxDiameter ? 0 : p.diameter + 2;
         const centerOffset = (maxDiameter - newDiameter) / 2;
@@ -127,7 +131,7 @@ class PulseAnimation extends Component {
       <View style={containerStyle}>
         {started && (
           <View style={pulseWrapperStyle}>
-            {pulses.map((pulse) => (
+            {pulses.map((pulse: any) => (
               <View
                 key={pulse.pulseKey}
                 style={[

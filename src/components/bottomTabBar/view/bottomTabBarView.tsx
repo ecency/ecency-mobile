@@ -27,7 +27,7 @@ const BottomTabBarView = ({
     dispatch(updateActiveBottomTab(routes[index].name));
   }, [index]);
 
-  const _jumpTo = (route, isFocused) => {
+  const _jumpTo = (route: any, isFocused: any) => {
     const event = navigation.emit({
       type: 'tabPress',
       target: route.key,
@@ -50,7 +50,7 @@ const BottomTabBarView = ({
       // glyph; the icon names are the `*-outline` variants set in the navigator.
       iconType: 'MaterialCommunityIcons',
       style: { paddingTop: 15 },
-      name: route.params.iconName,
+      name: (route.params as any).iconName,
       color: iconColor,
       size: 26,
     };

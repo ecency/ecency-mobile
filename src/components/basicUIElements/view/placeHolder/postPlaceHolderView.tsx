@@ -19,7 +19,7 @@ const PostPlaceHolder = () => {
         source={require('../../../../assets/animations/postBody.json')}
         autoPlay
         loop={true}
-        autoSize={true}
+        {...({ autoSize: true } as any)}
         resizeMode="cover"
         colorFilters={[
           {

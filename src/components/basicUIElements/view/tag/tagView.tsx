@@ -17,7 +17,7 @@ const Tag = ({
   prefix,
   suffix,
   removeEnabled,
-}) => (
+}: any) => (
   <TouchableOpacity
     hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
     onPress={() => onPress && onPress(value)}

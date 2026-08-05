@@ -6,7 +6,7 @@ import { SpinIndicator } from '../spinIndicator/spinIndicator';
 // Styles
 import styles from './boostIndicatorStyles';
 
-const BoostIndicatorAnimation = ({ isSpinning }) => {
+const BoostIndicatorAnimation = ({ isSpinning }: any) => {
   return (
     <View style={styles.spinIndicatorContainer}>
       <SpinIndicator

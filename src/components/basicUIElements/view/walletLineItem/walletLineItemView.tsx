@@ -33,7 +33,7 @@ const WalletLineItem = ({
   cancelling,
   onCancelPress,
   onRepeatPress,
-}) => (
+}: any) => (
   <TouchableOpacity onPress={onPress} disabled={!onPress} activeOpacity={0.8}>
     <GrayWrapper isGray={index && index % 2 !== 0}>
       <View style={[styles.container, fitContent && styles.fitContent, style]}>

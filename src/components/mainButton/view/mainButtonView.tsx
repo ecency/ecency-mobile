@@ -7,7 +7,7 @@ import { Icon } from '../../icon';
 // Styles
 import styles from './mainButtonStyles';
 
-class MainButton extends Component {
+class MainButton extends Component<any, any> {
   /* Props
    * ------------------------------------------------
    *   @prop { string }     isLoading          - TODO:
@@ -19,7 +19,7 @@ class MainButton extends Component {
    *
    *
    */
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -103,7 +103,7 @@ class MainButton extends Component {
   _getIndicator = () => <ActivityIndicator color="white" style={styles.activityIndicator} />;
 
   // Component Life Cycles
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     const { isLoading, isDisable } = this.props;
     if (nextProps.isLoading !== isLoading || nextProps.isDisable !== isDisable) {
       this.setState({

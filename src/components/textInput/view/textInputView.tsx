@@ -8,9 +8,9 @@ import { selectIsDarkTheme } from '../../../redux/selectors';
 import styles from './textInputStyles';
 
 interface Props extends TextInputProps {
-  innerRef: Ref<TextInput>;
-  height: number;
-  style: TextStyle;
+  innerRef?: Ref<TextInput>;
+  height?: number;
+  style?: TextStyle;
 }
 
 const TextInputView = ({ innerRef, height, style, ...props }: Props) => {

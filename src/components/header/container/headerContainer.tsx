@@ -22,13 +22,13 @@ const HeaderContainer = ({
   showQR,
   showBoost,
   hideSearch,
-}) => {
+}: any) => {
   const navigation = useNavigation();
 
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const _handleOpenDrawer = () => {
     if (has(navigation, 'openDrawer') && typeof get(navigation, 'openDrawer') === 'function') {
-      navigation.openDrawer();
+      (navigation as any).openDrawer();
     }
   };
 
@@ -46,12 +46,12 @@ const HeaderContainer = ({
 
   const _handleOnBoostPress = () => {
     // open the perks dashboard (quests + ways to spend points)
-    navigation.navigate(ROUTES.SCREENS.PERKS);
+    (navigation as any).navigate(ROUTES.SCREENS.PERKS);
   };
 
   return (
     <AccountContainer>
-      {({ currentAccount, isLoggedIn, isLoginDone }) => {
+      {({ currentAccount, isLoggedIn, isLoginDone }: any) => {
         const _user = isReverse && selectedUser ? selectedUser : currentAccount;
 
         const reputation = parseReputation(get(_user, 'reputation'));

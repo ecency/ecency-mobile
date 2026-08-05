@@ -256,7 +256,6 @@ const PostDisplayView = ({
             isClickable
             onPress={handleVotersIconPress}
             text={activeVotesCount}
-            textMarginLeft={20}
             accessibilityLabel={intl.formatMessage(
               {
                 id: 'post.a11y_votes',
@@ -276,7 +275,6 @@ const PostDisplayView = ({
             isClickable
             onPress={_handleOnReblogsPress}
             text={post?.reblogs ?? 0}
-            textMarginLeft={20}
             accessibilityLabel={intl.formatMessage(
               {
                 id: 'post.a11y_reblogs',
@@ -296,7 +294,6 @@ const PostDisplayView = ({
               iconType="MaterialCommunityIcons"
               isClickable
               text={get(post, 'children', 0)}
-              textMarginLeft={20}
               onLongPress={_showQuickReplyModal}
               onPress={_scrollToComments}
               isLoading={!isLoadedComments}
@@ -320,7 +317,6 @@ const PostDisplayView = ({
               iconType="MaterialCommunityIcons"
               isClickable
               text={get(post, 'children', 0)}
-              textMarginLeft={20}
               accessibilityLabel={intl.formatMessage(
                 {
                   id: 'post.a11y_comments',
@@ -338,7 +334,6 @@ const PostDisplayView = ({
             isClickable
             onPress={_handleOnTipPress}
             text={tipsQuery.data?.meta?.count || 0}
-            textMarginLeft={20}
             isLoading={tipsQuery.isLoading}
             accessibilityLabel={intl.formatMessage(
               {
@@ -462,7 +457,6 @@ const PostDisplayView = ({
                     isClickable
                     onPress={_showStatsModal}
                     text={getAbbreviatedNumber(postStatsQuery.data?.visits || 0)}
-                    textMarginLeft={4}
                     isLoading={postStatsQuery.isLoading}
                     accessibilityLabel={intl.formatMessage(
                       {

@@ -9,9 +9,9 @@ const ListPlaceHolderView = () => {
   const dim = useWindowDimensions();
 
   const ratio = (dim.height - 300) / 50;
-  const listElements = [];
+  const listElements: any[] = [];
 
-  times(parseInt(ratio), (i) => {
+  times(parseInt(ratio as any), (i) => {
     listElements.push(<ListItemPlaceHolder key={i} />);
   });
 

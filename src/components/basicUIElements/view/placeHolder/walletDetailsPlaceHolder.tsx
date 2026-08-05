@@ -8,13 +8,13 @@ import { useAppSelector } from '../../../../hooks';
 
 import styles from './walletDetailsPlaceHolderStyles';
 
-const listPlaceHolderView = (color) => {
+const listPlaceHolderView = (color: any) => {
   const dim = useWindowDimensions();
 
   const ratio = (dim.height - 300) / 50;
-  const listElements = [];
+  const listElements: any[] = [];
 
-  times(parseInt(ratio), (i) => {
+  times(parseInt(ratio as any), (i) => {
     listElements.push(
       <View key={i} style={styles.textWrapper}>
         <Placeholder.Box animate="fade" height={30} width="100%" radius={5} color={color} />

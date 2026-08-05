@@ -24,7 +24,7 @@ const CommentPlaceHolderView = () => {
         source={require('../../../../assets/animations/commentBody.json')}
         autoPlay
         loop={true}
-        autoSize={true}
+        {...({ autoSize: true } as any)}
         resizeMode="cover"
         colorFilters={[
           {
