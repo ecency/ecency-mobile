@@ -6,10 +6,10 @@ import { WalletContainer, AccountContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-const BtcView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => (
+const BtcView = ({ handleOnSelected, index, currentIndex, refreshing: reload }: any) => (
   <View style={globalStyles.swipeItemWrapper}>
     <AccountContainer>
-      {({ currentAccount }) => (
+      {({ currentAccount }: any) => (
         <WalletContainer selectedUser={currentAccount}>
           {({
             isClaiming,
@@ -23,7 +23,7 @@ const BtcView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) 
             estimatedTokenValue,
             btcDropdown,
             navigate,
-          }) => (
+          }: any) => (
             <WalletHeader
               componentDidUpdate={() => handleOnSelected(transferHistory, isLoading)}
               index={index}
@@ -36,7 +36,7 @@ const BtcView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) 
               refreshing={refreshing}
               unclaimedBalance={0}
               userBalance={[{ balance: tokenBalance, nameKey: 'btc', options: btcDropdown }]}
-              handleOnDropdownSelected={(option) => navigate(option, 'BTC')}
+              handleOnDropdownSelected={(option: any) => navigate(option, 'BTC')}
               type="btc"
               currentIndex={currentIndex}
               showAddressButton

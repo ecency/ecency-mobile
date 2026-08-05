@@ -3,7 +3,7 @@ import ActionSheet from 'react-native-actionsheet';
 
 interface Props {
   options: string[];
-  title: string;
+  title?: string;
   cancelButtonIndex: number;
   destructiveButtonIndex?: number;
   onPress: (index: number) => void;

@@ -93,7 +93,7 @@ export const CoinSummary = ({
             item.dataKey === 'delegated_hive_power' || item.dataKey === 'received_hive_power';
           return {
             ...item,
-            isClickable: isDelegation || item.isClickable,
+            isClickable: isDelegation || (item as any).isClickable,
           };
         })
       : [];

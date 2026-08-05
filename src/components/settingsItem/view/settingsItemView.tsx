@@ -12,13 +12,13 @@ import { ToggleSwitch } from '../../toggleSwitch';
 import styles from './settingsItemStyles';
 import IconButton from '../../iconButton';
 
-class SettingsItemView extends PureComponent {
+class SettingsItemView extends PureComponent<any, any> {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }
@@ -54,7 +54,7 @@ class SettingsItemView extends PureComponent {
             dropdownStyle={styles.dropdownStyle}
             textStyle={styles.dropdownText}
             options={options}
-            onSelect={(e) => handleOnChange(e, type, actionType)}
+            onSelect={(e: any) => handleOnChange(e, type, actionType)}
             isHasChildIcon
           />
         );
@@ -62,7 +62,7 @@ class SettingsItemView extends PureComponent {
       case 'toggle':
         return (
           <ToggleSwitch
-            size="large"
+            {...({ size: 'large' } as any)}
             isOn={isOn}
             onToggle={(e) => handleOnChange(e, type, actionType)}
             latchBack={toggleLatchBack}

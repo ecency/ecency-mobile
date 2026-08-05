@@ -6,10 +6,10 @@ import { WalletContainer, AccountContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-const HiveView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => (
+const HiveView = ({ handleOnSelected, index, currentIndex, refreshing: reload }: any) => (
   <View style={globalStyles.swipeItemWrapper}>
     <AccountContainer>
-      {({ currentAccount }) => (
+      {({ currentAccount }: any) => (
         <WalletContainer selectedUser={currentAccount}>
           {({
             isClaiming,
@@ -24,7 +24,7 @@ const HiveView = ({ handleOnSelected, index, currentIndex, refreshing: reload })
             hiveDropdown,
             savingHiveDropdown,
             navigate,
-          }) => (
+          }: any) => (
             <WalletHeader
               componentDidUpdate={() => handleOnSelected(transferHistory, isLoading)}
               index={index}
@@ -43,7 +43,7 @@ const HiveView = ({ handleOnSelected, index, currentIndex, refreshing: reload })
                   options: savingHiveDropdown,
                 },
               ]}
-              handleOnDropdownSelected={(option) => navigate(option, 'HIVE')}
+              handleOnDropdownSelected={(option: any) => navigate(option, 'HIVE')}
               type="hive"
               currentIndex={currentIndex}
               showIconList={false}

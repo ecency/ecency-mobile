@@ -34,9 +34,9 @@ export default (raw: CommentHistoryItem[]) => {
   for (let l = 0; l < t.length; l += 1) {
     const p = l > 0 ? l - 1 : l;
 
-    t[l].titleDiff = make_diff(t[p].title, t[l].title);
-    t[l].bodyDiff = make_diff(t[p].body, t[l].body);
-    t[l].tagsDiff = make_diff(t[p].tags, t[l].tags);
+    (t[l] as any).titleDiff = make_diff(t[p].title, t[l].title);
+    (t[l] as any).bodyDiff = make_diff(t[p].body, t[l].body);
+    (t[l] as any).tagsDiff = make_diff(t[p].tags, t[l].tags);
   }
 
   return t;

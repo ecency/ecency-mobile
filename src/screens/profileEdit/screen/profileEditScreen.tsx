@@ -6,17 +6,25 @@ import get from 'lodash/get';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { ProfileEditContainer } from '../../../containers';
 
-import { EditAvatar, Header, ProfileEditForm } from '../../../components/index';
+import {
+  EditAvatar,
+  Header,
+  ProfileEditForm as ProfileEditFormRaw,
+} from '../../../components/index';
 import { OptionsModal } from '../../../components/atoms';
 import styles from './profileEditScreenStyles';
 
-class ProfileEditScreen extends PureComponent {
+const ProfileEditForm: any = ProfileEditFormRaw;
+
+class ProfileEditScreen extends PureComponent<any, any> {
+  galleryRef: any;
+
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       selectedUploadAction: '',
@@ -28,7 +36,7 @@ class ProfileEditScreen extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _showImageUploadActions = (action) => {
+  _showImageUploadActions = (action: any) => {
     this.setState({ selectedUploadAction: action }, () => {
       this.galleryRef.current.show();
     });
@@ -56,7 +64,7 @@ class ProfileEditScreen extends PureComponent {
           isUploading,
           saveEnabled,
           handleOnSubmit,
-        }) => (
+        }: any) => (
           <View style={styles.container}>
             <Header isReverse={true} />
             <EditAvatar
@@ -75,7 +83,7 @@ class ProfileEditScreen extends PureComponent {
               location={location}
               website={website}
               coverUrl={coverUrl}
-              showImageUploadActions={() => this._showImageUploadActions('coverUrl')}
+              showImageUploadActions={(() => this._showImageUploadActions('coverUrl')) as any}
               handleOnItemChange={handleOnItemChange}
               isLoading={isLoading}
               isUploading={isUploading && selectedUploadAction === 'coverUrl'}

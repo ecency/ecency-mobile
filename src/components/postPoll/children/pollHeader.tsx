@@ -43,7 +43,7 @@ export const PollHeader = ({ metadata, expired, compactView }: PollHeaderProps) 
   }, [metadata.community_membership]);
 
   // format end time
-  const _endDate = new Date(metadata.end_time * 1000);
+  const _endDate = new Date(metadata.end_time! * 1000);
   const formattedEndTime = expired
     ? intl.formatMessage({ id: 'post_poll.ended' })
     : intl.formatMessage({ id: 'post_poll.ends' }, { inTime: getTimeFromNow(_endDate) });
@@ -57,7 +57,7 @@ export const PollHeader = ({ metadata, expired, compactView }: PollHeaderProps) 
   const _isCommunityRestricted =
     !!metadata.community_membership && metadata.community_membership?.length > 0;
 
-  const _renderSubText = (text) => <Text style={styles.subText}>{text}</Text>;
+  const _renderSubText = (text: any) => <Text style={styles.subText}>{text}</Text>;
 
   return (
     <View>

@@ -5,8 +5,8 @@ export interface TabItem {
 
 export interface TabbedPostsProps {
   tabFilters: TabItem[];
-  isFeedScreen: boolean;
-  feedUsername: string;
+  isFeedScreen?: boolean;
+  feedUsername?: string;
   selectedOptionIndex: number;
   pageType: 'main' | 'community' | 'profile' | 'ownProfile';
   // absent on profile pages; the container falls back to ''
@@ -18,17 +18,18 @@ export interface TabbedPostsProps {
   tabContentOverrides?: Map<number, any>;
   pinnedPermlink?: string;
   handleOnScroll?: (event?: any) => void;
+  handleOnScrollBeginDrag?: any;
 }
 
 export interface PostsTabContentProps {
   filterKey: string;
-  isFeedScreen: boolean;
+  isFeedScreen?: boolean;
   isInitialTab: boolean;
   pageType: 'main' | 'profile' | 'ownProfile' | 'community';
-  feedUsername: string;
+  feedUsername?: string;
   tag: string;
-  forceLoadPosts: boolean;
-  filterScrollRequest: string | null;
+  forceLoadPosts?: boolean;
+  filterScrollRequest?: string | null;
   pinnedPermlink?: string;
   onScrollRequestProcessed: () => void;
   handleOnScroll: (event?: any) => void;

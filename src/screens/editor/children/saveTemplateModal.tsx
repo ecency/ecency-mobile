@@ -17,7 +17,7 @@ interface SaveTemplateModalProps {
 
 // Small name prompt for saving the current post as a template; follows the
 // snippetEditorModal pattern (Modal + TextInput + TextButton action panel).
-const SaveTemplateModal = ({ onSave }: SaveTemplateModalProps, ref) => {
+const SaveTemplateModal = ({ onSave }: SaveTemplateModalProps, ref: any) => {
   const intl = useIntl();
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 

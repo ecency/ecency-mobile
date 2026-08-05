@@ -206,7 +206,7 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
       const _existingPendingCount = pendingRequestsQuery.data?.length || 0;
       const refetchResult = await pendingRequestsQuery.refetch();
       const _latestPendingCount =
-        refetchResult.data?.length ?? pendingRequestsQuery.data?.length ?? 0;
+        (refetchResult as any).data?.length ?? pendingRequestsQuery.data?.length ?? 0;
       const _hasPending = _latestPendingCount !== _existingPendingCount;
 
       onSuccess();
@@ -222,7 +222,7 @@ export const SwapTokenContent = ({ initialSymbol, onSuccess }: Props) => {
           await delay(3000);
           const refetchResult = await pendingRequestsQuery.refetch();
           const _existingCount = pendingRequestsQuery.data?.length || 0;
-          const _latestCount = refetchResult.data?.length ?? _existingCount;
+          const _latestCount = (refetchResult as any).data?.length ?? _existingCount;
           if (_latestCount !== _existingCount) {
             // Order appeared — the broadcast actually succeeded
             onSuccess();

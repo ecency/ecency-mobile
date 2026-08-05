@@ -109,10 +109,10 @@ export const PollsWizardContent = ({
   const [pollDraft, setPollDraft] = useState<PollDraft>(_initPollDraft);
   const nextChoiceKeyRef = useRef(_initPollDraft.choices.length);
   const pollDraftRef = useRef<PollDraft>(_initPollDraft);
-  const questionInputRef = useRef<FormInputHandle>(null);
+  const questionInputRef = useRef<any>(null);
   const choiceInputRefs = useRef<Record<number, FormInputHandle | null>>({});
   const [choiceKeys, setChoiceKeys] = useState(() =>
-    _initPollDraft.choices.map((_, index) => `poll-choice-${index}`),
+    _initPollDraft.choices.map((_: any, index: any) => `poll-choice-${index}`),
   );
   const [isValid, setIsValid] = useState(() => isPollDraftValid(_initPollDraft));
 
@@ -156,7 +156,7 @@ export const PollsWizardContent = ({
   const addChoice = () => {
     const nextKey = `poll-choice-${nextChoiceKeyRef.current}`;
     nextChoiceKeyRef.current += 1;
-    setChoiceKeys((prev) => [...prev, nextKey]);
+    setChoiceKeys((prev: any) => [...prev, nextKey]);
     updatePollDraftState({
       ...pollDraftRef.current,
       choices: [...pollDraftRef.current.choices, ''],
@@ -165,7 +165,9 @@ export const PollsWizardContent = ({
 
   const _removeChoice = useCallback(
     (index: number) => {
-      setChoiceKeys((prev) => prev.filter((_, choiceIndex) => choiceIndex !== index));
+      setChoiceKeys((prev: any) =>
+        prev.filter((_: any, choiceIndex: any) => choiceIndex !== index),
+      );
       updatePollDraftState((prev) => {
         const newChoices = [...prev.choices];
         newChoices.splice(index, 1);
@@ -349,7 +351,7 @@ export const PollsWizardContent = ({
       </ScrollView>
 
       <DatePicker
-        type="datetime"
+        {...({ type: 'datetime' } as any)}
         modal={true}
         minimumDate={new Date()}
         date={new Date(pollDraft.endTime)}

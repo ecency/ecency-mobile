@@ -16,7 +16,7 @@ interface PostStatsModalProps {
 export const PostStatsModal = forwardRef(({ post }: PostStatsModalProps, ref) => {
   const navigation = useNavigation();
 
-  const sheetModalRef = useRef<ActionSheet>();
+  const sheetModalRef = useRef<any>(null);
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const isPinCodeOpen = useAppSelector(selectIsPinCodeOpen);
@@ -49,7 +49,7 @@ export const PostStatsModal = forwardRef(({ post }: PostStatsModalProps, ref) =>
 
     sheetModalRef.current?.hide();
     if (isPinCodeOpen) {
-      navigation.navigate({
+      (navigation as any).navigate({
         name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo: routeName,
@@ -59,7 +59,7 @@ export const PostStatsModal = forwardRef(({ post }: PostStatsModalProps, ref) =>
       return;
     }
 
-    navigation.navigate(routeName, params);
+    (navigation as any).navigate(routeName, params);
   };
 
   return (
@@ -67,7 +67,7 @@ export const PostStatsModal = forwardRef(({ post }: PostStatsModalProps, ref) =>
       ref={sheetModalRef}
       gestureEnabled={true}
       containerStyle={styles.sheetContent}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+      {...({ indicatorColor: EStyleSheet.value('$primaryWhiteLightBackground') } as any)}
     >
       <PostStatsContent urlPath={urlPath} dateRange={dateRange} onPromotePress={_onPromotePress} />
     </ActionSheet>

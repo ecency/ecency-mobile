@@ -15,14 +15,14 @@ import { isWavesHost } from '../../../constants/waves';
 import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount } from '../../../redux/selectors';
 
-const PostScreen = ({ route }) => {
+const PostScreen = ({ route }: any) => {
   const params = route.params || {};
   const tracker = usePlausibleTracker();
   const navigation = useNavigation();
 
   // // refs
   const isNewPost = useRef(route.params?.isNewPost).current;
-  const postOptionsModalRef = useRef<typeof PostOptionsModal | null>(null);
+  const postOptionsModalRef = useRef<any>(null);
 
   const currentAccount = useAppSelector(selectCurrentAccount);
 
@@ -99,7 +99,7 @@ const PostScreen = ({ route }) => {
     if (getPostQuery.data) {
       const isReply = parentAuthor;
 
-      navigation.navigate({
+      (navigation as any).navigate({
         name: ROUTES.SCREENS.EDITOR,
         key: `editor_post_${permlink}`,
         params: {

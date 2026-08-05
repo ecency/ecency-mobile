@@ -17,7 +17,6 @@ import {
   Modal,
   OrDivider,
 } from '../../../components';
-import type { FormInputHandle } from '../../../components/formInput';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -36,11 +35,11 @@ const LoginScreen = ({
   handleOnPressLogin,
   handleSignUp,
   isLoading,
-}) => {
+}: any) => {
   const intl = useIntl();
 
-  const hiveAuthModalRef = useRef();
-  const usernameInputRef = useRef<FormInputHandle>(null);
+  const hiveAuthModalRef = useRef<any>(null);
+  const usernameInputRef = useRef<any>(null);
 
   const [username, setUsername] = useState(initialUsername || '');
   const [password, setPassword] = useState('');
@@ -84,11 +83,11 @@ const LoginScreen = ({
     setKeyboardIsOpen(false);
   };
 
-  const _handleOnPasswordChange = (value) => {
+  const _handleOnPasswordChange = (value: any) => {
     setPassword(value);
   };
 
-  const _handleUsernameChange = (username) => {
+  const _handleUsernameChange = (username: any) => {
     const formattedUsername = username.trim().replace(/^@+/, '').toLowerCase();
     if (formattedUsername !== username) {
       usernameInputRef.current?.setText(formattedUsername);
@@ -96,7 +95,7 @@ const LoginScreen = ({
     setUsername(formattedUsername);
   };
 
-  const _checkUsernameIsValid = (uname) => {
+  const _checkUsernameIsValid = (uname: any) => {
     const normalized = uname.trim().replace(/^@+/, '').toLowerCase();
 
     if (!normalized) {
@@ -105,7 +104,7 @@ const LoginScreen = ({
     }
 
     getAccountsWithUsername(normalized)
-      .then((res) => {
+      .then((res: any) => {
         if (!Array.isArray(res)) {
           setIsUsernameValid(false);
           return;
@@ -145,14 +144,14 @@ const LoginScreen = ({
           id: 'login.signup',
         })}
         onBackPress={() => {
-          navigation.navigate({
+          (navigation as any).navigate({
             name: ROUTES.DRAWER.MAIN,
           });
         }}
       />
 
       <KeyboardAwareScrollView
-        enableAutoAutomaticScroll={Platform.OS === 'ios'}
+        {...({ enableAutoAutomaticScroll: Platform.OS === 'ios' } as any)}
         contentContainerStyle={styles.formWrapper}
         enableOnAndroid={true}
       >

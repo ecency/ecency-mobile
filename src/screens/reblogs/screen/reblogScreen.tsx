@@ -29,7 +29,7 @@ import { useReblogMutation } from '../../../providers/sdk/mutations';
 import { setRcOffer, toastNotification } from '../../../redux/actions/uiAction';
 import QUERIES from '../../../providers/queries/queryKeys';
 
-const renderUserListItem = (item, index, handleOnUserPress) => {
+const renderUserListItem = (item: any, index: any, handleOnUserPress: any) => {
   // Safely handle timestamp - getTimeFromNow can return null
   const description = (item.timestamp ? getTimeFromNow(item.timestamp) : null) ?? '';
 
@@ -43,7 +43,7 @@ const renderUserListItem = (item, index, handleOnUserPress) => {
   );
 };
 
-const ReblogScreen = ({ route }) => {
+const ReblogScreen = ({ route }: any) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
@@ -189,14 +189,14 @@ const ReblogScreen = ({ route }) => {
 
   return (
     <AccountListContainer data={reblogs}>
-      {({ data, filterResult, handleSearch, handleOnUserPress }) => (
+      {({ data, filterResult, handleSearch, handleOnUserPress }: any) => (
         <SafeAreaView style={globalStyles.container}>
           {/* Your content goes here */}
           <BasicHeader
             title={`${headerTitle} (${data && data.length})`}
             backIconName="close"
             isHasSearch
-            handleOnSearch={(text) => handleSearch(text, 'account')}
+            handleOnSearch={(text: any) => handleSearch(text, 'account')}
           />
           <FlatList
             data={filterResult || data}

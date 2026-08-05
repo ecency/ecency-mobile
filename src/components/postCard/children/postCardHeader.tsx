@@ -47,7 +47,7 @@ const PostCardHeaderComponent = ({ intl, content, pageType, handleCardInteractio
     [content],
   );
 
-  const _handleOnTagPress = (navParams) => {
+  const _handleOnTagPress = (navParams: any) => {
     handleCardInteraction(PostCardActionIds.NAVIGATE, navParams);
   };
 

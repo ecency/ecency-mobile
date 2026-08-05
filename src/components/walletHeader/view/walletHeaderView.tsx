@@ -32,12 +32,12 @@ const WalletHeaderView = ({
   getTokenAddress,
   reload,
   refreshing,
-}) => {
+}: any) => {
   const navigation = useNavigation();
 
   const intl = useIntl();
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const dropdownRef = useRef();
+  const dropdownRef = useRef<any>(null);
 
   useEffect(() => {
     if (index === currentIndex) {
@@ -57,7 +57,7 @@ const WalletHeaderView = ({
     }
   }, [reload]);
 
-  const _getBalanceItem = (balance, options, _key) =>
+  const _getBalanceItem = (balance: any, options: any, _key: any) =>
     balance !== undefined && (
       <View style={styles.balanceWrapper} key={balance + _key}>
         <Text style={styles.balanceText}>{balance}</Text>
@@ -65,12 +65,12 @@ const WalletHeaderView = ({
           dropdownRef={dropdownRef}
           isHasChildIcon
           iconName="arrow-drop-down"
-          options={options.map((itemKey) =>
+          options={options.map((itemKey: any) =>
             intl.formatMessage({ id: `wallet.${itemKey}` }).toUpperCase(),
           )}
           noHighlight
           dropdownButtonStyle={styles.dropdownButtonStyle}
-          onSelect={(selectedIndex) => handleOnDropdownSelected(options[selectedIndex])}
+          onSelect={(selectedIndex: any) => handleOnDropdownSelected(options[selectedIndex])}
           iconStyle={styles.dropdownIconStyle}
         />
         <Text style={styles.subText}>{intl.formatMessage({ id: `wallet.${_key}.title` })}</Text>
@@ -79,8 +79,11 @@ const WalletHeaderView = ({
 
   return (
     <Fragment>
-      <View style={styles.scrollContainer} contentContainerStyle={styles.scrollContentContainer}>
-        {userBalance.map((item) =>
+      <View
+        style={styles.scrollContainer}
+        {...({ contentContainerStyle: styles.scrollContentContainer } as any)}
+      >
+        {userBalance.map((item: any) =>
           _getBalanceItem(
             get(item, 'balance', 0),
             get(item, 'options', []),
@@ -97,7 +100,9 @@ const WalletHeaderView = ({
             onPress={() =>
               unclaimedBalance
                 ? claim()
-                : navigation.navigate(ROUTES.SCREENS.BOOST, { username: currentAccount?.name })
+                : (navigation as any).navigate(ROUTES.SCREENS.BOOST, {
+                    username: currentAccount?.name,
+                  })
             }
           >
             <View style={styles.mainButtonWrapper}>
@@ -131,7 +136,7 @@ const WalletHeaderView = ({
         )}
 
         {valueDescriptions &&
-          valueDescriptions.map((item, _index) => (
+          valueDescriptions.map((item: any, _index: any) => (
             <WalletLineItem
               key={`keyl-${_index.toString()}`}
               fitContent

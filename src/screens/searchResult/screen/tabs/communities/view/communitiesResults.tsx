@@ -7,7 +7,7 @@ import { CommunitiesList, EmptyScreen } from '../../../../../../components';
 
 import CommunitiesResultsContainer from '../container/communitiesResultsContainer';
 
-const CommunitiesResultsScreen = ({ navigation, searchValue, listRef }) => {
+const CommunitiesResultsScreen = ({ navigation, searchValue, listRef }: any) => {
   const intl = useIntl();
   const activeVotes = get(navigation, 'state.params.activeVotes');
 
@@ -22,7 +22,7 @@ const CommunitiesResultsScreen = ({ navigation, searchValue, listRef }) => {
         noResult,
         isError,
         isDiscoversLoading,
-      }) =>
+      }: any) =>
         noResult || isError ? (
           <EmptyScreen
             text={isError ? intl.formatMessage({ id: 'search_result.error' }) : undefined}

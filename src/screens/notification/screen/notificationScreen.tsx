@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { View, FlatList } from 'react-native';
+import { View } from 'react-native';
 
 // Components
 import { TabView } from 'react-native-tab-view';
@@ -21,11 +21,11 @@ const NotificationScreen = ({
   isFetching,
   changeSelectedFilter,
   globalProps,
-}) => {
+}: any) => {
   const intl = useIntl();
 
   const [index, setIndex] = React.useState(0);
-  const notificationsListRef = React.useRef<FlatList>(null);
+  const notificationsListRef = React.useRef<any>(null);
   const [routes] = React.useState([
     {
       key: 'notifications',
@@ -41,7 +41,7 @@ const NotificationScreen = ({
     },
   ]);
 
-  const renderScene = ({ route }) => {
+  const renderScene = ({ route }: any) => {
     switch (route.key) {
       case 'notifications':
         return (

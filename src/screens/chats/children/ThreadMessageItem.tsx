@@ -61,7 +61,7 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
   }) => {
     const intl = useIntl();
 
-    const authorId = post.user_id || post.user?.id;
+    const authorId = (post as any).user_id || (post as any).user?.id;
     const mappedUser = (authorId && userLookup[authorId]) || post.user;
     const hiveUsername = mappedUser?.hiveUsername || getHiveUsernameFromMattermostUser(mappedUser);
     const author =
@@ -75,7 +75,7 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
     const timestamp = post.create_at || post.update_at;
     const body = formatPostBody(post, timestamp);
     const { text: messageText, images: messageImages } = parseMessageContent(body);
-    const imageViewerRef = useRef(null);
+    const imageViewerRef = useRef<any>(null);
     const { width: windowWidth } = useWindowDimensions();
 
     const showUnreadMarker = firstUnreadIndex !== null && index === firstUnreadIndex;

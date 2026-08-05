@@ -20,7 +20,7 @@ import { selectCurrentAccount } from '../../../redux/selectors';
 // Component
 import BookmarksScreen from '../screen/bookmarksScreen';
 
-const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }) => {
+const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }: any) => {
   const {
     data: bookmarks = [],
     isLoading: isLoadingBookmarks,
@@ -49,16 +49,16 @@ const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }) 
     refetchFavorites();
   };
 
-  const _removeFavorite = (selectedUsername) => {
-    deleteFavoriteMutation.mutate({ account: selectedUsername });
+  const _removeFavorite = (selectedUsername: any) => {
+    deleteFavoriteMutation.mutate({ account: selectedUsername } as any);
   };
 
-  const _removeBoomark = (id) => {
-    deleteBookmarkMutation.mutate({ bookmarkId: id });
+  const _removeBoomark = (id: any) => {
+    deleteBookmarkMutation.mutate({ bookmarkId: id } as any);
   };
 
-  const _handleOnFavoritePress = (username) => {
-    navigation.navigate({
+  const _handleOnFavoritePress = (username: any) => {
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.PROFILE,
       params: {
         username,
@@ -67,9 +67,9 @@ const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }) 
     });
   };
 
-  const _handleOnBookmarkPress = (permlink, author) => {
+  const _handleOnBookmarkPress = (permlink: any, author: any) => {
     if (permlink && author) {
-      navigation.navigate({
+      (navigation as any).navigate({
         name: ROUTES.SCREENS.POST,
         params: {
           permlink,
@@ -102,7 +102,7 @@ const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }) 
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   currentAccount: selectCurrentAccount(state),
 });
 

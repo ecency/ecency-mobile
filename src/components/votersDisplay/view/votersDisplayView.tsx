@@ -14,11 +14,11 @@ import ROUTES from '../../../constants/routeNames';
 // Styles
 import styles from './votersDisplayStyles';
 
-const VotersDisplayView = ({ votes, createdAt = '2010-01-01T00:00:00' }) => {
+const VotersDisplayView = ({ votes, createdAt = '2010-01-01T00:00:00' }: any) => {
   const navigation = useNavigation();
 
-  const _handleOnUserPress = (username) => {
-    navigation.navigate({
+  const _handleOnUserPress = (username: any) => {
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.PROFILE,
       params: {
         username,
@@ -27,7 +27,7 @@ const VotersDisplayView = ({ votes, createdAt = '2010-01-01T00:00:00' }) => {
     });
   };
 
-  const _renderItem = ({ item, index }) => {
+  const _renderItem = ({ item, index }: any) => {
     const value = item.reward && `$ ${item.reward}`;
 
     // eslint-disable-next-line

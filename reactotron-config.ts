@@ -12,7 +12,7 @@ const reactotron = Reactotron.setAsyncStorageHandler(AsyncStorage) // AsyncStora
 
 export default reactotron;
 
-export const log = (...rest) => {
+export const log = (...rest: any[]) => {
   Reactotron.log(...rest);
   console.log(...rest);
 };

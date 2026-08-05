@@ -6,7 +6,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 import styles from './parentPostStyles';
 
-const ParentPost = ({ post }) => {
+const ParentPost = ({ post }: any) => {
   const navigation = useNavigation();
 
   return (
@@ -14,7 +14,7 @@ const ParentPost = ({ post }) => {
       <TouchableOpacity
         onPress={() =>
           get(navigation, 'navigate')
-            ? navigation.navigate({
+            ? (navigation as any).navigate({
                 name: ROUTES.SCREENS.POST,
                 params: {
                   author: post.author,

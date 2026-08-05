@@ -116,7 +116,9 @@ import {
 let firebaseOnMessageListener: any = null;
 let appStateSub: NativeEventSubscription | null = null;
 
-class ApplicationContainer extends Component {
+class ApplicationContainer extends Component<any, any> {
+  netListener: any;
+
   _pinCodeTimer: any = null;
 
   _notificationWs: WebSocket | null = null;
@@ -129,7 +131,7 @@ class ApplicationContainer extends Component {
 
   _fcmAvailable: boolean | null = null; // Cache FCM availability check
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       isRenderRequire: true,
@@ -161,7 +163,7 @@ class ApplicationContainer extends Component {
     this._fetchApp();
 
     ReceiveSharingIntent.getReceivedFiles(
-      async (files) => {
+      async (files: any) => {
         try {
           const target = await SheetManager.show(SheetNames.SHARE_INTENT, {
             payload: { files },
@@ -184,13 +186,13 @@ class ApplicationContainer extends Component {
         }
         ReceiveSharingIntent.clearReceivedFiles();
       },
-      (error) => {
+      (error: any) => {
         console.log('error :>> ', error);
       },
     );
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: any) {
     const { isGlobalRenderRequired, dispatch } = this.props;
 
     if (isGlobalRenderRequired !== prevProps.isGlobalRenderRequired && isGlobalRenderRequired) {
@@ -312,7 +314,7 @@ class ApplicationContainer extends Component {
     );
   };
 
-  _handleAppStateChange = (nextAppState) => {
+  _handleAppStateChange = (nextAppState: any) => {
     const { isPinCodeOpen: _isPinCodeOpen, currentAccount } = this.props;
     const { appState } = this.state;
 
@@ -367,7 +369,7 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _showNotificationToast = (remoteMessage) => {
+  _showNotificationToast = (remoteMessage: any) => {
     const { dispatch } = this.props;
 
     if (remoteMessage && remoteMessage.notification) {
@@ -393,7 +395,7 @@ class ApplicationContainer extends Component {
         'weekly_earnings',
       ];
       const messageType = remoteMessage?.data?.type;
-      if (notificationTypes.includes(messageType)) {
+      if (notificationTypes.includes(messageType as any)) {
         // FCM and the enotify websocket can both deliver the same event, so a
         // local +1 double-counted (e.g. daily-spin POINT transfers showed 2).
         // Re-fetch the authoritative unread count instead.
@@ -407,7 +409,7 @@ class ApplicationContainer extends Component {
     });
   };
 
-  _handleConntectionChange = (status) => {
+  _handleConntectionChange = (status: any) => {
     const { dispatch, isConnected } = this.props;
 
     if (isConnected !== status) {
@@ -528,7 +530,7 @@ class ApplicationContainer extends Component {
       otherAccounts,
       currentAccount,
     } = this.props;
-    let realmData = [];
+    let realmData: any[] = [];
 
     if (currentAccount?.name) {
       dispatch(login(true));
@@ -539,7 +541,7 @@ class ApplicationContainer extends Component {
 
       if (userData && userData.length > 0) {
         realmData = userData;
-        userData.forEach((accountData, index) => {
+        userData.forEach((accountData: any, index: any) => {
           if (
             !accountData ||
             (!accountData.accessToken &&
@@ -555,7 +557,7 @@ class ApplicationContainer extends Component {
         });
       }
 
-      let [authData]: any = realmData.filter((data) => data.username === username);
+      let [authData]: any = realmData.filter((data: any) => data.username === username);
 
       // reapir otherAccouts data is needed
       // this repair must be done because code above makes sure every entry is realmData is a valid one
@@ -583,7 +585,7 @@ class ApplicationContainer extends Component {
       if (_isPinCodeOpen) {
         RootNavigation.navigate({ name: ROUTES.SCREENS.PINCODE });
       } else if (!_isPinCodeOpen) {
-        const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+        const encryptedPin = encryptKey(Config.DEFAULT_PIN!, Config.PIN_KEY!);
         dispatch(savePinCode(encryptedPin));
       }
 
@@ -595,7 +597,7 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _refreshAccessToken = async (currentAccount) => {
+  _refreshAccessToken = async (currentAccount: any) => {
     const { pinCode, isPinCodeOpen, encUnlockPin, dispatch, intl } = this.props;
 
     if (isPinCodeOpen && !encUnlockPin) {
@@ -619,7 +621,7 @@ class ApplicationContainer extends Component {
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        error.message,
+        (error as any).message,
         [
           {
             text: intl.formatMessage({ id: 'side_menu.logout' }),
@@ -635,7 +637,7 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _fetchUserDataFromDsteem = async (realmObject) => {
+  _fetchUserDataFromDsteem = async (realmObject: any) => {
     const { dispatch, intl, pinCode, isPinCodeOpen, encUnlockPin } = this.props;
 
     try {
@@ -702,8 +704,8 @@ class ApplicationContainer extends Component {
       // CancelledError/AbortError. That is benign (the data refetches), so don't
       // surface the blocking "change server and restart" alert for it. Reading
       // `err.message` defensively also avoids a secondary throw when it's unset.
-      const _name = (err && err.name) || '';
-      const _msg = (err && err.message) || String(err) || '';
+      const _name = (err && (err as any).name) || '';
+      const _msg = (err && (err as any).message) || String(err) || '';
       if (
         _name === 'CancelledError' ||
         _name === 'AbortError' ||
@@ -729,7 +731,7 @@ class ApplicationContainer extends Component {
     const isEnabled = settings ? !!settings.notification : isNotificationsEnabled;
     settings = settings || notificationDetails;
 
-    const _enabledNotificationForAccount = (account) => {
+    const _enabledNotificationForAccount = (account: any) => {
       const encAccessToken = account?.local?.accessToken;
       // otherAccounts entries are keyed by username; name can be undefined on some
       // (e.g. HiveSigner) entries, so fall back to username.
@@ -742,7 +744,7 @@ class ApplicationContainer extends Component {
     };
 
     // updateing fcm token with settings;
-    otherAccounts.forEach((account) => {
+    otherAccounts.forEach((account: any) => {
       // since there can be more than one accounts, process access tokens separate
       if (account?.local?.accessToken) {
         _enabledNotificationForAccount(account);
@@ -812,7 +814,7 @@ class ApplicationContainer extends Component {
         return false;
       }
     } catch (error) {
-      const errorMessage = error.message || '';
+      const errorMessage = (error as any).message || '';
 
       // Expected errors when FCM is not available
       if (
@@ -848,7 +850,7 @@ class ApplicationContainer extends Component {
     this._wsReconnectAttempts = 0;
   };
 
-  _connectNotificationServer = (username) => {
+  _connectNotificationServer = (username: any) => {
     // Clean up existing connection first
     this._disconnectNotificationServer();
 
@@ -1010,7 +1012,7 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _repairUserAccountData = async (username) => {
+  _repairUserAccountData = async (username: any) => {
     const { dispatch, intl, otherAccounts, currentAccount, pinCode } = this.props;
 
     // use current account variant if it exist of target account;
@@ -1038,7 +1040,7 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _logout = async (username) => {
+  _logout = async (username: any) => {
     const { currentAccount, otherAccounts, dispatch, intl } = this.props;
 
     try {
@@ -1054,7 +1056,7 @@ class ApplicationContainer extends Component {
       this._enableNotification(username, false, null, encAccessToken);
 
       // switch account if other account exist
-      const _otherAccounts = otherAccounts.filter((user) => user.username !== username);
+      const _otherAccounts = otherAccounts.filter((user: any) => user.username !== username);
 
       if (_otherAccounts.length > 0) {
         const targetAccount = _otherAccounts[0];
@@ -1071,7 +1073,7 @@ class ApplicationContainer extends Component {
         });
         setExistUser(false);
         dispatch(isPinCodeOpen(false));
-        dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY)));
+        dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_PIN!, Config.PIN_KEY!)) as any);
       }
 
       removeSCAccount(username);
@@ -1090,16 +1092,21 @@ class ApplicationContainer extends Component {
       dispatch(logoutDone());
     } catch (err) {
       dispatch(logoutDone());
-      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.message);
+      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), (err as any).message);
       this._repairUserAccountData(username);
     }
   };
 
-  _enableNotification = async (username, isEnable, settings = null, encAccesstoken = null) => {
+  _enableNotification = async (
+    username: any,
+    isEnable: any,
+    settings = null,
+    encAccesstoken = null,
+  ) => {
     const accessToken = encAccesstoken ? decryptKey(encAccesstoken, Config.DEFAULT_PIN) : null;
 
     // compile notify_types
-    let notify_types = [];
+    let notify_types: any[] = [];
     if (settings) {
       const notifyTypesConst = {
         voteNotification: 1,
@@ -1118,8 +1125,8 @@ class ApplicationContainer extends Component {
       };
 
       Object.keys(settings).forEach((item) => {
-        if (notifyTypesConst[item] && settings[item]) {
-          notify_types.push(notifyTypesConst[item]);
+        if ((notifyTypesConst as any)[item] && settings[item]) {
+          notify_types.push((notifyTypesConst as any)[item]);
         }
       });
     } else {
@@ -1148,7 +1155,7 @@ class ApplicationContainer extends Component {
       const token = await getMessaging().getToken();
       console.log('FCM Token obtained:', !!token);
       saveNotificationSetting(
-        accessToken,
+        accessToken!,
         username,
         `fcm-${Platform.OS}`,
         Number(isEnable),
@@ -1157,8 +1164,8 @@ class ApplicationContainer extends Component {
       );
     } catch (error) {
       // Handle platform-specific FCM errors gracefully
-      const errorMessage = error.message || '';
-      const isUnknownError = error.code === 'messaging/unknown';
+      const errorMessage = (error as any).message || '';
+      const isUnknownError = (error as any).code === 'messaging/unknown';
 
       if (Platform.OS === 'ios' && (isUnknownError || errorMessage.includes('APNS'))) {
         // iOS: APNS not available (likely simulator or development environment)
@@ -1182,16 +1189,16 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _switchAccount = async (targetAccount) => {
+  _switchAccount = async (targetAccount: any) => {
     const { dispatch, isConnected, pinCode, intl } = this.props;
 
     if (!isConnected) return;
 
     try {
-      const accountData = await switchAccount(targetAccount.username);
+      const accountData: any = await switchAccount(targetAccount.username);
       let realmData = await getUserDataWithUsername(targetAccount.username);
 
-      let _currentAccount = accountData;
+      let _currentAccount: any = accountData;
       _currentAccount.name = accountData.name;
       [_currentAccount.local] = realmData;
 
@@ -1272,14 +1279,14 @@ class ApplicationContainer extends Component {
           `${intl.formatMessage(
             { id: 'alert.logging_out' },
             { username: targetAccount.username },
-          )}\n${err.message}`,
+          )}\n${(err as any).message}`,
         ),
       );
       this._logout(targetAccount.username);
     }
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     const {
       isDarkTheme: _isDarkTheme,
       currentAccount: { name },
@@ -1370,10 +1377,10 @@ export default connect(
     pinCode: selectPin(state),
 
     // UI
-    toastNotification: state.ui.toastNotification,
-    activeBottomTab: state.ui.activeBottomTab,
-    isLogingOut: state.ui.isLogingOut,
-    rcOffer: state.ui.rcOffer,
+    toastNotification: (state as any).ui.toastNotification,
+    activeBottomTab: (state as any).ui.activeBottomTab,
+    isLogingOut: (state as any).ui.isLogingOut,
+    rcOffer: (state as any).ui.rcOffer,
   }),
   (dispatch) => ({
     dispatch,

@@ -48,16 +48,16 @@ const WelcomeScreen = () => {
     dispatch(setLastAppVersion(appVersion));
     dispatch(setIsTermsAccepted(isConsentChecked));
 
-    navigation.navigate(ROUTES.STACK.MAIN);
+    (navigation as any).navigate(ROUTES.STACK.MAIN);
   };
 
-  const _onCheckPress = (value, isCheck) => {
+  const _onCheckPress = (value: any, isCheck: any) => {
     setIsConsentChecked(isCheck);
   };
 
   const _onTermsPress = () => {
     const url = ECENCY_TERMS_URL;
-    navigation.navigate({
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.WEB_BROWSER,
       params: {
         url,
@@ -66,7 +66,7 @@ const WelcomeScreen = () => {
     });
   };
 
-  const _renderInfo = (iconName, headingIntlId, bodyIntlId) => (
+  const _renderInfo = (iconName: any, headingIntlId: any, bodyIntlId: any) => (
     <View style={styles.sectionRow}>
       <Icon
         iconType="SimpleLineIcons"

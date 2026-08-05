@@ -82,15 +82,15 @@ export const DelegationsModal = forwardRef(({}, ref) => {
       try {
         // Fetch page with current cursor
         // eslint-disable-next-line no-await-in-loop
-        const response = await queryClient.fetchQuery({
+        const response: any = await queryClient.fetchQuery({
           ...queryOpts,
           queryKey: [...queryOpts.queryKey, cursor],
-          queryFn: () => queryOpts.queryFn({ pageParam: cursor || '' }),
-        });
+          queryFn: () => (queryOpts as any).queryFn({ pageParam: cursor || '' }),
+        } as any);
 
         // Map to DelegationItem format
         const pageDelegations = response.map(
-          (item) =>
+          (item: any) =>
             ({
               username: item.delegatee,
               vestingShares: item.vesting_shares,
@@ -172,7 +172,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
   };
 
   const _handleOnUserPress = (username: string) => {
-    navigation.navigate({
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.PROFILE,
       params: {
         username,
@@ -185,7 +185,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
   const _handleOnPressUpdate = (username: string) => {
     if (mode === MODES.DELEGATEED) {
       console.log('delegate HP!');
-      navigation.navigate({
+      (navigation as any).navigate({
         name: ROUTES.SCREENS.TRANSFER,
         params: {
           transferType: TransferTypes.DELEGATE_VESTING_SHARES,
@@ -263,7 +263,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
   const _renderContent = () => {
     return (
       <AccountListContainer data={delegations}>
-        {({ data, filterResult, handleSearch }) => (
+        {({ data, filterResult, handleSearch }: any) => (
           <>
             <BasicHeader
               backIconName="close"
@@ -273,7 +273,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
               }}
               title={`${title} (${data && data.length})`}
               isHasSearch
-              handleOnSearch={(text) => handleSearch(text, 'username')}
+              handleOnSearch={(text: any) => handleSearch(text, 'username')}
             />
             <FlatList
               data={filterResult || data}

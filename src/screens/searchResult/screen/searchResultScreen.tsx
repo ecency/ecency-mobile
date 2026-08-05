@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { View } from 'react-native';
 import { useIntl } from 'react-intl';
 import { SheetManager } from 'react-native-actions-sheet';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -31,7 +31,7 @@ const clipSearchValue = (value: string) =>
     ? value.substring(1).trim().toLowerCase()
     : value.trim().toLowerCase();
 
-const SearchResultScreen = ({ navigation }) => {
+const SearchResultScreen = ({ navigation }: any) => {
   const intl = useIntl();
   const { debounce } = useDebounce();
 
@@ -39,11 +39,11 @@ const SearchResultScreen = ({ navigation }) => {
   const [searchValue, setSearchValue] = useState('');
   const [filters, setFilters] = useState<SearchFilters>(EMPTY_SEARCH_FILTERS);
 
-  const _handleChangeText = (value) => {
+  const _handleChangeText = (value: any) => {
     setSearchInputValue(value);
   };
 
-  const _handleSearchValue = (value) => {
+  const _handleSearchValue = (value: any) => {
     setSearchValue(value);
   };
 
@@ -109,9 +109,9 @@ const SearchResultsTabView = memo(
   ({ searchValue, filters }: { searchValue: string; filters: SearchFilters }) => {
     const intl = useIntl();
     const [index, setIndex] = React.useState(0);
-    const postsListRef = React.useRef<FlatList>(null);
-    const peopleListRef = React.useRef<FlatList>(null);
-    const communitiesListRef = React.useRef<FlatList>(null);
+    const postsListRef = React.useRef<any>(null);
+    const peopleListRef = React.useRef<any>(null);
+    const communitiesListRef = React.useRef<any>(null);
     const [routes] = React.useState([
       {
         key: 'posts',
@@ -143,7 +143,7 @@ const SearchResultsTabView = memo(
     const clippedSearchValue = clipSearchValue(searchValue);
     const isUsername = !!(searchValue.startsWith('#') || searchValue.startsWith('@'));
 
-    const renderScene = ({ route }) => {
+    const renderScene = ({ route }: any) => {
       switch (route.key) {
         case 'posts':
           return (

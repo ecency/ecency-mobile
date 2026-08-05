@@ -33,7 +33,7 @@ const SideMenuView = ({
   navigateToRoute,
   prevLoggedInUsers,
   handleShowAccountsSheet,
-}) => {
+}: any) => {
   const intl = useIntl();
   const insets = useSafeAreaInsets();
 
@@ -58,12 +58,12 @@ const SideMenuView = ({
 
   useEffect(() => {
     if (isLoggedIn && !isEmpty(currentAccount)) {
-      setUpower(getVotingPower(currentAccount).toFixed(1));
+      setUpower(getVotingPower(currentAccount).toFixed(1) as any);
     }
   });
 
   // Component Functions
-  const _handleOnMenuItemPress = (item) => {
+  const _handleOnMenuItemPress = (item: any) => {
     if (item.id === 'logout') {
       SheetManager.show(SheetNames.ACTION_MODAL, {
         payload: {
@@ -130,7 +130,7 @@ const SideMenuView = ({
 
   // Single root View (not a Fragment) so FlatList/VirtualizedList can measure
   // item height correctly; the divider renders as the first child when present.
-  const _renderItem = (item) => (
+  const _renderItem = (item: any) => (
     <View>
       {item.item.id === _firstFooterId && <View style={styles.groupDivider} />}
       <TouchableOpacity

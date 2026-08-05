@@ -21,17 +21,17 @@ import {
 } from '../../../utils/communitiesUtils';
 import { selectCurrentAccount } from '../../../redux/selectors';
 
-const CommunitiesContainer = ({ children }) => {
+const CommunitiesContainer = ({ children }: any) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const intl = useIntl();
   const queryClient = useQueryClient();
 
-  const [discovers, setDiscovers] = useState([]);
-  const [subscriptions, setSubscriptions] = useState([]);
+  const [discovers, setDiscovers] = useState<any[]>([]);
+  const [subscriptions, setSubscriptions] = useState<any[]>([]);
   const [isSubscriptionsLoading, setIsSubscriptionsLoading] = useState(true);
   const [isDiscoversLoading, setIsDiscoversLoading] = useState(true);
-  const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
+  const [selectedCommunityItem, setSelectedCommunityItem] = useState<any>(null);
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const handleCommunitySubscription = useCommunitySubscriptionAction();
@@ -177,7 +177,7 @@ const CommunitiesContainer = ({ children }) => {
         isSubscribed: subs.some((subscribedCommunity) => subscribedCommunity[0] === community.name),
       }));
 
-      const sortedSubs = subs.sort((a, b) => a[1].localeCompare(b[1]));
+      const sortedSubs = subs.sort((a: any, b: any) => a[1].localeCompare(b[1]));
       const mergedAndSortedSubs = mergeSubCommunitiesCacheInSubList(
         sortedSubs,
         subscribedCommunitiesCache,
@@ -194,8 +194,8 @@ const CommunitiesContainer = ({ children }) => {
     }
   };
 
-  const _invalidateSubscribedCommunityCache = (fetchedList) => {
-    fetchedList.forEach((listItem) => {
+  const _invalidateSubscribedCommunityCache = (fetchedList: any) => {
+    fetchedList.forEach((listItem: any) => {
       const itemExists = subscribedCommunitiesCache.get(listItem[0]);
       if (itemExists) {
         dispatch(deleteSubscribedCommunityCacheEntry(listItem[0]));
@@ -203,8 +203,8 @@ const CommunitiesContainer = ({ children }) => {
     });
   };
   // Component Functions
-  const _handleOnPress = (name) => {
-    navigation.navigate({
+  const _handleOnPress = (name: any) => {
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.COMMUNITY,
       params: {
         tag: name,
@@ -212,7 +212,7 @@ const CommunitiesContainer = ({ children }) => {
     });
   };
 
-  const _handleSubscribeButtonPress = (data, screen) => {
+  const _handleSubscribeButtonPress = (data: any, screen: any) => {
     setSelectedCommunityItem(data); // set selected item to handle its cache
 
     const successToastText = intl.formatMessage({

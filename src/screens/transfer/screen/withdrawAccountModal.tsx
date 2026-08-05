@@ -11,13 +11,13 @@ import { CheckBox, TransferFormItem, MainButton, TextInput, UserAvatar } from '.
 // Styles
 import styles from './transferStyles';
 
-class WithdrawAccountModal extends Component {
+class WithdrawAccountModal extends Component<any, any> {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       percent: 25,
@@ -31,20 +31,22 @@ class WithdrawAccountModal extends Component {
 
   // Component Functions
 
-  _checkValidUsers = (username) => {
+  _checkValidUsers = (username: any) => {
     const { getAccountsWithUsername } = this.props;
 
-    getAccountsWithUsername(username).then((res) => {
+    getAccountsWithUsername(username).then((res: any) => {
       const isValid = res.includes(username);
 
       this.setState({ isValidUsername: isValid });
     });
   };
 
-  _renderInput = (placeholder, state, keyboardType, isTextArea) => (
+  _renderInput = (placeholder: any, state: any, keyboardType: any, isTextArea: any) => (
     <TextInput
-      style={[isTextArea ? styles.textarea : styles.input]}
-      onChangeText={(value) => this.setState({ [state]: value }, this._checkValidUsers(value))}
+      style={[isTextArea ? styles.textarea : styles.input] as any}
+      onChangeText={(value) =>
+        this.setState({ [state]: value }, this._checkValidUsers(value) as any)
+      }
       defaultValue={this.state[state]}
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
@@ -55,7 +57,7 @@ class WithdrawAccountModal extends Component {
     />
   );
 
-  _renderInformationText = (text) => <Text style={styles.amountText}>{text}</Text>;
+  _renderInformationText = (text: any) => <Text style={styles.amountText}>{text}</Text>;
 
   render() {
     const { intl, handleOnSubmit } = this.props;
@@ -69,7 +71,7 @@ class WithdrawAccountModal extends Component {
         <TransferFormItem
           label={intl.formatMessage({ id: 'transfer.from' })}
           rightComponent={() =>
-            this._renderInput(
+            (this._renderInput as any)(
               intl.formatMessage({ id: 'transfer.to_placeholder' }),
               'account',
               'default',

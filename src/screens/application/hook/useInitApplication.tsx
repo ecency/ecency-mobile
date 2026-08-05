@@ -2,13 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { isLandscape } from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {
-  Appearance,
-  AppState,
-  Linking,
-  NativeEventSubscription,
-  useColorScheme,
-} from 'react-native';
+import { Appearance, AppState, Linking, useColorScheme } from 'react-native';
 import notifee from '@notifee/react-native';
 import { some, get } from 'lodash';
 import { getMessaging } from '@react-native-firebase/messaging';
@@ -48,8 +42,8 @@ export const useInitApplication = () => {
   const systemColorScheme = useColorScheme();
 
   const appState = useRef(AppState.currentState);
-  const appStateSubRef = useRef<NativeEventSubscription | null>(null);
-  const lowMemSubRef = useRef<NativeEventSubscription | null>(null);
+  const appStateSubRef = useRef<any>(null);
+  const lowMemSubRef = useRef<any>(null);
 
   const notifeeEventRef = useRef<any>(null);
   const messagingEventRef = useRef<any>(null);
@@ -189,7 +183,7 @@ export const useInitApplication = () => {
     // }
   };
 
-  const _handleAppStateChange = (nextAppState) => {
+  const _handleAppStateChange = (nextAppState: any) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
       userActivityMutation.lazyMutatePendingActivities();
       dispatch(recordAppSession());
@@ -202,7 +196,7 @@ export const useInitApplication = () => {
     ExpoImage.clearMemoryCache();
   };
 
-  const _pushNavigate = (notification) => {
+  const _pushNavigate = (notification: any) => {
     let params = null;
     let key = null;
     let routeName = null;

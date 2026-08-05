@@ -18,8 +18,8 @@ import { ExampleView } from '..';
  *
  */
 
-class ExampleContainer extends Component {
-  constructor(props) {
+class ExampleContainer extends Component<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }
@@ -36,7 +36,7 @@ class ExampleContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   user: state.user.user,
 });
 

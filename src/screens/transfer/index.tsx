@@ -10,7 +10,7 @@ import DelegateView from './screen/delegateScreen';
 import TransferTypes from '../../constants/transferTypes';
 import { useBadActors } from '../../hooks';
 
-const Transfer = ({ navigation, route }) => {
+const Transfer = ({ navigation, route }: any) => {
   const { data: badActors } = useBadActors();
 
   return (
@@ -39,12 +39,13 @@ const Transfer = ({ navigation, route }) => {
         tokenLayer,
         tokenAddress,
         setFundType,
-      }) => {
+      }: any) => {
         switch (transferType) {
           case TransferTypes.DELEGATE_VESTING_SHARES:
             return (
               <DelegateView
-                accounts={accounts}
+                {...({} as any)}
+                accounts={accounts as any}
                 currentAccountName={currentAccountName}
                 selectedAccount={selectedAccount}
                 getAccountsWithUsername={getAccountsWithUsername}
@@ -64,7 +65,7 @@ const Transfer = ({ navigation, route }) => {
           case TransferTypes.SET_WITHDRAW_VESTING_ROUTE:
             return (
               <PowerDownView
-                accounts={accounts}
+                accounts={accounts as any}
                 balance={balance}
                 fundType={fundType}
                 transferType={transferType}
@@ -94,7 +95,7 @@ const Transfer = ({ navigation, route }) => {
           default:
             return (
               <TransferView
-                accounts={accounts}
+                accounts={accounts as any}
                 balance={balance}
                 fundType={fundType}
                 transferType={transferType}

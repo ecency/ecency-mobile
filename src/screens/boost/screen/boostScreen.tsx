@@ -23,7 +23,7 @@ const ITEM_SKUS = Platform.select({
   android: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
 });
 
-const BoostScreen = ({ route }) => {
+const BoostScreen = ({ route }: any) => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
@@ -33,7 +33,7 @@ const BoostScreen = ({ route }) => {
     dispatch(toastNotification(intl.formatMessage({ id: 'boost.points_purchase_success' })));
   };
 
-  const _onPurchaseFailure = (error) => {
+  const _onPurchaseFailure = (error: any) => {
     dispatch(
       toastNotification(
         intl.formatMessage({ id: 'boost.points_purchase_fail_msg' }, { message: error.message }),
@@ -48,7 +48,7 @@ const BoostScreen = ({ route }) => {
       handleOnPurchaseSuccess={_onPurchaseSuccess}
       handleOnPurchaseFailure={_onPurchaseFailure}
     >
-      {({ buyItem, productList, isLoading, isProcessing, getTitle }) => (
+      {({ buyItem, productList, isLoading, isProcessing, getTitle }: any) => (
         <SafeAreaView style={globalStyles.container}>
           <BasicHeader
             disabled={isProcessing}
@@ -63,14 +63,14 @@ const BoostScreen = ({ route }) => {
             <BoostPlaceHolder />
           ) : (
             <ScrollView contentContainerStyle={styles.listContainer}>
-              {productList.map((product) => (
+              {productList.map((product: any) => (
                 <ProductItemLine
                   key={get(product, 'title')}
                   isLoading={isLoading}
                   disabled={isProcessing}
                   product={product}
                   title={getTitle(get(product, 'title'))}
-                  handleOnButtonPress={(id) => buyItem(id)}
+                  handleOnButtonPress={(id: any) => buyItem(id)}
                 />
               ))}
             </ScrollView>

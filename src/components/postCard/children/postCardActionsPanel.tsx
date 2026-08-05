@@ -10,7 +10,6 @@ import { TextWithIcon } from '../../basicUIElements';
 import styles from '../styles/postCard.styles';
 import { UpvoteButton } from './upvoteButton';
 import { TranslateChip } from './translateChip';
-import { PostTypes } from '../../../constants/postTypes';
 import { PostCardActionIds } from '../container/postCard';
 import ROUTES from '../../../constants/routeNames';
 
@@ -58,7 +57,6 @@ const PostCardActionsPanelComponent = ({ content, handleCardInteraction }: Props
         <UpvoteButton
           content={content}
           isShowPayoutValue={true}
-          parentType={PostTypes.POST}
           onUpvotePress={(sourceRef, onVotingStart) =>
             handleCardInteraction(PostCardActionIds.UPVOTE, sourceRef, onVotingStart)
           }

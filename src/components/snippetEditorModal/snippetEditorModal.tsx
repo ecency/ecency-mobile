@@ -15,10 +15,10 @@ export interface SnippetEditorModalRef {
   showEditModal: (snippet: Snippet) => void;
 }
 // eslint-disable-next-line no-empty-pattern
-const SnippetEditorModal = ({}, ref) => {
+const SnippetEditorModal = ({}, ref: any) => {
   const intl = useIntl();
-  const titleInputRef = useRef(null);
-  const bodyInputRef = useRef(null);
+  const titleInputRef = useRef<any>(null);
+  const bodyInputRef = useRef<any>(null);
 
   const snippetsMutation = editorQueries.useSnippetsMutation();
 
@@ -77,7 +77,7 @@ const SnippetEditorModal = ({}, ref) => {
   const _renderContent = (
     <KeyboardAvoidingView
       style={styles.container}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : null}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : undefined}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <View style={styles.inputContainer}>
@@ -112,7 +112,7 @@ const SnippetEditorModal = ({}, ref) => {
           style={styles.bodyWrapper}
           underlineColorAndroid="transparent"
           innerRef={bodyInputRef}
-          autoGrow={false}
+          {...({ autoGrow: false } as any)}
           scrollEnabled={false}
           height={100}
         />

@@ -76,7 +76,7 @@ export const ProposalVoteRequest = () => {
   const voteCasted = proposalVoteMutation.isSuccess;
 
   const _voteAction = () => {
-    proposalVoteMutation.mutate({ proposalId: _ecencyProposalId });
+    proposalVoteMutation.mutate({ proposalId: _ecencyProposalId } as any);
   };
 
   const _remindLater = async () => {

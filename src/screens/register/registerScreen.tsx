@@ -6,7 +6,6 @@ import { debounce } from 'lodash';
 import { lookupAccountsQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import { FormInput, InformationArea, LoginHeader, MainButton } from '../../components';
-import type { FormInputHandle } from '../../components/formInput';
 
 // Constants
 import ROUTES from '../../constants/routeNames';
@@ -19,13 +18,13 @@ import { useAppSelector } from '../../hooks';
 import { selectIsConnected } from '../../redux/selectors';
 import { getUsernameError, USERNAME_ERROR_MESSAGE_IDS } from '../../utils/usernameValidation';
 
-const RegisterScreen = ({ navigation, route }) => {
+const RegisterScreen = ({ navigation, route }: any) => {
   const intl = useIntl();
   const queryClient = useQueryClient();
 
-  const registerAccountModalRef = useRef(null);
-  const usernameInputRef = useRef<FormInputHandle>(null);
-  const refUsernameInputRef = useRef<FormInputHandle>(null);
+  const registerAccountModalRef = useRef<any>(null);
+  const usernameInputRef = useRef<any>(null);
+  const refUsernameInputRef = useRef<any>(null);
 
   const isConnected = useAppSelector(selectIsConnected);
 
@@ -72,7 +71,7 @@ const RegisterScreen = ({ navigation, route }) => {
     }
   }, []);
 
-  const _getAccountsWithUsername = async (username) => {
+  const _getAccountsWithUsername = async (username: any) => {
     if (!isConnected) {
       return null;
     }
@@ -89,14 +88,14 @@ const RegisterScreen = ({ navigation, route }) => {
     }
   };
 
-  const _handleEmailChange = (value) => {
+  const _handleEmailChange = (value: any) => {
     const re =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     setIsEmailValid(re.test(value));
     setEmail(value);
   };
 
-  const _isValidUsername = (value) => {
+  const _isValidUsername = (value: any) => {
     const errorCode = getUsernameError(value);
     if (errorCode) {
       setUsernameError(intl.formatMessage({ id: USERNAME_ERROR_MESSAGE_IDS[errorCode] }));
@@ -106,7 +105,7 @@ const RegisterScreen = ({ navigation, route }) => {
     return true;
   };
 
-  const _validateUsername = (value) => {
+  const _validateUsername = (value: any) => {
     if (!_isValidUsername(value)) {
       setIsUserExist(false);
       setIsUsernameValid(false);
@@ -124,7 +123,7 @@ const RegisterScreen = ({ navigation, route }) => {
   };
   const debouncedValidateUsername = useCallback(debounce(_validateUsername, 500), []);
 
-  const _handleUsernameChange = ({ value }) => {
+  const _handleUsernameChange = ({ value }: any) => {
     const lower = value.toLowerCase();
     if (lower !== value) {
       usernameInputRef.current?.setText(lower);
@@ -133,7 +132,7 @@ const RegisterScreen = ({ navigation, route }) => {
     debouncedValidateUsername(lower);
   };
 
-  const _handleRefUsernameChange = ({ value }) => {
+  const _handleRefUsernameChange = ({ value }: any) => {
     const lower = value.toLowerCase();
     if (lower !== value) {
       refUsernameInputRef.current?.setText(lower);
@@ -175,7 +174,7 @@ const RegisterScreen = ({ navigation, route }) => {
           id: 'login.login',
         })}
         onBackPress={() => {
-          navigation.navigate({
+          (navigation as any).navigate({
             name: ROUTES.DRAWER.MAIN,
           });
         }}

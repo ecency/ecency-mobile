@@ -21,7 +21,7 @@ class PercentBarView extends PureComponent<any, any> {
    *
    */
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }
@@ -29,15 +29,15 @@ class PercentBarView extends PureComponent<any, any> {
   // Component Life Cycles
 
   // Component Functions
-  _calculateWidth = (percent, margin = null) => {
+  _calculateWidth = (percent: any, margin = null) => {
     if (percent) {
       const per = 100 / percent;
-      return (getWindowDimensions().width - margin) / per;
+      return (getWindowDimensions().width - margin!) / per;
     }
     return null;
   };
 
-  _getText = (textColor, text, isTop, isRender) => {
+  _getText = (textColor: any, text: any, isTop: any, isRender: any) => {
     const { isShowText } = this.props;
 
     if (!isShowText) {

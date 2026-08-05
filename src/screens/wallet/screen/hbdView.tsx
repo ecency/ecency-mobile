@@ -6,10 +6,10 @@ import { WalletContainer, AccountContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-const HbdView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => (
+const HbdView = ({ handleOnSelected, index, currentIndex, refreshing: reload }: any) => (
   <View style={globalStyles.swipeItemWrapper}>
     <AccountContainer>
-      {({ currentAccount }) => (
+      {({ currentAccount }: any) => (
         <WalletContainer selectedUser={currentAccount}>
           {({
             isClaiming,
@@ -24,7 +24,7 @@ const HbdView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) 
             hbdDropdown,
             savingHbdDropdown,
             navigate,
-          }) => (
+          }: any) => (
             <WalletHeader
               componentDidUpdate={() => handleOnSelected(transferHistory, isLoading)}
               index={index}
@@ -39,7 +39,7 @@ const HbdView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) 
                 { balance: hbdBalance, nameKey: 'hbd', options: hbdDropdown },
                 { balance: hbdSavingBalance, nameKey: 'savinghbd', options: savingHbdDropdown },
               ]}
-              handleOnDropdownSelected={(option) => navigate(option, 'HBD')}
+              handleOnDropdownSelected={(option: any) => navigate(option, 'HBD')}
               type="hbd"
               currentIndex={currentIndex}
               showIconList={false}

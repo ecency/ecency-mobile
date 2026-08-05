@@ -43,7 +43,7 @@ const EMPTY_FORM: FormState = {
   is_nsfw: false,
 };
 
-const CommunitySettingsScreen = ({ route }) => {
+const CommunitySettingsScreen = ({ route }: any) => {
   const intl = useIntl();
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
@@ -180,6 +180,7 @@ const CommunitySettingsScreen = ({ route }) => {
         <View style={styles.toggleRow}>
           <Text style={styles.label}>{intl.formatMessage({ id: 'community_settings.nsfw' })}</Text>
           <ToggleSwitch
+            {...({} as any)}
             isOn={form.is_nsfw}
             onColor={EStyleSheet.value('$primaryBlue')}
             offColor={EStyleSheet.value('$primaryLightGray')}

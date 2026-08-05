@@ -44,10 +44,10 @@ interface Props {
   isFetching: boolean;
   isNotificationRefreshing: boolean;
   globalProps: any;
-  handleOnUserPress: () => void;
+  handleOnUserPress: (username?: any) => void;
   readAllNotification: () => void;
-  getActivities: () => void;
-  changeSelectedFilter: () => void;
+  getActivities: (loadMore?: any) => void;
+  changeSelectedFilter: (filter?: any, index?: any) => void;
   navigateToNotificationRoute: () => void;
   listRef?: React.RefObject<FlatList>;
 }
@@ -67,7 +67,7 @@ const NotificationView = ({
 }: Props) => {
   const intl = useIntl();
 
-  const internalListRef = useRef<FlatList>(null);
+  const internalListRef = useRef<any>(null);
   const listRef = externalListRef || internalListRef;
 
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
@@ -76,7 +76,7 @@ const NotificationView = ({
   // Prevent onEndReached from firing on mount before user scrolls
   const onEndReachedCalledDuringMomentum = useRef(true);
 
-  const _handleOnDropdownSelect = async (index) => {
+  const _handleOnDropdownSelect = async (index: any) => {
     const _selectedFilter = FILTERS[index].key;
     setSelectedIndex(index);
     changeSelectedFilter(_selectedFilter, index);
@@ -109,7 +109,7 @@ const NotificationView = ({
     return null;
   };
 
-  const _renderItem = ({ item }) => (
+  const _renderItem = ({ item }: any) => (
     <NotificationLine
       notification={item}
       handleOnPressNotification={navigateToNotificationRoute}
@@ -123,11 +123,9 @@ const NotificationView = ({
   return (
     <View style={styles.container}>
       <FilterBar
-        dropdownIconName="arrow-drop-down"
         options={FILTERS.map((item) =>
           intl.formatMessage({ id: `notification.filters.${item.key}` }).toUpperCase(),
         )}
-        defaultText="ALL"
         onDropdownSelect={_handleOnDropdownSelect}
         rightIconName="playlist-add-check"
         rightIconType="MaterialIcons"

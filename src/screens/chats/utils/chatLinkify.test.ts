@@ -15,7 +15,7 @@ describe('addHiveScheme (chat linkify)', () => {
   it('detects a hive:// signing link', () => {
     const matches = makeLinkify().match(`please open ${HIVE_URI} to restore`);
     expect(matches).toBeTruthy();
-    const hit = matches?.find((m) => m.schema === 'hive:');
+    const hit = matches?.find((m: any) => m.schema === 'hive:');
     expect(hit).toBeTruthy();
     expect(hit?.url).toBe(HIVE_URI); // full link incl. trailing ".." padding
   });

@@ -59,7 +59,7 @@ interface Member {
   title: string;
 }
 
-const CommunityMembersScreen = ({ route }) => {
+const CommunityMembersScreen = ({ route }: any) => {
   const intl = useIntl();
   const navigation = useNavigation();
 
@@ -137,7 +137,7 @@ const CommunityMembersScreen = ({ route }) => {
   };
 
   const _handleOnUserPress = (username: string) => {
-    navigation.navigate({
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.PROFILE,
       key: username,
       params: { username },
@@ -157,7 +157,7 @@ const CommunityMembersScreen = ({ route }) => {
       // Patched rather than invalidated: setRole broadcasts async, so a refetch
       // now returns pre-transaction state. See the comment in _handleEditRole.
       queryClient.setQueryData(communitySubscribersQueryKey(communityId), (cached) =>
-        applyRoleToSubscribersCache(cached, targetAccount, role),
+        applyRoleToSubscribersCache(cached as any, targetAccount, role),
       );
     } catch (err) {
       Alert.alert(intl.formatMessage({ id: 'alert.fail' }), (err as Error)?.message || String(err));

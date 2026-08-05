@@ -37,21 +37,21 @@ const BoostPlus = ({
   SCPath,
   isSCModalOpen,
   handleOnSCModalClose,
-}) => {
+}: any) => {
   const [balance, setBalance] = useState(_balance);
   const [day, setDay] = useState(7);
   const [price, setPrice] = useState<number | null>(null);
   const [expiryDate, setExpiryDate] = useState<Date | null>(null);
   const [isValid, setIsValid] = useState(false);
 
-  const startActionSheet = useRef(null);
-  const startActionSheetP = useRef(null);
+  const startActionSheet = useRef<any>(null);
+  const startActionSheetP = useRef<any>(null);
 
   const { code } = useAuth();
 
   // Use SDK query options directly without overriding
   const boostPricesQuery = useQuery({
-    ...getBoostPlusPricesQueryOptions(code),
+    ...(getBoostPlusPricesQueryOptions(code as any) as any),
     enabled: !!code,
   });
 
@@ -96,7 +96,7 @@ const BoostPlus = ({
   });
 
   const boostAccountQuery = useQuery({
-    ...getBoostPlusAccountPricesQueryOptions(currentAccountName, code),
+    ...(getBoostPlusAccountPricesQueryOptions(currentAccountName, code as any) as any),
     enabled: !!currentAccountName && !!code,
   });
 
@@ -111,8 +111,8 @@ const BoostPlus = ({
 
   useEffect(() => {
     const response = boostAccountQuery.data;
-    if (response?.account === currentAccountName) {
-      const expiry = new Date(response.expires);
+    if ((response as any)?.account === currentAccountName) {
+      const expiry = new Date((response as any).expires);
       if (expiry > new Date()) {
         setExpiryDate(expiry);
         return;
@@ -135,7 +135,9 @@ const BoostPlus = ({
       </Animated.View>
     );
 
-  const _renderDropdown = (accountName) => <Text style={styles.dropdownText}>{accountName}</Text>;
+  const _renderDropdown = (accountName: any) => (
+    <Text style={styles.dropdownText}>{accountName}</Text>
+  );
 
   // balance is derived from pointsQuery; no manual fetch needed
 
@@ -169,7 +171,7 @@ const BoostPlus = ({
                 values={_boostDays}
                 LRpadding={50}
                 activeValue={day}
-                handleOnValueChange={(_day) => setDay(_day)}
+                handleOnValueChange={(_day: any) => setDay(_day)}
                 single
               />
             )}

@@ -24,7 +24,7 @@ import {
   selectIsConnected,
 } from '../../../redux/selectors';
 
-const NotificationContainer = ({ navigation }) => {
+const NotificationContainer = ({ navigation }: any) => {
   const queryClient = useQueryClient();
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -87,7 +87,7 @@ const NotificationContainer = ({ navigation }) => {
     }
   };
 
-  const _navigateToNotificationRoute = (data) => {
+  const _navigateToNotificationRoute = (data: any) => {
     const type = get(data, 'type');
     const permlink = get(data, 'permlink');
     const author = get(data, 'author');
@@ -128,7 +128,7 @@ const NotificationContainer = ({ navigation }) => {
     }
 
     if (routeName) {
-      navigation.navigate({
+      (navigation as any).navigate({
         name: routeName,
         params,
         key,
@@ -136,7 +136,7 @@ const NotificationContainer = ({ navigation }) => {
     }
   };
 
-  const _handleOnUserPress = (username) => {
+  const _handleOnUserPress = (username: any) => {
     SheetManager.show(SheetNames.QUICK_PROFILE, {
       payload: {
         username,

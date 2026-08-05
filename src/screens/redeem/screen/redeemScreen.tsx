@@ -11,8 +11,8 @@ import RcTopUp from '../children/rcTopUp';
 import styles from '../styles/redeemScreen.styles';
 import globalStyles from '../../../globalStyles';
 
-class RedeemScreen extends PureComponent {
-  constructor(props) {
+class RedeemScreen extends PureComponent<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }
@@ -26,9 +26,15 @@ class RedeemScreen extends PureComponent {
     return (
       <SafeAreaView style={styles.container}>
         <PointsContainer route={route}>
-          {({ currentAccountName, balance, navigationParams, redeemType, getESTMPrice }) => (
+          {({ currentAccountName, balance, navigationParams, redeemType, getESTMPrice }: any) => (
             <RedeemContainer>
-              {({ handleOnSubmit, SCPath, isSCModalOpen, handleOnSCModalClose, isLoading }) => {
+              {({
+                handleOnSubmit,
+                SCPath,
+                isSCModalOpen,
+                handleOnSCModalClose,
+                isLoading,
+              }: any) => {
                 let _retView = null;
                 switch (redeemType) {
                   case 'promote':

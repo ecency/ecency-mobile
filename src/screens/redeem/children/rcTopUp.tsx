@@ -31,18 +31,18 @@ const RcTopUp = ({
   SCPath,
   isSCModalOpen,
   handleOnSCModalClose,
-}) => {
+}: any) => {
   const [balance, setBalance] = useState(_balance);
   const [day, setDay] = useState(1);
   const [price, setPrice] = useState<number | null>(null);
   const [isValid, setIsValid] = useState(false);
 
-  const startActionSheet = useRef(null);
+  const startActionSheet = useRef<any>(null);
 
   const { code } = useAuth();
 
   const pricesQuery = useQuery({
-    ...getRcDelegationPricesQueryOptions(code),
+    ...(getRcDelegationPricesQueryOptions(code as any) as any),
     enabled: !!code,
   });
 
@@ -105,7 +105,9 @@ const RcTopUp = ({
     }, [pointsQuery.refetch]),
   );
 
-  const _renderDropdown = (accountName) => <Text style={styles.dropdownText}>{accountName}</Text>;
+  const _renderDropdown = (accountName: any) => (
+    <Text style={styles.dropdownText}>{accountName}</Text>
+  );
 
   const _handleOnSubmit = async () => {
     handleOnSubmit(redeemType, day, currentAccountName, currentAccountName);
@@ -159,7 +161,7 @@ const RcTopUp = ({
                 values={_rcDays}
                 LRpadding={50}
                 activeValue={day}
-                handleOnValueChange={(_day) => setDay(_day)}
+                handleOnValueChange={(_day: any) => setDay(_day)}
                 single
               />
             )}

@@ -14,7 +14,7 @@ import AccountListContainer from '../../../containers/accountListContainer';
 import globalStyles from '../../../globalStyles';
 import { getTimeFromNow } from '../../../utils/time';
 
-const AccountList = ({ route, navigation }) => {
+const AccountList = ({ route, navigation }: any) => {
   const intl = useIntl();
 
   const users = route.params?.users || [];
@@ -34,12 +34,12 @@ const AccountList = ({ route, navigation }) => {
 
   return (
     <AccountListContainer data={users}>
-      {({ data, filterResult, handleSearch, handleOnUserPress }) => (
+      {({ data, filterResult, handleSearch, handleOnUserPress }: any) => (
         <SafeAreaView style={[globalStyles.container]} edges={_safeAreaEdges}>
           <SearchInput
             showClearButton={true}
             placeholder={`${headerTitle} (${data && data.length})`}
-            onChangeText={(text) => {
+            onChangeText={(text: any) => {
               handleSearch(text, 'account');
             }}
             backEnabled={true}
@@ -62,7 +62,7 @@ const AccountList = ({ route, navigation }) => {
 
 export default gestureHandlerRootHOC(AccountList);
 
-const renderUserListItem = (item, index, handleOnUserPress) => {
+const renderUserListItem = (item: any, index: any, handleOnUserPress: any) => {
   return (
     <UserListItem
       index={index}

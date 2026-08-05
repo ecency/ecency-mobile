@@ -12,10 +12,10 @@ import FollowsScreen from '../screen/followsScreen';
  * Displays followers or following list with pagination and search
  */
 
-const FollowsContainer = ({ route }) => {
+const FollowsContainer = ({ route }: any) => {
   const { count, username, isFollowingPress } = route?.params || {};
 
-  const [filterResult, setFilterResult] = useState(null);
+  const [filterResult, setFilterResult] = useState<any>(null);
 
   // Determine mode based on props
   const mode = isFollowingPress ? 'following' : 'followers';
@@ -41,7 +41,7 @@ const FollowsContainer = ({ route }) => {
   };
 
   // Handle search/filter
-  const handleSearch = (text) => {
+  const handleSearch = (text: any) => {
     if (!text || text.trim() === '') {
       setFilterResult(null);
       return;

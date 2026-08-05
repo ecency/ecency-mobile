@@ -360,7 +360,7 @@ export const usePostSubmitter = () => {
           );
         }
 
-        let errMsg = error?.message || '';
+        let errMsg = (error as any)?.message || '';
         if (!errMsg) {
           try {
             errMsg = JSON.stringify(error);
@@ -400,7 +400,7 @@ export const usePostSubmitter = () => {
           true,
         );
       }
-      let errMsg = error?.message || '';
+      let errMsg = (error as any)?.message || '';
       if (!errMsg) {
         try {
           errMsg = JSON.stringify(error);

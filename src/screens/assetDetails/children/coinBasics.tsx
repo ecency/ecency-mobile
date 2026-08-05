@@ -97,7 +97,7 @@ export const CoinBasics = ({
   );
 
   const _renderValuePair = (args: DataPair, index: number) => {
-    const label = intl.formatMessage({ id: `wallet.${args.dataKey}` });
+    const label = intl.formatMessage({ id: `wallet.${(args as any).dataKey}` });
     return (
       <Fragment key={`basic-data-${args.dataKey}-${index}`}>
         <Text style={styles.textBasicValue}>{args.value}</Text>
@@ -108,7 +108,7 @@ export const CoinBasics = ({
 
   const _renderExtraData = (args: DataPair, index: number) => {
     const label = intl.formatMessage(
-      { id: `wallet.${args.dataKey || args.labelId}` },
+      { id: `wallet.${(args as any).dataKey || (args as any).labelId}` },
       args.subValue ? { subValue: args.subValue } : undefined,
     );
 
@@ -120,11 +120,14 @@ export const CoinBasics = ({
       <View key={`extra-data-${args.dataKey}-${index}`} style={styles.extraDataContainer}>
         <Text
           style={[styles.textExtraLabel, args.isClickable && styles.textUnderline]}
-          onPress={args.isClickable && _onPress}
+          onPress={((args as any).isClickable && _onPress) as any}
         >
           {label}
         </Text>
-        <Text style={styles.textExtraValue} onPress={args.isClickable && _onPress}>
+        <Text
+          style={styles.textExtraValue}
+          onPress={((args as any).isClickable && _onPress) as any}
+        >
           {args.value}
         </Text>
       </View>

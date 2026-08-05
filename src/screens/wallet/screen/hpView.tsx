@@ -7,8 +7,8 @@ import { DelegationsModal, MODES } from '../../assetDetails/children/delegations
 import { walletQueries } from '../../../providers/queries';
 import globalStyles from '../../../globalStyles';
 
-const HpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => {
-  const delegationsModalRef = useRef(null);
+const HpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }: any) => {
+  const delegationsModalRef = useRef<any>(null);
 
   // Fetch HP asset with extraData for delegation info
   const assetsQuery = walletQueries.useAssetsQuery();
@@ -36,7 +36,7 @@ const HpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) =
   return (
     <View style={globalStyles.swipeItemWrapper}>
       <AccountContainer>
-        {({ currentAccount }) => (
+        {({ currentAccount }: any) => (
           <WalletContainer selectedUser={currentAccount}>
             {({
               isClaiming,
@@ -51,7 +51,7 @@ const HpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) =
               unclaimedBalance,
               navigate,
               estimatedAmount,
-            }) => (
+            }: any) => (
               <>
                 <WalletHeader
                   componentDidUpdate={() => handleOnSelected(userActivities, isLoading)}
@@ -68,7 +68,7 @@ const HpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) =
                   userBalance={[
                     { balance: hpBalance, nameKey: 'hive_power', options: hivePowerDropdown },
                   ]}
-                  handleOnDropdownSelected={(option) => navigate(option, 'HIVE_POWER')}
+                  handleOnDropdownSelected={(option: any) => navigate(option, 'HIVE_POWER')}
                   type="hive_power"
                   currentIndex={currentIndex}
                   showIconList={false}

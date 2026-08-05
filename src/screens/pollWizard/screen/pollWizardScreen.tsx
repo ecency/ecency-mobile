@@ -7,7 +7,7 @@ import { PollsWizardContent, ModalHeader } from '../../../components';
 import styles from '../styles/pollWizardScreen.styles';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 
-const PollWizardScreen = ({ route }) => {
+const PollWizardScreen = ({ route }: any) => {
   const intl = useIntl();
   const navigation = useNavigation();
   const draftId = route.params?.draftId || DEFAULT_USER_DRAFT_ID;

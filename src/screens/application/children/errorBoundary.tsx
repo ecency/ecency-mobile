@@ -6,8 +6,8 @@ import RNRestart from 'react-native-restart';
 import * as Sentry from '@sentry/react-native';
 import { Icon } from '../../../components';
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
+class ErrorBoundary extends React.Component<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = { hasError: false };
   }
@@ -16,10 +16,10 @@ class ErrorBoundary extends React.Component {
     return { hasError: true };
   }
 
-  componentDidCatch(error, errorInfo) {
-    Sentry.captureException(error, (scope) => {
+  componentDidCatch(error: any, errorInfo: any) {
+    Sentry.captureException(error, ((scope: any) => {
       scope.setContext('errorBoundary', errorInfo);
-    });
+    }) as any);
   }
 
   render() {

@@ -20,9 +20,9 @@ import { getTimeFromNow } from '../../../../../../utils/time';
 import styles from './postsResultsStyles';
 import { SheetNames } from '../../../../../../navigation/sheets';
 
-const PostsResults = ({ searchValue, filters, listRef }) => {
+const PostsResults = ({ searchValue, filters, listRef }: any) => {
   const intl = useIntl();
-  const _showProfileModal = (username) => {
+  const _showProfileModal = (username: any) => {
     if (username) {
       SheetManager.show(SheetNames.QUICK_PROFILE, {
         payload: {
@@ -32,7 +32,7 @@ const PostsResults = ({ searchValue, filters, listRef }) => {
     }
   };
 
-  const _renderItem = (item, index) => {
+  const _renderItem = (item: any, index: any) => {
     const reputation =
       get(item, 'author_rep', undefined) || get(item, 'author_reputation', undefined);
     // console.log(item);
@@ -103,7 +103,7 @@ const PostsResults = ({ searchValue, filters, listRef }) => {
 
   return (
     <PostsResultsContainer searchValue={searchValue} filters={filters}>
-      {({ data, handleOnPress, loadMore, noResult, isError, isLoading, validationError }) => (
+      {({ data, handleOnPress, loadMore, noResult, isError, isLoading, validationError }: any) => (
         <>
           {noResult || isError || validationError ? (
             <EmptyScreen

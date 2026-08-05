@@ -17,7 +17,7 @@ import globalStyles from '../../../globalStyles';
 
 const filterOptions = ['rewards', 'percent', 'time'];
 
-const VotersScreen = ({ route }) => {
+const VotersScreen = ({ route }: any) => {
   const intl = useIntl();
 
   const [post, setPost] = useState(route.params?.content ?? null);
@@ -34,14 +34,14 @@ const VotersScreen = ({ route }) => {
       ? getEntryActiveVotesQueryOptions(post)
       : { queryKey: ['entryActiveVotes', null], queryFn: () => null }),
     enabled: !!route.params?.content && !!author && !!permlink,
-  });
+  } as any);
 
   useEffect(() => {
     if (activeVotes && route.params?.content) {
-      setPost((prev) => {
+      setPost((prev: any) => {
         if (!prev) return prev;
 
-        const sortedVotes = [...activeVotes].sort(
+        const sortedVotes = [...(activeVotes as any)].sort(
           (a, b) => parseFloat(b.rshares) - parseFloat(a.rshares),
         );
         const parsedVotes = parseActiveVotes({ ...prev, active_votes: sortedVotes });
@@ -58,24 +58,20 @@ const VotersScreen = ({ route }) => {
 
   return (
     <AccountListContainer data={_activeVotes}>
-      {({ data, filterResult, filterIndex, handleOnVotersDropdownSelect, handleSearch }) => (
+      {({ data, filterResult, filterIndex, handleOnVotersDropdownSelect, handleSearch }: any) => (
         <SafeAreaView style={globalStyles.container}>
           <BasicHeader
             backIconName="close"
             title={`${headerTitle} (${data && data.length})`}
             isHasSearch
-            handleOnSearch={(text) => handleSearch(text, 'voter')}
+            handleOnSearch={(text: any) => handleSearch(text, 'voter')}
           />
           <FilterBar
-            dropdownIconName="arrow-drop-down"
             options={filterOptions.map((item) =>
               intl.formatMessage({
                 id: `voters_dropdown.${item}`,
               }),
             )}
-            defaultText={intl.formatMessage({
-              id: `voters_dropdown.${filterOptions[filterIndex]}`,
-            })}
             selectedOptionIndex={filterIndex}
             onDropdownSelect={handleOnVotersDropdownSelect}
           />

@@ -11,7 +11,9 @@ import { selectHidePostsThumbnails } from '../../../redux/selectors';
 import BasicHeaderView from '../view/basicHeaderView';
 
 interface BackHeaderProps {
-  backIconName: 'close' | 'arrow-back';
+  backIconName?: 'close' | 'arrow-back';
+  // passes every remaining prop through to BasicHeaderView
+  [key: string]: any;
 }
 
 const BasicHeaderContainer = (props: BackHeaderProps) => {

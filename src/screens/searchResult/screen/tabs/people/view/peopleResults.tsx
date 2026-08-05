@@ -12,7 +12,7 @@ import PeopleResultsContainer from '../container/peopleResultsContainer';
 
 import styles from './peopleResultsStyles';
 
-const PeopleResults = ({ searchValue, isUsername, listRef }) => {
+const PeopleResults = ({ searchValue, isUsername, listRef }: any) => {
   const intl = useIntl();
   const _renderEmptyContent = () => {
     return (
@@ -24,7 +24,7 @@ const PeopleResults = ({ searchValue, isUsername, listRef }) => {
 
   return (
     <PeopleResultsContainer searchValue={searchValue} isUsername={isUsername}>
-      {({ users, handleOnPress, noResult, isError }) => (
+      {({ users, handleOnPress, noResult, isError }: any) => (
         <>
           {(noResult || isError) && !users.length ? (
             <EmptyScreen

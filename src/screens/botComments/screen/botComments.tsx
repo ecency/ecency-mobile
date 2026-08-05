@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Comments, BasicHeader } from '../../../components';
 import styles from '../styles/botComments.styles';
 
-export const BotComments = ({ route }) => {
+export const BotComments = ({ route }: any) => {
   const intl = useIntl();
 
   const [comments] = useState<any>(route.params?.comments || []);

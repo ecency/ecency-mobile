@@ -5,7 +5,7 @@ import MultiSlider from '@esteemapp/react-native-multi-slider';
 import styles from './scaleSliderStyles';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 
-const ScaleSliderView = ({ values, LRpadding, handleOnValueChange, activeValue }) => {
+const ScaleSliderView = ({ values, LRpadding, handleOnValueChange, activeValue }: any) => {
   const hasValues = values && values.length > 0;
   const [_activeValue, setActiveValue] = useState(hasValues ? activeValue ?? values[0] : undefined);
   const [activeIndex, setActiveIndex] = useState(
@@ -28,7 +28,7 @@ const ScaleSliderView = ({ values, LRpadding, handleOnValueChange, activeValue }
     setActiveIndex(Math.max(0, values.indexOf(nextValue)));
   }, [activeValue, hasValues, values]);
 
-  const _valueChange = (_values) => {
+  const _valueChange = (_values: any) => {
     const index = _values[0] - 1;
 
     if (!values || index < 0 || index >= values.length) {
@@ -43,7 +43,7 @@ const ScaleSliderView = ({ values, LRpadding, handleOnValueChange, activeValue }
     }
   };
 
-  const _renderItem = (value, index, activeIndex) => {
+  const _renderItem = (value: any, index: any, activeIndex: any) => {
     const isActive = index <= activeIndex || index === 0;
 
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { View, FlatList } from 'react-native';
+import { View } from 'react-native';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -22,8 +22,8 @@ const CommunitiesScreen = () => {
   const intl = useIntl();
 
   const [index, setIndex] = React.useState(0);
-  const joinedListRef = React.useRef<FlatList<any>>(null);
-  const discoverListRef = React.useRef<FlatList<any>>(null);
+  const joinedListRef = React.useRef<any>(null);
+  const discoverListRef = React.useRef<any>(null);
   const [routes] = React.useState([
     {
       key: 'joined',
@@ -55,7 +55,7 @@ const CommunitiesScreen = () => {
         handleGetSubscriptions,
         isSubscriptionsLoading,
         isDiscoversLoading,
-      }) => {
+      }: any) => {
         return (
           <SafeAreaView style={styles.container}>
             <BasicHeader

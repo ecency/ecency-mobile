@@ -19,8 +19,8 @@ import { selectIsPinCodeOpen } from '../../../redux/selectors';
  *
  */
 
-class WalletContainer extends PureComponent {
-  constructor(props) {
+class WalletContainer extends PureComponent<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }
@@ -28,7 +28,7 @@ class WalletContainer extends PureComponent {
   // Component Life Cycle Functions
 
   // Component Functions
-  _navigate = async (transferType, fundType) => {
+  _navigate = async (transferType: any, fundType: any) => {
     const { walletData, isPinCodeOpen, navigation } = this.props;
     let balance;
 
@@ -50,7 +50,7 @@ class WalletContainer extends PureComponent {
     }
 
     if (isPinCodeOpen) {
-      navigation.navigate({
+      (navigation as any).navigate({
         name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo: ROUTES.SCREENS.TRANSFER,
@@ -58,7 +58,7 @@ class WalletContainer extends PureComponent {
         },
       });
     } else {
-      navigation.navigate({
+      (navigation as any).navigate({
         name: ROUTES.SCREENS.TRANSFER,
         params: { transferType, fundType, balance },
       });
@@ -79,11 +79,11 @@ class WalletContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   isPinCodeOpen: selectIsPinCodeOpen(state),
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = (props: any) => {
   const navigation = useNavigation();
   return <WalletContainer {...props} navigation={navigation} />;
 };

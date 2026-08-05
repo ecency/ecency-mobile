@@ -4,7 +4,7 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Profile } from '../../../components';
 import { ProfileContainer } from '../../../containers';
 
-const ProfileScreen = ({ route }) => (
+const ProfileScreen = ({ route }: any) => (
   <ProfileContainer route={route}>
     {({
       about,
@@ -43,7 +43,7 @@ const ProfileScreen = ({ route }) => (
       votingPower,
       reverseHeader,
       deepLinkFilter,
-    }) => (
+    }: any) => (
       <Profile
         about={about}
         activePage={activePage}

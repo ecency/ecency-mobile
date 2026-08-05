@@ -55,12 +55,12 @@ export const SelectionList = ({
       return 0;
     });
 
-    _data.splice(selectionRef.current.length, 0, { isSectionSeparator: true });
+    _data.splice(selectionRef.current.length, 0, { isSectionSeparator: true } as any);
 
     setSortedList(_data);
   };
 
-  const _onDragEnd = ({ data, from, to }) => {
+  const _onDragEnd = ({ data, from, to }: any) => {
     const totalSel = selectionRef.current.length;
     const item = sortedList[from];
 
@@ -100,7 +100,7 @@ export const SelectionList = ({
     );
 
   const _renderItem = ({ item, drag }: { item: ListItem; drag: () => void }) => {
-    if (item.isSectionSeparator) {
+    if ((item as any).isSectionSeparator) {
       return _renderSectionSeparator(
         intl.formatMessage({ id: 'selection_list.available' }, { postfix: headerPostfix }),
       );

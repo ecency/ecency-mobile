@@ -24,7 +24,7 @@ const MAX_LINES = 4;
 // Account names, and post references of the form @author/permlink.
 const MENTION_REGEX = /@[\w.\d-]+(?:\/[\w.\d-]+)?/gi;
 
-const CommunityActivitiesScreen = ({ route }) => {
+const CommunityActivitiesScreen = ({ route }: any) => {
   const intl = useIntl();
   const navigation = useNavigation();
 
@@ -50,14 +50,14 @@ const CommunityActivitiesScreen = ({ route }) => {
   };
 
   const _openAccount = (username: string) =>
-    navigation.navigate({
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.PROFILE,
       key: username,
       params: { username },
     });
 
   const _openPost = (author: string, permlink: string) =>
-    navigation.navigate({
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.POST,
       key: `${author}/${permlink}`,
       params: { author, permlink },
@@ -142,7 +142,7 @@ const CommunityActivitiesScreen = ({ route }) => {
       />
       <FlatList
         data={activities}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item: any) => item.id}
         renderItem={_renderItem}
         ListEmptyComponent={_renderEmpty}
         ListFooterComponent={

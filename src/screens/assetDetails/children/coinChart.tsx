@@ -38,7 +38,7 @@ export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
     }
   };
 
-  const _onRangeChange = (range) => {
+  const _onRangeChange = (range: any) => {
     setRange(range);
     _fetchMarketData(range);
   };

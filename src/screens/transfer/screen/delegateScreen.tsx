@@ -49,7 +49,7 @@ const DelegateScreen = ({
   // --- State ---
   const [from] = useState(currentAccountName);
   const [destination, setDestination] = useState(referredUsername || '');
-  const [hp, setHp] = useState(0.0);
+  const [hp, setHp] = useState<any>(0.0);
   const [amount, setAmount] = useState(0); // VESTS
   const [delegatedHP, setDelegatedHP] = useState<number>(0);
   const [delegatedVests, setDelegatedVests] = useState<number>(0);
@@ -118,11 +118,11 @@ const DelegateScreen = ({
         const queryOpts = getVestingDelegationsQueryOptions(delegatorUser, limit);
 
         const fetchAllPages = async (cursor = ''): Promise<any[]> => {
-          const page = await queryClient.fetchQuery({
+          const page: any = await queryClient.fetchQuery({
             ...queryOpts,
             queryKey: [...queryOpts.queryKey, cursor],
-            queryFn: () => queryOpts.queryFn({ pageParam: cursor }),
-          });
+            queryFn: () => (queryOpts as any).queryFn({ pageParam: cursor }),
+          } as any);
           if (page.length < limit) {
             return page;
           }
@@ -313,7 +313,10 @@ const DelegateScreen = ({
         handleOnModalClose?.();
       } catch (error) {
         setIsTransfering(false);
-        Alert.alert(intl.formatMessage({ id: 'alert.error' }), error.message || error.toString());
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.error' }),
+          (error as any).message || (error as any).toString(),
+        );
       }
     },
     [isTransfering, from, destination, transferToAccount, handleOnModalClose, intl],
@@ -321,7 +324,7 @@ const DelegateScreen = ({
 
   // --- Review / Confirm ---
   const handleReview = useCallback(async () => {
-    const parsedHpValue = parseFloat(hp);
+    const parsedHpValue = parseFloat(hp as any);
     const vestsForHp = hpToVests(parsedHpValue, hivePerMVests);
     const amountValid = validateHP(parsedHpValue);
 
@@ -391,7 +394,9 @@ const DelegateScreen = ({
   }, [hp, hivePerMVests, validateHP, intl, from, destination, delegatedHP, handleTransferAction]);
 
   // --- HiveSigner path (preserved for completeness) ---
-  const fixedAmount = `${(amount || 0).toFixed ? amount.toFixed(6) : '0.000000'} VESTS`;
+  const fixedAmount = `${
+    ((amount as any) || 0).toFixed ? (amount as any).toFixed(6) : '0.000000'
+  } VESTS`;
   const hsPath = `sign/delegate-vesting-shares?delegator=${from}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
     fixedAmount,
   )}`;
@@ -400,7 +405,7 @@ const DelegateScreen = ({
 
   // --- Render suggestion item ---
   const renderSuggestionItem = useCallback(
-    ({ item: username }) => (
+    ({ item: username }: any) => (
       <TouchableOpacity onPress={() => handleUserSelect(username)} style={styles.usersDropItemRow}>
         <UserAvatar username={username} noAction />
         <Text style={styles.usersDropItemRowText}>{username}</Text>
@@ -475,11 +480,13 @@ const DelegateScreen = ({
 
           <View style={styles.amountRow}>
             <TextInput
-              style={[
-                styles.inputField,
-                styles.amountInputLarge,
-                !isAmountValid && hp > 0 && styles.inputError,
-              ]}
+              style={
+                [
+                  styles.inputField,
+                  styles.amountInputLarge,
+                  !isAmountValid && hp > 0 && styles.inputError,
+                ] as any
+              }
               onChangeText={handleHpInputChange}
               value={hp.toString()}
               placeholder="0.000"

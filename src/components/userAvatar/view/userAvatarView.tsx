@@ -59,7 +59,7 @@ const UserAvatarView = ({
       }
     : DEFAULT_IMAGE;
 
-  let _size: number;
+  let _size = 32;
   if (!disableSize) {
     _size = 32;
     if (size === 'xl') {

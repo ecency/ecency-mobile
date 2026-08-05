@@ -23,8 +23,8 @@ export const UpvoteButton = ({
   onPayoutDetailsPress,
 }: UpvoteButtonProps) => {
   const intl = useIntl();
-  const upvoteRef = useRef(null);
-  const detailsRef = useRef(null);
+  const upvoteRef = useRef<any>(null);
+  const detailsRef = useRef<any>(null);
 
   const currentAccount = useAppSelector(selectCurrentAccount);
 
@@ -44,7 +44,7 @@ export const UpvoteButton = ({
   }, [content.isUpVoted, content.isDownVoted]);
 
   const _onPress = () => {
-    const _onVotingStart = (status) => {
+    const _onVotingStart = (status: any) => {
       if (status > 0) {
         setIsVoted(true);
       } else if (status < 0) {

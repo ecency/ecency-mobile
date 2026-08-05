@@ -27,7 +27,7 @@ import {
 import { selectCurrentAccountName } from '../../redux/selectors';
 
 interface BeneficiarySelectionContentProps {
-  draftId: string;
+  draftId?: string;
   setDisableDone: (value: boolean) => void;
   powerDown?: boolean;
   label?: string;

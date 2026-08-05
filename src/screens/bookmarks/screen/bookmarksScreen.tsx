@@ -30,10 +30,10 @@ const BookmarksScreen = ({
   fetchNextFavoritesPage,
   hasNextFavoritesPage,
   isFetchingNextFavoritesPage,
-}) => {
+}: any) => {
   const [tabIndex, setTabIndex] = React.useState(initialTabIndex);
-  const bookmarksListRef = React.useRef<FlatList>(null);
-  const favoritesListRef = React.useRef<FlatList>(null);
+  const bookmarksListRef = React.useRef<any>(null);
+  const favoritesListRef = React.useRef<any>(null);
   const [routes] = React.useState([
     {
       key: 'bookmarks',
@@ -49,7 +49,7 @@ const BookmarksScreen = ({
     },
   ]);
 
-  const _renderItem = (item, index, itemType) => {
+  const _renderItem = (item: any, index: any, itemType: any) => {
     const isFavorites = itemType === 'favorites';
     const text = isFavorites ? item.account : `${item.author}/${item.permlink}`;
 
@@ -86,7 +86,7 @@ const BookmarksScreen = ({
     );
   };
 
-  const _getTabItem = (data, type, listRef) => {
+  const _getTabItem = (data: any, type: any, listRef: any) => {
     const isFavorites = type === 'favorites';
     const fetchNextPage = isFavorites ? fetchNextFavoritesPage : fetchNextBookmarksPage;
     const hasNextPage = isFavorites ? hasNextFavoritesPage : hasNextBookmarksPage;
@@ -104,7 +104,7 @@ const BookmarksScreen = ({
       <FlatList
         ref={listRef}
         style={styles.container}
-        data={data.map((item) =>
+        data={data.map((item: any) =>
           item._id !== data[item._id] && isFavorites
             ? item.account !== data[item.account] && item
             : item,
@@ -112,7 +112,7 @@ const BookmarksScreen = ({
         contentContainerStyle={styles.listContent}
         keyExtractor={(item) => item._id}
         removeClippedSubviews={false}
-        renderItem={({ item, index }) => _renderItem(item, index, type)}
+        renderItem={(({ item, index }: any) => _renderItem(item, index, type)) as any}
         ListEmptyComponent={_renderEmptyContent()}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
@@ -121,7 +121,7 @@ const BookmarksScreen = ({
     );
   };
 
-  const _handleLongPress = (_selectedItemId) => {
+  const _handleLongPress = (_selectedItemId: any) => {
     const _onConfirmDelete = () => {
       tabIndex === 0 ? removeBookmark(_selectedItemId) : removeFavorite(_selectedItemId);
     };
@@ -146,7 +146,7 @@ const BookmarksScreen = ({
     });
   };
 
-  const renderScene = ({ route }) => {
+  const renderScene = ({ route }: any) => {
     switch (route.key) {
       case 'bookmarks':
         return (

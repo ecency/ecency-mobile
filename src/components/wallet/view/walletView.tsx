@@ -19,11 +19,11 @@ const WalletView = ({
   selectedUser,
   handleOnScroll,
   forceUsdEstimate,
-}) => {
+}: any) => {
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const intl = useIntl();
 
-  const _getUnclaimedText = (walletData, isPreview) => (
+  const _getUnclaimedText = (walletData: any, isPreview?: any) => (
     <Text style={[isPreview ? styles.unclaimedTextPreview : styles.unclaimedText]}>
       {walletData.rewardHiveBalance
         ? `${Math.round(walletData.rewardHiveBalance * 1000) / 1000} HIVE`
@@ -52,7 +52,7 @@ const WalletView = ({
         refreshing,
         selectedUsername,
         walletData,
-      }) => (
+      }: any) => (
         <ScrollView
           onScroll={handleOnScroll && handleOnScroll}
           style={styles.scrollView}

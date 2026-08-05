@@ -21,7 +21,7 @@ const NotificationLineView = ({
   handleOnPressNotification,
   handleOnUserPress,
   globalProps,
-}) => {
+}: any) => {
   const [isRead, setIsRead] = useState(notification.read);
   const intl = useIntl();
 
@@ -162,7 +162,7 @@ const NotificationLineView = ({
           <UserAvatar
             noAction={true}
             username={notification.source}
-            style={[styles.avatar, !notification.avatar && styles.hasNoAvatar]}
+            style={[styles.avatar, !notification.avatar && styles.hasNoAvatar] as any}
           />
         </TouchableOpacity>
 

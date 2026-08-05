@@ -7,10 +7,10 @@ import { getSearchTopicsQueryOptions } from '@ecency/sdk';
 import ROUTES from '../../../../../../constants/routeNames';
 import { getQueryClient } from '../../../../../../providers/queries';
 
-const OtherResultContainer = ({ children, searchValue }) => {
+const OtherResultContainer = ({ children, searchValue }: any) => {
   const navigation = useNavigation();
 
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState<any[]>([]);
   const [noResult, setNoResult] = useState(false);
   // See the people tab: an empty result and a failed lookup are different
   // answers and used to be reported with the same one.
@@ -65,8 +65,8 @@ const OtherResultContainer = ({ children, searchValue }) => {
 
   // Component Functions
 
-  const _handleOnPress = (item) => {
-    navigation.navigate({
+  const _handleOnPress = (item: any) => {
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.TAG_RESULT,
       params: {
         tag: get(item, 'tag', ''),

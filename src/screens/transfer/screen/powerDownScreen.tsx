@@ -36,7 +36,7 @@ const PowerDownScreen = ({
   handleOnModalClose,
   transferToAccount,
   setWithdrawVestingRoute,
-}) => {
+}: any) => {
   const intl = useIntl();
   const queryClient = useQueryClient();
 
@@ -46,19 +46,19 @@ const PowerDownScreen = ({
   const isRoutesOnly = transferType === TransferTypes.SET_WITHDRAW_VESTING_ROUTE;
 
   const [amount, setAmount] = useState(0);
-  const [hp, setHp] = useState(0.0);
+  const [hp, setHp] = useState<any>(0.0);
   const [isTransfering, setIsTransfering] = useState(false);
   const [isOpenWithdrawAccount, setIsOpenWithdrawAccount] = useState(false);
-  const [destinationAccounts, setDestinationAccounts] = useState([]);
+  const [destinationAccounts, setDestinationAccounts] = useState<any[]>([]);
   const [_disableDone, setDisableDone] = useState(false);
   const [isAmountValid, setIsAmountValid] = useState(false);
 
-  const startActionSheet = React.useRef(null);
-  const stopActionSheet = React.useRef(null);
-  const amountTextInput = React.useRef(null);
+  const startActionSheet = React.useRef<any>(null);
+  const stopActionSheet = React.useRef<any>(null);
+  const amountTextInput = React.useRef<any>(null);
 
   const fetchRoutes = useCallback(
-    async (username) => {
+    async (username: any) => {
       try {
         const res = await queryClient.fetchQuery(getWithdrawRoutesQueryOptions(username));
         const accounts = res.map((item) => ({
@@ -69,7 +69,10 @@ const PowerDownScreen = ({
         setDestinationAccounts(accounts);
         return res;
       } catch (e) {
-        Alert.alert(intl.formatMessage({ id: 'alert.error' }), e.message || e.toString());
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.error' }),
+          (e as any).message || (e as any).toString(),
+        );
       }
     },
     [queryClient, intl],
@@ -91,20 +94,23 @@ const PowerDownScreen = ({
         }
       } catch (error) {
         setIsTransfering(false);
-        Alert.alert(intl.formatMessage({ id: 'alert.error' }), error.message || error.toString());
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.error' }),
+          (error as any).message || (error as any).toString(),
+        );
       }
     },
     [amount, currentAccountName, destinationAccounts, transferToAccount, handleOnModalClose, intl],
   );
 
   const validateHP = useCallback(
-    ({ value, availableVestingShares }) => {
+    ({ value, availableVestingShares }: any) => {
       const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
       const parsedHpValue = parseFloat(value.toString().replace(',', '.'));
       const amountValid = !(
         Number.isNaN(parsedHpValue) ||
         parsedHpValue < 0.0 ||
-        parsedHpValue > totalHP
+        parsedHpValue > (totalHP as any)
       );
       return amountValid;
     },
@@ -112,7 +118,7 @@ const PowerDownScreen = ({
   );
 
   const handleAmountChange = useCallback(
-    ({ hpValue, availableVestingShares }) => {
+    ({ hpValue, availableVestingShares }: any) => {
       const parsedValue = parseFloat(hpValue.toString().replace(',', '.'));
       const vestsForHp = hpToVests(parsedValue, hivePerMVests);
       const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
@@ -121,7 +127,7 @@ const PowerDownScreen = ({
         setAmount(0);
         setHp(0.0);
         setIsAmountValid(false);
-      } else if (parsedValue > totalHP) {
+      } else if (parsedValue > (totalHP as any)) {
         setAmount(availableVestingShares);
         setHp(totalHP);
         setIsAmountValid(false);
@@ -135,7 +141,7 @@ const PowerDownScreen = ({
   );
 
   const handleSliderAmountChange = useCallback(
-    ({ value, availableVestingShares }) => {
+    ({ value, availableVestingShares }: any) => {
       const hpValue = vestsToHp(value, hivePerMVests).toFixed(3);
       const isValid = value !== 0 && value <= availableVestingShares;
       setAmount(value);
@@ -146,7 +152,7 @@ const PowerDownScreen = ({
   );
 
   const removeDestinationAccount = useCallback(
-    async (account) => {
+    async (account: any) => {
       try {
         // Perform blockchain operation first
         await setWithdrawVestingRoute(currentAccountName, account.username, 0, false);
@@ -156,7 +162,7 @@ const PowerDownScreen = ({
         console.error('[PowerDown] Failed to remove destination account:', error);
         Alert.alert(
           intl.formatMessage({ id: 'alert.remove_withdraw_route_failed' }),
-          error?.message || intl.formatMessage({ id: 'alert.error' }),
+          (error as any)?.message || intl.formatMessage({ id: 'alert.error' }),
         );
       }
     },
@@ -164,7 +170,7 @@ const PowerDownScreen = ({
   );
 
   const handleOnSubmit = useCallback(
-    async (username, percent, autoPowerUp) => {
+    async (username: any, percent: any, autoPowerUp: any) => {
       // Check if account already exists before updating state
       if (destinationAccounts.some((item) => item.username === username)) {
         Alert.alert(
@@ -185,7 +191,7 @@ const PowerDownScreen = ({
         console.error('[PowerDown] Failed to set withdraw vesting route:', error);
         Alert.alert(
           intl.formatMessage({ id: 'alert.add_withdraw_route_failed' }),
-          error?.message || intl.formatMessage({ id: 'alert.error' }),
+          (error as any)?.message || intl.formatMessage({ id: 'alert.error' }),
         );
       }
     },
@@ -199,7 +205,7 @@ const PowerDownScreen = ({
 
   let poweringDownVests = 0;
   let availableVestingShares = 0;
-  let poweringDownFund = 0;
+  let poweringDownFund: any = 0;
 
   const poweringDown = !isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'));
   const nextPowerDown = parseDate(get(selectedAccount, 'next_vesting_withdrawal'));
@@ -226,8 +232,8 @@ const PowerDownScreen = ({
       autoPowerUp: item.autoPowerUp,
     }));
 
-    const handleSaveBeneficiary = (beneficiaries) => {
-      const accounts = beneficiaries.map((item) => ({
+    const handleSaveBeneficiary = (beneficiaries: any) => {
+      const accounts = beneficiaries.map((item: any) => ({
         username: item.account,
         percent: item.weight / 100,
         autoPowerUp: item.autoPowerUp,
@@ -248,7 +254,7 @@ const PowerDownScreen = ({
       }
     };
 
-    const handleRemoveBeneficiary = (beneficiary) => {
+    const handleRemoveBeneficiary = (beneficiary: any) => {
       if (beneficiary) {
         const beneficiaryAccount = {
           username: beneficiary.account,
@@ -274,11 +280,11 @@ const PowerDownScreen = ({
     );
   };
 
-  const renderAmountInput = (placeholder, maxVests) => (
+  const renderAmountInput = (placeholder: any, maxVests: any) => (
     <TextInput
-      style={[styles.amountInput, !isAmountValid && styles.error]}
+      style={[styles.amountInput, !isAmountValid && styles.error] as any}
       onChangeText={(value) => {
-        setHp(value.replace(',', '.'));
+        setHp((value as any).replace(',', '.'));
         setIsAmountValid(validateHP({ value, availableVestingShares: maxVests }));
       }}
       value={hp.toString()}

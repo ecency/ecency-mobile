@@ -58,7 +58,7 @@ export const ActivitiesList = ({
     }
   };
 
-  const _renderActivityItem = ({ item, index }) => {
+  const _renderActivityItem = ({ item, index }: any) => {
     return (
       <Transaction
         item={item}
@@ -110,12 +110,12 @@ export const ActivitiesList = ({
         <Text style={styles.textActivities}>{title}</Text>
       )}
       ListFooterComponent={
-        loading && (
+        loading ? (
           <ActivityIndicator
             color={EStyleSheet.value('$primaryBlue')}
             style={styles.activitiesFooterIndicator}
           />
-        )
+        ) : null
       }
       ListHeaderComponent={header}
       refreshControl={_refreshControl}

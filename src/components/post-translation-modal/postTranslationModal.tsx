@@ -72,7 +72,7 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
 
   useEffect(() => {
     if (content && content.body) {
-      const body = postBodySummary(content.body, null, Platform.OS);
+      const body = postBodySummary(content.body, null as any, Platform.OS as any);
       setOriginalText(body);
       translateText(body);
     }
@@ -97,7 +97,7 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
     } catch (error) {
       setIsLoadingTranslation(false);
       setTranslationError(
-        error?.message ||
+        (error as any)?.message ||
           intl.formatMessage({
             id: 'alert.error',
           }),
@@ -112,7 +112,7 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
       const res = await fetchSupportedLangs();
       if (res && res.length) {
         // setSupportedLangs(res);
-        const langs = res.map((item) => {
+        const langs = res.map((item: any) => {
           return {
             code: item.code,
             name: item.name,
@@ -156,7 +156,7 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
           iconStyle={styles.dropdownIconStyle}
           isHasChildIcon
           noHighlight
-          onSelect={(index) => setSelectedSourceLang(supportedLangsList[index])}
+          onSelect={(index: any) => setSelectedSourceLang(supportedLangsList[index])}
           options={_dropdownOptions}
           textStyle={styles.dropdownRowTextStyle}
           disableFrameAdjustment={true}
@@ -176,7 +176,7 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
             iconStyle={styles.dropdownIconStyle}
             isHasChildIcon
             noHighlight
-            onSelect={(index) => setSelectedTargetLang(supportedLangsList[index])}
+            onSelect={(index: any) => setSelectedTargetLang(supportedLangsList[index])}
             options={_dropdownOptions}
             textStyle={styles.dropdownRowTextStyle}
             disableFrameAdjustment={true}
