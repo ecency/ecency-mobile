@@ -209,7 +209,7 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
   };
 
   // Pixel width per data point — keeps the chart denser than the viewport so
-  // the user can pan back through history. Mirrors how vision-next's
+  // the user can pan back through history. Mirrors how vision-web's
   // lightweight-charts setup spaces points.
   const POINT_WIDTH = 12;
   const _viewportWidth = dim.width - 32 + CHART_NEGATIVE_MARGIN;

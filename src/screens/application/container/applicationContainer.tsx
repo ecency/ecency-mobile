@@ -281,7 +281,7 @@ class ApplicationContainer extends Component {
           setLastUpdateCheck(new Date().getTime());
         } else if (action === 'update') {
           DeviceInfo.getInstallerPackageName().then((installerPackageName) => {
-            let _url = 'https://github.com/ecency/ecency-mobile/releases';
+            let _url = 'https://github.com/ecency/vision-mobile/releases';
             switch (installerPackageName) {
               case 'com.android.vending':
                 _url = 'market://details?id=app.esteem.mobile.android';

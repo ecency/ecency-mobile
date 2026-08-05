@@ -10,7 +10,7 @@ import './src/utils/abortSignalPolyfill';
 import EcencyApp from './App';
 
 // TODO Remove ignoreLogs when referenced issue is fixed properly
-// ref: https://github.com/ecency/ecency-mobile/issues/2466
+// ref: https://github.com/ecency/vision-mobile/issues/2466
 // ignore warnings
 LogBox.ignoreLogs(['Require cycle:', 'Remote debugger']);
 
