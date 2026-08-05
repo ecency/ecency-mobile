@@ -5,13 +5,23 @@ import parseAuthUrl, { AUTH_MODES } from './parseAuthUrl';
 import ROUTES from '../constants/routeNames';
 import parsePurchaseUrl from './parsePurchaseUrl';
 
-export const deepLinkParser = async (url) => {
+// name can be undefined on fall-through: useLinkProcessor only navigates
+// natively when name, params and key are all set.
+export interface DeepLinkRoute {
+  name?: string;
+  params?: any;
+  key?: string;
+}
+
+export const deepLinkParser = async (
+  url: string | null | undefined,
+): Promise<DeepLinkRoute | undefined> => {
   if (!url || url.indexOf('ShareMedia://') >= 0) return;
 
-  let routeName;
-  let params;
+  let routeName: string | undefined;
+  let params: any;
   let profile;
-  let keey;
+  let keey: string | undefined;
 
   // waves permalinks always open the thread view; route them before the
   // generic author/permlink flow so reserved permlink names like 'wallet'
