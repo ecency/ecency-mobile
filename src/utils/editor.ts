@@ -16,12 +16,12 @@ import { PollDraft } from '../providers/ecency/ecency.types';
 import { ContentType, PollMetadata, PostMetadata } from '../providers/hive/hive.types';
 import postUrlParser from './postUrlParser';
 
-export const getWordsCount = (text) =>
+export const getWordsCount = (text: any) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
 
 export const generateRndStr = () => (Math.random() + 1).toString(16).substring(2);
 
-export const generatePermlink = (title, random = false) => {
+export const generatePermlink = (title: string, random = false) => {
   if (!title) {
     return '';
   }
@@ -92,7 +92,7 @@ export const extractWordAtIndex = (text: string, index: number) => {
   return word;
 };
 
-export const generateUniquePermlink = (prefix) => {
+export const generateUniquePermlink = (prefix: string) => {
   if (!prefix) {
     return '';
   }
@@ -131,7 +131,7 @@ export const generateContentBasedPermlink = (prefix: string, contentKey: string)
   return `${prefix}-${hash}`;
 };
 
-export const makeOptions = (postObj) => {
+export const makeOptions = (postObj: any) => {
   if (!postObj.author || !postObj.permlink) {
     return {};
   }
@@ -164,20 +164,20 @@ export const makeOptions = (postObj) => {
   }
 
   if (postObj.beneficiaries && postObj.beneficiaries.length > 0) {
-    postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
+    postObj.beneficiaries.sort((a: any, b: any) => a.account.localeCompare(b.account));
     a.extensions = [[0, { beneficiaries: unionBy(postObj.beneficiaries, 'account') }]];
   }
 
   return a;
 };
 
-export const makeJsonMetadataReply = (tags) => ({
+export const makeJsonMetadataReply = (tags: string[]) => ({
   tags,
   app: `ecency/${VersionNumber.appVersion}-mobile`,
   format: 'markdown+html',
 });
 
-export const makeJsonMetadata = (meta, tags) =>
+export const makeJsonMetadata = (meta: any, tags: string[]) =>
   Object.assign({}, meta, {
     tags,
     app: `ecency/${VersionNumber.appVersion}-mobile`,
@@ -187,7 +187,7 @@ export const makeJsonMetadata = (meta, tags) =>
 // Optional AI-usage disclosure (`ai_tools`, interoperable with other Hive frontends). Keeps
 // only the truthy flags and returns undefined when nothing is disclosed, so a normal post's
 // metadata is untouched.
-export const cleanAiTools = (aiTools) => {
+export const cleanAiTools = (aiTools: any) => {
   if (!aiTools) {
     return undefined;
   }
@@ -201,7 +201,7 @@ export const cleanAiTools = (aiTools) => {
   return Object.keys(out).length > 0 ? out : undefined;
 };
 
-export const makeJsonMetadataForUpdate = (oldJson, meta, tags) => {
+export const makeJsonMetadataForUpdate = (oldJson: any, meta: any, tags: string[]) => {
   const { meta: oldMeta } = oldJson;
   const mergedMeta = Object.assign({}, oldMeta, meta);
 
@@ -217,8 +217,8 @@ export const extractUrls = (body: string) => {
 export const extractImageUrls = ({ body, urls }: { body?: string; urls?: string[] }) => {
   const imgReg = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|heic|webp))/gim;
 
-  const imgUrls = [];
-  const mUrls = urls || extractUrls(body);
+  const imgUrls: string[] = [];
+  const mUrls = urls || extractUrls(body || '');
 
   mUrls.forEach((url) => {
     const isImage = url.match(imgReg);
@@ -230,7 +230,7 @@ export const extractImageUrls = ({ body, urls }: { body?: string; urls?: string[
   return imgUrls;
 };
 
-export const extract3SpeakIds = ({ body }) => {
+export const extract3SpeakIds = ({ body }: { body?: string }) => {
   if (!body) {
     return [];
   }
@@ -264,7 +264,7 @@ export const extractFilenameFromPath = ({
   } catch (err) {
     let _ext = 'jpg';
     if (mimeType) {
-      _ext = MimeTypes.extension(mimeType);
+      _ext = MimeTypes.extension(mimeType) || 'jpg';
     }
     return `${generateRndStr()}.${_ext}`;
   }
@@ -378,7 +378,7 @@ export const extractMetadata = async ({
   filteredUrls.forEach((url) => {
     try {
       // Check if url is a post url
-      const { author, permlink } = postUrlParser(url);
+      const { author, permlink } = postUrlParser(url) || ({} as any);
 
       if (author && permlink) {
         // Store URL info alongside the promise
@@ -431,7 +431,7 @@ export const extractMetadata = async ({
       out.image
         .slice(0, 5)
         .map((url) => {
-          return new Promise((resolve) => {
+          return new Promise<number>((resolve) => {
             Image.getSize(
               url,
               (width, height) => {
@@ -468,7 +468,7 @@ export const extractMetadata = async ({
   return out;
 };
 
-export const createPatch = (text1, text2) => {
+export const createPatch = (text1: any, text2: any) => {
   if (!text1 && text1 === '') {
     return undefined;
   }
@@ -480,7 +480,7 @@ export const createPatch = (text1, text2) => {
   return patch;
 };
 
-export const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 export const convertToPollMeta = (pollDraft: PollDraft) => {
   if (!pollDraft) {

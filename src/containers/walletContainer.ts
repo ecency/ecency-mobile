@@ -17,7 +17,12 @@ import { useClaimRewardsMutation as useSdkClaimRewardsMutation } from '../provid
 import { getQueryClient } from '../providers/queries';
 
 // Utils
-import { groomingWalletTabData, groomingTransactionData, transferTypes } from '../utils/wallet';
+import {
+  WalletTabData,
+  groomingWalletTabData,
+  groomingTransactionData,
+  transferTypes,
+} from '../utils/wallet';
 import parseToken from '../utils/parseToken';
 import { vestsToHp } from '../utils/conversions';
 import RootNavigation from '../navigation/rootNavigation';
@@ -59,7 +64,7 @@ const WalletContainer = ({
   const [isClaiming, setIsClaiming] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [walletData, setWalletData] = useState(null);
+  const [walletData, setWalletData] = useState<WalletTabData | null>(null);
   const [userActivities, setUserActivities] = useState([]);
   const [hbdBalance, setHbdBalance] = useState(0);
   const [tokenBalance, setTokenBalance] = useState(0);

@@ -1,7 +1,7 @@
 import { votingPower, votingRshares, votingValue } from '@ecency/sdk';
 import { GlobalProps } from '../redux/reducers/accountReducer';
 
-export const getEstimatedAmount = (account, globalProps: GlobalProps, sliderValue = 1) => {
+export const getEstimatedAmount = (account: any, globalProps: GlobalProps, sliderValue = 1) => {
   const weight = sliderValue * 10000;
   const sign = weight < 0 ? -1 : 1;
   const estimatedAmount =

@@ -34,7 +34,7 @@ const _checkOpsArray = (ops: any) => {
   return ops && isArray(ops) && ops.length === 1 && isArray(ops[0]) && ops[0].length === 2;
 };
 
-const findParentKey = (obj, value, parentKey = null) => {
+const findParentKey = (obj: any, value: any, parentKey: string | null = null): string | null => {
   // eslint-disable-next-line no-restricted-syntax
   for (const key in obj) {
     if (obj[key] === value) {
@@ -51,7 +51,7 @@ const findParentKey = (obj, value, parentKey = null) => {
 
 // get operation name and signer field from operation object
 const getOperationProps = (opName: string) => {
-  const op = get(operationsData, opName, null);
+  const op: any = get(operationsData, opName, null);
   if (op) {
     const signerField = findParentKey(op, '__signer');
     return {
@@ -130,10 +130,10 @@ export const getFormattedTx = (tx: any, authoritiesMap: Map<string, boolean>) =>
       return Promise.reject(errorObj);
     }
   }
-  const opSignerValue = get(op[1], opProps.signerField, '');
+  const opSignerValue = get(op[1], opProps.signerField as string, '');
   // if signer field contains empty value, fill it with __signer
   if (!opSignerValue) {
-    operationObj[opProps.signerField] = '__signer';
+    operationObj[opProps.signerField as string] = '__signer';
   }
 
   const { opName } = opProps;

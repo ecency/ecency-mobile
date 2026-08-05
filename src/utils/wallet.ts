@@ -40,7 +40,10 @@ export const transferTypes = [
   'fill_vesting_withdraw',
 ];
 
-export const groomingTransactionData = (transaction, hivePerMVests): CoinActivity | null => {
+export const groomingTransactionData = (
+  transaction: any,
+  hivePerMVests: number | null,
+): CoinActivity | null => {
   if (!transaction) {
     return null;
   }
@@ -63,7 +66,7 @@ export const groomingTransactionData = (transaction, hivePerMVests): CoinActivit
   result.icon = 'local-activity';
 
   // Format other wallet related operations
-  result.repeatable = RepeatableTransfers[result.textKey] || false;
+  result.repeatable = RepeatableTransfers[result.textKey ?? ''] || false;
 
   switch (result.textKey) {
     case 'curation_reward':
@@ -297,14 +300,43 @@ export const groomingEngineHistory = (transaction: HistoryItem): CoinActivity | 
   return result;
 };
 
+export interface WalletTabData {
+  rewardHiveBalance?: number;
+  rewardHbdBalance?: number;
+  rewardVestingHive?: number;
+  hasUnclaimedRewards?: boolean;
+  balance?: number;
+  vestingShares?: number;
+  vestingSharesDelegated?: number;
+  vestingSharesReceived?: number;
+  vestingSharesTotal?: number;
+  hbdBalance?: number;
+  savingBalance?: number;
+  savingBalanceHbd?: number;
+  hivePerMVests?: number;
+  estimatedValue?: number;
+  estimatedHiveValue?: number;
+  estimatedHbdValue?: number;
+  estimatedHpValue?: number;
+  hasQuotes?: boolean;
+  showPowerDown?: boolean;
+  nextVestingWithdrawal?: number;
+}
+
 export const groomingWalletTabData = async ({
   user,
   globalProps,
   quotes,
   userCurrency: _userCurrency,
   isRefresh,
+}: {
+  user: any;
+  globalProps: any;
+  quotes: any;
+  userCurrency?: string;
+  isRefresh?: boolean;
 }) => {
-  const walletData = {};
+  const walletData: WalletTabData = {};
 
   if (!user) {
     return walletData;
@@ -387,7 +419,7 @@ export const groomingWalletTabData = async ({
   walletData.hasQuotes = hasQuotes;
 
   walletData.showPowerDown = userdata.next_vesting_withdrawal !== '1969-12-31T23:59:59';
-  const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
+  const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal).getTime() - Date.now());
   walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
 
   return walletData;
@@ -453,7 +485,8 @@ export const fetchPendingRequests = async (
   const pendingRequests = [...openOrderRequests, ...withdrawRequests, ...conversionRequests];
 
   pendingRequests.sort((a, b) =>
-    new Date(a.expires || a.created).getTime() > new Date(b.expires || b.created).getTime()
+    new Date(a.expires || a.created || 0).getTime() >
+    new Date(b.expires || b.created || 0).getTime()
       ? 1
       : -1,
   );
@@ -469,7 +502,7 @@ export const fetchPendingRequests = async (
  * @returns {Promise<CoinActivity[]>}
  */
 
-export const groomingPointsTransactionData = (transaction) => {
+export const groomingPointsTransactionData = (transaction: any) => {
   if (!transaction) {
     return null;
   }
@@ -490,7 +523,7 @@ export const groomingPointsTransactionData = (transaction) => {
   return result;
 };
 
-export const getPointsEstimate = async (amount, userCurrency) => {
+export const getPointsEstimate = async (amount: number, userCurrency: string) => {
   if (!amount) {
     return 0;
   }
@@ -499,7 +532,7 @@ export const getPointsEstimate = async (amount, userCurrency) => {
   return ppEstm * amount;
 };
 
-export const getBtcEstimate = async (amount, userCurrency) => {
+export const getBtcEstimate = async (amount: number, userCurrency: string) => {
   if (!amount) {
     return 0;
   }

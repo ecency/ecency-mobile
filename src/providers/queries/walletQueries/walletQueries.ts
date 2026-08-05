@@ -425,7 +425,9 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
     if (isEngine) {
       const pages = engineQuery.data?.pages || [];
       const merged = unionBy(...pages, 'engineTrxId');
-      return merged.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
+      return merged.sort(
+        (a, b) => new Date(b.created ?? 0).getTime() - new Date(a.created ?? 0).getTime(),
+      );
     }
 
     // SDK pages have shape { entries: Transaction[], currentPage }; flatten the

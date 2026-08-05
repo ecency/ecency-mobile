@@ -6,7 +6,7 @@ import TransferTypes from '../constants/transferTypes';
  * Shared by the wallet navigation path and the transfer container so both agree on
  * a single mapping instead of re-deriving it inline.
  */
-export const normalizeTransferType = (transferType) => {
+export const normalizeTransferType = (transferType: string) => {
   switch (transferType) {
     case 'transfer_token':
       return TransferTypes.TRANSFER;
@@ -18,7 +18,7 @@ export const normalizeTransferType = (transferType) => {
   }
 };
 
-export const parseAccountAssetBalance = (value, fundType) => {
+export const parseAccountAssetBalance = (value: any, fundType: string) => {
   if (value === undefined || value === null || value === '') {
     return undefined;
   }
@@ -30,7 +30,7 @@ export const parseAccountAssetBalance = (value, fundType) => {
   return Number.isFinite(parsed) ? parsed : undefined;
 };
 
-export const getNativeAccountBalance = (account, transferType, fundType) => {
+export const getNativeAccountBalance = (account: any, transferType: string, fundType: string) => {
   if (!account) {
     return undefined;
   }

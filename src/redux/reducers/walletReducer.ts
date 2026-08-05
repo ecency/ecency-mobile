@@ -67,17 +67,17 @@ export interface CoinActivity {
   trxIndex: number;
   engineTrxId?: string;
   iconType: string;
-  textKey: string;
-  created: string;
-  expires: string;
-  icon: string;
-  value: string;
-  details: string | null;
-  memo: string;
-  cancelable: boolean;
-  recurrence: string;
-  executions: string;
-  repeatable: boolean;
+  textKey?: string;
+  created?: string;
+  expires?: string;
+  icon?: string;
+  value?: string;
+  details?: string | null;
+  memo?: string;
+  cancelable?: boolean;
+  recurrence?: string;
+  executions?: string;
+  repeatable?: boolean;
   sender?: string;
   receiver?: string;
 }

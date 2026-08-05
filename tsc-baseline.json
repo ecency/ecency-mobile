@@ -1,5 +1,5 @@
 {
-  "total": 4891,
+  "total": 4563,
   "files": {
     "App.tsx": 1,
     "jest.setup.ts": 1,
@@ -118,7 +118,7 @@
     "src/components/markdownEditor/children/formats/utils.ts": 4,
     "src/components/markdownEditor/children/textFormatModal.tsx": 2,
     "src/components/markdownEditor/children/usernameAutofillBar.tsx": 4,
-    "src/components/markdownEditor/view/markdownEditorView.tsx": 43,
+    "src/components/markdownEditor/view/markdownEditorView.tsx": 42,
     "src/components/modNotesSheet/modNotesSheet.tsx": 2,
     "src/components/modal/view/modalView.tsx": 16,
     "src/components/modalHeader/container/modalHeader.tsx": 1,
@@ -161,7 +161,7 @@
     "src/components/postOptionsModal/container/postOptionsModal.tsx": 16,
     "src/components/postPoll/children/pollChoices.tsx": 3,
     "src/components/postPoll/children/pollHeader.tsx": 3,
-    "src/components/postPoll/container/postPoll.tsx": 13,
+    "src/components/postPoll/container/postPoll.tsx": 10,
     "src/components/postView/children/postReadingMetadata.tsx": 3,
     "src/components/postView/children/postTranslateInline.tsx": 2,
     "src/components/postView/container/postDisplayContainer.tsx": 11,
@@ -405,26 +405,6 @@
     "src/screens/waves/children/wavesReelVideo.tsx": 2,
     "src/screens/waves/screen/wavesScreen.tsx": 7,
     "src/screens/webBrowser/screen/webBrowser.tsx": 1,
-    "src/screens/welcome/screen/WelcomeScreen.tsx": 10,
-    "src/utils/I18nUtils.ts": 3,
-    "src/utils/b64.ts": 2,
-    "src/utils/conversions.ts": 4,
-    "src/utils/deepLinkParser.test.ts": 94,
-    "src/utils/deepLinkParser.ts": 1,
-    "src/utils/editor.ts": 29,
-    "src/utils/getCurrentHpApr.ts": 1,
-    "src/utils/getLocale.ts": 1,
-    "src/utils/hive-uri.ts": 7,
-    "src/utils/image.ts": 8,
-    "src/utils/migrationHelpers.test.ts": 5,
-    "src/utils/migrationHelpers.ts": 52,
-    "src/utils/points.ts": 1,
-    "src/utils/postParser.tsx": 25,
-    "src/utils/transactionOpsBuilder.test.ts": 21,
-    "src/utils/transferBalance.ts": 6,
-    "src/utils/useDebounceHook.ts": 4,
-    "src/utils/user.ts": 3,
-    "src/utils/vote.ts": 1,
-    "src/utils/wallet.ts": 56
+    "src/screens/welcome/screen/WelcomeScreen.tsx": 10
   }
 }

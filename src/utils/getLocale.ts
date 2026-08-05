@@ -8,7 +8,7 @@ const getLocale = (): string => {
       NativeModules.SettingsManager.getConstants().settings.AppleLocale ||
       NativeModules.SettingsManager.getConstants().settings.AppleLanguages[0];
   } else {
-    locale = I18nManager.localeIdentifier;
+    locale = (I18nManager as any).localeIdentifier;
   }
 
   return locale;

@@ -24,7 +24,7 @@ const DOWNVOTED_MIN_VOTES = 3;
  * First matching reason wins, most authoritative first: an explicit moderator action
  * outranks the heuristics. Returns null when the content is not muted.
  */
-export const getMutedReason = (content): MutedReason | null => {
+export const getMutedReason = (content: any): MutedReason | null => {
   if (content?.stats?.gray || content?.stats?.hide) {
     return MutedReason.MODERATED;
   }
@@ -41,9 +41,9 @@ export const getMutedReason = (content): MutedReason | null => {
 };
 
 export const parsePost = (
-  post,
-  currentUserName,
-  isPromoted,
+  post: any,
+  currentUserName: string | null | undefined,
+  isPromoted: boolean,
   isList = false,
   discardBody = false,
   currentTime?: number, // Optional timestamp to avoid creating new Date for each post
@@ -123,7 +123,7 @@ export const parsePost = (
       [post.thumbRatio] = post.json_metadata.image_ratios;
     } else if (imgRatios.length && imgRatios[0]?.height && imgRatios[0]?.width) {
       // convert to image ratio if old meta data found
-      post.json_metadata.image_ratios = imgRatios.map((item) => {
+      post.json_metadata.image_ratios = imgRatios.map((item: any) => {
         const ratio = item.width / item.height;
         return item.width && item.height ? parseFloat(ratio.toFixed(4)) : item;
       });
@@ -138,7 +138,7 @@ export const parsePost = (
     post.body = renderPostBody({ ...post, last_update: post.updated }, true, false);
   }
   // Use description from json_metadata if available, otherwise generate summary from body
-  post.summary = post.json_metadata?.description || postBodySummary(post, 150, Platform.OS);
+  post.summary = post.json_metadata?.description || postBodySummary(post, 150, Platform.OS as any);
   post.max_payout = parseAsset(post.max_accepted_payout).amount || 0;
   post.is_declined_payout = !!post.max_accepted_payout && post.max_payout === 0;
 
@@ -169,7 +169,7 @@ export const parsePost = (
   post.isMuted = !!post.mutedReason;
 
   // determine vote status
-  const vote = (post.active_votes || []).find((element) => element.voter === currentUserName);
+  const vote = (post.active_votes || []).find((element: any) => element.voter === currentUserName);
   post.isUpVoted = !!vote && vote.rshares > 0;
   post.isDownVoted = !!vote && vote.rshares < 0;
 
@@ -219,7 +219,7 @@ export const parseCommentThreads = async (
   currentUsername?: string,
 ) => {
   const MAX_THREAD_LEVEL = 3;
-  const comments = [];
+  const comments: any[] = [];
 
   if (!commentsMap) {
     return null;
@@ -262,7 +262,7 @@ export const mapDiscussionToThreads = async (
   permlink: string,
   maxLevel = 3,
 ) => {
-  const comments = [];
+  const comments: any[] = [];
 
   if (!commentsMap) {
     return null;
@@ -358,7 +358,9 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
   comment.isMuted = !!comment.mutedReason;
 
   // set user vote status on comment
-  const vote = (comment.active_votes || []).find((element) => element.voter === currentUsername);
+  const vote = (comment.active_votes || []).find(
+    (element: any) => element.voter === currentUsername,
+  );
   comment.isUpVoted = !!vote && vote.rshares > 0;
   comment.isDownVoted = !!vote && vote.rshares < 0;
 
@@ -370,7 +372,7 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
   return comment;
 };
 
-export const isVoted = (activeVotes, currentUserName) => {
+export const isVoted = (activeVotes: any[], currentUserName: string | null | undefined) => {
   if (!currentUserName) {
     return false;
   }
@@ -383,7 +385,7 @@ export const isVoted = (activeVotes, currentUserName) => {
   return false;
 };
 
-export const isDownVoted = (activeVotes, currentUserName) => {
+export const isDownVoted = (activeVotes: any[], currentUserName: string | null | undefined) => {
   if (!currentUserName) {
     return false;
   }
@@ -396,7 +398,7 @@ export const isDownVoted = (activeVotes, currentUserName) => {
   return false;
 };
 
-export const parseActiveVotes = (post) => {
+export const parseActiveVotes = (post: any) => {
   const votes = Array.isArray(post.active_votes) ? post.active_votes : [];
   const _totalRShares = votes.reduce(
     (accumulator: number, item: any) => accumulator + parseFloat(item.rshares),
@@ -404,7 +406,7 @@ export const parseActiveVotes = (post) => {
   );
 
   if (votes.length) {
-    post.active_votes = votes.map((vote) => parseVote(vote, post, _totalRShares));
+    post.active_votes = votes.map((vote: any) => parseVote(vote, post, _totalRShares));
   } else {
     post.active_votes = votes;
   }
@@ -437,13 +439,13 @@ const parseTags = (post: any) => {
   return post;
 };
 
-const parseLinksMeta = (jsonMeta) => {
+const parseLinksMeta = (jsonMeta: any) => {
   // If jsonMeta is null, undefined, or doesn't have links_meta, return the original object
   if (!jsonMeta || !jsonMeta.links_meta) {
     return jsonMeta;
   }
 
-  const validatedLinksMeta = {};
+  const validatedLinksMeta: Record<string, any> = {};
   let hasValidLinks = false;
 
   // Iterate through each key in links_meta
@@ -452,9 +454,9 @@ const parseLinksMeta = (jsonMeta) => {
     if (
       linkData &&
       typeof linkData === 'object' &&
-      typeof linkData.title === 'string' &&
-      typeof linkData.summary === 'string' &&
-      typeof linkData.image === 'string'
+      typeof (linkData as any).title === 'string' &&
+      typeof (linkData as any).summary === 'string' &&
+      typeof (linkData as any).image === 'string'
     ) {
       // This link is well-formed, add it to validated links
       validatedLinksMeta[key] = linkData;

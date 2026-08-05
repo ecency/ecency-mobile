@@ -1,4 +1,4 @@
-export const getCurrentHpApr = (gprops) => {
+export const getCurrentHpApr = (gprops: any) => {
   // The inflation was set to 9.5% at block 7m
   const initialInflationRate = 9.5;
   const initialBlock = 7000000;

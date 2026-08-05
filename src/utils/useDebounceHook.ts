@@ -18,8 +18,12 @@ export const useDebounce = () => {
    * @param {this function would be called always} alwaysCall
    * @param {debounce delay in ms} ms
    */
-  const debounce = (callback, alwaysCall, ms) => {
-    return (...args) => {
+  const debounce = (
+    callback: (...args: any[]) => void,
+    alwaysCall: (...args: any[]) => void,
+    ms: number,
+  ) => {
+    return (...args: any[]) => {
       alwaysCall(...args);
       clearTimeout(timeoutToClear?.current as any);
       timeoutToClear.current = setTimeout(() => {

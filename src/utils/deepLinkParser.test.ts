@@ -10,6 +10,12 @@ jest.mock('@ecency/sdk', () => ({
 }));
 
 describe('deepLinkParser', () => {
+  // Non-null variant for tests that assert on the parsed route.
+  const parse = async (url: string) => {
+    const parsed = await deepLinkParser(url);
+    expect(parsed).toBeDefined();
+    return parsed!;
+  };
   it('returns undefined for null/empty url', async () => {
     expect(await deepLinkParser(null)).toBeUndefined();
     expect(await deepLinkParser('')).toBeUndefined();
@@ -21,14 +27,14 @@ describe('deepLinkParser', () => {
 
   describe('post URLs', () => {
     it('parses author/permlink post url', async () => {
-      const result = await deepLinkParser('https://ecency.com/hive/@alice/my-first-post');
+      const result = await parse('https://ecency.com/hive/@alice/my-first-post');
       expect(result.name).toBe(ROUTES.SCREENS.POST);
       expect(result.params).toEqual({ author: 'alice', permlink: 'my-first-post' });
       expect(result.key).toBe('alice/my-first-post');
     });
 
     it('parses ecency:// deep link for posts', async () => {
-      const result = await deepLinkParser('ecency://@alice/my-post');
+      const result = await parse('ecency://@alice/my-post');
       expect(result.name).toBe(ROUTES.SCREENS.POST);
       expect(result.params.author).toBe('alice');
       expect(result.params.permlink).toBe('my-post');
@@ -37,33 +43,33 @@ describe('deepLinkParser', () => {
 
   describe('waves URLs', () => {
     it('routes waves permalink (no @author) to post screen', async () => {
-      const result = await deepLinkParser('https://ecency.com/waves/jza/wave-202677t12348900z');
+      const result = await parse('https://ecency.com/waves/jza/wave-202677t12348900z');
       expect(result.name).toBe(ROUTES.SCREENS.POST);
       expect(result.params).toEqual({ author: 'jza', permlink: 'wave-202677t12348900z' });
       expect(result.key).toBe('jza/wave-202677t12348900z');
     });
 
     it('routes waves permalink with @author to post screen', async () => {
-      const result = await deepLinkParser('https://ecency.com/waves/@jza/wave-202677t12348900z');
+      const result = await parse('https://ecency.com/waves/@jza/wave-202677t12348900z');
       expect(result.name).toBe(ROUTES.SCREENS.POST);
       expect(result.params).toEqual({ author: 'jza', permlink: 'wave-202677t12348900z' });
     });
 
     it('parses ecency:// deep link for waves', async () => {
-      const result = await deepLinkParser('ecency://waves/jza/wave-202677t12348900z');
+      const result = await parse('ecency://waves/jza/wave-202677t12348900z');
       expect(result.name).toBe(ROUTES.SCREENS.POST);
       expect(result.params.author).toBe('jza');
       expect(result.params.permlink).toBe('wave-202677t12348900z');
     });
 
     it('routes bare waves url to waves tab', async () => {
-      const result = await deepLinkParser('https://ecency.com/waves');
+      const result = await parse('https://ecency.com/waves');
       expect(result.name).toBe(ROUTES.TABBAR.WAVES);
       expect(result.key).toBe('waves');
     });
 
     it('routes waves permalink named like a profile filter to post screen', async () => {
-      const result = await deepLinkParser('https://ecency.com/waves/alice/wallet');
+      const result = await parse('https://ecency.com/waves/alice/wallet');
       expect(result.name).toBe(ROUTES.SCREENS.POST);
       expect(result.params).toEqual({ author: 'alice', permlink: 'wallet' });
     });
@@ -71,75 +77,75 @@ describe('deepLinkParser', () => {
 
   describe('profile URLs', () => {
     it('routes to profile when author only (no permlink)', async () => {
-      const result = await deepLinkParser('https://ecency.com/@alice');
+      const result = await parse('https://ecency.com/@alice');
       expect(result.name).toBe(ROUTES.SCREENS.PROFILE);
       expect(result.params.username).toBe('mockuser');
     });
 
     it('routes to profile with wallet filter', async () => {
-      const result = await deepLinkParser('https://ecency.com/hive/@alice/wallet');
+      const result = await parse('https://ecency.com/hive/@alice/wallet');
       expect(result.name).toBe(ROUTES.SCREENS.PROFILE);
       expect(result.params.deepLinkFilter).toBe('wallet');
     });
 
     it('maps points filter to wallet', async () => {
-      const result = await deepLinkParser('https://ecency.com/hive/@alice/points');
+      const result = await parse('https://ecency.com/hive/@alice/points');
       expect(result.name).toBe(ROUTES.SCREENS.PROFILE);
       expect(result.params.deepLinkFilter).toBe('wallet');
     });
 
     it('routes to profile with comments filter', async () => {
-      const result = await deepLinkParser('https://ecency.com/hive/@alice/comments');
+      const result = await parse('https://ecency.com/hive/@alice/comments');
       expect(result.name).toBe(ROUTES.SCREENS.PROFILE);
       expect(result.params.deepLinkFilter).toBe('comments');
     });
 
     it('routes to profile with replies filter', async () => {
-      const result = await deepLinkParser('https://ecency.com/hive/@alice/replies');
+      const result = await parse('https://ecency.com/hive/@alice/replies');
       expect(result.name).toBe(ROUTES.SCREENS.PROFILE);
       expect(result.params.deepLinkFilter).toBe('replies');
     });
 
     it('routes to profile with posts filter', async () => {
-      const result = await deepLinkParser('https://ecency.com/hive/@alice/posts');
+      const result = await parse('https://ecency.com/hive/@alice/posts');
       expect(result.name).toBe(ROUTES.SCREENS.PROFILE);
       expect(result.params.deepLinkFilter).toBe('posts');
     });
 
     it('routes communities permlink to web browser', async () => {
-      const result = await deepLinkParser('https://ecency.com/hive/@alice/communities');
+      const result = await parse('https://ecency.com/hive/@alice/communities');
       expect(result.name).toBe(ROUTES.SCREENS.WEB_BROWSER);
     });
   });
 
   describe('feed URLs', () => {
     it('routes trending feed', async () => {
-      const result = await deepLinkParser('https://ecency.com/trending/hive');
+      const result = await parse('https://ecency.com/trending/hive');
       expect(result.name).toBe(ROUTES.SCREENS.TAG_RESULT);
       expect(result.params.filter).toBe('trending');
       expect(result.params.tag).toBe('hive');
     });
 
     it('routes hot feed', async () => {
-      const result = await deepLinkParser('https://ecency.com/hot/photography');
+      const result = await parse('https://ecency.com/hot/photography');
       expect(result.name).toBe(ROUTES.SCREENS.TAG_RESULT);
       expect(result.params.filter).toBe('hot');
     });
 
     it('routes created feed', async () => {
-      const result = await deepLinkParser('https://ecency.com/created/art');
+      const result = await parse('https://ecency.com/created/art');
       expect(result.name).toBe(ROUTES.SCREENS.TAG_RESULT);
       expect(result.params.filter).toBe('created');
     });
 
     it('routes community tag to COMMUNITY screen', async () => {
-      const result = await deepLinkParser('https://ecency.com/trending/hive-174301');
+      const result = await parse('https://ecency.com/trending/hive-174301');
       expect(result.name).toBe(ROUTES.SCREENS.COMMUNITY);
       expect(result.params.tag).toBe('hive-174301');
     });
 
     it('routes feed without tag', async () => {
-      const result = await deepLinkParser('https://ecency.com/trending');
+      const result = await parse('https://ecency.com/trending');
       expect(result.name).toBe(ROUTES.SCREENS.TAG_RESULT);
       expect(result.params.filter).toBe('trending');
     });
@@ -147,54 +153,54 @@ describe('deepLinkParser', () => {
 
   describe('native web-standard routes', () => {
     it('routes /communities to the communities directory', async () => {
-      const result = await deepLinkParser('https://ecency.com/communities');
+      const result = await parse('https://ecency.com/communities');
       expect(result.name).toBe(ROUTES.SCREENS.COMMUNITIES);
     });
 
     it('routes /search to the search screen', async () => {
-      const result = await deepLinkParser('https://ecency.com/search');
+      const result = await parse('https://ecency.com/search');
       expect(result.name).toBe(ROUTES.SCREENS.SEARCH_RESULT);
     });
 
     it('routes /bookmarks to the bookmarks screen', async () => {
-      const result = await deepLinkParser('https://ecency.com/bookmarks');
+      const result = await parse('https://ecency.com/bookmarks');
       expect(result.name).toBe(ROUTES.SCREENS.BOOKMARKS);
     });
 
     it('routes /wallet to the wallet tab', async () => {
-      const result = await deepLinkParser('https://ecency.com/wallet');
+      const result = await parse('https://ecency.com/wallet');
       expect(result.name).toBe(ROUTES.TABBAR.WALLET);
     });
 
     it('routes /@user/followers to the follows screen (followers)', async () => {
-      const result = await deepLinkParser('https://ecency.com/@alice/followers');
+      const result = await parse('https://ecency.com/@alice/followers');
       expect(result.name).toBe(ROUTES.SCREENS.FOLLOWS);
       expect(result.params.username).toBe('alice');
       expect(result.params.isFollowingPress).toBe(false);
     });
 
     it('routes /@user/following to the follows screen (following)', async () => {
-      const result = await deepLinkParser('https://ecency.com/@alice/following');
+      const result = await parse('https://ecency.com/@alice/following');
       expect(result.name).toBe(ROUTES.SCREENS.FOLLOWS);
       expect(result.params.username).toBe('alice');
       expect(result.params.isFollowingPress).toBe(true);
     });
 
     it('does not native-route web paths on non-Ecency hosts', async () => {
-      const result = await deepLinkParser('https://example.com/wallet');
+      const result = await parse('https://example.com/wallet');
       expect(result.name).toBeUndefined();
     });
   });
 
   describe('auth URLs', () => {
     it('parses signup URL', async () => {
-      const result = await deepLinkParser('https://ecency.com/signup?referral=alice');
+      const result = await parse('https://ecency.com/signup?referral=alice');
       expect(result.name).toBe(ROUTES.SCREENS.REGISTER);
       expect(result.params.referredUser).toBe('alice');
     });
 
     it('parses auth URL', async () => {
-      const result = await deepLinkParser('https://ecency.com/auth?username=alice&code=abc123');
+      const result = await parse('https://ecency.com/auth?username=alice&code=abc123');
       expect(result.name).toBe(ROUTES.SCREENS.LOGIN);
       expect(result.params.username).toBe('alice');
       expect(result.params.code).toBe('abc123');
@@ -203,13 +209,13 @@ describe('deepLinkParser', () => {
 
   describe('purchase URLs', () => {
     it('parses boost purchase', async () => {
-      const result = await deepLinkParser('https://ecency.com/purchase?type=boost&username=alice');
+      const result = await parse('https://ecency.com/purchase?type=boost&username=alice');
       expect(result.name).toBe(ROUTES.SCREENS.ACCOUNT_BOOST);
       expect(result.params.username).toBe('alice');
     });
 
     it('parses points purchase', async () => {
-      const result = await deepLinkParser(
+      const result = await parse(
         'https://ecency.com/purchase?type=points&username=alice&product_id=999points',
       );
       expect(result.name).toBe(ROUTES.SCREENS.BOOST);
@@ -218,7 +224,7 @@ describe('deepLinkParser', () => {
     });
 
     it('parses account purchase', async () => {
-      const result = await deepLinkParser(
+      const result = await parse(
         'https://ecency.com/purchase?type=account&username=newuser&email=a@b.com&referral=alice',
       );
       expect(result.name).toBe(ROUTES.SCREENS.REGISTER);

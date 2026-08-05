@@ -48,18 +48,26 @@ export interface AiToolsMeta {
   writing_edit?: boolean; // AI grammar/formatting/editing assistance
 }
 
+// All fields optional: extractMetadata builds this progressively and app/format
+// etc. are merged in later by makeJsonMetadata.
 export interface PostMetadata extends Partial<PollMetadata> {
   // GENERAL
-  tags: string[];
-  token: string;
-  description: string;
-  format: string;
-  version: number;
-  app: string;
+  tags?: string[];
+  token?: string;
+  description?: string;
+  format?: string;
+  version?: number;
+  app?: string;
+  // separates waves/comments from top-level posts (PostTypes value)
+  type?: string;
+
+  // LINKS
+  links?: string[];
+  links_meta?: Record<string, { title?: string; summary?: string; image?: string | null } | null>;
 
   // IMAGE
-  image: string[];
-  image_ratios: number[];
+  image?: string[];
+  image_ratios?: number[];
 
   // AI-usage disclosure (interoperable across Hive frontends; omitted when nothing disclosed)
   ai_tools?: AiToolsMeta;
