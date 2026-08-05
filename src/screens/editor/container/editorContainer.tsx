@@ -1940,7 +1940,6 @@ class EditorContainer extends Component<any, any> {
       isDraftSaving,
       draftId,
       isEdit,
-      isOpenCamera,
       isPostSending,
       isReply,
       quickReplyText,
@@ -1979,7 +1978,6 @@ class EditorContainer extends Component<any, any> {
         isDraftSaving={isDraftSaving}
         isEdit={isEdit}
         isLoggedIn={isLoggedIn}
-        isOpenCamera={isOpenCamera}
         isPostSending={isPostSending}
         isReply={isReply}
         quickReplyText={quickReplyText}
