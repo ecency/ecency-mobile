@@ -87,6 +87,8 @@ export const UploadsGalleryModal = forwardRef(
     const mediaUploadMutation = editorQueries.useMediaUploadMutation();
 
     const pendingInserts = useRef<MediaInsertData[]>([]);
+    const isEditingRef = useRef(isEditing);
+    isEditingRef.current = isEditing;
     const speakUploaderRef = useRef<any>(null);
 
     const [showModal, setShowModal] = useState(false);
@@ -553,7 +555,7 @@ export const UploadsGalleryModal = forwardRef(
     };
 
     const _handleMediaInsertion = (data: MediaInsertData[]) => {
-      if (isEditing) {
+      if (isEditingRef.current) {
         pendingInserts.current.push(...data);
       } else if (handleMediaInsert) {
         handleMediaInsert(data);
