@@ -1,6 +1,6 @@
 import React, { forwardRef, Ref, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { KeyboardAvoidingView, Platform, View, Text } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, View, Text } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDispatch } from 'react-redux';
@@ -72,7 +72,7 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
   // save snippet based on editor pageType
   const _onApply = () => {
     if (selectedFilters.length < 3) {
-      alert(intl.formatMessage({ id: 'alert.wrong_filter_count' }));
+      Alert.alert(intl.formatMessage({ id: 'alert.wrong_filter_count' }));
       return;
     }
 

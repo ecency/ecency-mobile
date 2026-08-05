@@ -3,5 +3,5 @@ export interface Snippet {
   title: string;
   body: string;
   create: string;
-  modified: SVGStringList;
+  modified: string;
 }

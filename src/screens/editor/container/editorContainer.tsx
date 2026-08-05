@@ -103,7 +103,7 @@ import {
 // against this bound and fails open (no injection) when it loses.
 const SUPPORT_SETTINGS_FETCH_TIMEOUT_MS = 4000;
 
-class EditorContainer extends Component<EditorContainerProps, any> {
+class EditorContainer extends Component<any, any> {
   _isMounted = false;
 
   _updatedDraftFields = null;
@@ -1940,7 +1940,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       isDraftSaving,
       draftId,
       isEdit,
-      isOpenCamera,
       isPostSending,
       isReply,
       quickReplyText,
@@ -1979,7 +1978,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         isDraftSaving={isDraftSaving}
         isEdit={isEdit}
         isLoggedIn={isLoggedIn}
-        isOpenCamera={isOpenCamera}
         isPostSending={isPostSending}
         isReply={isReply}
         quickReplyText={quickReplyText}

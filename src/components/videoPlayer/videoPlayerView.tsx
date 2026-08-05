@@ -4,6 +4,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   useWindowDimensions,
+  Alert,
   Image as RNImage,
 } from 'react-native';
 
@@ -179,7 +180,7 @@ const VideoPlayer = ({
 
   const onEnd = () => setPlayerState(PLAYER_STATES.ENDED);
 
-  const onError = () => alert('Error while playing');
+  const onError = () => Alert.alert('Error while playing');
 
   const exitFullScreen = () => {
     setIsFullScreen(false);

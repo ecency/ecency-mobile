@@ -15,10 +15,10 @@ interface ThreadComposerProps {
   editingPostId: string | null;
   keyboardHeight: number;
   isKeyboardVisible: boolean;
-  renderEditingBanner: () => JSX.Element | null;
-  renderComposerReplyPreview: () => JSX.Element | null;
-  renderLinkPreview: () => JSX.Element | null;
-  renderMentionSuggestions: () => JSX.Element | null;
+  renderEditingBanner: () => React.JSX.Element | null;
+  renderComposerReplyPreview: () => React.JSX.Element | null;
+  renderLinkPreview: () => React.JSX.Element | null;
+  renderMentionSuggestions: () => React.JSX.Element | null;
   inputRef: React.RefObject<TextInput>;
   insets: any;
 }

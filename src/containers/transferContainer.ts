@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -83,7 +84,7 @@ class TransferContainer extends Component {
       })
       .catch((err) => {
         if (err) {
-          alert(get(err, 'message') || err.toString());
+          Alert.alert(get(err, 'message') || err.toString());
         }
       });
   };
