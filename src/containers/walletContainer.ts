@@ -60,12 +60,12 @@ const WalletContainer = ({
   isPinCodeOpen,
   currency,
   currencyRate,
-}) => {
+}: any) => {
   const [isClaiming, setIsClaiming] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [walletData, setWalletData] = useState<WalletTabData | null>(null);
-  const [userActivities, setUserActivities] = useState([]);
+  const [userActivities, setUserActivities] = useState<any[]>([]);
   const [hbdBalance, setHbdBalance] = useState(0);
   const [tokenBalance, setTokenBalance] = useState(0);
   const [tokenAddress, setTokenAddress] = useState('');
@@ -79,9 +79,9 @@ const WalletContainer = ({
   const [estimatedTokenValue, setEstimatedTokenValue] = useState(0);
   const [estimatedHpValue, setEstimatedHpValue] = useState(0);
   const [unclaimedBalance, setUnclaimedBalance] = useState('');
-  const [estimatedAmount, setEstimatedAmount] = useState(0);
-  const [delegationsAmount, setDelegationsAmount] = useState(0);
-  const [transferHistory, setTransferHistory] = useState([]);
+  const [estimatedAmount, setEstimatedAmount] = useState<any>(0);
+  const [delegationsAmount, setDelegationsAmount] = useState<any>(0);
+  const [transferHistory, setTransferHistory] = useState<any[]>([]);
   const intl = useIntl();
   const dispatch = useDispatch();
   const claimRewardsMutation = useSdkClaimRewardsMutation();
@@ -89,10 +89,6 @@ const WalletContainer = ({
   useEffect(() => {
     setEstimatedAmount(getEstimatedAmount(currentAccount, globalProps));
   }, [currentAccount, globalProps]);
-
-  useEffect(() => {
-    _getWalletData(selectedUser);
-  }, [_getWalletData, selectedUser]);
 
   useEffect(() => {
     const _transferHistory = userActivities.filter((item) =>
@@ -118,7 +114,8 @@ const WalletContainer = ({
     setEstimatedHpValue(get(walletData, 'estimatedHpValue', 0));
     setDelegationsAmount(
       vestsToHp(
-        get(walletData, 'vestingSharesReceived', 0) - get(walletData, 'vestingSharesDelegated', 0),
+        (get(walletData, 'vestingSharesReceived', 0) as any) -
+          (get(walletData, 'vestingSharesDelegated', 0) as any),
         get(walletData, 'hivePerMVests', 0),
       ).toFixed(3),
     );
@@ -128,7 +125,7 @@ const WalletContainer = ({
       get(walletData, 'rewardHbdBalance', 0) ||
       get(walletData, 'rewardVestingHive', 0)
     ) {
-      const getBalance = (val, cur) => (val ? Math.round(val * 1000) / 1000 + cur : '');
+      const getBalance = (val: any, cur: any) => (val ? Math.round(val * 1000) / 1000 + cur : '');
 
       setUnclaimedBalance(
         `${getBalance(get(walletData, 'rewardHiveBalance', 0), ' HIVE')} ${getBalance(
@@ -142,7 +139,7 @@ const WalletContainer = ({
   // Components functions
 
   const _getWalletData = useCallback(
-    async (_selectedUser, isRefresh = false) => {
+    async (_selectedUser: any, isRefresh = false) => {
       const _walletData = await groomingWalletTabData({
         user: _selectedUser,
         globalProps,
@@ -154,7 +151,7 @@ const WalletContainer = ({
       setWalletData(_walletData);
       setIsLoading(false);
       setUserActivities(
-        get(_walletData, 'transactions', []).map((item) =>
+        (get(_walletData, 'transactions', []) as any[]).map((item) =>
           groomingTransactionData(item, hivePerMVests),
         ),
       );
@@ -169,7 +166,7 @@ const WalletContainer = ({
           setEstimatedWalletValue(_walletData.estimatedValue);
         }
       }
-      const getBalance = (val, cur) => (val ? Math.round(val * 1000) / 1000 + cur : '');
+      const getBalance = (val: any, cur: any) => (val ? Math.round(val * 1000) / 1000 + cur : '');
       setUnclaimedBalance(
         `${getBalance(get(_walletData, 'rewardHiveBalance', 0), ' HIVE')} ${getBalance(
           get(_walletData, 'rewardHbdBalance', 0),
@@ -187,8 +184,13 @@ const WalletContainer = ({
       hivePerMVests,
     ],
   );
+  // Runs after the callback definition: referencing it in deps before the
+  // const initializer meant an undefined first-render dep (duplicate fetch).
+  useEffect(() => {
+    _getWalletData(selectedUser);
+  }, [_getWalletData, selectedUser]);
 
-  const _isHasUnclaimedRewards = (account) => {
+  const _isHasUnclaimedRewards = (account: any) => {
     return (
       parseToken(get(account, 'reward_hive_balance')) > 0 ||
       parseToken(get(account, 'reward_hbd_balance')) > 0 ||
@@ -240,7 +242,7 @@ const WalletContainer = ({
       );
     } catch (err) {
       console.warn('Failed to claim rewards', err);
-      const errMsg = err?.message ?? String(err);
+      const errMsg = (err as any)?.message ?? String(err);
       dispatch(
         toastNotification(
           `${intl.formatMessage({ id: 'alert.fail' })}${errMsg ? `\n${errMsg}` : ''}`,
@@ -276,7 +278,7 @@ const WalletContainer = ({
       });
   };
 
-  const _navigate = async (transferType, fundType) => {
+  const _navigate = async (transferType: any, fundType: any) => {
     let balance;
     const normalizedTransferType = normalizeTransferType(transferType);
     const isNativeAsset = fundType === 'HIVE' || fundType === 'HBD';
@@ -288,7 +290,7 @@ const WalletContainer = ({
         transferType === TransferTypes.TRANSFER_TO_VESTING) &&
       fundType === 'HIVE'
     ) {
-      balance = Math.round(walletData.balance * 1000) / 1000;
+      balance = Math.round(walletData!.balance! * 1000) / 1000;
     }
     if (
       (transferType === 'transfer_token' ||
@@ -297,13 +299,13 @@ const WalletContainer = ({
         transferType === TransferTypes.TRANSFER_TO_SAVINGS) &&
       fundType === 'HBD'
     ) {
-      balance = Math.round(walletData.hbdBalance * 1000) / 1000;
+      balance = Math.round(walletData!.hbdBalance! * 1000) / 1000;
     }
     if (transferType === 'withdraw_hive' && fundType === 'HIVE') {
-      balance = Math.round(walletData.savingBalance * 1000) / 1000;
+      balance = Math.round(walletData!.savingBalance! * 1000) / 1000;
     }
     if (transferType === 'withdraw_hbd' && fundType === 'HBD') {
-      balance = Math.round(walletData.savingBalanceHbd * 1000) / 1000;
+      balance = Math.round(walletData!.savingBalanceHbd! * 1000) / 1000;
     }
 
     const navigateParams = {
@@ -330,7 +332,7 @@ const WalletContainer = ({
     }
   };
 
-  const getTokenAddress = (tokenType) => {
+  const getTokenAddress = (tokenType: any) => {
     if (tokenType === 'BTC') {
       // TODO: implement BTC address retrieval
     }
@@ -401,7 +403,7 @@ const WalletContainer = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   currentAccount: selectCurrentAccount(state),
   globalProps: selectGlobalProps(state),
   quotes: state.wallet.quotes,

@@ -13,7 +13,7 @@ const AccountContainer = ({
   isLoggedIn,
   isLoginDone,
   username,
-}) => {
+}: any) => {
   return (
     children &&
     children({
@@ -26,7 +26,7 @@ const AccountContainer = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   accounts: selectOtherAccounts(state),
   currentAccount: selectCurrentAccount(state),
   isLoggedIn: selectIsLoggedIn(state),

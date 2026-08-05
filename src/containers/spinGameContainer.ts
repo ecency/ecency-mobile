@@ -5,12 +5,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import { getGameStatusCheckQueryOptions, useGameClaim } from '@ecency/sdk';
 import { useAuth } from '../hooks';
 
-const RedeemContainer = ({ children }) => {
+const RedeemContainer = ({ children }: any) => {
   const queryClient = useQueryClient();
   const { username, code } = useAuth();
 
   const [score, setScore] = useState(0);
-  const [nextDate, setNextDate] = useState(null);
+  const [nextDate, setNextDate] = useState<any>(null);
   const [gameRight, setGameRight] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [claimKey, setClaimKey] = useState('');
@@ -45,7 +45,7 @@ const RedeemContainer = ({ children }) => {
     _statusCheck();
   }, [_statusCheck]);
 
-  const _startGame = async (_type) => {
+  const _startGame = async (_type: any) => {
     let gameStatus = null;
     try {
       gameStatus = await queryClient.fetchQuery(

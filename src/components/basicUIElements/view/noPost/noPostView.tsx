@@ -13,7 +13,7 @@ const NoPost = ({
   style,
   isButtonText,
   handleOnButtonPress,
-}) => (
+}: any) => (
   <View style={[styles.wrapper, style]}>
     <Image style={[styles.image, imageStyle]} source={source || NO_POST} />
     {name && !isButtonText ? (

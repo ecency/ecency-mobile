@@ -28,12 +28,12 @@ import { getUsernameError, USERNAME_ERROR_MESSAGE_IDS } from '../utils/usernameV
 const PENDING_ACCOUNT_PURCHASE_KEY = 'pendingAccountPurchaseMeta';
 const PURCHASE_ORDER_MAX_ATTEMPTS = 3;
 
-class InAppPurchaseContainer extends Component {
+class InAppPurchaseContainer extends Component<any, any> {
   purchaseUpdateSubscription: IAP.IapSubscription | null = null;
 
   purchaseErrorSubscription: IAP.IapSubscription | null = null;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       productList: [],
@@ -80,13 +80,13 @@ class InAppPurchaseContainer extends Component {
       this._getUnconsumedPurchases();
     } catch (err) {
       Sentry.captureException(err);
-      console.warn(err.code, err.message);
+      console.warn((err as any).code, (err as any).message);
 
       Alert.alert(
         intl.formatMessage({
           id: 'alert.connection_issues',
         }),
-        err.message,
+        (err as any).message,
       );
     } finally {
       this.setState({ isLoading: false });
@@ -115,7 +115,7 @@ class InAppPurchaseContainer extends Component {
   // Post the purchase to ecency, retrying transient failures with backoff so a
   // dropped network call does not leave a paid purchase unregistered (and later
   // auto-refunded by Google).
-  _purchaseOrderWithRetry = async (data) => {
+  _purchaseOrderWithRetry = async (data: any) => {
     let lastErr;
     for (let attempt = 0; attempt < PURCHASE_ORDER_MAX_ATTEMPTS; attempt += 1) {
       try {
@@ -142,7 +142,7 @@ class InAppPurchaseContainer extends Component {
   // attempt to call purchase order and consumes purchased item on success.
   // opts.silent suppresses the success/failure UI callbacks (used for background
   // recovery of an interrupted purchase on a screen unrelated to that purchase).
-  _consumePurchase = async (purchase, opts = {}) => {
+  _consumePurchase = async (purchase: any, opts: any = {}) => {
     const { silent, meta: providedMeta } = opts;
     const {
       currentAccount: { name },
@@ -238,9 +238,9 @@ class InAppPurchaseContainer extends Component {
         handleOnPurchaseFailure(err);
       }
       this._getUnconsumedPurchases();
-      Sentry.captureException(err, (scope) => {
+      Sentry.captureException(err, ((scope: any) => {
         scope.setContext('data', data);
-      });
+      }) as any);
     }
   };
 
@@ -273,7 +273,7 @@ class InAppPurchaseContainer extends Component {
       }
     } catch (err) {
       Sentry.captureException(err);
-      console.warn(err.code, err.message);
+      console.warn((err as any).code, (err as any).message);
     }
   };
 
@@ -309,7 +309,7 @@ class InAppPurchaseContainer extends Component {
           intl.formatMessage({
             id: 'alert.warning',
           }),
-          error.message,
+          (error as any).message,
         );
       }
       this.setState({ isProcessing: false });
@@ -319,7 +319,7 @@ class InAppPurchaseContainer extends Component {
     });
   };
 
-  _getTitle = (title) => {
+  _getTitle = (title: any) => {
     let _title = title.toUpperCase();
     if (_title !== 'FREE POINTS') {
       _title = `${_title.replace(/[^0-9]+/g, '')} POINTS`;
@@ -348,14 +348,14 @@ class InAppPurchaseContainer extends Component {
         intl.formatMessage({
           id: 'alert.connection_issues',
         }),
-        error.message,
+        (error as any).message,
       );
     }
 
     this.setState({ isLoading: false });
   };
 
-  _buyItem = async (sku) => {
+  _buyItem = async (sku: any) => {
     const { navigation, isLoggedIn, intl, username, email, referral, handleOnPurchaseFailure } =
       this.props;
     const { unconsumedPurchases } = this.state;
@@ -407,7 +407,7 @@ class InAppPurchaseContainer extends Component {
       }
 
       // check if sku preset in unconsumedItems
-      const _unconsumedPurchase = unconsumedPurchases.find((p) => p.productId === sku);
+      const _unconsumedPurchase = unconsumedPurchases.find((p: any) => p.productId === sku);
       if (_unconsumedPurchase) {
         this._consumePurchase(_unconsumedPurchase);
         return;
@@ -421,9 +421,9 @@ class InAppPurchaseContainer extends Component {
       try {
         IAP.requestPurchase(sku);
       } catch (err) {
-        Sentry.captureException(err, (scope) => {
+        Sentry.captureException(err, ((scope: any) => {
           scope.setContext('sku', { sku });
-        });
+        }) as any);
       }
     } else {
       navigation.navigate({
@@ -488,7 +488,7 @@ class InAppPurchaseContainer extends Component {
     const FREE_ESTM = { productId: 'freePoints', title: 'free points' };
     const _productList = isNoSpin
       ? productList
-      : [...productList.filter((item) => !item.productId.includes('spins')), FREE_ESTM];
+      : [...productList.filter((item: any) => !item.productId.includes('spins')), FREE_ESTM];
 
     return (
       children &&
@@ -500,19 +500,19 @@ class InAppPurchaseContainer extends Component {
         isProcessing,
         getItems: this._getItems,
         getTitle: this._getTitle,
-        spinProduct: productList.filter((item) => item.productId.includes('spins')),
+        spinProduct: productList.filter((item: any) => item.productId.includes('spins')),
         navigation,
       })
     );
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   currentAccount: selectCurrentAccount(state),
   isLoggedIn: selectIsLoggedIn(state),
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = (props: any) => {
   const navigation = useNavigation();
   return <InAppPurchaseContainer {...props} navigation={navigation} />;
 };
