@@ -54,12 +54,12 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
   const unfollowMutation = useUnfollowMutation();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState(null);
-  const [follows, setFollows] = useState(null);
+  const [user, setUser] = useState<any>(null);
+  const [follows, setFollows] = useState<any>(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isFavourite, setIsFavourite] = useState(false);
-  const [rcAccount, setRcAccount] = useState(null);
+  const [rcAccount, setRcAccount] = useState<any>(null);
 
   const isOwnProfile = currentAccount && currentAccount.name === username;
   const currentAccountName = currentAccount ? currentAccount.name : null;
@@ -164,7 +164,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        error.message || error.toString(),
+        (error as any).message || (error as any).toString(),
       );
     }
   };
@@ -190,7 +190,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
     } catch (err) {
       console.warn('Failed to follow user', err);
       Sentry.captureException(err);
-      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.message);
+      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), (err as any).message);
     } finally {
       setIsLoading(false);
     }
@@ -325,7 +325,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
       <ProfileBasic
         username={username}
         about={_about}
-        created={_createdData}
+        created={_createdData as any}
         votingPower={_votingPower}
         isLoading={isLoading}
         onPress={_openFullProfile}

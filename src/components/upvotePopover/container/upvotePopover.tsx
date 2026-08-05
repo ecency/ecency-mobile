@@ -242,7 +242,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
       }
 
       onVotingStartRef.current = onVotingStart;
-      sourceRef.current = _sourceRef.current;
+      (sourceRef as any).current = (_sourceRef as any).current;
 
       // Compute all derived state synchronously before showing the popover
       // to prevent effects from causing re-renders during the popover animation
@@ -282,9 +282,9 @@ const UpvotePopover = forwardRef(({}, ref) => {
       // This avoids the expensive synchronous layout pass that react-native-popover-view
       // triggers when it measures the ref itself on complex pages (post detail with
       // rendered HTML body + comments causes ~2s freeze on iOS).
-      if (_sourceRef.current?.measure) {
+      if ((_sourceRef as any).current?.measure) {
         const _measureId = ++measureCallIdRef.current;
-        _sourceRef.current.measure(
+        (_sourceRef as any).current.measure(
           (_x: number, _y: number, width: number, height: number, pageX: number, pageY: number) => {
             // Discard if a newer showPopover() supersedes this measurement.
             if (_measureId !== measureCallIdRef.current) return;
@@ -478,7 +478,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
     }
   };
 
-  const _setUpvotePercent = (value) => {
+  const _setUpvotePercent = (value: any) => {
     if (value) {
       let _dispatchAction: any = null;
       switch (postType) {

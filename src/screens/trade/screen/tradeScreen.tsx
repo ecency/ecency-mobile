@@ -9,7 +9,7 @@ import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
 import { MarketAsset } from '../../../providers/hive-trade/hiveTrade.types';
 
-const TradeScreen = ({ route }) => {
+const TradeScreen = ({ route }: any) => {
   const intl = useIntl();
 
   const assetsQuery = walletQueries.useAssetsQuery();

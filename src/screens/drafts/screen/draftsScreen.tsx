@@ -61,11 +61,11 @@ const DraftsScreen = ({
   fetchNextSchedulesPage,
   hasNextSchedulesPage,
   isFetchingNextSchedulesPage,
-}) => {
-  const actionSheet = useRef(null);
-  const draftsListRef = useRef<FlatList>(null);
-  const schedulesListRef = useRef<FlatList>(null);
-  const templatesListRef = useRef<FlatList>(null);
+}: any) => {
+  const actionSheet = useRef<any>(null);
+  const draftsListRef = useRef<any>(null);
+  const schedulesListRef = useRef<any>(null);
+  const templatesListRef = useRef<any>(null);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   // Use specific draft selector instead of entire draftsCollection
@@ -133,7 +133,7 @@ const DraftsScreen = ({
 
   // Pre-compute draft data ONCE - move heavy processing out of _renderItem
   const processedDrafts = useMemo(() => {
-    return drafts.map((item) => {
+    return drafts.map((item: any) => {
       const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
       const tag = tags[0] || '';
 
@@ -146,7 +146,11 @@ const DraftsScreen = ({
         item.meta && item.meta.image
           ? catchImageFromMetadata(item.meta, 'match', true)
           : catchDraftImage(item.body, 'match', true);
-      const summary = postBodySummary({ ...item, last_update: item.modified }, 100, Platform.OS);
+      const summary = postBodySummary(
+        { ...item, last_update: item.modified } as any,
+        100,
+        Platform.OS as any,
+      );
 
       return {
         ...item,
@@ -160,7 +164,7 @@ const DraftsScreen = ({
 
   // Pre-compute template data ONCE
   const processedTemplates = useMemo(() => {
-    return templates.map((item) => {
+    return templates.map((item: any) => {
       const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
       const tag = tags[0] || '';
 
@@ -172,7 +176,11 @@ const DraftsScreen = ({
         item.meta && item.meta.image
           ? catchImageFromMetadata(item.meta, 'match', true)
           : catchDraftImage(item.body, 'match', true);
-      const summary = postBodySummary({ ...item, last_update: item.modified }, 100, Platform.OS);
+      const summary = postBodySummary(
+        { ...item, last_update: item.modified } as any,
+        100,
+        Platform.OS as any,
+      );
 
       return {
         ...item,
@@ -188,7 +196,7 @@ const DraftsScreen = ({
 
   // Pre-compute schedule data ONCE
   const processedSchedules = useMemo(() => {
-    return schedules.map((item) => {
+    return schedules.map((item: any) => {
       const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
       const tag = tags[0] || '';
 
@@ -200,7 +208,11 @@ const DraftsScreen = ({
         item.meta && item.meta.image
           ? catchImageFromMetadata(item.meta, 'match', true)
           : catchDraftImage(item.body, 'match', true);
-      const summary = postBodySummary({ ...item, last_update: item.modified }, 100, Platform.OS);
+      const summary = postBodySummary(
+        { ...item, last_update: item.modified } as any,
+        100,
+        Platform.OS as any,
+      );
 
       return {
         ...item,
@@ -230,7 +242,7 @@ const DraftsScreen = ({
     const summary = postBodySummary(
       { ...idLessDraft, last_update: idLessDraft.modified },
       100,
-      Platform.OS,
+      Platform.OS as any,
     );
 
     return {
@@ -244,7 +256,7 @@ const DraftsScreen = ({
 
   // Component Functions - now with pre-computed data
   const _renderItem = useCallback(
-    (item, type) => {
+    (item: any, type: any) => {
       const isSchedules = type === 'schedules';
       const isUnsaved = type === 'unsaved';
       const isTemplates = type === 'templates';
@@ -286,7 +298,7 @@ const DraftsScreen = ({
           draftItem={item}
           isCloning={isCloning}
           handleLongPress={_handleLongPress}
-          isSelected={batchSelectedItems.find((batchItem) => batchItem === item._id)}
+          isSelected={batchSelectedItems.find((batchItem: any) => batchItem === item._id)}
           batchSelectionActive={batchSelectedItems && batchSelectedItems.length > 0}
         />
       );
@@ -308,7 +320,7 @@ const DraftsScreen = ({
   );
 
   const _renderEmptyContent = useCallback(
-    (type) => {
+    (type: any) => {
       if (isLoading) {
         return (
           <View>
@@ -334,7 +346,7 @@ const DraftsScreen = ({
   }, [_renderItem, processedIdLessDraft]);
 
   const _getTabItem = useCallback(
-    (data, type, listRef) => {
+    (data: any, type: any, listRef: any) => {
       const isDraftsTab = type === 'drafts';
       const isSchedulesTab = type === 'schedules';
       // drafts and templates tabs are fed by the same infinite query
@@ -423,7 +435,7 @@ const DraftsScreen = ({
   };
 
   const renderScene = useCallback(
-    ({ route }) => {
+    ({ route }: any) => {
       switch (route.key) {
         case 'drafts':
           return (

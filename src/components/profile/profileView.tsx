@@ -39,14 +39,14 @@ const SUMMARY_COLLAPSE_THRESHOLD = 80;
 const SUMMARY_EXPAND_THRESHOLD = 8;
 const SUMMARY_TOGGLE_COOLDOWN_MS = 550;
 
-class ProfileView extends PureComponent {
+class ProfileView extends PureComponent<any, any> {
   _lastSummaryToggleAt = 0;
 
   _lastOffsetY = 0;
 
-  _summaryRecheckTimer = null;
+  _summaryRecheckTimer: any = null;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       isSummaryOpen: true,
@@ -92,7 +92,7 @@ class ProfileView extends PureComponent {
     this.setState({ isSummaryOpen: wantExpand });
   };
 
-  _handleOnScroll = (event) => {
+  _handleOnScroll = (event: any) => {
     const offsetY = event?.nativeEvent?.contentOffset?.y;
     if (offsetY === undefined) {
       return;
@@ -124,18 +124,18 @@ class ProfileView extends PureComponent {
     }
   };
 
-  _handleUIChange = (height) => {
+  _handleUIChange = (height: any) => {
     this.setState({ collapsibleMoreHeight: height });
   };
 
-  _getTabLabel = (value) => {
+  _getTabLabel = (value: any) => {
     if (value.length > 10) {
       return `${value.substring(0, 10)}...`;
     }
     return value;
   };
 
-  _onTabChange = ({ i }) => {
+  _onTabChange = ({ i }: any) => {
     const { estimatedWalletValue, oldEstimatedWalletValue } = this.state;
     const { isOwnProfile, profileTabs, ownProfileTabs } = this.props;
     const pageType = isOwnProfile ? 'ownProfile' : 'profile';
@@ -231,7 +231,7 @@ class ProfileView extends PureComponent {
     );
   };
 
-  _contentComentsTab = (type) => {
+  _contentComentsTab = (type: any) => {
     const { username, isOwnProfile, selectedUser } = this.props;
     return (
       <CommentsTabContent
@@ -239,7 +239,7 @@ class ProfileView extends PureComponent {
         selectedUser={selectedUser}
         isOwnProfile={isOwnProfile}
         type={type}
-        onScroll={this._handleOnScroll}
+        onScroll={this._handleOnScroll as any}
       />
     );
   };
@@ -250,7 +250,7 @@ class ProfileView extends PureComponent {
       <WavesTabContent
         username={username}
         isOwnProfile={isOwnProfile}
-        onScroll={this._handleOnScroll}
+        onScroll={this._handleOnScroll as any}
       />
     );
   };
@@ -264,15 +264,15 @@ class ProfileView extends PureComponent {
     return (
       <View
         key="profile.wallet"
-        tabLabel={
-          estimatedWalletValue
+        {...({
+          tabLabel: estimatedWalletValue
             ? `${displayCurrencySymbol} ${(estimatedWalletValue * displayCurrencyRate).toFixed(2)}`
-            : null
-        }
+            : null,
+        } as any)}
       >
         {selectedUser ? (
           <Wallet
-            setEstimatedWalletValue={(value) => this.setState({ estimatedWalletValue: value })}
+            setEstimatedWalletValue={(value: any) => this.setState({ estimatedWalletValue: value })}
             selectedUser={selectedUser}
             handleOnScroll={this._handleOnScroll}
             forceUsdEstimate={!isOwnProfile}
@@ -310,7 +310,7 @@ class ProfileView extends PureComponent {
       }
     }
 
-    const tabFilters = tabs.map((key) => ({
+    const tabFilters = tabs.map((key: any) => ({
       filterKey: key,
       label: getFilterMap(pageType)[key],
     }));
@@ -342,7 +342,7 @@ class ProfileView extends PureComponent {
           // stationary touch or tiny drag) only fed the oscillation. onScrollEndDrag drives
           // collapse instead.
           handleOnScroll={this._handleOnScroll}
-          forceLoadPost={forceLoadPost}
+          forceLoadPosts={forceLoadPost}
           changeForceLoadPostState={changeForceLoadPostState}
           isFeedScreen={false}
           tabContentOverrides={tabContentOverrides}
@@ -407,7 +407,7 @@ class ProfileView extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   profileTabs: state.customTabs.profileTabs,
   ownProfileTabs: state.customTabs.ownProfileTabs,
 });

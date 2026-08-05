@@ -104,6 +104,8 @@ import {
 const SUPPORT_SETTINGS_FETCH_TIMEOUT_MS = 4000;
 
 class EditorContainer extends Component<any, any> {
+  stateTimer: any;
+
   _isMounted = false;
 
   _updatedDraftFields = null;
@@ -120,7 +122,7 @@ class EditorContainer extends Component<any, any> {
 
   _postingAuthorityPromptShown = false;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       autoFocusText: false,
@@ -155,8 +157,8 @@ class EditorContainer extends Component<any, any> {
     const accessToken = currentAccount?.local?.accessToken
       ? decryptKey(currentAccount.local.accessToken, getDigitPinCode(pinCode))
       : '';
-    let isReply;
-    let draftId;
+    let isReply: any;
+    let draftId: any;
     let isEdit;
     let post;
     let hasSharedIntent = false;
@@ -182,8 +184,8 @@ class EditorContainer extends Component<any, any> {
         const infiniteQueryData: any = queryClient.getQueryData(infiniteQueryKey);
 
         if (infiniteQueryData?.pages) {
-          const allDrafts = infiniteQueryData.pages.flatMap((page) => page?.data || []);
-          paramDraft = allDrafts.find((draft) => draft._id === draftId) || null;
+          const allDrafts = infiniteQueryData.pages.flatMap((page: any) => page?.data || []);
+          paramDraft = allDrafts.find((draft: any) => draft._id === draftId) || null;
         }
 
         // Set the draftId in state immediately
@@ -201,14 +203,14 @@ class EditorContainer extends Component<any, any> {
           const draftsQueryOptions = getDraftsQueryOptions(username, accessToken);
           queryClient
             .fetchQuery(draftsQueryOptions)
-            .then((result) => {
+            .then((result: any) => {
               const drafts = Array.isArray(result) ? result : result?.data || [];
-              const fetchedDraft = drafts.find((d) => d._id === draftId);
+              const fetchedDraft = drafts.find((d: any) => d._id === draftId);
               if (fetchedDraft) {
                 this._getStorageDraft(username, isReply, fetchedDraft);
               }
             })
-            .catch((err) => {
+            .catch((err: any) => {
               console.warn('Failed to fetch draft from API', err);
               dispatch(
                 toastNotification(
@@ -289,7 +291,7 @@ class EditorContainer extends Component<any, any> {
       }
 
       if (navigationParams.action) {
-        this._handleRoutingAction(navigationParams.action);
+        (this as any)._handleRoutingAction((navigationParams as any).action);
       }
 
       // handle file/text shared from ReceiveSharingIntent
@@ -297,7 +299,7 @@ class EditorContainer extends Component<any, any> {
         const { files } = navigationParams;
         console.log('files : ', files);
 
-        files.forEach((el) => {
+        files.forEach((el: any) => {
           if (el.text) {
             this.setState({
               sharedSnippetText: el.text,
@@ -350,7 +352,7 @@ class EditorContainer extends Component<any, any> {
     this._appState = nextAppState;
   };
 
-  _getStorageDraft = async (username, isReply, paramDraft) => {
+  _getStorageDraft = async (username: any, isReply: any, paramDraft?: any) => {
     const { draftsCollection, replyCache } = this.props;
     if (isReply) {
       // For replies, use replyCache instead of draftsCollection
@@ -404,8 +406,8 @@ class EditorContainer extends Component<any, any> {
         } else if (paramDraft.tags) {
           _tags = paramDraft.tags
             .split(/[,\s]+/)
-            .map((tag) => tag.trim())
-            .filter((tag) => !!tag);
+            .map((tag: any) => tag.trim())
+            .filter((tag: any) => !!tag);
         }
 
         this.setState({
@@ -435,8 +437,8 @@ class EditorContainer extends Component<any, any> {
     } else if (templateDraft.tags) {
       _tags = templateDraft.tags
         .split(/[,\s]+/)
-        .map((tag) => tag.trim())
-        .filter((tag) => !!tag);
+        .map((tag: any) => tag.trim())
+        .filter((tag: any) => !!tag);
     }
 
     // strip template markers so they don't carry over into the new post's draft
@@ -497,7 +499,7 @@ class EditorContainer extends Component<any, any> {
 
     if (isArray(draft.meta?.beneficiaries)) {
       const filteredBeneficiaries = draft.meta.beneficiaries.filter(
-        (item) => item.account !== currentAccount.name,
+        (item: any) => item.account !== currentAccount.name,
       ); // remove default beneficiary from array while saving
 
       // an empty list in draft meta is just the absence default written by
@@ -531,7 +533,7 @@ class EditorContainer extends Component<any, any> {
    * prompts user as well
    * @param isReply
    * */
-  _fetchDraftsForComparison = async (isReply) => {
+  _fetchDraftsForComparison = async (isReply: any) => {
     const { currentAccount, isLoggedIn, draftsCollection, pinCode } = this.props;
     const username = get(currentAccount, 'name', '');
 
@@ -575,7 +577,7 @@ class EditorContainer extends Component<any, any> {
       const result = await queryClient.fetchQuery(draftsQueryOptions);
       // templates are applied explicitly from the templates tab, never offered as recent draft
       const remoteDrafts = (Array.isArray(result) ? result : result?.data || []).filter(
-        (draft) => !isTemplateDraft(draft),
+        (draft: any) => !isTemplateDraft(draft),
       );
 
       const loadRecentDraft = () => {
@@ -586,7 +588,7 @@ class EditorContainer extends Component<any, any> {
         }
 
         // sort darts based on timestamps
-        remoteDrafts.sort((d1, d2) =>
+        remoteDrafts.sort((d1: any, d2: any) =>
           new Date(d1.modified).getTime() < new Date(d2.modified).getTime() ? 1 : -1,
         );
         const _draft = remoteDrafts[0];
@@ -639,7 +641,7 @@ class EditorContainer extends Component<any, any> {
     return caretMap?.[_draftId];
   };
 
-  _saveDraftToDB = async (fields, saveAsNew = false) => {
+  _saveDraftToDB = async (fields: any, saveAsNew = false) => {
     // Once a post is published, skip any further draft save (e.g. the unmount
     // autosave) so the source draft is never silently re-written or recreated;
     // the user decides whether to delete it via the publish-success prompt.
@@ -761,8 +763,8 @@ class EditorContainer extends Component<any, any> {
           const response = await addDraft(accessToken, title, body, tags, jsonMeta);
           const _resDraft =
             response?.drafts?.[0] || // array wrapper format
-            response?.[0] || // direct array format
-            (response?._id ? response : null); // single object format
+            (response as any)?.[0] || // direct array format
+            ((response as any)?._id ? response : null); // single object format
 
           if (!_resDraft) {
             throw new Error('newly saved draft not returned in response');
@@ -776,7 +778,7 @@ class EditorContainer extends Component<any, any> {
             });
           }
           const filteredBeneficiaries = beneficiaries.filter(
-            (item) => item.account !== currentAccount.name,
+            (item: any) => item.account !== currentAccount.name,
           ); // remove default beneficiary from array while saving
           dispatch(setBeneficiaries(_resDraft._id, filteredBeneficiaries));
 
@@ -846,7 +848,7 @@ class EditorContainer extends Component<any, any> {
   // updates the draft being composed, never touches state.draftId/isDraftSaved/
   // isDraftSaving and never clears local draft caches, so the normal draft
   // autosave flow keeps working on whatever the user is writing.
-  _saveAsTemplate = async (fields, templateName: string) => {
+  _saveAsTemplate = async (fields: any, templateName: string) => {
     const { isReply, isEdit, thumbUrl, videoThumbs, rewardType, postDescription } = this.state;
     const { currentAccount, dispatch, intl, queryClient, pinCode } = this.props;
 
@@ -929,11 +931,11 @@ class EditorContainer extends Component<any, any> {
     }
   };
 
-  _updateDraftFields = (fields) => {
+  _updateDraftFields = (fields: any) => {
     this._updatedDraftFields = fields;
   };
 
-  _saveCurrentDraft = async (fields) => {
+  _saveCurrentDraft = async (fields: any) => {
     const { draftId, isReply, isEdit, isPostSending, rewardType, postDescription, thumbUrl } =
       this.state;
 
@@ -1000,7 +1002,7 @@ class EditorContainer extends Component<any, any> {
   }: {
     fields: any;
     scheduleDate?: string;
-  }) => {
+  }): Promise<any> => {
     const { currentAccount, dispatch, intl, navigation, queryClient, pinCode } = this.props;
     const { rewardType, isPostSending, thumbUrl, videoThumbs, draftId, shouldReblog } = this.state;
 
@@ -1142,7 +1144,7 @@ class EditorContainer extends Component<any, any> {
         fetchRatios: true,
         pollDraft,
       });
-      const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
+      const _tags = fields.tags.filter((tag: any) => tag && tag !== ' ');
 
       const aiTools = cleanAiTools(fields.aiTools);
       if (aiTools) {
@@ -1205,12 +1207,12 @@ class EditorContainer extends Component<any, any> {
             jsonMetadata: jsonMeta,
             options: options
               ? {
-                  maxAcceptedPayout: options.max_accepted_payout,
-                  percentHbd: options.percent_hbd,
-                  allowVotes: options.allow_votes,
-                  allowCurationRewards: options.allow_curation_rewards,
-                  beneficiaries: Array.isArray(options.extensions?.[0]?.[1]?.beneficiaries)
-                    ? options.extensions[0][1].beneficiaries
+                  maxAcceptedPayout: (options as any).max_accepted_payout,
+                  percentHbd: (options as any).percent_hbd,
+                  allowVotes: (options as any).allow_votes,
+                  allowCurationRewards: (options as any).allow_curation_rewards,
+                  beneficiaries: Array.isArray((options as any).extensions?.[0]?.[1]?.beneficiaries)
+                    ? (options as any).extensions[0][1].beneficiaries
                     : beneficiaries,
                 }
               : undefined,
@@ -1218,7 +1220,7 @@ class EditorContainer extends Component<any, any> {
 
           // reblog if flag is active
           if (shouldReblog) {
-            this.props.reblogMutation.mutateAsync({ author, permlink }).catch((err) => {
+            this.props.reblogMutation.mutateAsync({ author, permlink }).catch((err: any) => {
               console.warn('Failed to reblog post', err);
               dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
             });
@@ -1285,7 +1287,7 @@ class EditorContainer extends Component<any, any> {
                   onPress: () => {
                     this.props.deleteDraftMutation
                       .mutateAsync({ draftId })
-                      .catch((err) => console.warn('Failed to delete published draft', err));
+                      .catch((err: any) => console.warn('Failed to delete published draft', err));
                     _navigateToProfile();
                   },
                 },
@@ -1304,7 +1306,7 @@ class EditorContainer extends Component<any, any> {
     }
   };
 
-  _submitReply = async (fields) => {
+  _submitReply = async (fields: any): Promise<any> => {
     const { currentAccount, dispatch, replyCache, commentMutation } = this.props;
     const { isPostSending } = this.state;
 
@@ -1455,7 +1457,7 @@ class EditorContainer extends Component<any, any> {
     }
   };
 
-  _submitEdit = async (fields) => {
+  _submitEdit = async (fields: any): Promise<any> => {
     const { currentAccount, postCachePrimer, updateReplyMutation } = this.props;
     const { post, isPostSending, thumbUrl, videoThumbs, isReply } = this.state;
 
@@ -1644,7 +1646,7 @@ class EditorContainer extends Component<any, any> {
     }
   };
 
-  _handleSubmitFailure = (error) => {
+  _handleSubmitFailure = (error: any) => {
     const { intl, dispatch } = this.props;
 
     const msg =
@@ -1786,7 +1788,7 @@ class EditorContainer extends Component<any, any> {
     }
   };
 
-  _handleSchedulePress = async (datePickerValue, fields) => {
+  _handleSchedulePress = async (datePickerValue: any, fields: any) => {
     const { currentAccount, intl, dispatch } = this.props;
 
     if (fields.title === '' || fields.body === '') {
@@ -1808,7 +1810,7 @@ class EditorContainer extends Component<any, any> {
 
       if (currentAccount && currentAccount.posting) {
         hasPostingPerm =
-          currentAccount.posting.account_auths.filter((x) => x[0] === 'ecency.app').length > 0;
+          currentAccount.posting.account_auths.filter((x: any) => x[0] === 'ecency.app').length > 0;
       }
 
       if (hasPostingPerm) {
@@ -1828,7 +1830,7 @@ class EditorContainer extends Component<any, any> {
             toastNotification(
               intl.formatMessage(
                 { id: 'alert.something_wrong_msg' },
-                { message: error?.message || '' },
+                { message: (error as any)?.message || '' },
               ),
             ),
           );
@@ -1837,7 +1839,7 @@ class EditorContainer extends Component<any, any> {
     }
   };
 
-  _setScheduledPost = async (data) => {
+  _setScheduledPost = async (data: any) => {
     const { dispatch, currentAccount, navigation, addScheduleMutation } = this.props;
     const { rewardType } = this.state;
 
@@ -1894,7 +1896,7 @@ class EditorContainer extends Component<any, any> {
     });
   };
 
-  _handleRewardChange = (value) => {
+  _handleRewardChange = (value: any) => {
     this.setState({ rewardType: value });
   };
 
@@ -2009,7 +2011,7 @@ class EditorContainer extends Component<any, any> {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   currentAccount: selectCurrentAccount(state),
   isDefaultFooter: selectIsDefaultFooter(state),
   isLoggedIn: selectIsLoggedIn(state),

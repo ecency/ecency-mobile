@@ -13,8 +13,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Tag, TextButton, UserAvatar } from '../../index';
 import { ListPlaceHolder } from '../../basicUIElements';
 
-import DEFAULT_IMAGE from '../../../assets/no_image.png';
-
 import styles from './subscribedCommunitiesListStyles';
 import globalStyles from '../../../globalStyles';
 
@@ -27,7 +25,7 @@ const SubscribedCommunitiesListView = ({
   handleGetSubscriptions,
   handleDiscoverPress,
   listRef,
-}) => {
+}: any) => {
   const intl = useIntl();
 
   const _renderEmptyContent = () => {
@@ -47,11 +45,11 @@ const SubscribedCommunitiesListView = ({
     );
   };
 
-  const _renderListItem = ({ item, index }) => (
+  const _renderListItem = ({ item, index }: any) => (
     <View style={[styles.communityWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
       <View style={{ flex: 3, flexDirection: 'row', alignItems: 'center' }}>
         <TouchableOpacity onPress={() => handleOnPress(item[0])}>
-          <UserAvatar username={item[0]} defaultSource={DEFAULT_IMAGE} noAction />
+          <UserAvatar username={item[0]} noAction />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => handleOnPress(item[0])}>
           <Text style={styles.community}>{item[1]}</Text>

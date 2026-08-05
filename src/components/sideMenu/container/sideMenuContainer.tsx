@@ -21,7 +21,7 @@ import {
 } from '../../../redux/selectors';
 import { useAppSelector } from '../../../hooks';
 
-const SideMenuContainer = ({ navigation }) => {
+const SideMenuContainer = ({ navigation }: any) => {
   const dispatch = useDispatch();
   const drawerStatus = useDrawerStatus();
   const queryClient = useQueryClient();

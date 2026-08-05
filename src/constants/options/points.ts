@@ -166,7 +166,7 @@ export const PROMOTED_POST_STATUS_DISABLED = 3;
  */
 export const resolvePointType = (item: any) => {
   const type = item?.type;
-  const entry = POINTS[type] || POINTS.default;
+  const entry = (POINTS as any)[type] || POINTS.default;
   if (type === BURN_TYPE && parseFloat(String(item?.amount ?? 0)) > 0) {
     return BURN_REFUND;
   }

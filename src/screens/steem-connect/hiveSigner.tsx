@@ -22,8 +22,10 @@ import { default as ROUTES } from '../../constants/routeNames';
 import persistAccountGenerator from '../../utils/persistAccountGenerator';
 import { fetchSubscribedCommunities } from '../../redux/actions/communitiesAction';
 
-class HiveSigner extends PureComponent {
-  constructor(props) {
+class HiveSigner extends PureComponent<any, any> {
+  webview: any;
+
+  constructor(props: any) {
     super(props);
     this.state = {
       isLoading: false,
@@ -31,10 +33,10 @@ class HiveSigner extends PureComponent {
   }
 
   // update previously loggedin users list,
-  _updatePrevLoggedInUsersList = (username) => {
+  _updatePrevLoggedInUsersList = (username: any) => {
     const { dispatch, prevLoggedInUsers } = this.props;
     if (prevLoggedInUsers && prevLoggedInUsers.length > 0) {
-      const userIndex = prevLoggedInUsers.findIndex((el) => el?.username === username);
+      const userIndex = prevLoggedInUsers.findIndex((el: any) => el?.username === username);
       if (userIndex > -1) {
         const updatedPrevLoggedInUsers = [...prevLoggedInUsers];
         updatedPrevLoggedInUsers[userIndex] = { username, isLoggedOut: false };
@@ -49,7 +51,7 @@ class HiveSigner extends PureComponent {
     }
   };
 
-  _onNavigationStateChange = (event) => {
+  _onNavigationStateChange = (event: any) => {
     let code;
     const { intl, dispatch, handleOnModalClose, isPinCodeOpen, navigation } = this.props;
     const { isLoading } = this.state;
@@ -76,7 +78,7 @@ class HiveSigner extends PureComponent {
               this._updatePrevLoggedInUsersList(result.username);
 
               if (isPinCodeOpen) {
-                navigation.navigate({
+                (navigation as any).navigate({
                   name: ROUTES.SCREENS.PINCODE,
                   params: {
                     accessToken: result.accessToken,
@@ -84,7 +86,7 @@ class HiveSigner extends PureComponent {
                   },
                 });
               } else {
-                navigation.navigate({
+                (navigation as any).navigate({
                   name: ROUTES.DRAWER.MAIN,
                   params: { accessToken: result.accessToken },
                 });
@@ -126,12 +128,12 @@ class HiveSigner extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   isPinCodeOpen: selectIsPinCodeOpen(state),
   prevLoggedInUsers: selectPrevLoggedInUsers(state),
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = (props: any) => {
   const navigation = useNavigation();
   return <HiveSigner {...props} navigation={navigation} />;
 };

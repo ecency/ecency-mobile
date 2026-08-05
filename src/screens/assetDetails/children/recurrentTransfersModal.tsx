@@ -38,7 +38,7 @@ export const RecurrentTransfersModal = forwardRef(
     }));
 
     const _handleOnUserPress = (username: string) => {
-      navigation.navigate({
+      (navigation as any).navigate({
         name: ROUTES.SCREENS.PROFILE,
         params: {
           username,
@@ -124,14 +124,15 @@ export const RecurrentTransfersModal = forwardRef(
             handleOnPressClose={() => setShowModal(false)}
           />
           <FlatList
-            data={data}
+            data={data as any}
             keyExtractor={(item) => `${item.to}-${item.recurrence}`}
             removeClippedSubviews={false}
             renderItem={_renderItem}
             refreshControl={
               <RefreshControl
                 refreshing={
-                  recurringActivitiesQuery?.isFetching || delRecurrentTransferMutation.isLoading
+                  (recurringActivitiesQuery as any)?.isFetching ||
+                  delRecurrentTransferMutation.isPending
                 }
                 onRefresh={recurringActivitiesQuery?.refetch}
                 progressBackgroundColor="#357CE6"

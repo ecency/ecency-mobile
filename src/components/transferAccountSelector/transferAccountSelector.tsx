@@ -69,7 +69,7 @@ const TransferAccountSelector = ({
     }
   }, [transferType]);
 
-  const _handleOnFromUserChange = (username) => {
+  const _handleOnFromUserChange = (username: any) => {
     fetchBalance(username);
     setFrom(username);
 
@@ -78,7 +78,7 @@ const TransferAccountSelector = ({
     }
   };
 
-  const _handleOnDestinationChange = (username) => {
+  const _handleOnDestinationChange = (username: any) => {
     destinationRef.current = username;
     setDestination(username);
   };
@@ -141,7 +141,7 @@ const TransferAccountSelector = ({
       _amount = val.replace(',', '.');
     }
     if (state === 'amount') {
-      if (parseFloat(Number(_amount)) <= parseFloat(balance)) {
+      if (parseFloat(Number(_amount) as any) <= parseFloat(balance)) {
         setAmount(_amount);
       }
     }
@@ -168,7 +168,7 @@ const TransferAccountSelector = ({
     }
   };
 
-  const _renderDropdown = (usernames, defaultSelection, onSelectionChange) => (
+  const _renderDropdown = (usernames: any, defaultSelection: any, onSelectionChange: any) => (
     <DropdownButton
       dropdownButtonStyle={styles.dropdownButtonStyle}
       rowTextStyle={styles.rowTextStyle}
@@ -178,13 +178,13 @@ const TransferAccountSelector = ({
       options={usernames}
       defaultText={defaultSelection}
       selectedOptionIndex={usernames.indexOf(defaultSelection)}
-      onSelect={(index, value) => onSelectionChange(value)}
+      onSelect={(index: any, value: any) => onSelectionChange(value)}
     />
   );
 
-  const _renderInput = (placeholder, state, keyboardType, isTextArea) => (
+  const _renderInput = (placeholder: any, state: any, keyboardType: any, isTextArea: any) => (
     <TextInput
-      style={[isTextArea ? styles.textarea : styles.input]}
+      style={[isTextArea ? styles.textarea : styles.input] as any}
       onChangeText={(amount) => _handleOnChange(state, amount)}
       value={
         state === 'destination'
@@ -232,7 +232,7 @@ const TransferAccountSelector = ({
         label={intl.formatMessage({ id: 'transfer.from' })}
         rightComponent={() =>
           _renderDropdown(
-            accounts.map((account) => account.username),
+            accounts.map((account: any) => account.username),
             currentAccountName,
             _handleOnFromUserChange,
           )

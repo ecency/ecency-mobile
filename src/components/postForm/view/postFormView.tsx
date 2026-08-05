@@ -1,8 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
 import { debounce } from 'lodash';
 
-class PostFormView extends PureComponent {
-  constructor(props) {
+class PostFormView extends PureComponent<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }
@@ -14,11 +14,11 @@ class PostFormView extends PureComponent {
       handleOnSubmit();
     } else if (returnKeyType === 'next' && inputElement) {
       // TODO: its accept current input but its should be next input ref
-      inputElement.focus();
+      (inputElement as any).focus();
     }
   };
 
-  _handleOnChange = (componentID, value, isValid = null) => {
+  _handleOnChange = (componentID: any, value: any, isValid = null) => {
     const { handleFormUpdate, handleBodyChange } = this.props;
     console.log('update fields state :', componentID, value);
     handleFormUpdate(componentID, value, !!isValid || !!value);
@@ -35,7 +35,7 @@ class PostFormView extends PureComponent {
         {React.Children.map(children, (child) => {
           if (child) {
             return React.cloneElement(child, {
-              onSubmitEditing: (item) =>
+              onSubmitEditing: (item: any) =>
                 this._handleOnSubmitEditing(child.props.returnKeyType, item),
               onChange: debounce(
                 (value) => this._handleOnChange(child.props.componentID, value),

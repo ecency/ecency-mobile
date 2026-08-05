@@ -11,11 +11,11 @@ import ROUTES from '../../../constants/routeNames';
 // Styles
 import styles from './informationAreaStyles';
 
-const FormInputView = ({ description, iconName, bold, link }) => {
+const FormInputView = ({ description, iconName, bold, link }: any) => {
   const navigation = useNavigation();
 
   const _onPress = () => {
-    navigation.navigate({
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.WEB_BROWSER,
       params: {
         url: link,

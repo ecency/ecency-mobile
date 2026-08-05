@@ -13,7 +13,7 @@ import styles from './tagResultStyles';
 
 import { GLOBAL_POST_FILTERS, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
 
-const TagResultScreen = ({ navigation, route }) => {
+const TagResultScreen = ({ navigation, route }: any) => {
   const initTag = route.params?.tag ?? '';
   const filter = route.params?.filter ?? '';
 
@@ -59,6 +59,7 @@ const TagResultScreen = ({ navigation, route }) => {
 
       <View style={styles.tabbarItem}>
         <TabbedPosts
+          {...({} as any)}
           key={tag}
           tabFilters={tabFilters}
           selectedOptionIndex={_getSelectedIndex()}

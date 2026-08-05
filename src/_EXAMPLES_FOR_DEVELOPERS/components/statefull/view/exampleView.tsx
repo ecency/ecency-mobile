@@ -7,15 +7,14 @@ import { View } from 'react-native';
 // Components
 
 // Styles
-import styles from './_styles';
 
-class ExampleView extends Component {
+class ExampleView extends Component<any, any> {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }

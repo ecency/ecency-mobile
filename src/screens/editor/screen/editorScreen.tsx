@@ -35,16 +35,18 @@ import PostOptionsModal from '../children/postOptionsModal';
 import SaveTemplateModal from '../children/saveTemplateModal';
 import { AiToolsMeta, CommunityRole, CommunityTypeId } from '../../../providers/hive/hive.types';
 
-class EditorScreen extends Component {
+class EditorScreen extends Component<any, any> {
+  changeTimer: any;
+
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
-  postOptionsModalRef = null;
+  postOptionsModalRef: any = null;
 
-  saveTemplateModalRef = null;
+  saveTemplateModalRef: any = null;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     console.log('reading tags', props.draftPost?.tags, props.tags);
@@ -87,7 +89,7 @@ class EditorScreen extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: any, prevState: any) {
     const { isUploadingProp, communityProp, selectedCommunity } = this.state;
     if (
       prevState.isUploadingProp !== isUploadingProp ||
@@ -109,7 +111,7 @@ class EditorScreen extends Component {
     }
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps: any, prevState: any) {
     // shoudl update state
     const stateUpdate: any = {};
     console.log('reading tags in derived state', nextProps.draftPost?.tags, nextProps.tags);
@@ -173,7 +175,7 @@ class EditorScreen extends Component {
     });
   };
 
-  _setWordsCount = (content) => {
+  _setWordsCount = (content: any) => {
     const _wordsCount = getWordsCount(content);
     const { wordsCount } = this.state;
 
@@ -207,7 +209,7 @@ class EditorScreen extends Component {
     this._saveDraftToDB();
   };
 
-  _saveCurrentDraft = (fields) => {
+  _saveCurrentDraft = (fields: any) => {
     const { saveCurrentDraft, updateDraftFields } = this.props;
 
     if (this.changeTimer) {
@@ -247,7 +249,7 @@ class EditorScreen extends Component {
     });
   };
 
-  _handleRewardChange = (value) => {
+  _handleRewardChange = (value: any) => {
     const { handleRewardChange } = this.props;
     handleRewardChange(value);
   };
@@ -274,7 +276,7 @@ class EditorScreen extends Component {
     }, 500);
   };
 
-  _handleSaveAsTemplate = (templateName) => {
+  _handleSaveAsTemplate = (templateName: any) => {
     const { saveAsTemplate } = this.props;
     const { fields } = this.state;
 
@@ -297,7 +299,7 @@ class EditorScreen extends Component {
     }
   };
 
-  _handleIsFormValid = (bodyText) => {
+  _handleIsFormValid = (bodyText?: any) => {
     const { fields } = this.state;
     const { isReply, isLoggedIn } = this.props;
     let isFormValid;
@@ -324,7 +326,7 @@ class EditorScreen extends Component {
   // rides on state.fields.aiTools and is read at publish time. Additive only -- Ecency never
   // un-discloses on the user's behalf.
   _handleAiToolUsed = (key: keyof AiToolsMeta) => {
-    this.setState((prevState) => ({
+    this.setState((prevState: any) => ({
       fields: {
         ...prevState.fields,
         aiTools: { ...(prevState.fields.aiTools || {}), [key]: true },
@@ -332,7 +334,7 @@ class EditorScreen extends Component {
     }));
   };
 
-  _handleFormUpdate = async (componentID, content) => {
+  _handleFormUpdate = async (componentID?: any, content?: any) => {
     const { handleFormChanged, thumbUrl, rewardType, getBeneficiaries, postDescription } =
       this.props;
     const { fields: _fields } = this.state;
@@ -380,14 +382,14 @@ class EditorScreen extends Component {
     // Merge aiTools from the latest state (not the snapshot taken before the awaits above),
     // so a concurrent _handleAiToolUsed functional update isn't clobbered by this object set.
     this.setState(
-      (prev) => ({ fields: { ...fields, aiTools: prev.fields.aiTools } }),
+      (prev: any) => ({ fields: { ...fields, aiTools: prev.fields.aiTools } }),
       () => {
         this._handleIsFormValid();
       },
     );
   };
 
-  _handleOnTagAdded = async (tags) => {
+  _handleOnTagAdded = async (tags: any) => {
     const { currentAccount } = this.props;
 
     if (tags.length > 0) {
@@ -407,7 +409,7 @@ class EditorScreen extends Component {
     });
   };
 
-  _handleChangeTitle = (text) => {
+  _handleChangeTitle = (text: any) => {
     const { fields: _fields } = this.state;
 
     _fields.title = text.replace('\n', ' ');
@@ -417,7 +419,7 @@ class EditorScreen extends Component {
     });
   };
 
-  _handlePressCommunity = (community) => {
+  _handlePressCommunity = (community: any) => {
     const { fields, selectedCommunity } = this.state;
     const { currentAccount } = this.props;
 
@@ -442,7 +444,7 @@ class EditorScreen extends Component {
     });
   };
 
-  _getCommunity = async (hive) => {
+  _getCommunity = async (hive: any) => {
     const { currentAccount } = this.props;
     try {
       const queryClient = getQueryClient();
@@ -540,7 +542,7 @@ class EditorScreen extends Component {
     return (
       <SafeAreaView edges={['top']} style={globalStyles.defaultContainer}>
         <BasicHeader
-          handleSchedulePress={(date) => handleSchedulePress(date, fields)}
+          handleSchedulePress={(date: any) => handleSchedulePress(date, fields)}
           handleRewardChange={handleRewardChange}
           handleOnBackPress={handleOnBackPress}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
@@ -561,7 +563,7 @@ class EditorScreen extends Component {
           handleSettingsPress={this._handleSettingsPress}
         />
         {/* <PostForm
-            handleFormUpdate={this._handleFormUpdate}
+            handleFormUpdate={this._handleFormUpdate as any}
             handleBodyChange={this._setWordsCount}
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
@@ -598,7 +600,7 @@ class EditorScreen extends Component {
             onTagChanged={this._handleOnTagAdded}
             onTitleChanged={this._handleChangeTitle}
             getCommunity={this._getCommunity}
-            handleFormUpdate={this._handleFormUpdate}
+            handleFormUpdate={this._handleFormUpdate as any}
             handleAiToolUsed={this._handleAiToolUsed}
             handleBodyChange={this._setWordsCount}
             autoFocusText={autoFocusText}
@@ -614,7 +616,9 @@ class EditorScreen extends Component {
         {_renderCommunityModal()}
 
         <PostOptionsModal
-          ref={(componentRef) => (this.postOptionsModalRef = componentRef)}
+          ref={(componentRef) => {
+            this.postOptionsModalRef = componentRef;
+          }}
           body={fields.body}
           draftId={draftId}
           thumbUrl={thumbUrl}
@@ -629,7 +633,7 @@ class EditorScreen extends Component {
           handleRewardChange={this._handleRewardChange}
           handleScheduleChange={this._handleScheduleChange}
           handleShouldReblogChange={handleShouldReblogChange}
-          handleFormUpdate={this._handleFormUpdate}
+          handleFormUpdate={this._handleFormUpdate as any}
           canSaveTemplate={!isReply && !isEdit && !!(fields.title || fields.body)}
           handleSaveTemplatePress={this._handleSaveTemplatePress}
         />

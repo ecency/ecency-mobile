@@ -218,7 +218,7 @@ const PostOptionsModal = forwardRef(
                     intl.formatMessage({ id: 'editor.scheduled_later' }),
                   ]}
                   selectedOptionIndex={scheduleLater ? 1 : 0}
-                  handleOnChange={(index) => {
+                  handleOnChange={(index: any) => {
                     setScheduleLater(index === 1);
                     if (index !== 1) {
                       handleScheduleChange(null);

@@ -66,7 +66,7 @@ const ChatsContainer = () => {
   const [sortByName, setSortByName] = useState<boolean>(false);
 
   const userLookupRef = useRef<Record<string, any>>({});
-  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const searchTimeoutRef = useRef<any>(null);
 
   const currentUserId = bootstrapResult?.user?.id;
 
@@ -610,7 +610,7 @@ const ChatsContainer = () => {
         // Refresh global badge to reflect the mark-as-viewed
         _refreshGlobalUnreadChatCount();
 
-        navigation.navigate(
+        (navigation as any).navigate(
           ROUTES.SCREENS.CHAT_THREAD as never,
           {
             channelId: joinedId,
@@ -649,7 +649,7 @@ const ChatsContainer = () => {
         );
         const communityIdentifier = safeExtractCommunityIdentifier(resolvedChannel);
 
-        navigation.navigate(
+        (navigation as any).navigate(
           ROUTES.SCREENS.CHAT_THREAD as never,
           {
             channelId,
@@ -877,7 +877,7 @@ const ChatsContainer = () => {
           const description = item.header || item.purpose || '';
           const communityIdentifier = safeExtractCommunityIdentifier(item);
 
-          navigation.navigate(
+          (navigation as any).navigate(
             ROUTES.SCREENS.CHAT_THREAD as never,
             {
               channelId,

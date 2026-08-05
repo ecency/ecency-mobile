@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { TextInput as RNTextInput, View } from 'react-native';
+import { View } from 'react-native';
 
 // Components
 import { IconButton } from '../../iconButton';
@@ -22,7 +22,7 @@ const SearchInputView = ({
   onBackPress,
   backIconName,
 }: any) => {
-  const inputRef = useRef<RNTextInput | null>(null);
+  const inputRef = useRef<any>(null);
   const lastTextRef = useRef<string>(`${prefix}${value || ''}`);
   const isFocusedRef = useRef(false);
 
@@ -56,7 +56,7 @@ const SearchInputView = ({
     }
   };
 
-  const _renderCrossButton = (onPress) => (
+  const _renderCrossButton = (onPress: any) => (
     <IconButton
       iconStyle={styles.closeIcon}
       iconType="Ionicons"

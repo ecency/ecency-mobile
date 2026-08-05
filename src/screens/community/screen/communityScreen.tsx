@@ -21,7 +21,7 @@ import ROUTES from '../../../constants/routeNames';
 import { SheetNames } from '../../../navigation/sheets';
 import { useAppSelector } from '../../../hooks';
 
-const CommunityScreen = ({ route }) => {
+const CommunityScreen = ({ route }: any) => {
   const tag = route.params?.tag ?? '';
   const filter = route.params?.filter ?? '';
   const intl = useIntl();
@@ -67,7 +67,7 @@ const CommunityScreen = ({ route }) => {
   };
 
   const _handleManagePress = useCallback(
-    async (data) => {
+    async (data: any) => {
       const result = await SheetManager.show(SheetNames.COMMUNITY_MANAGE);
 
       // Only a selection carries a known action. Backdrop, swipe and back
@@ -80,21 +80,21 @@ const CommunityScreen = ({ route }) => {
 
       switch (result?.action) {
         case 'members':
-          navigation.navigate({
+          (navigation as any).navigate({
             name: ROUTES.SCREENS.COMMUNITY_MEMBERS,
             key: `community_members_${tag}`,
             params,
           });
           break;
         case 'settings':
-          navigation.navigate({
+          (navigation as any).navigate({
             name: ROUTES.SCREENS.COMMUNITY_SETTINGS,
             key: `community_settings_${tag}`,
             params,
           });
           break;
         case 'activities':
-          navigation.navigate({
+          (navigation as any).navigate({
             name: ROUTES.SCREENS.COMMUNITY_ACTIVITIES,
             key: `community_activities_${tag}`,
             params,
@@ -116,7 +116,7 @@ const CommunityScreen = ({ route }) => {
         isSubscribed,
         isLoggedIn,
         isModerator,
-      }) => (
+      }: any) => (
         <SafeAreaView style={styles.container}>
           <BasicHeader
             title={`${data && data.title ? data.title : ''} ${intl.formatMessage({
@@ -186,14 +186,17 @@ const CommunityScreen = ({ route }) => {
           ) : (
             <ProfileSummaryPlaceHolder />
           )}
-          <View tabLabel={intl.formatMessage({ id: 'search.posts' })} style={styles.tabbarItem}>
+          <View
+            {...({ tabLabel: intl.formatMessage({ id: 'search.posts' }) } as any)}
+            style={styles.tabbarItem}
+          >
             <TabbedPosts
               key={tag + JSON.stringify(communityTabs)}
               tabFilters={tabFilters}
               selectedOptionIndex={_getSelectedIndex()}
               tag={tag}
               pageType="community"
-              handleOnScrollBeginDrag={isExpanded ? _handleOnScrollBeginDrag : null}
+              handleOnScrollBeginDrag={(isExpanded ? _handleOnScrollBeginDrag : null) as any}
             />
           </View>
         </SafeAreaView>

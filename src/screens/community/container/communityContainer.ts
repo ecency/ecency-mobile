@@ -13,10 +13,10 @@ import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors
 import { useAppSelector, useCommunitySubscriptionAction } from '../../../hooks';
 import { isCommunityModerator } from '../../../utils/communityModeration';
 
-const CommunityContainer = ({ tag, children, currentAccount, isLoggedIn }) => {
+const CommunityContainer = ({ tag, children, currentAccount, isLoggedIn }: any) => {
   const navigation = useNavigation();
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
+  const [selectedCommunityItem, setSelectedCommunityItem] = useState<any>(null);
 
   const dispatch = useDispatch();
   const intl = useIntl();
@@ -53,7 +53,7 @@ const CommunityContainer = ({ tag, children, currentAccount, isLoggedIn }) => {
         setIsSubscribed(itemExistInCache.data[4]); // if item exist in cache, get isSubscribed value from cache
       } else {
         // check in subscribed communities list if selected community exists
-        const itemExist = subscribedCommunities.data.find((item) => item[0] === data.name);
+        const itemExist = subscribedCommunities.data.find((item: any) => item[0] === data.name);
         setIsSubscribed(!!itemExist);
       }
     }
@@ -62,7 +62,7 @@ const CommunityContainer = ({ tag, children, currentAccount, isLoggedIn }) => {
   const _handleSubscribeButtonPress = () => {
     const _data = {
       isSubscribed,
-      communityId: data.name,
+      communityId: data!.name,
     };
     setSelectedCommunityItem(_data); // set selected item to handle its cache
     const screen = 'communitiesScreenDiscoverTab';
@@ -79,7 +79,7 @@ const CommunityContainer = ({ tag, children, currentAccount, isLoggedIn }) => {
   };
 
   const _handleNewPostButtonPress = () => {
-    navigation.navigate({
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.EDITOR,
       key: 'editor_community_post',
       params: {
@@ -106,7 +106,7 @@ const CommunityContainer = ({ tag, children, currentAccount, isLoggedIn }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   currentAccount: selectCurrentAccount(state),
   isLoggedIn: selectIsLoggedIn(state),
 });

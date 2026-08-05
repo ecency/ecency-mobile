@@ -75,7 +75,11 @@ export const SearchResults: React.FC<SearchResultsProps> = React.memo(
 
               return (
                 <View key={user.id} style={styles.searchRow}>
-                  <UserAvatar username={hiveUsername} style={styles.searchRowAvatar} disableSize />
+                  <UserAvatar
+                    username={hiveUsername!}
+                    style={styles.searchRowAvatar as any}
+                    disableSize
+                  />
                   <View style={styles.searchRowContent}>
                     <Text style={styles.channelName} numberOfLines={1}>
                       {displayName}

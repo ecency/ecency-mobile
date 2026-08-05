@@ -39,10 +39,10 @@ import MigrationHelpers from '../../../utils/migrationHelpers';
 import PinCodeView from '../children/pinCodeView';
 import { logout, logoutDone } from '../../../redux/actions/uiAction';
 
-class PinCodeContainer extends Component {
-  screenRef = null;
+class PinCodeContainer extends Component<any, any> {
+  screenRef: any = null;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -122,7 +122,7 @@ class PinCodeContainer extends Component {
   // this function is important: must run while chaning pin
   // and even logging in with existing pin code
 
-  _updatePinCodeRealm = async (pinData) => {
+  _updatePinCodeRealm = async (pinData: any) => {
     try {
       const { currentAccount, dispatch } = this.props;
       const response = await updatePinCode(pinData);
@@ -141,8 +141,8 @@ class PinCodeContainer extends Component {
 
   // routine for checking and setting new pin code, same routine is used for
   // setting pin for the first time
-  _resetPinCode = (pin) =>
-    new Promise((resolve, reject) => {
+  _resetPinCode = (pin: any) =>
+    new Promise<void>((resolve, reject) => {
       const {
         pinCodeParams: { navigateTo, navigateParams, navigateKey, callback },
         encUnlockPin,
@@ -221,7 +221,7 @@ class PinCodeContainer extends Component {
       }
     });
 
-  _onRefreshTokenFailed = (error) => {
+  _onRefreshTokenFailed = (error: any) => {
     setTimeout(() => {
       const { dispatch, intl } = this.props;
       const _logout = () => dispatch(logout());
@@ -239,7 +239,7 @@ class PinCodeContainer extends Component {
   };
 
   // verifies is the pin entered is right or wrong, also migrates to newer locking method
-  _verifyPinCode = async (pin) => {
+  _verifyPinCode = async (pin: any) => {
     const {
       intl,
       currentAccount,
@@ -299,9 +299,9 @@ class PinCodeContainer extends Component {
   };
 
   // encryptes and saved unlockPin
-  _savePinCode = (pin) => {
+  _savePinCode = (pin: any) => {
     const { dispatch } = this.props;
-    const encryptedPin = encryptKey(pin, Config.PIN_KEY);
+    const encryptedPin = encryptKey(pin, Config.PIN_KEY!);
     dispatch(setEncryptedUnlockPin(encryptedPin));
   };
 
@@ -316,7 +316,7 @@ class PinCodeContainer extends Component {
         setAuthStatus({ isLoggedIn: false });
         setExistUser(false);
         if (otherAccounts.length > 0) {
-          otherAccounts.map((item) => dispatch(removeOtherAccount(item.username)));
+          otherAccounts.map((item: any) => dispatch(removeOtherAccount(item.username)));
         }
         dispatch(logoutDone());
         dispatch(isPinCodeOpen(false));
@@ -327,7 +327,7 @@ class PinCodeContainer extends Component {
       });
   };
 
-  _handleFailedAttempt = (error) => {
+  _handleFailedAttempt = (error: any) => {
     console.warn('Failed to set pin: ', error);
     const { intl } = this.props;
     const { failedAttempts } = this.state;
@@ -381,7 +381,7 @@ class PinCodeContainer extends Component {
     );
   };
 
-  _setPinCode = async (pin, isReset) => {
+  _setPinCode = async (pin: any, isReset: any) => {
     try {
       // check if reset routine is triggered by user, reroute code to reset hanlder
       if (isReset) {
@@ -423,9 +423,11 @@ class PinCodeContainer extends Component {
 
     return (
       <PinCodeView
-        ref={(ref) => (this.screenRef = ref)}
+        ref={(ref) => {
+          this.screenRef = ref;
+        }}
         informationText={informationText}
-        setPinCode={(pin) => this._setPinCode(pin, isReset)}
+        setPinCode={(pin: any) => this._setPinCode(pin, isReset)}
         showForgotButton={!isOldPinVerified}
         username={currentAccount.name}
         intl={intl}
@@ -437,7 +439,7 @@ class PinCodeContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   currentAccount: selectCurrentAccount(state),
   applicationPinCode: selectPin(state),
   encUnlockPin: selectEncUnlockPin(state),
@@ -445,7 +447,7 @@ const mapStateToProps = (state) => ({
   isBiometricEnabled: selectIsBiometricEnabled(state),
 });
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = (props: any) => {
   const navigation = useNavigation();
   return <PinCodeContainer {...props} navigation={navigation} />;
 };

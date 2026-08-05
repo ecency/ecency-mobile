@@ -85,7 +85,7 @@ interface Props {
 
 const PostOptionsModal = (
   { pageType, isWave, isVisibleTranslateModal, onDelete, onOpenThread }: Props,
-  ref,
+  ref: any,
 ) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -93,7 +93,7 @@ const PostOptionsModal = (
   const queryClient = useQueryClient();
   const addBookmarkMutation = useAddBookmarkMutation();
 
-  const bottomSheetModalRef = useRef<ActionSheet | null>(null);
+  const bottomSheetModalRef = useRef<any>(null);
   const alertTimer = useRef<any>(null);
   const shareTimer = useRef<any>(null);
   const actionSheetTimer = useRef<any>(null);
@@ -133,7 +133,7 @@ const PostOptionsModal = (
   );
 
   useImperativeHandle(ref, () => ({
-    show: (_content) => {
+    show: (_content: any) => {
       if (!_content) {
         Alert.alert(
           intl.formatMessage({ id: 'alert.something_wrong' }),
@@ -341,7 +341,7 @@ const PostOptionsModal = (
       }
     });
 
-    setOptions(_options);
+    setOptions(_options as any);
   };
 
   const _muteUser = () => {
@@ -618,7 +618,7 @@ const PostOptionsModal = (
         staleTime: 0,
       });
       const baseProfile = resolveProfileMergeBase(
-        parseProfileMetadata(freshAccount?.posting_json_metadata),
+        (parseProfileMetadata as any)(freshAccount?.posting_json_metadata),
         currentAccount.profile,
       );
 
@@ -806,7 +806,7 @@ const PostOptionsModal = (
 
   const _redirectToReply = () => {
     if (isLoggedIn) {
-      navigation.navigate({
+      (navigation as any).navigate({
         name: ROUTES.SCREENS.EDITOR,
         key: `editor_post_${content.permlink}`,
         params: {
@@ -817,7 +817,7 @@ const PostOptionsModal = (
     }
   };
 
-  const _redirectToPromote = (name, from, redeemType) => {
+  const _redirectToPromote = (name: any, from: any, redeemType: any) => {
     const params = {
       from,
       permlink: `${get(content, 'author')}/${get(content, 'permlink')}`,
@@ -825,7 +825,7 @@ const PostOptionsModal = (
     };
 
     if (isPinCodeOpen) {
-      navigation.navigate({
+      (navigation as any).navigate({
         name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo: name,
@@ -833,7 +833,7 @@ const PostOptionsModal = (
         },
       });
     } else if (isLoggedIn) {
-      navigation.navigate({
+      (navigation as any).navigate({
         name,
         params,
       });
@@ -841,7 +841,7 @@ const PostOptionsModal = (
   };
 
   // Component Functions
-  const _handleOnDropdownSelect = async (index) => {
+  const _handleOnDropdownSelect = async (index: any) => {
     const username = content.author;
     const isOwnProfile = !username || currentAccount?.name === username;
 
@@ -873,7 +873,7 @@ const PostOptionsModal = (
         // writeToClipboard returns false for empty text, and the summary can be
         // empty where the body is only an image or markup, so the success toast
         // has to follow the result rather than the attempt.
-        const _body = postBodySummary(content.markdownBody, null, Platform.OS);
+        const _body = postBodySummary(content.markdownBody, null as any, Platform.OS as any);
         const _copied = await writeToClipboard(_body);
         if (!_copied) {
           break;
@@ -953,7 +953,7 @@ const PostOptionsModal = (
         _muteCommunityPost({ unmute: true });
         break;
       case 'edit-history':
-        navigation.navigate({
+        (navigation as any).navigate({
           name: ROUTES.SCREENS.EDIT_HISTORY,
           params: {
             author: content?.author || '',
@@ -1012,7 +1012,7 @@ const PostOptionsModal = (
     <ActionSheet
       ref={bottomSheetModalRef}
       gestureEnabled={true}
-      hideUnderlay={true}
+      {...({ hideUnderlay: true } as any)}
       containerStyle={styles.sheetContent}
       indicatorStyle={styles.indicator}
     >

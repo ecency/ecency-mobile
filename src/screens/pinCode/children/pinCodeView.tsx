@@ -16,7 +16,7 @@ const PinCodeView = forwardRef(
       handleForgotButton,
       setPinCode,
       hideCloseButton,
-    },
+    }: any,
     ref,
   ) => {
     const [pin, setPin] = useState('');
@@ -25,7 +25,7 @@ const PinCodeView = forwardRef(
     const navigation = useNavigation();
 
     useImperativeHandle(ref, () => ({
-      setPinThroughBiometric(bioPin) {
+      setPinThroughBiometric(bioPin: any) {
         if (bioPin && bioPin.length === 4) {
           setLoading(true);
           setPin(bioPin);
@@ -46,7 +46,7 @@ const PinCodeView = forwardRef(
       }
     };
 
-    const _handleKeyboardOnPress = async (value) => {
+    const _handleKeyboardOnPress = async (value: any) => {
       try {
         if (loading) {
           return;

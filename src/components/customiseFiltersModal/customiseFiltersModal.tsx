@@ -31,7 +31,7 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
   const dispatch = useDispatch();
   const intl = useIntl();
 
-  const sheetModalRef = useRef<ActionSheet>();
+  const sheetModalRef = useRef<any>(null);
 
   // redux
   const savedFilters = useAppSelector((state) => {
@@ -118,7 +118,7 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
   const _renderContent = (
     <KeyboardAvoidingView
       style={styles.container}
-      keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
+      keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : undefined}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <Text style={styles.title}>{intl.formatMessage({ id: 'selection_list.title_filters' })}</Text>
@@ -140,7 +140,7 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
     <ActionSheet
       ref={sheetModalRef}
       containerStyle={styles.sheetContent}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+      {...({ indicatorColor: EStyleSheet.value('$primaryWhiteLightBackground') } as any)}
       onClose={_onClose}
     >
       {_renderContent}

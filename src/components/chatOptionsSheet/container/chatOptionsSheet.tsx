@@ -230,7 +230,7 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
   );
 
   const options = useMemo(() => {
-    const opts = [
+    const opts: any[] = [
       {
         key: 'reply',
         label: intl.formatMessage({ id: 'chats.reply', defaultMessage: 'REPLY' }),
@@ -293,7 +293,7 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
   return (
     <ActionSheet
       gestureEnabled={true}
-      hideUnderlay={true}
+      {...({ hideUnderlay: true } as any)}
       containerStyle={styles.sheetContent}
       indicatorStyle={styles.indicator}
     >

@@ -13,13 +13,13 @@ import { BasicHeader, UserListItem } from '../../../components';
 import styles from './followScreenStyles';
 import { SheetNames } from '../../../navigation/sheets';
 
-class FollowsScreen extends PureComponent {
+class FollowsScreen extends PureComponent<any, any> {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }
@@ -27,7 +27,7 @@ class FollowsScreen extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnUserPress = (username) => {
+  _handleOnUserPress = (username: any) => {
     SheetManager.show(SheetNames.QUICK_PROFILE, {
       payload: {
         username,
@@ -35,7 +35,7 @@ class FollowsScreen extends PureComponent {
     });
   };
 
-  _renderItem = ({ item, index }) => {
+  _renderItem = ({ item, index }: any) => {
     const username = item.name || item.following || item.follower;
 
     return (

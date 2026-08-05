@@ -12,7 +12,7 @@ const PostButtonView = () => {
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate({
+        (navigation as any).navigate({
           name: ROUTES.SCREENS.EDITOR,
           key: 'editor_post',
         })

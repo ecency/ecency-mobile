@@ -10,7 +10,7 @@ import { getTimeFromNow } from '../../utils/time';
 import { WalletLineItem } from '../basicUIElements';
 import { getHumanReadableKeyString } from '../../utils/strings';
 
-const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress }) => {
+const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress }: any) => {
   const intl = useIntl();
   const [collapsed, setCollapsed] = useState(true);
 

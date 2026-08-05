@@ -18,7 +18,6 @@ import {
   Keyboard,
   Platform,
   ActivityIndicator,
-  TextInput as RNTextInput,
 } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
@@ -78,13 +77,13 @@ export const QuickPostModalContent = forwardRef(
     const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
 
-    const uploadsGalleryModalRef = useRef(null);
+    const uploadsGalleryModalRef = useRef<any>(null);
     const speakUploaderRef = useRef<any>(null);
     const postsCachePrimer = postQueries.usePostsCachePrimer();
     const postSubmitter = usePostSubmitter();
 
-    const inputRef = useRef<RNTextInput | null>(null);
-    const pollWizardModalRef = useRef(null);
+    const inputRef = useRef<any>(null);
+    const pollWizardModalRef = useRef<any>(null);
     const commentValueRef = useRef('');
     const isSubmittingRef = useRef(false);
 
@@ -120,7 +119,9 @@ export const QuickPostModalContent = forwardRef(
             { id: 'quick_reply.summary_wave' },
             { host: intl.formatMessage({ id: 'quick_reply.host_waves' }) }, // TODO: update based on selected host
           )
-        : selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
+        : selectedPost &&
+          (((selectedPost as any).summary as any) ||
+            postBodySummary(selectedPost, 150, Platform.OS as any));
 
     const draftId = useMemo(
       () =>
@@ -215,7 +216,7 @@ export const QuickPostModalContent = forwardRef(
       if (community) {
         const _canCommentToCommunity = !(
           community.type_id === CommunityTypeId.COUNCIL &&
-          community.context?.role === CommunityRole.GUEST
+          (community as any).context?.role === CommunityRole.GUEST
         );
         setCanCommentToCommunity(_canCommentToCommunity);
       } else {
@@ -306,10 +307,10 @@ export const QuickPostModalContent = forwardRef(
 
         switch (mode) {
           case 'comment':
-            _isSuccess = await postSubmitter.submitReply(_body, selectedPost);
+            _isSuccess = (await postSubmitter.submitReply(_body, selectedPost)) as any;
             break;
           case 'wave':
-            _isSuccess = await postSubmitter.submitWave(_body, pollDraft, videoThumbUrl);
+            _isSuccess = (await postSubmitter.submitWave(_body, pollDraft, videoThumbUrl)) as any;
             break;
           default:
             throw new Error('mode needs implementing');
@@ -532,7 +533,7 @@ export const QuickPostModalContent = forwardRef(
       });
     };
 
-    const _onChangeText = (value) => {
+    const _onChangeText = (value: any) => {
       commentValueRef.current = value;
       // Triggers re-render for char counter; the TextInput is uncontrolled so this
       // does not race with native typing on Android.
@@ -585,7 +586,7 @@ export const QuickPostModalContent = forwardRef(
 
     const _renderAvatar = () => (
       <View style={styles.avatarAndNameContainer}>
-        <UserAvatar noAction username={currentAccount.name} />
+        <UserAvatar noAction username={currentAccount?.name} />
         <View style={styles.nameContainer}>
           <Text style={styles.name}>{`@${currentAccount.name}`}</Text>
         </View>
@@ -671,9 +672,10 @@ export const QuickPostModalContent = forwardRef(
 
           <UploadsGalleryModal
             ref={uploadsGalleryModalRef}
-            paramFiles={sharedMediaFiles.length > 0 ? sharedMediaFiles : undefined}
+            postBody=""
+            isEditing={false}
+            paramFiles={(sharedMediaFiles.length > 0 ? sharedMediaFiles : undefined) as any}
             isPreviewActive={false}
-            username={currentAccount.name}
             allowMultiple={false}
             hideToolbarExtension={() => {
               setMediaModalVisible(false);

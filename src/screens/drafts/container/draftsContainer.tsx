@@ -28,11 +28,11 @@ import { isTemplateDraft } from '../../../utils/draftTemplates';
 // Component
 import DraftsScreen from '../screen/draftsScreen';
 
-const DraftsContainer = ({ currentAccount, navigation, route }) => {
-  const { mutate: _cloneDraft, isLoading: isCloningDraft } = useAddDraftMutation();
-  const { mutate: deleteDraft, isLoading: isDeletingDraft } = useDraftDeleteMutation();
-  const { mutate: deleteSchedule, isLoading: isDeletingSchedule } = useScheduleDeleteMutation();
-  const { mutate: moveScheduleToDrafts, isLoading: isMovingToDrafts } =
+const DraftsContainer = ({ currentAccount, navigation, route }: any) => {
+  const { mutate: _cloneDraft, isPending: isCloningDraft } = useAddDraftMutation();
+  const { mutate: deleteDraft, isPending: isDeletingDraft } = useDraftDeleteMutation();
+  const { mutate: deleteSchedule, isPending: isDeletingSchedule } = useScheduleDeleteMutation();
+  const { mutate: moveScheduleToDrafts, isPending: isMovingToDrafts } =
     useMoveScheduleToDraftsMutation();
   const draftsBatchDeleteMutation = useDraftsBatchDeleteMutation();
   const schedulesBatchDeleteMutation = useSchedulesBatchDeleteMutation();
@@ -88,7 +88,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   };
 
   const _editDraft = (id: string) => {
-    navigation.navigate({
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.EDITOR,
       key: `editor_draft_${id}`,
       params: {
@@ -99,7 +99,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
 
   // opens editor hydrated from the template as a new post instead of editing the template
   const _applyTemplate = (template: any) => {
-    navigation.navigate({
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.EDITOR,
       key: `editor_template_${template._id}`,
       params: {
@@ -128,7 +128,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
     }
     return _tempArr;
   };
-  const _handleItemLongPress = (id, type) => {
+  const _handleItemLongPress = (id: any, type: any) => {
     if (type === DraftTypes.DRAFTS || type === DraftTypes.TEMPLATES) {
       // templates are drafts server-side, so they share the drafts batch delete flow
       setBatchSelectedDrafts(_getUpdatedArray(batchSelectedDrafts, id));
@@ -202,7 +202,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   currentAccount: selectCurrentAccount(state),
 });
 

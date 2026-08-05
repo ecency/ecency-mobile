@@ -54,9 +54,9 @@ export default class Modal extends PureComponent<any, any> {
         transparent={isTransparent}
         animationType={animationType}
         visible={isOpen}
-        onRequestClose={() => this._handleOnClose(this)}
-        onShow={() => this._handleOnOpen(this)}
-        onModalHide={() => console.log('hide')}
+        onRequestClose={() => this._handleOnClose()}
+        onShow={() => this._handleOnOpen()}
+        {...({ onModalHide: () => console.log('hide') } as any)}
         onModalDismiss={() => console.log('dismiss')}
         presentationStyle="formSheet"
         {...this.props}
@@ -73,7 +73,7 @@ export default class Modal extends PureComponent<any, any> {
             ]
           }
         >
-          <ModalHeader onClosePress={() => this._handleOnClose()} {...this.props} />
+          <ModalHeader onClosePress={() => this._handleOnClose()} {...(this.props as any)} />
           {children}
         </SafeAreaView>
       </ModalBox>

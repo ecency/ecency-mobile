@@ -54,18 +54,20 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
   const _isPollAuthor = author === currentAccount?.name;
 
   const pollsQuery = pollQueries.useGetPollQuery(author, permlink, metadata);
-  const votePollMutation = pollQueries.useVotePollMutation(pollsQuery.data);
+  const votePollMutation = pollQueries.useVotePollMutation(pollsQuery.data as any);
   const _accAgeLimit =
     pollsQuery.data?.filter_account_age_days || metadata.filters?.account_age || 0;
 
   const userVote = useMemo(() => {
     if (pollsQuery.data) {
-      return pollsQuery.data.poll_voters.find((voter) => voter.name === currentAccount?.name);
+      return (pollsQuery.data as any)?.poll_voters?.find(
+        (voter: any) => voter.name === currentAccount?.name,
+      );
     }
   }, [pollsQuery.data?.poll_voters, currentAccount?.name]);
 
   const _expired = useMemo(
-    () => new Date(metadata.end_time * 1000).getTime() < new Date().getTime(),
+    () => new Date(metadata.end_time! * 1000).getTime() < new Date().getTime(),
     [metadata],
   );
 
@@ -95,7 +97,8 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
     if (!pollsQuery.isLoading) {
       setMode(!!userVote || _expired ? PollModes.RESULT : PollModes.SELECT);
       setInterpretation(
-        pollsQuery.data?.preferred_interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES,
+        (pollsQuery.data?.preferred_interpretation as any) ||
+          PollPreferredInterpretation.NUMBER_OF_VOTES,
       );
     }
   }, [pollsQuery.data, userVote]);
@@ -141,7 +144,7 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
       .filter((item) => item.choices.includes(choiceNum))
       .map((voter) => ({ account: voter.name }));
 
-    navigation.navigate(ROUTES.MODALS.ACCOUNT_LIST, {
+    (navigation as any).navigate(ROUTES.MODALS.ACCOUNT_LIST, {
       title: intl.formatMessage({ id: 'post_poll.voters' }),
       users: _filteredVoters,
     });
@@ -214,9 +217,9 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
         loading={pollsQuery.isLoading}
         mode={mode}
         selection={selection}
-        hideVoters={_hideVoters}
+        hideVoters={_hideVoters as any}
         interpretationToken={interpretation === PollPreferredInterpretation.TOKENS}
-        token={pollsQuery.data?.token}
+        token={pollsQuery.data?.token as any}
         compactView={compactView}
         handleChoiceSelect={_handleChoiceSelect}
         handleVotersPress={_handleVotersPress}

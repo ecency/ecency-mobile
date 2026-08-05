@@ -80,7 +80,7 @@ const PostsTabContent = ({
 
   // side effects
   useEffect(() => {
-    _initContent(feedUsername);
+    _initContent(feedUsername as any);
   }, [tag, feedUsername]);
 
   useEffect(() => {
@@ -215,7 +215,7 @@ const PostsTabContent = ({
         ref={postsListRef}
         posts={feedQuery.data}
         onDeletePost={feedQuery.deletePost}
-        isFeedScreen={isFeedScreen}
+        isFeedScreen={!!isFeedScreen}
         promotedPosts={!skipPromotedPosts ? promotedPostsQuery.data || [] : []}
         onLoadPosts={(shouldReset) => {
           if (shouldReset) {

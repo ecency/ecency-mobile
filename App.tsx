@@ -6,7 +6,7 @@ const enableSessionReplay = __DEV__;
 const integrations = [Sentry.feedbackIntegration()];
 
 if (enableSessionReplay) {
-  integrations.unshift(Sentry.mobileReplayIntegration());
+  integrations.unshift((Sentry as any).mobileReplayIntegration());
 }
 
 // Defense-in-depth: redact Hive private keys (WIF) and obvious bearer/access

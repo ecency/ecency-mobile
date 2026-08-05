@@ -68,7 +68,7 @@ export const CrossPostModal = ({ payload }: SheetProps<SheetNames.CROSS_POST>) =
         <SelectCommunityModalContainer
           currentAccount={currentAccount}
           showSubscribedOnly={true}
-          onPressCommunity={(data) => {
+          onPressCommunity={(data: any) => {
             setSelectedCommunityId(data.name);
             setSelectedCommunityName(data.title);
             setIsCommunitiesListModalOpen(false);

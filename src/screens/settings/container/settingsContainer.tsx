@@ -114,7 +114,7 @@ import { SheetNames } from '../../../navigation/sheets';
  *
  */
 
-class SettingsContainer extends Component {
+class SettingsContainer extends Component<any, any> {
   // Monotonic sequence for support settings fetches/saves. Only the latest
   // operation may apply its response (or rollback) to state and cache, so an
   // older request that settles late can never overwrite newer state. The
@@ -137,11 +137,11 @@ class SettingsContainer extends Component {
   // server never accepted. Stale-but-successful saves still record their
   // response (the server did apply it), guarded by seq so an older response
   // cannot overwrite a newer acknowledgment or leak across account switches.
-  _confirmedSupportSettings = null;
+  _confirmedSupportSettings: any = null;
 
   _confirmedSupportSeq = 0;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       isNotificationMenuOpen: props.isNotificationSettingsOpen,
@@ -181,7 +181,7 @@ class SettingsContainer extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: any) {
     const { username, isLoggedIn } = this.props as any;
     // account switched while the screen stayed mounted: drop the previous
     // account's values (hides the controls), invalidate in-flight support
@@ -237,7 +237,7 @@ class SettingsContainer extends Component {
   };
 
   // Component Functions
-  _handleDropdownSelected = async (action, actionType) => {
+  _handleDropdownSelected = async (action: any, actionType: any) => {
     const { dispatch, selectedLanguage, intl } = this.props as any;
     switch (actionType) {
       case 'currency':
@@ -310,7 +310,7 @@ class SettingsContainer extends Component {
     }
   };
 
-  _updateSupportSettings = async (partial) => {
+  _updateSupportSettings = async (partial: any) => {
     const { dispatch, intl, username, code, queryClient } = this.props as any;
     const { supportSettings } = this.state as any;
 
@@ -381,7 +381,7 @@ class SettingsContainer extends Component {
     return this._supportSaveChain;
   };
 
-  _changeApi = async (action) => {
+  _changeApi = async (action: any) => {
     const { dispatch, selectedApi, intl, getServersQuery } = this.props as any;
     const serverList = getServersQuery.data;
     const server = serverList[action];
@@ -426,7 +426,7 @@ class SettingsContainer extends Component {
     if (!isError) {
       const localTime = new Date(new Date().toISOString().split('.')[0]);
       const serverTime = new Date(serverResp.time);
-      const isAlive = localTime - serverTime < 15000;
+      const isAlive = (localTime as any) - (serverTime as any) < 15000;
 
       if (!isAlive) {
         alertMessage = 'settings.server_fail';
@@ -444,7 +444,7 @@ class SettingsContainer extends Component {
       dispatch(setApi(server));
       checkClient();
       // Sync SDK's internal dhive client with the selected server
-      ConfigManager.setHiveNodes([server, ...serverList.filter((s) => s !== server)]);
+      ConfigManager.setHiveNodes([server, ...serverList.filter((s: any) => s !== server)]);
     }
 
     this.setState({
@@ -459,14 +459,14 @@ class SettingsContainer extends Component {
     );
   };
 
-  _currencyChange = (action) => {
+  _currencyChange = (action: any) => {
     const { dispatch } = this.props;
 
     dispatch(setCurrency(CURRENCY_VALUE[action]));
     setCurrency2DB(CURRENCY_VALUE[action]);
   };
 
-  _handleToggleChanged = (action, actionType) => {
+  _handleToggleChanged = (action: any, actionType: any) => {
     const { dispatch, isHideImages, navigation } = this.props;
 
     switch (actionType) {
@@ -531,7 +531,7 @@ class SettingsContainer extends Component {
     }
   };
 
-  _handleNotification = async (action, actionType) => {
+  _handleNotification = async (action: any, actionType: any) => {
     const { dispatch, notificationDetails } = this.props;
     const notifyTypesConst = {
       vote: 1,
@@ -548,7 +548,7 @@ class SettingsContainer extends Component {
       weeklyEarnings: 21,
       scheduledPublished: 22,
     };
-    const notifyTypes = [];
+    const notifyTypes: any[] = [];
 
     dispatch(
       changeNotificationSettings({
@@ -567,10 +567,10 @@ class SettingsContainer extends Component {
 
       if (notificationType === actionType.replace('notification.', '')) {
         if (action) {
-          notifyTypes.push(notifyTypesConst[notificationType]);
+          notifyTypes.push((notifyTypesConst as any)[notificationType]);
         }
       } else if (notificationDetails[item]) {
-        notifyTypes.push(notifyTypesConst[notificationType]);
+        notifyTypes.push((notifyTypesConst as any)[notificationType]);
       }
     });
     notifyTypes.sort();
@@ -582,7 +582,7 @@ class SettingsContainer extends Component {
     }
   };
 
-  _handleButtonPress = (actionType) => {
+  _handleButtonPress = (actionType: any) => {
     const { navigation, isPinCodeOpen, intl } = this.props as any;
     switch (actionType) {
       case 'reset_pin':
@@ -615,7 +615,7 @@ class SettingsContainer extends Component {
                   onPress: () => {
                     console.log('cancel pressed');
                   },
-                  type: 'destructive',
+                  type: 'destructive' as any,
                 },
                 {
                   text: intl.formatMessage({ id: 'settings.set_pin' }),
@@ -646,7 +646,7 @@ class SettingsContainer extends Component {
     }
   };
 
-  _handleOnChange = (action, type, actionType = null) => {
+  _handleOnChange = (action: any, type: any, actionType = null) => {
     switch (type) {
       case 'dropdown':
         this._handleDropdownSelected(action, actionType);
@@ -661,12 +661,12 @@ class SettingsContainer extends Component {
     }
   };
 
-  _setPushToken = async (notifyTypes, enabled = true) => {
+  _setPushToken = async (notifyTypes: any, enabled = true) => {
     const { isLoggedIn, otherAccounts = [], pinCode } = this.props;
 
     if (isLoggedIn) {
       await Promise.all(
-        otherAccounts.map(async (item) => {
+        otherAccounts.map(async (item: any) => {
           try {
             const token = await getMessaging().getToken();
 
@@ -802,7 +802,7 @@ class SettingsContainer extends Component {
         setAuthStatus({ isLoggedIn: false });
         setExistUser(false);
         if (otherAccounts.length > 0) {
-          otherAccounts.map((item) => dispatch(removeOtherAccount(item.username)));
+          otherAccounts.map((item: any) => dispatch(removeOtherAccount(item.username)));
         }
         // Drop the shared Mattermost PAT and any cached/in-flight bootstrap
         // so a request already on the wire can't resurrect the session for
@@ -835,7 +835,7 @@ class SettingsContainer extends Component {
     }, 500);
   };
 
-  _enableDefaultUnlockPin = (isEnabled) => {
+  _enableDefaultUnlockPin = (isEnabled: any) => {
     const { dispatch, encUnlockPin } = this.props;
 
     dispatch(isPinCodeOpen(isEnabled));
@@ -847,7 +847,7 @@ class SettingsContainer extends Component {
         return;
       }
 
-      const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+      const encryptedPin = encryptKey(Config.DEFAULT_PIN!, Config.PIN_KEY!);
       dispatch(setEncryptedUnlockPin(encryptedPin));
     }
   };
@@ -873,7 +873,7 @@ class SettingsContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: any) => {
   const notificationDetails = selectNotificationDetails(state);
   return {
     isDarkTheme: selectIsDarkTheme(state),
@@ -912,7 +912,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapHooksToProps = (props) => {
+const mapHooksToProps = (props: any) => {
   const navigation = useNavigation();
   const getServersQuery = useGetServersQuery();
   const queryClient = useQueryClient();

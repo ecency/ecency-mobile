@@ -26,7 +26,7 @@ interface CommentBodyProps {
   commentDepth: number;
   hideContent: boolean;
   handleOnUserPress: (username?: any) => void;
-  handleOnPostPress: (permlink?: any, author?: any) => void;
+  handleOnPostPress?: (permlink?: any, author?: any) => void;
   handleVideoPress: () => void;
   handleYoutubePress: () => void;
   handleImagePress: () => void;

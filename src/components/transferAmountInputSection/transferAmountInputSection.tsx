@@ -71,7 +71,7 @@ const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
 }) => {
   const intl = useIntl();
 
-  const dpRef = useRef();
+  const dpRef = useRef<any>(null);
   const inputRefs = useRef<Record<string, any>>({});
 
   const _getStateValue = (state: string) =>
@@ -85,14 +85,14 @@ const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
       ? executions
       : '';
 
-  const _handleOnChange = (state, val) => {
+  const _handleOnChange = (state: any, val: any) => {
     let newValue = val.toString();
 
     if (newValue.includes(',')) {
       newValue = val.replace(',', '.');
     }
     if (state === 'amount') {
-      if (parseFloat(Number(newValue)) <= parseFloat(balance)) {
+      if (parseFloat(Number(newValue) as any) <= parseFloat(balance as any)) {
         setAmount(newValue);
       } else {
         // Reject over-balance amount: snap field back to the last accepted value.
@@ -101,7 +101,7 @@ const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
         inputRefs.current[state]?.setNativeProps({ text: amount || '' });
       }
     } else if (state === 'destination') {
-      getAccountsWithUsername(val).then((res) => {
+      getAccountsWithUsername(val).then((res: any) => {
         const isValid = res.includes(val);
 
         setIsUsernameValid(isValid);
@@ -114,12 +114,12 @@ const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
     }
   };
 
-  const _renderInput = (placeholder, state, keyboardType, isTextArea) => (
+  const _renderInput = (placeholder: any, state: any, keyboardType: any, isTextArea: any) => (
     <TextInput
       innerRef={(r: any) => {
         inputRefs.current[state] = r;
       }}
-      style={[isTextArea ? styles.textarea : styles.input]}
+      style={[isTextArea ? styles.textarea : styles.input] as any}
       onChangeText={(newVal) => _handleOnChange(state, newVal)}
       value={_getStateValue(state)}
       placeholder={placeholder}
@@ -132,7 +132,7 @@ const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
   );
 
   const [recurrenceIndex, setRecurrenceIndex] = useState(
-    RECURRENCE_TYPES.findIndex((r) => r.hours === recurrence),
+    RECURRENCE_TYPES.findIndex((r) => r.hours === (recurrence as any)),
   );
 
   useEffect(() => {
@@ -141,7 +141,7 @@ const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
     setRecurrenceIndex(newSelectedIndex);
 
     if (newSelectedIndex > -1) {
-      setRecurrence(RECURRENCE_TYPES[newSelectedIndex].hours);
+      setRecurrence(RECURRENCE_TYPES[newSelectedIndex].hours as any);
     }
 
     if (dpRef?.current) {
@@ -152,7 +152,7 @@ const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
   const _handleRecurrenceChange = useCallback((index: number) => {
     setRecurrenceIndex(index);
 
-    setRecurrence(RECURRENCE_TYPES[index].hours);
+    setRecurrence(RECURRENCE_TYPES[index].hours as any);
   }, []);
 
   const _onDelete = () => {
@@ -161,8 +161,8 @@ const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
     }
   };
 
-  const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
-  const _renderCenterDescription = (text, extraStyles = {}) => (
+  const _renderDescription = (text: any) => <Text style={styles.description}>{text}</Text>;
+  const _renderCenterDescription = (text: any, extraStyles = {}) => (
     <Text style={[styles.centerDescription, extraStyles]}>{text}</Text>
   );
 
@@ -224,7 +224,7 @@ const TransferAmountInputSection: React.FC<TransferAmountInputSectionProps> = ({
                 options={RECURRENCE_TYPES.map((k) => intl.formatMessage({ id: k.intlId }))}
                 defaultText={intl.formatMessage({ id: 'transfer.recurrence_placeholder' })}
                 selectedOptionIndex={recurrenceIndex}
-                onSelect={(index) => _handleRecurrenceChange(index)}
+                onSelect={(index: any) => _handleRecurrenceChange(index)}
                 dropdownRef={dpRef}
               />
             )}

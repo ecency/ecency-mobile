@@ -3,15 +3,15 @@ import ActionSheet from 'react-native-actionsheet';
 
 interface Props {
   options: string[];
-  title: string;
+  title?: string;
   cancelButtonIndex: number;
   destructiveButtonIndex?: number;
   onPress: (index: number) => void;
 }
 
 export const OptionsModal = forwardRef(({ onPress, ...props }: Props, ref: any) => {
-  const actionSheetRef = useRef<any>();
-  const callbackRef = useRef<any>();
+  const actionSheetRef = useRef<any>(null);
+  const callbackRef = useRef<any>(null);
 
   useEffect(() => {
     callbackRef.current = onPress;

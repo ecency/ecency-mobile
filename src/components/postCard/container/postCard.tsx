@@ -23,7 +23,7 @@ export enum PostCardActionIds {
   TIP = 'TIP',
 }
 
-const PostCard = ({ intl, content, nsfw, pageType, handleCardInteraction }) => {
+const PostCard = ({ intl, content, nsfw, pageType, handleCardInteraction }: any) => {
   // Inject this card's `content` into the (stable) parent handler so children
   // receive a referentially-stable callback. The list passes a stable
   // handleCardInteraction; wrapping it here (instead of a fresh inline arrow in

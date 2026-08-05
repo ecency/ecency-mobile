@@ -39,8 +39,8 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
   // refs
   const appState = useRef(AppState.currentState);
-  const delegationsModalRef = useRef(null);
-  const recurrentTransfersModalRef = useRef(null);
+  const delegationsModalRef = useRef<any>(null);
+  const recurrentTransfersModalRef = useRef<any>(null);
 
   // state
   const [showChart, setShowChart] = useState(false);

@@ -12,13 +12,13 @@ import { updateSubscribedCommunitiesCache } from '../../../../../../redux/action
 import { statusMessage } from '../../../../../../redux/constants/communitiesConstants';
 import { selectIsLoggedIn, selectCurrentAccount } from '../../../../../../redux/selectors';
 
-const CommunitiesResultsContainer = ({ children, searchValue }) => {
+const CommunitiesResultsContainer = ({ children, searchValue }: any) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const queryClient = useQueryClient();
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
   const [noResult, setNoResult] = useState(false);
   // See the people tab: an empty result and a failed lookup are different
   // answers and used to be reported with the same one.
@@ -28,7 +28,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const handleCommunitySubscription = useCommunitySubscriptionAction();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
+  const [selectedCommunityItem, setSelectedCommunityItem] = useState<any>(null);
   const subscribingCommunitiesInSearchResultsScreen = useAppSelector(
     (state) => state.communities.subscribingCommunitiesInSearchResultsScreen,
   );
@@ -75,7 +75,9 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
             const fromCache = itemExistInCache?.data?.[4];
             const fromSubscriptions =
               subscribedCommunities.data && subscribedCommunities.data.length
-                ? subscribedCommunities.data.findIndex((item) => item[0] === community.name) !== -1
+                ? subscribedCommunities.data.findIndex(
+                    (item: any) => item[0] === community.name,
+                  ) !== -1
                 : undefined;
             const isSubscribed = fromCache ?? fromSubscriptions ?? false;
 
@@ -150,8 +152,8 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   }, [subscribingCommunitiesInSearchResultsScreen]);
 
   // Component Functions
-  const _handleOnPress = (name) => {
-    navigation.navigate({
+  const _handleOnPress = (name: any) => {
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.COMMUNITY,
       params: {
         tag: name,
@@ -159,7 +161,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
     });
   };
 
-  const _handleSubscribeButtonPress = (_data, screen) => {
+  const _handleSubscribeButtonPress = (_data: any, screen: any) => {
     setSelectedCommunityItem(_data); // set selected item to handle its cache
 
     const successToastText = intl.formatMessage({

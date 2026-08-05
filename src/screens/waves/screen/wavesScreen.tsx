@@ -186,15 +186,15 @@ const WavesFeed = ({
 
 const WavesScreen = () => {
   const postOptionsModalRef = useRef<any>(null);
-  const forYouListRef = useRef<FlatList>(null);
-  const followingListRef = useRef<FlatList>(null);
-  const tagListRef = useRef<FlatList>(null);
+  const forYouListRef = useRef<any>(null);
+  const followingListRef = useRef<any>(null);
+  const tagListRef = useRef<any>(null);
   // Lazily-created list refs for each pinned tag or source tab, keyed by route key.
   const dynamicTabListRefs = useRef<Record<string, React.RefObject<FlatList>>>({});
 
   const _getDynamicTabRef = (key: string) => {
     if (!dynamicTabListRefs.current[key]) {
-      dynamicTabListRefs.current[key] = React.createRef<FlatList>();
+      dynamicTabListRefs.current[key] = React.createRef<FlatList>() as any;
     }
     return dynamicTabListRefs.current[key];
   };
@@ -259,7 +259,7 @@ const WavesScreen = () => {
   // Query options for each pinned tag tab, keyed by route key ("tag:<t>").
   const tagTabQueryOptions = useMemo(() => {
     const map: Record<string, ReturnType<typeof getWavesFeedQueryOptions>> = {};
-    waveTags.forEach((tag) => {
+    waveTags.forEach((tag: any) => {
       map[`tag:${tag}`] = getWavesFeedQueryOptions({ tag, observer });
     });
     return map;
@@ -268,7 +268,7 @@ const WavesScreen = () => {
   // ("container:<host>"). Filters the same combined feed to one container.
   const containerTabQueryOptions = useMemo(() => {
     const map: Record<string, ReturnType<typeof getWavesFeedQueryOptions>> = {};
-    waveContainers.forEach((host) => {
+    waveContainers.forEach((host: any) => {
       // Shorts isn't a single container: it's the cross-container reels feed,
       // rendered by WavesReelsView with its own SDK query, so skip it here.
       if (host === SHORTS_SOURCE) {
@@ -292,8 +292,11 @@ const WavesScreen = () => {
     () => [
       { key: 'for-you', title: intl.formatMessage({ id: 'waves.for_you' }) },
       { key: 'following', title: intl.formatMessage({ id: 'waves.following' }) },
-      ...waveContainers.map((host) => ({ key: `container:${host}`, title: waveSourceLabel(host) })),
-      ...waveTags.map((tag) => ({ key: `tag:${tag}`, title: `#${tag}` })),
+      ...waveContainers.map((host: any) => ({
+        key: `container:${host}`,
+        title: waveSourceLabel(host),
+      })),
+      ...waveTags.map((tag: any) => ({ key: `tag:${tag}`, title: `#${tag}` })),
     ],
     [intl, waveContainers, waveTags],
   );
@@ -543,7 +546,7 @@ const WavesScreen = () => {
             lazy={true}
             swipeEnabled={isLoggedIn}
             commonOptions={{
-              label: renderPillTabLabel,
+              label: renderPillTabLabel as any,
             }}
           />
         ) : null}

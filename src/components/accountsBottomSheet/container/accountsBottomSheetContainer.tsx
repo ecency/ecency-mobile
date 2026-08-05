@@ -17,7 +17,7 @@ import {
 import { getUserDataWithUsername } from '../../../storage/storage';
 
 import { logout } from '../../../redux/actions/uiAction';
-import AccountsBottomSheet, { AccountsBottomSheetRef } from '../view/accountsBottomSheetView';
+import AccountsBottomSheet from '../view/accountsBottomSheetView';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -44,7 +44,7 @@ const AccountsBottomSheetContainer = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
-  const accountsBottomSheetViewRef = useRef<AccountsBottomSheetRef | null>(null);
+  const accountsBottomSheetViewRef = useRef<any>(null);
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const accounts = useAppSelector(selectOtherAccounts);
@@ -74,7 +74,7 @@ const AccountsBottomSheetContainer = () => {
     }
   };
 
-  const _switchAccount = async (account = {}) => {
+  const _switchAccount = async (account: any = {}) => {
     if (currentAccount && account && account.username !== currentAccount.name) {
       _handleSwitch(account);
     }
@@ -122,15 +122,15 @@ const AccountsBottomSheetContainer = () => {
     }
   };
 
-  const _handleSwitch = async (switchingAccount = {}) => {
+  const _handleSwitch = async (switchingAccount: any = {}) => {
     try {
       setIsSwitching(true);
       const accountData = accounts.filter(
-        (account) => account.username === switchingAccount.username,
+        (account: any) => account.username === switchingAccount.username,
       )[0];
 
       // fetch upto data account data nd update current account;
-      let _currentAccount = await switchAccount(accountData.username);
+      let _currentAccount: any = await switchAccount(accountData.username);
       let realmData = await getUserDataWithUsername(accountData.username);
 
       if (!realmData[0]) {
@@ -187,13 +187,13 @@ const AccountsBottomSheetContainer = () => {
 
       dispatch(updateCurrentAccount(_currentAccount));
       dispatch(clearSubscribedCommunitiesCache());
-      dispatch(fetchSubscribedCommunities(_currentAccount.name));
+      dispatch(fetchSubscribedCommunities(_currentAccount.name) as any);
     } catch (error) {
       Alert.alert(
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        error.message,
+        (error as any).message,
         [
           { text: intl.formatMessage({ id: 'side_menu.logout' }), onPress: () => _logout() },
           { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },

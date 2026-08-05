@@ -1,13 +1,11 @@
 import React, { useRef } from 'react';
 import { useWindowDimensions, View } from 'react-native';
-import { TabBar, TabBarProps, Route } from 'react-native-tab-view';
+import { TabBar, TabBarProps } from 'react-native-tab-view';
 import { IconButton } from '../index';
-import WavesTagPickerModal, {
-  WavesTagPickerModalRef,
-} from '../wavesTagPickerModal/wavesTagPickerModal';
+import WavesTagPickerModal from '../wavesTagPickerModal/wavesTagPickerModal';
 import styles from './wavesTabBarStyles';
 
-interface Props extends TabBarProps<Route> {
+interface Props extends Partial<Omit<TabBarProps<any>, 'onTabPress'>> {
   // Called with the pressed route key ("for-you" / "following" / "tag:<t>").
   onTabPress: (key: string) => void;
 }
@@ -28,10 +26,10 @@ interface Props extends TabBarProps<Route> {
 const ADD_BUTTON_WIDTH = 44;
 
 const WavesTabBar = ({ onTabPress, ...props }: Props) => {
-  const pickerRef = useRef<WavesTagPickerModalRef>(null);
+  const pickerRef = useRef<any>(null);
   const layout = useWindowDimensions();
 
-  const tabCount = props.navigationState.routes.length;
+  const tabCount = props.navigationState!.routes.length;
   const tabStyle =
     tabCount <= 2
       ? { ...styles.tabStyle, width: (layout.width - ADD_BUTTON_WIDTH) / tabCount }
@@ -40,6 +38,7 @@ const WavesTabBar = ({ onTabPress, ...props }: Props) => {
   return (
     <View style={styles.container}>
       <TabBar
+        {...({} as any)}
         {...props}
         style={styles.tabBarStyle}
         indicatorStyle={styles.indicatorStyle}

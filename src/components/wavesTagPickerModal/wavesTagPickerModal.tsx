@@ -38,7 +38,7 @@ const normalizeTag = (raw: string): string =>
 const WavesTagPickerModal = (_props: unknown, ref: Ref<WavesTagPickerModalRef>) => {
   const dispatch = useDispatch();
   const intl = useIntl();
-  const sheetModalRef = useRef<ActionSheet>(null);
+  const sheetModalRef = useRef<any>(null);
 
   const [visible, setVisible] = useState(false);
   const [input, setInput] = useState('');
@@ -70,14 +70,14 @@ const WavesTagPickerModal = (_props: unknown, ref: Ref<WavesTagPickerModalRef>) 
     _persist([...waveTags, tag]);
   };
 
-  const _removeTag = (tag: string) => _persist(waveTags.filter((t) => t !== tag));
+  const _removeTag = (tag: string) => _persist(waveTags.filter((t: any) => t !== tag));
 
   // Sources are a fixed set, so each chip toggles its own container on/off.
   const _toggleContainer = (host: string) =>
     dispatch(
       setWaveContainers(
         waveContainers.includes(host)
-          ? waveContainers.filter((h) => h !== host)
+          ? waveContainers.filter((h: any) => h !== host)
           : [...waveContainers, host],
       ),
     );
@@ -99,7 +99,7 @@ const WavesTagPickerModal = (_props: unknown, ref: Ref<WavesTagPickerModalRef>) 
       ref={sheetModalRef}
       gestureEnabled={true}
       containerStyle={styles.sheetContent}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+      {...({ indicatorColor: EStyleSheet.value('$primaryWhiteLightBackground') } as any)}
       onClose={() => setVisible(false)}
     >
       <KeyboardAvoidingView
@@ -167,7 +167,7 @@ const WavesTagPickerModal = (_props: unknown, ref: Ref<WavesTagPickerModalRef>) 
                 {intl.formatMessage({ id: 'waves.your_feeds' })}
               </Text>
               <View style={styles.chipWrap}>
-                {waveTags.map((tag) => (
+                {waveTags.map((tag: any) => (
                   <TouchableOpacity
                     key={tag}
                     style={[styles.chip, styles.chipActive]}

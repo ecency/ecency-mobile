@@ -25,7 +25,7 @@ import DEFAULT_IMAGE from '../../../assets/avatar_default.png';
 interface UserAvatarProps {
   username: string;
   avatarUrl?: string;
-  size?: 'xl' | 'xxl';
+  size?: string;
   style?: ViewStyle;
   disableSize?: boolean;
   noAction?: boolean;
@@ -59,7 +59,7 @@ const UserAvatarView = ({
       }
     : DEFAULT_IMAGE;
 
-  let _size: number;
+  let _size = 32;
   if (!disableSize) {
     _size = 32;
     if (size === 'xl') {

@@ -53,7 +53,7 @@ interface PostHtmlRendererProps {
   handleOnUserPress: (username: string) => void;
   handleTagPress: (tag: string, filter?: string) => void;
   handleVideoPress: (videoUrl: string, thumbnailUrl?: string) => void;
-  handleYoutubePress: (videoId: string, startTime: number) => void;
+  handleYoutubePress: (videoId?: any, startTime?: any) => void;
   handleParaSelection: (selectedText: string) => void;
   handleOnContentPress?: () => void;
 }
@@ -276,7 +276,7 @@ export const PostHtmlRenderer = memo(
 
       // return divided width based on number td tags
       if (tnode.parent.tagName === 'td' || tnode.parent.tagName === 'th') {
-        const cols = tnode.parent.parent.children.length;
+        const cols = tnode.parent!.parent!.children.length;
         return contentWidth / cols;
       }
 
@@ -314,11 +314,11 @@ export const PostHtmlRenderer = memo(
         console.log('table detected');
 
         element.children.forEach((child) => {
-          if (child.name === 'tr') {
+          if ((child as any).name === 'tr') {
             let headerIndex = -1;
             let colIndex = -1;
 
-            child.children.forEach((gChild, index) => {
+            (child as any).children.forEach((gChild: any, index: any) => {
               // check if element of row in table is not a column while it's other siblings are columns
               if (gChild.type === 'tag') {
                 if (gChild.name !== 'td' && headerIndex === -1) {
@@ -353,7 +353,7 @@ export const PostHtmlRenderer = memo(
           // parse link data and handle on link press
           const linkData = parseLinkData(tnode);
           console.log('Link Data:', linkData);
-          _handleOnLinkPress(linkData);
+          _handleOnLinkPress(linkData as any);
         };
 
         // process video link
@@ -415,7 +415,7 @@ export const PostHtmlRenderer = memo(
             <AutoHeightImage
               contentWidth={maxImgWidth}
               imgUrl={tnode.children[0].attributes.src}
-              metadata={metadata}
+              {...({ metadata } as any)}
               isAnchored={false}
               activeOpacity={0.8}
               onPress={_onPress}
@@ -430,8 +430,8 @@ export const PostHtmlRenderer = memo(
 
           return (
             <HiveLinkPreview
-              author={parsedTnode.author}
-              permlink={parsedTnode.permlink}
+              author={(parsedTnode as any).author}
+              permlink={(parsedTnode as any).permlink}
               linkMeta={linkMeta}
               onPress={_onPress}
               contentWidth={contentWidth}
@@ -449,7 +449,7 @@ export const PostHtmlRenderer = memo(
                 <UserAvatar
                   username={parsedTnode.author || ''}
                   size="small"
-                  metadata={metadata}
+                  {...({ metadata } as any)}
                   noAction
                 />
                 <Text style={usernameStyle}>@{tnode.attributes['data-author']}</Text>
@@ -494,7 +494,7 @@ export const PostHtmlRenderer = memo(
             <AutoHeightImage
               contentWidth={halfWidth}
               imgUrl={imgUrl}
-              metadata={metadata}
+              {...({ metadata } as any)}
               isAnchored={false}
               aspectRatio={4 / 3}
               lockWidth={true}
@@ -512,7 +512,7 @@ export const PostHtmlRenderer = memo(
             <AutoHeightImage
               contentWidth={maxImgWidth}
               imgUrl={imgUrl}
-              metadata={metadata}
+              {...({ metadata } as any)}
               isAnchored={isAnchored}
               onPress={_onPress}
               enableViewabilityTracker={enableViewabilityTracker}
@@ -538,7 +538,11 @@ export const PostHtmlRenderer = memo(
         const handleLongPress = () => {
           const paragraphText = domNodeToHTMLString(tnode.domNode);
           if (handleParaSelection && !!paragraphText) {
-            const rawText = postBodySummary(paragraphText, paragraphText.length, Platform.OS);
+            const rawText = postBodySummary(
+              paragraphText,
+              paragraphText.length,
+              Platform.OS as any,
+            );
             handleParaSelection(rawText);
           }
         };
@@ -593,7 +597,7 @@ export const PostHtmlRenderer = memo(
 
     // iframe renderer for rendering iframes in body
     const _iframeRenderer = useCallback(
-      function IframeRenderer(props) {
+      function IframeRenderer(props: any) {
         const iframeProps = useHtmlIframeProps(props);
         const iframeUri = withThreeSpeakMobileLayout(iframeProps.source.uri);
         const videoThumbProps = _getVideoThumbProps(iframeUri);
@@ -749,9 +753,9 @@ export const PostHtmlRenderer = memo(
           contentWidth={contentWidth}
           baseStyle={baseStyle}
           classesStyles={classesStyles}
-          tagsStyles={tagsStyles}
+          tagsStyles={tagsStyles as any}
           domVisitors={domVisitors}
-          renderers={renderers}
+          renderers={renderers as any}
           onHTMLLoaded={onLoaded && onLoaded}
           defaultTextProps={{
             selectable: false,

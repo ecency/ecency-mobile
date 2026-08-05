@@ -65,7 +65,7 @@ const SettingsScreen = ({
   // null while support settings have not loaded (or failed to load); the
   // whole card stays hidden so stale zeros can never be written back
   supportSettings = null,
-}) => {
+}: any) => {
   const dmPrivacyOptions = [
     intl.formatMessage({ id: 'settings.dm-privacy.allow-all' }),
     intl.formatMessage({ id: 'settings.dm-privacy.followers-only' }),
@@ -142,7 +142,7 @@ const SettingsScreen = ({
             })}
             type="dropdown"
             actionType="api"
-            options={serverList.map((serverName) => groomingServerName(serverName))}
+            options={serverList.map((serverName: any) => groomingServerName(serverName))}
             selectedOptionIndex={serverList.indexOf(selectedApi)}
             defaultText={
               groomingServerName(selectedApi) ||

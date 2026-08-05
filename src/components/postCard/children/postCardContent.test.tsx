@@ -64,9 +64,9 @@ const textOnly = { author: 'a', permlink: 'p2', title: 'Text only', summary: 's'
 const nsfwPost = { ...withImage, permlink: 'p3', nsfw: true };
 
 const imageCount = (tree: TestRenderer.ReactTestRenderer) =>
-  tree.root.findAllByType('Image').length;
+  tree.root.findAllByType('Image' as any).length;
 const placeholderCount = (tree: TestRenderer.ReactTestRenderer) =>
-  tree.root.findAllByType('Icon').length;
+  tree.root.findAllByType('Icon' as any).length;
 
 describe('PostCardContent — "Show Images" gating', () => {
   beforeEach(() => {

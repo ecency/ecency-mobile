@@ -6,7 +6,7 @@ import styles from './quickPostModal.styles';
 import { SheetNames } from '../../navigation/sheets';
 
 const QuickPostModal = ({ payload }: SheetProps<SheetNames.QUICK_POST>) => {
-  const modalContentRef = useRef(null);
+  const modalContentRef = useRef<any>(null);
   const { mode, parentPost, files } = payload || {};
 
   const _onClose = () => {

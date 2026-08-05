@@ -127,8 +127,11 @@ const WavesReelVideo = ({ video, active }: Props) => {
         repeat
         resizeMode={resizeMode}
         poster={video.thumbnail_url ?? undefined}
-        onLoad={(data: { naturalSize?: { orientation?: string } }) =>
-          setResizeMode(data?.naturalSize?.orientation === 'portrait' ? 'cover' : 'contain')
+        onLoad={
+          ((data: { naturalSize?: { orientation?: string } }) =>
+            setResizeMode(
+              data?.naturalSize?.orientation === 'portrait' ? 'cover' : 'contain',
+            )) as any
         }
         onError={() => setFailed(true)}
       />

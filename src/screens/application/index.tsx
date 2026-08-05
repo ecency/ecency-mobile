@@ -12,7 +12,7 @@ const Application = () => {
 
   return (
     <ApplicationContainer>
-      {({ isRenderRequire, foregroundNotificationData }) => {
+      {({ isRenderRequire, foregroundNotificationData }: any) => {
         return (
           <ErrorBoundary>
             {isRenderRequire && (

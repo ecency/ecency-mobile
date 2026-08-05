@@ -40,7 +40,7 @@ const ChatChannelOptionsSheet = ({ payload }: ChatChannelOptionsSheetProps) => {
   }, []);
 
   const _renderOptionItem = useCallback(
-    ({ item }) => (
+    ({ item }: any) => (
       <TouchableHighlight
         underlayColor={EStyleSheet.value('$primaryLightBackground')}
         onPress={() => _handleAction(item.onPress)}
@@ -98,7 +98,7 @@ const ChatChannelOptionsSheet = ({ payload }: ChatChannelOptionsSheetProps) => {
   return (
     <ActionSheet
       gestureEnabled={true}
-      hideUnderlay={true}
+      {...({ hideUnderlay: true } as any)}
       containerStyle={styles.sheetContent}
       indicatorStyle={styles.indicator}
     >

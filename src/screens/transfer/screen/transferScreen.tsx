@@ -131,7 +131,7 @@ const TransferView = ({
   const hasInitializedRef = useRef(false);
   // Tracks the recipient whose existing on-chain schedule we last autofilled, so a
   // different recipient without a schedule can be reset without wiping manual input.
-  const lastHydratedRecipientRef = useRef<string | null>(null);
+  const lastHydratedRecipientRef = useRef<any>(null);
 
   const oneTimeTransferType =
     transferType === TransferTypes.RECURRENT_TRANSFER ? TransferTypes.TRANSFER : transferType;
@@ -380,7 +380,7 @@ const TransferView = ({
   }, [_handleDestinationChange]);
 
   const _renderSuggestionItem = useCallback(
-    ({ item: username }) => (
+    ({ item: username }: any) => (
       <TouchableOpacity onPress={() => _handleUserSelect(username)} style={styles.usersDropItemRow}>
         <UserAvatar username={username} noAction />
         <Text style={styles.usersDropItemRowText}>{username}</Text>
@@ -469,11 +469,11 @@ const TransferView = ({
           memo,
           tokenLayer,
           precision: tokenPrecision,
-          recurrence: isRecurrentTransfer ? +recurrence : null,
-          executions: isRecurrentTransfer ? +executions : null,
+          recurrence: isRecurrentTransfer ? +recurrence : (null as any),
+          executions: isRecurrentTransfer ? +executions : (null as any),
         });
         SheetManager.show(SheetNames.HIVE_AUTH_BROADCAST, {
-          payload: { operations: opArray },
+          payload: { operations: opArray } as any,
         })
           .then((response) => {
             if (response?.success) {
@@ -682,7 +682,7 @@ const TransferView = ({
     if (allowMultipleDest && parsedDestinations.length === 0) {
       return false;
     }
-    if (!isBalanceLoading && balance < amount * recipientCount) {
+    if (!isBalanceLoading && (balance as any) < (amount as any) * recipientCount) {
       Alert.alert(intl.formatMessage({ id: 'wallet.low_liquidity' }));
       return false;
     }
@@ -732,7 +732,7 @@ const TransferView = ({
   const exchangeRecurrentWarning = isRecurrentTransfer && isNativeFund && !!exchangeDestination;
 
   const nextBtnDisabled = !(
-    (isEngineToken ? amount > 0 : amount >= 0.001) &&
+    (isEngineToken ? (amount as any) > 0 : (amount as any) >= 0.001) &&
     isUsernameValid &&
     // Don't allow submit until the real balance has loaded (it is '' while fetching).
     !isBalanceLoading &&
@@ -758,12 +758,12 @@ const TransferView = ({
   }, [currentAccountName, fetchRecurrentTransfers, isRecurrentTransfer]);
 
   const _findRecurrentTransferOfUser = useCallback(
-    (userToFind) => {
+    (userToFind: any) => {
       if (!isRecurrentTransfer) {
         return false;
       }
 
-      const existingRecurrentTransfer = recurrentTransfers.find((rt) => rt.to === userToFind);
+      const existingRecurrentTransfer = recurrentTransfers.find((rt: any) => rt.to === userToFind);
 
       if (!existingRecurrentTransfer) {
         // This recipient has no on-chain schedule. If the fields were autofilled
@@ -884,7 +884,7 @@ const TransferView = ({
               <View style={styles.recipientInputWrapper}>
                 <View style={styles.recipientInputControl}>
                   <TextInput
-                    style={[styles.inputField, styles.recipientTextInput]}
+                    style={[styles.inputField, styles.recipientTextInput] as any}
                     onChangeText={_handleDestinationChange}
                     value={destination}
                     placeholder={intl.formatMessage({ id: 'transfer.to_placeholder' })}
@@ -983,7 +983,7 @@ const TransferView = ({
           <Text style={styles.fieldLabel}>{intl.formatMessage({ id: 'transfer.amount' })}</Text>
           <View style={styles.amountRow}>
             <TextInput
-              style={[styles.inputField, styles.amountInputLarge]}
+              style={[styles.inputField, styles.amountInputLarge] as any}
               onChangeText={_handleAmountChange}
               value={amount}
               placeholder="0.000"
@@ -1048,7 +1048,7 @@ const TransferView = ({
           <View style={styles.fieldGroup}>
             <Text style={styles.fieldLabel}>{intl.formatMessage({ id: 'transfer.memo' })}</Text>
             <TextInput
-              style={[styles.inputField, styles.memoInput]}
+              style={[styles.inputField, styles.memoInput] as any}
               onChangeText={setMemo}
               value={memo}
               placeholder={intl.formatMessage({ id: 'transfer.memo_placeholder' })}

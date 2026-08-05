@@ -34,27 +34,27 @@ const PromoteView = ({
   SCPath,
   isSCModalOpen,
   handleOnSCModalClose,
-}) => {
+}: any) => {
   const [permlink, setPermlink] = useState<string | undefined>(undefined);
   const [day, setDay] = useState(1);
-  const [permlinkSuggestions, setPermlinkSuggestions] = useState([]);
+  const [permlinkSuggestions, setPermlinkSuggestions] = useState<any[]>([]);
   const [isValid, setIsValid] = useState(false);
   const balance = _balance ?? 0;
   const effectivePermlink = permlink ?? get(navigationParams, 'permlink', '');
 
-  const startActionSheet = useRef(null);
-  const timerRef = useRef<number | null>(null);
+  const startActionSheet = useRef<any>(null);
+  const timerRef = useRef<any>(null);
   const lastQueryKeyRef = useRef<unknown[] | null>(null);
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const pr = get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price');
+    const pr = get((PROMOTE_PRICING as any)[PROMOTE_DAYS.indexOf(day as any)], 'price');
     setIsValid(!!effectivePermlink && pr <= balance);
   }, [day, effectivePermlink, balance]);
 
   // Component Functions
 
-  const _handleOnPermlinkChange = async (text) => {
+  const _handleOnPermlinkChange = async (text: any) => {
     setPermlink(text);
     setIsValid(false);
 
@@ -107,7 +107,9 @@ const PromoteView = ({
     };
   }, []);
 
-  const _renderDropdown = (accountName) => <Text style={styles.dropdownText}>{accountName}</Text>;
+  const _renderDropdown = (accountName: any) => (
+    <Text style={styles.dropdownText}>{accountName}</Text>
+  );
 
   const _handleOnSubmit = async () => {
     if (!currentAccountName) {
@@ -143,7 +145,7 @@ const PromoteView = ({
                   data={permlinkSuggestions}
                   listContainerStyle={styles.autocomplateListContainer}
                   listStyle={styles.autocomplateList}
-                  onChangeText={(text) => _handleOnPermlinkChange(text)}
+                  onChangeText={(text: any) => _handleOnPermlinkChange(text)}
                   renderTextInput={() => (
                     <TextInput
                       style={styles.input}
@@ -154,7 +156,7 @@ const PromoteView = ({
                       autoCapitalize="none"
                     />
                   )}
-                  renderItem={({ item }) => (
+                  renderItem={({ item }: any) => (
                     <TouchableOpacity
                       key={item}
                       onPress={() => {
@@ -177,7 +179,10 @@ const PromoteView = ({
                 })} `}
               </Text>
               <Text style={styles.price}>
-                {`${get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price')} Points  `}
+                {`${get(
+                  (PROMOTE_PRICING as any)[PROMOTE_DAYS.indexOf(day as any)],
+                  'price',
+                )} Points  `}
               </Text>
             </View>
 
@@ -185,7 +190,7 @@ const PromoteView = ({
               values={[1, 2, 3, 7, 14]}
               LRpadding={50}
               activeValue={day}
-              handleOnValueChange={(_day) => setDay(_day)}
+              handleOnValueChange={(_day: any) => setDay(_day)}
               single
             />
           </View>

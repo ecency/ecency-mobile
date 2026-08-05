@@ -67,31 +67,31 @@ const postsListContainer = (
     extraData: propsExtraData,
     ...props
   }: postsListContainerProps,
-  ref,
+  ref: any,
 ) => {
-  const flatListRef = useRef(null);
+  const flatListRef = useRef<any>(null);
   const intl = useIntl();
   const { width } = useWindowDimensions();
   const listWidth = Math.round(width);
 
   const navigation = useNavigation();
 
-  const upvotePopoverRef = useRef(null);
-  const postDropdownRef = useRef(null);
+  const upvotePopoverRef = useRef<any>(null);
+  const postDropdownRef = useRef<any>(null);
 
   // Use memoized selectors to prevent unnecessary re-renders
   const nsfw = useAppSelector(selectNsfw);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   const cachedPostsSelector = useMemo(
-    () => (state) => isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts,
+    () => (state: any) => isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts,
     [isFeedScreen],
   );
   const cachedPosts = useAppSelector(cachedPostsSelector);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const mutes = useMemo(() => currentAccount?.mutes || [], [currentAccount?.mutes]);
   const scrollPositionSelector = useMemo(
-    () => (state) =>
+    () => (state: any) =>
       isFeedScreen ? state.posts.feedScrollPosition : state.posts.otherScrollPosition,
     [isFeedScreen],
   );
@@ -183,7 +183,7 @@ const postsListContainer = (
   };
 
   const _handleCardInteraction = useCallback(
-    (id: PostCardActionIds, payload: any, content: any, onCallback) => {
+    (id: PostCardActionIds, payload: any, content: any, onCallback: any) => {
       switch (id) {
         case PostCardActionIds.USER:
           SheetManager.show('quick_profile', {
@@ -200,7 +200,7 @@ const postsListContainer = (
           break;
 
         case PostCardActionIds.NAVIGATE:
-          navigation.navigate(payload);
+          (navigation as any).navigate(payload);
           break;
 
         case PostCardActionIds.REPLY:
@@ -274,18 +274,18 @@ const postsListContainer = (
     <Fragment>
       <FlashList
         ref={flatListRef}
-        data={data}
+        data={data as any}
         extraData={listExtraData}
         showsVerticalScrollIndicator={false}
-        renderItem={_renderItem}
-        keyExtractor={(content) => `${content.author}/${content.permlink}`}
+        renderItem={_renderItem as any}
+        keyExtractor={(content: any) => `${content.author}/${content.permlink}`}
         onEndReachedThreshold={1}
         maxToRenderPerBatch={5}
         initialNumToRender={3}
         ItemSeparatorComponent={_renderSeparator}
-        estimatedItemSize={609}
+        {...({ estimatedItemSize: 609 } as any)}
         windowSize={8}
-        onEndReached={_onEndReached}
+        onEndReached={_onEndReached as any}
         onMomentumScrollBegin={() => {
           _onEndReachedCalledDuringMomentum = false;
         }}

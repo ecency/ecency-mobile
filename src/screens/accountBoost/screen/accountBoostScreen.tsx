@@ -27,7 +27,7 @@ const ITEM_SKUS = Platform.select({
 
 const ACCOUNT_BOOST_VESTS = 553311;
 
-const AccountBoost = ({ route }) => {
+const AccountBoost = ({ route }: any) => {
   const intl = useIntl();
   const currentAccount = useAppSelector(selectCurrentAccount);
   const globalProps = useAppSelector(selectGlobalProps);
@@ -41,7 +41,7 @@ const AccountBoost = ({ route }) => {
 
   return (
     <InAppPurchaseContainer route={route} skus={ITEM_SKUS} username={username} isNoSpin>
-      {({ buyItem, productList, isLoading, isProcessing }) => (
+      {({ buyItem, productList, isLoading, isProcessing }: any) => (
         <SafeAreaView style={styles.container}>
           <BasicHeader
             disabled={isProcessing}
@@ -65,14 +65,14 @@ const AccountBoost = ({ route }) => {
               </View>
 
               <View style={styles.productsWrapper}>
-                {productList.map((product) => (
+                {productList.map((product: any) => (
                   <ProductItemLine
                     key={get(product, 'title')}
                     isLoading={isLoading}
                     disabled={isProcessing}
                     product={product}
                     title={`Boost+  |  ${delegateAmount} HP`}
-                    handleOnButtonPress={(id) => buyItem(id)}
+                    handleOnButtonPress={(id: any) => buyItem(id)}
                   />
                 ))}
               </View>

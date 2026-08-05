@@ -74,6 +74,7 @@ export const TabbedPosts = ({
     }
     return (
       <PostsTabContent
+        {...({} as any)}
         key={route.key}
         filterKey={route.key}
         isFeedScreen={isFeedScreen}

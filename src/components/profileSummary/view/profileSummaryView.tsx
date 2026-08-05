@@ -25,21 +25,21 @@ import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 const DEVICE_WIDTH = getWindowDimensions().width;
 
-class ProfileSummaryView extends PureComponent {
-  constructor(props) {
+class ProfileSummaryView extends PureComponent<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = {
       isShowPercentText: props.isShowPercentText,
     };
   }
 
-  _handleOnPressLink = (url) => {
+  _handleOnPressLink = (url: any) => {
     if (url) {
       Linking.openURL(url);
     }
   };
 
-  _handleOnDropdownSelect = (index) => {
+  _handleOnDropdownSelect = (index: any) => {
     const {
       isMuted,
       isFavorite,
@@ -84,7 +84,7 @@ class ProfileSummaryView extends PureComponent {
     if (!coverImageUrl) {
       coverImageUrl = isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE;
     } else {
-      coverImageUrl = { uri: coverImageUrl };
+      coverImageUrl = { uri: coverImageUrl } as any;
     }
 
     return (
@@ -119,7 +119,7 @@ class ProfileSummaryView extends PureComponent {
       id: !isFollowing ? 'user.follow' : 'user.unfollow',
     });
 
-    let dropdownOptions = [];
+    let dropdownOptions: any[] = [];
     if (isLoggedIn && !isOwnProfile) {
       dropdownOptions = [
         intl.formatMessage({

@@ -21,7 +21,7 @@ const SpinGameView = ({
   buyItem,
   nextDate,
   startGame,
-}) => {
+}: any) => {
   const intl = useIntl();
   const [isSpinning, setIsSpinning] = useState(false);
   const calculateTimeLeft = () => {
@@ -40,8 +40,8 @@ const SpinGameView = ({
 
     setIsSpinning(true);
 
-    this.spinTimeout = setTimeout(() => {
-      clearTimeout(this.spinTimeout);
+    (this as any).spinTimeout = setTimeout(() => {
+      clearTimeout((this as any).spinTimeout);
       setIsSpinning(false);
     }, 8 * 1000);
   };
@@ -91,13 +91,13 @@ const SpinGameView = ({
                 />
               ) : (
                 <Fragment>
-                  {spinProduct.map((product) => (
+                  {spinProduct.map((product: any) => (
                     <ProductItemLine
                       key={`key-${get(product, 'productId').toString()}`}
                       product={product}
                       title={intl.formatMessage({ id: 'free_estm.get_spin' })}
                       disabled={isProcessing}
-                      handleOnButtonPress={(id) => buyItem(id)}
+                      handleOnButtonPress={(id: any) => buyItem(id)}
                     />
                   ))}
                   <Text style={styles.nextDate}>

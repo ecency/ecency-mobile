@@ -286,11 +286,11 @@ Uses `rn-nodeify` to polyfill Node.js modules (crypto, stream, buffer, etc.) for
 
 - Config: `tsconfig.json` extends `@react-native/typescript-config` (`moduleResolution: bundler`)
 - Base URL: `src/` for absolute imports
-- `yarn typecheck` — runs `tsc --noEmit` and compares per-file error counts against the
-  committed `tsc-baseline.json` (~5k pre-existing errors); CI fails on any file whose count
-  exceeds its baseline entry, or errors in a file not in the baseline
-- After fixing pre-existing errors, ratchet the baseline down with `yarn typecheck:update-baseline`
-- Never add new entries to the baseline for new code — fix the types instead
+- `yarn typecheck` — runs `tsc --noEmit` against the committed `tsc-baseline.json`,
+  which is now EMPTY: the repo typechecks clean, so any error fails CI
+- Never reintroduce baseline entries — fix the types instead
+- Many contracts are deliberately `any` from the 2026-08 burn-down (raw Hive posts,
+  redux payloads, class-component props); tightening them is welcome, loosening is not
 
 ## Pre-commit Hooks
 

@@ -8,13 +8,13 @@ import { SpinGameContainer, InAppPurchaseContainer } from '../../../containers';
 import { SpinGame } from '../../../components';
 import globalStyles from '../../../globalStyles';
 
-const SpinGameScreen = gestureHandlerRootHOC(({ route }) => {
+const SpinGameScreen = gestureHandlerRootHOC(({ route }: any) => {
   return (
     <SafeAreaView style={globalStyles.container}>
       <SpinGameContainer>
-        {({ startGame, score, gameRight, nextDate, isLoading, statusCheck }) => (
+        {({ startGame, score, gameRight, nextDate, isLoading, statusCheck }: any) => (
           <InAppPurchaseContainer route={route} fetchData={statusCheck} skus={['499spins']}>
-            {({ buyItem, getItems, spinProduct, isProcessing }) => (
+            {({ buyItem, getItems, spinProduct, isProcessing }: any) => (
               <SpinGame
                 buyItem={buyItem}
                 isLoading={isLoading}

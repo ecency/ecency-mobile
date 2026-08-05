@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler/jestSetup';
 
 // Ensure dev-only code paths such as dynamic imports are skipped
-global.__DEV__ = false;
+(global as any).__DEV__ = false;
 
 // Mock Sentry to avoid loading native modules during tests
 jest.mock('@sentry/react-native', () => ({

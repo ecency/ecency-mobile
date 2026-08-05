@@ -7,7 +7,12 @@ import styles from './transferFormItemStyles';
  *   @prop { type }    name                - Description....
  */
 
-const TransferFormItemView = ({ rightComponent, label, containerStyle, rightComponentStyle }) => (
+const TransferFormItemView = ({
+  rightComponent,
+  label,
+  containerStyle,
+  rightComponentStyle,
+}: any) => (
   <View style={[styles.container, containerStyle]}>
     <View style={styles.leftPart}>{label && <Text style={styles.text}>{label}</Text>}</View>
     <View style={[styles.rightPart, rightComponentStyle]}>

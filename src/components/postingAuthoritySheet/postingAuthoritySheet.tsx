@@ -34,7 +34,7 @@ const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = 
         currentAccount.posting?.account_auths?.some((auth: any) => auth[0] === 'ecency.app') ||
         false;
       if (hasPostingAuth) {
-        ActionSheet.hide(sheetId);
+        (ActionSheet as any).hide(sheetId);
         return;
       }
 
@@ -75,20 +75,21 @@ const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = 
         console.error('onGranted callback threw error:', callbackError);
       }
 
-      ActionSheet.hide(sheetId);
+      (ActionSheet as any).hide(sheetId);
     } catch (error) {
       console.error('Failed to grant posting permission:', error);
 
       // Call onError callback if provided (with error guard)
       try {
         if (payload?.onError) {
-          payload.onError(error);
+          payload.onError(error as any);
         }
       } catch (callbackError) {
         console.error('onError callback threw error:', callbackError);
       }
 
-      const errorMessage = error?.message || intl.formatMessage({ id: 'posting_authority.error' });
+      const errorMessage =
+        (error as any)?.message || intl.formatMessage({ id: 'posting_authority.error' });
       dispatch(toastNotification(errorMessage));
     } finally {
       setIsGranting(false);
@@ -104,7 +105,7 @@ const PostingAuthoritySheet: React.FC<SheetProps<'posting_authority_prompt'>> = 
     } catch (callbackError) {
       console.error('onSkipped callback threw error:', callbackError);
     }
-    ActionSheet.hide(sheetId);
+    (ActionSheet as any).hide(sheetId);
   };
 
   return (

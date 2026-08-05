@@ -43,8 +43,8 @@ const VideoPlayer = ({
   thumbnailUrl,
 }: VideoPlayerProps) => {
   const dim = useWindowDimensions();
-  const videoPlayer = useRef(null);
-  const fullscreenTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const videoPlayer = useRef<any>(null);
+  const fullscreenTimeoutRef = useRef<any>(null);
 
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -150,11 +150,11 @@ const VideoPlayer = ({
   };
 
   // react-native-video player handlers
-  const onSeek = (seek) => {
+  const onSeek = (seek: any) => {
     videoPlayer.current.seek(seek);
   };
 
-  const onPaused = (playerState) => {
+  const onPaused = (playerState: any) => {
     setPaused(!paused);
     setPlayerState(playerState);
   };
@@ -164,13 +164,13 @@ const VideoPlayer = ({
     videoPlayer.current.seek(0);
   };
 
-  const onProgress = (data) => {
+  const onProgress = (data: any) => {
     if (!isLoading && playerState !== PLAYER_STATES.ENDED) {
       setCurrentTime(data.currentTime);
     }
   };
 
-  const onLoad = (data) => {
+  const onLoad = (data: any) => {
     setDuration(data.duration);
     videoPlayer.current.seek(0);
     setIsLoading(false);
@@ -211,7 +211,7 @@ const VideoPlayer = ({
     else setScreenType('contain');
   };
 
-  const onSeeking = (currentTime) => setCurrentTime(currentTime);
+  const onSeeking = (currentTime: any) => setCurrentTime(currentTime);
 
   const _renderVideoplayerWithControls = () => {
     return (
@@ -235,6 +235,7 @@ const VideoPlayer = ({
           onFullscreenPlayerDidDismiss={exitFullScreen}
         />
         <MediaControls
+          {...({} as any)}
           duration={duration}
           isLoading={isLoading}
           mainColor="#3c4449"
@@ -310,7 +311,7 @@ const VideoPlayer = ({
             play={shouldPlay}
             onChangeState={_onChangeState}
             onError={_onError}
-            onFullScreenChange={(status) => {
+            onFullScreenChange={(status: any) => {
               setIsFullScreen(status);
               if (!status) {
                 if (lockedOrientation === orientations.LANDSCAPE) {

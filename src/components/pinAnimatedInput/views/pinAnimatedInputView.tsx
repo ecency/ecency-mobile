@@ -5,13 +5,15 @@ import { Animated, Easing, View } from 'react-native';
 // Styles
 import styles from './pinAnimatedInputStyles';
 
-class PinAnimatedInput extends Component {
+class PinAnimatedInput extends Component<any, any> {
+  dots: any;
+
   /* Props
    *
    *   @prop { string }    pin            - Description.
    *
    */
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {};
 
@@ -28,7 +30,7 @@ class PinAnimatedInput extends Component {
       this.dots[index].setValue(0);
     });
     Animated.sequence([
-      ...this.dots.map((item) =>
+      ...this.dots.map((item: any) =>
         Animated.timing(item, {
           toValue: 1,
           duration: 250,
@@ -49,7 +51,7 @@ class PinAnimatedInput extends Component {
     });
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     const { loading } = this.props;
     if (loading !== nextProps.loading) {
       if (nextProps.loading) {
@@ -62,7 +64,7 @@ class PinAnimatedInput extends Component {
 
   render() {
     const { pin } = this.props;
-    const marginBottom = [];
+    const marginBottom: any[] = [];
 
     [...Array(4)].forEach((item, index) => {
       marginBottom[index] = this.dots[index].interpolate({
@@ -73,7 +75,7 @@ class PinAnimatedInput extends Component {
 
     return (
       <View style={[styles.container]}>
-        {this.dots.map((val, index) => {
+        {this.dots.map((val: any, index: any) => {
           if (pin.length > index) {
             return (
               <Animated.View

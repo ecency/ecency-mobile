@@ -25,7 +25,7 @@ export const collectMissingUserIds = (
   const ids = new Set<string>();
 
   list.forEach((post) => {
-    const idFromPost = post?.user_id || post?.user?.id;
+    const idFromPost = (post as any)?.user_id || (post as any)?.user?.id;
     if (idFromPost && !userLookupRef[idFromPost]) {
       ids.add(idFromPost);
     }

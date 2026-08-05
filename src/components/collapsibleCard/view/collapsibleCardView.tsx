@@ -7,7 +7,7 @@ import { ContainerHeader } from '../../containerHeader';
 // Styles
 import styles from './collapsibleCardStyles';
 
-const CollapsibleCardView = (props) => {
+const CollapsibleCardView = (props: any) => {
   const {
     title,
     children,
@@ -28,6 +28,7 @@ const CollapsibleCardView = (props) => {
     isExpanded,
   } = props;
 
+  const [contentHeight, setContentHeight] = useState(0);
   const animation = useSharedValue({ height: contentHeight });
   const animationStyle = useAnimatedStyle(() => {
     return {
@@ -38,7 +39,6 @@ const CollapsibleCardView = (props) => {
   });
 
   const [collapsed, setCollapsed] = useState(expanded || isExpanded || false);
-  const [contentHeight, setContentHeight] = useState(0);
 
   useEffect(() => {
     if (isExpanded !== undefined && contentHeight) {
@@ -54,7 +54,7 @@ const CollapsibleCardView = (props) => {
     }
   };
 
-  const _initContentHeight = (event) => {
+  const _initContentHeight = (event: any) => {
     if (contentHeight > 0) {
       return;
     }

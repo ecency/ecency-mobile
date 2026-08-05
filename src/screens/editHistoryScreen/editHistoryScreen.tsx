@@ -34,7 +34,7 @@ export interface CommentHistoryListItemDiff {
   v: number;
 }
 
-const EditHistoryScreen = ({ route }) => {
+const EditHistoryScreen = ({ route }: any) => {
   const intl = useIntl();
   const dim = useWindowDimensions();
 
@@ -170,12 +170,21 @@ const EditHistoryScreen = ({ route }) => {
   const _renderDiff = (item: CommentHistoryListItemDiff) => {
     return (
       <View style={styles.diffContainer}>
-        <AutoHeightWebView source={{ html: item.titleDiff }} customStyle={customTitleStyle} />
+        <AutoHeightWebView
+          source={{ html: (item as any).titleDiff }}
+          customStyle={customTitleStyle as any}
+        />
         <View style={styles.tagsContainer}>
           <Icon style={styles.tagIcon} iconType="AntDesign" name="tag" />
-          <AutoHeightWebView source={{ html: item.tagsDiff }} customStyle={customTagsStyle} />
+          <AutoHeightWebView
+            source={{ html: (item as any).tagsDiff }}
+            customStyle={customTagsStyle as any}
+          />
         </View>
-        <AutoHeightWebView source={{ html: item.bodyDiff }} customStyle={customBodyStyle} />
+        <AutoHeightWebView
+          source={{ html: (item as any).bodyDiff }}
+          customStyle={customBodyStyle as any}
+        />
       </View>
     );
   };

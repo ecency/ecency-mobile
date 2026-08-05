@@ -36,7 +36,7 @@ const sinceFor = (date: string): string | undefined => {
   return since.toISOString().split('.')[0];
 };
 
-const PostsResultsContainer = ({ children, searchValue, filters = EMPTY_SEARCH_FILTERS }) => {
+const PostsResultsContainer = ({ children, searchValue, filters = EMPTY_SEARCH_FILTERS }: any) => {
   const navigation = useNavigation();
   const postsCacherPrimer = postQueries.usePostsCachePrimer();
   const currentAccountUsername = useAppSelector(selectCurrentAccountUsername);
@@ -162,12 +162,12 @@ const PostsResultsContainer = ({ children, searchValue, filters = EMPTY_SEARCH_F
 
   // Component Functions
 
-  const _handleOnPress = (item) => {
+  const _handleOnPress = (item: any) => {
     const itemAuthor = get(item, 'author');
     const itemPermlink = get(item, 'permlink');
 
     postsCacherPrimer.cachePost(item);
-    navigation.navigate({
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.POST,
       params: {
         author: itemAuthor,

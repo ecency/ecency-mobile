@@ -86,7 +86,7 @@ const AddressView = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   pinCode: selectPin(state),
   globalProps: selectGlobalProps(state),
   currency: selectCurrency(state).currency,

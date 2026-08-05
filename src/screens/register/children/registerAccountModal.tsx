@@ -58,7 +58,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   }));
 
   const _onContinuePress = () => {
-    navigation.navigate(ROUTES.DRAWER.MAIN);
+    (navigation as any).navigate(ROUTES.DRAWER.MAIN);
     openInbox();
   };
 
@@ -129,7 +129,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
     setIsRegistering(false);
   };
 
-  const _handleOnPurchaseFailure = (error) => {
+  const _handleOnPurchaseFailure = (error: any) => {
     Alert.alert(
       intl.formatMessage({ id: 'alert.fail' }),
       `${intl.formatMessage({ id: 'register.register_fail' })}\n${error.message}`,
@@ -185,7 +185,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
     </View>
   );
 
-  const _renderCard = ({ titleId, descriptionId, btnTitle, onPress, extra, disabled }) => {
+  const _renderCard = ({ titleId, descriptionId, btnTitle, onPress, extra, disabled }: any) => {
     return (
       <View style={styles.cardContainer}>
         <Text style={styles.title}>
@@ -212,7 +212,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
     );
   };
 
-  const _renderRegisterOptions = ({ productList, buyItem, unconsumedPurchases }) => {
+  const _renderRegisterOptions = ({ productList, buyItem, unconsumedPurchases }: any) => {
     return isRegistered || isRegistering ? (
       _renderIntermediateComponent()
     ) : (
@@ -234,11 +234,11 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
             disabled: !captchaToken,
           })}
 
-        {productList.map((product) =>
+        {productList.map((product: any) =>
           _renderCard({
             titleId: 'buy_account.title',
             descriptionId: 'buy_account.desc',
-            btnTitle: unconsumedPurchases.find((p) => p.productId === '999accounts')
+            btnTitle: unconsumedPurchases.find((p: any) => p.productId === '999accounts')
               ? intl.formatMessage({ id: 'buy_account.claim' })
               : intl.formatMessage(
                   { id: 'buy_account.btn_register' },
@@ -283,7 +283,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
             handleOnPurchaseSuccess={_handleOnPurchaseSuccess}
             handleOnPurchaseFailure={_handleOnPurchaseFailure}
           >
-            {({ buyItem, productList, isLoading, unconsumedPurchases }) => (
+            {({ buyItem, productList, isLoading, unconsumedPurchases }: any) => (
               <>
                 {isLoading ? (
                   <PostCardPlaceHolder />

@@ -1,14 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-  Alert,
-  BackHandler,
-  Dimensions,
-  FlatList,
-  Keyboard,
-  Platform,
-  TextInput,
-  View,
-} from 'react-native';
+import { Alert, BackHandler, Dimensions, Keyboard, Platform, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import LinkifyIt from 'linkify-it';
@@ -189,17 +180,17 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const [wsEnabled, setWsEnabled] = useState<boolean>(true);
 
   // Refs
-  const unreadScrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const unreadScrollTimeoutRef = useRef<any>(null);
   const userLookupRef = useRef<Record<string, any>>({});
-  const listRef = useRef<FlatList<ChatPost>>(null);
-  const inputRef = useRef<TextInput>(null);
-  const lastMarkedViewedAtRef = useRef<number | null>(null);
-  const lastSentPendingIdRef = useRef<string | null>(null);
-  const lastSentMessageRef = useRef<string | null>(null);
-  const lastSentRootIdRef = useRef<string | null>(null);
+  const listRef = useRef<any>(null);
+  const inputRef = useRef<any>(null);
+  const lastMarkedViewedAtRef = useRef<any>(null);
+  const lastSentPendingIdRef = useRef<any>(null);
+  const lastSentMessageRef = useRef<any>(null);
+  const lastSentRootIdRef = useRef<any>(null);
   const lastSentAtRef = useRef<number>(0);
   const confirmedPendingPostIdsRef = useRef<Set<string>>(new Set());
-  const sendTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const sendTimeoutRef = useRef<any>(null);
   const dismissedDmWarningsRef = useRef<Set<string>>(new Set());
   const repliedChannelsRef = useRef<Set<string>>(new Set());
   const messageRef = useRef<string>('');
@@ -260,7 +251,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
 
     const hasReplied =
       repliedChannelsRef.current.has(channelId) ||
-      posts.some((post) => post.user_id === bootstrapUserId);
+      posts.some((post) => (post as any).user_id === bootstrapUserId);
     setShowDmWarning(!hasReplied && posts.length > 0);
   }, [isDM, channelId, posts, bootstrapUserId]);
 
@@ -298,11 +289,11 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         const pendingPostId = post.pending_post_id as string | undefined;
         const pendingMatch =
           pendingPostId &&
-          post.user_id === bootstrapUserId &&
+          (post as any).user_id === bootstrapUserId &&
           pendingPostId === lastSentPendingIdRef.current;
         const fallbackMatch =
           !pendingPostId &&
-          post.user_id === bootstrapUserId &&
+          (post as any).user_id === bootstrapUserId &&
           lastSentMessageRef.current !== null &&
           emojifyMessage(post.message) === lastSentMessageRef.current &&
           (post.root_id || '') === (lastSentRootIdRef.current || '') &&
@@ -350,7 +341,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         }
 
         // Skip only messages that match known pending client ids from this device
-        if (post.user_id === bootstrapUserId) {
+        if ((post as any).user_id === bootstrapUserId) {
           const pendingId = post.pending_post_id as string | undefined;
           if (
             pendingId &&
@@ -370,11 +361,11 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         });
 
         // Fetch user if not in lookup
-        if (post.user_id && !userLookupRef.current[post.user_id]) {
-          fetchMattermostUsersByIds([post.user_id])
+        if ((post as any).user_id && !userLookupRef.current[(post as any).user_id]) {
+          fetchMattermostUsersByIds([(post as any).user_id])
             .then((users) => {
               const userMap = ensureMattermostUsersHaveHiveNames(
-                normalizeUsersFromMap({ [post.user_id]: users[0] }),
+                normalizeUsersFromMap({ [(post as any).user_id]: users[0] }),
               );
               setUserLookup((prev) => ({ ...prev, ...userMap }));
             })
@@ -391,7 +382,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         }
 
         // Skip edits from current user - they're already updated optimistically
-        if (post.user_id === bootstrapUserId) {
+        if ((post as any).user_id === bootstrapUserId) {
           return;
         }
 
@@ -846,7 +837,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           setRootMessages((prev) => ({ ...prev, ...rootMessagesMap }));
           // Resolve user profiles for root messages
           const rootUserIds = Object.values(rootMessagesMap)
-            .map((post) => post.user_id || post.user?.id)
+            .map((post) => (post as any).user_id || (post as any).user?.id)
             .filter(Boolean);
           if (rootUserIds.length > 0) {
             _resolveUserProfiles(rootUserIds);
@@ -1140,12 +1131,6 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       keyboardDidShowListener.remove();
     };
   }, [insets.bottom, posts.length]);
-
-  // Hardware back button handler
-  useEffect(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBack);
-    return () => backHandler.remove();
-  }, [handleBack]);
 
   // Screen focus/blur handler - disconnect websocket when leaving chat
   useFocusEffect(
@@ -1746,13 +1731,13 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
                 }
               : undefined,
           onPin:
-            canPinUnpin && !post.is_pinned
+            canPinUnpin && !(post as any).is_pinned
               ? () => {
                   _handlePinPost(post);
                 }
               : undefined,
           onUnpin:
-            canPinUnpin && post.is_pinned
+            canPinUnpin && (post as any).is_pinned
               ? () => {
                   _handleUnpinPost(post);
                 }
@@ -1804,6 +1789,12 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     }
     return false;
   }, [onlineUsersModalVisible, pinnedMessagesModalVisible, navigation]);
+
+  // Hardware back button handler
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBack);
+    return () => backHandler.remove();
+  }, [handleBack]);
 
   const handleScrollToMessage = useCallback(
     (postId: string) => {
@@ -2003,7 +1994,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         postItem?.type === 'system_add_to_team' ||
         postItem?.type === 'system_join_team' ||
         postItem?.type === 'system_join_channel';
-      const authorId = postItem.user_id || postItem.user?.id;
+      const authorId = (postItem as any).user_id || (postItem as any).user?.id;
       const isOwnMessage = authorId && bootstrapUserId === authorId;
 
       if (isSystemAddMessage) {
@@ -2176,7 +2167,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         {showDmWarning && (
           <DmWarningBanner
             onDismiss={_handleDismissDmWarning}
-            onSettingsPress={() => navigation.navigate(ROUTES.SCREENS.SETTINGS)}
+            onSettingsPress={() => (navigation as any).navigate(ROUTES.SCREENS.SETTINGS)}
           />
         )}
         <ThreadMessageList
@@ -2203,7 +2194,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           typingUsers={typingUsers}
           userLookup={userLookup}
           currentUserId={bootstrapUserId}
-          getHiveUsername={getHiveUsernameFromMattermostUser}
+          getHiveUsername={getHiveUsernameFromMattermostUser as any}
         />
 
         <ThreadComposer

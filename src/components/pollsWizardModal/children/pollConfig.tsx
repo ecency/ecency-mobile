@@ -4,7 +4,6 @@ import { useIntl } from 'react-intl';
 import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 import styles from '../styles/pollsWizardContent.styles';
 import { FormInput } from '../../formInput';
-import type { FormInputHandle } from '../../formInput';
 import SettingsItem from '../../settingsItem';
 import { PollPreferredInterpretation } from '../../../providers/hive/hive.types';
 import { PollDraft } from '../../../providers/ecency/ecency.types';
@@ -17,10 +16,10 @@ interface Props {
 export const PollConfig = ({ pollDraft, setPollDraft }: Props) => {
   const intl = useIntl();
   const _interpretations = Object.values(PollPreferredInterpretation);
-  const ageInputRef = useRef<FormInputHandle>(null);
-  const maxOptionsInputRef = useRef<FormInputHandle>(null);
+  const ageInputRef = useRef<any>(null);
+  const maxOptionsInputRef = useRef<any>(null);
 
-  const _onAgeLimitChange = (text) => {
+  const _onAgeLimitChange = (text: any) => {
     const val = parseInt(text);
     if (val >= 0) {
       const sanitized = `${val}`;
@@ -39,7 +38,7 @@ export const PollConfig = ({ pollDraft, setPollDraft }: Props) => {
     }
   };
 
-  const _onMaxOptionsChange = (text) => {
+  const _onMaxOptionsChange = (text: any) => {
     const val = parseInt(text);
     if (val >= 0) {
       const sanitized = `${val}`;

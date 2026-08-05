@@ -6,7 +6,7 @@ import { lookupAccountsQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import styles from '../styles/hiveAuthModal.styles';
 import { FormInput, MainButton } from '../..';
-import type { FormInputHandle } from '../../formInput';
+import type {} from '../../formInput';
 import HIVE_AUTH_ICON from '../../../assets/HiveAuth_logo.png';
 
 interface AuthInputContentProps {
@@ -18,7 +18,7 @@ export const AuthInputContent = ({ initUsername, handleAuthRequest }: AuthInputC
   const intl = useIntl();
   const queryClient = useQueryClient();
 
-  const usernameInputRef = useRef<FormInputHandle>(null);
+  const usernameInputRef = useRef<any>(null);
   const [username, setUsername] = useState(initUsername || '');
   const [isUsernameValid, setIsUsernameValid] = useState(false);
 

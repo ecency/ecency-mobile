@@ -34,16 +34,16 @@ export const PostHtmlInteractionHandler = forwardRef(
 
     const linkProcessor = useLinkProcessor();
 
-    const actionLink = useRef(null);
-    const youtubePlayerRef = useRef(null);
-    const imageViewerRef = useRef(null);
-    const copyModalRef = useRef(null);
+    const actionLink = useRef<any>(null);
+    const youtubePlayerRef = useRef<any>(null);
+    const imageViewerRef = useRef<any>(null);
+    const copyModalRef = useRef<any>(null);
 
-    const [videoUrl, setVideoUrl] = useState(null);
+    const [videoUrl, setVideoUrl] = useState<any>(null);
     const [videoThumbUrl, setVideoThumbUrl] = useState<string | undefined>(undefined);
-    const [youtubeVideoId, setYoutubeVideoId] = useState(null);
+    const [youtubeVideoId, setYoutubeVideoId] = useState<any>(null);
     const [videoStartTime, setVideoStartTime] = useState(0);
-    const [selectedLink, setSelectedLink] = useState(null);
+    const [selectedLink, setSelectedLink] = useState<any>(null);
 
     useImperativeHandle(ref, () => ({
       handleImagePress: (url: string, postImgUrls: string[]) => {
@@ -61,7 +61,7 @@ export const PostHtmlInteractionHandler = forwardRef(
         // them as external; open the wave thread natively instead of the link sheet
         const wavesLink = parseWavesUrl(url);
         if (wavesLink) {
-          navigation.navigate({
+          (navigation as any).navigate({
             name: ROUTES.SCREENS.POST,
             params: {
               author: wavesLink.author,
@@ -75,7 +75,7 @@ export const PostHtmlInteractionHandler = forwardRef(
         setSelectedLink(url);
         actionLink.current?.show();
       },
-      handleYoutubePress: (videoId, startTime) => {
+      handleYoutubePress: (videoId: any, startTime: any) => {
         if (videoId && youtubePlayerRef.current) {
           setYoutubeVideoId(videoId);
           setVideoStartTime(startTime);
@@ -83,7 +83,7 @@ export const PostHtmlInteractionHandler = forwardRef(
         }
       },
 
-      handleVideoPress: (embedUrl, thumbUrl?: string) => {
+      handleVideoPress: (embedUrl: any, thumbUrl?: string) => {
         if (embedUrl && youtubePlayerRef.current) {
           setVideoUrl(embedUrl);
           setVideoThumbUrl(thumbUrl);
@@ -98,7 +98,7 @@ export const PostHtmlInteractionHandler = forwardRef(
       },
     }));
 
-    const _handleLinkOptionPress = (ind) => {
+    const _handleLinkOptionPress = (ind: any) => {
       if (!selectedLink) {
         setSelectedLink(null);
         return;
@@ -127,7 +127,7 @@ export const PostHtmlInteractionHandler = forwardRef(
               intl,
               url: link,
               onConfirm: () =>
-                navigation.navigate({
+                (navigation as any).navigate({
                   name: ROUTES.SCREENS.DAPP_BROWSER,
                   params: {
                     url: link,

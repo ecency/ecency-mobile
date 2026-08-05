@@ -46,7 +46,9 @@ export const PollChoices = ({
   const intl = useIntl();
   const dim = useWindowDimensions();
 
-  const [_choices, setChoices] = useState(choices || mapMetaChoicesToPollChoices(metadata.choices));
+  const [_choices, setChoices] = useState<any[]>(
+    (choices as any) || mapMetaChoicesToPollChoices(metadata?.choices as any),
+  );
 
   useEffect(() => {
     if (!loading && !!choices) {
@@ -69,7 +71,8 @@ export const PollChoices = ({
   }, [interpretationToken]);
 
   const totalVotes = useMemo(
-    () => _choices.reduce((prevVal, option) => prevVal + get(option.votes, votesProp, 0), 0),
+    () =>
+      _choices.reduce((prevVal: any, option: any) => prevVal + get(option.votes, votesProp, 0), 0),
     [_choices, interpretationToken],
   );
 
@@ -139,7 +142,7 @@ export const PollChoices = ({
   };
 
   const renderOptions = () => {
-    return _choices.map((option, index) => {
+    return _choices.map((option: any, index: any) => {
       return (
         <TouchableOpacity
           // eslint-disable-next-line react/no-array-index-key

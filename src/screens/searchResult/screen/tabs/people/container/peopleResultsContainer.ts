@@ -8,11 +8,11 @@ import ROUTES from '../../../../../../constants/routeNames';
 import postUrlParser from '../../../../../../utils/postUrlParser';
 import { selectCurrentAccountName } from '../../../../../../redux/selectors';
 
-const PeopleResultsContainer = ({ children, searchValue }) => {
+const PeopleResultsContainer = ({ children, searchValue }: any) => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
 
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<any[]>([]);
   const [noResult, setNoResult] = useState(true);
   // A failed lookup is not an empty one. These used to share a single flag, so
   // an RPC that never answered was reported as "no such account".
@@ -50,7 +50,7 @@ const PeopleResultsContainer = ({ children, searchValue }) => {
     };
   }, [searchValue]);
 
-  const _lookupAccounts = async (username, requestId) => {
+  const _lookupAccounts = async (username: any, requestId: any) => {
     setNoResult(false);
     setIsError(false);
     setUsers([]);
@@ -73,8 +73,8 @@ const PeopleResultsContainer = ({ children, searchValue }) => {
 
   // Component Functions
 
-  const _handleOnPress = (item) => {
-    navigation.navigate({
+  const _handleOnPress = (item: any) => {
+    (navigation as any).navigate({
       name: ROUTES.SCREENS.PROFILE,
       params: {
         username: item.name,
@@ -94,7 +94,7 @@ const PeopleResultsContainer = ({ children, searchValue }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   username: selectCurrentAccountName(state),
 });
 

@@ -30,7 +30,7 @@ import { SheetNames } from '../../../navigation/sheets';
 import { selectIsDarkTheme, selectIsConnected } from '../../../redux/selectors';
 // import EStyleSheet from 'react-native-extended-stylesheet';
 
-const ApplicationScreen = ({ foregroundNotificationData }) => {
+const ApplicationScreen = ({ foregroundNotificationData }: any) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 

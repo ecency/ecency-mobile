@@ -361,7 +361,7 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <CheckBox value={key} clicked={_onCheckToggle} isChecked={isSelected} />
               <AssetIcon
-                id={item.symbol}
+                {...({ id: item.symbol } as any)}
                 containerStyle={styles.assetIconContainer}
                 iconUrl={item.iconUrl}
                 isEngine={isEngine}

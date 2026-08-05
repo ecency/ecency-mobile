@@ -26,9 +26,9 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
 
   const isPinCodeOpen = useAppSelector(selectIsPinCodeOpen);
 
-  const bottomSheetModalRef = useRef();
+  const bottomSheetModalRef = useRef<any>(null);
   const isMountedRef = useRef(true);
-  const successNavTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const successNavTimerRef = useRef<any>(null);
 
   const [initUsername, setInitUsername] = useState<string>();
 
@@ -138,7 +138,7 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
     <ActionSheet
       ref={bottomSheetModalRef}
       gestureEnabled={false}
-      hideUnderlay={true}
+      {...({ hideUnderlay: true } as any)}
       onClose={() => {
         hiveAuth.reset();
         setInitUsername(undefined);
