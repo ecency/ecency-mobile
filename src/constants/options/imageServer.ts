@@ -1,6 +1,6 @@
 // i.ecency.com is the same imagehoster backend as images.ecency.com, on an
 // SNI-resilient hostname (some ISPs, e.g. Virgin Media UK, SNI-filter the
-// images.ecency.com hostname). See vision-next PR #791.
+// images.ecency.com hostname). See vision-web PR #791.
 export const DEFAULT_IMAGE_SERVER = 'https://i.ecency.com';
 
 export const IMAGE_SERVERS = [

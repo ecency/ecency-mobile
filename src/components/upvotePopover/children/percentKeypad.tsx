@@ -16,7 +16,7 @@ const KeyIcon = Icon as unknown as React.ComponentType<any>;
 
 /*
  * Keyboard-free numeric keypad shown inside the vote popover when the user taps
- * the NN% label, giving exact value entry like the vision-next web input —
+ * the NN% label, giving exact value entry like the vision-web web input —
  * without ever raising the OS keyboard (which would be occluded by this
  * Modal-hosted popover). Vote weight is whole-percent on chain, so an integer
  * keypad has full precision parity with typing.

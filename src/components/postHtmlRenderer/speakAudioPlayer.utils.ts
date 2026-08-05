@@ -2,7 +2,7 @@
 // component so the URL building and waveform/time math are unit-testable.
 
 // The web endpoint that transcodes Liketu's Opus/WebM voice clips to AAC/m4a so
-// iOS AVPlayer (react-native-video) can play them. See vision-next
+// iOS AVPlayer (react-native-video) can play them. See vision-web
 // /api/speak-audio. It takes the wave's author+permlink (NOT the raw audio URL):
 // the server looks the wave up on chain and derives audio_url itself, so the
 // fetch target is never user-supplied. The audio is immutable -> edge-cached.

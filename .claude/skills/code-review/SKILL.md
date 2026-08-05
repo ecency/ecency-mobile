@@ -1,13 +1,13 @@
 ---
 name: code-review
-description: Review code changes for bugs, pattern violations, and common pitfalls in ecency-mobile
+description: Review code changes for bugs, pattern violations, and common pitfalls in vision-mobile
 argument-hint: [file-or-branch]
 disable-model-invocation: true
 ---
 
 # Code Review
 
-Review code for bugs, anti-patterns, and issues specific to the ecency-mobile codebase.
+Review code for bugs, anti-patterns, and issues specific to the vision-mobile codebase.
 
 ## How to Review
 

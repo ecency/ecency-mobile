@@ -1,7 +1,7 @@
 # Ecency Mobile
 
-[![iOS](https://github.com/ecency/ecency-mobile/actions/workflows/build-ios.yml/badge.svg)](https://github.com/ecency/ecency-mobile/actions/workflows/build-ios.yml)
-[![Android](https://github.com/ecency/ecency-mobile/actions/workflows/build-android.yml/badge.svg)](https://github.com/ecency/ecency-mobile/actions/workflows/build-android.yml)
+[![iOS](https://github.com/ecency/vision-mobile/actions/workflows/build-ios.yml/badge.svg)](https://github.com/ecency/vision-mobile/actions/workflows/build-ios.yml)
+[![Android](https://github.com/ecency/vision-mobile/actions/workflows/build-android.yml/badge.svg)](https://github.com/ecency/vision-mobile/actions/workflows/build-android.yml)
 
 Ecency is a React Native client for the [Hive](https://hive.io) blockchain available for iOS and Android devices.
 
@@ -27,8 +27,8 @@ Stable releases are distributed via the stores:
 ## Getting started
 
 ```bash
-git clone https://github.com/ecency/ecency-mobile.git
-cd ecency-mobile
+git clone https://github.com/ecency/vision-mobile.git
+cd vision-mobile
 yarn
 ```
 
@@ -123,7 +123,7 @@ During confirmation Ecency replaces the placeholder `__signer` values with the a
 
 We welcome community contributions! To get started:
 
-1. Browse [open issues](https://github.com/ecency/ecency-mobile/issues) and assign one to yourself.
+1. Browse [open issues](https://github.com/ecency/vision-mobile/issues) and assign one to yourself.
 2. Create a feature or bugfix branch (e.g. `feature/my-change` or `bugfix/my-fix`).
 3. Commit your work and open a pull request. Include relevant issue numbers in commit/PR messages.
 4. Request a review from [@feruzm](https://github.com/feruzm) or [@noumantahir](https://github.com/noumantahir).

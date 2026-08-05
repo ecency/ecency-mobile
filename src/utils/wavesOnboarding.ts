@@ -49,7 +49,7 @@ export const isNewAccount = (
  * caller passes completions it already latched to storage: a checklist item must
  * never un-check itself the next day. Returns null until both inputs arrive so
  * callers can distinguish "loading" from "nothing to show". Mirrors the web
- * implementation (vision-next deriveWavesOnboardingState) so both apps behave
+ * implementation (vision-web deriveWavesOnboardingState) so both apps behave
  * the same.
  */
 export const deriveWavesOnboardingState = (

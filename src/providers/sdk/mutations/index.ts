@@ -3,7 +3,7 @@
  *
  * Each wrapper injects the mobile auth context (platform adapter + current user)
  * into the corresponding SDK mutation hook.  This mirrors the pattern used in
- * vision-next/apps/web/src/api/sdk-mutations/.
+ * vision-web/apps/web/src/api/sdk-mutations/.
  */
 
 // Social

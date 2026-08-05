@@ -8,7 +8,7 @@
 //      operations, which exchange deposit systems do not monitor, so recurring
 //      sends to an exchange may never be credited.
 //
-// Mirrors vision-next's apps/web/src/consts/exchange-accounts.ts — keep in sync when
+// Mirrors vision-web's apps/web/src/consts/exchange-accounts.ts — keep in sync when
 // the web list changes.
 export const EXCHANGE_ACCOUNTS = [
   'deepcrypto8',
@@ -88,7 +88,7 @@ const levenshtein = (a: string, b: string): number => {
  *      brand is distinct from the full name, the brand core ('upbitcoin');
  *   3. a single-character typo of the full account name ('bittrx').
  *
- * Mirrors vision-next's isExchangeLikeUsername — keep the two in sync.
+ * Mirrors vision-web's isExchangeLikeUsername — keep the two in sync.
  */
 export const isExchangeLikeUsername = (username?: string | null): boolean => {
   if (!username) {

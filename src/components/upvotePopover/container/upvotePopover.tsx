@@ -205,7 +205,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
   const [sliderValue, setSliderValue] = useState(1);
   const [amount, setAmount] = useState('0.00000');
 
-  // Use SDK's votingValue (same formula as vision-next web) for vote estimation
+  // Use SDK's votingValue (same formula as vision-web web) for vote estimation
   const _estimateVoteValue = (account: any, props: any, sliderVal: number) => {
     const vPower = sdkVotingPower(account) * 100;
     const weight = Math.abs(sliderVal) * 10000;

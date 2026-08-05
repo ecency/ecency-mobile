@@ -105,7 +105,7 @@ export function use<Operation>(username?: string, auth?: AuthContextV2) {
 }
 ```
 
-Then rebuild SDK: `cd ../vision-next && pnpm --filter @ecency/sdk build`
+Then rebuild SDK: `cd ../vision-web && pnpm --filter @ecency/sdk build`
 
 ## Authority Levels
 

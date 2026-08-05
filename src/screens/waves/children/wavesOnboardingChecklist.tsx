@@ -66,7 +66,7 @@ const DISMISS_HIT_SLOP = { top: 8, bottom: 8, left: 8, right: 8 };
  * Wave as the entry action. Completion is derived from the daily quests API and
  * latched per-user in AsyncStorage so items never un-check when the daily quest
  * window resets at 00:00 UTC. Once every item is done it celebrates once, then
- * hides for good. Mirrors the web (vision-next) WavesOnboardingChecklist.
+ * hides for good. Mirrors the web (vision-web) WavesOnboardingChecklist.
  */
 const WavesOnboardingChecklist = () => {
   const intl = useIntl();

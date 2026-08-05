@@ -4,7 +4,7 @@ import { View, PanResponder, GestureResponderEvent, PanResponderGestureState } f
 import styles from './upvoteStyles';
 
 /*
- * Custom voting slider inspired by the vision-next web "input-vote" control.
+ * Custom voting slider inspired by the vision-web web "input-vote" control.
  *
  * Replaces the thin native @react-native-community/slider (a ~16px thumb on a
  * 2px track, which many users struggled to grab precisely) with a fat

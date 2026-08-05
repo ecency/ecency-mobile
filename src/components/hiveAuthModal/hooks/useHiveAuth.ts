@@ -131,7 +131,7 @@ const getHiveAuthUri = async (path: string, preferredScheme?: HiveAuthScheme | n
 
 /**
  * Infers the required key type (posting or active) based on operation types
- * Matches the logic from vision-next website for consistency
+ * Matches the logic from vision-web website for consistency
  * @param opsArray Array of operations to analyze
  * @returns 'posting' or 'active' key type
  */
