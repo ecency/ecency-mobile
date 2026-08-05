@@ -13,13 +13,21 @@ export interface InputSupportModalProps {
 export const InputSupportModal = ({ children, visible, onClose }: InputSupportModalProps) => {
   // Reanimated defers the unmount until the exiting animations below finish,
   // so rendering can track `visible` directly with no delayed-hide state.
+  // iOS-only gating per 2d26cc4: declarative entering/exiting on
+  // conditionally-mounted views race Fabric's transaction merging on Android
+  // ("Unable to find viewState for tag" native crash); Android shows/hides
+  // instantly instead.
   return visible ? (
     <Portal>
-      <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.container}>
+      <Animated.View
+        entering={Platform.OS === 'ios' ? FadeIn : undefined}
+        exiting={Platform.OS === 'ios' ? FadeOut : undefined}
+        style={styles.container}
+      >
         <Animated.View
           style={{ flex: 1 }}
-          entering={SlideInUp.easing(Easing.ease)}
-          exiting={SlideOutDown.easing(Easing.ease)}
+          entering={Platform.OS === 'ios' ? SlideInUp.easing(Easing.ease) : undefined}
+          exiting={Platform.OS === 'ios' ? SlideOutDown.easing(Easing.ease) : undefined}
         >
           <View style={{ flex: 1 }} onTouchEnd={onClose} />
 
