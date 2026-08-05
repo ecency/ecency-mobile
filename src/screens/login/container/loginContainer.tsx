@@ -138,12 +138,13 @@ class LoginContainer extends PureComponent<any, any> {
           dispatch(loginAction(true));
 
           if (isPinCodeOpen) {
-            dispatch(
-              navigation.navigate({
+            navigation.navigate({
+              name: ROUTES.SCREENS.PINCODE,
+              params: {
                 accessToken: result.accessToken,
                 navigateTo: ROUTES.DRAWER.MAIN,
-              }),
-            );
+              },
+            });
           } else {
             navigation.navigate({
               name: ROUTES.DRAWER.MAIN,
