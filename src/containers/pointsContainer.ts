@@ -25,6 +25,7 @@ import { resolvePointType } from '../constants/options/points';
 
 // Constants
 import ROUTES from '../constants/routeNames';
+import type { RouteName } from '../navigation/types';
 
 // Utils
 import { groomingPointsTransactionData, getPointsEstimate } from '../utils/wallet';
@@ -140,7 +141,7 @@ const PointsContainer = ({
   // Component Functions
 
   const _handleOnDropdownSelected = (index: any) => {
-    let navigateTo;
+    let navigateTo: RouteName | undefined;
     let navigateParams;
 
     if (index === 'dropdown_transfer') {
@@ -171,7 +172,7 @@ const PointsContainer = ({
     }
 
     if (isPinCodeOpen) {
-      (navigation as any).navigate({
+      navigation.navigate({
         name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo,
@@ -179,10 +180,7 @@ const PointsContainer = ({
         },
       });
     } else {
-      (navigation as any).navigate({
-        name: navigateTo,
-        params: navigateParams,
-      });
+      navigation.navigate(navigateTo as any, navigateParams);
     }
   };
 

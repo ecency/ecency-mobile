@@ -28,7 +28,6 @@ const NumericKeyboard = ({ onPress }: any) => (
       />
       <IconButton
         onPress={() => onPress && onPress('clear')}
-        isCircle
         style={styles.buttonWithoutBorder}
         iconStyle={styles.iconButton}
         name="backspace"

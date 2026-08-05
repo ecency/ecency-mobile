@@ -190,7 +190,7 @@ export const EditorToolbar = ({
   };
 
   const _showPollsExtension = async () => {
-    (navigation as any).navigate(ROUTES.MODALS.POLL_WIZARD, {
+    navigation.navigate(ROUTES.MODALS.POLL_WIZARD, {
       draftId,
     });
   };
@@ -218,7 +218,7 @@ export const EditorToolbar = ({
   };
 
   const _openPerks = () => {
-    (navigation as any).navigate(ROUTES.SCREENS.PERKS);
+    navigation.navigate(ROUTES.SCREENS.PERKS);
   };
 
   const _showDictation = () => {
@@ -239,7 +239,7 @@ export const EditorToolbar = ({
   };
 
   const _showAiImageGenerator = () => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.AI_IMAGE_GENERATOR,
       params: {
         suggestedPrompt: suggestedPrompt || undefined,

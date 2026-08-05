@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { TouchableOpacity, ActivityIndicator } from 'react-native';
+import { TouchableOpacity, ActivityIndicator, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Icon } from '../../icon';
 
@@ -9,6 +9,25 @@ import styles from './iconButtonStyles';
  * ------------------------------------------------
  *   @prop { type }    name                - Description....
  */
+
+interface IconButtonProps {
+  name?: string;
+  iconType?: string;
+  color?: string;
+  size?: number;
+  backgroundColor?: string;
+  badgeCount?: number | string;
+  badgeStyle?: StyleProp<ViewStyle>;
+  badgeTextStyle?: StyleProp<TextStyle>;
+  disabled?: boolean;
+  isLoading?: boolean;
+  iconStyle?: StyleProp<TextStyle>;
+  style?: StyleProp<ViewStyle>;
+  onPress?: (event?: any) => void;
+  onLongPress?: (event?: any) => void;
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
+}
 
 const IconButton = ({
   backgroundColor,
@@ -27,7 +46,7 @@ const IconButton = ({
   isLoading,
   accessibilityLabel,
   accessibilityHint,
-}: any) => (
+}: IconButtonProps) => (
   <Fragment>
     <TouchableOpacity
       style={[styles.iconButton, style]}

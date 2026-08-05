@@ -144,7 +144,7 @@ const PostComments = forwardRef(
 
     const _handleOnVotersPress = useCallback(
       (activeVotes: any, content: any) => {
-        (navigation as any).navigate({
+        navigation.navigate({
           name: ROUTES.SCREENS.VOTERS,
           params: {
             activeVotes,
@@ -158,7 +158,7 @@ const PostComments = forwardRef(
 
     const _handleOnEditPress = useCallback(
       (item: any) => {
-        (navigation as any).navigate({
+        navigation.navigate({
           name: ROUTES.SCREENS.EDITOR,
           key: `editor_edit_reply_${item.permlink}`,
           params: {
@@ -273,7 +273,7 @@ const PostComments = forwardRef(
     const _openReplyThread = useCallback(
       (comment: any) => {
         postsCachePrimer.cachePost(comment);
-        (navigation as any).navigate({
+        navigation.navigate({
           name: ROUTES.SCREENS.POST,
           key: comment.permlink,
           params: {

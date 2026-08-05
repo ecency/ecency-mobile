@@ -50,14 +50,14 @@ const CommunityActivitiesScreen = ({ route }: any) => {
   };
 
   const _openAccount = (username: string) =>
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.PROFILE,
       key: username,
       params: { username },
     });
 
   const _openPost = (author: string, permlink: string) =>
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.POST,
       key: `${author}/${permlink}`,
       params: { author, permlink },

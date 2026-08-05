@@ -269,7 +269,7 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
           ) : needsRetry ? (
             <MainButton
               style={styles.button}
-              isDisabled={busy}
+              isDisable={busy}
               onPress={submit}
               iconName="refresh"
               iconType="MaterialIcons"
@@ -278,7 +278,7 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
           ) : (
             <MainButton
               style={styles.button}
-              isDisabled={busy || !isPriceReady}
+              isDisable={busy || !isPriceReady}
               onPress={start}
               iconName="mic"
               iconType="MaterialIcons"
@@ -290,7 +290,7 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
 
           <MainButton
             style={styles.button}
-            isDisabled={busy}
+            isDisable={busy}
             onPress={close}
             text={intl.formatMessage({ id: 'dictation.done' })}
           />

@@ -285,16 +285,8 @@ class ProfileView extends PureComponent<any, any> {
   };
 
   _renderTabs = () => {
-    const {
-      about,
-      changeForceLoadPostState,
-      forceLoadPost,
-      username,
-      isOwnProfile,
-      profileTabs,
-      ownProfileTabs,
-      deepLinkFilter,
-    } = this.props;
+    const { about, username, isOwnProfile, profileTabs, ownProfileTabs, deepLinkFilter } =
+      this.props;
 
     const pageType = isOwnProfile ? 'ownProfile' : 'profile';
     const tabs = (isOwnProfile ? ownProfileTabs : profileTabs) || getDefaultFilters(pageType);
@@ -342,8 +334,6 @@ class ProfileView extends PureComponent<any, any> {
           // stationary touch or tiny drag) only fed the oscillation. onScrollEndDrag drives
           // collapse instead.
           handleOnScroll={this._handleOnScroll}
-          forceLoadPosts={forceLoadPost}
-          changeForceLoadPostState={changeForceLoadPostState}
           isFeedScreen={false}
           tabContentOverrides={tabContentOverrides}
           onChangeTab={this._onTabChange}

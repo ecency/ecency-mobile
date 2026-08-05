@@ -79,7 +79,7 @@ const CommunityContainer = ({ tag, children, currentAccount, isLoggedIn }: any) 
   };
 
   const _handleNewPostButtonPress = () => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.EDITOR,
       key: 'editor_community_post',
       params: {

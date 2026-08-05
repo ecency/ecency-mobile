@@ -20,7 +20,7 @@ export const BotCommentsPreview = ({ comments }: BotCommentsProps) => {
   }
 
   const _onPress = () => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.MODALS.BOT_COMMENTS,
       params: {
         comments,

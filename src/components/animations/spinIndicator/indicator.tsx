@@ -73,7 +73,7 @@ export default class Indicator extends PureComponent<any, any> {
     this.setState({ animation: null });
   };
 
-  _renderComponent = (undefined: any, index: any) => {
+  _renderComponent = (_item: any, index: number) => {
     const { progress } = this.state;
     const { renderComponent } = this.props;
 

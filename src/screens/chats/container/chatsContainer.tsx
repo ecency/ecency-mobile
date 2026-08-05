@@ -610,19 +610,16 @@ const ChatsContainer = () => {
         // Refresh global badge to reflect the mark-as-viewed
         _refreshGlobalUnreadChatCount();
 
-        (navigation as any).navigate(
-          ROUTES.SCREENS.CHAT_THREAD as never,
-          {
-            channelId: joinedId,
-            channelName: mergedChannel.display_name || mergedChannel.name || channel.name,
-            channelDescription: mergedChannel.header || mergedChannel.purpose,
-            communityIdentifier,
-            bootstrapResult,
-            userLookup,
-            lastViewedAt: mergedChannel.last_viewed_at || mergedChannel.last_view_at,
-            channelType: mergedChannel.type || channel.type,
-          } as never,
-        );
+        navigation.navigate(ROUTES.SCREENS.CHAT_THREAD, {
+          channelId: joinedId,
+          channelName: mergedChannel.display_name || mergedChannel.name || channel.name,
+          channelDescription: mergedChannel.header || mergedChannel.purpose,
+          communityIdentifier,
+          bootstrapResult,
+          userLookup,
+          lastViewedAt: mergedChannel.last_viewed_at || mergedChannel.last_view_at,
+          channelType: mergedChannel.type || channel.type,
+        });
       } catch (err: any) {
         setSearchError(err?.message || 'Unable to join channel');
       }
@@ -649,19 +646,16 @@ const ChatsContainer = () => {
         );
         const communityIdentifier = safeExtractCommunityIdentifier(resolvedChannel);
 
-        (navigation as any).navigate(
-          ROUTES.SCREENS.CHAT_THREAD as never,
-          {
-            channelId,
-            channelName: getHiveUsernameFromMattermostUser(user) || user.username || user.nickname,
-            channelDescription: resolvedChannel.header || resolvedChannel.purpose,
-            communityIdentifier,
-            bootstrapResult,
-            userLookup,
-            lastViewedAt: resolvedChannel.last_viewed_at || resolvedChannel.last_view_at,
-            channelType: 'D',
-          } as never,
-        );
+        navigation.navigate(ROUTES.SCREENS.CHAT_THREAD, {
+          channelId,
+          channelName: getHiveUsernameFromMattermostUser(user) || user.username || user.nickname,
+          channelDescription: resolvedChannel.header || resolvedChannel.purpose,
+          communityIdentifier,
+          bootstrapResult,
+          userLookup,
+          lastViewedAt: resolvedChannel.last_viewed_at || resolvedChannel.last_view_at,
+          channelType: 'D',
+        });
       } catch (err: any) {
         setSearchError(err?.message || 'Unable to start chat');
       }
@@ -877,24 +871,21 @@ const ChatsContainer = () => {
           const description = item.header || item.purpose || '';
           const communityIdentifier = safeExtractCommunityIdentifier(item);
 
-          (navigation as any).navigate(
-            ROUTES.SCREENS.CHAT_THREAD as never,
-            {
-              channelId,
-              channelName: item.display_name || item.name || channelId,
-              channelDescription: description,
-              communityIdentifier,
-              bootstrapResult,
-              userLookup,
-              lastViewedAt:
-                item?.last_viewed_at ||
-                item?.last_view_at ||
-                item?.lastViewedAt ||
-                item?.lastViewed ||
-                null,
-              channelType: item.type,
-            } as never,
-          );
+          navigation.navigate(ROUTES.SCREENS.CHAT_THREAD, {
+            channelId,
+            channelName: item.display_name || item.name || channelId,
+            channelDescription: description,
+            communityIdentifier,
+            bootstrapResult,
+            userLookup,
+            lastViewedAt:
+              item?.last_viewed_at ||
+              item?.last_view_at ||
+              item?.lastViewedAt ||
+              item?.lastViewed ||
+              null,
+            channelType: item.type,
+          });
         }}
         onShowOptions={_confirmChannelOptions}
       />

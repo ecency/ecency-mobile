@@ -87,7 +87,7 @@ const AccountListContainer = ({ data, children }: any) => {
   };
 
   const _handleOnUserPress = (username: any) => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.PROFILE,
       params: {
         username,

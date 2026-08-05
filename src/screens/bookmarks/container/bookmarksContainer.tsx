@@ -58,7 +58,7 @@ const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }: 
   };
 
   const _handleOnFavoritePress = (username: any) => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.PROFILE,
       params: {
         username,
@@ -69,7 +69,7 @@ const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }: 
 
   const _handleOnBookmarkPress = (permlink: any, author: any) => {
     if (permlink && author) {
-      (navigation as any).navigate({
+      navigation.navigate({
         name: ROUTES.SCREENS.POST,
         params: {
           permlink,

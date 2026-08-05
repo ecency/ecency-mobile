@@ -137,7 +137,7 @@ const CommunityMembersScreen = ({ route }: any) => {
   };
 
   const _handleOnUserPress = (username: string) => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.PROFILE,
       key: username,
       params: { username },

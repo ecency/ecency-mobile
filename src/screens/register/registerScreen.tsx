@@ -174,7 +174,7 @@ const RegisterScreen = ({ navigation, route }: any) => {
           id: 'login.login',
         })}
         onBackPress={() => {
-          (navigation as any).navigate({
+          navigation.navigate({
             name: ROUTES.DRAWER.MAIN,
           });
         }}

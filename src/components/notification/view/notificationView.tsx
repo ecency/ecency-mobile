@@ -44,10 +44,10 @@ interface Props {
   isFetching: boolean;
   isNotificationRefreshing: boolean;
   globalProps: any;
-  handleOnUserPress: (username?: any) => void;
+  handleOnUserPress: (username?: string) => void;
   readAllNotification: () => void;
-  getActivities: (loadMore?: any) => void;
-  changeSelectedFilter: (filter?: any, index?: any) => void;
+  getActivities: (loadMore?: boolean) => void;
+  changeSelectedFilter: (filter?: string, index?: number) => void;
   navigateToNotificationRoute: () => void;
   listRef?: React.RefObject<FlatList>;
 }

@@ -61,7 +61,7 @@ export const PostHtmlInteractionHandler = forwardRef(
         // them as external; open the wave thread natively instead of the link sheet
         const wavesLink = parseWavesUrl(url);
         if (wavesLink) {
-          (navigation as any).navigate({
+          navigation.navigate({
             name: ROUTES.SCREENS.POST,
             params: {
               author: wavesLink.author,
@@ -127,7 +127,7 @@ export const PostHtmlInteractionHandler = forwardRef(
               intl,
               url: link,
               onConfirm: () =>
-                (navigation as any).navigate({
+                navigation.navigate({
                   name: ROUTES.SCREENS.DAPP_BROWSER,
                   params: {
                     url: link,

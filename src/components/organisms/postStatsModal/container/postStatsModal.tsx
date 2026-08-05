@@ -49,7 +49,7 @@ export const PostStatsModal = forwardRef(({ post }: PostStatsModalProps, ref) =>
 
     sheetModalRef.current?.hide();
     if (isPinCodeOpen) {
-      (navigation as any).navigate({
+      navigation.navigate({
         name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo: routeName,
@@ -59,7 +59,7 @@ export const PostStatsModal = forwardRef(({ post }: PostStatsModalProps, ref) =>
       return;
     }
 
-    (navigation as any).navigate(routeName, params);
+    navigation.navigate(routeName, params);
   };
 
   return (

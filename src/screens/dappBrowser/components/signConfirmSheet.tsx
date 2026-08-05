@@ -210,7 +210,6 @@ const SignConfirmSheet: React.FC<SheetProps<'sign_confirm'>> = ({ sheetId, paylo
             style={styles.cancelButton}
             onPress={() => _close(false)}
             text={intl.formatMessage({ id: 'alert.cancel', defaultMessage: 'Cancel' })}
-            isTransparent
           />
         </View>
       </View>

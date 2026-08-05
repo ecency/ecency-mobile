@@ -67,7 +67,6 @@ class ProfileContainer extends Component<any, any> {
     this.state = {
       comments: [],
       follows: {},
-      forceLoadPost: false,
       isFavorite: false,
       isFollowing: false,
       isMuted: false,
@@ -561,10 +560,6 @@ class ProfileContainer extends Component<any, any> {
     }
   };
 
-  _changeForceLoadPostState = (value: any) => {
-    this.setState({ forceLoadPost: value });
-  };
-
   _handleOnPressProfileEdit = () => {
     const { navigation, currentAccount } = this.props;
 
@@ -593,7 +588,6 @@ class ProfileContainer extends Component<any, any> {
       comments,
       error,
       follows,
-      forceLoadPost,
       isFavorite,
       isFollowing,
       isMuted,
@@ -625,7 +619,6 @@ class ProfileContainer extends Component<any, any> {
       children({
         about: get(user, 'profile', {}),
         activePage,
-        changeForceLoadPostState: this._changeForceLoadPostState,
         comments,
         currency,
         currencyRate,
@@ -634,7 +627,6 @@ class ProfileContainer extends Component<any, any> {
         resourceCredits,
         error,
         follows,
-        forceLoadPost,
         getReplies: this._getReplies,
         handleFollowUnfollowUser: this._handleFollowUnfollowUser,
         handleMuteUnmuteUser: this._handleMuteUnmuteUser,

@@ -18,7 +18,7 @@ const VotersDisplayView = ({ votes, createdAt = '2010-01-01T00:00:00' }: any) =>
   const navigation = useNavigation();
 
   const _handleOnUserPress = (username: any) => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.PROFILE,
       params: {
         username,

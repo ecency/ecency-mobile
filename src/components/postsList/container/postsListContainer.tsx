@@ -200,7 +200,7 @@ const postsListContainer = (
           break;
 
         case PostCardActionIds.NAVIGATE:
-          (navigation as any).navigate(payload);
+          navigation.navigate(payload);
           break;
 
         case PostCardActionIds.REPLY:

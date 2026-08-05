@@ -24,7 +24,6 @@ const PostsTabContent = ({
   isFeedScreen,
   isInitialTab,
   pageType,
-  forceLoadPosts,
   filterScrollRequest,
   feedUsername,
   tag,
@@ -84,10 +83,10 @@ const PostsTabContent = ({
   }, [tag, feedUsername]);
 
   useEffect(() => {
-    if (isConnected && (username !== sessionUser || forceLoadPosts)) {
+    if (isConnected && username !== sessionUser) {
       _initContent(username);
     }
-  }, [username, forceLoadPosts, isConnected, sessionUser]);
+  }, [username, isConnected, sessionUser]);
 
   useEffect(() => {
     if (filterScrollRequest && filterScrollRequest === filterKey) {

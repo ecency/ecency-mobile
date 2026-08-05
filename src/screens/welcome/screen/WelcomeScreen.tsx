@@ -48,7 +48,7 @@ const WelcomeScreen = () => {
     dispatch(setLastAppVersion(appVersion));
     dispatch(setIsTermsAccepted(isConsentChecked));
 
-    (navigation as any).navigate(ROUTES.STACK.MAIN);
+    navigation.navigate(ROUTES.STACK.MAIN);
   };
 
   const _onCheckPress = (value: any, isCheck: any) => {
@@ -57,7 +57,7 @@ const WelcomeScreen = () => {
 
   const _onTermsPress = () => {
     const url = ECENCY_TERMS_URL;
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.WEB_BROWSER,
       params: {
         url,

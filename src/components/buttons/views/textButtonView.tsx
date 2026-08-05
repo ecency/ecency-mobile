@@ -1,9 +1,24 @@
 import React, { Fragment } from 'react';
-import { Text, View, TouchableWithoutFeedback } from 'react-native';
+import {
+  Text,
+  View,
+  TouchableWithoutFeedback,
+  StyleProp,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 
 import styles from './textButtonStyles';
 
-const TextButtonView = ({ text, onPress, style, textStyle, disabled }: any) => (
+interface TextButtonProps {
+  text?: string;
+  onPress?: (event?: any) => void;
+  style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
+  disabled?: boolean;
+}
+
+const TextButtonView = ({ text, onPress, style, textStyle, disabled }: TextButtonProps) => (
   <Fragment>
     <TouchableWithoutFeedback
       style={[styles.button]}

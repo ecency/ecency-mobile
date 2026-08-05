@@ -88,7 +88,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }: any) => {
   };
 
   const _editDraft = (id: string) => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.EDITOR,
       key: `editor_draft_${id}`,
       params: {
@@ -99,7 +99,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }: any) => {
 
   // opens editor hydrated from the template as a new post instead of editing the template
   const _applyTemplate = (template: any) => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.EDITOR,
       key: `editor_template_${template._id}`,
       params: {

@@ -15,7 +15,7 @@ const FormInputView = ({ description, iconName, bold, link }: any) => {
   const navigation = useNavigation();
 
   const _onPress = () => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.WEB_BROWSER,
       params: {
         url: link,

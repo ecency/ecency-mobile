@@ -172,7 +172,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
   };
 
   const _handleOnUserPress = (username: string) => {
-    (navigation as any).navigate({
+    navigation.navigate({
       name: ROUTES.SCREENS.PROFILE,
       params: {
         username,
@@ -185,7 +185,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
   const _handleOnPressUpdate = (username: string) => {
     if (mode === MODES.DELEGATEED) {
       console.log('delegate HP!');
-      (navigation as any).navigate({
+      navigation.navigate({
         name: ROUTES.SCREENS.TRANSFER,
         params: {
           transferType: TransferTypes.DELEGATE_VESTING_SHARES,

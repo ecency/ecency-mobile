@@ -806,7 +806,7 @@ const PostOptionsModal = (
 
   const _redirectToReply = () => {
     if (isLoggedIn) {
-      (navigation as any).navigate({
+      navigation.navigate({
         name: ROUTES.SCREENS.EDITOR,
         key: `editor_post_${content.permlink}`,
         params: {
@@ -825,7 +825,7 @@ const PostOptionsModal = (
     };
 
     if (isPinCodeOpen) {
-      (navigation as any).navigate({
+      navigation.navigate({
         name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo: name,
@@ -833,7 +833,7 @@ const PostOptionsModal = (
         },
       });
     } else if (isLoggedIn) {
-      (navigation as any).navigate({
+      navigation.navigate({
         name,
         params,
       });
@@ -953,7 +953,7 @@ const PostOptionsModal = (
         _muteCommunityPost({ unmute: true });
         break;
       case 'edit-history':
-        (navigation as any).navigate({
+        navigation.navigate({
           name: ROUTES.SCREENS.EDIT_HISTORY,
           params: {
             author: content?.author || '',

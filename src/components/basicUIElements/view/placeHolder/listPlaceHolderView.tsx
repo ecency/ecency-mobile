@@ -11,7 +11,7 @@ const ListPlaceHolderView = () => {
   const ratio = (dim.height - 300) / 50;
   const listElements: any[] = [];
 
-  times(parseInt(ratio as any), (i) => {
+  times(Math.floor(ratio), (i) => {
     listElements.push(<ListItemPlaceHolder key={i} />);
   });
 

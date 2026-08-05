@@ -46,7 +46,7 @@ const HeaderContainer = ({
 
   const _handleOnBoostPress = () => {
     // open the perks dashboard (quests + ways to spend points)
-    (navigation as any).navigate(ROUTES.SCREENS.PERKS);
+    navigation.navigate(ROUTES.SCREENS.PERKS);
   };
 
   return (

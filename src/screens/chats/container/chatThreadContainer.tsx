@@ -2167,7 +2167,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         {showDmWarning && (
           <DmWarningBanner
             onDismiss={_handleDismissDmWarning}
-            onSettingsPress={() => (navigation as any).navigate(ROUTES.SCREENS.SETTINGS)}
+            onSettingsPress={() => navigation.navigate(ROUTES.SCREENS.SETTINGS)}
           />
         )}
         <ThreadMessageList
