@@ -591,6 +591,7 @@ const MarkdownEditorView = ({
         <EditorToolbar
           draftId={draftId}
           postBody={bodyTextRef.current}
+          isEditing={isEditing}
           isPreviewActive={isPreviewActive}
           paramFiles={paramFiles}
           isEditMode={isEdit}

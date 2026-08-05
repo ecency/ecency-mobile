@@ -53,7 +53,7 @@ type Props = {
   draftId?: string;
   postBody: string;
   paramFiles: any[];
-  isEditing?: boolean;
+  isEditing: boolean;
   isPreviewActive: boolean;
   isEditMode: boolean;
   isReply?: boolean;
@@ -374,7 +374,7 @@ export const EditorToolbar = ({
               postBody={postBody}
               isPreviewActive={isPreviewActive}
               paramFiles={paramFiles}
-              isEditing={!!isEditing}
+              isEditing={isEditing}
               hideToolbarExtension={_hideExtension}
               handleMediaInsert={handleMediaInsert}
               onVideoThumb={handleVideoThumb}
