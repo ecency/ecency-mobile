@@ -526,7 +526,7 @@ export const refreshSCToken = async (userData: any, pinCode: string | undefined)
 
     await setSCAccount(newSCAccountData);
     const accessToken = newSCAccountData.access_token;
-    const encryptedAccessToken = encryptKey(accessToken, pinCode);
+    const encryptedAccessToken = encryptKey(accessToken, pinCode!);
     await updateUserData({
       ...userData,
       accessToken: encryptedAccessToken,

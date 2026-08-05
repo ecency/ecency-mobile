@@ -49,7 +49,7 @@ export const resetWalletData = () => ({
   type: RESET_WALLET_DATA,
 });
 
-export const fetchCoinQuotes = () => async (dispatch, getState) => {
+export const fetchCoinQuotes = () => async (dispatch: any, getState: any) => {
   const { currency } = getState().application;
 
   try {

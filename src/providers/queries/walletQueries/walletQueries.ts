@@ -289,9 +289,13 @@ export const useClaimRewardsMutation = () => {
         let portfolio: PortfolioItem[] | undefined;
         try {
           const raw = await queryClient.fetchQuery<any>(
-            getPortfolioQueryOptions(currentAccount?.name || '', currency.currency, true),
+            getPortfolioQueryOptions(
+              currentAccount?.name || '',
+              (currency as any).currency,
+              true,
+            ) as any,
           );
-          portfolio = Array.isArray(raw) ? raw : raw?.wallets;
+          portfolio = Array.isArray(raw) ? raw : (raw as any)?.wallets;
         } catch {
           // Fetch failed — fall back to whatever is in the cache.
           // Cache may hold the raw SDK shape { wallets: [...] } or the
@@ -424,9 +428,9 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
 
     if (isEngine) {
       const pages = engineQuery.data?.pages || [];
-      const merged = unionBy(...pages, 'engineTrxId');
+      const merged = (unionBy as any)(...pages, 'engineTrxId');
       return merged.sort(
-        (a, b) => new Date(b.created ?? 0).getTime() - new Date(a.created ?? 0).getTime(),
+        (a: any, b: any) => new Date(b.created ?? 0).getTime() - new Date(a.created ?? 0).getTime(),
       );
     }
 

@@ -11,7 +11,7 @@ interface State {
 const initialState: State = {
   walkthroughMap: new Map(),
 };
-const walkthroughReducer = (state = initialState, action) => {
+const walkthroughReducer = (state = initialState, action: any) => {
   // console.log('action : ', action);
 
   const { type, payload } = action;

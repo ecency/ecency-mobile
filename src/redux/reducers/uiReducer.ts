@@ -41,7 +41,7 @@ const initialState: UiState = {
   unreadChatCount: 0,
 };
 
-const uiReducer = (state = initialState, action): UiState => {
+const uiReducer = (state = initialState, action: any): UiState => {
   switch (action.type) {
     case UPDATE_ACTIVE_BOTTOM_TAB:
       return {

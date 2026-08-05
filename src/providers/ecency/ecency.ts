@@ -99,7 +99,12 @@ export const deleteAccount = async (username: string, data: string) => {
  * ************************************
  */
 
-export const uploadImage = async (media, username, sign, uploadProgress = null) => {
+export const uploadImage = async (
+  media: any,
+  username: string,
+  sign: any,
+  uploadProgress: any = null,
+) => {
   try {
     const file: { uri: string; type: string; name: string; size?: number } = {
       uri: media.path,

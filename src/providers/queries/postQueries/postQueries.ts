@@ -39,7 +39,7 @@ export const useGetPostQuery = ({
 
   // IMPORTANT: Pass undefined (not empty string) for observer when no account
   const observer = currentAccount?.name || currentAccount?.username;
-  const sdkQueryOptions = getPostQueryOptions(author, permlink, observer);
+  const sdkQueryOptions = getPostQueryOptions(author!, permlink, observer);
 
   const query = useQuery({
     ...sdkQueryOptions,
@@ -90,7 +90,7 @@ export const usePostsCachePrimer = () => {
   const queryClient = useQueryClient();
   const currentAccount = useAppSelector(selectCurrentAccount);
 
-  const cachePost = async (post) => {
+  const cachePost = async (post: any) => {
     if (!post || !post.author || !post.permlink || !post.body) {
       return;
     }
@@ -155,7 +155,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
     }
 
     // Normalize SDK response to a map keyed by "author/permlink"
-    const normalizeReplies = (replies) => {
+    const normalizeReplies = (replies: any) => {
       if (!Array.isArray(replies)) {
         return replies;
       }
@@ -172,7 +172,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         .filter(Boolean);
     };
 
-    const normalizeDiscussionData = (rawData) => {
+    const normalizeDiscussionData = (rawData: any) => {
       if (!rawData) {
         return {};
       }
@@ -190,7 +190,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         }, {});
       }
 
-      const normalized = {};
+      const normalized: Record<string, any> = {};
       Object.keys(rawData).forEach((key) => {
         const comment = rawData[key];
         if (!comment) {
@@ -242,7 +242,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
     // Parse SDK comments to convert markdown to HTML using render-helper
     // IMPORTANT: parseComment mutates its input, so we must create a shallow copy first
-    const parsedComments = {};
+    const parsedComments: Record<string, any> = {};
     Object.keys(normalizedData).forEach((key) => {
       const comment = normalizedData[key];
       if (comment && comment.body) {
@@ -271,7 +271,9 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
       // Quick check if all keys are same
       const hasChanges = prevKeys.some(
-        (key) => !Object.prototype.hasOwnProperty.call(_data, key) || prev[key] !== _data[key],
+        (key) =>
+          !Object.prototype.hasOwnProperty.call(_data, key) ||
+          (prev as any)[key] !== (_data as any)[key],
       );
       if (hasChanges) {
         return _data;
@@ -388,7 +390,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
     };
 
     Object.keys(commentsMap).forEach((key) => {
-      const comment = commentsMap[key];
+      const comment = (commentsMap as any)[key];
 
       // process first level comment (exclude synthetic parent entries)
       if (
@@ -408,7 +410,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         const repliesChanged =
           !commentCopy ||
           commentCopy.repliesThread?.length !== newRepliesThread.length ||
-          commentCopy.repliesThread?.some((item, i) => item !== newRepliesThread[i]);
+          commentCopy.repliesThread?.some((item: any, i: number) => item !== newRepliesThread[i]);
 
         if (
           !commentCopy ||
@@ -434,11 +436,11 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
     });
 
     // filter comments using botsdata
-    const _botComments = comments.filter((comment) =>
+    const _botComments = comments.filter((comment: any) =>
       botAuthorsQuery.data.includes(comment.author),
     );
     const _userComments = comments.filter(
-      (comment) => !botAuthorsQuery.data.includes(comment.author),
+      (comment: any) => !botAuthorsQuery.data.includes(comment.author),
     );
 
     const sameList = (prevList: any[], nextList: any[]) => {

@@ -116,7 +116,7 @@ export const useFeedQuery = ({
         Boolean(sdkAccount), // only enable when account is present
       )
     : getPostsRankedInfiniteQueryOptions(
-        sdkSort,
+        sdkSort as any,
         sdkTag || '',
         POSTS_FETCH_COUNT,
         observer,
@@ -126,12 +126,12 @@ export const useFeedQuery = ({
   // Stable timestamp: only advances when query data changes (dataUpdatedAt).
   // Avoids new Date() inside select which would defeat TanStack structural sharing.
   const feedQuery = useInfiniteQuery({
-    ...queryOptions,
+    ...(queryOptions as any),
     select: useCallback(
-      (data) => {
+      (data: any) => {
         if (!data?.pages) return data;
 
-        const filteredPages = data.pages.map((page) => {
+        const filteredPages = data.pages.map((page: any) => {
           if (!Array.isArray(page)) return page;
 
           const nsfwFiltered = nsfw !== '0' ? filterNsfwPost(page, nsfw) : page;
@@ -155,7 +155,7 @@ export const useFeedQuery = ({
 
   // actions
   const _handleAppStateChange = useCallback(
-    (nextAppState) => {
+    (nextAppState: any) => {
       if (
         appState.current.match(/inactive|background/) &&
         nextAppState === 'active' &&
@@ -319,7 +319,7 @@ export const usePromotedPostsQuery = (enabled: boolean = true) => {
     select: (data) => {
       if (!Array.isArray(data)) return [];
 
-      const nsfwFiltered = nsfw !== '0' ? filterNsfwPost(data, nsfw) : data;
+      const nsfwFiltered = nsfw !== '0' ? filterNsfwPost(data as any, nsfw) : data;
 
       return nsfwFiltered.map((post) => parsePost(post, currentAccount?.name, true, true, false));
     },

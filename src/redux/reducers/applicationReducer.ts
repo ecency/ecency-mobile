@@ -139,7 +139,7 @@ const initialState: State = {
   commentUpvotePercent: 1,
   waveUpvotePercent: 1,
   nsfw: '1',
-  pin: encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY),
+  pin: encryptKey(Config.DEFAULT_PIN!, Config.PIN_KEY!),
   isPinCodeOpen: false,
   isRenderRequired: false,
   encUnlockPin: '',
@@ -156,7 +156,7 @@ const initialState: State = {
   },
 };
 
-const applicationReducer = (state = initialState, action): State => {
+const applicationReducer = (state = initialState, action: any): State => {
   switch (action.type) {
     case LOGIN:
       return {

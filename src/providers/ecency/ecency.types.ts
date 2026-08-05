@@ -1,5 +1,7 @@
-import { QuoteItem } from '../../redux/reducers/walletReducer';
+import type { QuoteItem } from '../../redux/reducers/walletReducer';
 import { PollPreferredInterpretation } from '../hive/hive.types';
+
+export type { QuoteItem };
 
 export interface ReceivedVestingShare {
   delegator: string;

@@ -35,15 +35,15 @@ export const getPointsSummary = async (username: string): Promise<EcencyUser | n
   try {
     const queryClient = getQueryClient();
     const response = await queryClient.fetchQuery(getPointsQueryOptions(username, 0));
-    return response as EcencyUser;
+    return response as unknown as EcencyUser;
   } catch (error) {
     // 404 is expected for accounts that have not yet been provisioned in the points system
-    if (/\b404\b/.test(error?.message || '') || error?.response?.status === 404) {
+    if (/\b404\b/.test((error as any)?.message || '') || (error as any)?.response?.status === 404) {
       return null;
     }
     console.warn('Failed to get points', error);
     Sentry.captureException(error);
-    throw new Error(error.response?.data?.message || error.message);
+    throw new Error((error as any).response?.data?.message || (error as any).message);
   }
 };
 
@@ -58,7 +58,7 @@ export const getPointsHistory = async (
   } catch (error) {
     console.warn('Failed to get points transactions', error);
     Sentry.captureException(error);
-    throw new Error(error.response?.data?.message || error.message);
+    throw new Error((error as any).response?.data?.message || (error as any).message);
   }
 };
 
@@ -73,10 +73,10 @@ export const claimPoints = async (timeoutMs = 15000) => {
     const duration = Date.now() - startedAt;
 
     if (duration > 8000) {
-      Sentry.captureMessage('points-claim-slow-response', (scope) => {
+      Sentry.captureMessage('points-claim-slow-response', ((scope: any) => {
         scope.setLevel('warning');
         scope.setContext('claimPoints', { duration, timeoutMs });
-      });
+      }) as any);
     }
 
     return response.data;
@@ -85,13 +85,13 @@ export const claimPoints = async (timeoutMs = 15000) => {
     const isTimeout = (error as any)?.code === 'ECONNABORTED';
 
     console.warn('Failed to claim points', error);
-    Sentry.captureException(error, (scope) => {
+    Sentry.captureException(error, ((scope: any) => {
       scope.setContext('claimPoints', { duration, timeoutMs, isTimeout });
-    });
+    }) as any);
 
     const errorMessage = isTimeout
       ? 'Points claim timed out, please try again.'
-      : error.response?.data?.message || error.message;
+      : (error as any).response?.data?.message || (error as any).message;
 
     throw new Error(errorMessage);
   }

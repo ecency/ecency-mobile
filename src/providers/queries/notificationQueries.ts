@@ -16,8 +16,6 @@ import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 import { decryptKey } from '../../utils/crypto';
 import { useAuthContext } from '../sdk/useAuthContext';
 
-const FETCH_LIMIT = 20; // Fetch 20 notifications per page
-
 /**
  * Hook to fetch notifications using SDK's infinite query
  * Migrated from custom useQueries implementation to SDK's getNotificationsInfiniteQueryOptions
@@ -26,7 +24,8 @@ const FETCH_LIMIT = 20; // Fetch 20 notifications per page
 export const useNotificationsQuery = (filter?: NotificationFilters) => {
   const { username, code } = useAuth();
 
-  const sdkOptions = getNotificationsInfiniteQueryOptions(username, code, filter, FETCH_LIMIT);
+  // the SDK's page size is fixed; a fourth limit argument was never read
+  const sdkOptions = getNotificationsInfiniteQueryOptions(username, code, filter as any);
 
   const infiniteQuery = useInfiniteQuery({
     ...sdkOptions,
@@ -41,7 +40,7 @@ export const useNotificationsQuery = (filter?: NotificationFilters) => {
     if (!infiniteQuery.data?.pages) return [];
     // SDK returns pages as arrays directly, not wrapped in { data: [...] }
     return infiniteQuery.data.pages
-      .flatMap((page) => (Array.isArray(page) ? page : page.data || []))
+      .flatMap((page: any) => (Array.isArray(page) ? page : page.data || []))
       .filter((item) => item != null); // Filter out undefined/null items
   }, [infiniteQuery.data?.pages]);
 

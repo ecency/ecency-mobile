@@ -46,7 +46,7 @@ const initialState: State = {
   defaultRewardType: RewardTypes.DEAFULT,
 };
 
-const editorReducer = (state = initialState, action) => {
+const editorReducer = (state = initialState, action: any) => {
   const { type, payload } = action;
   switch (type) {
     case SET_BENEFICIARIES:

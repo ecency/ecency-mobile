@@ -19,15 +19,20 @@ import './navigation/sheets';
 const queryClientProviderProps = initQueryClient();
 
 // sets up contexts
-const _renderApp = ({ locale }) => (
+const AnyIntlProvider = IntlProvider as any;
+
+const _renderApp = ({ locale }: { locale: string }) => (
   <PersistQueryClientProvider {...queryClientProviderProps}>
     <PersistGate loading={null} persistor={persistor}>
-      <IntlProvider
+      {/* react-intl's props type rejects the merged any-record; runtime accepts it */}
+      <AnyIntlProvider
         locale={locale}
         // en-US underlay: keys not yet translated for the active locale render
         // in English instead of as raw message ids (flat merge, so partially
         // translated namespaces keep their translated keys)
-        messages={{ ...flattenMessages(messages['en-US']), ...flattenMessages(messages[locale]) }}
+        messages={
+          { ...flattenMessages(messages['en-US']), ...flattenMessages(messages[locale]) } as any
+        }
       >
         <GestureHandlerRootView style={{ flex: 1 }}>
           <SafeAreaProvider>
@@ -38,12 +43,12 @@ const _renderApp = ({ locale }) => (
             </SheetProvider>
           </SafeAreaProvider>
         </GestureHandlerRootView>
-      </IntlProvider>
+      </AnyIntlProvider>
     </PersistGate>
   </PersistQueryClientProvider>
 );
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   locale: selectLanguage(state),
 });
 

@@ -4,7 +4,7 @@ export const navigationRef = createNavigationContainerRef();
 
 const navigate = (navigationProps: any) => {
   if (navigationRef.isReady()) {
-    navigationRef.navigate(navigationProps);
+    (navigationRef as any).navigate(navigationProps);
   }
 };
 

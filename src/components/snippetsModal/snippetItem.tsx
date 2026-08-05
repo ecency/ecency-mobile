@@ -54,7 +54,7 @@ const SnippetItem = ({ id, title, body, index, onEditPress }: SnippetItemProps) 
             <IconButton
               iconStyle={styles.itemIcon}
               style={styles.itemIconWrapper}
-              isLoading={snippetsDeleteMutation.isLoading}
+              isLoading={snippetsDeleteMutation.isPending}
               iconType="MaterialCommunityIcons"
               name="delete"
               onPress={_onRemovePress}

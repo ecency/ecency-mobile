@@ -288,7 +288,8 @@ const TippingDialogContent = forwardRef<any, TippingDialogContentProps>(
           <View style={styles.tipsInfoContainer}>
             <ActivityIndicator />
           </View>
-        ) : existingTipsQuery.data?.meta?.count > 0 && existingTipsQuery.data?.meta?.totals ? (
+        ) : (existingTipsQuery.data?.meta?.count ?? 0) > 0 &&
+          existingTipsQuery.data?.meta?.totals ? (
           <View style={styles.tipsInfoContainer}>
             <Text style={styles.tipsInfoTitle}>
               {intl.formatMessage({ id: 'tipping.existing_tips' })} (

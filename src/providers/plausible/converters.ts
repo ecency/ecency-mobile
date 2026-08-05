@@ -92,7 +92,7 @@ export function parsePostStatsByDimension<T>(response: StatsResponse, dimensionK
       } as T),
   );
 
-  reData.sort((a, b) => (a.stats.pageviews > b.stats.pageviews ? -1 : 1));
+  reData.sort((a: any, b: any) => (a.stats.pageviews > b.stats.pageviews ? -1 : 1));
 
   return reData;
 }
@@ -100,7 +100,7 @@ export function parsePostStatsByDimension<T>(response: StatsResponse, dimensionK
 // Convert PostStatsByDimension to a new type based on T, where key is inferred from T
 export const convertStatsByDimension = <T>(data: PostStatsByDimension[]): T[] => {
   // Get the key name from the first item of the type T
-  const key = Object.keys({} as T)[0] as keyof T;
+  const key = Object.keys({} as any)[0] as keyof T;
 
   return data.map((item) => ({ [key]: item.dimension, stats: item.stats } as T));
 };

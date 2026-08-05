@@ -53,7 +53,7 @@ export const BottomTabNavigator = () => {
 
       <Tab.Screen
         name={ROUTES.TABBAR.WALLET}
-        component={Wallet}
+        component={Wallet as any}
         initialParams={{
           iconName: 'wallet-outline', // read in bottomTabBarView (MaterialCommunityIcons)
         }}
@@ -61,7 +61,7 @@ export const BottomTabNavigator = () => {
 
       <Tab.Screen
         name={ROUTES.TABBAR.NOTIFICATION}
-        component={Notification}
+        component={Notification as any}
         initialParams={{
           iconName: 'bell-outline', // read in bottomTabBarView (MaterialCommunityIcons)
         }}

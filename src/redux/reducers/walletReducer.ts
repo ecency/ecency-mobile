@@ -98,7 +98,7 @@ interface State {
   };
   quotes: {
     [key: string]: QuoteItem;
-  };
+  } | null;
   vsCurrency: string;
   username: string;
   updateTimestamp: number;
@@ -114,7 +114,7 @@ const initialState: State = {
   updateTimestamp: 0,
 };
 
-const walletReducer = (state = initialState, action) => {
+const walletReducer = (state = initialState, action: any) => {
   const { type, payload } = action;
   switch (type) {
     case RESET_WALLET_DATA: {
