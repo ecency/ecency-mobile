@@ -62,12 +62,11 @@ const PostDisplayContainer = ({
     navigation.navigate({
       name: ROUTES.SCREENS.VOTERS,
       params: {
-        activeVotes,
         content: post,
       },
       // TODO: make unic
       key: post?.permlink + activeVotes.length,
-    } as never);
+    });
   }, [navigation, activeVotes, post]);
 
   const _handleOnReblogsPress = useCallback(() => {
@@ -78,7 +77,7 @@ const PostDisplayContainer = ({
         permlink,
       },
       key: `${post?.permlink}-reblogs-${post?.reblogs ?? 0}`,
-    } as never);
+    });
   }, [navigation, author, permlink, post?.permlink, post?.reblogs]);
 
   const _handleOnReplyPress = useCallback(() => {
@@ -88,10 +87,9 @@ const PostDisplayContainer = ({
       params: {
         isReply: true,
         post,
-        fetchPost: _fetchPost,
       },
-    } as never);
-  }, [navigation, post, _fetchPost]);
+    });
+  }, [navigation, post]);
 
   return (
     <PostDisplayView

@@ -9,8 +9,8 @@ import { getMessaging } from '@react-native-firebase/messaging';
 import { useNavigation } from '@react-navigation/native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SheetManager } from 'react-native-actions-sheet';
-import * as Sentry from '@sentry/react-native';
 import { getAccountsQueryOptions, saveNotificationSetting } from '@ecency/sdk';
+import { captureException } from '../../../utils/sentryUtils';
 import { getQueryClient } from '../../../providers/queries';
 import { login, loginWithSC2 } from '../../../providers/hive/auth';
 
@@ -141,15 +141,11 @@ class LoginContainer extends PureComponent<any, any> {
             navigation.navigate({
               name: ROUTES.SCREENS.PINCODE,
               params: {
-                accessToken: result.accessToken,
                 navigateTo: ROUTES.DRAWER.MAIN,
               },
             });
           } else {
-            navigation.navigate({
-              name: ROUTES.DRAWER.MAIN,
-              params: { accessToken: result.accessToken },
-            });
+            navigation.navigate({ name: ROUTES.DRAWER.MAIN });
           }
         } else {
           // TODO: Error alert (Toast Message)
@@ -238,10 +234,10 @@ class LoginContainer extends PureComponent<any, any> {
         dispatch(failedAccount(err.message));
         this.setState({ isLoading: false });
 
-        Sentry.captureException(err, ((scope: any) => {
+        captureException(err, (scope) => {
           scope.setTag('context', 'key-login-failure');
           scope.setUser({ username });
-        }) as any);
+        });
       });
   };
 

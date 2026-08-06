@@ -15,7 +15,7 @@ import { Image } from 'react-native-image-crop-picker';
 
 // import Config from 'react-native-config';
 // import { Platform } from 'react-native';
-import * as Sentry from '@sentry/react-native';
+import { captureException } from '../../../utils/sentryUtils';
 import { useAppDispatch, useAppSelector, useAuth } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { uploadImage } from '../../ecency/ecency';
@@ -236,7 +236,7 @@ export const useMediaUploadMutation = () => {
   //       })
   //       .catch((err) => {
   //         console.warn('Meida Upload Failed', err);
-  //         Sentry.captureException(err, (scope) => {
+  //         captureException(err, (scope) => {
   //           scope.setContext('info', { message: 'Media upload failed' });
   //         });
   //         reject(err);
@@ -268,9 +268,9 @@ export const useMediaUploadMutation = () => {
       }
     },
     onError: (err) => {
-      Sentry.captureException(err, ((scope: any) => {
+      captureException(err, (scope) => {
         scope.setContext('info', { message: 'Media upload failed' });
-      }) as any);
+      });
       dispatch(
         toastNotification(
           intl.formatMessage({

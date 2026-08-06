@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Services
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
-import * as Sentry from '@sentry/react-native';
+import { captureException } from '../utils/sentryUtils';
 import { selectCurrentAccount, selectIsLoggedIn } from '../redux/selectors';
 import { purchaseOrder } from '../providers/ecency/ecency';
 import * as IAP from '../providers/iap';
@@ -79,7 +79,7 @@ class InAppPurchaseContainer extends Component<any, any> {
       // place rest of unconsumed purhcases in state
       this._getUnconsumedPurchases();
     } catch (err) {
-      Sentry.captureException(err);
+      captureException(err);
       console.warn((err as any).code, (err as any).message);
 
       Alert.alert(
@@ -107,7 +107,7 @@ class InAppPurchaseContainer extends Component<any, any> {
         return JSON.parse(raw);
       }
     } catch (err) {
-      Sentry.captureException(err);
+      captureException(err);
     }
     return null;
   };
@@ -205,7 +205,7 @@ class InAppPurchaseContainer extends Component<any, any> {
           try {
             await AsyncStorage.removeItem(PENDING_ACCOUNT_PURCHASE_KEY);
           } catch (err) {
-            Sentry.captureException(err);
+            captureException(err);
           }
         }
 
@@ -220,7 +220,7 @@ class InAppPurchaseContainer extends Component<any, any> {
           console.info('ackResult', ackResult);
         } catch (ackErr) {
           console.warn('finishTransaction failed (non-fatal):', ackErr);
-          Sentry.captureException(ackErr);
+          captureException(ackErr);
         }
 
         this.setState({ isProcessing: false });
@@ -238,9 +238,9 @@ class InAppPurchaseContainer extends Component<any, any> {
         handleOnPurchaseFailure(err);
       }
       this._getUnconsumedPurchases();
-      Sentry.captureException(err, ((scope: any) => {
+      captureException(err, (scope) => {
         scope.setContext('data', data);
-      }) as any);
+      });
     }
   };
 
@@ -272,7 +272,7 @@ class InAppPurchaseContainer extends Component<any, any> {
         }
       }
     } catch (err) {
-      Sentry.captureException(err);
+      captureException(err);
       console.warn((err as any).code, (err as any).message);
     }
   };
@@ -293,7 +293,7 @@ class InAppPurchaseContainer extends Component<any, any> {
 
       const { intl, handleOnPurchaseFailure } = this.props;
 
-      Sentry.captureException(error);
+      captureException(error);
       if (IAP.isBillingUnavailableError(error) && Platform.OS === 'android') {
         Alert.alert(
           intl.formatMessage({
@@ -343,7 +343,7 @@ class InAppPurchaseContainer extends Component<any, any> {
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
       this.setState({ productList: products });
     } catch (error) {
-      Sentry.captureException(error);
+      captureException(error);
       Alert.alert(
         intl.formatMessage({
           id: 'alert.connection_issues',
@@ -402,7 +402,7 @@ class InAppPurchaseContainer extends Component<any, any> {
             JSON.stringify({ username, email, referral: referral || '' }),
           );
         } catch (err) {
-          Sentry.captureException(err);
+          captureException(err);
         }
       }
 
@@ -421,9 +421,9 @@ class InAppPurchaseContainer extends Component<any, any> {
       try {
         IAP.requestPurchase(sku);
       } catch (err) {
-        Sentry.captureException(err, ((scope: any) => {
+        captureException(err, (scope) => {
           scope.setContext('sku', { sku });
-        }) as any);
+        });
       }
     } else {
       navigation.navigate({
@@ -435,8 +435,8 @@ class InAppPurchaseContainer extends Component<any, any> {
   _handleQrPurchase = async () => {
     const { skus, intl, route } = this.props;
     const products = await IAP.getProducts(skus);
-    const productId = route?.param?.productId ?? '';
-    const username = route?.param?.username ?? '';
+    const productId = route?.params?.productId ?? '';
+    const username = route?.params?.username ?? '';
 
     const product: IAP.IapProduct =
       productId && products && products.find((product) => product.productId === productId);

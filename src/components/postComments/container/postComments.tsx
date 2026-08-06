@@ -147,11 +147,10 @@ const PostComments = forwardRef(
         navigation.navigate({
           name: ROUTES.SCREENS.VOTERS,
           params: {
-            activeVotes,
             content,
           },
           key: content.permlink,
-        } as never);
+        });
       },
       [navigation],
     );
@@ -166,7 +165,7 @@ const PostComments = forwardRef(
             isReply: true,
             post: item,
           },
-        } as never);
+        });
       },
       [navigation],
     );
@@ -280,7 +279,7 @@ const PostComments = forwardRef(
             author: comment.author,
             permlink: comment.permlink,
           },
-        } as never);
+        });
       },
       [postsCachePrimer, navigation],
     );

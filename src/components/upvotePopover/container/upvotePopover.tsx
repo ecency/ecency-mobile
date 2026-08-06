@@ -638,7 +638,6 @@ const UpvotePopover = forwardRef(({}, ref) => {
                 <Icon
                   size={20}
                   style={[styles.upvoteIcon, { color: '#007ee5' }]}
-                  active={!isLoggedIn}
                   iconType="AntDesign"
                   name={iconName}
                 />
@@ -679,7 +678,6 @@ const UpvotePopover = forwardRef(({}, ref) => {
                 <Icon
                   size={20}
                   style={[styles.upvoteIcon, { color: '#ec8b88' }]}
-                  active={!isLoggedIn}
                   iconType="AntDesign"
                   name={downVoteIconName}
                 />

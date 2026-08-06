@@ -1,9 +1,4 @@
-import {
-  PostStats,
-  PostStatsByDimension,
-  StatsResponse,
-  StatsResponseResult,
-} from './plausible.types';
+import { PostStats, StatsResponse, StatsResponseResult } from './plausible.types';
 
 export const convertStatsData = (rawData: any) => {
   if (!rawData || !rawData.results) {
@@ -96,11 +91,3 @@ export function parsePostStatsByDimension<T>(response: StatsResponse, dimensionK
 
   return reData;
 }
-
-// Convert PostStatsByDimension to a new type based on T, where key is inferred from T
-export const convertStatsByDimension = <T>(data: PostStatsByDimension[]): T[] => {
-  // Get the key name from the first item of the type T
-  const key = Object.keys({} as any)[0] as keyof T;
-
-  return data.map((item) => ({ [key]: item.dimension, stats: item.stats } as T));
-};

@@ -56,13 +56,7 @@ const SelectCommunityAreaView = ({
     >
       <UserAvatar username={username} noAction />
       <Text style={[globalStyles.text, styles.chooseACommunityText]}>{title}</Text>
-      <Icon
-        size={24}
-        iconStyle={styles.leftIcon}
-        style={styles.icon}
-        name="arrow-drop-down"
-        iconType="MaterialIcons"
-      />
+      <Icon size={24} style={styles.icon} name="arrow-drop-down" iconType="MaterialIcons" />
 
       {_renderRestrictionIcon}
     </TouchableOpacity>

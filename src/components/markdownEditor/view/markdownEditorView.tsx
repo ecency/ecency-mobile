@@ -533,7 +533,6 @@ const MarkdownEditorView = ({
               </View>
               <Icon
                 size={24}
-                iconStyle={styles.leftIcon}
                 style={styles.iconArrow}
                 name="arrow-drop-down"
                 iconType="MaterialIcons"

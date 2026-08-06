@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState, Ref } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
-import { useAppSelector } from '../../../hooks';
 import { FormattedCurrency } from '../../formatedElements';
 import Icon from '../../icon';
 import styles from '../styles/children.styles';
-import { selectCurrentAccount } from '../../../redux/selectors';
 
 interface UpvoteButtonProps {
   content: any;
@@ -25,8 +23,6 @@ export const UpvoteButton = ({
   const intl = useIntl();
   const upvoteRef = useRef<any>(null);
   const detailsRef = useRef<any>(null);
-
-  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const [isVoted, setIsVoted] = useState(!!content.isUpVoted);
   const [isDownVoted, setIsDownVoted] = useState(!!content.isDownVoted);
@@ -114,7 +110,6 @@ export const UpvoteButton = ({
         <View hitSlop={{ top: 10, bottom: 10, left: 10, right: 5 }}>
           <Icon
             style={[styles.upvoteIcon, isDownVoted && { color: '#ec8b88' }]}
-            active={!currentAccount}
             iconType={iconType}
             name={isDownVoted ? downVoteIconName : iconName}
           />

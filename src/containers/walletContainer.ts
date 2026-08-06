@@ -279,6 +279,9 @@ const WalletContainer = ({
   };
 
   const _navigate = async (transferType: any, fundType: any) => {
+    if (!walletData) {
+      return;
+    }
     let balance;
     const normalizedTransferType = normalizeTransferType(transferType);
     const isNativeAsset = fundType === 'HIVE' || fundType === 'HBD';
@@ -290,7 +293,7 @@ const WalletContainer = ({
         transferType === TransferTypes.TRANSFER_TO_VESTING) &&
       fundType === 'HIVE'
     ) {
-      balance = Math.round(walletData!.balance! * 1000) / 1000;
+      balance = Math.round((walletData.balance ?? 0) * 1000) / 1000;
     }
     if (
       (transferType === 'transfer_token' ||
@@ -299,13 +302,13 @@ const WalletContainer = ({
         transferType === TransferTypes.TRANSFER_TO_SAVINGS) &&
       fundType === 'HBD'
     ) {
-      balance = Math.round(walletData!.hbdBalance! * 1000) / 1000;
+      balance = Math.round((walletData.hbdBalance ?? 0) * 1000) / 1000;
     }
     if (transferType === 'withdraw_hive' && fundType === 'HIVE') {
-      balance = Math.round(walletData!.savingBalance! * 1000) / 1000;
+      balance = Math.round((walletData.savingBalance ?? 0) * 1000) / 1000;
     }
     if (transferType === 'withdraw_hbd' && fundType === 'HBD') {
-      balance = Math.round(walletData!.savingBalanceHbd! * 1000) / 1000;
+      balance = Math.round((walletData.savingBalanceHbd ?? 0) * 1000) / 1000;
     }
 
     const navigateParams = {

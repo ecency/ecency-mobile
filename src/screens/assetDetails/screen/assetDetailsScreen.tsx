@@ -145,7 +145,6 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         case TransferTypes.BOOST:
           navigateTo = ROUTES.SCREENS.REDEEM;
           navigateParams = {
-            balance: asset.balance,
             redeemType: transferType === TransferTypes.PROMOTE ? 'promote' : 'boost_plus',
           };
           RootNavigation.navigate({
