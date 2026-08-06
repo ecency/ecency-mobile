@@ -38,11 +38,25 @@ import { Icon } from '..';
 const SUMMARY_COLLAPSE_THRESHOLD = 80;
 const SUMMARY_EXPAND_THRESHOLD = 8;
 const SUMMARY_TOGGLE_COOLDOWN_MS = 550;
+// The header also reveals mid-list once the user has dragged upward this many px in one
+// continuous run (#1915). Because the header can now be open while scrolled deep into the
+// list, collapse must be direction-aware as well or the next cooldown recheck past the
+// threshold would immediately undo a mid-list reveal: both legs read one signed run that
+// accumulates same-direction deltas and resets when direction flips. Per-event deltas at
+// or above the jump size are layout blips (the post-toggle reflow, tab switches), not
+// user scrolling: they zero the run, because a stale blip-inflated run would otherwise
+// mistoggle when the cooldown recheck fires.
+const SUMMARY_REVEAL_SCROLL_UP_PX = 60;
+const SUMMARY_COLLAPSE_RUN_PX = 20;
+const SUMMARY_LAYOUT_JUMP_PX = 250;
 
 class ProfileView extends PureComponent<any, any> {
   _lastSummaryToggleAt = 0;
 
   _lastOffsetY = 0;
+
+  // signed: positive = downward scrolling, negative = upward
+  _scrollRun = 0;
 
   _summaryRecheckTimer: any = null;
 
@@ -69,8 +83,13 @@ class ProfileView extends PureComponent<any, any> {
   _evaluateSummary = () => {
     const { isSummaryOpen } = this.state;
     const offsetY = this._lastOffsetY;
-    const wantCollapse = isSummaryOpen && offsetY > SUMMARY_COLLAPSE_THRESHOLD;
-    const wantExpand = !isSummaryOpen && offsetY <= SUMMARY_EXPAND_THRESHOLD;
+    const wantCollapse =
+      isSummaryOpen &&
+      offsetY > SUMMARY_COLLAPSE_THRESHOLD &&
+      this._scrollRun >= SUMMARY_COLLAPSE_RUN_PX;
+    const wantExpand =
+      !isSummaryOpen &&
+      (offsetY <= SUMMARY_EXPAND_THRESHOLD || this._scrollRun <= -SUMMARY_REVEAL_SCROLL_UP_PX);
     if (!wantCollapse && !wantExpand) {
       return;
     }
@@ -89,6 +108,7 @@ class ProfileView extends PureComponent<any, any> {
     }
 
     this._lastSummaryToggleAt = now;
+    this._scrollRun = 0;
     this.setState({ isSummaryOpen: wantExpand });
   };
 
@@ -96,6 +116,13 @@ class ProfileView extends PureComponent<any, any> {
     const offsetY = event?.nativeEvent?.contentOffset?.y;
     if (offsetY === undefined) {
       return;
+    }
+    const delta = offsetY - this._lastOffsetY;
+    if (Math.abs(delta) >= SUMMARY_LAYOUT_JUMP_PX) {
+      this._scrollRun = 0;
+    } else if (delta !== 0) {
+      const sameDirection = delta > 0 === this._scrollRun > 0 || this._scrollRun === 0;
+      this._scrollRun = sameDirection ? this._scrollRun + delta : delta;
     }
     this._lastOffsetY = offsetY;
     this._evaluateSummary();
