@@ -32,11 +32,10 @@ interface Options {
  * is deliberate on two counts.
  *
  * It avoids `useAudioRecorderState`, whose implementation polls the recorder's
- * SYNCHRONOUS native getStatus() on a setInterval. Sheets in this app stay mounted
- * (see CLAUDE.md), so that poll never stops -- it keeps calling into a native audio
- * object for the rest of the session, and once that object is no longer valid the
- * sync getter faults and takes the whole process down with EXC_BAD_ACCESS. That
- * crashed an iOS TestFlight build immediately after a successful transcription.
+ * SYNCHRONOUS native getStatus() on a setInterval. That poll outlives the recorder
+ * it reads, and once the native object is gone the sync getter faults and takes the
+ * whole process down with EXC_BAD_ACCESS. That crashed an iOS TestFlight build
+ * immediately after a successful transcription.
  *
  * It also survives stopping: the recorder zeroes its own duration on stop, which is
  * why the timer used to snap back to 0:00 the moment the user finished speaking.
@@ -161,20 +160,29 @@ export function useDictationRecorder({ maxSeconds }: Options) {
     }
   }, [state, durationMs, maxSeconds, stop]);
 
-  // Sheets in this app stay mounted, so this rarely fires -- but a real unmount must
-  // not leave the microphone open or the ticker running.
+  // Registered sheets UNMOUNT on hide, so this runs every time the sheet is closed.
+  //
+  // It must not touch `recorder`. expo-audio's useAudioRecorder is the first hook
+  // here, so its useReleasingSharedObject cleanup runs BEFORE this one and has
+  // already called release(), detaching the JS object from its native counterpart.
+  // Reading even `recorder.isRecording` at this point throws
+  // NativeSharedObjectNotFoundException on iOS / InvalidSharedObjectIdException on
+  // Android, and sheets render outside the app's ErrorBoundary, so the throw reaches
+  // React Native's global handler as a fatal and kills the app.
+  //
+  // Nothing is leaked by staying away from it: release() already stops a running
+  // recorder (iOS sharedObjectWillRelease, Android sharedObjectDidRelease -> reset).
+  // setAudioModeAsync is a module function rather than a method on the released
+  // object, so deactivating the recording session here is still safe.
   useEffect(
     () => () => {
       generationRef.current += 1;
       if (tickRef.current) {
         clearInterval(tickRef.current);
       }
-      if (recorder.isRecording) {
-        recorder.stop().catch(() => undefined);
-      }
       setAudioModeAsync({ allowsRecording: false }).catch(() => undefined);
     },
-    [recorder],
+    [],
   );
 
   return { state, seconds, durationMs, result, start, stop, reset };

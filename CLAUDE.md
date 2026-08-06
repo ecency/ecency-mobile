@@ -172,7 +172,13 @@ Uses `react-native-actions-sheet` for globally-registered bottom sheets:
 - Registry: `src/navigation/sheets.tsx` — all sheets registered with `SheetNames` enum
 - Show from anywhere: `SheetManager.show(SheetNames.MY_SHEET, { payload: {...} })`
 - Returns value: `const result = await SheetManager.show(...)` — resolves when sheet closes
-- Sheets stay mounted — reset state in `useEffect(() => { ... }, [payload])`
+- Sheets are registered globally but MOUNT on show and UNMOUNT on hide (`SheetProvider`
+  renders `!visible ? null : <Sheet/>`), so mount-time state resets are enough and any
+  unmount cleanup runs on every close, not rarely
+- Sheets render as siblings of `<Application/>` (`src/index.tsx`), so they sit OUTSIDE the
+  app's `ErrorBoundary`: a throw from a sheet's render or effect cleanup is uncaught and
+  fatal. Be careful with native/Expo shared objects in cleanups. Expo hooks such as
+  `useAudioRecorder` release their native object before any cleanup you declare after them
 
 ### Styling
 
