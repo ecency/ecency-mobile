@@ -25,7 +25,7 @@ import { resolvePointType } from '../constants/options/points';
 
 // Constants
 import ROUTES from '../constants/routeNames';
-import type { RouteName } from '../navigation/types';
+import type { ForwardedNavigation } from '../navigation/types';
 
 // Utils
 import { groomingPointsTransactionData, getPointsEstimate } from '../utils/wallet';
@@ -141,50 +141,47 @@ const PointsContainer = ({
   // Component Functions
 
   const _handleOnDropdownSelected = (index: any) => {
-    let navigateTo: RouteName | undefined;
-    let navigateParams;
+    let forward: ForwardedNavigation | undefined;
 
     if (index === 'dropdown_transfer') {
-      navigateTo = ROUTES.SCREENS.TRANSFER;
-      navigateParams = {
-        transferType: 'points',
-        fundType: 'POINT',
-        balance,
+      forward = {
+        navigateTo: ROUTES.SCREENS.TRANSFER,
+        navigateParams: {
+          transferType: 'points',
+          fundType: 'POINT',
+          balance,
+        },
       };
     }
     if (index === 'dropdown_promote') {
-      navigateTo = ROUTES.SCREENS.REDEEM;
-      navigateParams = {
-        redeemType: 'promote',
+      forward = {
+        navigateTo: ROUTES.SCREENS.REDEEM,
+        navigateParams: { redeemType: 'promote' },
       };
     }
     if (index === 'dropdown_boost') {
-      navigateTo = ROUTES.SCREENS.REDEEM;
-      navigateParams = {
-        redeemType: 'boost_plus',
+      forward = {
+        navigateTo: ROUTES.SCREENS.REDEEM,
+        navigateParams: { redeemType: 'boost_plus' },
       };
     }
     if (index === 'dropdown_ai_image') {
-      navigateTo = ROUTES.SCREENS.AI_IMAGE_GENERATOR;
-      navigateParams = undefined;
+      forward = { navigateTo: ROUTES.SCREENS.AI_IMAGE_GENERATOR };
     }
 
-    if (!navigateTo) {
+    if (!forward) {
       return;
     }
 
     if (isPinCodeOpen) {
       navigation.navigate({
         name: ROUTES.SCREENS.PINCODE,
-        params: {
-          navigateTo,
-          navigateParams,
-        },
+        params: forward,
       });
     } else {
-      // navigate can't bind a union route name to its overloads; the guard
-      // above already narrowed out undefined
-      navigation.navigate(navigateTo as any, navigateParams);
+      // navigate can't bind a union route name to its overloads; the pair
+      // itself is contract-checked by ForwardedNavigation above
+      navigation.navigate(forward.navigateTo as any, forward.navigateParams);
     }
   };
 

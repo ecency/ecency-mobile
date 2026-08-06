@@ -10,17 +10,25 @@ export type RouteName =
   | ValueOf<typeof ROUTES.TABBAR>
   | ValueOf<typeof ROUTES.STACK>;
 
+/**
+ * A forwarded navigation target: navigateParams is typed by the destination
+ * route, so routing through the PIN gate keeps the destination's contract.
+ */
+export type ForwardedNavigation = {
+  [K in RouteName]: { navigateTo: K; navigateParams?: AppParamList[K]; navigateKey?: string };
+}[RouteName];
+
 /** Params the PinCode screen forwards to its container as pinCodeParams. */
-export interface PinCodeParams {
+export type PinCodeParams = {
   hideCloseButton?: boolean;
   isReset?: boolean;
   isOldPinVerified?: boolean;
   oldPinCode?: string | null;
-  navigateTo?: RouteName;
-  navigateParams?: any;
-  navigateKey?: string;
   callback?: (newPinCode: string, oldPinCode: string | null) => void;
-}
+} & (
+  | ForwardedNavigation
+  | { navigateTo?: undefined; navigateParams?: undefined; navigateKey?: undefined }
+);
 
 /**
  * Contracts derived from what each screen actually reads from its route
