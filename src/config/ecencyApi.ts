@@ -2,7 +2,7 @@ import axios from 'axios';
 import Config from 'react-native-config';
 import VersionNumber from 'react-native-version-number';
 import { get } from 'lodash';
-import * as Sentry from '@sentry/react-native';
+import { captureException } from '../utils/sentryUtils';
 import { store } from '../redux/store/store';
 import { getDigitPinCode } from '../providers/hive/hive';
 import { decryptKey } from '../utils/crypto';
@@ -56,14 +56,14 @@ ecencyApi.interceptors.request.use((request) => {
     } else if (selectIsLoggedIn(state)) {
       const errMsg = 'Failed to inject accessToken';
       console.warn(errMsg);
-      Sentry.captureException(new Error(errMsg), ((scope: any) => {
+      captureException(new Error(errMsg), (scope) => {
         scope.setUser({ username: currentAccount.name });
         scope.setTag('context', 'ecency_api_interceptor');
         scope.setContext('meta', {
           url: request.url,
           accessTokenExist: !!token,
         });
-      }) as any);
+      });
     }
   }
 

@@ -9,7 +9,6 @@ const ProfileScreen = ({ route }: any) => (
     {({
       about,
       activePage,
-      avatar,
       comments,
       currency,
       currencyRate,
@@ -45,7 +44,6 @@ const ProfileScreen = ({ route }: any) => (
       <Profile
         about={about}
         activePage={activePage}
-        avatar={avatar}
         comments={comments}
         currency={currency}
         currencyRate={currencyRate}

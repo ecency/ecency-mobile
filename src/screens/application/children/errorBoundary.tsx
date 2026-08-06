@@ -3,7 +3,7 @@ import { Text, View, TouchableHighlight } from 'react-native';
 import { injectIntl } from 'react-intl';
 import RNRestart from 'react-native-restart';
 
-import * as Sentry from '@sentry/react-native';
+import { captureException } from '../../../utils/sentryUtils';
 import { Icon } from '../../../components';
 
 class ErrorBoundary extends React.Component<any, any> {
@@ -17,9 +17,9 @@ class ErrorBoundary extends React.Component<any, any> {
   }
 
   componentDidCatch(error: any, errorInfo: any) {
-    Sentry.captureException(error, ((scope: any) => {
+    captureException(error, (scope) => {
       scope.setContext('errorBoundary', errorInfo);
-    }) as any);
+    });
   }
 
   render() {

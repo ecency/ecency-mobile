@@ -1,5 +1,5 @@
-import * as Sentry from '@sentry/react-native';
 import { getPointsQueryOptions } from '@ecency/sdk';
+import { captureException, captureMessage } from '../../utils/sentryUtils';
 import ecencyApi from '../../config/ecencyApi';
 import { getQueryClient } from '../queries';
 import { EcencyUser, UserPoint } from './ecency.types';
@@ -26,7 +26,7 @@ export const userActivity = async (ty: number, tx = '', bl: string | number = ''
     return response.data;
   } catch (error) {
     console.warn('Failed to push user activity point', error);
-    Sentry.captureException(error);
+    captureException(error);
     throw error;
   }
 };
@@ -42,7 +42,7 @@ export const getPointsSummary = async (username: string): Promise<EcencyUser | n
       return null;
     }
     console.warn('Failed to get points', error);
-    Sentry.captureException(error);
+    captureException(error);
     throw new Error((error as any).response?.data?.message || (error as any).message);
   }
 };
@@ -57,7 +57,7 @@ export const getPointsHistory = async (
     return response.data;
   } catch (error) {
     console.warn('Failed to get points transactions', error);
-    Sentry.captureException(error);
+    captureException(error);
     throw new Error((error as any).response?.data?.message || (error as any).message);
   }
 };
@@ -73,10 +73,10 @@ export const claimPoints = async (timeoutMs = 15000) => {
     const duration = Date.now() - startedAt;
 
     if (duration > 8000) {
-      Sentry.captureMessage('points-claim-slow-response', ((scope: any) => {
+      captureMessage('points-claim-slow-response', (scope) => {
         scope.setLevel('warning');
         scope.setContext('claimPoints', { duration, timeoutMs });
-      }) as any);
+      });
     }
 
     return response.data;
@@ -85,9 +85,9 @@ export const claimPoints = async (timeoutMs = 15000) => {
     const isTimeout = (error as any)?.code === 'ECONNABORTED';
 
     console.warn('Failed to claim points', error);
-    Sentry.captureException(error, ((scope: any) => {
+    captureException(error, (scope) => {
       scope.setContext('claimPoints', { duration, timeoutMs, isTimeout });
-    }) as any);
+    });
 
     const errorMessage = isTimeout
       ? 'Points claim timed out, please try again.'
@@ -106,7 +106,7 @@ export const gameStatusCheck = async (game_type: string) => {
     }
     return _data;
   } catch (error) {
-    Sentry.captureException(error);
+    captureException(error);
     throw error;
   }
 };
@@ -123,7 +123,7 @@ export const gameClaim = async (game_type: string, key: string) => {
     }
     return _data;
   } catch (error) {
-    Sentry.captureException(error);
+    captureException(error);
     throw error;
   }
 };
