@@ -160,7 +160,10 @@ const CommunityMembersScreen = ({ route }: any) => {
         applyRoleToSubscribersCache(cached as any, targetAccount, role),
       );
     } catch (err) {
-      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), (err as Error)?.message || String(err));
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.fail' }),
+        (err as Error)?.message || intl.formatMessage({ id: 'alert.unknow_error' }),
+      );
     }
   };
 

@@ -121,7 +121,7 @@ class ProfileEditContainer extends Component<any, any> {
             intl.formatMessage({
               id: 'alert.fail',
             }),
-            error.message || error.toString(),
+            error.message || intl.formatMessage({ id: 'alert.unknow_error' }),
           );
         }
         this.setState({ isUploading: false });

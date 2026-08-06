@@ -429,7 +429,7 @@ export const UploadsGalleryModal = forwardRef(
                 }),
               );
             } else {
-              errorMessages.add(error.message || error.toString());
+              errorMessages.add(error.message || intl.formatMessage({ id: 'alert.unknow_error' }));
             }
           });
 

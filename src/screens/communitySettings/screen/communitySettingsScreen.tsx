@@ -123,7 +123,10 @@ const CommunitySettingsScreen = ({ route }: any) => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
       navigation.goBack();
     } catch (err) {
-      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), (err as Error)?.message || String(err));
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.fail' }),
+        (err as Error)?.message || intl.formatMessage({ id: 'alert.unknow_error' }),
+      );
     } finally {
       setIsSaving(false);
     }

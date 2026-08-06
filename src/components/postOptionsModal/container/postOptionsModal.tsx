@@ -384,7 +384,7 @@ const PostOptionsModal = (
           intl.formatMessage({
             id: 'alert.fail',
           }),
-          error.message || error.toString(),
+          error.message || intl.formatMessage({ id: 'alert.unknow_error' }),
         );
       }
     }

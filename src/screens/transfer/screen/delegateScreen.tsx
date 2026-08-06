@@ -315,7 +315,7 @@ const DelegateScreen = ({
         setIsTransfering(false);
         Alert.alert(
           intl.formatMessage({ id: 'alert.error' }),
-          (error as any).message || (error as any).toString(),
+          (error as any).message || intl.formatMessage({ id: 'alert.unknow_error' }),
         );
       }
     },

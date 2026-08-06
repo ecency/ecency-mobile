@@ -297,7 +297,7 @@ class ProfileContainer extends Component<any, any> {
               intl.formatMessage({
                 id: 'alert.fail',
               }),
-              (error as any).message || (error as any).toString(),
+              (error as any).message || intl.formatMessage({ id: 'alert.unknow_error' }),
             ),
         );
       }
@@ -388,7 +388,7 @@ class ProfileContainer extends Component<any, any> {
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        (error as any).message || (error as any).toString(),
+        (error as any).message || intl.formatMessage({ id: 'alert.unknow_error' }),
       );
     }
   };
@@ -485,7 +485,7 @@ class ProfileContainer extends Component<any, any> {
           intl.formatMessage({
             id: 'alert.fail',
           }),
-          (error as any).message || (error as any).toString(),
+          (error as any).message || intl.formatMessage({ id: 'alert.unknow_error' }),
         );
       });
   };

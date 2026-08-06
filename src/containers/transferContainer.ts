@@ -84,7 +84,9 @@ class TransferContainer extends Component<any, any> {
       })
       .catch((err) => {
         if (err) {
-          Alert.alert(get(err, 'message') || err.toString());
+          Alert.alert(
+            get(err, 'message') || this.props.intl.formatMessage({ id: 'alert.unknow_error' }),
+          );
         }
       });
   };

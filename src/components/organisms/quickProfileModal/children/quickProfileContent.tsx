@@ -164,7 +164,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        (error as any).message || (error as any).toString(),
+        (error as any).message || intl.formatMessage({ id: 'alert.unknow_error' }),
       );
     }
   };
@@ -215,7 +215,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
           intl.formatMessage({
             id: 'alert.fail',
           }),
-          error.message || error.toString(),
+          error.message || intl.formatMessage({ id: 'alert.unknow_error' }),
         );
       },
     });
