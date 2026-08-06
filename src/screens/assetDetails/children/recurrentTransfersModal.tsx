@@ -12,7 +12,7 @@ import styles from './children.styles';
 import { BasicHeader, Modal, UserListItem } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { walletQueries } from '../../../providers/queries';
-import { IconButton } from '../../../components/buttons';
+import { IconButton } from '../../../components/iconButton';
 import { selectIsDarkTheme } from '../../../redux/selectors';
 
 interface RecurrentTransfersModalProps {
@@ -76,11 +76,11 @@ export const RecurrentTransfersModal = forwardRef(
       return (
         <IconButton
           size={24}
-          style={styles.closeIcon}
+          style={{ paddingRight: 0 }}
+          iconStyle={styles.closeIcon}
           name="close"
-          buttonStyle={{ paddingRight: 0 }}
           iconType="MaterialCommunityIcons"
-          handleOnPress={_onPress}
+          onPress={_onPress}
         />
       );
     };
