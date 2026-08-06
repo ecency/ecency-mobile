@@ -68,7 +68,7 @@ export const PostHtmlInteractionHandler = forwardRef(
               permlink: wavesLink.permlink,
             },
             key: `${wavesLink.author}/${wavesLink.permlink}`,
-          } as never);
+          });
           return;
         }
 
@@ -133,7 +133,7 @@ export const PostHtmlInteractionHandler = forwardRef(
                     url: link,
                   },
                   key: link,
-                } as never),
+                }),
             });
             break;
           }

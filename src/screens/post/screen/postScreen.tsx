@@ -108,7 +108,7 @@ const PostScreen = ({ route }: any) => {
           post: getPostQuery.data,
           fetchPost: _loadPost,
         },
-      } as never);
+      });
     }
   };
 

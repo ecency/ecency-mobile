@@ -171,6 +171,10 @@ const PointsContainer = ({
       navigateParams = { balance };
     }
 
+    if (!navigateTo) {
+      return;
+    }
+
     if (isPinCodeOpen) {
       navigation.navigate({
         name: ROUTES.SCREENS.PINCODE,
@@ -180,6 +184,8 @@ const PointsContainer = ({
         },
       });
     } else {
+      // navigate can't bind a union route name to its overloads; the guard
+      // above already narrowed out undefined
       navigation.navigate(navigateTo as any, navigateParams);
     }
   };

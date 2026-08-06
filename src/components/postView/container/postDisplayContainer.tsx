@@ -67,7 +67,7 @@ const PostDisplayContainer = ({
       },
       // TODO: make unic
       key: post?.permlink + activeVotes.length,
-    } as never);
+    });
   }, [navigation, activeVotes, post]);
 
   const _handleOnReblogsPress = useCallback(() => {
@@ -78,7 +78,7 @@ const PostDisplayContainer = ({
         permlink,
       },
       key: `${post?.permlink}-reblogs-${post?.reblogs ?? 0}`,
-    } as never);
+    });
   }, [navigation, author, permlink, post?.permlink, post?.reblogs]);
 
   const _handleOnReplyPress = useCallback(() => {
@@ -90,7 +90,7 @@ const PostDisplayContainer = ({
         post,
         fetchPost: _fetchPost,
       },
-    } as never);
+    });
   }, [navigation, post, _fetchPost]);
 
   return (

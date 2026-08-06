@@ -47,7 +47,7 @@ const SimilarEntryItem = ({ entry }: Props) => {
         permlink: entry.permlink,
       },
       key: `${entry.author}/${entry.permlink}`,
-    } as never);
+    });
   };
 
   return (
