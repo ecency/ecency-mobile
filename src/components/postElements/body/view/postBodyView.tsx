@@ -148,13 +148,11 @@ const PostBody = ({
   const _handleTagPress = (tag: any, filter = GLOBAL_POST_FILTERS_VALUE[0]) => {
     if (tag) {
       const name = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
-      const key = `${filter}/${tag}`;
       navigation.navigate({
         name,
         params: {
           tag,
           filter,
-          key,
         },
       });
     }

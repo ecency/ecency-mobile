@@ -97,7 +97,7 @@ const PostScreen = ({ route }: any) => {
 
   const _onEditPress = () => {
     if (getPostQuery.data) {
-      const isReply = parentAuthor;
+      const isReply = !!parentAuthor;
 
       navigation.navigate({
         name: ROUTES.SCREENS.EDITOR,
@@ -106,7 +106,6 @@ const PostScreen = ({ route }: any) => {
           isEdit: true,
           isReply,
           post: getPostQuery.data,
-          fetchPost: _loadPost,
         },
       });
     }

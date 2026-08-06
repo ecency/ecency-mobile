@@ -147,7 +147,6 @@ const PostComments = forwardRef(
         navigation.navigate({
           name: ROUTES.SCREENS.VOTERS,
           params: {
-            activeVotes,
             content,
           },
           key: content.permlink,

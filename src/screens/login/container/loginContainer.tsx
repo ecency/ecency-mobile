@@ -141,15 +141,11 @@ class LoginContainer extends PureComponent<any, any> {
             navigation.navigate({
               name: ROUTES.SCREENS.PINCODE,
               params: {
-                accessToken: result.accessToken,
                 navigateTo: ROUTES.DRAWER.MAIN,
               },
             });
           } else {
-            navigation.navigate({
-              name: ROUTES.DRAWER.MAIN,
-              params: { accessToken: result.accessToken },
-            });
+            navigation.navigate({ name: ROUTES.DRAWER.MAIN });
           }
         } else {
           // TODO: Error alert (Toast Message)

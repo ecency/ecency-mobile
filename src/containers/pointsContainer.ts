@@ -155,20 +155,18 @@ const PointsContainer = ({
     if (index === 'dropdown_promote') {
       navigateTo = ROUTES.SCREENS.REDEEM;
       navigateParams = {
-        balance,
         redeemType: 'promote',
       };
     }
     if (index === 'dropdown_boost') {
       navigateTo = ROUTES.SCREENS.REDEEM;
       navigateParams = {
-        balance,
         redeemType: 'boost_plus',
       };
     }
     if (index === 'dropdown_ai_image') {
       navigateTo = ROUTES.SCREENS.AI_IMAGE_GENERATOR;
-      navigateParams = { balance };
+      navigateParams = undefined;
     }
 
     if (!navigateTo) {

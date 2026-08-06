@@ -189,7 +189,6 @@ const CommentsContainer = ({
     navigation.navigate({
       name: ROUTES.SCREENS.VOTERS,
       params: {
-        activeVotes,
         content,
       },
       key: get(content, 'permlink'),
@@ -204,7 +203,6 @@ const CommentsContainer = ({
         isEdit: true,
         isReply: true,
         post: item,
-        fetchPost: _getComments,
       },
     });
   };

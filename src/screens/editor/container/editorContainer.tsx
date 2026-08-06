@@ -290,10 +290,6 @@ class EditorContainer extends Component<any, any> {
         });
       }
 
-      if (navigationParams.action) {
-        (this as any)._handleRoutingAction((navigationParams as any).action);
-      }
-
       // handle file/text shared from ReceiveSharingIntent
       if (hasSharedIntent) {
         const { files } = navigationParams;

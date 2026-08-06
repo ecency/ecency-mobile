@@ -65,7 +65,7 @@ export const PostHtmlInteractionHandler = forwardRef(
             name: ROUTES.SCREENS.POST,
             params: {
               author: wavesLink.author,
-              permlink: wavesLink.permlink,
+              permlink: wavesLink.permlink ?? undefined,
             },
             key: `${wavesLink.author}/${wavesLink.permlink}`,
           });

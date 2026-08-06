@@ -62,7 +62,6 @@ const PostDisplayContainer = ({
     navigation.navigate({
       name: ROUTES.SCREENS.VOTERS,
       params: {
-        activeVotes,
         content: post,
       },
       // TODO: make unic
@@ -88,10 +87,9 @@ const PostDisplayContainer = ({
       params: {
         isReply: true,
         post,
-        fetchPost: _fetchPost,
       },
     });
-  }, [navigation, post, _fetchPost]);
+  }, [navigation, post]);
 
   return (
     <PostDisplayView

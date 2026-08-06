@@ -435,8 +435,8 @@ class InAppPurchaseContainer extends Component<any, any> {
   _handleQrPurchase = async () => {
     const { skus, intl, route } = this.props;
     const products = await IAP.getProducts(skus);
-    const productId = route?.param?.productId ?? '';
-    const username = route?.param?.username ?? '';
+    const productId = route?.params?.productId ?? '';
+    const username = route?.params?.username ?? '';
 
     const product: IAP.IapProduct =
       productId && products && products.find((product) => product.productId === productId);

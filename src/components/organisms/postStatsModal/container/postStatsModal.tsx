@@ -42,9 +42,8 @@ export const PostStatsModal = forwardRef(({ post }: PostStatsModalProps, ref) =>
 
     const routeName = ROUTES.SCREENS.REDEEM;
     const params = {
-      from: 1,
       permlink: `${post.author}/${post.permlink}`,
-      redeemType: 'promote',
+      redeemType: 'promote' as const,
     };
 
     sheetModalRef.current?.hide();
