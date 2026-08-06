@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Platform, View, Text, StyleProp, TextStyle, ViewStyle } from 'react-native';
+import { Platform, View, Text, StyleProp, TextProps, TextStyle, ViewStyle } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -11,7 +11,10 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import styles from './iconStyles';
 
-interface IconProps {
+// Extends TextProps because the underlying vector-icon sets render Text:
+// that is the legitimate pass-through surface (onPress, testID,
+// accessibility props), while unknown props are now rejected.
+interface IconProps extends TextProps {
   iconType?: string;
   name?: string;
   // Android sometimes needs a different glyph name for the same icon
@@ -23,8 +26,6 @@ interface IconProps {
   badgeStyle?: StyleProp<ViewStyle>;
   badgeTextStyle?: StyleProp<TextStyle>;
   children?: React.ReactNode;
-  // remaining props spread into the underlying vector-icon set
-  [key: string]: any;
 }
 
 class IconView extends PureComponent<IconProps> {
