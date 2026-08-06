@@ -29,13 +29,18 @@ const CollapsibleCardView = (props: any) => {
   } = props;
 
   const [contentHeight, setContentHeight] = useState(0);
-  const animation = useSharedValue({ height: contentHeight });
+  // The height must stay unset until onLayout measures the natural content
+  // size: an initial 0 clamps the view, so measurement would always read 0
+  // and the card could never expand.
+  const animation = useSharedValue<{ height: number | undefined }>({ height: undefined });
   const animationStyle = useAnimatedStyle(() => {
-    return {
-      height: withTiming(animation.value.height, {
-        duration: 500,
-      }),
-    };
+    return animation.value.height === undefined
+      ? {}
+      : {
+          height: withTiming(animation.value.height, {
+            duration: 500,
+          }),
+        };
   });
 
   const [collapsed, setCollapsed] = useState(expanded || isExpanded || false);
