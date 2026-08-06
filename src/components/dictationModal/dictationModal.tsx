@@ -81,10 +81,9 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
     SheetManager.hide(SheetNames.DICTATION);
   }, [reset]);
 
-  // Sheets in this app STAY MOUNTED, so the unmount cleanup below effectively never
-  // fires and state would otherwise persist into the next open -- stale segment
-  // counts, or a failed recording offered for retry against a different draft.
-  // Reset per open, which is the documented convention for sheets here.
+  // Reset per open: stale segment counts, or a failed recording offered for retry
+  // against a different draft, must never survive into the next presentation.
+  // The sheet unmounts on hide, so this runs on mount for every presentation.
   useEffect(() => {
     closedRef.current = false;
     reset();
