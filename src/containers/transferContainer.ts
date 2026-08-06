@@ -12,6 +12,7 @@ import {
   getAccountsQueryOptions,
   getRecurrentTransfersQueryOptions,
 } from '@ecency/sdk';
+import { captureException } from '../utils/sentryUtils';
 import { selectCurrentAccount, selectGlobalProps, selectOtherAccounts } from '../redux/selectors';
 import { useTransferMutations } from '../hooks';
 import { getQueryClient } from '../providers/queries';
@@ -84,7 +85,10 @@ class TransferContainer extends Component<any, any> {
       })
       .catch((err) => {
         if (err) {
-          Alert.alert(get(err, 'message') || err.toString());
+          captureException(err, (scope) => scope.setTag('context', 'transfer-points-balance'));
+          Alert.alert(
+            get(err, 'message') || this.props.intl.formatMessage({ id: 'alert.unknow_error' }),
+          );
         }
       });
   };

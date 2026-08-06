@@ -7,6 +7,7 @@ import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 import { openSettings } from 'react-native-permissions';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
+import { captureException } from '../../../utils/sentryUtils';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
 
 import { useAppSelector } from '../../../hooks';
@@ -429,7 +430,8 @@ export const UploadsGalleryModal = forwardRef(
                 }),
               );
             } else {
-              errorMessages.add(error.message || error.toString());
+              captureException(error, (scope) => scope.setTag('context', 'media-upload-batch'));
+              errorMessages.add(error.message || intl.formatMessage({ id: 'alert.unknow_error' }));
             }
           });
 

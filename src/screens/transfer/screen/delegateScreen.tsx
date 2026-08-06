@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { SheetManager } from 'react-native-actions-sheet';
 import { getVestingDelegationsQueryOptions } from '@ecency/sdk';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { captureException } from '../../../utils/sentryUtils';
 
 import { BasicHeader, TextInput, MainButton, UserAvatar, Icon, Modal } from '../../../components';
 
@@ -313,9 +314,10 @@ const DelegateScreen = ({
         handleOnModalClose?.();
       } catch (error) {
         setIsTransfering(false);
+        captureException(error, (scope) => scope.setTag('context', 'delegate-broadcast'));
         Alert.alert(
           intl.formatMessage({ id: 'alert.error' }),
-          (error as any).message || (error as any).toString(),
+          (error as any).message || intl.formatMessage({ id: 'alert.unknow_error' }),
         );
       }
     },

@@ -12,6 +12,7 @@ import {
   checkFavoriteQueryOptions,
 } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
+import { captureException } from '../../../../utils/sentryUtils';
 import { MainButton, StatsPanel } from '../../..';
 import {
   useAddFavouriteMutation,
@@ -160,11 +161,12 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
       }
     } catch (error) {
       console.warn('Failed to fetch complete profile data', error);
+      captureException(error, (scope) => scope.setTag('context', 'quick-profile-fetch'));
       Alert.alert(
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        (error as any).message || (error as any).toString(),
+        (error as any).message || intl.formatMessage({ id: 'alert.unknow_error' }),
       );
     }
   };
@@ -210,12 +212,13 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
       onError: (error: any) => {
         // Error toast is already dispatched by the mutation hook
         console.warn('Failed to perform favorite action', error);
+        captureException(error, (scope) => scope.setTag('context', 'quick-profile-favorite'));
         setIsLoading(false);
         Alert.alert(
           intl.formatMessage({
             id: 'alert.fail',
           }),
-          error.message || error.toString(),
+          error.message || intl.formatMessage({ id: 'alert.unknow_error' }),
         );
       },
     });

@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert } from 'react-native';
+import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import { useQueryClient } from '@tanstack/react-query';
 import { getGameStatusCheckQueryOptions, useGameClaim } from '@ecency/sdk';
+import { captureException } from '../utils/sentryUtils';
 import { useAuth } from '../hooks';
 
 const RedeemContainer = ({ children }: any) => {
+  const intl = useIntl();
   const queryClient = useQueryClient();
   const { username, code } = useAuth();
 
@@ -34,7 +37,8 @@ const RedeemContainer = ({ children }: any) => {
       return res;
     } catch (err) {
       if (err) {
-        Alert.alert(get(err, 'message') || err.toString());
+        captureException(err, (scope) => scope.setTag('context', 'spin-game-status'));
+        Alert.alert(get(err, 'message') || intl.formatMessage({ id: 'alert.unknow_error' }));
       }
       setIsLoading(false);
       return null;
@@ -53,7 +57,8 @@ const RedeemContainer = ({ children }: any) => {
       );
     } catch (err) {
       if (err) {
-        Alert.alert(get(err, 'message') || err.toString());
+        captureException(err, (scope) => scope.setTag('context', 'spin-game-start'));
+        Alert.alert(get(err, 'message') || intl.formatMessage({ id: 'alert.unknow_error' }));
       }
       return;
     }
@@ -89,7 +94,8 @@ const RedeemContainer = ({ children }: any) => {
       } catch (err) {
         pendingGameStatusRef.current = null;
         if (err) {
-          Alert.alert(get(err, 'message') || err.toString());
+          captureException(err, (scope) => scope.setTag('context', 'spin-game-claim'));
+          Alert.alert(get(err, 'message') || intl.formatMessage({ id: 'alert.unknow_error' }));
         }
       }
     };

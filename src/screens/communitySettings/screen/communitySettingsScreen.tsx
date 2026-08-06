@@ -8,6 +8,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { SafeAreaView } from 'react-native-safe-area-context';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { getCommunityQueryOptions, ROLES } from '@ecency/sdk';
+import { captureException } from '../../../utils/sentryUtils';
 
 import { BasicHeader, FormInput, MainButton, ToggleSwitch } from '../../../components';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -123,7 +124,11 @@ const CommunitySettingsScreen = ({ route }: any) => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
       navigation.goBack();
     } catch (err) {
-      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), (err as Error)?.message || String(err));
+      captureException(err, (scope) => scope.setTag('context', 'community-settings-save'));
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.fail' }),
+        (err as Error)?.message || intl.formatMessage({ id: 'alert.unknow_error' }),
+      );
     } finally {
       setIsSaving(false);
     }

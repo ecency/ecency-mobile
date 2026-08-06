@@ -15,6 +15,7 @@ import {
   getAccountRcQueryOptions,
   checkFavoriteQueryOptions,
 } from '@ecency/sdk';
+import { captureException } from '../utils/sentryUtils';
 import {
   selectCurrentAccount,
   selectIsLoggedIn,
@@ -288,6 +289,7 @@ class ProfileContainer extends Component<any, any> {
         dispatch(setRcOffer(true));
       } else {
         // when other errors
+        captureException(error, (scope) => scope.setTag('context', 'profile-action'));
         this.setState(
           {
             error,
@@ -297,7 +299,7 @@ class ProfileContainer extends Component<any, any> {
               intl.formatMessage({
                 id: 'alert.fail',
               }),
-              (error as any).message || (error as any).toString(),
+              (error as any).message || intl.formatMessage({ id: 'alert.unknow_error' }),
             ),
         );
       }
@@ -383,12 +385,13 @@ class ProfileContainer extends Component<any, any> {
       }
     } catch (error) {
       console.warn('Failed to fetch complete profile data', error);
+      captureException(error, (scope) => scope.setTag('context', 'profile-fetch'));
       this.setState({ isProfileLoading: false, isReady: true });
       Alert.alert(
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        (error as any).message || (error as any).toString(),
+        (error as any).message || intl.formatMessage({ id: 'alert.unknow_error' }),
       );
     }
   };
@@ -480,12 +483,13 @@ class ProfileContainer extends Component<any, any> {
       })
       .catch((error: any) => {
         console.warn('Failed to perform favorite action');
+        captureException(error, (scope) => scope.setTag('context', 'profile-favorite'));
         this.setState({ isProfileLoading: false });
         Alert.alert(
           intl.formatMessage({
             id: 'alert.fail',
           }),
-          (error as any).message || (error as any).toString(),
+          (error as any).message || intl.formatMessage({ id: 'alert.unknow_error' }),
         );
       });
   };
