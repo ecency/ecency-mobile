@@ -7,6 +7,7 @@ import Animated, { BounceInRight } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getWithdrawRoutesQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
+import { captureException } from '../../../utils/sentryUtils';
 
 import {
   BasicHeader,
@@ -69,6 +70,7 @@ const PowerDownScreen = ({
         setDestinationAccounts(accounts);
         return res;
       } catch (e) {
+        captureException(e, (scope) => scope.setTag('context', 'withdraw-routes-fetch'));
         Alert.alert(
           intl.formatMessage({ id: 'alert.error' }),
           (e as any).message || intl.formatMessage({ id: 'alert.unknow_error' }),
@@ -94,6 +96,7 @@ const PowerDownScreen = ({
         }
       } catch (error) {
         setIsTransfering(false);
+        captureException(error, (scope) => scope.setTag('context', 'power-down-broadcast'));
         Alert.alert(
           intl.formatMessage({ id: 'alert.error' }),
           (error as any).message || intl.formatMessage({ id: 'alert.unknow_error' }),

@@ -17,6 +17,7 @@ import {
   useDeleteComment,
 } from '@ecency/sdk';
 import { postBodySummary } from '@ecency/render-helper';
+import { captureException } from '../../../utils/sentryUtils';
 import { useAuthContext } from '../../../providers/sdk';
 import {
   useReblogMutation,
@@ -380,6 +381,7 @@ const PostOptionsModal = (
         // when RC is not enough, offer boosting account
         dispatch(setRcOffer(true));
       } else {
+        captureException(error, (scope) => scope.setTag('context', 'post-options-action'));
         Alert.alert(
           intl.formatMessage({
             id: 'alert.fail',

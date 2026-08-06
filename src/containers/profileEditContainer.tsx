@@ -6,6 +6,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 
 import { useNavigation } from '@react-navigation/native';
+import { captureException } from '../utils/sentryUtils';
 import { selectCurrentAccount, selectIsDarkTheme, selectPin } from '../redux/selectors';
 import { uploadImage } from '../providers/ecency/ecency';
 
@@ -117,6 +118,7 @@ class ProfileEditContainer extends Component<any, any> {
       })
       .catch((error) => {
         if (error) {
+          captureException(error, (scope) => scope.setTag('context', 'profile-edit-image-upload'));
           Alert.alert(
             intl.formatMessage({
               id: 'alert.fail',

@@ -20,6 +20,7 @@ import {
   ROLES,
   roleMap,
 } from '@ecency/sdk';
+import { captureException } from '../../../utils/sentryUtils';
 
 import { BasicHeader, UserListItem } from '../../../components';
 import ROUTES from '../../../constants/routeNames';
@@ -160,6 +161,7 @@ const CommunityMembersScreen = ({ route }: any) => {
         applyRoleToSubscribersCache(cached as any, targetAccount, role),
       );
     } catch (err) {
+      captureException(err, (scope) => scope.setTag('context', 'community-role-update'));
       Alert.alert(
         intl.formatMessage({ id: 'alert.fail' }),
         (err as Error)?.message || intl.formatMessage({ id: 'alert.unknow_error' }),

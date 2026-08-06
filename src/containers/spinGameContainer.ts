@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import { useQueryClient } from '@tanstack/react-query';
 import { getGameStatusCheckQueryOptions, useGameClaim } from '@ecency/sdk';
+import { captureException } from '../utils/sentryUtils';
 import { useAuth } from '../hooks';
 
 const RedeemContainer = ({ children }: any) => {
@@ -36,6 +37,7 @@ const RedeemContainer = ({ children }: any) => {
       return res;
     } catch (err) {
       if (err) {
+        captureException(err, (scope) => scope.setTag('context', 'spin-game-status'));
         Alert.alert(get(err, 'message') || intl.formatMessage({ id: 'alert.unknow_error' }));
       }
       setIsLoading(false);
@@ -55,6 +57,7 @@ const RedeemContainer = ({ children }: any) => {
       );
     } catch (err) {
       if (err) {
+        captureException(err, (scope) => scope.setTag('context', 'spin-game-start'));
         Alert.alert(get(err, 'message') || intl.formatMessage({ id: 'alert.unknow_error' }));
       }
       return;
@@ -91,6 +94,7 @@ const RedeemContainer = ({ children }: any) => {
       } catch (err) {
         pendingGameStatusRef.current = null;
         if (err) {
+          captureException(err, (scope) => scope.setTag('context', 'spin-game-claim'));
           Alert.alert(get(err, 'message') || intl.formatMessage({ id: 'alert.unknow_error' }));
         }
       }
