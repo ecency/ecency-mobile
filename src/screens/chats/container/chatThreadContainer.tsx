@@ -303,6 +303,14 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           Math.abs((post.create_at || 0) - lastSentAtRef.current) < 30000;
 
         if (pendingMatch || fallbackMatch) {
+          // A websocket echo of our own just-sent message is independent proof the create
+          // landed, and it can arrive when the HTTP response never does (timeout, dropped
+          // connection). Without this the banner would sit there until its original expiry
+          // even though the ban has clearly been lifted. Both match arms are create-only:
+          // pending_post_id is set only when creating, and the fallback keys on
+          // lastSentMessageRef, which the create branch is what populates.
+          setBanInfo(null);
+
           const confirmedId = lastSentPendingIdRef.current;
           if (confirmedId) {
             confirmedPendingPostIdsRef.current.add(confirmedId);

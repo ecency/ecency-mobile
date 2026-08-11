@@ -25,7 +25,10 @@ export interface ChatBanInfo {
 export const getChatBanInfo = (error: any, now: number = Date.now()): ChatBanInfo | null => {
   const bannedUntil = Number(error?.bannedUntil);
 
-  if (!error?.bannedUntil || Number.isNaN(bannedUntil) || bannedUntil <= now) {
+  // isFinite, not isNaN: Infinity survives an isNaN check and is also > now, so it would render
+  // an endless duration and never fire onExpire. Returning null sends the caller down its
+  // existing fallback path instead.
+  if (!error?.bannedUntil || !Number.isFinite(bannedUntil) || bannedUntil <= now) {
     return null;
   }
 

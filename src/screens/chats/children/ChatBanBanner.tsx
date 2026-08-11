@@ -22,8 +22,12 @@ export const ChatBanBanner: React.FC<ChatBanBannerProps> = ({ info, onExpire }) 
   const [now, setNow] = useState(() => Date.now());
 
   // Held in a ref so an inline arrow from the caller doesn't restart the interval each render.
+  // Assigned in an effect rather than during render: a render React discards could otherwise
+  // mutate the ref the already-committed interval reads from.
   const onExpireRef = useRef(onExpire);
-  onExpireRef.current = onExpire;
+  useEffect(() => {
+    onExpireRef.current = onExpire;
+  }, [onExpire]);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -43,7 +47,7 @@ export const ChatBanBanner: React.FC<ChatBanBannerProps> = ({ info, onExpire }) 
       <Text style={styles.dmWarningIcon}>⏳</Text>
       <View style={styles.dmWarningContent}>
         <Text style={styles.dmWarningBody}>
-          {formatChatBanNotice(info, now, intl.formatMessage as any)}
+          {formatChatBanNotice(info, now, intl.formatMessage)}
         </Text>
       </View>
     </View>
