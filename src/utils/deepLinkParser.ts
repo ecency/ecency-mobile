@@ -3,12 +3,14 @@ import { getQueryClient, getAccountFullQueryOptions } from '@ecency/sdk';
 import postUrlParser, { parseWavesUrl } from './postUrlParser';
 import parseAuthUrl, { AUTH_MODES } from './parseAuthUrl';
 import ROUTES from '../constants/routeNames';
+import { RouteName } from '../navigation/types';
 import parsePurchaseUrl from './parsePurchaseUrl';
 
 // name can be undefined on fall-through: useLinkProcessor only navigates
-// natively when name, params and key are all set.
+// natively when name, params and key are all set. Typing it as RouteName rather than string
+// means a route that does not exist fails here, at the branch that produced it.
 export interface DeepLinkRoute {
-  name?: string;
+  name?: RouteName;
   params?: any;
   key?: string;
 }
@@ -18,7 +20,7 @@ export const deepLinkParser = async (
 ): Promise<DeepLinkRoute | undefined> => {
   if (!url || url.indexOf('ShareMedia://') >= 0) return;
 
-  let routeName: string | undefined;
+  let routeName: RouteName | undefined;
   let params: any;
   let profile;
   let keey: string | undefined;

@@ -10,7 +10,8 @@ import { CoinSummary, ActivitiesList, RecurrentTransfersModal } from '../childre
 import styles from './screen.styles';
 import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import { useAppSelector } from '../../../hooks';
-import RootNavigation from '../../../navigation/rootNavigation';
+import RootNavigation, { NavigateOptions } from '../../../navigation/rootNavigation';
+import { PinCodeParams, RouteName } from '../../../navigation/types';
 import ROUTES from '../../../constants/routeNames';
 import { selectCurrentAccount, selectIsPinCodeOpen } from '../../../redux/selectors';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
@@ -141,8 +142,8 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   };
 
   const _onActionPress = (transferType: string, baseActivity: CoinActivity | null = null) => {
-    let navigateTo: string = ROUTES.SCREENS.TRANSFER;
-    let navigateParams = {};
+    let navigateTo: RouteName = ROUTES.SCREENS.TRANSFER;
+    let navigateParams: any = {};
     let baseBalance = asset.liquid ?? 0;
     let fundType = assetSymbol;
 
@@ -219,18 +220,20 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     }
 
     if (isPinCodeOpen) {
+      // navigateTo and navigateParams are built together in the switches above but are separate
+      // locals here, so the pairing cannot be checked at this point.
       RootNavigation.navigate({
         name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo,
           navigateParams,
-        },
+        } as PinCodeParams,
       });
     } else {
       RootNavigation.navigate({
         name: navigateTo,
         params: navigateParams,
-      });
+      } as NavigateOptions);
     }
   };
 

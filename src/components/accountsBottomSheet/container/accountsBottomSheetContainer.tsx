@@ -5,7 +5,8 @@ import { useIntl } from 'react-intl';
 import { Alert } from 'react-native';
 import { SheetManager } from 'react-native-actions-sheet';
 import { getMutedUsersQueryOptions, getNotificationsUnreadCountQueryOptions } from '@ecency/sdk';
-import RootNavigation from '../../../navigation/rootNavigation';
+import RootNavigation, { NavigateOptions } from '../../../navigation/rootNavigation';
+import { AppParamList, RouteName } from '../../../navigation/types';
 
 import { setPrevLoggedInUsers, updateCurrentAccount } from '../../../redux/actions/accountAction';
 
@@ -66,11 +67,12 @@ const AccountsBottomSheetContainer = () => {
     }
   };
 
-  const _navigateToRoute = (name: string, params: any) => {
+  const _navigateToRoute = <K extends RouteName>(name: K, params?: AppParamList[K]) => {
     SheetManager.hide(SheetNames.ACCOUNTS_SHEET);
     accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
     if (name) {
-      RootNavigation.navigate({ name, params });
+      // Correlated by the generic at the call site; TS cannot re-derive that pairing here.
+      RootNavigation.navigate({ name, params } as NavigateOptions);
     }
   };
 

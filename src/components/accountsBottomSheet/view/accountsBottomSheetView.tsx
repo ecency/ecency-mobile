@@ -15,6 +15,7 @@ import HiveAuthIconSource from '../../../assets/HiveAuth_logo.png';
 import HiveIconSource from '../../../assets/hive_icon.png';
 
 import { default as ROUTES } from '../../../constants/routeNames';
+import { AppParamList, RouteName } from '../../../navigation/types';
 
 import styles from './accountsBottomSheetStyles';
 
@@ -26,7 +27,7 @@ export interface AccountsBottomSheetRef {
 export interface AccountsBottomSheetProps {
   accounts: any[];
   currentAccount: any;
-  navigateToRoute: (route: string, params?: any) => void;
+  navigateToRoute: <K extends RouteName>(route: K, params?: AppParamList[K]) => void;
   switchAccount: (account: any) => void;
   prevLoggedInUsers: Array<any>;
   dispatch: (action: any) => void;

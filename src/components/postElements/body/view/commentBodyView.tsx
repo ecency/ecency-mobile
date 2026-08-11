@@ -73,13 +73,11 @@ const CommentBody = ({
         return;
       }
       const name = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
-      const key = `${filter}/${tag}`;
       RootNavigation.navigate({
         name,
         params: {
           tag,
           filter,
-          key,
         },
       });
     }

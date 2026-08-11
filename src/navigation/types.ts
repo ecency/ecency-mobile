@@ -11,11 +11,32 @@ export type RouteName =
   | ValueOf<typeof ROUTES.STACK>;
 
 /**
+ * True when a route is navigable without params.
+ *
+ * PINCODE is answered without probing its params: AppParamList[PINCODE] is PinCodeParams, which
+ * embeds ForwardedNavigation, so evaluating `undefined extends AppParamList[PINCODE]` makes both
+ * types circular. It is navigable without params, so the short-circuit is also the right answer.
+ * Referencing AppParamList[K] in a property position stays lazy and is fine.
+ */
+export type ParamsOptional<K extends RouteName> = K extends typeof ROUTES.SCREENS.PINCODE
+  ? true
+  : undefined extends AppParamList[K]
+  ? true
+  : false;
+
+/**
  * A forwarded navigation target: navigateParams is typed by the destination
  * route, so routing through the PIN gate keeps the destination's contract.
+ *
+ * navigateParams is required exactly where the destination requires params
+ * (WEB_BROWSER, VOTERS, CHAT_THREAD, ASSET_DETAILS, PROFILE_EDIT), so a
+ * paramless forward to one of those is a type error rather than a runtime
+ * screen with nothing to render.
  */
 export type ForwardedNavigation = {
-  [K in RouteName]: { navigateTo: K; navigateParams?: AppParamList[K]; navigateKey?: string };
+  [K in RouteName]: ParamsOptional<K> extends true
+    ? { navigateTo: K; navigateParams?: AppParamList[K]; navigateKey?: string }
+    : { navigateTo: K; navigateParams: AppParamList[K]; navigateKey?: string };
 }[RouteName];
 
 /** Params the PinCode screen forwards to its container as pinCodeParams. */

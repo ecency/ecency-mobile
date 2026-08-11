@@ -4,11 +4,12 @@ import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { Icon } from '../../../components';
-import RootNavigation from '../../../navigation/rootNavigation';
+import RootNavigation, { NavigateOptions } from '../../../navigation/rootNavigation';
+import { AppParamList, RouteName } from '../../../navigation/types';
 import ROUTES from '../../../constants/routeNames';
 import styles from '../styles/perksStyles';
 
-const OPTIONS: { id: string; icon: string; route: string; params?: any }[] = [
+const OPTIONS: { id: string; icon: string; route: RouteName; params?: any }[] = [
   { id: 'spin', icon: 'gift-outline', route: ROUTES.SCREENS.SPIN_GAME },
   {
     id: 'boost_plus',
@@ -34,8 +35,9 @@ const OPTIONS: { id: string; icon: string; route: string; params?: any }[] = [
 const SpendOptions = () => {
   const intl = useIntl();
 
-  const _navigate = (route: string, params?: any) => {
-    RootNavigation.navigate({ name: route, params });
+  const _navigate = <K extends RouteName>(route: K, params?: AppParamList[K]) => {
+    // Correlated by the generic at the call site; TS cannot re-derive that pairing here.
+    RootNavigation.navigate({ name: route, params } as NavigateOptions);
   };
 
   return (
