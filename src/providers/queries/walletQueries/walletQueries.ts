@@ -396,13 +396,10 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
 
   const chainQuery = useInfiniteQuery({
     ...chainQueryOptions,
-    // Guard, not a workaround. These options used to seed
-    // `initialData: { pages: [], pageParams: [] }` for the web's server-prefetched
-    // pages; against this client's staleTime of 60s that empty seed reads as fresh
-    // data and suppresses the very first fetch, so the history renders empty and
-    // nothing reports an error. @ecency/sdk 2.3.80 dropped it, and no SDK test pins
-    // its absence, so keep this until one does.
-    initialData: undefined,
+    // No initialData override needed: these options used to seed an empty page set
+    // that read as fresh against this client's 60s staleTime and suppressed the very
+    // first fetch. @ecency/sdk 2.3.80 dropped the seed and 2.3.83 pins its absence
+    // with a spec, so the contract is enforced upstream.
     enabled: !!username && isHive,
   });
 
