@@ -56,8 +56,9 @@ export const ComposeTranslateModal = ({ payload }: SheetProps<SheetNames.COMPOSE
   const [progress, setProgress] = useState<[number, number]>([0, 0]);
   const [failed, setFailed] = useState(false);
 
-  // Sheets stay mounted; a closed sheet cancels the request chain so it stops
-  // hitting the translation service in the background.
+  // Cancels the in-flight translation chain once the sheet is gone, so it stops paging the
+  // translation service in the background. The chain outlives the component either way, so this
+  // is set from both onClose and unmount rather than trusting onClose to be the only exit.
   const closedRef = useRef(false);
 
   const sample = useMemo(
@@ -72,8 +73,17 @@ export const ComposeTranslateModal = ({ payload }: SheetProps<SheetNames.COMPOSE
   );
   const tooShort = sample.trim().length < MIN_TRANSLATE_CHARS;
 
-  // Reset state and re-detect the source language on every open (payload is a
-  // fresh object per SheetManager.show).
+  // Sheets unmount on hide, so the chain has to be cancelled here as well: onClose is not
+  // guaranteed to be the route the sheet leaves by, and a chain left running keeps paging the
+  // translation service for a screen the user has already dismissed.
+  useEffect(
+    () => () => {
+      closedRef.current = true;
+    },
+    [],
+  );
+
+  // Sheets mount on show, so this resets state and re-detects the source language on every open.
   useEffect(() => {
     closedRef.current = false;
     setTranslated('');

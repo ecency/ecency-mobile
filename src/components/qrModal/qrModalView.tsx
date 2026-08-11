@@ -39,9 +39,9 @@ export const QRModal = ({ sheetId, payload }: SheetProps<SheetNames.QR_SCAN>) =>
     },
   });
 
-  // Registered sheets stay mounted across hide/show, so re-arm the camera and clear
-  // the one-shot scan latch on every open (keyed on `payload`) — not just on mount —
-  // otherwise the scanner stays frozen and silently drops scans after the first one.
+  // Sheets mount on show and unmount on hide, so this arms the camera and clears the one-shot
+  // scan latch on every open. The `payload` dep additionally covers a re-show onto a sheet that
+  // is still mounted, where the scanner would otherwise stay frozen and drop every later scan.
   useEffect(() => {
     requestCameraPermission();
     handledRef.current = false;
