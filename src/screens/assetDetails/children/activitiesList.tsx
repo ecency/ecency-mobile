@@ -16,6 +16,7 @@ interface ActivitiesListProps {
   completedActivities: CoinActivity[];
   refreshing: boolean;
   loading: boolean;
+  failed: boolean;
   activitiesEnabled: boolean;
   onEndReached: () => void;
   onRefresh: () => void;
@@ -26,6 +27,7 @@ export const ActivitiesList = ({
   header,
   loading,
   refreshing,
+  failed,
   completedActivities,
   pendingActivities,
   activitiesEnabled,
@@ -74,8 +76,11 @@ export const ActivitiesList = ({
 
   const sections = [];
 
+  // Explicit keys: without them the pending section appearing shifts the completed
+  // section's identity and re-mounts every visible row.
   if (pendingActivities && pendingActivities.length) {
     sections.push({
+      key: 'pending',
       title: intl.formatMessage({ id: 'wallet.pending_requests' }),
       data: pendingActivities,
     });
@@ -83,6 +88,7 @@ export const ActivitiesList = ({
 
   if (activitiesEnabled) {
     sections.push({
+      key: 'completed',
       title: intl.formatMessage({ id: 'wallet.activities' }),
       data: completedActivities || [],
     });
@@ -99,26 +105,48 @@ export const ActivitiesList = ({
     />
   );
 
+  // A failed fetch used to be indistinguishable from an empty history: both rendered a
+  // bare header with nothing under it. Only claim "no transactions" once a request has
+  // actually settled without error.
+  const _renderFooter = () => {
+    if (loading) {
+      return (
+        <ActivityIndicator
+          color={EStyleSheet.value('$primaryBlue')}
+          style={styles.activitiesFooterIndicator}
+        />
+      );
+    }
+
+    if (!activitiesEnabled || completedActivities?.length) {
+      return null;
+    }
+
+    return (
+      <Text style={styles.activitiesPlaceholder}>
+        {intl.formatMessage({ id: failed ? 'wallet.activities_failed' : 'wallet.no_activities' })}
+      </Text>
+    );
+  };
+
   return (
     <SectionList
       style={styles.list}
       contentContainerStyle={styles.listContent}
       sections={sections}
       renderItem={_renderActivityItem}
-      keyExtractor={(item, index) => `activity_item_${index}_${item.created}`}
+      // `created` alone repeats across ops mined in the same block, and the index alone
+      // shifts as pages prepend, so key on the on-chain identity when there is one.
+      keyExtractor={(item, index) =>
+        `activity_item_${item.engineTrxId ?? item.trxIndex ?? index}_${item.created}`
+      }
       renderSectionHeader={({ section: { title } }) => (
         <Text style={styles.textActivities}>{title}</Text>
       )}
-      ListFooterComponent={
-        loading ? (
-          <ActivityIndicator
-            color={EStyleSheet.value('$primaryBlue')}
-            style={styles.activitiesFooterIndicator}
-          />
-        ) : null
-      }
+      ListFooterComponent={_renderFooter()}
       ListHeaderComponent={header}
       refreshControl={_refreshControl}
+      onEndReachedThreshold={0.5}
       onEndReached={() => {
         onEndReached();
       }}

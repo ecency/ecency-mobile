@@ -78,7 +78,17 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     }
   }, [assetsQuery.data]);
 
+  // The AppState listener is registered once, so it would capture the first render's
+  // `_fetchDetails` and with it a permanently-false `isRefreshing`/`isLoading`. Route
+  // it through a ref so foregrounding refreshes against current query state instead of
+  // restarting an in-flight fetch.
+  const fetchDetailsRef = useRef<(refresh?: boolean) => void>(() => {});
+
   // side-effects
+  useEffect(() => {
+    fetchDetailsRef.current = _fetchDetails;
+  });
+
   useEffect(() => {
     _fetchDetails();
     const appStateSub = AppState.addEventListener('change', _handleAppStateChange);
@@ -95,7 +105,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-      _fetchDetails(true);
+      fetchDetailsRef.current(true);
     }
 
     appState.current = nextAppState;
@@ -263,6 +273,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         pendingActivities={pendingRequestsQuery.data || []}
         refreshing={activitiesQuery.isRefreshing}
         loading={activitiesQuery.isLoading}
+        failed={activitiesQuery.isError}
         activitiesEnabled={asset.layer !== 'chain'}
         onEndReached={_fetchDetails}
         onRefresh={_onRefresh}

@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { unionBy, get } from 'lodash';
 import { RecurrentTransfer } from 'providers/hive/hive.types';
@@ -11,13 +11,16 @@ import {
   getCollateralizedConversionRequestsQueryOptions,
   getRecurrentTransfersQueryOptions,
   getOpenOrdersQueryOptions,
-  getTransactionsInfiniteQueryOptions,
+  getHiveAssetTransactionsQueryOptions,
+  getHbdAssetTransactionsQueryOptions,
+  getHivePowerAssetTransactionsQueryOptions,
   getPointsQueryOptions,
   getPortfolioQueryOptions,
   getHiveEngineTokenTransactions,
   useBroadcastMutation,
   buildRecurrentTransferOp,
 } from '@ecency/sdk';
+import { getHistoryOpsForSymbol, matchesAssetTicker } from '../../../utils/walletHistory';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { resolvePointType } from '../../../constants/options/points';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -57,6 +60,11 @@ interface RecurrentTransferPayload {
 }
 
 const ACTIVITIES_FETCH_LIMIT = 50;
+
+// A page whose rows are all filtered out client-side leaves the list empty, and an
+// empty list is never scrolled, so `onEndReached` never fires to pull the next page.
+// Auto-advance at most this many pages while nothing renders.
+const MAX_AUTO_ADVANCE_PAGES = 5;
 
 /** hook used to return user drafts */
 export const useAssetsQuery = ({ onlyEnabled = true }: { onlyEnabled?: boolean } = {}) => {
@@ -360,9 +368,41 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   });
 
   // Only fetch Hive transactions for native Hive tokens (HIVE, HBD, HP)
-  // External chain tokens (BNB, ETH, etc.) have no transaction history API
+  // External chain tokens (BNB, ETH, etc.) have no transaction history API.
+  //
+  // History comes from `condenser_api.get_account_history` with a server-side
+  // operation bitmask. The previous `getTransactionsInfiniteQueryOptions` path called
+  // hafah's REST `/accounts/{name}/operations` with a 30-op-type filter, which on an
+  // account with a large history takes 2-28s server-side (and answers HTTP 500
+  // "canceling statement due to statement timeout" on some nodes) against the 10s
+  // client ceiling set in `sdk-config.ts`, so the list simply never loaded. The same
+  // filter over RPC answers in well under a second.
+  //
+  // Pagination is the SDK's: 2.3.80 fixed the cursor to walk back from the oldest row
+  // on the page (a page arrives in ascending `num`), so no local override is needed.
+  const chainQueryOptions = useMemo(() => {
+    const historyOps = getHistoryOpsForSymbol(symbol);
+    const name = username ?? '';
+
+    switch (symbol) {
+      case 'HBD':
+        return getHbdAssetTransactionsQueryOptions(name, ACTIVITIES_FETCH_LIMIT, historyOps);
+      case 'HP':
+        return getHivePowerAssetTransactionsQueryOptions(name, ACTIVITIES_FETCH_LIMIT, historyOps);
+      default:
+        return getHiveAssetTransactionsQueryOptions(name, ACTIVITIES_FETCH_LIMIT, historyOps);
+    }
+  }, [symbol, username]);
+
   const chainQuery = useInfiniteQuery({
-    ...getTransactionsInfiniteQueryOptions(username ?? '', ACTIVITIES_FETCH_LIMIT),
+    ...chainQueryOptions,
+    // Guard, not a workaround. These options used to seed
+    // `initialData: { pages: [], pageParams: [] }` for the web's server-prefetched
+    // pages; against this client's staleTime of 60s that empty seed reads as fresh
+    // data and suppresses the very first fetch, so the history renders empty and
+    // nothing reports an error. @ecency/sdk 2.3.80 dropped it, and no SDK test pins
+    // its absence, so keep this until one does.
+    initialData: undefined,
     enabled: !!username && isHive,
   });
 
@@ -384,8 +424,12 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
     getNextPageParam: (lastPage, pages) => (lastPage?.length ? pages.length : undefined),
   });
 
+  // Bounded auto-advance counter, declared here so `_refresh` can clear it.
+  const autoAdvancedRef = useRef(0);
+
   const _refresh = async () => {
     setIsRefreshing(true);
+    autoAdvancedRef.current = 0;
     if (isPoints) {
       await pointsQuery.refetch();
     } else if (isEngine) {
@@ -434,10 +478,10 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
       );
     }
 
-    // SDK pages have shape { entries: Transaction[], currentPage }; flatten the
-    // entries arrays so each `tx` is the normalized operation object that
-    // groomingTransactionData understands (it also tolerates the legacy array form).
-    // Defensively handle both shapes in case a cached/legacy page is an array.
+    // Each SDK page is a Transaction[] whose items are flat operation objects
+    // ({ num, type, timestamp, ...opValue }) that groomingTransactionData understands.
+    // Older cached pages may still hold the { entries } wrapper or the legacy
+    // [trxIndex, { op }] tuple form, so tolerate all three.
     const _chainPages = (chainQuery.data as any)?.pages as
       | Array<unknown[] | { entries?: unknown[] }>
       | undefined;
@@ -454,7 +498,7 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
       groomingTransactionData(item, globalProps.hivePerMVests),
     );
 
-    return activities.filter((item) => item && item.value && item.value.includes(symbol));
+    return activities.filter((item) => matchesAssetTicker(item, symbol));
   }, [
     pointsQuery.data?.transactions,
     (chainQuery.data as any)?.pages,
@@ -465,16 +509,38 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
     symbol,
   ]);
 
+  // A page can be filtered down to nothing (an HBD-only page on the HIVE tab, a run of
+  // curation rewards on HBD), leaving an empty list that is never scrolled and so never
+  // fires `onEndReached` to pull the next page. Walk forward a bounded number of pages
+  // while nothing renders instead of showing the user an empty history.
+  useEffect(() => {
+    autoAdvancedRef.current = 0;
+  }, [symbol, username]);
+
+  useEffect(() => {
+    if (!isHive || _data.length > 0) {
+      return;
+    }
+    if (!chainQuery.hasNextPage || chainQuery.isFetching) {
+      return;
+    }
+    if (autoAdvancedRef.current >= MAX_AUTO_ADVANCE_PAGES) {
+      return;
+    }
+
+    autoAdvancedRef.current += 1;
+    chainQuery.fetchNextPage();
+  }, [isHive, _data.length, chainQuery.hasNextPage, chainQuery.isFetching]);
+
+  const activeQuery = isPoints ? pointsQuery : isEngine ? engineQuery : chainQuery;
+
   return {
     data: _data,
     isRefreshing,
-    isLoading: isPoints
-      ? pointsQuery.isLoading || pointsQuery.isFetching
-      : isEngine
-      ? engineQuery.isLoading || engineQuery.isFetching
-      : isHive
-      ? chainQuery.isLoading || chainQuery.isFetching
-      : false,
+    isLoading:
+      isPoints || isEngine || isHive ? activeQuery.isLoading || activeQuery.isFetching : false,
+    isError: isPoints || isEngine || isHive ? activeQuery.isError : false,
+    error: isPoints || isEngine || isHive ? activeQuery.error : null,
     fetchNextPage: _fetchNextPage,
     refresh: _refresh,
   };
@@ -485,10 +551,27 @@ export const useRecurringActivitesQuery = (coinId: string) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const username = currentAccount?.name;
 
+  // Every caller now passes the portfolio symbol ('HIVE'), not the legacy asset id
+  // ('hive'), so gating on ASSET_IDS.HIVE alone left this query permanently disabled
+  // and the coin summary stuck on "0" recurrent transfers. Accept both spellings.
+  const isHiveAsset = coinId === ASSET_IDS.HIVE || coinId === 'HIVE';
+
   // Always call useQuery (Rules of Hooks) - use enabled to control execution
   const query = useQuery({
     ...getRecurrentTransfersQueryOptions(username || ''),
-    enabled: coinId === ASSET_IDS.HIVE && !!username, // Only fetch for HIVE and when username exists
+    enabled: isHiveAsset && !!username, // Only fetch for HIVE and when username exists
+    // The SDK query is scoped to the account, not to an asset, so it returns every
+    // schedule the account has. The total below sums bare `parseFloat` values and the
+    // summary labels them HIVE, so an account with 1 HIVE and 10 HBD scheduled read as
+    // "11 HIVE" and the modal listed the HBD schedules under HIVE. Latent until the
+    // gate above started matching.
+    select: (data) =>
+      data.filter(
+        (item) =>
+          String(item.amount || '')
+            .trim()
+            .split(/\s+/)[1] === 'HIVE',
+      ),
   });
 
   const totalAmount = useMemo(() => {

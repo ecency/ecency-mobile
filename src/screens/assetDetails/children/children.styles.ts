@@ -132,6 +132,13 @@ export default EStyleSheet.create({
     marginVertical: 16,
   } as ViewStyle,
 
+  activitiesPlaceholder: {
+    color: '$primaryDarkText',
+    fontSize: 14,
+    textAlign: 'center',
+    paddingVertical: 24,
+  } as TextStyle,
+
   delegationsModal: {
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
