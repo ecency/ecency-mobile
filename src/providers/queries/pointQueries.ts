@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getPointsQueryOptions, getQuestsQueryOptions } from '@ecency/sdk';
+import { scheduleQuestsRefresh } from '../../utils/refreshQuests';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import {
   deletePointActivityCache,
@@ -16,6 +17,13 @@ interface UserActivityMutationVars {
   blockNum?: string | number;
   transactionId?: string;
   cacheId?: string;
+  /**
+   * Who performed the activity, captured when it happened. The quest refresh fires a
+   * minute later, by which time `currentAccount` may be someone else: without this, a
+   * switch mid-flight refreshes the wrong account and leaves the real one stale.
+   * Replayed activities already carry it from the redux queue.
+   */
+  username?: string;
 }
 
 /**
@@ -41,11 +49,16 @@ export const useGetQuestsQuery = (username?: string) => {
   return useQuery({
     ...getQuestsQueryOptions(username),
     enabled: !!username,
+    // Opted in explicitly: the client default is off, because waking every query in
+    // the cache on every resume is far more than this needs. Quest progress is the
+    // thing users come back to the app to look at.
+    refetchOnWindowFocus: true,
   });
 };
 
 export const useUserActivityMutation = () => {
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pointActivitiesCache: Map<string, PointActivity> = useAppSelector(
     (state) => state.cache.pointActivities,
@@ -66,6 +79,10 @@ export const useUserActivityMutation = () => {
         console.log('must remove from redux');
         dispatch(deletePointActivityCache(vars.cacheId));
       }
+      // The activity is only recorded here, not yet credited. Ask again once the
+      // backend has had time to verify and process it, otherwise the quest card and
+      // the editor chip keep showing pre-action numbers until something remounts.
+      scheduleQuestsRefresh(queryClient, vars.username ?? currentAccount?.name);
     },
     onError: (error, vars) => {
       console.log('failed to log activity', error, vars);
@@ -136,7 +153,7 @@ export const useCheckIn = () => {
     // replay, but a rejected call shouldn't also mute the next 15 minutes.
     lastCheckinAt[username] = now;
     mutate(
-      { pointsTy: PointActivityIds.CHECKIN },
+      { pointsTy: PointActivityIds.CHECKIN, username },
       {
         onError: () => {
           if (lastCheckinAt[username] === now) {
