@@ -5,6 +5,7 @@ import {
   setAudioModeAsync,
   useAudioRecorder,
 } from 'expo-audio';
+import { captureException } from '../utils/sentryUtils';
 
 export type DictationRecorderState =
   | 'idle'
@@ -86,22 +87,23 @@ export function useDictationRecorder({ maxSeconds }: Options) {
     // the quote. This is the figure the user sees and is charged on.
     const elapsed = Date.now() - startedAtRef.current;
     const generation = generationRef.current;
-    let uri: string | null = null;
+    // Read BEFORE awaiting the stop. `uri` is the output path the recorder was
+    // prepared with rather than something the stop produces, so it is already correct
+    // here, and reading it afterwards would leave a native getter on the far side of
+    // an await that closing the sheet can outlive.
+    const { uri } = recorder;
     try {
       await recorder.stop();
       if (generation !== generationRef.current) {
-        // The sheet was closed while the recorder was flushing. Its shared object is
-        // already released, so `recorder.uri` below would fault, and there is no
-        // longer anything to submit.
+        // The sheet was closed while the recorder was flushing, so there is nothing
+        // left to submit and nothing mounted to submit it to.
         return;
       }
-      // Read inside the try, and only after the generation check: this is a native
-      // getter, and a stop that outlives the sheet must not take the app with it.
-      ({ uri } = recorder);
-    } catch {
+    } catch (error) {
       if (generation !== generationRef.current) {
         return;
       }
+      captureException(error, (scope) => scope.setTag('context', 'dictation-recorder-stop'));
       // The stop was refused, so the microphone may well still be open. Say so again,
       // and reset() on the way out will make one more attempt rather than leaving it
       // running for as long as the sheet stays up.
@@ -162,12 +164,13 @@ export function useDictationRecorder({ maxSeconds }: Options) {
       tickRef.current = setInterval(() => {
         setDurationMs(Date.now() - startedAtRef.current);
       }, 250);
-    } catch {
+    } catch (error) {
       if (generation !== generationRef.current) {
         // A rejection from a superseded attempt must not clobber the recording that
         // replaced it, same as the denial path above.
         return;
       }
+      captureException(error, (scope) => scope.setTag('context', 'dictation-recorder-start'));
       setState('failed');
     }
   }, [recorder, clearTick]);
@@ -181,7 +184,9 @@ export function useDictationRecorder({ maxSeconds }: Options) {
       // property getters it reports a released object as a rejection rather than a
       // synchronous throw, and an unhandled rejection would surface as a redbox over
       // a teardown the user cannot act on anyway.
-      recorder.stop().catch(() => undefined);
+      recorder.stop().catch((error) => {
+        captureException(error, (scope) => scope.setTag('context', 'dictation-recorder-reset'));
+      });
     }
     setResult(null);
     setDurationMs(0);
@@ -193,7 +198,9 @@ export function useDictationRecorder({ maxSeconds }: Options) {
   // duration drifts past while the recorder flushes.
   useEffect(() => {
     if (state === 'recording' && durationMs >= (maxSeconds - 1) * 1000) {
-      stop().catch(() => undefined);
+      stop().catch((error) => {
+        captureException(error, (scope) => scope.setTag('context', 'dictation-recorder-cap'));
+      });
     }
   }, [state, durationMs, maxSeconds, stop]);
 
@@ -218,7 +225,9 @@ export function useDictationRecorder({ maxSeconds }: Options) {
       if (tickRef.current) {
         clearInterval(tickRef.current);
       }
-      setAudioModeAsync({ allowsRecording: false }).catch(() => undefined);
+      setAudioModeAsync({ allowsRecording: false }).catch((error) => {
+        captureException(error, (scope) => scope.setTag('context', 'dictation-audio-mode-release'));
+      });
     },
     [],
   );

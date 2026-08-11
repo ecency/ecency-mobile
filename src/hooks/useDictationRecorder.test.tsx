@@ -29,6 +29,26 @@ const mockState = {
 };
 
 const mockSetAudioModeAsync = jest.fn(async () => undefined);
+const mockCaptureException = jest.fn();
+
+jest.mock('../utils/sentryUtils', () => ({
+  captureException: (...args: any[]) => (mockCaptureException as any)(...args),
+  captureMessage: jest.fn(),
+}));
+
+// The scope mutator is where the context tag lives, so run it against a stub to see
+// which flow each report was filed under.
+function capturedContexts() {
+  return mockCaptureException.mock.calls.map(([, applyScope]: any[]) => {
+    const tags: Record<string, string> = {};
+    applyScope?.({
+      setTag: (key: string, value: string) => {
+        tags[key] = value;
+      },
+    });
+    return tags.context;
+  });
+}
 
 function mockThrowIfReleased(member: string) {
   if (mockState.released) {
@@ -123,6 +143,7 @@ describe('useDictationRecorder unmount', () => {
     mockState.failStop = false;
     mockState.propertyReads = [];
     mockSetAudioModeAsync.mockClear();
+    mockCaptureException.mockClear();
   });
 
   // Registered sheets unmount on hide, so this is what happens every time the user
@@ -133,6 +154,8 @@ describe('useDictationRecorder unmount', () => {
 
     expect(() => act(() => renderer.unmount())).not.toThrow();
     expect(mockState.readsAfterRelease).toEqual([]);
+    // A clean close is not an incident.
+    expect(mockCaptureException).not.toHaveBeenCalled();
   });
 
   it('still deactivates the recording session on unmount', () => {
@@ -219,6 +242,9 @@ describe('useDictationRecorder unmount', () => {
       await api.stop();
     });
     expect(api.state).toBe('failed');
+    // Used to be swallowed by a bare catch, which is why none of this was ever
+    // visible in Sentry.
+    expect(capturedContexts()).toContain('dictation-recorder-stop');
 
     mockState.failStop = false;
     act(() => api.reset());
