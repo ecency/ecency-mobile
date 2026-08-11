@@ -1,9 +1,11 @@
 import { postBodySummary, renderPostBody } from '@ecency/render-helper';
+import { earnsQuestContentCredit, QUEST_MIN_CONTENT_LENGTH } from '@ecency/sdk';
 import { debounce, get } from 'lodash';
 import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { BounceInRight } from 'react-native-reanimated';
 import { SheetManager } from 'react-native-actions-sheet';
+import { shouldShowShortReplyHint } from '../../../utils/shortReplyHint';
 import { Icon } from '../../icon';
 
 // Utils
@@ -94,6 +96,12 @@ const MarkdownEditorView = ({
   caretKeyRef.current = _caretKey;
 
   const [editable, setEditable] = useState(true);
+  // Whether the current body is long enough to earn points. Deliberately a boolean and
+  // not the text: this editor is uncontrolled on purpose (see _changeText), so anything
+  // that re-rendered per keystroke would bring back the Android typing race. Updated on
+  // the existing 500ms debounce, which already calls setIsEditing, and React bails out
+  // when the value has not flipped, so the hint costs no extra renders.
+  const [earnsPoints, setEarnsPoints] = useState(() => earnsQuestContentCredit(draftBody || ''));
   // const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
@@ -250,6 +258,7 @@ const MarkdownEditorView = ({
     debounce(() => {
       console.log('setting is editing to', false);
       setIsEditing(false);
+      setEarnsPoints(earnsQuestContentCredit(bodyTextRef.current));
       handleBodyChange(bodyTextRef.current);
       handleFormUpdate('body', bodyTextRef.current);
     }, 500),
@@ -507,6 +516,19 @@ const MarkdownEditorView = ({
       _setTextAndSelection({ text: '', selection: { start: 0, end: 0 } });
     }
   };
+  // `earnsPoints` is the only part that changes as the user types, and it is recomputed
+  // on the same debounce that already re-renders this component. The remaining gates are
+  // render-stable, so reading the body ref here needs no re-render of its own. The ref is
+  // the authoritative body once the draft has loaded into it; falling back to `draftBody`
+  // would keep nagging about a reply the user had just cleared.
+  const _showShortReplyHint = shouldShowShortReplyHint({
+    isReply,
+    isEdit,
+    username: currentAccount?.name,
+    body: bodyTextRef.current,
+    earnsCredit: earnsPoints,
+  });
+
   const _renderEditor = () => (
     <>
       {isReply && !isEdit && <SummaryArea summary={headerText} />}
@@ -562,6 +584,11 @@ const MarkdownEditorView = ({
         scrollEnabled={true}
         defaultValue={bodyTextRef.current || draftBody || ''}
       />
+      {_showShortReplyHint && (
+        <Text style={styles.shortReplyHint}>
+          {intl.formatMessage({ id: 'editor.short_reply_hint' }, { n: QUEST_MIN_CONTENT_LENGTH })}
+        </Text>
+      )}
     </>
   );
 

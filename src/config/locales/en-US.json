@@ -570,7 +570,8 @@
     "scheduled_later": "Later",
     "settings_title": "Post Options",
     "support_ecency": "Support Ecency {percent}%",
-    "alert_btn_no": "No"
+    "alert_btn_no": "No",
+    "short_reply_hint": "Replies of {n} characters or fewer do not earn points (links do not count)"
   },
   "time": {
     "week": "weeks",
