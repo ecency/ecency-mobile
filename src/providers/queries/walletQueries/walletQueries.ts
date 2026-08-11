@@ -20,11 +20,7 @@ import {
   useBroadcastMutation,
   buildRecurrentTransferOp,
 } from '@ecency/sdk';
-import {
-  getHistoryOpsForSymbol,
-  getNextHistoryPageParam,
-  matchesAssetTicker,
-} from '../../../utils/walletHistory';
+import { getHistoryOpsForSymbol, matchesAssetTicker } from '../../../utils/walletHistory';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { resolvePointType } from '../../../constants/options/points';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -381,6 +377,9 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   // "canceling statement due to statement timeout" on some nodes) against the 10s
   // client ceiling set in `sdk-config.ts`, so the list simply never loaded. The same
   // filter over RPC answers in well under a second.
+  //
+  // Pagination is the SDK's: 2.3.80 fixed the cursor to walk back from the oldest row
+  // on the page (a page arrives in ascending `num`), so no local override is needed.
   const chainQueryOptions = useMemo(() => {
     const historyOps = getHistoryOpsForSymbol(symbol);
     const name = username ?? '';
@@ -397,13 +396,13 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
 
   const chainQuery = useInfiniteQuery({
     ...chainQueryOptions,
-    // The SDK seeds `initialData: { pages: [], pageParams: [] }` for the web's
-    // server-prefetched wallet pages. Mobile's client defaults to staleTime 60s, so
-    // that empty seed reads as fresh data and suppresses the very first fetch.
+    // Guard, not a workaround. These options used to seed
+    // `initialData: { pages: [], pageParams: [] }` for the web's server-prefetched
+    // pages; against this client's staleTime of 60s that empty seed reads as fresh
+    // data and suppresses the very first fetch, so the history renders empty and
+    // nothing reports an error. @ecency/sdk 2.3.80 dropped it, and no SDK test pins
+    // its absence, so keep this until one does.
     initialData: undefined,
-    // See getNextHistoryPageParam: the SDK cursor reads the newest row, not the oldest,
-    // so it advances one operation per page and never terminates.
-    getNextPageParam: getNextHistoryPageParam,
     enabled: !!username && isHive,
   });
 

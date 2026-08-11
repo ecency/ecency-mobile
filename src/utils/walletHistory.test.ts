@@ -2,7 +2,6 @@ import { utils as hiveTxUtils } from '@ecency/sdk/hive';
 import {
   HIVE_LAYER_HISTORY_OPS,
   getHistoryOpsForSymbol,
-  getNextHistoryPageParam,
   matchesAssetTicker,
 } from './walletHistory';
 import { groomingTransactionData, transferTypes } from './wallet';
@@ -44,29 +43,6 @@ describe('getHistoryOpsForSymbol', () => {
     Object.values(HIVE_LAYER_HISTORY_OPS).forEach((ops) => {
       expect(new Set(ops).size).toBe(ops.length);
     });
-  });
-});
-
-describe('getNextHistoryPageParam', () => {
-  // condenser_api.get_account_history returns a page in ASCENDING num order, so index 0
-  // is the older edge. Reading the last element instead advances one op per page.
-  const ascendingPage = [{ num: 8842005 }, { num: 8842006 }, { num: 8842054 }];
-
-  it('walks backwards from the oldest row on the page', () => {
-    expect(getNextHistoryPageParam(ascendingPage)).toBe(8842004);
-  });
-
-  it('stops at the start of history instead of returning the -1 newest sentinel', () => {
-    expect(getNextHistoryPageParam([{ num: 0 }, { num: 1 }])).toBeUndefined();
-  });
-
-  it('stops on an empty or missing page', () => {
-    expect(getNextHistoryPageParam([])).toBeUndefined();
-    expect(getNextHistoryPageParam(undefined)).toBeUndefined();
-  });
-
-  it('stops rather than looping when num is unusable', () => {
-    expect(getNextHistoryPageParam([{ num: 'not-a-number' }])).toBeUndefined();
   });
 });
 

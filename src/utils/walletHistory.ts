@@ -18,14 +18,17 @@ import { CoinActivity } from '../redux/reducers/walletReducer';
  * is ~92% `producer_reward`, which `transferTypes` drops, leaving the HIVE and HBD
  * history empty on an HTTP 200.
  *
- * Deliberately absent: `escrow_*` and `cancel_transfer_from_savings` (groomed to an id
- * / "0", so they can never match a ticker) and `fill_transfer_from_savings` (the SDK's
- * HIVE and HBD `select` drops it regardless of what we request).
+ * Deliberately absent: `escrow_*` and `cancel_transfer_from_savings`, groomed to an id
+ * / "0", so they can never match a ticker.
  */
 const BASE_HISTORY_OPS: HiveOperationFilterValue[] = [
   'transfer',
   'transfer_to_savings',
   'transfer_from_savings',
+  // The virtual op that lands when a savings withdrawal's timer completes. Requestable
+  // since @ecency/sdk 2.3.80: before that the HIVE and HBD `select` discarded it however
+  // it was asked for, and the operation was missing from the SDK's transfers group.
+  'fill_transfer_from_savings',
   'recurrent_transfer',
   'fill_recurrent_transfer',
   'claim_reward_balance',
@@ -50,26 +53,6 @@ export const HIVE_LAYER_HISTORY_OPS: Record<string, HiveOperationFilterValue[]> 
 
 export const getHistoryOpsForSymbol = (symbol: string): HiveOperationFilterValue[] =>
   HIVE_LAYER_HISTORY_OPS[symbol] ?? HIVE_LAYER_HISTORY_OPS.HIVE;
-
-/**
- * Cursor for `condenser_api.get_account_history`.
- *
- * A page comes back in ASCENDING `num` order, so the OLDEST entry sits at index 0 and
- * paging backwards means `page[0].num - 1`. The SDK's own cursor reads the LAST element
- * (the newest), which walks the window back by a single operation per page -- 49 of 50
- * rows duplicated -- and, once `num` reaches 0, yields -1: the "newest" sentinel, which
- * restarts the walk at the head of the history and never terminates.
- */
-export const getNextHistoryPageParam = (
-  lastPage: { num?: number | string }[] | undefined,
-): number | undefined => {
-  if (!lastPage?.length) {
-    return undefined;
-  }
-
-  const oldest = Number(lastPage[0]?.num ?? 0);
-  return Number.isFinite(oldest) && oldest > 0 ? oldest - 1 : undefined;
-};
 
 /**
  * Does a groomed activity belong on the tab for `symbol`?
