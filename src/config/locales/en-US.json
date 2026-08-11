@@ -685,7 +685,16 @@
     "select_emoji": "Select Emoji",
     "more_emojis": "More",
     "search_emojis": "Search emojis...",
-    "no_emoji_found": "No emoji found"
+    "no_emoji_found": "No emoji found",
+    "ban-reason-spray": "You're paused from posting because the same message went to several channels at once.",
+    "ban-reason-mass-dm": "You're paused from posting because a message was sent to many people at once.",
+    "ban-reason-generic": "You're paused from posting in chat.",
+    "ban-can-still-read": "You can still read chat.",
+    "ban-unlocks": "Posting unlocks {when}.",
+    "ban-remaining-soon": "in under a minute",
+    "ban-remaining-minutes": "in about {count} minutes",
+    "ban-remaining-hours": "in about {count} hours",
+    "ban-remaining-days": "in about {count} days"
   },
   "free_estm": {
     "timer_text": "Next free spin in",
