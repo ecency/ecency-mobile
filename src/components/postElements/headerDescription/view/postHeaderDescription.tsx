@@ -13,7 +13,7 @@ import styles from './postHeaderDescriptionStyles';
 
 import { default as ROUTES } from '../../../../constants/routeNames';
 import { IconButton } from '../../..';
-import RootNavigation from '../../../../navigation/rootNavigation';
+import RootNavigation, { NavigateOptions } from '../../../../navigation/rootNavigation';
 
 // Constants
 
@@ -69,7 +69,9 @@ class PostHeaderDescription extends PureComponent<any, any> {
 
   _handleOnTagPress = (content: any) => {
     const { handleTagPress } = this.props;
-    let navParams = {};
+    // Stays undefined when `content` matches none of the branches below, which previously fell
+    // through to navigate({}).
+    let navParams: NavigateOptions | undefined;
     if (content && content.category && /hive-[1-3]\d{4,6}$/.test(content.category)) {
       navParams = {
         name: ROUTES.SCREENS.COMMUNITY,
@@ -101,6 +103,10 @@ class PostHeaderDescription extends PureComponent<any, any> {
           tag: content,
         },
       };
+    }
+
+    if (!navParams) {
+      return;
     }
 
     if (handleTagPress) {

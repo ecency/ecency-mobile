@@ -128,31 +128,23 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
     const { data } = remoteMessage;
     const { type } = data;
 
-    let routeName;
-    let params;
-    let key;
-
     if (type === 'transfer' || type === 'delegations') {
       // Navigate to wallet for financial transactions
-      routeName = ROUTES.TABBAR.WALLET;
+      RootNavigation.navigate({ name: ROUTES.TABBAR.WALLET });
     } else {
       // Navigate to post for reply/mention
       const fullPermlink =
         get(data, 'permlink1', '') + get(data, 'permlink2', '') + get(data, 'permlink3', '');
 
-      params = {
-        author: get(data, 'source', ''),
-        permlink: fullPermlink,
-      };
-      key = fullPermlink;
-      routeName = ROUTES.SCREENS.POST;
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.POST,
+        params: {
+          author: get(data, 'source', ''),
+          permlink: fullPermlink,
+        },
+        key: fullPermlink,
+      });
     }
-
-    RootNavigation.navigate({
-      name: routeName,
-      params,
-      key,
-    });
     hide();
   };
 

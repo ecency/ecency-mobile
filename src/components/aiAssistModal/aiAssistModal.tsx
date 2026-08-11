@@ -52,7 +52,8 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
   const [result, setResult] = useState<{ output: string; action: AiAssistAction } | null>(null);
   const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
 
-  // Reset state when payload changes (sheets stay mounted)
+  // Sheets mount on show, so this seeds the input on every open. The `payload` dep additionally
+  // covers a re-show onto a still-mounted sheet.
   useEffect(() => {
     const newText = payload?.text?.slice(0, MAX_INPUT) || '';
     setText(newText);

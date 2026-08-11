@@ -28,7 +28,8 @@ import {
   setIsDarkTheme,
   recordAppSession,
 } from '../../../redux/actions/applicationActions';
-import RootNavigation from '../../../navigation/rootNavigation';
+import RootNavigation, { NavigateOptions } from '../../../navigation/rootNavigation';
+import { PinCodeParams } from '../../../navigation/types';
 import ROUTES from '../../../constants/routeNames';
 import { selectCurrentAccount } from '../../../redux/selectors';
 
@@ -278,9 +279,6 @@ export const useInitApplication = () => {
 
         case 'transfer':
           routeName = ROUTES.TABBAR.WALLET;
-          params = {
-            activePage: 2,
-          };
           break;
 
         case 'inactive':
@@ -308,12 +306,15 @@ export const useInitApplication = () => {
         markNotificationsReadMutation.mutate(activity_id);
       }
 
-      // Only an empty *string* param (e.g. missing author/permlink) should block
-      // navigation. lodash isEmpty(2) is true for numbers, which previously stopped
-      // transfer notifications (params { activePage: 2 }) from opening the wallet.
+      // Only an empty *string* param (e.g. missing author/permlink) should block navigation.
+      // This replaced a lodash isEmpty check, which reported numeric params as empty and so
+      // blocked any notification that carried one.
       const _hasEmptyStringParam = some(params, (v) => typeof v === 'string' && v.trim() === '');
       if (routeName && !_hasEmptyStringParam) {
         if (isPinCodeOpen) {
+          // routeName and params are set together per notification type in the switch above,
+          // but they are separate locals by the time they get here, so the pairing cannot be
+          // checked. The casts are the seam: everything either side of them is typed.
           RootNavigation.navigate({
             name: ROUTES.SCREENS.PINCODE,
             params: {
@@ -321,14 +322,14 @@ export const useInitApplication = () => {
               navigateParams: params,
               navigateKey: key,
               hideCloseButton: true,
-            },
+            } as PinCodeParams,
           });
         } else {
           RootNavigation.navigate({
             name: routeName,
             params,
             key,
-          });
+          } as NavigateOptions);
         }
       }
     }

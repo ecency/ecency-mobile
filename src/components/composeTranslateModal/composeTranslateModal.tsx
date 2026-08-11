@@ -56,9 +56,16 @@ export const ComposeTranslateModal = ({ payload }: SheetProps<SheetNames.COMPOSE
   const [progress, setProgress] = useState<[number, number]>([0, 0]);
   const [failed, setFailed] = useState(false);
 
-  // Sheets stay mounted; a closed sheet cancels the request chain so it stops
-  // hitting the translation service in the background.
-  const closedRef = useRef(false);
+  // Identifies the current translation run. A run is superseded by closing the sheet, by
+  // unmount, by a re-show carrying a new payload, by changing the language pair, and by
+  // starting another translation. translateMarkdown pages the service request by request and
+  // only consults its cancel callback between pages, so a run always has to be assumed still
+  // in flight: everything it writes back is gated on still being the current run.
+  //
+  // A plain "closed" flag was not enough. It was cleared again on re-show, and the result
+  // handler did not consult it at all, so a run that resolved after the user switched target
+  // language applied its result to the new pair, defeating the reset below.
+  const runIdRef = useRef(0);
 
   const sample = useMemo(
     () =>
@@ -72,10 +79,19 @@ export const ComposeTranslateModal = ({ payload }: SheetProps<SheetNames.COMPOSE
   );
   const tooShort = sample.trim().length < MIN_TRANSLATE_CHARS;
 
-  // Reset state and re-detect the source language on every open (payload is a
-  // fresh object per SheetManager.show).
+  // Sheets unmount on hide, so the run has to be retired here as well: onClose is not
+  // guaranteed to be the route the sheet leaves by, and a run left current keeps paging the
+  // translation service for a screen the user has already dismissed.
+  useEffect(
+    () => () => {
+      runIdRef.current += 1;
+    },
+    [],
+  );
+
+  // Sheets mount on show, so this resets state and re-detects the source language on every open.
   useEffect(() => {
-    closedRef.current = false;
+    runIdRef.current += 1;
     setTranslated('');
     setFailed(false);
     setTranslating(false);
@@ -111,8 +127,16 @@ export const ComposeTranslateModal = ({ payload }: SheetProps<SheetNames.COMPOSE
     setTarget(reader && reader !== 'en' && LIBRETRANSLATE_TARGETS.has(reader) ? reader : 'es');
   }, [source, appLang]);
 
-  // A result translated into a previous language pair must never be applied.
+  // A result translated into a previous language pair must never be applied. Retiring the run
+  // is what enforces that: clearing the state alone loses the race against a run still in
+  // flight, which would write its result back a moment later.
+  //
+  // Clearing `translating` is part of retiring it. The run being cancelled can no longer do it
+  // itself, because every write it makes is now gated on still being current, and a stuck
+  // `translating` leaves the spinner up with both action buttons disabled.
   useEffect(() => {
+    runIdRef.current += 1;
+    setTranslating(false);
     setTranslated('');
     setFailed(false);
   }, [source, target]);
@@ -131,6 +155,10 @@ export const ComposeTranslateModal = ({ payload }: SheetProps<SheetNames.COMPOSE
   );
 
   const _translate = async () => {
+    runIdRef.current += 1;
+    const runId = runIdRef.current;
+    const isCurrent = () => runIdRef.current === runId;
+
     setTranslating(true);
     setFailed(false);
     setTranslated('');
@@ -140,17 +168,23 @@ export const ComposeTranslateModal = ({ payload }: SheetProps<SheetNames.COMPOSE
         body,
         source,
         target,
-        (done, total) => setProgress([done, total]),
-        () => closedRef.current,
+        (done, total) => {
+          if (isCurrent()) {
+            setProgress([done, total]);
+          }
+        },
+        () => !isCurrent(),
       );
-      setTranslated(result);
+      if (isCurrent()) {
+        setTranslated(result);
+      }
     } catch (error) {
       console.log('translate error : ', error);
-      if (!closedRef.current) {
+      if (isCurrent()) {
         setFailed(true);
       }
     } finally {
-      if (!closedRef.current) {
+      if (isCurrent()) {
         setTranslating(false);
       }
     }
@@ -173,7 +207,7 @@ export const ComposeTranslateModal = ({ payload }: SheetProps<SheetNames.COMPOSE
   };
 
   const _handleOnSheetClose = () => {
-    closedRef.current = true;
+    runIdRef.current += 1;
     setTranslating(false);
   };
 

@@ -16,7 +16,7 @@ import { getFormattedTx, isHiveUri, normalizeHiveUri } from '../utils/hive-uri';
 import { resolveTxRequiredAuthority } from '../utils/hiveOperationAuthority';
 import { deepLinkParser } from '../utils/deepLinkParser';
 import showLoginAlert from '../utils/showLoginAlert';
-import RootNavigation from '../navigation/rootNavigation';
+import RootNavigation, { NavigateOptions } from '../navigation/rootNavigation';
 import ROUTES from '../constants/routeNames';
 import { delay } from '../utils/editor';
 import { SheetNames } from '../navigation/sheets';
@@ -512,15 +512,11 @@ export const useLinkProcessor = (onClose?: () => void) => {
           RootNavigation.navigate({
             name: ROUTES.SCREENS.PINCODE,
             params: {
-              accessToken: result.accessToken,
               navigateTo: ROUTES.DRAWER.MAIN,
             },
           });
         } else {
-          RootNavigation.navigate({
-            name: ROUTES.DRAWER.MAIN,
-            params: { accessToken: result.accessToken },
-          });
+          RootNavigation.navigate({ name: ROUTES.DRAWER.MAIN });
         }
 
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
@@ -733,7 +729,10 @@ export const useLinkProcessor = (onClose?: () => void) => {
     if (name && params && key) {
       onClose && onClose();
       await delay(500);
-      RootNavigation.navigate(deepLinkData);
+      // `name` is a checked RouteName, but it is still the whole union here, so TS cannot pair
+      // it with `params`. The pairing is enforced inside deepLinkParser, at the branch that
+      // builds each route.
+      RootNavigation.navigate({ name, params, key } as NavigateOptions);
     } else {
       // Open unsupported links in in-app browser
       onClose && onClose();

@@ -83,10 +83,9 @@ const BalanceAnalyticsSheet = ({ payload }: SheetProps<SheetNames.BALANCE_ANALYT
   const [activeTab, setActiveTab] = useState<Tab>('history');
   const [granularity, setGranularity] = useState<Granularity>('yearly');
 
-  // Action sheets stay mounted between presentations (per CLAUDE.md
-  // sheet-pattern note), so reset our local view state whenever the sheet is
-  // re-opened with a new payload — otherwise the previous account/coin's tab
-  // and granularity selection leak into the new view.
+  // Sheets mount on show, so useState already seeds these on a normal open. This effect covers
+  // a re-show onto a still-mounted sheet with a different account/coin, whose tab and
+  // granularity selection would otherwise leak into the new view.
   useEffect(() => {
     setActiveTab('history');
     setGranularity('yearly');

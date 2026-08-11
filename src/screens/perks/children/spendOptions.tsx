@@ -4,39 +4,38 @@ import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { Icon } from '../../../components';
-import RootNavigation from '../../../navigation/rootNavigation';
+import RootNavigation, { NavigateOptions } from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import styles from '../styles/perksStyles';
 
-const OPTIONS: { id: string; icon: string; route: string; params?: any }[] = [
-  { id: 'spin', icon: 'gift-outline', route: ROUTES.SCREENS.SPIN_GAME },
+// `nav` is a whole NavigateOptions rather than a route plus loose params, so each entry's
+// params are checked against its own destination right here in the literal.
+const OPTIONS: { id: string; icon: string; nav: NavigateOptions }[] = [
+  { id: 'spin', icon: 'gift-outline', nav: { name: ROUTES.SCREENS.SPIN_GAME } },
   {
     id: 'boost_plus',
     icon: 'fire',
-    route: ROUTES.SCREENS.REDEEM,
-    params: { redeemType: 'boost_plus' },
+    nav: { name: ROUTES.SCREENS.REDEEM, params: { redeemType: 'boost_plus' } },
   },
   {
     id: 'rc_topup',
     icon: 'lightning-bolt',
-    route: ROUTES.SCREENS.REDEEM,
-    params: { redeemType: 'rc_topup' },
+    nav: { name: ROUTES.SCREENS.REDEEM, params: { redeemType: 'rc_topup' } },
   },
   {
     id: 'promote',
     icon: 'bullhorn-outline',
-    route: ROUTES.SCREENS.REDEEM,
-    params: { redeemType: 'promote' },
+    nav: { name: ROUTES.SCREENS.REDEEM, params: { redeemType: 'promote' } },
   },
-  { id: 'account_boost', icon: 'rocket-launch-outline', route: ROUTES.SCREENS.ACCOUNT_BOOST },
+  {
+    id: 'account_boost',
+    icon: 'rocket-launch-outline',
+    nav: { name: ROUTES.SCREENS.ACCOUNT_BOOST },
+  },
 ];
 
 const SpendOptions = () => {
   const intl = useIntl();
-
-  const _navigate = (route: string, params?: any) => {
-    RootNavigation.navigate({ name: route, params });
-  };
 
   return (
     <View style={styles.card}>
@@ -45,7 +44,7 @@ const SpendOptions = () => {
         <TouchableOpacity
           key={opt.id}
           style={[styles.spendRow, index === OPTIONS.length - 1 && { borderBottomWidth: 0 }]}
-          onPress={() => _navigate(opt.route, opt.params)}
+          onPress={() => RootNavigation.navigate(opt.nav)}
         >
           <View style={styles.iconWrap}>
             <Icon

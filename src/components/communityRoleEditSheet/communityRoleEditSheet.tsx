@@ -94,9 +94,9 @@ const CommunityRoleEditSheet: React.FC<SheetProps<'community_role_edit'>> = ({
     setError('');
   }, [payload?.account]);
 
-  // Registered sheets stay mounted, and resetting on payload identity alone is
-  // not enough when the same payload object is reused, so reset on every
-  // presentation.
+  // Sheets mount on show, so mounting is what guarantees the reset on every presentation. The
+  // `payload` dep only covers a re-show onto a still-mounted sheet, and it cannot be relied on
+  // alone: a caller reusing the same payload object would not re-fire it.
   useEffect(() => {
     _reset();
   }, [payload, _reset]);

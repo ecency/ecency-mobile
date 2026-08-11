@@ -47,11 +47,9 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
     getSupportedLanguages();
   }, []);
 
-  // Sheets stay mounted and _handleOnSheetClose resets the target on close, so
-  // re-apply the pre-selected target/source on EVERY open. Keying on `payload`
-  // (a fresh object per SheetManager.show) is what makes this re-fire when the
-  // sheet is reopened from the same chip/banner with unchanged initial codes —
-  // without it the pre-targeting would only work once per session.
+  // Sheets mount on show, so this applies the pre-selected target/source on every open. It has
+  // to run again once the language list resolves, which is why the list is a dependency: on the
+  // first open the codes arrive before the list and there is nothing to match them against yet.
   useEffect(() => {
     if (!supportedLangsList.length) {
       return;
