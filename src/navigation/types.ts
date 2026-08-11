@@ -25,6 +25,17 @@ export type ParamsOptional<K extends RouteName> = K extends typeof ROUTES.SCREEN
   : false;
 
 /**
+ * Argument list for a helper that takes a route and its params as two arguments.
+ *
+ * params is required exactly when the destination requires them, so a paramless call to
+ * WEB_BROWSER and friends is a type error. A plain `params?: AppParamList[K]` would not do
+ * this: the `?` makes the argument optional for every route regardless of its contract.
+ */
+export type NavigateArgs<K extends RouteName> = ParamsOptional<K> extends true
+  ? [route: K, params?: AppParamList[K]]
+  : [route: K, params: AppParamList[K]];
+
+/**
  * A forwarded navigation target: navigateParams is typed by the destination
  * route, so routing through the PIN gate keeps the destination's contract.
  *

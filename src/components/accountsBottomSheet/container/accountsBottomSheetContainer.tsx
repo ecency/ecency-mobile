@@ -6,7 +6,7 @@ import { Alert } from 'react-native';
 import { SheetManager } from 'react-native-actions-sheet';
 import { getMutedUsersQueryOptions, getNotificationsUnreadCountQueryOptions } from '@ecency/sdk';
 import RootNavigation, { NavigateOptions } from '../../../navigation/rootNavigation';
-import { AppParamList, RouteName } from '../../../navigation/types';
+import { NavigateArgs, RouteName } from '../../../navigation/types';
 
 import { setPrevLoggedInUsers, updateCurrentAccount } from '../../../redux/actions/accountAction';
 
@@ -67,7 +67,7 @@ const AccountsBottomSheetContainer = () => {
     }
   };
 
-  const _navigateToRoute = <K extends RouteName>(name: K, params?: AppParamList[K]) => {
+  const _navigateToRoute = <K extends RouteName>(...[name, params]: NavigateArgs<K>) => {
     SheetManager.hide(SheetNames.ACCOUNTS_SHEET);
     accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
     if (name) {
