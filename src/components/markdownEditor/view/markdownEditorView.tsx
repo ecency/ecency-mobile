@@ -5,7 +5,7 @@ import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } fr
 import { Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { BounceInRight } from 'react-native-reanimated';
 import { SheetManager } from 'react-native-actions-sheet';
-import { shouldShowShortReplyHint } from '../../../utils/shortReplyHint';
+import { shouldShowShortContentHint } from '../../../utils/shortContentHint';
 import { Icon } from '../../icon';
 
 // Utils
@@ -521,13 +521,16 @@ const MarkdownEditorView = ({
   // render-stable, so reading the body ref here needs no re-render of its own. The ref is
   // the authoritative body once the draft has loaded into it; falling back to `draftBody`
   // would keep nagging about a reply the user had just cleared.
-  const _showShortReplyHint = shouldShowShortReplyHint({
-    isReply,
-    isEdit,
-    username: currentAccount?.name,
-    body: bodyTextRef.current,
-    earnsCredit: earnsPoints,
-  });
+  // `isReply` is gated here rather than in the helper: this editor also composes posts,
+  // where a body short enough to trip the rule is not a real case and would be noise.
+  const _showShortReplyHint =
+    isReply &&
+    shouldShowShortContentHint({
+      isEditing: isEdit,
+      username: currentAccount?.name,
+      body: bodyTextRef.current,
+      earnsCredit: earnsPoints,
+    });
 
   const _renderEditor = () => (
     <>

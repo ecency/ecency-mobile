@@ -66,6 +66,12 @@ export default EStyleSheet.create({
     fontSize: 12,
     fontWeight: '500',
   },
+  shortContentHint: {
+    fontSize: 12,
+    color: '$iconColor',
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+  },
   inputContainer: {
     paddingVertical: 6,
     minHeight: 120,
