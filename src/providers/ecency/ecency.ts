@@ -2,7 +2,7 @@ import { isArray } from 'lodash';
 import * as Sentry from '@sentry/react-native';
 import ecencyApi from '../../config/ecencyApi';
 import { upload } from '../../config/imageApi';
-import { SERVER_LIST } from '../../constants/options/api';
+import { SERVER_LIST, withoutBlockedServers } from '../../constants/options/api';
 import { convertProposalMeta } from './converters';
 import { PurchaseRequestData } from './ecency.types';
 
@@ -148,7 +148,12 @@ export const getNodes = async () => {
       throw new Error('Invalid data returned, fallback to local copy');
     }
 
-    return nodes;
+    // Screened here rather than at each call site: this is the single source of
+    // the node pool for both the SDK config and the settings picker, so a denied
+    // node cannot come back via the remote list (see BLOCKED_SERVERS).
+    const allowed = withoutBlockedServers(nodes);
+
+    return allowed.length > 0 ? allowed : [...SERVER_LIST];
   } catch (error) {
     console.warn('failed to get nodes list', error);
     Sentry.captureException(error);
