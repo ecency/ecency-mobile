@@ -44,6 +44,20 @@ describe('getHistoryOpsForSymbol', () => {
       expect(new Set(ops).size).toBe(ops.length);
     });
   });
+
+  // Requestable only since @ecency/sdk 2.3.80; before that the per-asset select
+  // discarded it however it was asked for.
+  it('asks for savings-withdrawal completions on the liquid tabs', () => {
+    expect(HIVE_LAYER_HISTORY_OPS.HIVE).toContain('fill_transfer_from_savings');
+    expect(HIVE_LAYER_HISTORY_OPS.HBD).toContain('fill_transfer_from_savings');
+  });
+
+  // A power-down installment pays HIVE, so it has to be requested on the HIVE tab and
+  // not only on HP.
+  it('asks for power-down payouts on both HIVE and HP', () => {
+    expect(HIVE_LAYER_HISTORY_OPS.HIVE).toContain('fill_vesting_withdraw');
+    expect(HIVE_LAYER_HISTORY_OPS.HP).toContain('fill_vesting_withdraw');
+  });
 });
 
 describe('matchesAssetTicker', () => {
@@ -63,6 +77,36 @@ describe('matchesAssetTicker', () => {
   it('rejects an activity with no value', () => {
     expect(matchesAssetTicker(null, 'HIVE')).toBe(false);
     expect(matchesAssetTicker({ trxIndex: 3, iconType: 'MaterialIcons' }, 'HIVE')).toBe(false);
+  });
+
+  // A power-up is an HP event even though grooming keeps the HIVE amount that went in,
+  // so the ticker alone would drop it from the HP tab.
+  it('keeps a power-up on the HP tab and on HIVE', () => {
+    const powerUp = {
+      trxIndex: 4,
+      iconType: 'MaterialIcons',
+      textKey: 'transfer_to_vesting',
+      value: '10.000 HIVE',
+    };
+    expect(matchesAssetTicker(powerUp, 'HP')).toBe(true);
+    expect(matchesAssetTicker(powerUp, 'HIVE')).toBe(true);
+    expect(matchesAssetTicker(powerUp, 'HBD')).toBe(false);
+  });
+
+  // A power-down installment pays HIVE; the routed-to-vesting variant pays VESTS.
+  it('routes each power-down payout to the tab matching its denomination', () => {
+    const liquid = {
+      trxIndex: 5,
+      iconType: 'MaterialIcons',
+      textKey: 'fill_vesting_withdraw',
+      value: '5.000 HIVE',
+    };
+    const routed = { ...liquid, trxIndex: 6, value: '1000.000000 VESTS' };
+
+    expect(matchesAssetTicker(liquid, 'HIVE')).toBe(true);
+    expect(matchesAssetTicker(liquid, 'HP')).toBe(false);
+    expect(matchesAssetTicker(routed, 'HP')).toBe(true);
+    expect(matchesAssetTicker(routed, 'HIVE')).toBe(false);
   });
 });
 

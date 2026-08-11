@@ -37,7 +37,16 @@ const BASE_HISTORY_OPS: HiveOperationFilterValue[] = [
 ];
 
 export const HIVE_LAYER_HISTORY_OPS: Record<string, HiveOperationFilterValue[]> = {
-  HIVE: [...BASE_HISTORY_OPS, 'transfer_to_vesting', 'fill_order', 'fill_convert_request'],
+  HIVE: [
+    ...BASE_HISTORY_OPS,
+    'transfer_to_vesting',
+    // A power-down installment pays out in HIVE, so it belongs on this tab too. The
+    // routed-to-vesting variant denominates `deposited` in VESTS and is filtered out
+    // here by the ticker match, landing on HP instead.
+    'fill_vesting_withdraw',
+    'fill_order',
+    'fill_convert_request',
+  ],
   HBD: [...BASE_HISTORY_OPS, 'fill_order', 'fill_convert_request'],
   HP: [
     'claim_reward_balance',
@@ -55,15 +64,28 @@ export const getHistoryOpsForSymbol = (symbol: string): HiveOperationFilterValue
   HIVE_LAYER_HISTORY_OPS[symbol] ?? HIVE_LAYER_HISTORY_OPS.HIVE;
 
 /**
+ * Operations that belong to a tab structurally rather than by denomination. A power-up
+ * is an HP event, but its groomed value is the HIVE amount that went in, so a ticker
+ * match alone would drop it from the HP tab.
+ */
+const STRUCTURAL_OPS: Record<string, string[]> = {
+  HP: ['transfer_to_vesting'],
+};
+
+/**
  * Does a groomed activity belong on the tab for `symbol`?
  *
- * `delegate_vesting_shares` and `fill_vesting_withdraw` keep their on-chain VESTS
- * denomination through grooming, so the HP tab has to accept both tickers or those rows
- * are silently dropped.
+ * `delegate_vesting_shares` and the routed variant of `fill_vesting_withdraw` keep their
+ * on-chain VESTS denomination through grooming, so the HP tab has to accept both tickers
+ * or those rows are silently dropped.
  */
 export const matchesAssetTicker = (activity: CoinActivity | null, symbol: string): boolean => {
   if (!activity?.value) {
     return false;
+  }
+
+  if (STRUCTURAL_OPS[symbol]?.includes(activity.textKey ?? '')) {
+    return true;
   }
 
   const tickers = symbol === 'HP' ? ['HP', 'VESTS'] : [symbol];

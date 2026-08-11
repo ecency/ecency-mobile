@@ -560,6 +560,18 @@ export const useRecurringActivitesQuery = (coinId: string) => {
   const query = useQuery({
     ...getRecurrentTransfersQueryOptions(username || ''),
     enabled: isHiveAsset && !!username, // Only fetch for HIVE and when username exists
+    // The SDK query is scoped to the account, not to an asset, so it returns every
+    // schedule the account has. The total below sums bare `parseFloat` values and the
+    // summary labels them HIVE, so an account with 1 HIVE and 10 HBD scheduled read as
+    // "11 HIVE" and the modal listed the HBD schedules under HIVE. Latent until the
+    // gate above started matching.
+    select: (data) =>
+      data.filter(
+        (item) =>
+          String(item.amount || '')
+            .trim()
+            .split(/\s+/)[1] === 'HIVE',
+      ),
   });
 
   const totalAmount = useMemo(() => {
