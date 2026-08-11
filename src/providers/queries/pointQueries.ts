@@ -17,6 +17,13 @@ interface UserActivityMutationVars {
   blockNum?: string | number;
   transactionId?: string;
   cacheId?: string;
+  /**
+   * Who performed the activity, captured when it happened. The quest refresh fires a
+   * minute later, by which time `currentAccount` may be someone else: without this, a
+   * switch mid-flight refreshes the wrong account and leaves the real one stale.
+   * Replayed activities already carry it from the redux queue.
+   */
+  username?: string;
 }
 
 /**
@@ -75,7 +82,7 @@ export const useUserActivityMutation = () => {
       // The activity is only recorded here, not yet credited. Ask again once the
       // backend has had time to verify and process it, otherwise the quest card and
       // the editor chip keep showing pre-action numbers until something remounts.
-      scheduleQuestsRefresh(queryClient, currentAccount?.name);
+      scheduleQuestsRefresh(queryClient, vars.username ?? currentAccount?.name);
     },
     onError: (error, vars) => {
       console.log('failed to log activity', error, vars);
@@ -146,7 +153,7 @@ export const useCheckIn = () => {
     // replay, but a rejected call shouldn't also mute the next 15 minutes.
     lastCheckinAt[username] = now;
     mutate(
-      { pointsTy: PointActivityIds.CHECKIN },
+      { pointsTy: PointActivityIds.CHECKIN, username },
       {
         onError: () => {
           if (lastCheckinAt[username] === now) {

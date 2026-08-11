@@ -66,6 +66,7 @@ interface MobilePlatformAdapterParams {
     pointsTy: number;
     transactionId: string;
     blockNum?: number;
+    username?: string;
   }) => void;
 }
 
@@ -243,7 +244,14 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
 
     recordActivity: async (activityType: number, txId: string, blockNum?: number) => {
       if (userActivityMutate) {
-        userActivityMutate({ pointsTy: activityType, transactionId: txId, blockNum });
+        // Capture who broadcast this now. The quest refresh it schedules fires a minute
+        // later, and reading the account then would follow an account switch.
+        userActivityMutate({
+          pointsTy: activityType,
+          transactionId: txId,
+          blockNum,
+          username: store.getState().account?.currentAccount?.name,
+        });
       }
     },
 

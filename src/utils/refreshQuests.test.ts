@@ -56,6 +56,22 @@ describe('scheduleQuestsRefresh', () => {
     });
   });
 
+  it('keeps a pending refresh per account, so a switch cannot cancel the other', () => {
+    scheduleQuestsRefresh(queryClient, 'alice');
+    jest.advanceTimersByTime(5 * 1000);
+    scheduleQuestsRefresh(queryClient, 'bob');
+
+    jest.advanceTimersByTime(QUESTS_REFRESH_DELAY + 1000);
+
+    expect(invalidateQueries).toHaveBeenCalledTimes(2);
+    expect(invalidateQueries).toHaveBeenCalledWith({
+      queryKey: ['quests', 'status', 'alice'],
+    });
+    expect(invalidateQueries).toHaveBeenCalledWith({
+      queryKey: ['quests', 'status', 'bob'],
+    });
+  });
+
   it('does nothing without a username', () => {
     scheduleQuestsRefresh(queryClient, undefined);
     scheduleQuestsRefresh(queryClient, null);

@@ -12,7 +12,14 @@ import { QueryKeys } from '@ecency/sdk';
  */
 export const QUESTS_REFRESH_DELAY = 70 * 1000;
 
-let timer: ReturnType<typeof setTimeout> | null = null;
+/**
+ * One pending refresh per account. A single shared timer would let a second account
+ * cancel the first one's only scheduled invalidation: record something as alice, switch
+ * to bob and record something within the delay, and alice's quest data stays stale until
+ * a screen remounts. Account switching is a first-class flow here, so the timers are
+ * keyed by username.
+ */
+const timers = new Map<string, ReturnType<typeof setTimeout>>();
 
 /**
  * Debounced refresh of the quests/streak query so the perks quest card and the
@@ -33,20 +40,22 @@ export const scheduleQuestsRefresh = (queryClient: QueryClient, username?: strin
     return;
   }
 
-  if (timer) {
-    clearTimeout(timer);
+  const pending = timers.get(name);
+  if (pending) {
+    clearTimeout(pending);
   }
 
-  timer = setTimeout(() => {
-    timer = null;
-    queryClient.invalidateQueries({ queryKey: QueryKeys.quests.status(name) });
-  }, QUESTS_REFRESH_DELAY);
+  timers.set(
+    name,
+    setTimeout(() => {
+      timers.delete(name);
+      queryClient.invalidateQueries({ queryKey: QueryKeys.quests.status(name) });
+    }, QUESTS_REFRESH_DELAY),
+  );
 };
 
 /** Test seam: drop any pending refresh so specs do not leak timers into each other. */
 export const cancelQuestsRefresh = () => {
-  if (timer) {
-    clearTimeout(timer);
-    timer = null;
-  }
+  timers.forEach((pending) => clearTimeout(pending));
+  timers.clear();
 };
