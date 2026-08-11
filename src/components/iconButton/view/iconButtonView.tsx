@@ -1,5 +1,12 @@
 import React, { Fragment } from 'react';
-import { TouchableOpacity, ActivityIndicator, StyleProp, TextStyle, ViewStyle } from 'react-native';
+import {
+  TouchableOpacity,
+  TouchableOpacityProps,
+  ActivityIndicator,
+  StyleProp,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Icon } from '../../icon';
 
@@ -23,6 +30,9 @@ interface IconButtonProps {
   isLoading?: boolean;
   iconStyle?: StyleProp<TextStyle>;
   style?: StyleProp<ViewStyle>;
+  // The button is a fixed 30x30, below the 44pt guideline. Opt in per call site where a
+  // mis-tap is costly, rather than changing the hit area of every icon button at once.
+  hitSlop?: TouchableOpacityProps['hitSlop'];
   onPress?: (event?: any) => void;
   onLongPress?: (event?: any) => void;
   accessibilityLabel?: string;
@@ -46,10 +56,12 @@ const IconButton = ({
   isLoading,
   accessibilityLabel,
   accessibilityHint,
+  hitSlop,
 }: IconButtonProps) => (
   <Fragment>
     <TouchableOpacity
       style={[styles.iconButton, style]}
+      hitSlop={hitSlop}
       onPress={() => !isLoading && onPress && onPress()}
       disabled={disabled}
       onLongPress={() => !isLoading && onLongPress && onLongPress()}

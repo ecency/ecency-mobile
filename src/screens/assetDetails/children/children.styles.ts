@@ -171,6 +171,5 @@ export default EStyleSheet.create({
   },
   closeIcon: {
     color: '$iconColor',
-    // paddingRight: 0
   },
 });

@@ -15,6 +15,9 @@ import { walletQueries } from '../../../providers/queries';
 import { IconButton } from '../../../components/iconButton';
 import { selectIsDarkTheme } from '../../../redux/selectors';
 
+// Brings the 30x30 IconButton up to the 44x44 minimum touch target without changing its layout.
+const CLOSE_HIT_SLOP = { top: 7, bottom: 7, left: 7, right: 7 };
+
 interface RecurrentTransfersModalProps {
   assetId: string;
 }
@@ -76,7 +79,9 @@ export const RecurrentTransfersModal = forwardRef(
       return (
         <IconButton
           size={24}
-          style={{ paddingRight: 0 }}
+          // The button itself is a fixed 30x30, below the 44pt guideline, and it sits in a row
+          // of transfers where a mis-tap cancels the wrong schedule.
+          hitSlop={CLOSE_HIT_SLOP}
           iconStyle={styles.closeIcon}
           name="close"
           iconType="MaterialCommunityIcons"
