@@ -422,6 +422,12 @@ export const sendMattermostMessage = async (
         err.response?.data?.error || err.response?.data?.message || 'User is banned from chat',
       );
       banError.isBanError = true;
+      // Carry the structured payload, not just the message. The message is operator-facing
+      // (it names the account and quotes an ISO timestamp); these two are what let the UI say
+      // why it happened and when it lifts. Dropping them strands the notice and forces the UI
+      // back to displaying the very string it exists to replace.
+      banError.bannedUntil = err.response?.data?.bannedUntil;
+      banError.reason = err.response?.data?.reason;
       throw banError;
     }
     throw err;

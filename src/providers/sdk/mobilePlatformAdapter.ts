@@ -66,6 +66,7 @@ interface MobilePlatformAdapterParams {
     pointsTy: number;
     transactionId: string;
     blockNum?: number;
+    username?: string;
   }) => void;
 }
 
@@ -194,7 +195,11 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
             params: {
               hiveuri: encodedUri,
               opsArray: ops,
-              onSuccess: () => resolve({} as TransactionConfirmation),
+              // The modal hands back a real confirmation when HiveSigner's callback
+              // carried one. Resolving an empty object loses the transaction id, and
+              // the SDK gates recordActivity on it, so the action earns nothing.
+              onSuccess: (confirmation?: TransactionConfirmation) =>
+                resolve(confirmation ?? ({} as TransactionConfirmation)),
               onClose: () => reject(new Error('HiveSigner signing cancelled')),
             },
           });
@@ -221,9 +226,11 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
           params: {
             hiveuri: encodedUri,
             opsArray: ops,
-            onSuccess: () => {
-              // HiveSigner WebView confirms via URL redirect, no tx confirmation returned
-              resolve({} as TransactionConfirmation);
+            onSuccess: (confirmation?: TransactionConfirmation) => {
+              // The modal reads the broadcast result off HiveSigner's callback. Falling
+              // back to an empty object keeps the old behaviour when no id came through,
+              // but with one the SDK can finally record the point activity.
+              resolve(confirmation ?? ({} as TransactionConfirmation));
             },
             onClose: () => {
               reject(new Error('HiveSigner signing cancelled'));
@@ -243,7 +250,14 @@ export function createMobilePlatformAdapter(params: MobilePlatformAdapterParams)
 
     recordActivity: async (activityType: number, txId: string, blockNum?: number) => {
       if (userActivityMutate) {
-        userActivityMutate({ pointsTy: activityType, transactionId: txId, blockNum });
+        // Capture who broadcast this now. The quest refresh it schedules fires a minute
+        // later, and reading the account then would follow an account switch.
+        userActivityMutate({
+          pointsTy: activityType,
+          transactionId: txId,
+          blockNum,
+          username: store.getState().account?.currentAccount?.name,
+        });
       }
     },
 

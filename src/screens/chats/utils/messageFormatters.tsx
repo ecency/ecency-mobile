@@ -1,10 +1,11 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Platform, Text } from 'react-native';
 import moment from 'moment';
 import { emojifyMessage } from '../../../utils/emoji';
 import { mattermostToUnicode } from '../../../utils/emojiMapper';
 import { extractImageUrls } from '../../../utils/editor';
 import { getHiveUsernameFromMattermostUser } from '../../../providers/chat/mattermost';
+import { InlineSpan, parseInlineMarkdown } from './inlineMarkdown';
 
 export interface ChatPost {
   id?: string;
@@ -172,6 +173,83 @@ export const setLinkText = (url: string): string => {
 /**
  * Render text with bold @mentions (returns React elements)
  */
+const spanStyle = (span: InlineSpan) => {
+  const style: any = {};
+  if (span.bold) {
+    style.fontWeight = '700';
+  }
+  if (span.italic) {
+    style.fontStyle = 'italic';
+  }
+  if (span.strike) {
+    style.textDecorationLine = 'line-through';
+  }
+  if (span.code) {
+    style.fontFamily = Platform.OS === 'ios' ? 'Menlo' : 'monospace';
+  }
+  return style;
+};
+
+/**
+ * Applies inline markdown to one run of non-mention text.
+ *
+ * Anything covered by a linkify range is passed through as a raw string: the surrounding
+ * <Hyperlink> matches on the rendered text, so splitting a URL into styled <Text> nodes would
+ * stop it being tappable, and a URL containing "_" or "*" could otherwise be reformatted into
+ * something that no longer resolves.
+ */
+const renderSegmentWithMarkdown = (
+  text: string,
+  absoluteStart: number,
+  linkRanges: Array<{ start: number; end: number }>,
+  textStyle: any,
+  keyPrefix: string,
+): React.ReactNode[] => {
+  const absoluteEnd = absoluteStart + text.length;
+  const overlapping = linkRanges
+    .filter((r) => r.end > absoluteStart && r.start < absoluteEnd)
+    .sort((a2, b2) => a2.start - b2.start);
+
+  const nodes: React.ReactNode[] = [];
+  let cursor = absoluteStart;
+
+  const pushFormatted = (from: number, to: number) => {
+    const slice = text.slice(from - absoluteStart, to - absoluteStart);
+    if (!slice) {
+      return;
+    }
+    parseInlineMarkdown(slice).forEach((span, i) => {
+      if (!span.bold && !span.italic && !span.strike && !span.code) {
+        nodes.push(span.text);
+        return;
+      }
+      nodes.push(
+        // eslint-disable-next-line react/no-array-index-key
+        <Text key={`${keyPrefix}md${from}_${i}`} style={[textStyle, spanStyle(span)]}>
+          {span.text}
+        </Text>,
+      );
+    });
+  };
+
+  overlapping.forEach((range) => {
+    const linkStart = Math.max(range.start, absoluteStart);
+    const linkEnd = Math.min(range.end, absoluteEnd);
+    if (linkStart > cursor) {
+      pushFormatted(cursor, linkStart);
+    }
+    // raw string: leave the URL exactly as typed for <Hyperlink>
+    nodes.push(text.slice(linkStart - absoluteStart, linkEnd - absoluteStart));
+    cursor = linkEnd;
+  });
+
+  if (cursor < absoluteEnd) {
+    pushFormatted(cursor, absoluteEnd);
+  }
+
+  return nodes;
+};
+
 export const renderTextWithBoldMentions = (
   text: string,
   textStyle: any,
@@ -184,7 +262,9 @@ export const renderTextWithBoldMentions = (
   }));
 
   const mentionPattern = /(^|[\s\n])(@[a-zA-Z0-9\-.]+)/g;
-  const parts: Array<{ text: string; isMention: boolean }> = [];
+  // `start` is the absolute offset into `text`, needed so inline markdown can be skipped
+  // wherever a linkify range covers the run.
+  const parts: Array<{ text: string; isMention: boolean; start: number }> = [];
   let lastIndex = 0;
   let match;
 
@@ -200,24 +280,25 @@ export const renderTextWithBoldMentions = (
     );
 
     if (match.index > lastIndex) {
-      parts.push({ text: text.slice(lastIndex, match.index), isMention: false });
+      parts.push({ text: text.slice(lastIndex, match.index), isMention: false, start: lastIndex });
     }
 
     if (beforeChar) {
-      parts.push({ text: beforeChar, isMention: false });
+      parts.push({ text: beforeChar, isMention: false, start: match.index });
     }
 
-    parts.push({ text: mention, isMention: !isInsideLink });
+    parts.push({ text: mention, isMention: !isInsideLink, start: mentionStart });
 
     lastIndex = match.index + fullMatch.length;
   }
 
   if (lastIndex < text.length) {
-    parts.push({ text: text.slice(lastIndex), isMention: false });
+    parts.push({ text: text.slice(lastIndex), isMention: false, start: lastIndex });
   }
 
+  // No mentions is the common case, and it still needs inline markdown applied.
   if (parts.length === 0) {
-    return text;
+    return renderSegmentWithMarkdown(text, 0, linkRanges, textStyle, 'p');
   }
 
   return parts.map((part, index) => {
@@ -229,6 +310,6 @@ export const renderTextWithBoldMentions = (
         </Text>
       );
     }
-    return part.text;
+    return renderSegmentWithMarkdown(part.text, part.start, linkRanges, textStyle, `s${index}_`);
   });
 };

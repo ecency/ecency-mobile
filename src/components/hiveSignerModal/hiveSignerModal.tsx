@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import WebView from 'react-native-webview';
 import { Platform, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import type { Operation } from '@ecency/sdk';
+import type { Operation, TransactionConfirmation } from '@ecency/sdk';
 import { hsOptions } from '../../constants/hsOptions';
 import styles from './hiveSignerModal.styles';
 import { ModalHeader } from '../modalHeader';
@@ -12,6 +12,7 @@ import { StatusContent } from '../hiveAuthModal/children/statusContent';
 import AUTH_TYPE from '../../constants/authType';
 import { useAppSelector } from '../../hooks';
 import { selectCurrentAccount } from '../../redux/selectors';
+import { parseHiveSignerSignResult } from '../../utils/hiveSignerCallback';
 
 export const HiveSignerModal = ({ route, navigation }: any) => {
   const intl = useIntl();
@@ -104,30 +105,24 @@ export const HiveSignerModal = ({ route, navigation }: any) => {
       return;
     }
 
-    // Parse URL robustly to detect success
-    let isSuccess = false;
-    try {
-      if (url.includes('/sign/success')) {
-        isSuccess = true;
-      } else {
-        const parsedUrl = new URL(url);
-        const successParam = parsedUrl.searchParams.get('success');
-        if (successParam === 'true') {
-          isSuccess = true;
-        }
-      }
-    } catch (error) {
-      // If URL parsing fails, fall back to includes check
-      if (url.includes('?success=true')) {
-        isSuccess = true;
-      }
-    }
+    const result = parseHiveSignerSignResult(url, hsOptions.redirect_uri);
 
-    if (isSuccess) {
+    if (result) {
       // Mark success as handled to prevent duplicate calls
       successHandledRef.current = true;
-      // Transaction was successfully signed
-      onSuccessRef.current?.();
+      // Transaction was successfully signed. Pass the confirmation through when the
+      // callback carried one: the SDK gates recordActivity on the transaction id, so
+      // without it the action earns nothing and never reaches quest progress.
+      onSuccessRef.current?.(
+        result.id
+          ? ({
+              id: result.id,
+              block_num: result.blockNum,
+              trx_num: result.trxNum,
+              expired: false,
+            } as unknown as TransactionConfirmation)
+          : undefined,
+      );
       navigation.goBack();
     }
   };
@@ -155,7 +150,15 @@ export const HiveSignerModal = ({ route, navigation }: any) => {
     return null;
   }
 
-  const _hsUri = `${hsOptions.base_url}${hiveuri.substring(7)}`;
+  // Ask HiveSigner to hand the broadcast result back. Without a redirect_uri (or a
+  // callback baked into the uri) it simply stops on its own success page, which is why
+  // the signing path never had a transaction id to record the point activity with. The
+  // loopback URI is the one already registered for this client and used by the OAuth
+  // login flow: the WebView never actually loads it, it only reads the query params off
+  // the navigation attempt.
+  const _hsUri = `${hsOptions.base_url}${hiveuri.substring(7)}${
+    hiveuri.includes('?') ? '&' : '?'
+  }redirect_uri=${encodeURIComponent(hsOptions.redirect_uri)}`;
 
   // Render HiveSigner WebView for HiveSigner operations
   return (

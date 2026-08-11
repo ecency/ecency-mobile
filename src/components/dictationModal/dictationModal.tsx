@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import { useQuery } from '@tanstack/react-query';
 import { getAiTranscribePriceQueryOptions, useAiTranscribe } from '@ecency/sdk';
+import { captureException } from '../../utils/sentryUtils';
 import { useAuth } from '../../hooks';
 import { useDictationRecorder } from '../../hooks/useDictationRecorder';
 import { SheetNames } from '../../navigation/sheets';
@@ -155,6 +156,15 @@ export const DictationModal = ({ payload }: SheetProps<SheetNames.DICTATION>) =>
           : status === 400
           ? 'dictation.error_too_long'
           : 'dictation.error_failed';
+      if (id === 'dictation.error_failed') {
+        // The three status codes above are conditions the user can act on and the
+        // message already says so. Anything else is a defect, and the Points were
+        // charged or not on the server's terms, so it needs to be diagnosable.
+        captureException(err, (scope) => {
+          scope.setTag('context', 'dictation-transcribe');
+          scope.setTag('dictation_status', String(status ?? 'none'));
+        });
+      }
       Alert.alert(intl.formatMessage({ id: 'alert.fail' }), intl.formatMessage({ id }));
       // Recording and key are both kept: retry reuses the audio, and the same key
       // means a request that actually landed replays rather than charging twice.

@@ -53,6 +53,13 @@ export default EStyleSheet.create({
     paddingTop: 10,
     paddingBottom: 0,
   },
+  shortReplyHint: {
+    fontSize: 12,
+    color: '$iconColor',
+    paddingHorizontal: 16,
+    paddingBottom: 12,
+    backgroundColor: '$primaryBackgroundColor',
+  },
   accountTile: {
     height: 60,
     flexDirection: 'row',

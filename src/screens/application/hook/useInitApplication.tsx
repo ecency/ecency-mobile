@@ -10,6 +10,7 @@ import BackgroundTimer from 'react-native-background-timer';
 import { Image as ExpoImage } from 'expo-image';
 import { setProxyBase } from '@ecency/render-helper';
 import { ConfigManager } from '@ecency/sdk';
+import { focusManager } from '@tanstack/react-query';
 import { useAppDispatch, useAppSelector, useLinkProcessor } from '../../../hooks';
 import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
@@ -184,6 +185,14 @@ export const useInitApplication = () => {
   };
 
   const _handleAppStateChange = (nextAppState: any) => {
+    // React Native has no window focus events, so React Query's focus tracking is
+    // inert until something drives it. Without this, `refetchOnWindowFocus` is not
+    // merely disabled by default, it has no signal to act on at all, and a screen
+    // that stays mounted (the leaderboard tab, the perks card) keeps serving
+    // whatever it fetched before the app was backgrounded. Only the queries that
+    // opt in refetch, so this does not wake the whole cache on every resume.
+    focusManager.setFocused(nextAppState === 'active');
+
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
       userActivityMutation.lazyMutatePendingActivities();
       dispatch(recordAppSession());

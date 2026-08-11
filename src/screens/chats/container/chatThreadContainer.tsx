@@ -87,6 +87,8 @@ import { PinnedMessagesModal } from '../children/PinnedMessagesModal';
 import { OnlineUsersModal } from '../children/OnlineUsersModal';
 import { TypingIndicator } from '../children/TypingIndicator';
 import { DmWarningBanner } from '../children/DmWarningBanner';
+import { ChatBanBanner } from '../children/ChatBanBanner';
+import { ChatBanInfo, getChatBanInfo } from '../utils/chatBanNotice';
 
 interface ChatReaction {
   emoji_name: string;
@@ -149,6 +151,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const [mentionQuery, setMentionQuery] = useState<string | null>(null);
   const [mentionStartIndex, setMentionStartIndex] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [banInfo, setBanInfo] = useState<ChatBanInfo | null>(null);
   const [hasBootstrapped, setHasBootstrapped] = useState<boolean>(!!initialBootstrap);
   const [canModerate, setCanModerate] = useState<boolean>(false);
   const [lastViewedAt, setLastViewedAt] = useState<number | null>(initialLastViewedAt ?? null);
@@ -300,6 +303,14 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           Math.abs((post.create_at || 0) - lastSentAtRef.current) < 30000;
 
         if (pendingMatch || fallbackMatch) {
+          // A websocket echo of our own just-sent message is independent proof the create
+          // landed, and it can arrive when the HTTP response never does (timeout, dropped
+          // connection). Without this the banner would sit there until its original expiry
+          // even though the ban has clearly been lifted. Both match arms are create-only:
+          // pending_post_id is set only when creating, and the fallback keys on
+          // lastSentMessageRef, which the create branch is what populates.
+          setBanInfo(null);
+
           const confirmedId = lastSentPendingIdRef.current;
           if (confirmedId) {
             confirmedPendingPostIdsRef.current.add(confirmedId);
@@ -1296,6 +1307,13 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           props,
           pendingPostId,
         );
+
+        // Cleared HERE, in the create branch only. The ban gates creating posts and nothing
+        // else — editing an existing message is not checked server-side — so a successful edit
+        // proves nothing about the restriction and must not dismiss the notice. Only a create
+        // that lands shows the ban is actually gone (an early moderator unban).
+        setBanInfo(null);
+
         const newPost = normalizePost(response);
         if (newPost) {
           if (channelId) {
@@ -1343,7 +1361,14 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         confirmedPendingPostIdsRef.current.delete(pendingId);
       } else {
         // Check if this is a ban error
-        if (err?.isBanError) {
+        const ban = getChatBanInfo(err);
+        if (ban) {
+          // Standing state, not a toast: a ban persists, so the explanation has to persist with
+          // it. `error` is no good here either — it only renders in the empty-thread view.
+          setBanInfo(ban);
+        } else if (err?.isBanError) {
+          // Ban detected but no usable expiry (an older server, or a malformed payload). Fall
+          // back to the previous one-shot message rather than showing a countdown we don't have.
           dispatch(
             toastNotification(
               intl.formatMessage({
@@ -2196,6 +2221,8 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           currentUserId={bootstrapUserId}
           getHiveUsername={getHiveUsernameFromMattermostUser as any}
         />
+
+        {banInfo && <ChatBanBanner info={banInfo} onExpire={() => setBanInfo(null)} />}
 
         <ThreadComposer
           message={message}

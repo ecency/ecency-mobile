@@ -5,6 +5,7 @@ import {
   setAudioModeAsync,
   useAudioRecorder,
 } from 'expo-audio';
+import { captureException } from '../utils/sentryUtils';
 
 export type DictationRecorderState =
   | 'idle'
@@ -52,6 +53,18 @@ export function useDictationRecorder({ maxSeconds }: Options) {
   // Bumped by every reset/unmount. start() captures the value it began with, so a
   // permission prompt answered after the sheet closed can tell it is stale.
   const generationRef = useRef(0);
+  // Whether the native recorder is running, tracked here rather than read back from
+  // `recorder.isRecording`.
+  //
+  // Every property on an expo shared object is a JSI accessor that calls into native
+  // synchronously, and once expo-audio has released the object that call throws a
+  // jsi::JSError at the access site -- NativeSharedObjectNotFoundException on iOS,
+  // UsingReleasedSharedObjectException on Android. It is a synchronous throw, so a
+  // `.catch()` cannot intercept it, and registered sheets unmount on hide and render
+  // outside the app's ErrorBoundary, so any such read on a path that can straddle the
+  // close is fatal. A plain ref cannot fault, and it stays correct across the release
+  // because nothing native has to be consulted to know what we ourselves started.
+  const isRecordingRef = useRef(false);
 
   // Round UP: the server bills whole units off the real duration, so flooring would
   // quote one unit for a clip that crosses into two.
@@ -65,16 +78,36 @@ export function useDictationRecorder({ maxSeconds }: Options) {
   }, []);
 
   const stop = useCallback(async () => {
-    if (!recorder.isRecording) {
+    if (!isRecordingRef.current) {
       return;
     }
+    isRecordingRef.current = false;
     clearTick();
     // Wall clock, captured before the native call so a slow stop does not inflate
     // the quote. This is the figure the user sees and is charged on.
     const elapsed = Date.now() - startedAtRef.current;
+    const generation = generationRef.current;
+    // Read BEFORE awaiting the stop. `uri` is the output path the recorder was
+    // prepared with rather than something the stop produces, so it is already correct
+    // here, and reading it afterwards would leave a native getter on the far side of
+    // an await that closing the sheet can outlive.
+    const { uri } = recorder;
     try {
       await recorder.stop();
-    } catch {
+      if (generation !== generationRef.current) {
+        // The sheet was closed while the recorder was flushing, so there is nothing
+        // left to submit and nothing mounted to submit it to.
+        return;
+      }
+    } catch (error) {
+      if (generation !== generationRef.current) {
+        return;
+      }
+      captureException(error, (scope) => scope.setTag('context', 'dictation-recorder-stop'));
+      // The stop was refused, so the microphone may well still be open. Say so again,
+      // and reset() on the way out will make one more attempt rather than leaving it
+      // running for as long as the sheet stays up.
+      isRecordingRef.current = true;
       // Leaving state as 'recording' would strand the sheet: the stop button stays
       // up but no longer works, and there is no recording to submit either.
       setResult(null);
@@ -83,7 +116,7 @@ export function useDictationRecorder({ maxSeconds }: Options) {
     }
     // Kept rather than zeroed, so the sheet can show what was actually recorded.
     setDurationMs(elapsed);
-    setResult(recorder.uri ? { uri: recorder.uri, durationMs: elapsed } : null);
+    setResult(uri ? { uri, durationMs: elapsed } : null);
     setState('stopped');
   }, [recorder, clearTick]);
 
@@ -122,18 +155,22 @@ export function useDictationRecorder({ maxSeconds }: Options) {
 
       startedAtRef.current = Date.now();
       recorder.record();
+      // Only after record() returns: it is a synchronous native call, and if it
+      // throws there is nothing running to stop.
+      isRecordingRef.current = true;
       setState('recording');
 
       clearTick();
       tickRef.current = setInterval(() => {
         setDurationMs(Date.now() - startedAtRef.current);
       }, 250);
-    } catch {
+    } catch (error) {
       if (generation !== generationRef.current) {
         // A rejection from a superseded attempt must not clobber the recording that
         // replaced it, same as the denial path above.
         return;
       }
+      captureException(error, (scope) => scope.setTag('context', 'dictation-recorder-start'));
       setState('failed');
     }
   }, [recorder, clearTick]);
@@ -141,10 +178,15 @@ export function useDictationRecorder({ maxSeconds }: Options) {
   const reset = useCallback(() => {
     generationRef.current += 1;
     clearTick();
-    if (recorder.isRecording) {
-      // Fire-and-forget, but caught: an unhandled rejection here would surface over
+    if (isRecordingRef.current) {
+      isRecordingRef.current = false;
+      // Fire-and-forget, but caught: stop() is an AsyncFunction, so unlike the
+      // property getters it reports a released object as a rejection rather than a
+      // synchronous throw, and an unhandled rejection would surface as a redbox over
       // a teardown the user cannot act on anyway.
-      recorder.stop().catch(() => undefined);
+      recorder.stop().catch((error) => {
+        captureException(error, (scope) => scope.setTag('context', 'dictation-recorder-reset'));
+      });
     }
     setResult(null);
     setDurationMs(0);
@@ -156,7 +198,9 @@ export function useDictationRecorder({ maxSeconds }: Options) {
   // duration drifts past while the recorder flushes.
   useEffect(() => {
     if (state === 'recording' && durationMs >= (maxSeconds - 1) * 1000) {
-      stop().catch(() => undefined);
+      stop().catch((error) => {
+        captureException(error, (scope) => scope.setTag('context', 'dictation-recorder-cap'));
+      });
     }
   }, [state, durationMs, maxSeconds, stop]);
 
@@ -177,10 +221,13 @@ export function useDictationRecorder({ maxSeconds }: Options) {
   useEffect(
     () => () => {
       generationRef.current += 1;
+      isRecordingRef.current = false;
       if (tickRef.current) {
         clearInterval(tickRef.current);
       }
-      setAudioModeAsync({ allowsRecording: false }).catch(() => undefined);
+      setAudioModeAsync({ allowsRecording: false }).catch((error) => {
+        captureException(error, (scope) => scope.setTag('context', 'dictation-audio-mode-release'));
+      });
     },
     [],
   );

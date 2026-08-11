@@ -3,6 +3,7 @@ import Config from 'react-native-config';
 import { QueryClient } from '@tanstack/react-query';
 import { getServer } from '../../storage/storage';
 import { getNodes } from '../ecency/ecency';
+import { isBlockedServer, withoutBlockedServers } from '../../constants/options/api';
 
 /**
  * Fetch DMCA filtering lists from Ecency server
@@ -47,8 +48,12 @@ export const initSdkConfig = async (queryClient: QueryClient) => {
 
   // Sync saved server preference and fetched nodes to SDK
   const savedServer = await getServer();
-  const fetchedNodes = await getNodes();
-  const hasValidServer = typeof savedServer === 'string' && savedServer.trim() !== '';
+  // Denied nodes are dropped from BOTH sides. The saved preference is prepended
+  // when it is not already in the fetched list, so filtering only the fetched
+  // list would promote a stored bad node to the front of the pool.
+  const fetchedNodes = withoutBlockedServers(await getNodes());
+  const hasValidServer =
+    typeof savedServer === 'string' && savedServer.trim() !== '' && !isBlockedServer(savedServer);
   const nodes =
     hasValidServer && !fetchedNodes.includes(savedServer)
       ? [savedServer, ...fetchedNodes]
