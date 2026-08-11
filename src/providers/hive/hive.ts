@@ -33,7 +33,7 @@ import { resolveTxRequiredAuthority } from '../../utils/hiveOperationAuthority';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
-import { SERVER_LIST } from '../../constants/options/api';
+import { SERVER_LIST, isBlockedServer, withoutBlockedServers } from '../../constants/options/api';
 import { SIGN_IMAGE_UNAVAILABLE } from '../../constants/imageUpload';
 import { b64uEnc } from '../../utils/b64';
 import { delay } from '../../utils/editor';
@@ -42,10 +42,13 @@ import { delay } from '../../utils/editor';
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
 export const checkClient = async () => {
-  const selectedServer = [...SERVER_LIST];
+  const selectedServer = withoutBlockedServers([...SERVER_LIST]);
 
   await getServer().then((response) => {
-    if (response) {
+    // A stored preference is prepended, so it has to be screened too —
+    // otherwise a denied node the user once selected becomes the first node
+    // tried (see BLOCKED_SERVERS).
+    if (response && !isBlockedServer(response)) {
       selectedServer.unshift(response);
     }
   });
