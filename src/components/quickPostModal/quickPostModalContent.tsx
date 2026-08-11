@@ -23,12 +23,13 @@ import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { get, debounce } from 'lodash';
 import { postBodySummary } from '@ecency/render-helper';
+import { QUEST_MIN_CONTENT_LENGTH, getCommunityQueryOptions } from '@ecency/sdk';
 import { Image as ExpoImage } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getCommunityQueryOptions } from '@ecency/sdk';
 import { useQuery } from '@tanstack/react-query';
 import ImagePicker, { Video as VideoType } from 'react-native-image-crop-picker';
 import { SheetManager } from 'react-native-actions-sheet';
+import { shouldShowShortContentHint } from '../../utils/shortContentHint';
 import styles from './quickPostModal.styles';
 import {
   Icon,
@@ -141,6 +142,22 @@ export const QuickPostModalContent = forwardRef(
     const bodyLengthExceeded = useMemo(
       () => commentValue.length > MAX_BODY_LENGTH && mode === 'wave',
       [commentValue, mode],
+    );
+
+    // The other end of the same range. A wave is a comment on the chain, so the points
+    // backend applies the same minimum length to it as to a reply, silently: at or under
+    // the threshold once URLs are stripped, it earns nothing and never reaches the daily
+    // comment quest. Waves are short by design, which is exactly why it bites here. No
+    // mode gate, since both live modes submit a comment. This composer only ever creates,
+    // so there is no editing case to exclude. `commentValue` already re-renders per
+    // keystroke for the character counter, so this costs nothing extra.
+    const showShortContentHint = useMemo(
+      () =>
+        shouldShowShortContentHint({
+          username: currentAccount?.name,
+          body: commentValue,
+        }),
+      [commentValue, currentAccount?.name],
     );
 
     useEffect(() => {
@@ -817,6 +834,15 @@ export const QuickPostModalContent = forwardRef(
             textAlignVertical="top"
           />
         </View>
+
+        {showShortContentHint && (
+          <Text style={styles.shortContentHint}>
+            {intl.formatMessage(
+              { id: 'editor.short_content_hint' },
+              { n: QUEST_MIN_CONTENT_LENGTH },
+            )}
+          </Text>
+        )}
 
         {_renderMediaPanel()}
 
