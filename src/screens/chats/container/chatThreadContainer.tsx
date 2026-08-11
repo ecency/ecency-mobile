@@ -1299,6 +1299,13 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           props,
           pendingPostId,
         );
+
+        // Cleared HERE, in the create branch only. The ban gates creating posts and nothing
+        // else — editing an existing message is not checked server-side — so a successful edit
+        // proves nothing about the restriction and must not dismiss the notice. Only a create
+        // that lands shows the ban is actually gone (an early moderator unban).
+        setBanInfo(null);
+
         const newPost = normalizePost(response);
         if (newPost) {
           if (channelId) {
@@ -1322,10 +1329,6 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           }
         }
       }
-
-      // A send that lands proves the ban is gone, which is how an early moderator unban
-      // clears the banner instead of it lingering until the original expiry.
-      setBanInfo(null);
 
       // Always clear input after successful send via HTTP response.
       // WebSocket may also clear it via onNewMessage, but HTTP is the reliable path.
