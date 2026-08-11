@@ -1255,6 +1255,8 @@
     "checkin_desc": "Checking in regularly gives you 0.25 points.",
     "fill_transfer_from_savings": "Savings Executed",
     "activities": "Activities",
+    "no_activities": "No transactions yet",
+    "activities_failed": "Could not load transactions. Pull down to retry.",
     "tap_update": "Tap to update",
     "mining_lottery": "Lottery Won",
     "checkin": "Check-in",
