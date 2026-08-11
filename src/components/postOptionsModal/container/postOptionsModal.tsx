@@ -77,6 +77,19 @@ interface Props {
    */
   onDelete?: (content: any) => void | Promise<void>;
   /**
+   * Set only by consumers whose content *is* the screen, which today means postScreen alone, so
+   * that deleting it pops back. Everything else owns a surrounding list and must not pop.
+   *
+   * This is an opt-in rather than a default because the two failure modes are not symmetric.
+   * Forgetting it leaves the user on the screen, which is mildly wrong and obvious in testing.
+   * Popping by default navigated the user away from a list they were reading, which is badly
+   * wrong and easy to miss: it shipped three times (waves, the comment surfaces in #3405/#3406,
+   * the feed list in #3407). Content shape cannot decide this, because postScreen renders
+   * comments and waves as primary content, so a comment in a list and a comment as the screen
+   * are the same object (#3408, reverted).
+   */
+  popScreenOnDelete?: boolean;
+  /**
    * Optional thread handler. When provided, the "open-thread" action is offered
    * and delegates here. Only comment surfaces can open a thread, so the option
    * is hidden wherever this is absent.
@@ -85,7 +98,7 @@ interface Props {
 }
 
 const PostOptionsModal = (
-  { pageType, isWave, isVisibleTranslateModal, onDelete, onOpenThread }: Props,
+  { pageType, isWave, isVisibleTranslateModal, onDelete, popScreenOnDelete, onOpenThread }: Props,
   ref: any,
 ) => {
   const intl = useIntl();
@@ -487,15 +500,12 @@ const PostOptionsModal = (
           parentAuthor: content.parent_author || '',
           parentPermlink: content.parent_permlink || '',
         });
-        // Always pops, because only the caller knows whether the deleted content
-        // *is* the screen. postScreen renders comments and waves as primary
-        // content too, so `parent_author` cannot stand in for that: gating on it
-        // left a comment's own detail screen showing deleted content.
-        //
-        // Consumers that own a surrounding list must therefore pass `onDelete`
-        // and handle removal themselves. See #3407 for inverting this into an
-        // explicit opt-in, which fails safe in the other direction.
-        navigation.goBack();
+        // Only the caller knows whether the deleted content *is* the screen, so popping is
+        // opt-in. Forgetting the opt-in leaves the user where they were; the old default
+        // navigated them off a screen they were still reading.
+        if (popScreenOnDelete) {
+          navigation.goBack();
+        }
         dispatch(
           toastNotification(
             intl.formatMessage({

@@ -156,6 +156,10 @@ const PostScreen = ({ route }: any) => {
         ref={postOptionsModalRef}
         isWave={isWavePost}
         isVisibleTranslateModal={isSubPost}
+        // This modal is only opened from the header dropdown, which always acts on the post
+        // this screen *is*, so deleting it has to pop. Comments rendered below come with their
+        // own modal and their own onDelete.
+        popScreenOnDelete={true}
       />
     </SafeAreaView>
   );
