@@ -130,8 +130,13 @@ export const ComposeTranslateModal = ({ payload }: SheetProps<SheetNames.COMPOSE
   // A result translated into a previous language pair must never be applied. Retiring the run
   // is what enforces that: clearing the state alone loses the race against a run still in
   // flight, which would write its result back a moment later.
+  //
+  // Clearing `translating` is part of retiring it. The run being cancelled can no longer do it
+  // itself, because every write it makes is now gated on still being current, and a stuck
+  // `translating` leaves the spinner up with both action buttons disabled.
   useEffect(() => {
     runIdRef.current += 1;
+    setTranslating(false);
     setTranslated('');
     setFailed(false);
   }, [source, target]);
