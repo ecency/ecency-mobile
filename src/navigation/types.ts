@@ -30,10 +30,18 @@ export type ParamsOptional<K extends RouteName> = K extends typeof ROUTES.SCREEN
  * params is required exactly when the destination requires them, so a paramless call to
  * WEB_BROWSER and friends is a type error. A plain `params?: AppParamList[K]` would not do
  * this: the `?` makes the argument optional for every route regardless of its contract.
+ *
+ * The outer `K extends RouteName` is what makes this distribute. Without it, a caller whose
+ * route is typed as the whole RouteName union collapses ParamsOptional<K> to boolean, which
+ * fails `extends true` and yields [RouteName, AppParamList[RouteName]] where the params union
+ * already includes undefined, so the required-params routes stop being checked. Distributing
+ * produces one tuple per route instead, and a union-typed route matches none of them.
  */
-export type NavigateArgs<K extends RouteName> = ParamsOptional<K> extends true
-  ? [route: K, params?: AppParamList[K]]
-  : [route: K, params: AppParamList[K]];
+export type NavigateArgs<K extends RouteName> = K extends RouteName
+  ? ParamsOptional<K> extends true
+    ? [route: K, params?: AppParamList[K]]
+    : [route: K, params: AppParamList[K]]
+  : never;
 
 /**
  * A forwarded navigation target: navigateParams is typed by the destination
