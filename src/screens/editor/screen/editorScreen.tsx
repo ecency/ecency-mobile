@@ -28,6 +28,7 @@ import { getQueryClient } from '../../../providers/queries';
 
 // Styles
 import globalStyles from '../../../globalStyles';
+import RcPrecheckBanner from '../../../components/rcPrecheckBanner';
 import { isCommunity } from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
@@ -569,6 +570,12 @@ class EditorScreen extends Component<any, any> {
           isPreviewActive={isPreviewActive}
         > */}
         <Fragment>
+          <RcPrecheckBanner
+            username={currentAccount?.name}
+            fields={fields}
+            post={post}
+            isReply={isReply}
+          />
           {!isReply && !isEdit && (
             <SelectCommunityAreaView
               selectedAccount={selectedAccount}
