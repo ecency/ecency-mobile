@@ -28,6 +28,7 @@ import { getQueryClient } from '../../../providers/queries';
 
 // Styles
 import globalStyles from '../../../globalStyles';
+import RcPrecheckBanner from '../../../components/rcPrecheckBanner';
 import { isCommunity } from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
@@ -508,6 +509,9 @@ class EditorScreen extends Component<any, any> {
       rewardType,
       postDescription,
       setIsUploading,
+      getBeneficiaries,
+      getPollDraft,
+      hasExplicitBeneficiaries,
     } = this.props;
 
     const rightButtonText = intl.formatMessage({
@@ -569,6 +573,19 @@ class EditorScreen extends Component<any, any> {
           isPreviewActive={isPreviewActive}
         > */}
         <Fragment>
+          <RcPrecheckBanner
+            username={currentAccount?.name}
+            fields={fields}
+            post={post}
+            isReply={isReply}
+            isEdit={isEdit}
+            thumbUrl={thumbUrl}
+            videoThumbUrls={collectVideoThumbUrls({ videoThumbs, body: fields?.body })}
+            pollDraft={getPollDraft && getPollDraft()}
+            rewardType={rewardType}
+            beneficiaries={getBeneficiaries && getBeneficiaries()}
+            hasExplicitBeneficiaries={hasExplicitBeneficiaries}
+          />
           {!isReply && !isEdit && (
             <SelectCommunityAreaView
               selectedAccount={selectedAccount}

@@ -870,6 +870,8 @@
     "connection_success": "Successfully connected!",
     "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
     "rc_down_title": "Not enough Resource Credits",
+    "rc_precheck_title": "This post may be too large to publish",
+    "rc_precheck_body": "Your resource credits look too low for a post this size.",
     "rc_down_body": "You do not have enough resource credits for this action.\n\nTop up now with Points to keep going, or boost your account for good.",
     "rc_down_topup": "Top up RC with Points",
     "rc_down_boost": "Boost account",
