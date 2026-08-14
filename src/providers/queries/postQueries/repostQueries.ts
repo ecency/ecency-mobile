@@ -12,6 +12,7 @@ import { makeJsonMetadata, makeOptions } from '../../../utils/editor';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 import authType from '../../../constants/authType';
 import { decryptKey } from '../../../utils/crypto';
+import { isInsufficientRcError } from '../../../utils/rcError';
 import { mapAuthTypeToLoginType } from '../../../utils/authMapper';
 
 /** hook used to return post reblogs using SDK */
@@ -153,7 +154,7 @@ export function useCrossPostMutation() {
       );
     },
     onError: (error: any) => {
-      if (error?.jse_shortmsg?.split(': ')[1]?.includes('wait to transact')) {
+      if (isInsufficientRcError(error)) {
         // when RC is not enough, offer boosting account
         dispatch(setRcOffer(true));
       } else {
