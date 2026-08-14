@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
+import { useQuery } from '@tanstack/react-query';
+import { getSupportSettingsQueryOptions } from '@ecency/sdk';
 import type { RcPrecheckPayload } from '@ecency/sdk';
 
 import { setRcOffer } from '../../redux/actions/uiAction';
@@ -25,6 +27,7 @@ interface Props {
   pollDraft?: any;
   rewardType?: string;
   beneficiaries?: any[];
+  hasExplicitBeneficiaries?: boolean;
 }
 
 /**
@@ -58,6 +61,7 @@ const RcPrecheckBanner = ({
   pollDraft,
   rewardType,
   beneficiaries,
+  hasExplicitBeneficiaries,
 }: Props) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -66,6 +70,17 @@ const RcPrecheckBanner = ({
   const body = fields?.body ?? '';
   const title = fields?.title ?? '';
   const tags = fields?.tags;
+
+  // Cache read only. The submit path fetches this with a decrypted token, which
+  // is far too heavy to repeat while someone types, so the support row is
+  // priced whenever the settings screen or beneficiary modal has already warmed
+  // the shared cache entry, and skipped otherwise. Skipping can only make the
+  // estimate lower by one beneficiary row, never raise a false warning.
+  const { data: supportSettings } = useQuery({
+    ...getSupportSettingsQueryOptions(username, undefined),
+    enabled: false,
+  });
+  const supportPercent = supportSettings?.beneficiary_percent ?? 0;
 
   // Regenerating this on every rebuild is churn: it is time-derived, so only
   // its length reaches the estimate, and the millisecond component can change
@@ -94,6 +109,8 @@ const RcPrecheckBanner = ({
         pollDraft,
         rewardType,
         beneficiaries,
+        hasExplicitBeneficiaries,
+        supportPercent,
       })
         .then((next) => {
           if (!cancelled) {
@@ -127,6 +144,8 @@ const RcPrecheckBanner = ({
     JSON.stringify(videoThumbUrls),
     thumbUrl,
     rewardType,
+    hasExplicitBeneficiaries,
+    supportPercent,
     post?.author,
     post?.permlink,
     post?.markdownBody,

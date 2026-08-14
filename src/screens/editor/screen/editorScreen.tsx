@@ -511,6 +511,7 @@ class EditorScreen extends Component<any, any> {
       setIsUploading,
       getBeneficiaries,
       getPollDraft,
+      hasExplicitBeneficiaries,
     } = this.props;
 
     const rightButtonText = intl.formatMessage({
@@ -583,6 +584,7 @@ class EditorScreen extends Component<any, any> {
             pollDraft={getPollDraft && getPollDraft()}
             rewardType={rewardType}
             beneficiaries={getBeneficiaries && getBeneficiaries()}
+            hasExplicitBeneficiaries={hasExplicitBeneficiaries}
           />
           {!isReply && !isEdit && (
             <SelectCommunityAreaView

@@ -618,6 +618,20 @@ class EditorContainer extends Component<any, any> {
     return beneficiariesMap[_draftId] || [];
   };
 
+  /**
+   * Whether the author set a beneficiary list for this draft. The submit path
+   * injects the Ecency support beneficiary only when they did not, so the RC
+   * estimate needs the same signal to price comment_options correctly.
+   */
+  _hasExplicitBeneficiaries = () => {
+    const { draftId } = this.state;
+    const { beneficiariesMap, currentAccount } = this.props;
+
+    const _draftId = draftId || DEFAULT_USER_DRAFT_ID + currentAccount.name;
+
+    return !!beneficiariesMap && Object.prototype.hasOwnProperty.call(beneficiariesMap, _draftId);
+  };
+
   _extractPollDraft = () => {
     const { draftId } = this.state;
     const { pollDraftsMap, currentAccount } = this.props;
@@ -1995,6 +2009,7 @@ class EditorContainer extends Component<any, any> {
         handlePostDescriptionChange={this._handlePostDescriptionChange}
         getBeneficiaries={this._extractBeneficiaries}
         getPollDraft={this._extractPollDraft}
+        hasExplicitBeneficiaries={this._hasExplicitBeneficiaries()}
         setIsUploading={this._setIsUploading}
       />
     );

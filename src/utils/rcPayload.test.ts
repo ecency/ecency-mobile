@@ -277,4 +277,67 @@ describe('buildEditorRcPayload', () => {
       ).toBeUndefined();
     });
   });
+
+  // Regression: the stored list is not what gets broadcast. Submit adds a
+  // mandatory 3Speak row for an embedded video and the author's support row
+  // when they never set a list, and each lands in comment_options.
+  describe('submit-time beneficiaries', () => {
+    // The matcher looks for the embed URL specifically, not a watch link.
+    const THREESPEAK_BODY = `${draft.body}\n\n<iframe src="https://3speak.tv/embed?v=spacecop/abcdefghi"></iframe>`;
+
+    it('adds the 3Speak beneficiary an embed forces', async () => {
+      const plain = await buildEditorRcPayload({ username: 'spacecop', fields: draft });
+      const withVideo = await buildEditorRcPayload({
+        username: 'spacecop',
+        fields: { ...draft, body: THREESPEAK_BODY },
+      });
+
+      expect(plain?.options?.beneficiaries ?? []).toHaveLength(0);
+      expect(withVideo?.options?.beneficiaries?.length).toBeGreaterThan(0);
+    });
+
+    it('adds the support beneficiary when the author never set a list', async () => {
+      const payload = await buildEditorRcPayload({
+        username: 'spacecop',
+        fields: draft,
+        hasExplicitBeneficiaries: false,
+        supportPercent: 5,
+      });
+
+      expect(payload?.options?.beneficiaries?.length).toBeGreaterThan(0);
+    });
+
+    it('leaves an author-set list alone, as the submit path does', async () => {
+      const payload = await buildEditorRcPayload({
+        username: 'spacecop',
+        fields: draft,
+        beneficiaries: [{ account: 'alice', weight: 1000 }],
+        hasExplicitBeneficiaries: true,
+        supportPercent: 5,
+      });
+
+      expect(payload?.options?.beneficiaries).toEqual([{ account: 'alice', weight: 1000 }]);
+    });
+
+    it('adds nothing for the support account itself', async () => {
+      const payload = await buildEditorRcPayload({
+        username: 'ecency',
+        fields: draft,
+        hasExplicitBeneficiaries: false,
+        supportPercent: 5,
+      });
+
+      expect(payload?.options?.beneficiaries ?? []).toHaveLength(0);
+    });
+
+    it('adds nothing when the support percentage is unset or unknown', async () => {
+      const payload = await buildEditorRcPayload({
+        username: 'spacecop',
+        fields: draft,
+        hasExplicitBeneficiaries: false,
+      });
+
+      expect(payload?.options?.beneficiaries ?? []).toHaveLength(0);
+    });
+  });
 });

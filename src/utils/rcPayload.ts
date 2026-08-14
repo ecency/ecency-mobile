@@ -1,4 +1,10 @@
+import { enforceThreeSpeakBeneficiary } from '@ecency/sdk';
 import type { RcPrecheckPayload } from '@ecency/sdk';
+
+import {
+  ECENCY_SUPPORT_ACCOUNT,
+  injectEcencySupportBeneficiary,
+} from '../providers/ecency/supportBeneficiary';
 
 import { PostTypes } from '../constants/postTypes';
 import {
@@ -37,7 +43,15 @@ interface BuildArgs {
   videoThumbUrls?: string[];
   pollDraft?: any;
   rewardType?: string;
+  /** The stored beneficiary list for this draft, before submit-time additions. */
   beneficiaries?: any[];
+  /**
+   * Whether the draft has a beneficiary list the author set. The support
+   * beneficiary is only injected when it does not, matching the submit path.
+   */
+  hasExplicitBeneficiaries?: boolean;
+  /** The author's saved support percentage, read from cache rather than fetched. */
+  supportPercent?: number;
 }
 
 /** Hive requires a parent permlink; the editor falls back to this tag when the draft has none. */
@@ -76,6 +90,8 @@ export const buildEditorRcPayload = async ({
   pollDraft,
   rewardType,
   beneficiaries,
+  hasExplicitBeneficiaries,
+  supportPercent,
 }: BuildArgs): Promise<CommentRcPayload | undefined> => {
   const body = fields?.body ?? '';
   if (!username || !body) {
@@ -116,7 +132,18 @@ export const buildEditorRcPayload = async ({
   // never does.
   const options: any = isReply
     ? undefined
-    : makeOptions({ author: username, permlink, operationType: rewardType, beneficiaries });
+    : makeOptions({
+        author: username,
+        permlink,
+        operationType: rewardType,
+        beneficiaries: resolveSubmitBeneficiaries({
+          username,
+          body,
+          beneficiaries,
+          hasExplicitBeneficiaries,
+          supportPercent,
+        }),
+      });
 
   return {
     kind: 'comment',
@@ -133,6 +160,37 @@ export const buildEditorRcPayload = async ({
       ? { options: { beneficiaries: options.extensions?.[0]?.[1]?.beneficiaries } }
       : {}),
   };
+};
+
+/**
+ * The beneficiaries the post will really carry.
+ *
+ * Submit adds two rows the stored list does not have: a mandatory 3Speak
+ * beneficiary when the body embeds one of their videos, and the author's
+ * voluntary Ecency support row when they have not set a list of their own.
+ * Each row lands in comment_options, so pricing the stored list alone
+ * understates a post that gets either.
+ */
+const resolveSubmitBeneficiaries = ({
+  username,
+  body,
+  beneficiaries,
+  hasExplicitBeneficiaries,
+  supportPercent,
+}: {
+  username: string;
+  body: string;
+  beneficiaries?: any[];
+  hasExplicitBeneficiaries?: boolean;
+  supportPercent?: number;
+}) => {
+  const enforced = enforceThreeSpeakBeneficiary(beneficiaries ?? [], body);
+
+  if (hasExplicitBeneficiaries || username === ECENCY_SUPPORT_ACCOUNT || !supportPercent) {
+    return enforced;
+  }
+
+  return injectEcencySupportBeneficiary(enforced, supportPercent);
 };
 
 /**
