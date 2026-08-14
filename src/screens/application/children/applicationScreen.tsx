@@ -27,6 +27,7 @@ import {
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { SheetNames } from '../../../navigation/sheets';
+import { ButtonTypes } from '../../../components/actionModal/container/actionModalContainer';
 import { selectIsDarkTheme, selectIsConnected } from '../../../redux/selectors';
 // import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -48,29 +49,43 @@ const ApplicationScreen = ({ foregroundNotificationData }: any) => {
     let timer: ReturnType<typeof setTimeout> | undefined;
     if (!rcOfferRef.current && rcOffer) {
       timer = setTimeout(async () => {
+        // Two ways out of an empty RC bar, offered together because they solve
+        // different problems: a top-up spends Points on a short delegation that
+        // unblocks the action being attempted right now, while a boost raises
+        // the account's own RC ceiling for good. Offering only the boost, as
+        // this did, sent people to the slower and more expensive one.
         const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
           payload: {
-            title: intl.formatMessage({
-              id: 'alert.fail',
-            }),
-            body: intl.formatMessage({
-              id: 'alert.rc_down',
-            }),
+            title: intl.formatMessage({ id: 'alert.rc_down_title' }),
+            body: intl.formatMessage({ id: 'alert.rc_down' }),
             buttons: [
               {
-                text: 'Cancel',
-                returnValue: 'cancel',
-                style: 'cancel',
+                text: intl.formatMessage({ id: 'alert.rc_down_topup' }),
+                returnValue: 'topup',
               },
               {
-                text: 'OK',
-                returnValue: 'confirm',
+                text: intl.formatMessage({ id: 'alert.rc_down_boost' }),
+                returnValue: 'boost',
+              },
+              {
+                text: intl.formatMessage({ id: 'alert.cancel' }),
+                returnValue: 'cancel',
+                style: 'cancel',
+                type: ButtonTypes.CANCEL,
               },
             ],
           },
         });
 
-        if (action === 'confirm') {
+        // Explicit values only. The sheet resolves undefined when it is
+        // dismissed by gesture or backdrop, and treating that as a choice
+        // would navigate someone who just swiped the sheet away.
+        if (action === 'topup') {
+          RootNavigation.navigate({
+            name: ROUTES.SCREENS.REDEEM,
+            params: { redeemType: 'rc_topup' },
+          });
+        } else if (action === 'boost') {
           RootNavigation.navigate({
             name: ROUTES.SCREENS.ACCOUNT_BOOST,
           });

@@ -16,6 +16,7 @@ import {
   checkFavoriteQueryOptions,
 } from '@ecency/sdk';
 import { captureException } from '../utils/sentryUtils';
+import { isInsufficientRcError } from '../utils/rcError';
 import {
   selectCurrentAccount,
   selectIsLoggedIn,
@@ -284,8 +285,8 @@ class ProfileContainer extends Component<any, any> {
       isProfileLoading: false,
     });
     if (error) {
-      if ((error as any).jse_shortmsg && (error as any).jse_shortmsg.includes('wait to transact')) {
-        // when RC is not enough, offer boosting account
+      if (isInsufficientRcError(error)) {
+        // out of RC: offer a top-up or a boost rather than a dead-end toast
         dispatch(setRcOffer(true));
       } else {
         // when other errors

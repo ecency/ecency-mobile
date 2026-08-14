@@ -50,6 +50,7 @@ import { PayoutDetailsContent } from '../children/payoutDetailsContent';
 import VoteSlider from '../children/voteSlider';
 import PercentKeypad from '../children/percentKeypad';
 import showLoginAlert from '../../../utils/showLoginAlert';
+import { isInsufficientRcError } from '../../../utils/rcError';
 
 // Transport-level failure signatures. The SDK broadcasts votes in 'async' mode,
 // which resolves before chain inclusion is confirmed, so an error matching this
@@ -375,12 +376,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
           _updateVoteCache(_author, _permlink, amount, false, 'FAILED');
           _onVotingStart ? _onVotingStart(0) : null;
 
-          const _isRcError =
-            (_error?.response?.jse_shortmsg &&
-              _error.response.jse_shortmsg.includes('wait to transact')) ||
-            (_error?.jse_shortmsg && _error.jse_shortmsg.includes('wait to transact'));
-
-          if (_isRcError) {
+          if (isInsufficientRcError(_error)) {
             setIsVoted(false);
             dispatch(setRcOffer(true));
           } else {

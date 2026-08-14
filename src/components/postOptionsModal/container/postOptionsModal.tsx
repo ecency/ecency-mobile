@@ -18,6 +18,7 @@ import {
 } from '@ecency/sdk';
 import { postBodySummary } from '@ecency/render-helper';
 import { captureException } from '../../../utils/sentryUtils';
+import { isAlreadyReblogged, isInsufficientRcError } from '../../../utils/rcError';
 import { useAuthContext } from '../../../providers/sdk';
 import {
   useReblogMutation,
@@ -390,7 +391,7 @@ const PostOptionsModal = (
 
   const _profileActionDone = ({ error = null }: { error: any }) => {
     if (error) {
-      if (error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
+      if (isInsufficientRcError(error)) {
         // when RC is not enough, offer boosting account
         dispatch(setRcOffer(true));
       } else {
@@ -594,7 +595,7 @@ const PostOptionsModal = (
         });
       })
       .catch((error) => {
-        if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {
+        if (isAlreadyReblogged(error)) {
           dispatch(
             toastNotification(
               intl.formatMessage({
@@ -602,7 +603,7 @@ const PostOptionsModal = (
               }),
             ),
           );
-        } else if (error && error.jse_shortmsg?.split(': ')[1]?.includes('wait to transact')) {
+        } else if (isInsufficientRcError(error)) {
           dispatch(setRcOffer(true));
         } else {
           dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));

@@ -24,6 +24,7 @@ import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
 import Config from 'react-native-config';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
+import { isInsufficientRcError } from '../../../utils/rcError';
 import { getDigitPinCode, shouldPromptPostingAuthority } from '../../../providers/hive/hive';
 import { decryptKey } from '../../../utils/crypto';
 
@@ -1653,16 +1654,8 @@ class EditorContainer extends Component<any, any> {
         : '';
 
     this._isSubmitting = false;
-    if (
-      error &&
-      error.response &&
-      error.response.jse_shortmsg &&
-      error.response.jse_shortmsg.includes('wait to transact')
-    ) {
-      // when RC is not enough, offer boosting account
-      dispatch(setRcOffer(true));
-    } else if (error && error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
-      // when RC is not enough, offer boosting account
+    if (isInsufficientRcError(error)) {
+      // out of RC: offer a top-up or a boost rather than a dead-end toast
       dispatch(setRcOffer(true));
     } else {
       // when other errors

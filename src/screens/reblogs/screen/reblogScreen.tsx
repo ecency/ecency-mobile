@@ -13,6 +13,7 @@ import {
   selectIsDarkTheme,
 } from '../../../redux/selectors';
 import showLoginAlert from '../../../utils/showLoginAlert';
+import { isAlreadyReblogged, isInsufficientRcError } from '../../../utils/rcError';
 
 // Components
 import { BasicHeader, MainButton, UserListItem } from '../../../components';
@@ -160,9 +161,9 @@ const ReblogScreen = ({ route }: any) => {
           query.queryKey[3] === 'reblog',
       });
     } catch (error: any) {
-      if (String(error?.jse_shortmsg ?? '').indexOf('has already reblogged') > -1) {
+      if (isAlreadyReblogged(error)) {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.already_rebloged' })));
-      } else if (error?.jse_shortmsg?.split(': ')[1]?.includes('wait to transact')) {
+      } else if (isInsufficientRcError(error)) {
         dispatch(setRcOffer(true));
       } else {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
