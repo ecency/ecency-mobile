@@ -509,6 +509,8 @@ class EditorScreen extends Component<any, any> {
       rewardType,
       postDescription,
       setIsUploading,
+      getBeneficiaries,
+      getPollDraft,
     } = this.props;
 
     const rightButtonText = intl.formatMessage({
@@ -575,6 +577,12 @@ class EditorScreen extends Component<any, any> {
             fields={fields}
             post={post}
             isReply={isReply}
+            isEdit={isEdit}
+            thumbUrl={thumbUrl}
+            videoThumbUrls={collectVideoThumbUrls({ videoThumbs, body: fields?.body })}
+            pollDraft={getPollDraft && getPollDraft()}
+            rewardType={rewardType}
+            beneficiaries={getBeneficiaries && getBeneficiaries()}
           />
           {!isReply && !isEdit && (
             <SelectCommunityAreaView

@@ -129,4 +129,152 @@ describe('buildEditorRcPayload', () => {
       expect(await buildEditorRcPayload({ username: '', fields: draft })).toBeUndefined();
     });
   });
+
+  // Regression: a post always broadcasts comment_options beside the comment,
+  // even on default reward settings. Omitting it understated every post.
+  describe('comment_options', () => {
+    it('carries options for a new post, on default settings', async () => {
+      const payload = await buildEditorRcPayload({ username: 'spacecop', fields: draft });
+
+      expect(payload?.options).toBeDefined();
+    });
+
+    it('carries the beneficiaries the post will actually send', async () => {
+      const payload = await buildEditorRcPayload({
+        username: 'spacecop',
+        fields: draft,
+        beneficiaries: [{ account: 'ecency', weight: 500 }],
+      });
+
+      expect(payload?.options?.beneficiaries).toEqual([{ account: 'ecency', weight: 500 }]);
+    });
+
+    it('carries none for a reply, which sends no options', async () => {
+      const payload = await buildEditorRcPayload({
+        username: 'spacecop',
+        fields: { body: 'nice post' },
+        post: parent,
+        isReply: true,
+        replyPermlink: 're-alice-1',
+      });
+
+      expect(payload?.options).toBeUndefined();
+    });
+  });
+
+  // Regression: a poll goes into json_metadata and can be large, so a poll post
+  // could pass the precheck and still be rejected.
+  it('prices the poll the post will carry', async () => {
+    const withoutPoll = await buildEditorRcPayload({ username: 'spacecop', fields: draft });
+    const withPoll = await buildEditorRcPayload({
+      username: 'spacecop',
+      fields: draft,
+      pollDraft: {
+        title: 'Which proposal deserves funding the most this year?',
+        choices: Array.from({ length: 12 }, (_, i) => `A reasonably long choice number ${i}`),
+        interpretation: 'number_of_votes',
+        endTime: '2026-09-01T00:00:00.000Z',
+        voteChange: true,
+        hideVotes: false,
+        hideResults: false,
+        maxChoicesVoted: 1,
+        filters: { accountAge: 7 },
+      } as any,
+    });
+
+    expect(withPoll!.op.json_metadata.length).toBeGreaterThan(withoutPoll!.op.json_metadata.length);
+  });
+
+  it('prices the video thumbnails the post will carry', async () => {
+    const plain = await buildEditorRcPayload({ username: 'spacecop', fields: draft });
+    const withThumbs = await buildEditorRcPayload({
+      username: 'spacecop',
+      fields: draft,
+      videoThumbUrls: ['https://images.ecency.com/video-thumb-one.png'],
+    });
+
+    expect(withThumbs!.op.json_metadata).toContain('video-thumb-one');
+    expect(withThumbs!.op.json_metadata.length).toBeGreaterThan(plain!.op.json_metadata.length);
+  });
+
+  /**
+   * Regression: an edit keeps the post's identity and usually sends a diff, so
+   * pricing it as a brand new post invents warnings rather than missing them.
+   */
+  describe('edits', () => {
+    const editedPost = {
+      permlink: 'the-original-permlink',
+      parent_author: '',
+      parent_permlink: 'hive',
+      markdownBody: `${'The original body. '.repeat(500)}`,
+      json_metadata: { tags: ['hive'], app: 'ecency/3.0.0-mobile' },
+    };
+
+    it('keeps the original permlink and parent rather than deriving new ones', async () => {
+      const payload = await buildEditorRcPayload({
+        username: 'spacecop',
+        fields: { ...draft, body: `${editedPost.markdownBody}One added sentence.` },
+        post: editedPost,
+        isEdit: true,
+      });
+
+      expect(payload?.op.permlink).toBe('the-original-permlink');
+      expect(payload?.op.parent_permlink).toBe('hive');
+      expect(payload?.op.parent_author).toBe('');
+    });
+
+    it('sends a diff, so a small change to a long post stays small', async () => {
+      const payload = await buildEditorRcPayload({
+        username: 'spacecop',
+        fields: { ...draft, body: `${editedPost.markdownBody}One added sentence.` },
+        post: editedPost,
+        isEdit: true,
+      });
+
+      expect(payload!.op.body.length).toBeLessThan(editedPost.markdownBody.length / 2);
+    });
+
+    it('sends the whole body when a diff would not be smaller', async () => {
+      const replacement = 'Completely different text, nothing in common with what came before.';
+      const payload = await buildEditorRcPayload({
+        username: 'spacecop',
+        fields: { ...draft, body: replacement },
+        post: editedPost,
+        isEdit: true,
+      });
+
+      expect(payload?.op.body).toBe(replacement);
+    });
+
+    it('sends no comment_options, matching the update path', async () => {
+      const payload = await buildEditorRcPayload({
+        username: 'spacecop',
+        fields: { ...draft, body: 'edited' },
+        post: editedPost,
+        isEdit: true,
+      });
+
+      expect(payload?.options).toBeUndefined();
+    });
+
+    it('keeps an AI disclosure the author is not touching', async () => {
+      const payload = await buildEditorRcPayload({
+        username: 'spacecop',
+        fields: { ...draft, body: 'edited', aiTools: undefined },
+        post: {
+          ...editedPost,
+          json_metadata: { ...editedPost.json_metadata, ai_tools: { writing_edit: true } },
+        },
+        isEdit: true,
+      });
+
+      expect(JSON.parse(payload!.op.json_metadata).ai_tools).toEqual({ writing_edit: true });
+    });
+
+    it('returns nothing when there is no post to edit', async () => {
+      expect(
+        await buildEditorRcPayload({ username: 'spacecop', fields: draft, isEdit: true }),
+      ).toBeUndefined();
+    });
+  });
 });

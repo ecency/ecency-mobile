@@ -1994,6 +1994,7 @@ class EditorContainer extends Component<any, any> {
         postDescription={postDescription}
         handlePostDescriptionChange={this._handlePostDescriptionChange}
         getBeneficiaries={this._extractBeneficiaries}
+        getPollDraft={this._extractPollDraft}
         setIsUploading={this._setIsUploading}
       />
     );

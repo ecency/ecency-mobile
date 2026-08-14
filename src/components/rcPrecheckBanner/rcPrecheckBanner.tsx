@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import type { RcPrecheckPayload } from '@ecency/sdk';
@@ -15,9 +15,16 @@ interface Props {
   username?: string;
   /** The editor's live draft: title, body, tags, aiTools. */
   fields: any;
-  /** The parent post, when this editor is composing a reply. */
+  /** The parent post when replying, or the post itself when editing. */
   post?: any;
   isReply?: boolean;
+  isEdit?: boolean;
+  /** The rest of what the submit path puts in the broadcast. */
+  thumbUrl?: string;
+  videoThumbUrls?: string[];
+  pollDraft?: any;
+  rewardType?: string;
+  beneficiaries?: any[];
 }
 
 /**
@@ -40,7 +47,18 @@ const BUILD_DEBOUNCE_MS = 800;
  * prevents. Tapping it opens the same offer sheet a failed broadcast raises, so
  * there is one place that sells a top-up or a boost.
  */
-const RcPrecheckBanner = ({ username, fields, post, isReply }: Props) => {
+const RcPrecheckBanner = ({
+  username,
+  fields,
+  post,
+  isReply,
+  isEdit,
+  thumbUrl,
+  videoThumbUrls,
+  pollDraft,
+  rewardType,
+  beneficiaries,
+}: Props) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const [payload, setPayload] = useState<RcPrecheckPayload | undefined>();
@@ -48,6 +66,17 @@ const RcPrecheckBanner = ({ username, fields, post, isReply }: Props) => {
   const body = fields?.body ?? '';
   const title = fields?.title ?? '';
   const tags = fields?.tags;
+
+  // Regenerating this on every rebuild is churn: it is time-derived, so only
+  // its length reaches the estimate, and the millisecond component can change
+  // that length at digit boundaries.
+  const replyPermlink = useMemo(
+    () =>
+      isReply
+        ? generateUniquePermlink(`re-${String(post?.author ?? '').replace(/\./g, '')}`)
+        : undefined,
+    [isReply, post?.author],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -58,10 +87,13 @@ const RcPrecheckBanner = ({ username, fields, post, isReply }: Props) => {
         fields,
         post,
         isReply,
-        // Time-derived at broadcast, so only its length feeds the estimate.
-        replyPermlink: isReply
-          ? generateUniquePermlink(`re-${String(post?.author ?? '').replace(/\./g, '')}`)
-          : undefined,
+        isEdit,
+        replyPermlink,
+        thumbUrl,
+        videoThumbUrls,
+        pollDraft,
+        rewardType,
+        beneficiaries,
       })
         .then((next) => {
           if (!cancelled) {
@@ -81,8 +113,27 @@ const RcPrecheckBanner = ({ username, fields, post, isReply }: Props) => {
       cancelled = true;
       clearTimeout(timer);
     };
+    // Serialized rather than listed by reference: these arrive as fresh objects
+    // on every editor render, which would restart the debounce forever.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [username, title, body, JSON.stringify(tags), post?.author, post?.permlink, isReply]);
+  }, [
+    username,
+    title,
+    body,
+    JSON.stringify(tags),
+    JSON.stringify(fields?.aiTools),
+    JSON.stringify(beneficiaries),
+    JSON.stringify(pollDraft),
+    JSON.stringify(videoThumbUrls),
+    thumbUrl,
+    rewardType,
+    post?.author,
+    post?.permlink,
+    post?.markdownBody,
+    isReply,
+    isEdit,
+    replyPermlink,
+  ]);
 
   useEffect(() => {
     if (!username) {
