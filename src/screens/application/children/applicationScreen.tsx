@@ -57,7 +57,7 @@ const ApplicationScreen = ({ foregroundNotificationData }: any) => {
         const action = await SheetManager.show(SheetNames.ACTION_MODAL, {
           payload: {
             title: intl.formatMessage({ id: 'alert.rc_down_title' }),
-            body: intl.formatMessage({ id: 'alert.rc_down' }),
+            body: intl.formatMessage({ id: 'alert.rc_down_body' }),
             buttons: [
               {
                 text: intl.formatMessage({ id: 'alert.rc_down_topup' }),
