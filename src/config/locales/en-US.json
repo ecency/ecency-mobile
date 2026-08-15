@@ -1073,6 +1073,7 @@
     "community_muted": "Content muted for community guidelines violation",
     "muted_low_reputation": "Content from a low reputation account",
     "muted_downvoted": "Content downvoted by users",
+    "muted_low_trust": "Low reputation account with an unverified outbound link",
     "muted_reveal": "Tap to reveal",
     "promoted": "PROMOTED",
     "image_saved": "Image saved to Photo Gallery",

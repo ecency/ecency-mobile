@@ -19,6 +19,7 @@ import { useIntl } from 'react-intl';
 import { SheetManager } from 'react-native-actions-sheet';
 
 import { FlashList } from '@shopify/flash-list';
+import { isAuthorMuted } from '@ecency/sdk';
 import PostCard from '../../postCard';
 import styles from '../view/postsListStyles';
 import { Separator, UpvotePopover } from '../..';
@@ -105,11 +106,9 @@ const postsListContainer = (
       return [];
     }
 
-    // also skip muted posts
-    _data = _data.filter((item) => {
-      const isMuted = mutes && mutes.indexOf(item.author) > -1;
-      return !isMuted && !!item?.author;
-    });
+    // Authors the viewer muted are dropped from the list rather than dimmed, and the
+    // website now does the same. Shared helper so both stay on one definition.
+    _data = _data.filter((item) => !isAuthorMuted(item.author, mutes) && !!item?.author);
 
     // Create Set for O(1) lookup instead of O(n) filter
     const existingPermlinks = new Set(_data.map((post) => `${post.author}/${post.permlink}`));
@@ -117,9 +116,8 @@ const postsListContainer = (
     const _promotedPosts =
       promotedPosts && Array.isArray(promotedPosts)
         ? promotedPosts.filter((item) => {
-            const isMuted = mutes && mutes.indexOf(item.author) > -1;
             const notInPosts = !existingPermlinks.has(`${item.author}/${item.permlink}`);
-            return !isMuted && !!item?.author && notInPosts;
+            return !isAuthorMuted(item.author, mutes) && !!item?.author && notInPosts;
           })
         : [];
 
