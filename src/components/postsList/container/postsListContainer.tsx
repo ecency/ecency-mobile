@@ -108,7 +108,9 @@ const postsListContainer = (
 
     // Authors the viewer muted are dropped from the list rather than dimmed, and the
     // website now does the same. Shared helper so both stay on one definition.
-    _data = _data.filter((item) => !isAuthorMuted(item.author, mutes) && !!item?.author);
+    // Author guard first: the optional chaining here has always implied the feed
+    // can hand us a nullish item, and everything after it dereferences one.
+    _data = _data.filter((item) => !!item?.author && !isAuthorMuted(item.author, mutes));
 
     // Create Set for O(1) lookup instead of O(n) filter
     const existingPermlinks = new Set(_data.map((post) => `${post.author}/${post.permlink}`));
@@ -116,8 +118,11 @@ const postsListContainer = (
     const _promotedPosts =
       promotedPosts && Array.isArray(promotedPosts)
         ? promotedPosts.filter((item) => {
+            if (!item?.author) {
+              return false;
+            }
             const notInPosts = !existingPermlinks.has(`${item.author}/${item.permlink}`);
-            return !isAuthorMuted(item.author, mutes) && !!item?.author && notInPosts;
+            return !isAuthorMuted(item.author, mutes) && notInPosts;
           })
         : [];
 
