@@ -19,6 +19,7 @@ import {
   addDraft,
   updateDraft,
   enforceThreeSpeakBeneficiary,
+  type CommentPayload,
 } from '@ecency/sdk';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
@@ -1627,8 +1628,16 @@ class EditorContainer extends Component<any, any> {
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
         } else {
-          // Use SDK comment mutation for post edits (non-reply)
-          await this.props.commentMutation.mutateAsync({
+          // Use SDK comment mutation for post edits (non-reply). isUpdate keeps the SDK
+          // from recording a content activity: a comment op is identical on chain whether
+          // it publishes or edits, and makeJsonMetadataForUpdate deliberately keeps the
+          // original `app`, so without it an edit of a post published on another frontend
+          // earns post points and the daily quest tick here.
+          //
+          // Annotated rather than passed inline because `commentMutation` arrives through
+          // untyped props: an inline literal is not checked at all, so a misspelt isUpdate
+          // would typecheck clean and silently resume paying for edits.
+          const editPayload: CommentPayload = {
             author: currentAccount.name,
             permlink,
             parentAuthor: parentAuthor || '',
@@ -1636,7 +1645,10 @@ class EditorContainer extends Component<any, any> {
             title: title || '',
             body: newBody,
             jsonMetadata: jsonMeta,
-          });
+            isUpdate: true,
+          };
+
+          await this.props.commentMutation.mutateAsync(editPayload);
 
           this._handleSubmitSuccess();
           // update post query data
