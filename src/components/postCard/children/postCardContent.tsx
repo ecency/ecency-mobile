@@ -16,6 +16,7 @@ import ROUTES from '../../../constants/routeNames';
 import { ContentType, MutedReason } from '../../../providers/hive/hive.types';
 import { isCommunity } from '../../../utils/communityValidation';
 import { useImageReveal } from '../../../hooks/useImageReveal';
+import { useMutedReveal } from '../../../hooks/useMutedReveal';
 import { HiddenImagePlaceholder } from '../../hiddenImagePlaceholder';
 
 // i.ecency.com: same imagehoster backend as images.ecency.com on an
@@ -87,6 +88,14 @@ const PostCardContentComponent = ({ content, nsfw, handleCardInteraction }: Prop
   const _isMuted = content?.isMuted;
   const _isCommunityPost = isCommunity(content?.community);
 
+  // Matches web: muted content is never blanked out, the card body is only dimmed
+  // behind a hint the user can tap to clear.
+  const { isDimmed, reveal: revealMuted } = useMutedReveal(
+    !!_isMuted,
+    content?.author,
+    content?.permlink,
+  );
+
   // State the reason that actually fired. Posts cached by an older app version carry
   // isMuted without a reason, so those fall back to the generic moderation message.
   const _mutedText = useMemo(() => {
@@ -128,9 +137,11 @@ const PostCardContentComponent = ({ content, nsfw, handleCardInteraction }: Prop
     });
   };
 
+  // Muted posts keep their real thumbnail (the card dims instead), so only the
+  // nsfw setting can swap the image out here.
   const images = useMemo(() => {
     let imgs = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
-    if (!_isMuted && content.thumbnail) {
+    if (content.thumbnail) {
       if (nsfw !== '0' && content.nsfw) {
         imgs = { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
       } else {
@@ -138,7 +149,7 @@ const PostCardContentComponent = ({ content, nsfw, handleCardInteraction }: Prop
       }
     }
     return imgs;
-  }, [_isMuted, content.thumbnail, content.nsfw, content.image, nsfw]);
+  }, [content.thumbnail, content.nsfw, content.image, nsfw]);
 
   const original = content?.json_metadata?.image?.[0];
   const isGif = useMemo(() => /\.gif$/i.test(original), [original]);
@@ -169,73 +180,87 @@ const PostCardContentComponent = ({ content, nsfw, handleCardInteraction }: Prop
 
   return (
     <View style={styles.postBodyWrapper}>
-      <TouchableOpacity activeOpacity={0.8} style={styles.hiddenImages} onPress={_onPress}>
-        {isHidden ? (
-          hasContentImage && (
-            <View style={styles.imageWrapper}>
-              <HiddenImagePlaceholder
-                width={imgWidth}
-                height={Math.min(imgHeight, dim.height)}
-                onPress={reveal}
-              />
-            </View>
-          )
-        ) : (
-          <View style={styles.imageWrapper}>
-            <ExpoImage
-              ref={imgRef}
-              pointerEvents="none"
-              source={{ uri: imageUri }}
-              style={[
-                styles.thumbnail,
-                {
-                  width: imgWidth,
-                  height: Math.min(imgHeight, dim.height),
-                },
-              ]}
-              contentFit={resizeMode}
-              autoplay={true}
-              onLoad={(evt) => {
-                const loadedRatio = evt.source.width / evt.source.height;
-
-                if (!Number.isFinite(loadedRatio) || loadedRatio <= 0) {
-                  return;
-                }
-
-                // Keep the cached value width-independent so orientation changes
-                // recalculate height from the current viewport instead of reusing
-                // a previous landscape/portrait pixel height.
-                if (
-                  imageLayout.contentKey === contentKey &&
-                  Math.abs(loadedRatio - imageRatio) < 0.01
-                ) {
-                  return;
-                }
-
-                setImageLayout({
-                  contentKey,
-                  ratio: loadedRatio,
-                });
-              }}
-            />
-            {isGif && (
-              <View style={styles.gifBadge}>
-                <Text style={styles.gifBadgeText}>GIF</Text>
-              </View>
-            )}
+      {isDimmed && (
+        <TouchableOpacity
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          style={styles.mutedHint}
+          onPress={revealMuted}
+        >
+          <View style={styles.mutedHintBadge}>
+            <Text style={styles.mutedHintBadgeText}>!</Text>
           </View>
-        )}
-
-        <View style={[styles.postDescripton]}>
-          {_isMuted ? (
-            <Text style={styles.promotedText}>{_mutedText}</Text>
+          <Text style={styles.mutedHintText}>
+            {_mutedText}{' '}
+            <Text style={styles.mutedHintAction}>
+              {intl.formatMessage({ id: 'post.muted_reveal' })}
+            </Text>
+          </Text>
+        </TouchableOpacity>
+      )}
+      <TouchableOpacity activeOpacity={0.8} style={styles.hiddenImages} onPress={_onPress}>
+        <View style={isDimmed ? styles.dimmedContent : undefined}>
+          {isHidden ? (
+            hasContentImage && (
+              <View style={styles.imageWrapper}>
+                <HiddenImagePlaceholder
+                  width={imgWidth}
+                  height={Math.min(imgHeight, dim.height)}
+                  onPress={reveal}
+                />
+              </View>
+            )
           ) : (
-            <>
-              {!!_featuredText && <Text style={styles.promotedText}>{_featuredText}</Text>}
-              <Text style={styles.title}>{content.title}</Text>
-              <Text style={styles.summary}>{content.summary}</Text>
-            </>
+            <View style={styles.imageWrapper}>
+              <ExpoImage
+                ref={imgRef}
+                pointerEvents="none"
+                source={{ uri: imageUri }}
+                style={[
+                  styles.thumbnail,
+                  {
+                    width: imgWidth,
+                    height: Math.min(imgHeight, dim.height),
+                  },
+                ]}
+                contentFit={resizeMode}
+                autoplay={true}
+                onLoad={(evt) => {
+                  const loadedRatio = evt.source.width / evt.source.height;
+
+                  if (!Number.isFinite(loadedRatio) || loadedRatio <= 0) {
+                    return;
+                  }
+
+                  // Keep the cached value width-independent so orientation changes
+                  // recalculate height from the current viewport instead of reusing
+                  // a previous landscape/portrait pixel height.
+                  if (
+                    imageLayout.contentKey === contentKey &&
+                    Math.abs(loadedRatio - imageRatio) < 0.01
+                  ) {
+                    return;
+                  }
+
+                  setImageLayout({
+                    contentKey,
+                    ratio: loadedRatio,
+                  });
+                }}
+              />
+              {isGif && (
+                <View style={styles.gifBadge}>
+                  <Text style={styles.gifBadgeText}>GIF</Text>
+                </View>
+              )}
+            </View>
           )}
+
+          <View style={[styles.postDescripton]}>
+            {!!_featuredText && <Text style={styles.promotedText}>{_featuredText}</Text>}
+            <Text style={styles.title}>{content.title}</Text>
+            <Text style={styles.summary}>{content.summary}</Text>
+          </View>
         </View>
       </TouchableOpacity>
     </View>

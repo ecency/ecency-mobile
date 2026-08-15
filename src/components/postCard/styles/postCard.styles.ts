@@ -106,4 +106,41 @@ export default EStyleSheet.create({
     marginTop: 6,
     marginBottom: -8,
   },
+
+  // Muted/downvoted content: a hint above the card body, which is dimmed rather
+  // than hidden. Mirrors the website's entry list item treatment.
+  mutedHint: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    paddingBottom: 8,
+  },
+  // Orange is not in the theme palette; these are the web badge's colors
+  // (tailwind orange-500 at 20% and full), which read on both themes.
+  mutedHintBadge: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    marginRight: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(249, 115, 22, 0.2)',
+  },
+  mutedHintBadgeText: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    lineHeight: 14,
+    color: '#f97316',
+  },
+  mutedHintText: {
+    flex: 1,
+    fontSize: 13,
+    color: '$primaryDarkGray',
+  },
+  mutedHintAction: {
+    color: '$primaryBlue',
+  },
+  dimmedContent: {
+    opacity: 0.5,
+  },
 });
