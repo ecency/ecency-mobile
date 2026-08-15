@@ -9,7 +9,6 @@ import {
   parseVote,
   isVoted,
   isDownVoted,
-  getMutedReason,
 } from './postParser';
 import { MutedReason } from '../providers/hive/hive.types';
 
@@ -286,24 +285,40 @@ describe('parsePost', () => {
     const post = makePost({ stats: { gray: true }, author_reputation: 50 });
     const result = parsePost(post, 'viewer', false);
     expect(result!.isMuted).toBe(true);
-    expect(result!.mutedReason).toBe(MutedReason.MODERATED);
+    expect(result!.mutedReason).toBe(MutedReason.MOD_MUTED);
   });
 
-  it('sets isMuted for low reputation', () => {
-    const post = makePost({ author_reputation: 10 });
+  it('sets isMuted for a low reputation author promoting an outbound link', () => {
+    const post = makePost({ author_reputation: 10, body: 'buy at https://shop.example' });
     // parseReputation mock returns floor of input if 0 < x <= 100
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { parseReputation } = require('./user');
     parseReputation.mockReturnValueOnce(10);
     const result = parsePost(post, 'viewer', false);
     expect(result!.isMuted).toBe(true);
-    expect(result!.mutedReason).toBe(MutedReason.LOW_REPUTATION);
+    expect(result!.mutedReason).toBe(MutedReason.LOW_TRUST);
+  });
+
+  it('leaves a low reputation author alone when the post carries no outbound link', () => {
+    const post = makePost({ author_reputation: 10, body: 'just my diary' });
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { parseReputation } = require('./user');
+    parseReputation.mockReturnValueOnce(10);
+    const result = parsePost(post, 'viewer', false);
+    expect(result!.isMuted).toBe(false);
+    expect(result!.mutedReason).toBeNull();
   });
 
   it('sets isMuted for heavily downvoted posts', () => {
     const post = makePost({
-      net_rshares: -8000000000,
-      active_votes: [{ voter: 'a' }, { voter: 'b' }, { voter: 'c' }, { voter: 'd' }],
+      net_rshares: -20000000000,
+      active_votes: [
+        { voter: 'a' },
+        { voter: 'b' },
+        { voter: 'c' },
+        { voter: 'd' },
+        { voter: 'e' },
+      ],
       author_reputation: 50,
     });
     const result = parsePost(post, 'viewer', false);
@@ -323,7 +338,7 @@ describe('parsePost', () => {
     // reason must follow the content actually shown.
     const post = makePost({
       author_reputation: 50,
-      net_rshares: -8000000000,
+      net_rshares: -20000000000,
       original_entry: {
         author: 'original',
         permlink: 'orig-post',
@@ -347,8 +362,14 @@ describe('parsePost', () => {
         permlink: 'orig-post',
         body: 'original body',
         author_reputation: 50,
-        net_rshares: -8000000000,
-        active_votes: [{ voter: 'a' }, { voter: 'b' }, { voter: 'c' }, { voter: 'd' }],
+        net_rshares: -20000000000,
+        active_votes: [
+          { voter: 'a' },
+          { voter: 'b' },
+          { voter: 'c' },
+          { voter: 'd' },
+          { voter: 'e' },
+        ],
       },
     });
     const result = parsePost(post, 'viewer', false);
@@ -754,43 +775,5 @@ describe('parseVote', () => {
     const result = parseVote(vote, {}, 1000);
     expect(result.is_down_vote).toBe(true);
     expect(result.percent100).toBe(-50);
-  });
-});
-
-describe('getMutedReason', () => {
-  it('reports moderation ahead of the heuristics', () => {
-    // A moderated post by a low-reputation author must read as moderated, not low rep.
-    expect(getMutedReason({ stats: { gray: true }, author_reputation: 10 })).toBe(
-      MutedReason.MODERATED,
-    );
-    expect(getMutedReason({ stats: { hide: true }, author_reputation: 50 })).toBe(
-      MutedReason.MODERATED,
-    );
-  });
-
-  it('reports low reputation regardless of account age', () => {
-    // Age is not an input: an old account below the threshold reads the same as a new one.
-    expect(getMutedReason({ author_reputation: 24, created: '2019-01-01T00:00:00' })).toBe(
-      MutedReason.LOW_REPUTATION,
-    );
-    expect(getMutedReason({ author_reputation: 25 })).toBeNull();
-  });
-
-  it('needs both strong negative rshares and enough voters to call it downvoted', () => {
-    const votes = [{ voter: 'a' }, { voter: 'b' }, { voter: 'c' }, { voter: 'd' }];
-    expect(
-      getMutedReason({ author_reputation: 50, net_rshares: -8000000000, active_votes: votes }),
-    ).toBe(MutedReason.DOWNVOTED);
-    expect(
-      getMutedReason({
-        author_reputation: 50,
-        net_rshares: -8000000000,
-        active_votes: [{ voter: 'a' }],
-      }),
-    ).toBeNull();
-  });
-
-  it('returns null for healthy content', () => {
-    expect(getMutedReason({ author_reputation: 50, net_rshares: 1000 })).toBeNull();
   });
 });

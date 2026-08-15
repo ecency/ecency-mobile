@@ -255,9 +255,9 @@ const PostOptionsModal = (
 
     const _canMuteCommunityPost = _canModerateCommunityPost;
 
-    // Read `stats.gray` directly rather than the parsed `isMuted`. getMutedReason
-    // also reports MODERATED for low-reputation and downvoted posts, which would
-    // offer "unmute" on posts no moderator ever muted.
+    // Read `stats.gray` directly rather than the parsed `isMuted`, which is also set
+    // for downvoted and low-trust posts and would offer "unmute" on posts no
+    // moderator ever muted.
     const _isMutedInCommunity = !!content && !!content.stats?.gray;
 
     // Carried over from the legacy comment menu, so both are scoped to comments

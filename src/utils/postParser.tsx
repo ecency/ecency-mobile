@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
+import { getContentModerationReason } from '@ecency/sdk';
 import { Image as ExpoImage } from 'expo-image';
 
 // Utils
@@ -8,37 +9,6 @@ import parseAsset from './parseAsset';
 import { getResizedAvatar, shouldPrefetchImages } from './image';
 import { parseReputation } from './user';
 import { calculateVoteReward } from './vote';
-import { MutedReason } from '../providers/hive/hive.types';
-
-// Reputation below this (human-readable 0-100 scale) collapses the content. New Hive
-// accounts start at 25. Account age is NOT an input, so a years-old account that never
-// gained reputation trips this exactly like a fresh one, and the copy must say
-// "low reputation" rather than "new account".
-export const LOW_REPUTATION_THRESHOLD = 25;
-
-// Heavily downvoted: strongly negative rshares from more than a handful of voters.
-const DOWNVOTED_RSHARES_THRESHOLD = -7000000000;
-const DOWNVOTED_MIN_VOTES = 3;
-
-/**
- * First matching reason wins, most authoritative first: an explicit moderator action
- * outranks the heuristics. Returns null when the content is not muted.
- */
-export const getMutedReason = (content: any): MutedReason | null => {
-  if (content?.stats?.gray || content?.stats?.hide) {
-    return MutedReason.MODERATED;
-  }
-  if (content?.author_reputation < LOW_REPUTATION_THRESHOLD) {
-    return MutedReason.LOW_REPUTATION;
-  }
-  if (
-    content?.net_rshares < DOWNVOTED_RSHARES_THRESHOLD &&
-    content?.active_votes?.length > DOWNVOTED_MIN_VOTES
-  ) {
-    return MutedReason.DOWNVOTED;
-  }
-  return null;
-};
 
 export const parsePost = (
   post: any,
@@ -164,8 +134,9 @@ export const parsePost = (
 
   post.total_payout = totalPayout;
 
-  // set mute status
-  post.mutedReason = getMutedReason(post);
+  // set mute status. The rules live in the SDK so this app and the website flag
+  // the same content for the same reason.
+  post.mutedReason = getContentModerationReason(post);
   post.isMuted = !!post.mutedReason;
 
   // determine vote status
@@ -354,7 +325,7 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
   );
 
   // set mute status
-  comment.mutedReason = getMutedReason(comment);
+  comment.mutedReason = getContentModerationReason(comment);
   comment.isMuted = !!comment.mutedReason;
 
   // set user vote status on comment

@@ -3,17 +3,24 @@ export enum ContentType {
 }
 
 /**
- * Why a post or comment is collapsed behind the muted overlay. Each reason gets its
- * own message so the UI never claims a guideline violation for content that was only
- * flagged on reputation or downvotes. Assigned by getMutedReason in utils/postParser.
+ * Why a post or comment is dimmed behind the moderation hint. Each reason gets its own
+ * message so the UI never claims a guideline violation for content that was only
+ * downvoted. Assigned by parsePost/parseComment from the SDK's shared rules, so the
+ * website flags the same content for the same reason.
  *
- * Lives here rather than in postParser so components can read it without pulling the
- * parser's import chain (postParser -> utils/image -> redux/store) into their bundle.
+ * Re-exported under the local name rather than imported from the SDK everywhere, so
+ * components keep reading one mobile-side symbol.
  */
-export enum MutedReason {
+export { ContentModerationReason as MutedReason } from '@ecency/sdk';
+
+/**
+ * Values written by app versions that carried their own rules. Posts cached before the
+ * update still hold these, so the card copy keeps mapping them until the cache turns
+ * over. Nothing writes them any more.
+ */
+export enum LegacyMutedReason {
   MODERATED = 'moderated',
   LOW_REPUTATION = 'low_reputation',
-  DOWNVOTED = 'downvoted',
 }
 
 export enum PollPreferredInterpretation {
