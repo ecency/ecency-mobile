@@ -91,3 +91,66 @@ export const matchesAssetTicker = (activity: CoinActivity | null, symbol: string
   const tickers = symbol === 'HP' ? ['HP', 'VESTS'] : [symbol];
   return tickers.some((ticker) => activity.value!.includes(ticker));
 };
+
+const createdAt = (activity: CoinActivity): number => {
+  const parsed = Date.parse(activity.created ?? '');
+  return Number.isFinite(parsed) ? parsed : 0;
+};
+
+/**
+ * Total order, so `sort` cannot behave differently between engines.
+ *
+ * Rows carrying a usable `num` come first and are ordered by it. Anything without one
+ * cannot be compared against them consistently, so it sinks below the whole set and falls
+ * back to its timestamp rather than producing a NaN comparison.
+ */
+const compareNewestFirst = (a: CoinActivity, b: CoinActivity): number => {
+  const ai = Number(a.trxIndex);
+  const bi = Number(b.trxIndex);
+  const aRanked = Number.isFinite(ai);
+  const bRanked = Number.isFinite(bi);
+
+  if (aRanked !== bRanked) {
+    return aRanked ? -1 : 1;
+  }
+
+  return aRanked ? bi - ai : createdAt(b) - createdAt(a);
+};
+
+/**
+ * Newest first, no repeats.
+ *
+ * `condenser_api.get_account_history` answers a page in ASCENDING `num` order, so the
+ * OLDEST operation of the window arrives at index 0 and rendering a page as it lands puts
+ * two-day-old rows above today's. Paging compounds it: the next page is an older window
+ * appended at the END, itself ascending, so the list reads old->new, then older->newer.
+ * Both of those read to a user as "the wallet stopped updating", since nothing is
+ * actually missing and refreshing changes nothing they can see.
+ *
+ * `num` (groomed to `trxIndex`) is unique and monotonic per account, so it orders exactly
+ * with no timestamp ties to break, and it doubles as the dedupe key. The web wallet sorts
+ * the same field the same way.
+ */
+export const orderChainActivities = (activities: CoinActivity[]): CoinActivity[] => {
+  const seen = new Set<number>();
+  const ordered: CoinActivity[] = [];
+
+  activities.forEach((activity) => {
+    const trxIndex = Number(activity.trxIndex);
+
+    // A row that reached here without a usable `num` cannot be keyed or ordered by one.
+    // Keep it: collapsing several onto a single `undefined` key would silently drop rows,
+    // which is the failure this function exists to prevent, not one to introduce.
+    if (!Number.isFinite(trxIndex)) {
+      ordered.push(activity);
+      return;
+    }
+
+    if (!seen.has(trxIndex)) {
+      seen.add(trxIndex);
+      ordered.push(activity);
+    }
+  });
+
+  return ordered.sort(compareNewestFirst);
+};

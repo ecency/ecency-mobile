@@ -3,6 +3,7 @@ import {
   HIVE_LAYER_HISTORY_OPS,
   getHistoryOpsForSymbol,
   matchesAssetTicker,
+  orderChainActivities,
 } from './walletHistory';
 import { groomingTransactionData, transferTypes } from './wallet';
 
@@ -150,11 +151,15 @@ describe('wallet history pipeline', () => {
     },
   ];
 
-  const render = (symbol: string) =>
-    witnessPage
-      .filter((tx) => transferTypes.includes(tx.type))
-      .map((tx) => groomingTransactionData(tx, hivePerMVests))
-      .filter((activity) => matchesAssetTicker(activity, symbol));
+  const render = (symbol: string, page: any[] = witnessPage) =>
+    orderChainActivities(
+      page
+        .filter((tx) => transferTypes.includes(tx.type))
+        .map((tx) => groomingTransactionData(tx, hivePerMVests))
+        .filter((activity): activity is NonNullable<typeof activity> =>
+          matchesAssetTicker(activity, symbol),
+        ),
+    );
 
   it('renders rows on the HIVE and HBD tabs', () => {
     expect(render('HIVE')).toHaveLength(1);
@@ -172,5 +177,79 @@ describe('wallet history pipeline', () => {
     ['HIVE', 'HBD', 'HP'].forEach((symbol) => {
       expect(render(symbol).map((activity) => activity!.textKey)).not.toContain('producer_reward');
     });
+  });
+
+  // The reported bug: the app showed two-day-old transfers above today's and read as a
+  // wallet that had stopped updating. A page arrives oldest-first and the next page is an
+  // older window appended after it, so the raw stream is old->new, then older->newer.
+  it('renders the newest operation first across a page boundary', () => {
+    const newestWindow = [
+      { num: 20, type: 'transfer', timestamp: '2026-08-15T15:07:48', amount: '0.002 HIVE' },
+      { num: 21, type: 'transfer', timestamp: '2026-08-16T21:02:48', amount: '20.000 HIVE' },
+      { num: 22, type: 'transfer', timestamp: '2026-08-17T03:30:27', amount: '0.016 HIVE' },
+    ];
+    const olderWindow = [
+      { num: 17, type: 'transfer', timestamp: '2026-08-13T09:00:00', amount: '1.000 HIVE' },
+      { num: 18, type: 'transfer', timestamp: '2026-08-14T09:00:00', amount: '2.000 HIVE' },
+      { num: 19, type: 'transfer', timestamp: '2026-08-15T09:00:00', amount: '3.000 HIVE' },
+    ];
+
+    const rows = render('HIVE', [...newestWindow, ...olderWindow]);
+
+    expect(rows.map((activity) => activity!.trxIndex)).toEqual([22, 21, 20, 19, 18, 17]);
+  });
+});
+
+describe('orderChainActivities', () => {
+  const activity = (trxIndex: number, value = '1.000 HIVE') => ({
+    trxIndex,
+    iconType: 'MaterialIcons',
+    value,
+  });
+
+  it('collapses a repeated operation to one row', () => {
+    const rows = orderChainActivities([activity(5), activity(4), activity(5)]);
+
+    expect(rows.map((row) => row.trxIndex)).toEqual([5, 4]);
+  });
+
+  it('leaves the caller its own array', () => {
+    const input = [activity(1), activity(3)];
+    orderChainActivities(input);
+
+    expect(input.map((row) => row.trxIndex)).toEqual([1, 3]);
+  });
+
+  it('handles an empty history', () => {
+    expect(orderChainActivities([])).toEqual([]);
+  });
+
+  // Dropping a row is the failure this function exists to prevent, so a row that arrives
+  // without a usable num must survive rather than collide with every other such row on a
+  // single undefined key.
+  it('keeps rows that have no usable trxIndex', () => {
+    const rows = orderChainActivities([
+      { trxIndex: undefined as any, iconType: 'MaterialIcons', value: '1.000 HIVE' },
+      activity(7),
+      { trxIndex: NaN, iconType: 'MaterialIcons', value: '2.000 HIVE' },
+      activity(9),
+    ]);
+
+    expect(rows).toHaveLength(4);
+    expect(rows.slice(0, 2).map((row) => row.trxIndex)).toEqual([9, 7]);
+  });
+
+  it('orders unkeyed rows among themselves by timestamp', () => {
+    const older = {
+      trxIndex: undefined as any,
+      iconType: 'MaterialIcons',
+      value: '1.000 HIVE',
+      created: '2026-08-15T10:00:00',
+    };
+    const newer = { ...older, value: '2.000 HIVE', created: '2026-08-17T10:00:00' };
+
+    const rows = orderChainActivities([older, newer]);
+
+    expect(rows.map((row) => row.created)).toEqual([newer.created, older.created]);
   });
 });
