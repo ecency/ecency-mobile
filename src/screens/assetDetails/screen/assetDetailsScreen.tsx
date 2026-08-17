@@ -90,8 +90,11 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     fetchDetailsRef.current = _fetchDetails;
   });
 
+  // No fetch on mount: every query here loads itself, respecting `staleTime`. The call
+  // that used to be here fell through to `fetchNextPage`, so re-entering the screen inside
+  // the 60s window (nothing in flight, so the loading guard did not hold) appended an older
+  // page the user had not scrolled to, one extra get_account_history per screen open.
   useEffect(() => {
-    _fetchDetails();
     const appStateSub = AppState.addEventListener('change', _handleAppStateChange);
     return _cleanup(appStateSub);
   }, []);
@@ -276,6 +279,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         pendingActivities={pendingRequestsQuery.data || []}
         refreshing={activitiesQuery.isRefreshing}
         loading={activitiesQuery.isLoading}
+        loadingMore={activitiesQuery.isFetchingNextPage}
         failed={activitiesQuery.isError}
         activitiesEnabled={asset.layer !== 'chain'}
         onEndReached={_fetchDetails}

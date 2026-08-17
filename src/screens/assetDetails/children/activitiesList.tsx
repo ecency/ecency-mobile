@@ -1,4 +1,11 @@
-import React, { ComponentType, JSXElementConstructor, ReactElement, useState } from 'react';
+import React, {
+  ComponentType,
+  JSXElementConstructor,
+  ReactElement,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 import { useIntl } from 'react-intl';
 import { SectionList, Text, RefreshControl, ActivityIndicator } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -16,6 +23,7 @@ interface ActivitiesListProps {
   completedActivities: CoinActivity[];
   refreshing: boolean;
   loading: boolean;
+  loadingMore: boolean;
   failed: boolean;
   activitiesEnabled: boolean;
   onEndReached: () => void;
@@ -26,6 +34,7 @@ interface ActivitiesListProps {
 export const ActivitiesList = ({
   header,
   loading,
+  loadingMore,
   refreshing,
   failed,
   completedActivities,
@@ -42,7 +51,10 @@ export const ActivitiesList = ({
 
   const [cancellingTrxIndex, setCancellingTrxIndex] = useState(-1);
 
-  const _onCancelPress = async (trxId: number) => {
+  // Every callback below is stable, and `Transaction` is memoised, so expanding one row or
+  // starting a cancel no longer re-renders every other mounted row. A closure built inside
+  // renderItem would defeat that on its own, so the row is handed the activity back instead.
+  const _onCancelPress = useCallback(async (trxId: number) => {
     try {
       if (trxId != null) {
         setCancellingTrxIndex(trxId);
@@ -52,47 +64,53 @@ export const ActivitiesList = ({
     } catch (err) {
       setCancellingTrxIndex(-1);
     }
-  };
+  }, []);
 
-  const _onRepeatPress = async (item: CoinActivity) => {
-    if (onActionPress) {
-      onActionPress(TransferTypes.TRANSFER, item);
-    }
-  };
+  const _onRepeatPress = useCallback(
+    (item: CoinActivity) => {
+      if (onActionPress) {
+        onActionPress(TransferTypes.TRANSFER, item);
+      }
+    },
+    [onActionPress],
+  );
 
-  const _renderActivityItem = ({ item, index }: any) => {
-    return (
+  const _renderActivityItem = useCallback(
+    ({ item, index }: any) => (
       <Transaction
         item={item}
         index={index}
         cancelling={cancellingTrxIndex === item.trxIndex}
-        onCancelPress={() => {
-          _onCancelPress(item.trxIndex);
-        }}
-        onRepeatPress={() => _onRepeatPress(item)}
+        onCancelPress={_onCancelPress}
+        onRepeatPress={_onRepeatPress}
       />
-    );
-  };
-
-  const sections = [];
+    ),
+    [cancellingTrxIndex, _onCancelPress, _onRepeatPress],
+  );
 
   // Explicit keys: without them the pending section appearing shifts the completed
   // section's identity and re-mounts every visible row.
-  if (pendingActivities && pendingActivities.length) {
-    sections.push({
-      key: 'pending',
-      title: intl.formatMessage({ id: 'wallet.pending_requests' }),
-      data: pendingActivities,
-    });
-  }
+  const sections = useMemo(() => {
+    const next = [];
 
-  if (activitiesEnabled) {
-    sections.push({
-      key: 'completed',
-      title: intl.formatMessage({ id: 'wallet.activities' }),
-      data: completedActivities || [],
-    });
-  }
+    if (pendingActivities && pendingActivities.length) {
+      next.push({
+        key: 'pending',
+        title: intl.formatMessage({ id: 'wallet.pending_requests' }),
+        data: pendingActivities,
+      });
+    }
+
+    if (activitiesEnabled) {
+      next.push({
+        key: 'completed',
+        title: intl.formatMessage({ id: 'wallet.activities' }),
+        data: completedActivities || [],
+      });
+    }
+
+    return next;
+  }, [pendingActivities, completedActivities, activitiesEnabled, intl]);
 
   const _refreshControl = (
     <RefreshControl
@@ -109,7 +127,7 @@ export const ActivitiesList = ({
   // bare header with nothing under it. Only claim "no transactions" once a request has
   // actually settled without error.
   const _renderFooter = () => {
-    if (loading) {
+    if (loading || loadingMore) {
       return (
         <ActivityIndicator
           color={EStyleSheet.value('$primaryBlue')}
@@ -146,6 +164,14 @@ export const ActivitiesList = ({
       ListFooterComponent={_renderFooter()}
       ListHeaderComponent={header}
       refreshControl={_refreshControl}
+      // A row is a fixed-height line, so a screen holds well under 15. Rendering the
+      // default 10 per batch across an unbounded window is what makes a long history
+      // stutter. `removeClippedSubviews` is deliberately not set: it is the flag with a
+      // history of blanking rows and swallowing taps on Android, and the win here does not
+      // justify that risk.
+      initialNumToRender={15}
+      maxToRenderPerBatch={10}
+      windowSize={11}
       onEndReachedThreshold={0.5}
       onEndReached={() => {
         onEndReached();

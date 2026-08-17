@@ -63,7 +63,20 @@ interface RecurrentTransferPayload {
   executions: number;
 }
 
-const ACTIVITIES_FETCH_LIMIT = 50;
+/**
+ * `condenser_api.get_account_history` walks back until it has `limit` matching operations,
+ * so a page costs the node roughly nothing extra on an ordinary account and scales with the
+ * page size on one whose matches are sparse. Measured on api.deathwing.me with this op set,
+ * limits 20/50/100/200/500: `ecency` 53/52/63/108/157ms, `bulliontools` 54/71/111/113/296ms,
+ * but the witness account `good-karma` 255/415/497/701/1710ms.
+ *
+ * 100 halves the round trips on the accounts most people have without doubling the scan for
+ * the accounts already closest to the client's 10s ceiling.
+ */
+const ACTIVITIES_FETCH_LIMIT = 100;
+
+/** Membership test per history row, so the 21-entry list is not rescanned for each one. */
+const TRANSFER_TYPES = new Set(transferTypes);
 
 // A page whose rows are all filtered out client-side leaves the list empty, and an
 // empty list is never scrolled, so `onEndReached` never fires to pull the next page.
@@ -479,21 +492,15 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
       );
     }
 
-    // Each SDK page is a Transaction[] whose items are flat operation objects
+    // Each SDK page is a Transaction[] of flat operation objects
     // ({ num, type, timestamp, ...opValue }) that groomingTransactionData understands.
-    // Older cached pages may still hold the { entries } wrapper or the legacy
-    // [trxIndex, { op }] tuple form, so tolerate all three.
-    const _chainPages = (chainQuery.data as any)?.pages as
-      | Array<unknown[] | { entries?: unknown[] }>
-      | undefined;
-    const history: any[] =
-      _chainPages?.flatMap((p) =>
-        Array.isArray(p) ? p : (p as { entries?: unknown[] })?.entries ?? [],
-      ) || [];
-    const transfers = history.filter((tx) => {
-      const opType = Array.isArray(tx) ? get(tx[1], 'op[0]', false) : get(tx, 'type', false);
-      return transferTypes.includes(opType);
-    });
+    // The `{ entries }` wrapper this used to tolerate belongs to the hafah REST option
+    // builder, which this hook stopped using in #3480, and the `[trxIndex, { op }]` tuple
+    // predates the SDK. Neither can arrive: the query key namespace is `assets`, which
+    // `_shouldDehydrateQuery` does not persist, so no page outlives the session that
+    // fetched it.
+    const history: any[] = (chainQuery.data as any)?.pages?.flat() ?? [];
+    const transfers = history.filter((tx) => TRANSFER_TYPES.has(get(tx, 'type', '')));
 
     const activities = transfers
       .map((item) => groomingTransactionData(item, globalProps.hivePerMVests))
@@ -537,13 +544,19 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
 
   const activeQuery = isPoints ? pointsQuery : isEngine ? engineQuery : chainQuery;
 
+  const isSupportedLayer = isPoints || isEngine || isHive;
+
   return {
     data: _data,
     isRefreshing,
-    isLoading:
-      isPoints || isEngine || isHive ? activeQuery.isLoading || activeQuery.isFetching : false,
-    isError: isPoints || isEngine || isHive ? activeQuery.isError : false,
-    error: isPoints || isEngine || isHive ? activeQuery.error : null,
+    // Only the first load, when there is nothing to show yet. Folding `isFetching` in here
+    // made a background refetch and a next-page fetch indistinguishable from it, so the
+    // list footer showed the same spinner for all three and paging was gated on whichever
+    // of them happened to be in flight.
+    isLoading: isSupportedLayer ? activeQuery.isLoading : false,
+    isFetchingNextPage: isEngine || isHive ? (activeQuery as any).isFetchingNextPage : false,
+    isError: isSupportedLayer ? activeQuery.isError : false,
+    error: isSupportedLayer ? activeQuery.error : null,
     fetchNextPage: _fetchNextPage,
     refresh: _refresh,
   };
