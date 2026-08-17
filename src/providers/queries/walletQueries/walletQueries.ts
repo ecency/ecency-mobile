@@ -542,7 +542,11 @@ export const useActivitiesQuery = (
   // while nothing renders instead of showing the user an empty history.
   useEffect(() => {
     autoAdvancedRef.current = 0;
-  }, [symbol, username]);
+    // `operations` belongs here as much as the other two: a different selection is a
+    // different query with its own pages, so carrying a spent budget across a filter change
+    // would stop the new one paging early, or immediately, and show "no activities" while
+    // matching rows sat on the next page.
+  }, [symbol, username, operations]);
 
   useEffect(() => {
     if (!isHive || _data.length > 0) {
