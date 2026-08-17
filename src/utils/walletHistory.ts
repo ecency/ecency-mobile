@@ -64,6 +64,33 @@ export const getHistoryOpsForSymbol = (symbol: string): HiveOperationFilterValue
   HIVE_LAYER_HISTORY_OPS[symbol] ?? HIVE_LAYER_HISTORY_OPS.HIVE;
 
 /**
+ * The operations to actually request, given what the user picked in the filter sheet.
+ *
+ * ⛔ An empty selection must never reach the SDK. `resolveHiveOperationFilters` treats an
+ * empty list as "no opinion" and resolves it to the `all` filter key with a null bitmask,
+ * so the request comes back unfiltered: on a witness account that is a page of ~92%
+ * `producer_reward`, every row of which the client drops, and the history renders empty on
+ * an HTTP 200. That was #3480. The same applies to a selection whose entries are not on the
+ * tab, which would resolve to a mask matching nothing.
+ *
+ * Anything unusable therefore falls back to the tab's full set, which is also what an
+ * untouched screen sends.
+ */
+export const resolveHistoryOps = (
+  symbol: string,
+  selected?: string[] | null,
+): HiveOperationFilterValue[] => {
+  const available = getHistoryOpsForSymbol(symbol);
+
+  if (!selected?.length) {
+    return available;
+  }
+
+  const picked = available.filter((op) => selected.includes(op));
+  return picked.length ? picked : available;
+};
+
+/**
  * Operations that belong to a tab structurally rather than by denomination. A power-up
  * is an HP event, but its groomed value is the HIVE amount that went in, so a ticker
  * match alone would drop it from the HP tab.

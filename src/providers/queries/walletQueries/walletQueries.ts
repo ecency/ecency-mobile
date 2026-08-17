@@ -21,9 +21,9 @@ import {
   buildRecurrentTransferOp,
 } from '@ecency/sdk';
 import {
-  getHistoryOpsForSymbol,
   matchesAssetTicker,
   orderChainActivities,
+  resolveHistoryOps,
 } from '../../../utils/walletHistory';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { resolvePointType } from '../../../constants/options/points';
@@ -366,7 +366,16 @@ export const useClaimRewardsMutation = () => {
   };
 };
 
-export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
+export const useActivitiesQuery = (
+  symbol: string,
+  layer: PortfolioLayer,
+  /**
+   * Operations the user picked in the filter sheet. Undefined means the tab's full set,
+   * which is what an untouched screen sends. `resolveHistoryOps` guards the empty and
+   * unusable cases, which the SDK would otherwise read as "no filter".
+   */
+  operations?: string[],
+) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const globalProps = useAppSelector(selectGlobalProps);
 
@@ -398,7 +407,7 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   // Pagination is the SDK's: 2.3.80 fixed the cursor to walk back from the oldest row
   // on the page (a page arrives in ascending `num`), so no local override is needed.
   const chainQueryOptions = useMemo(() => {
-    const historyOps = getHistoryOpsForSymbol(symbol);
+    const historyOps = resolveHistoryOps(symbol, operations);
     const name = username ?? '';
 
     switch (symbol) {
@@ -409,7 +418,9 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
       default:
         return getHiveAssetTransactionsQueryOptions(name, ACTIVITIES_FETCH_LIMIT, historyOps);
     }
-  }, [symbol, username]);
+    // `filterKey` is part of the SDK query key, so a different selection is a different
+    // cache entry and nothing needs invalidating when this changes.
+  }, [symbol, username, operations]);
 
   const chainQuery = useInfiniteQuery({
     ...chainQueryOptions,

@@ -30,6 +30,7 @@ import type { SearchFilters } from '../components/searchFiltersSheet';
 import { ShareIntentSheet } from '../components/shareIntentSheet';
 import SignConfirmSheet from '../screens/dappBrowser/components/signConfirmSheet';
 import ReceiveQrSheet from '../components/receiveQrSheet/receiveQrSheet';
+import WalletHistoryFiltersSheet from '../components/walletHistoryFiltersSheet/walletHistoryFiltersSheet';
 import BalanceAnalyticsSheet from '../components/balanceAnalyticsSheet/balanceAnalyticsSheet';
 import { TippingDialog } from '../components/tipping';
 import { TTSSettingsSheet } from '../components/textToSpeech/ttsSettingsSheet';
@@ -63,6 +64,7 @@ export enum SheetNames {
   COMMUNITY_MANAGE = 'community_manage',
   COMMUNITY_ROLE_EDIT = 'community_role_edit',
   SEARCH_FILTERS = 'search_filters',
+  WALLET_HISTORY_FILTERS = 'wallet_history_filters',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -92,6 +94,7 @@ registerSheet(SheetNames.MOD_NOTES, ModNotesSheet);
 registerSheet(SheetNames.COMMUNITY_MANAGE, CommunityManageSheet);
 registerSheet(SheetNames.COMMUNITY_ROLE_EDIT, CommunityRoleEditSheet);
 registerSheet(SheetNames.SEARCH_FILTERS, SearchFiltersSheet);
+registerSheet(SheetNames.WALLET_HISTORY_FILTERS, WalletHistoryFiltersSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -306,6 +309,20 @@ declare module 'react-native-actions-sheet' {
       // the library publishes `data || payloadRef.current` on close, so gate on
       // `filters` being an object rather than on truthiness.
       returnValue: { filters?: SearchFilters; cancelled?: boolean } | undefined;
+    }>;
+    wallet_history_filters: SheetDefinition<{
+      payload: {
+        // Which token's history is being filtered. The options are derived from it, so
+        // only operations that tab can actually render are offered.
+        symbol: string;
+        // What is applied now, so reopening shows the current selection. Empty or absent
+        // means the tab's full set.
+        selected?: string[];
+      };
+      // `{ operations }` on apply, `{ cancelled: true }` on cancel. Same dismissal caveat
+      // as search_filters: a backdrop, swipe or back resolves the payload object, so gate
+      // on `operations` being an array rather than on truthiness.
+      returnValue: { operations?: string[]; cancelled?: boolean } | undefined;
     }>;
   }
 }

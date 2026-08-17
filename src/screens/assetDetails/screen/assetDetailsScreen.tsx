@@ -20,6 +20,7 @@ import { walletQueries } from '../../../providers/queries';
 import parseAsset from '../../../utils/parseAsset';
 import TokenLayers from '../../../constants/tokenLayers';
 import { SheetNames } from '../../../navigation/sheets';
+import { getHistoryOpsForSymbol } from '../../../utils/walletHistory';
 
 export interface AssetDetailsScreenParams {
   asset: PortfolioItem;
@@ -46,12 +47,19 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   // state
   const [showChart, setShowChart] = useState(false);
   const [asset, setAsset] = useState<PortfolioItem>(route.params?.asset);
+  // Undefined means the tab's full operation set. Kept on the screen rather than persisted:
+  // it is a way to look through one token's history, not a setting.
+  const [historyOps, setHistoryOps] = useState<string[] | undefined>();
   const assetSymbol = asset.symbol;
   const assetLayer = asset.layer;
 
+  // Only the Hive layer resolves a server-side operation bitmask. Engine and points
+  // histories come from their own APIs, which take no such filter.
+  const canFilterActivities = assetLayer === TokenLayers.HIVE;
+
   // queries
   const assetsQuery = walletQueries.useAssetsQuery();
-  const activitiesQuery = walletQueries.useActivitiesQuery(assetSymbol, asset.layer);
+  const activitiesQuery = walletQueries.useActivitiesQuery(assetSymbol, asset.layer, historyOps);
   const pendingRequestsQuery = walletQueries.usePendingRequestsQuery(assetSymbol);
   const recurringActivitiesQuery = walletQueries.useRecurringActivitesQuery(assetSymbol);
 
@@ -247,6 +255,23 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     _fetchDetails(true);
   };
 
+  const _onFilterPress = async () => {
+    const result = await SheetManager.show(SheetNames.WALLET_HISTORY_FILTERS, {
+      payload: { symbol: assetSymbol, selected: historyOps ?? [] },
+    });
+
+    // A backdrop, swipe or back dismissal resolves the payload object rather than what the
+    // sheet returns, so gate on `operations` being an array instead of on truthiness.
+    if (!Array.isArray(result?.operations)) {
+      return;
+    }
+
+    // A full selection is the same request as no selection, so keep it as "unset" and the
+    // query key stays on the default rather than forking a cache entry per equivalent pick.
+    const isEverything = result.operations.length === getHistoryOpsForSymbol(assetSymbol).length;
+    setHistoryOps(isEverything ? undefined : result.operations);
+  };
+
   const _coinTypeMap: Record<string, string> = {
     HIVE: 'HIVE',
     HBD: 'HBD',
@@ -275,7 +300,12 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
   return (
     <SafeAreaView edges={['top']} style={styles.container}>
-      <BasicHeader title={intl.formatMessage({ id: 'wallet.coin_details' })} />
+      <BasicHeader
+        title={intl.formatMessage({ id: 'wallet.coin_details' })}
+        rightIconName={canFilterActivities ? 'filter-list' : undefined}
+        iconType="MaterialIcons"
+        handleRightIconPress={_onFilterPress}
+      />
       <ActivitiesList
         header={_renderHeaderComponent}
         completedActivities={activitiesQuery.data || []}
