@@ -223,4 +223,33 @@ describe('orderChainActivities', () => {
   it('handles an empty history', () => {
     expect(orderChainActivities([])).toEqual([]);
   });
+
+  // Dropping a row is the failure this function exists to prevent, so a row that arrives
+  // without a usable num must survive rather than collide with every other such row on a
+  // single undefined key.
+  it('keeps rows that have no usable trxIndex', () => {
+    const rows = orderChainActivities([
+      { trxIndex: undefined as any, iconType: 'MaterialIcons', value: '1.000 HIVE' },
+      activity(7),
+      { trxIndex: NaN, iconType: 'MaterialIcons', value: '2.000 HIVE' },
+      activity(9),
+    ]);
+
+    expect(rows).toHaveLength(4);
+    expect(rows.slice(0, 2).map((row) => row.trxIndex)).toEqual([9, 7]);
+  });
+
+  it('orders unkeyed rows among themselves by timestamp', () => {
+    const older = {
+      trxIndex: undefined as any,
+      iconType: 'MaterialIcons',
+      value: '1.000 HIVE',
+      created: '2026-08-15T10:00:00',
+    };
+    const newer = { ...older, value: '2.000 HIVE', created: '2026-08-17T10:00:00' };
+
+    const rows = orderChainActivities([older, newer]);
+
+    expect(rows.map((row) => row.created)).toEqual([newer.created, older.created]);
+  });
 });
