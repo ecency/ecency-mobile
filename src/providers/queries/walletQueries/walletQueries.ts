@@ -20,7 +20,11 @@ import {
   useBroadcastMutation,
   buildRecurrentTransferOp,
 } from '@ecency/sdk';
-import { getHistoryOpsForSymbol, matchesAssetTicker } from '../../../utils/walletHistory';
+import {
+  getHistoryOpsForSymbol,
+  matchesAssetTicker,
+  orderChainActivities,
+} from '../../../utils/walletHistory';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { resolvePointType } from '../../../constants/options/points';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -44,7 +48,7 @@ import {
 } from '../../../utils/wallet';
 import { convertEngineHistory } from '../../hive-engine/converters';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
-import { ProfileToken } from '../../../redux/reducers/walletReducer';
+import { CoinActivity, ProfileToken } from '../../../redux/reducers/walletReducer';
 
 interface ClaimRewardsMutationVars {
   symbol: string;
@@ -491,11 +495,13 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
       return transferTypes.includes(opType);
     });
 
-    const activities = transfers.map((item) =>
-      groomingTransactionData(item, globalProps.hivePerMVests),
-    );
+    const activities = transfers
+      .map((item) => groomingTransactionData(item, globalProps.hivePerMVests))
+      .filter((item): item is CoinActivity => matchesAssetTicker(item, symbol));
 
-    return activities.filter((item) => matchesAssetTicker(item, symbol));
+    // A page lands oldest-first and the next page is an older window appended at the end,
+    // so the raw order puts stale rows on top and reads as a wallet that stopped updating.
+    return orderChainActivities(activities);
   }, [
     pointsQuery.data?.transactions,
     (chainQuery.data as any)?.pages,

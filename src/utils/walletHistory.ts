@@ -91,3 +91,29 @@ export const matchesAssetTicker = (activity: CoinActivity | null, symbol: string
   const tickers = symbol === 'HP' ? ['HP', 'VESTS'] : [symbol];
   return tickers.some((ticker) => activity.value!.includes(ticker));
 };
+
+/**
+ * Newest first, no repeats.
+ *
+ * `condenser_api.get_account_history` answers a page in ASCENDING `num` order, so the
+ * OLDEST operation of the window arrives at index 0 and rendering a page as it lands puts
+ * two-day-old rows above today's. Paging compounds it: the next page is an older window
+ * appended at the END, itself ascending, so the list reads old->new, then older->newer.
+ * Both of those read to a user as "the wallet stopped updating", since nothing is
+ * actually missing and refreshing changes nothing they can see.
+ *
+ * `num` (groomed to `trxIndex`) is unique and monotonic per account, so it orders exactly
+ * with no timestamp ties to break, and it doubles as the dedupe key. The web wallet sorts
+ * the same field the same way.
+ */
+export const orderChainActivities = (activities: CoinActivity[]): CoinActivity[] => {
+  const byTrxIndex = new Map<number, CoinActivity>();
+
+  activities.forEach((activity) => {
+    if (!byTrxIndex.has(activity.trxIndex)) {
+      byTrxIndex.set(activity.trxIndex, activity);
+    }
+  });
+
+  return [...byTrxIndex.values()].sort((a, b) => Number(b.trxIndex) - Number(a.trxIndex));
+};
