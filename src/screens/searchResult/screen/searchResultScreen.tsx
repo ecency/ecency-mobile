@@ -92,10 +92,15 @@ const SearchResultScreen = ({ navigation }: any) => {
         </View>
         <IconButton
           style={styles.filterButton}
-          iconStyle={styles.filterIcon}
+          // `tune` has no outline variant, so "some filter is set" is carried by colour
+          // rather than by swapping the glyph.
+          iconStyle={activeFilterCount > 0 ? styles.filterIconActive : styles.filterIcon}
           iconType="MaterialCommunityIcons"
-          name={activeFilterCount > 0 ? 'filter' : 'filter-outline'}
+          name="tune"
           size={22}
+          // Restores the touch target the removed padding was providing, without
+          // shrinking the content box the icon is drawn in.
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           onPress={_openFilters}
           accessibilityLabel={intl.formatMessage({ id: 'search_result.filters.open' })}
         />

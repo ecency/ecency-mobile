@@ -51,12 +51,18 @@ export default EStyleSheet.create({
   searchInputWrapper: {
     flex: 1,
   },
+  // ⛔ No horizontal padding here. `IconButton` is a fixed 30x30 with a border radius,
+  // which makes it clip its children on iOS, so padding shrinks the content box rather
+  // than growing the button: 8pt a side left 14pt for a 22pt glyph and sliced 4pt off
+  // each edge of the icon. Use the component's `hitSlop` to enlarge the touch target.
   filterButton: {
     marginTop: 20,
     marginRight: 12,
-    paddingHorizontal: 8,
   },
   filterIcon: {
     color: '$iconColor',
+  },
+  filterIconActive: {
+    color: '$primaryBlue',
   },
 });
