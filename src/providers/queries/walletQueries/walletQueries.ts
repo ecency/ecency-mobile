@@ -460,11 +460,17 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
       return;
     }
 
+    // Gate on `isFetching`, not just `isFetchingNextPage`. `fetchNextPage` defaults to
+    // `cancelRefetch: true` (queryObserver resolves `fetchOptions.cancelRefetch ?? true`),
+    // so calling it mid-refetch kills the refresh and appends to the pages it was about to
+    // replace, leaving new activity absent until the user refreshes again. This guard used
+    // to be implicit in the old `isLoading || isFetching`, which no longer holds now that
+    // those states are reported separately.
     if (isEngine) {
-      if (engineQuery.hasNextPage && !engineQuery.isFetchingNextPage) {
+      if (engineQuery.hasNextPage && !engineQuery.isFetching) {
         engineQuery.fetchNextPage();
       }
-    } else if (chainQuery.hasNextPage && !chainQuery.isFetchingNextPage) {
+    } else if (chainQuery.hasNextPage && !chainQuery.isFetching) {
       chainQuery.fetchNextPage();
     }
   };
