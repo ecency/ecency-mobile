@@ -4,6 +4,7 @@ import {
   getHistoryOpsForSymbol,
   matchesAssetTicker,
   orderChainActivities,
+  resolveHistoryOps,
 } from './walletHistory';
 import { groomingTransactionData, transferTypes } from './wallet';
 
@@ -251,5 +252,34 @@ describe('orderChainActivities', () => {
     const rows = orderChainActivities([older, newer]);
 
     expect(rows.map((row) => row.created)).toEqual([newer.created, older.created]);
+  });
+});
+
+describe('resolveHistoryOps', () => {
+  it('defaults to the tab set when nothing is picked', () => {
+    expect(resolveHistoryOps('HIVE')).toBe(HIVE_LAYER_HISTORY_OPS.HIVE);
+    expect(resolveHistoryOps('HP', [])).toBe(HIVE_LAYER_HISTORY_OPS.HP);
+    expect(resolveHistoryOps('HBD', null)).toBe(HIVE_LAYER_HISTORY_OPS.HBD);
+  });
+
+  it('narrows to the picked operations', () => {
+    expect(resolveHistoryOps('HIVE', ['transfer', 'author_reward'])).toEqual([
+      'transfer',
+      'author_reward',
+    ]);
+  });
+
+  // An empty operation list resolves to the SDK's `all` filter key with a null bitmask, so
+  // the request comes back unfiltered. On a witness account that is a page of ~92%
+  // producer_reward, all of which the client drops, and the history renders empty on a 200.
+  it('never resolves to an empty request', () => {
+    expect(resolveHistoryOps('HIVE', ['vote', 'custom_json'])).toBe(HIVE_LAYER_HISTORY_OPS.HIVE);
+    expect(resolveHistoryOps('HIVE', ['producer_reward'])).toBe(HIVE_LAYER_HISTORY_OPS.HIVE);
+  });
+
+  it('drops operations that belong to another tab', () => {
+    // curation_reward renders on HP but not on HIVE, so picking it there must not request it.
+    expect(resolveHistoryOps('HIVE', ['transfer', 'curation_reward'])).toEqual(['transfer']);
+    expect(resolveHistoryOps('HP', ['curation_reward'])).toEqual(['curation_reward']);
   });
 });
