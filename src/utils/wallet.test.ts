@@ -330,6 +330,54 @@ describe('groomingTransactionData', () => {
     expect(result).not.toBeNull();
     expect(result!.value).toContain('HP');
   });
+
+  describe('transaction id', () => {
+    it('carries the id of a broadcast operation', () => {
+      const tx = {
+        type: 'transfer',
+        timestamp: '2024-01-01T00:00:00',
+        num: 1,
+        trx_id: 'aa82751091f8eaf6977f9a634e9eff6c4ee4208d',
+        amount: '10.000 HIVE',
+        from: 'alice',
+        to: 'bob',
+      };
+      expect(groomingTransactionData(tx, hivePerMVests)!.trxId).toBe(
+        'aa82751091f8eaf6977f9a634e9eff6c4ee4208d',
+      );
+    });
+
+    // The chain emits a virtual operation instead of anyone broadcasting it, so its
+    // trx_id is 40 zeroes and there is nothing to link to.
+    it('leaves a virtual operation without one', () => {
+      const tx = {
+        type: 'author_reward',
+        timestamp: '2024-01-01T00:00:00',
+        num: 2,
+        trx_id: '0000000000000000000000000000000000000000',
+        hbd_payout: '0.000 HBD',
+        hive_payout: '1.000 HIVE',
+        vesting_payout: '0.000000 VESTS',
+        author: 'alice',
+        permlink: 'p',
+      };
+      expect(groomingTransactionData(tx, hivePerMVests)!.trxId).toBeUndefined();
+    });
+
+    it('reads the id off the legacy tuple shape too', () => {
+      const tx = [
+        3,
+        {
+          timestamp: '2024-01-01T00:00:00',
+          trx_id: 'aa82751091f8eaf6977f9a634e9eff6c4ee4208d',
+          op: ['transfer', { amount: '1.000 HIVE', from: 'alice', to: 'bob', memo: '' }],
+        },
+      ];
+      expect(groomingTransactionData(tx, hivePerMVests)!.trxId).toBe(
+        'aa82751091f8eaf6977f9a634e9eff6c4ee4208d',
+      );
+    });
+  });
 });
 
 describe('groomingEngineHistory', () => {
@@ -362,6 +410,26 @@ describe('groomingEngineHistory', () => {
   it('sets compare-arrows icon for transfers', () => {
     const tx = { ...baseTx, operation: EngineOperations.TOKENS_TRANSFER };
     expect(groomingEngineHistory(tx)!.icon).toBe('compare-arrows');
+  });
+
+  // Hive Engine suffixes the Hive transaction with the operation's index, and a row a
+  // contract generated carries `<block>-<index>` with no Hive transaction behind it.
+  it('carries the Hive transaction the custom_json rode in on', () => {
+    const tx = {
+      ...baseTx,
+      operation: EngineOperations.TOKENS_TRANSFER,
+      transactionId: '98c14ebb580b350d6f1538c2810be987cb0003db-0',
+    };
+    expect(groomingEngineHistory(tx)!.trxId).toBe('98c14ebb580b350d6f1538c2810be987cb0003db');
+  });
+
+  it('leaves a contract-generated row without one', () => {
+    const tx = {
+      ...baseTx,
+      operation: EngineOperations.TOKENS_TRANSFER,
+      transactionId: '109092570-0',
+    };
+    expect(groomingEngineHistory(tx)!.trxId).toBeUndefined();
   });
 
   it('sets fiber-new icon for token creation', () => {

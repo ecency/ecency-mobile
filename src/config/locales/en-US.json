@@ -1492,6 +1492,7 @@
     "purchase_estm": "GET POINTS",
     "escrow_approve": "Escrow Approve",
     "expires": "expires",
+    "transaction_id": "Transaction ID",
     "author_reward": "Author Reward",
     "withdraw_hbd": "Withdraw Savings",
     "convert_request": "Convert Request",

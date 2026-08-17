@@ -33,6 +33,7 @@ const WalletLineItem = ({
   cancelling,
   onCancelPress,
   onRepeatPress,
+  onCopyPress,
 }: any) => (
   <TouchableOpacity onPress={onPress} disabled={!onPress} activeOpacity={0.8}>
     <GrayWrapper isGray={index && index % 2 !== 0}>
@@ -125,6 +126,21 @@ const WalletLineItem = ({
               size={18}
               onPress={() => {
                 onRepeatPress();
+              }}
+              color="#c1c5c7"
+              isLoading={false}
+              style={styles.repeatContainer}
+            />
+          )}
+
+          {!!onCopyPress && (
+            <IconButton
+              backgroundColor="transparent"
+              name="content-copy"
+              iconType="MaterialIcons"
+              size={18}
+              onPress={() => {
+                onCopyPress();
               }}
               color="#c1c5c7"
               isLoading={false}

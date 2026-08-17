@@ -9,10 +9,18 @@ import { getTimeFromNow } from '../../utils/time';
 // Components
 import { WalletLineItem } from '../basicUIElements';
 import { getHumanReadableKeyString } from '../../utils/strings';
+import { getTransactionExplorerUrl } from '../../utils/transactionExplorer';
+import { writeToClipboard } from '../../utils/clipboard';
+import { useAppDispatch } from '../../hooks';
+import { toastNotification } from '../../redux/actions/uiAction';
 
 const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress }: any) => {
   const intl = useIntl();
+  const dispatch = useAppDispatch();
   const [collapsed, setCollapsed] = useState(true);
+
+  // Absent on every virtual operation, so the row has to be able to render without it.
+  const explorerUrl = getTransactionExplorerUrl(item.trxId);
 
   const title = intl.messages[`wallet.${item.textKey}`]
     ? intl.formatMessage({
@@ -49,6 +57,19 @@ const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress
     }
   };
 
+  // The explorer link rather than the bare id: it is the form that is useful to paste to
+  // someone else, and the id is still readable on screen for anyone who wants only that.
+  const _onCopyTrxIdPress = async () => {
+    if (!explorerUrl) {
+      return;
+    }
+
+    const copied = await writeToClipboard(explorerUrl);
+    if (copied) {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.copied' })));
+    }
+  };
+
   const _cardHeader = (
     <WalletLineItem
       key={`keyt-${item.created.toString()}`}
@@ -76,15 +97,29 @@ const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress
     />
   );
 
-  const _cardBody = (get(item, 'details') || get(item, 'memo')) && !collapsed && (
+  const _hasDetails = !!(get(item, 'details') || get(item, 'memo'));
+
+  const _cardBody = (_hasDetails || !!explorerUrl) && !collapsed && (
     <Animated.View entering={SlideInLeft.duration(200)}>
-      <WalletLineItem
-        key={`keyd-${item.created.toString()}`}
-        text={get(item, 'details', '')}
-        isBlackText
-        isThin
-        description={get(item, 'memo')}
-      />
+      {_hasDetails && (
+        <WalletLineItem
+          key={`keyd-${item.created.toString()}`}
+          text={get(item, 'details', '')}
+          isBlackText
+          isThin
+          description={get(item, 'memo')}
+        />
+      )}
+      {!!explorerUrl && (
+        <WalletLineItem
+          key={`keyx-${item.created.toString()}`}
+          text={intl.formatMessage({ id: 'wallet.transaction_id' })}
+          isBlackText
+          isThin
+          description={item.trxId}
+          onCopyPress={_onCopyTrxIdPress}
+        />
+      )}
     </Animated.View>
   );
 

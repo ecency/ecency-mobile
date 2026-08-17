@@ -15,6 +15,7 @@ import { CoinActivity } from '../redux/reducers/walletReducer';
 
 import { EngineOperations, HistoryItem } from '../providers/hive-engine/hiveEngine.types';
 import { RepeatableTransfers } from '../constants/repeatableTransfers';
+import { resolveTrxId } from './transactionExplorer';
 
 export const transferTypes = [
   'curation_reward',
@@ -54,10 +55,14 @@ export const groomingTransactionData = (
   const opData = isLegacy ? transaction[1]?.op?.[1] : transaction;
   const timestamp = isLegacy ? transaction[1]?.timestamp : transaction.timestamp;
   const trxIndex = isLegacy ? transaction[0] : transaction.num;
+  // Left undefined for a virtual operation, whose trx_id is 40 zeroes because the chain
+  // emitted it rather than anyone broadcasting it.
+  const trxId = resolveTrxId(isLegacy ? transaction[1]?.trx_id : transaction.trx_id);
 
   const result: CoinActivity = {
     iconType: 'MaterialIcons',
     trxIndex,
+    trxId,
   };
 
   result.textKey = opType;
@@ -235,6 +240,10 @@ export const groomingEngineHistory = (transaction: HistoryItem): CoinActivity | 
     iconType: 'MaterialIcons',
     trxIndex: blockNumber,
     engineTrxId: transaction?.id || transaction?._id,
+    // `transactionId` is the Hive transaction the custom_json rode in on, suffixed with
+    // the operation's index. A contract-generated row carries `<block>-<index>` instead,
+    // which resolves to undefined rather than to a link that goes nowhere.
+    trxId: resolveTrxId(transaction?.transactionId),
     textKey: operation,
     created: new Date(timestamp).toISOString(),
     value: `${quantity} ${symbol}`,
