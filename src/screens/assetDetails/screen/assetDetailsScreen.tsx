@@ -128,6 +128,9 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       return;
     }
 
+    // This check is only an early-out on the very first load. The concurrency guard that
+    // matters lives in `_fetchNextPage`, which gates on the query's overall `isFetching`,
+    // because `fetchNextPage` would otherwise cancel an in-flight refresh.
     activitiesQuery.fetchNextPage();
   };
 

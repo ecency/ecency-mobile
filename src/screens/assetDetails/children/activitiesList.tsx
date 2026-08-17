@@ -3,7 +3,9 @@ import React, {
   JSXElementConstructor,
   ReactElement,
   useCallback,
+  useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { useIntl } from 'react-intl';
@@ -51,29 +53,41 @@ export const ActivitiesList = ({
 
   const [cancellingTrxIndex, setCancellingTrxIndex] = useState(-1);
 
-  // Every callback below is stable, and `Transaction` is memoised, so expanding one row or
+  // Latest-value refs, so the row callbacks below can be genuinely stable without going
+  // stale. Depending on either value directly would rebuild the callback every render and
+  // defeat the memoised row, which is the whole point of hoisting these out of renderItem:
+  // `useMutation` returns a fresh `{ ...result, mutate, mutateAsync }` object each render,
+  // and `assetDetailsScreen` rebuilds `onActionPress` each render too. Assigned in an
+  // effect rather than during render, and an event can only fire after that has run.
+  const cancelMutationRef = useRef(limitOrderCancel);
+  const onActionPressRef = useRef(onActionPress);
+
+  useEffect(() => {
+    cancelMutationRef.current = limitOrderCancel;
+    onActionPressRef.current = onActionPress;
+  });
+
+  // Both callbacks are stable and `Transaction` is memoised, so expanding one row or
   // starting a cancel no longer re-renders every other mounted row. A closure built inside
   // renderItem would defeat that on its own, so the row is handed the activity back instead.
   const _onCancelPress = useCallback(async (trxId: number) => {
+    if (trxId == null) {
+      return;
+    }
+
     try {
-      if (trxId != null) {
-        setCancellingTrxIndex(trxId);
-        await limitOrderCancel.mutateAsync({ orderId: trxId });
-        setCancellingTrxIndex(-1);
-      }
+      setCancellingTrxIndex(trxId);
+      await cancelMutationRef.current.mutateAsync({ orderId: trxId });
     } catch (err) {
+      // Swallowed deliberately: the mutation surfaces its own failure toast.
+    } finally {
       setCancellingTrxIndex(-1);
     }
   }, []);
 
-  const _onRepeatPress = useCallback(
-    (item: CoinActivity) => {
-      if (onActionPress) {
-        onActionPress(TransferTypes.TRANSFER, item);
-      }
-    },
-    [onActionPress],
-  );
+  const _onRepeatPress = useCallback((item: CoinActivity) => {
+    onActionPressRef.current?.(TransferTypes.TRANSFER, item);
+  }, []);
 
   const _renderActivityItem = useCallback(
     ({ item, index }: any) => (
