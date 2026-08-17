@@ -239,7 +239,10 @@ export const WalletHeader = ({
           >
             <Icon
               iconType="MaterialCommunityIcons"
-              name="cog"
+              // `tune` rather than a cog: this picks which tokens are shown, which is the
+              // same kind of control as the search and wallet history filters, and those
+              // now share this glyph. A cog reads as app settings.
+              name="tune"
               size={20}
               color={EStyleSheet.value('$iconColor')}
             />
