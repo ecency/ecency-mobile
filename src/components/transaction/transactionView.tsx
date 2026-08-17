@@ -53,7 +53,13 @@ const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress
 
   const _onRepeatPress = () => {
     if (onRepeatPress) {
-      onRepeatPress();
+      onRepeatPress(item);
+    }
+  };
+
+  const _onCancelPress = () => {
+    if (onCancelPress) {
+      onCancelPress(item.trxIndex);
     }
   };
 
@@ -98,7 +104,7 @@ const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress
       }}
       cancelable={item.cancelable}
       cancelling={cancelling}
-      onCancelPress={onCancelPress}
+      onCancelPress={_onCancelPress}
       onRepeatPress={item?.repeatable ? _onRepeatPress : null}
     />
   );
@@ -138,4 +144,9 @@ const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress
   );
 };
 
-export default TransactionView;
+/**
+ * Memoised because the list re-renders it on every screen-level state change, and there can
+ * be hundreds mounted. The callers pass stable callbacks, so the props only change when the
+ * row's own activity, position or cancelling state does.
+ */
+export default React.memo(TransactionView);
