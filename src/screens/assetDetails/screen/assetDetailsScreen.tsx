@@ -302,7 +302,9 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     <SafeAreaView edges={['top']} style={styles.container}>
       <BasicHeader
         title={intl.formatMessage({ id: 'wallet.coin_details' })}
-        rightIconName={canFilterActivities ? 'filter-list' : undefined}
+        // `tune` is the shared glyph for filter controls across the app: search filters
+        // and the wallet's manage-tokens button use the same one.
+        rightIconName={canFilterActivities ? 'tune' : undefined}
         rightIconAccessibilityLabel={intl.formatMessage({ id: 'wallet.filter_activities' })}
         iconType="MaterialIcons"
         handleRightIconPress={_onFilterPress}
