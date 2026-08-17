@@ -303,6 +303,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       <BasicHeader
         title={intl.formatMessage({ id: 'wallet.coin_details' })}
         rightIconName={canFilterActivities ? 'filter-list' : undefined}
+        rightIconAccessibilityLabel={intl.formatMessage({ id: 'wallet.filter_activities' })}
         iconType="MaterialIcons"
         handleRightIconPress={_onFilterPress}
       />

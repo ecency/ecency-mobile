@@ -38,6 +38,9 @@ const BasicHeaderView = ({
   quickTitle,
   rightButtonText,
   rightIconName,
+  // Icon-only, so it is unnamed to a screen reader without this. Optional, since the
+  // header's other call sites are unchanged.
+  rightIconAccessibilityLabel,
   isHasBrowserIcon,
   iconType,
   rightIconBtnStyle,
@@ -143,6 +146,7 @@ const BasicHeaderView = ({
               name={rightIconName}
               iconType={iconType}
               isLoading={isLoadingRightIcon}
+              accessibilityLabel={rightIconAccessibilityLabel}
             />
           )}
 
