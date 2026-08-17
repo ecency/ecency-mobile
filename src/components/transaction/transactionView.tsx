@@ -64,9 +64,15 @@ const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress
       return;
     }
 
-    const copied = await writeToClipboard(explorerUrl);
-    if (copied) {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.copied' })));
+    // An onPress handler is fire-and-forget, so a rejection here would surface as an
+    // unhandled promise rejection and the copy would fail with no sign of it.
+    try {
+      const copied = await writeToClipboard(explorerUrl);
+      dispatch(
+        toastNotification(intl.formatMessage({ id: copied ? 'alert.copied' : 'alert.fail' })),
+      );
+    } catch (err) {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     }
   };
 
@@ -118,6 +124,7 @@ const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress
           isThin
           description={item.trxId}
           onCopyPress={_onCopyTrxIdPress}
+          copyAccessibilityLabel={intl.formatMessage({ id: 'wallet.copy_transaction_id' })}
         />
       )}
     </Animated.View>

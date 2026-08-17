@@ -1493,6 +1493,7 @@
     "escrow_approve": "Escrow Approve",
     "expires": "expires",
     "transaction_id": "Transaction ID",
+    "copy_transaction_id": "Copy transaction link",
     "author_reward": "Author Reward",
     "withdraw_hbd": "Withdraw Savings",
     "convert_request": "Convert Request",

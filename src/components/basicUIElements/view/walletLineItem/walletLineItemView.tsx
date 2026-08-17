@@ -34,6 +34,7 @@ const WalletLineItem = ({
   onCancelPress,
   onRepeatPress,
   onCopyPress,
+  copyAccessibilityLabel,
 }: any) => (
   <TouchableOpacity onPress={onPress} disabled={!onPress} activeOpacity={0.8}>
     <GrayWrapper isGray={index && index % 2 !== 0}>
@@ -142,9 +143,14 @@ const WalletLineItem = ({
               onPress={() => {
                 onCopyPress();
               }}
-              color="#c1c5c7"
+              // The theme variable rather than the `#c1c5c7` its siblings hardcode: that
+              // literal is the light value, so a hardcoded icon stays light-grey on the
+              // dark theme. The cancel and repeat buttons above have the same problem and
+              // are left alone here, since changing them is a visual change of its own.
+              color={EStyleSheet.value('$iconColor')}
               isLoading={false}
               style={styles.repeatContainer}
+              accessibilityLabel={copyAccessibilityLabel}
             />
           )}
 
