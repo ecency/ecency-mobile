@@ -79,7 +79,7 @@ class InAppPurchaseContainer extends Component<any, any> {
       // place rest of unconsumed purhcases in state
       this._getUnconsumedPurchases();
     } catch (err) {
-      captureException(err);
+      IAP.reportIapError(err, { stage: 'init' });
       console.warn((err as any).code, (err as any).message);
 
       Alert.alert(
@@ -220,7 +220,7 @@ class InAppPurchaseContainer extends Component<any, any> {
           console.info('ackResult', ackResult);
         } catch (ackErr) {
           console.warn('finishTransaction failed (non-fatal):', ackErr);
-          captureException(ackErr);
+          IAP.reportIapError(ackErr, { stage: 'finish', sku: get(purchase, 'productId') });
         }
 
         this.setState({ isProcessing: false });
@@ -272,7 +272,7 @@ class InAppPurchaseContainer extends Component<any, any> {
         }
       }
     } catch (err) {
-      captureException(err);
+      IAP.reportIapError(err, { stage: 'recover' });
       console.warn((err as any).code, (err as any).message);
     }
   };
@@ -293,7 +293,9 @@ class InAppPurchaseContainer extends Component<any, any> {
 
       const { intl, handleOnPurchaseFailure } = this.props;
 
-      captureException(error);
+      // A cancelled billing sheet is a breadcrumb, every other store code is its
+      // own Sentry issue (see providers/iap/errors).
+      IAP.reportIapError(error, { stage: 'purchase' });
       if (IAP.isBillingUnavailableError(error) && Platform.OS === 'android') {
         Alert.alert(
           intl.formatMessage({
@@ -343,7 +345,7 @@ class InAppPurchaseContainer extends Component<any, any> {
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
       this.setState({ productList: products });
     } catch (error) {
-      captureException(error);
+      IAP.reportIapError(error, { stage: 'products' });
       Alert.alert(
         intl.formatMessage({
           id: 'alert.connection_issues',
@@ -421,9 +423,7 @@ class InAppPurchaseContainer extends Component<any, any> {
       try {
         IAP.requestPurchase(sku);
       } catch (err) {
-        captureException(err, (scope) => {
-          scope.setContext('sku', { sku });
-        });
+        IAP.reportIapError(err, { stage: 'request', sku });
       }
     } else {
       navigation.navigate({
