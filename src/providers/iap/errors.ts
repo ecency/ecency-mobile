@@ -24,6 +24,14 @@ export const isBillingUnavailableError = (error: any): boolean =>
   error?.code === 'billing-unavailable' ||
   error?.responseCode === RESPONSE_CODE_BILLING_UNAVAILABLE;
 
+// A store (OpenIAP) error carries a string `code`; a thrown Error or a JS-side
+// validation failure does not. expo-iap delivers a store failure BOTH to
+// purchaseErrorListener and as the requestPurchase rejection, so a catch around
+// requestPurchase must leave coded errors to the listener or every failure is
+// reported twice.
+export const hasStoreCode = (error: unknown): boolean =>
+  typeof (error as any)?.code === 'string' && (error as any).code.length > 0;
+
 // Where in the purchase flow the error surfaced. Tagged, not fingerprinted, so the
 // same store code stays one issue wherever it happens.
 export type IapStage = 'init' | 'products' | 'request' | 'purchase' | 'finish' | 'recover';
@@ -46,7 +54,7 @@ const _stringOrNull = (value: unknown): string | null =>
  */
 export const reportIapError = (error: unknown, context: IapErrorContext): void => {
   const err = error as any;
-  const code = _stringOrNull(err?.code);
+  const code = hasStoreCode(err) ? (err.code as string) : null;
   const productId = _stringOrNull(err?.productId) ?? context.sku ?? null;
 
   if (isUserCancelledError(err)) {

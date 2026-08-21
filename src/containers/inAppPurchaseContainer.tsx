@@ -421,9 +421,15 @@ class InAppPurchaseContainer extends Component<any, any> {
       }
 
       try {
-        IAP.requestPurchase(sku);
+        await IAP.requestPurchase(sku);
       } catch (err) {
-        IAP.reportIapError(err, { stage: 'request', sku });
+        // A store failure also reaches purchaseErrorListener, which reports it and
+        // resets the UI. Only an error that never went through the store (request
+        // validation, a programming error) is ours to report here.
+        if (!IAP.hasStoreCode(err)) {
+          this.setState({ isProcessing: false });
+          IAP.reportIapError(err, { stage: 'request', sku });
+        }
       }
     } else {
       navigation.navigate({

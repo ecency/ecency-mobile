@@ -1,5 +1,10 @@
 import * as Sentry from '@sentry/react-native';
-import { isBillingUnavailableError, isUserCancelledError, reportIapError } from './errors';
+import {
+  hasStoreCode,
+  isBillingUnavailableError,
+  isUserCancelledError,
+  reportIapError,
+} from './errors';
 
 type ScopeMock = {
   setTag: jest.Mock;
@@ -40,6 +45,15 @@ describe('classifiers', () => {
     expect(isUserCancelledError({ responseCode: 1 })).toBe(true);
     expect(isUserCancelledError({ code: 'network-error' })).toBe(false);
     expect(isUserCancelledError(undefined)).toBe(false);
+  });
+
+  it('tell a store error (string code) from a thrown Error or a bare value', () => {
+    expect(hasStoreCode(cancelled)).toBe(true);
+    expect(hasStoreCode({ code: 'item-unavailable' })).toBe(true);
+    expect(hasStoreCode(new Error('Invalid request for Google.'))).toBe(false);
+    expect(hasStoreCode({ code: '' })).toBe(false);
+    expect(hasStoreCode('boom')).toBe(false);
+    expect(hasStoreCode(undefined)).toBe(false);
   });
 
   it('recognise billing unavailable by code and by Play response code', () => {

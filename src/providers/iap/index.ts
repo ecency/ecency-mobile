@@ -1,6 +1,11 @@
 import * as iap from 'expo-iap';
 
-export { isBillingUnavailableError, isUserCancelledError, reportIapError } from './errors';
+export {
+  hasStoreCode,
+  isBillingUnavailableError,
+  isUserCancelledError,
+  reportIapError,
+} from './errors';
 export type { IapErrorContext, IapStage } from './errors';
 
 /**
