@@ -1,5 +1,14 @@
 import * as iap from 'expo-iap';
 
+export {
+  hasStoreCode,
+  isBillingUnavailableError,
+  isUserCancelledError,
+  reportIapError,
+  resetIapErrorDedup,
+} from './errors';
+export type { IapErrorContext, IapReport, IapStage } from './errors';
+
 /**
  * Single entry point for store purchases.
  *
@@ -38,10 +47,6 @@ export interface IapSubscription {
   remove: () => void;
 }
 
-// Play BillingResponseCode values, reported as `responseCode` on Android.
-const RESPONSE_CODE_USER_CANCELED = 1;
-const RESPONSE_CODE_BILLING_UNAVAILABLE = 3;
-
 // OpenIAP names products id/displayPrice and returns price as a number.
 const _normalizeProduct = (product: any): IapProduct => ({
   ...product,
@@ -52,13 +57,6 @@ const _normalizeProduct = (product: any): IapProduct => ({
   currency: product.currency,
   localizedPrice: product.displayPrice,
 });
-
-export const isUserCancelledError = (error: any): boolean =>
-  error?.code === 'user-cancelled' || error?.responseCode === RESPONSE_CODE_USER_CANCELED;
-
-export const isBillingUnavailableError = (error: any): boolean =>
-  error?.code === 'billing-unavailable' ||
-  error?.responseCode === RESPONSE_CODE_BILLING_UNAVAILABLE;
 
 export const initConnection = (): Promise<any> => iap.initConnection();
 

@@ -79,7 +79,7 @@ class InAppPurchaseContainer extends Component<any, any> {
       // place rest of unconsumed purhcases in state
       this._getUnconsumedPurchases();
     } catch (err) {
-      captureException(err);
+      IAP.reportIapError(err, { stage: 'init' });
       console.warn((err as any).code, (err as any).message);
 
       Alert.alert(
@@ -220,7 +220,7 @@ class InAppPurchaseContainer extends Component<any, any> {
           console.info('ackResult', ackResult);
         } catch (ackErr) {
           console.warn('finishTransaction failed (non-fatal):', ackErr);
-          captureException(ackErr);
+          IAP.reportIapError(ackErr, { stage: 'finish', sku: get(purchase, 'productId') });
         }
 
         this.setState({ isProcessing: false });
@@ -272,7 +272,7 @@ class InAppPurchaseContainer extends Component<any, any> {
         }
       }
     } catch (err) {
-      captureException(err);
+      IAP.reportIapError(err, { stage: 'recover' });
       console.warn((err as any).code, (err as any).message);
     }
   };
@@ -291,32 +291,45 @@ class InAppPurchaseContainer extends Component<any, any> {
         AsyncStorage.removeItem(PENDING_ACCOUNT_PURCHASE_KEY).catch(() => {});
       }
 
-      const { intl, handleOnPurchaseFailure } = this.props;
-
-      captureException(error);
-      if (IAP.isBillingUnavailableError(error) && Platform.OS === 'android') {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.warning',
-          }),
-          intl.formatMessage({
-            id: 'alert.google_play_version',
-          }),
-        );
-      } else if (!IAP.isUserCancelledError(error)) {
-        console.warn('failed puchase:', error);
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.warning',
-          }),
-          (error as any).message,
-        );
-      }
-      this.setState({ isProcessing: false });
-      if (handleOnPurchaseFailure) {
-        handleOnPurchaseFailure(error);
-      }
+      // A cancelled billing sheet is a breadcrumb, every other store code is its
+      // own Sentry issue (see providers/iap/errors).
+      this._handlePurchaseFailure(error, IAP.reportIapError(error, { stage: 'purchase' }));
     });
+  };
+
+  // Shared by the purchase-error listener and the requestPurchase catch: the same
+  // store failure can arrive through either, or both, and neither path is
+  // guaranteed. Whichever runs first reports it and tells the user; a duplicate
+  // only makes sure the UI is no longer stuck in processing.
+  _handlePurchaseFailure = (error: any, report: IAP.IapReport) => {
+    const { intl, handleOnPurchaseFailure } = this.props;
+
+    this.setState({ isProcessing: false });
+    if (report === 'duplicate') {
+      return;
+    }
+
+    if (IAP.isBillingUnavailableError(error) && Platform.OS === 'android') {
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.warning',
+        }),
+        intl.formatMessage({
+          id: 'alert.google_play_version',
+        }),
+      );
+    } else if (report !== 'cancelled') {
+      console.warn('failed puchase:', error);
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.warning',
+        }),
+        error?.message,
+      );
+    }
+    if (handleOnPurchaseFailure) {
+      handleOnPurchaseFailure(error);
+    }
   };
 
   _getTitle = (title: any) => {
@@ -343,7 +356,7 @@ class InAppPurchaseContainer extends Component<any, any> {
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
       this.setState({ productList: products });
     } catch (error) {
-      captureException(error);
+      IAP.reportIapError(error, { stage: 'products' });
       Alert.alert(
         intl.formatMessage({
           id: 'alert.connection_issues',
@@ -419,11 +432,13 @@ class InAppPurchaseContainer extends Component<any, any> {
       }
 
       try {
-        IAP.requestPurchase(sku);
+        await IAP.requestPurchase(sku);
       } catch (err) {
-        captureException(err, (scope) => {
-          scope.setContext('sku', { sku });
-        });
+        // Rejections range from request validation (no store code, never reaches
+        // the listener) to coded pre-flight failures such as not-prepared that may
+        // or may not also be emitted as a purchase-error event. Report and handle
+        // every one; reportIapError flags the ones the listener already took.
+        this._handlePurchaseFailure(err, IAP.reportIapError(err, { stage: 'request', sku }));
       }
     } else {
       navigation.navigate({
