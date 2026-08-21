@@ -142,7 +142,7 @@ describe('reportIapError', () => {
     expect(scope.setTag).toHaveBeenCalledWith('iap.product', '499spins');
   });
 
-  it('keeps an expo-iap rejection (Error instance with code) and still fingerprints by code', () => {
+  it('keeps an expo-iap rejection (Error with code) and still fingerprints by code', () => {
     // expo-iap's createPurchaseError: new Error(message) with the store fields attached.
     const rejection: any = new Error('Billing API version is not supported');
     rejection.name = '[expo-iap]: PurchaseError';
@@ -162,7 +162,10 @@ describe('reportIapError', () => {
     expect(scope.setTag).toHaveBeenCalledWith('iap.product', '999accounts');
     expect(scope.setContext).toHaveBeenCalledWith(
       'iap',
-      expect.objectContaining({ code: 'billing-unavailable', debugMessage: 'Billing Unavailable' }),
+      expect.objectContaining({
+        code: 'billing-unavailable',
+        debugMessage: 'Billing Unavailable',
+      }),
     );
   });
 
