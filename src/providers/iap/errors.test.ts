@@ -142,6 +142,38 @@ describe('reportIapError', () => {
     expect(scope.setTag).toHaveBeenCalledWith('iap.product', '499spins');
   });
 
+  it('keeps an expo-iap rejection (Error instance with code) and still fingerprints by code', () => {
+    // expo-iap's createPurchaseError: new Error(message) with the store fields attached.
+    const rejection: any = new Error('Billing API version is not supported');
+    rejection.name = '[expo-iap]: PurchaseError';
+    rejection.code = 'billing-unavailable';
+    rejection.responseCode = 3;
+    rejection.debugMessage = 'Billing Unavailable';
+    rejection.platform = 'android';
+    rejection.productId = '999accounts';
+
+    reportIapError(rejection, { stage: 'init' });
+
+    const [captured] = (Sentry.captureException as jest.Mock).mock.calls[0];
+    expect(captured).toBe(rejection);
+    const scope = applyScope();
+    expect(scope.setFingerprint).toHaveBeenCalledWith(['iap', 'billing-unavailable']);
+    expect(scope.setTag).toHaveBeenCalledWith('iap.code', 'billing-unavailable');
+    expect(scope.setTag).toHaveBeenCalledWith('iap.product', '999accounts');
+    expect(scope.setContext).toHaveBeenCalledWith(
+      'iap',
+      expect.objectContaining({ code: 'billing-unavailable', debugMessage: 'Billing Unavailable' }),
+    );
+  });
+
+  it('treats an expo-iap cancellation rejection like the listener payload', () => {
+    const rejection: any = new Error('User cancelled the operation');
+    rejection.code = 'user-cancelled';
+    reportIapError(rejection, { stage: 'request', sku: '499spins' });
+    expect(Sentry.captureException).not.toHaveBeenCalled();
+    expect(Sentry.addBreadcrumb).toHaveBeenCalledTimes(1);
+  });
+
   it('captures a thrown Error as-is, tagged with the stage and without a store fingerprint', () => {
     const thrown = new Error('Email and username are required for 999accounts consumption');
     reportIapError(thrown, { stage: 'recover' });

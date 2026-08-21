@@ -48,9 +48,12 @@ const _stringOrNull = (value: unknown): string | null =>
  * Report a store error to Sentry.
  *
  * - A user cancellation is not an error: it leaves a breadcrumb and nothing else.
- * - A `PurchaseError` object becomes a real `IapError` whose message and
- *   fingerprint carry the store code, so each code is its own Sentry issue.
- * - Anything else (a thrown Error, a string) is captured as-is with the same tags.
+ * - A store error (anything with a string `code`) is fingerprinted by that code,
+ *   so each code is its own Sentry issue. expo-iap rejections are already Error
+ *   instances ("[expo-iap]: PurchaseError" with `code` attached) and are captured
+ *   as-is to keep their stack; the plain object the purchase-error event delivers
+ *   is wrapped in an `IapError` first.
+ * - Anything else (a thrown Error, a string) is captured with the stage tag only.
  */
 export const reportIapError = (error: unknown, context: IapErrorContext): void => {
   const err = error as any;
@@ -67,15 +70,14 @@ export const reportIapError = (error: unknown, context: IapErrorContext): void =
     return;
   }
 
-  const isStoreError = code !== null && !(error instanceof Error);
+  const isStoreError = code !== null;
   let toCapture: unknown = error;
-  if (isStoreError) {
-    const message = _stringOrNull(err?.message) ?? 'store error';
-    const normalized = new Error(`IAP ${code}: ${message}`);
-    normalized.name = 'IapError';
-    toCapture = normalized;
-  } else if (!(error instanceof Error)) {
-    const normalized = new Error(`IAP ${context.stage} failed: ${String(error)}`);
+  if (!(error instanceof Error)) {
+    const normalized = new Error(
+      isStoreError
+        ? `IAP ${code}: ${_stringOrNull(err?.message) ?? 'store error'}`
+        : `IAP ${context.stage} failed: ${String(error)}`,
+    );
     normalized.name = 'IapError';
     toCapture = normalized;
   }
