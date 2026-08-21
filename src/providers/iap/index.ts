@@ -5,8 +5,9 @@ export {
   isBillingUnavailableError,
   isUserCancelledError,
   reportIapError,
+  resetIapErrorDedup,
 } from './errors';
-export type { IapErrorContext, IapStage } from './errors';
+export type { IapErrorContext, IapReport, IapStage } from './errors';
 
 /**
  * Single entry point for store purchases.

@@ -41,6 +41,36 @@ export interface IapErrorContext {
   sku?: string;
 }
 
+// What reportIapError did with the error, so the caller can decide whether the
+// user still needs to hear about it.
+export type IapReport = 'reported' | 'cancelled' | 'duplicate';
+
+// expo-iap can deliver one store failure twice: to purchaseErrorListener and as
+// the requestPurchase rejection (Android always does both, in that order; iOS
+// throws directly and the event depends on the OpenIAP library). Neither arrival
+// is guaranteed, so whichever comes first is reported and a second sighting of
+// the same code and product inside this window is a duplicate.
+const DUPLICATE_WINDOW_MS = 5000;
+const _recent = new Map<string, number>();
+
+const _isDuplicate = (key: string, now: number): boolean => {
+  _recent.forEach((seenAt, seenKey) => {
+    if (now - seenAt > DUPLICATE_WINDOW_MS) {
+      _recent.delete(seenKey);
+    }
+  });
+  if (_recent.has(key)) {
+    return true;
+  }
+  _recent.set(key, now);
+  return false;
+};
+
+// Test hook: clears the duplicate window between cases.
+export const resetIapErrorDedup = (): void => {
+  _recent.clear();
+};
+
 const _stringOrNull = (value: unknown): string | null =>
   typeof value === 'string' && value.length > 0 ? value : null;
 
@@ -54,11 +84,17 @@ const _stringOrNull = (value: unknown): string | null =>
  *   as-is to keep their stack; the plain object the purchase-error event delivers
  *   is wrapped in an `IapError` first.
  * - Anything else (a thrown Error, a string) is captured with the stage tag only.
+ * - A coded error seen again within DUPLICATE_WINDOW_MS for the same product is
+ *   a duplicate delivery and is neither reported nor breadcrumbed again.
  */
-export const reportIapError = (error: unknown, context: IapErrorContext): void => {
+export const reportIapError = (error: unknown, context: IapErrorContext): IapReport => {
   const err = error as any;
   const code = hasStoreCode(err) ? (err.code as string) : null;
   const productId = _stringOrNull(err?.productId) ?? context.sku ?? null;
+
+  if (code !== null && _isDuplicate(`${code}|${productId ?? ''}`, Date.now())) {
+    return 'duplicate';
+  }
 
   if (isUserCancelledError(err)) {
     addBreadcrumb({
@@ -67,7 +103,7 @@ export const reportIapError = (error: unknown, context: IapErrorContext): void =
       message: 'user cancelled purchase',
       data: { stage: context.stage, productId },
     });
-    return;
+    return 'cancelled';
   }
 
   const isStoreError = code !== null;
@@ -106,4 +142,5 @@ export const reportIapError = (error: unknown, context: IapErrorContext): void =
       });
     }
   });
+  return 'reported';
 };

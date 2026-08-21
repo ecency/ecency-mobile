@@ -4,6 +4,7 @@ import {
   isBillingUnavailableError,
   isUserCancelledError,
   reportIapError,
+  resetIapErrorDedup,
 } from './errors';
 
 type ScopeMock = {
@@ -37,6 +38,7 @@ const cancelled = {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  resetIapErrorDedup();
 });
 
 describe('classifiers', () => {
@@ -65,7 +67,7 @@ describe('classifiers', () => {
 
 describe('reportIapError', () => {
   it('turns a user cancellation into a breadcrumb, never an exception', () => {
-    reportIapError(cancelled, { stage: 'purchase' });
+    expect(reportIapError(cancelled, { stage: 'purchase' })).toBe('cancelled');
 
     expect(Sentry.captureException).not.toHaveBeenCalled();
     expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
@@ -83,7 +85,7 @@ describe('reportIapError', () => {
   });
 
   it('captures a store error as an IapError fingerprinted by code', () => {
-    reportIapError(
+    const report = reportIapError(
       {
         code: 'billing-unavailable',
         message: 'Billing API version is not supported',
@@ -95,6 +97,7 @@ describe('reportIapError', () => {
       { stage: 'purchase' },
     );
 
+    expect(report).toBe('reported');
     expect(Sentry.addBreadcrumb).not.toHaveBeenCalled();
     expect(Sentry.captureException).toHaveBeenCalledTimes(1);
     const [captured] = (Sentry.captureException as jest.Mock).mock.calls[0];
@@ -194,5 +197,60 @@ describe('reportIapError', () => {
     const [captured] = (Sentry.captureException as jest.Mock).mock.calls[0];
     expect(captured).toBeInstanceOf(Error);
     expect(captured.message).toBe('IAP init failed: boom');
+  });
+});
+
+describe('reportIapError duplicate delivery', () => {
+  const storeError = {
+    code: 'not-prepared',
+    message: 'Billing client not ready',
+    productId: '499spins',
+  };
+
+  it('reports the first arrival and flags the second within the window, in either order', () => {
+    jest.spyOn(Date, 'now').mockReturnValue(1_000);
+    expect(reportIapError(storeError, { stage: 'purchase' })).toBe('reported');
+    expect(reportIapError(storeError, { stage: 'request', sku: '499spins' })).toBe('duplicate');
+    expect(Sentry.captureException).toHaveBeenCalledTimes(1);
+
+    resetIapErrorDedup();
+    jest.clearAllMocks();
+    expect(reportIapError(storeError, { stage: 'request', sku: '499spins' })).toBe('reported');
+    expect(reportIapError(storeError, { stage: 'purchase' })).toBe('duplicate');
+    expect(Sentry.captureException).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not breadcrumb a cancellation twice', () => {
+    jest.spyOn(Date, 'now').mockReturnValue(1_000);
+    expect(reportIapError(cancelled, { stage: 'purchase' })).toBe('cancelled');
+    expect(reportIapError(cancelled, { stage: 'request', sku: '499spins' })).toBe('duplicate');
+    expect(Sentry.addBreadcrumb).toHaveBeenCalledTimes(1);
+  });
+
+  it('reports again once the window has passed', () => {
+    const now = jest.spyOn(Date, 'now').mockReturnValue(1_000);
+    reportIapError(storeError, { stage: 'purchase' });
+    now.mockReturnValue(7_000);
+    expect(reportIapError(storeError, { stage: 'purchase' })).toBe('reported');
+    expect(Sentry.captureException).toHaveBeenCalledTimes(2);
+  });
+
+  it('keeps different products and codes apart', () => {
+    jest.spyOn(Date, 'now').mockReturnValue(1_000);
+    reportIapError(storeError, { stage: 'purchase' });
+    expect(reportIapError({ ...storeError, productId: '999accounts' }, { stage: 'purchase' })).toBe(
+      'reported',
+    );
+    expect(reportIapError({ ...storeError, code: 'item-unavailable' }, { stage: 'purchase' })).toBe(
+      'reported',
+    );
+    expect(Sentry.captureException).toHaveBeenCalledTimes(3);
+  });
+
+  it('never dedups errors without a store code', () => {
+    jest.spyOn(Date, 'now').mockReturnValue(1_000);
+    const thrown = new Error('Invalid request for Google.');
+    expect(reportIapError(thrown, { stage: 'request', sku: 'a' })).toBe('reported');
+    expect(reportIapError(thrown, { stage: 'request', sku: 'a' })).toBe('reported');
   });
 });

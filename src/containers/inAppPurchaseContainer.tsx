@@ -291,34 +291,45 @@ class InAppPurchaseContainer extends Component<any, any> {
         AsyncStorage.removeItem(PENDING_ACCOUNT_PURCHASE_KEY).catch(() => {});
       }
 
-      const { intl, handleOnPurchaseFailure } = this.props;
-
       // A cancelled billing sheet is a breadcrumb, every other store code is its
       // own Sentry issue (see providers/iap/errors).
-      IAP.reportIapError(error, { stage: 'purchase' });
-      if (IAP.isBillingUnavailableError(error) && Platform.OS === 'android') {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.warning',
-          }),
-          intl.formatMessage({
-            id: 'alert.google_play_version',
-          }),
-        );
-      } else if (!IAP.isUserCancelledError(error)) {
-        console.warn('failed puchase:', error);
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.warning',
-          }),
-          (error as any).message,
-        );
-      }
-      this.setState({ isProcessing: false });
-      if (handleOnPurchaseFailure) {
-        handleOnPurchaseFailure(error);
-      }
+      this._handlePurchaseFailure(error, IAP.reportIapError(error, { stage: 'purchase' }));
     });
+  };
+
+  // Shared by the purchase-error listener and the requestPurchase catch: the same
+  // store failure can arrive through either, or both, and neither path is
+  // guaranteed. Whichever runs first reports it and tells the user; a duplicate
+  // only makes sure the UI is no longer stuck in processing.
+  _handlePurchaseFailure = (error: any, report: IAP.IapReport) => {
+    const { intl, handleOnPurchaseFailure } = this.props;
+
+    this.setState({ isProcessing: false });
+    if (report === 'duplicate') {
+      return;
+    }
+
+    if (IAP.isBillingUnavailableError(error) && Platform.OS === 'android') {
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.warning',
+        }),
+        intl.formatMessage({
+          id: 'alert.google_play_version',
+        }),
+      );
+    } else if (report !== 'cancelled') {
+      console.warn('failed puchase:', error);
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.warning',
+        }),
+        error?.message,
+      );
+    }
+    if (handleOnPurchaseFailure) {
+      handleOnPurchaseFailure(error);
+    }
   };
 
   _getTitle = (title: any) => {
@@ -423,13 +434,11 @@ class InAppPurchaseContainer extends Component<any, any> {
       try {
         await IAP.requestPurchase(sku);
       } catch (err) {
-        // A store failure also reaches purchaseErrorListener, which reports it and
-        // resets the UI. Only an error that never went through the store (request
-        // validation, a programming error) is ours to report here.
-        if (!IAP.hasStoreCode(err)) {
-          this.setState({ isProcessing: false });
-          IAP.reportIapError(err, { stage: 'request', sku });
-        }
+        // Rejections range from request validation (no store code, never reaches
+        // the listener) to coded pre-flight failures such as not-prepared that may
+        // or may not also be emitted as a purchase-error event. Report and handle
+        // every one; reportIapError flags the ones the listener already took.
+        this._handlePurchaseFailure(err, IAP.reportIapError(err, { stage: 'request', sku }));
       }
     } else {
       navigation.navigate({
