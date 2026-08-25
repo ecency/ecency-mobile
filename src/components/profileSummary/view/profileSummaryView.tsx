@@ -24,7 +24,7 @@ import { makeCountFriendly } from '../../../utils/formatter';
 import styles from './profileSummaryStyles';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { SheetNames } from '../../../navigation/sheets';
-import { NewsletterSenderInfo } from '../../newsletterSenderInfo';
+import { NEWSLETTER_SENDER_INFO_HEIGHT, NewsletterSenderInfo } from '../../newsletterSenderInfo';
 
 const DEVICE_WIDTH = getWindowDimensions().width;
 
@@ -33,8 +33,29 @@ class ProfileSummaryView extends PureComponent<any, any> {
     super(props);
     this.state = {
       isShowPercentText: props.isShowPercentText,
+      senderInfoVisible: false,
     };
   }
+
+  // The summary card's moreHeight channel is single-valued, so every consumer
+  // of extra height reports through this ONE combiner: the VP/RC bars toggle
+  // and the subscriber row would otherwise overwrite each other's height and
+  // the card would clip whichever reported first (vision-mobile#3522).
+  _reportMoreHeight = () => {
+    const { handleUIChange } = this.props;
+    const { isShowPercentText, senderInfoVisible } = this.state;
+    if (handleUIChange) {
+      handleUIChange(
+        (isShowPercentText ? 30 : 0) + (senderInfoVisible ? NEWSLETTER_SENDER_INFO_HEIGHT : 0),
+      );
+    }
+  };
+
+  _handleSenderInfoVisibility = (visible: boolean) => {
+    if (this.state.senderInfoVisible !== visible) {
+      this.setState({ senderInfoVisible: visible }, this._reportMoreHeight);
+    }
+  };
 
   _handleOnPressLink = (url: any) => {
     if (url) {
@@ -277,7 +298,7 @@ class ProfileSummaryView extends PureComponent<any, any> {
 
   _renderBars = () => {
     const { isShowPercentText } = this.state;
-    const { handleUIChange, hoursRC, hoursVP, isDarkTheme, percentRC, percentVP } = this.props;
+    const { hoursRC, hoursVP, isDarkTheme, percentRC, percentVP } = this.props;
 
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
@@ -288,9 +309,7 @@ class ProfileSummaryView extends PureComponent<any, any> {
       <TouchableOpacity
         style={styles.barsContainer}
         onPress={() =>
-          this.setState({ isShowPercentText: !isShowPercentText }, () => {
-            handleUIChange(!isShowPercentText ? 30 : 0);
-          })
+          this.setState({ isShowPercentText: !isShowPercentText }, this._reportMoreHeight)
         }
       >
         <PercentBar
@@ -323,7 +342,12 @@ class ProfileSummaryView extends PureComponent<any, any> {
         {this._renderIdentity()}
         {this._renderMetadata()}
         {this._renderFollowerStats()}
-        {!!isOwnProfile && !!username && <NewsletterSenderInfo username={username} />}
+        {!!isOwnProfile && !!username && (
+          <NewsletterSenderInfo
+            username={username}
+            onVisibilityChange={this._handleSenderInfoVisibility}
+          />
+        )}
         {this._renderBars()}
       </Fragment>
     );

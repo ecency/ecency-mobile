@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
@@ -11,8 +11,18 @@ import { useAppDispatch, useAuth } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { IconButton } from '../iconButton';
 
+/**
+ * Fixed row height, exported so ProfileSummaryView can report it through the
+ * summary card's moreHeight channel: the CollapsibleCard measures its content
+ * ONCE, so anything that appears after a query resolves must announce the
+ * space it takes or it gets clipped (vision-mobile#3522).
+ */
+export const NEWSLETTER_SENDER_INFO_HEIGHT = 28;
+
 interface Props {
   username: string;
+  /** Reports whether the row occupies space; stable identity expected. */
+  onVisibilityChange?: (visible: boolean) => void;
 }
 
 /**
@@ -22,7 +32,7 @@ interface Props {
  * view is gated to the list owner server-side, so this mounts only on the
  * own profile and stays silent while the lookup is unresolved or refused.
  */
-const NewsletterSenderInfo = ({ username }: Props) => {
+const NewsletterSenderInfo = ({ username, onVisibilityChange }: Props) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
@@ -33,6 +43,15 @@ const NewsletterSenderInfo = ({ username }: Props) => {
   );
 
   const subscribers = senderQuery.data?.subscribers;
+  const visible = !!subscribers;
+
+  useEffect(() => {
+    onVisibilityChange?.(visible);
+    return () => {
+      onVisibilityChange?.(false);
+    };
+  }, [visible, onVisibilityChange]);
+
   if (!subscribers) {
     return null;
   }
@@ -44,7 +63,7 @@ const NewsletterSenderInfo = ({ username }: Props) => {
 
   return (
     <View style={styles.row}>
-      <Text style={styles.countText}>
+      <Text style={styles.countText} numberOfLines={1}>
         {intl.formatMessage(
           { id: 'newsletter.subscriber_count' },
           { weekly: subscribers.weekly ?? 0, monthly: subscribers.monthly ?? 0 },
@@ -66,13 +85,14 @@ const NewsletterSenderInfo = ({ username }: Props) => {
 
 const styles = EStyleSheet.create({
   row: {
+    height: NEWSLETTER_SENDER_INFO_HEIGHT,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 16,
-    paddingTop: 6,
   },
   countText: {
+    flexShrink: 1,
     fontSize: 13,
     color: '$primaryDarkGray',
   },
