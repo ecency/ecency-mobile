@@ -133,6 +133,9 @@ export default EStyleSheet.create({
     fontSize: 13,
     color: '$primaryDarkText',
   },
+  newsletterButton: {
+    marginLeft: 4,
+  },
   messageButton: {
     borderColor: '$iconColor',
     borderWidth: 1,

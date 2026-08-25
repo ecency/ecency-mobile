@@ -14,6 +14,7 @@ import DARK_COVER_IMAGE from '../../../assets/dark_cover_image.png';
 import { TextWithIcon } from '../../basicUIElements';
 import { PercentBar } from '../../percentBar';
 import { DropdownButton } from '../../dropdownButton';
+import { IconButton } from '../../iconButton';
 import { UserAvatar } from '../../userAvatar';
 import { ProBadge } from '../../proBadge';
 
@@ -39,6 +40,12 @@ class ProfileSummaryView extends PureComponent<any, any> {
     if (url) {
       Linking.openURL(url);
     }
+  };
+
+  _handleNewsletterPress = () => {
+    SheetManager.show(SheetNames.NEWSLETTER_DIGEST, {
+      payload: { type: 'creator', target: this.props.username },
+    });
   };
 
   _handleOnDropdownSelect = (index: any) => {
@@ -71,13 +78,6 @@ class ProfileSummaryView extends PureComponent<any, any> {
         if (handleReportUser) {
           handleReportUser();
         }
-        break;
-      case 4:
-        // Appended LAST on purpose: the dropdown dispatches by index, so a
-        // middle insertion would silently reroute the actions below it.
-        SheetManager.show(SheetNames.NEWSLETTER_DIGEST, {
-          payload: { type: 'creator', target: this.props.username },
-        });
         break;
       default:
         Alert.alert('Action not implemented');
@@ -137,7 +137,6 @@ class ProfileSummaryView extends PureComponent<any, any> {
         intl.formatMessage({ id: 'user.delegate' }),
         intl.formatMessage({ id: !isMuted ? 'user.mute' : 'user.unmute' }),
         intl.formatMessage({ id: 'user.report' }),
-        intl.formatMessage({ id: 'newsletter.profile_option' }),
       ];
     }
 
@@ -167,6 +166,17 @@ class ProfileSummaryView extends PureComponent<any, any> {
                   {intl.formatMessage({ id: 'profile.message' })}
                 </Text>
               </TouchableOpacity>
+
+              <IconButton
+                style={styles.newsletterButton}
+                iconType="MaterialCommunityIcons"
+                name="email-outline"
+                size={26}
+                color={EStyleSheet.value('$primaryBlue')}
+                disabled={isProfileLoading}
+                onPress={this._handleNewsletterPress}
+                accessibilityLabel={intl.formatMessage({ id: 'newsletter.profile_option' })}
+              />
 
               {isProfileLoading ? (
                 <ActivityIndicator
