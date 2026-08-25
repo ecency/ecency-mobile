@@ -28,6 +28,7 @@ import { PostTypes } from '../../../constants/postTypes';
 import { useCheckIn } from '../../../providers/queries/pointQueries';
 import { PostComments } from '../../postComments';
 import { SimilarEntries } from '../../similarEntries';
+import { NewsletterPostPrompt } from '../../newsletterPostPrompt';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import UpvotePopover from '../../upvotePopover';
 import { PostPoll } from '../../postPoll';
@@ -527,6 +528,7 @@ const PostDisplayView = ({
                   />
                 </View>
               )}
+              {!postBodyLoading && <NewsletterPostPrompt post={post} />}
               {!postBodyLoading && <SimilarEntries post={post} />}
             </View>
           )}
