@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
@@ -11,18 +11,8 @@ import { useAppDispatch, useAuth } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { IconButton } from '../iconButton';
 
-/**
- * Fixed row height, exported so ProfileSummaryView can report it through the
- * summary card's moreHeight channel: the CollapsibleCard measures its content
- * ONCE, so anything that appears after a query resolves must announce the
- * space it takes or it gets clipped (vision-mobile#3522).
- */
-export const NEWSLETTER_SENDER_INFO_HEIGHT = 28;
-
 interface Props {
   username: string;
-  /** Reports whether the row occupies space; stable identity expected. */
-  onVisibilityChange?: (visible: boolean) => void;
 }
 
 /**
@@ -32,7 +22,7 @@ interface Props {
  * view is gated to the list owner server-side, so this mounts only on the
  * own profile and stays silent while the lookup is unresolved or refused.
  */
-const NewsletterSenderInfo = ({ username, onVisibilityChange }: Props) => {
+const NewsletterSenderInfo = ({ username }: Props) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
@@ -43,15 +33,6 @@ const NewsletterSenderInfo = ({ username, onVisibilityChange }: Props) => {
   );
 
   const subscribers = senderQuery.data?.subscribers;
-  const visible = !!subscribers;
-
-  useEffect(() => {
-    onVisibilityChange?.(visible);
-    return () => {
-      onVisibilityChange?.(false);
-    };
-  }, [visible, onVisibilityChange]);
-
   if (!subscribers) {
     return null;
   }
@@ -77,19 +58,25 @@ const NewsletterSenderInfo = ({ username, onVisibilityChange }: Props) => {
         onPress={_handleCopyLink}
       />
       <TouchableOpacity onPress={() => navigation.navigate(ROUTES.SCREENS.EMAIL_DIGESTS)}>
-        <Text style={styles.manageText}>{intl.formatMessage({ id: 'newsletter.manage' })}</Text>
+        <Text style={styles.manageText} numberOfLines={1}>
+          {intl.formatMessage({ id: 'newsletter.manage' })}
+        </Text>
       </TouchableOpacity>
     </View>
   );
 };
 
 const styles = EStyleSheet.create({
+  // Natural (unfixed) height ON PURPOSE: the row lives OUTSIDE the summary
+  // card's one-shot height measurement, so it may grow with accessibility
+  // font scaling and its 30pt icon without clipping anything
+  // (vision-mobile#3522).
   row: {
-    height: NEWSLETTER_SENDER_INFO_HEIGHT,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 16,
+    paddingBottom: 4,
   },
   countText: {
     flexShrink: 1,
@@ -100,6 +87,7 @@ const styles = EStyleSheet.create({
     fontSize: 13,
     color: '$primaryBlue',
     marginLeft: 8,
+    maxWidth: 120,
   },
 });
 
