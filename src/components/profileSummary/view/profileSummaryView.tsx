@@ -24,6 +24,7 @@ import { makeCountFriendly } from '../../../utils/formatter';
 import styles from './profileSummaryStyles';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { SheetNames } from '../../../navigation/sheets';
+import { NewsletterSenderInfo } from '../../newsletterSenderInfo';
 
 const DEVICE_WIDTH = getWindowDimensions().width;
 
@@ -314,6 +315,7 @@ class ProfileSummaryView extends PureComponent<any, any> {
   };
 
   render() {
+    const { isOwnProfile, username } = this.props;
     return (
       <Fragment>
         {this._renderCoverImage()}
@@ -321,6 +323,7 @@ class ProfileSummaryView extends PureComponent<any, any> {
         {this._renderIdentity()}
         {this._renderMetadata()}
         {this._renderFollowerStats()}
+        {!!isOwnProfile && !!username && <NewsletterSenderInfo username={username} />}
         {this._renderBars()}
       </Fragment>
     );

@@ -1899,7 +1899,8 @@
     "stop_all_body": "No Ecency mail will be sent to {email} again. Subscriptions under other addresses stay.",
     "stop_all_ok": "Stop all",
     "stop_all_done": "Address unsubscribed from all mail",
-    "profile_option": "Email digest",
+    "profile_option": "EMAIL DIGEST",
+    "subscriber_count": "{weekly} weekly \u2022 {monthly} monthly email subscribers",
     "community_button": "Newsletter"
   },
   "mod_notes": {

@@ -130,6 +130,8 @@ import { CommunityManageSheet } from './communityManageSheet';
 import { CommunityRoleEditSheet } from './communityRoleEditSheet';
 import { SearchFiltersSheet } from './searchFiltersSheet';
 import { NewsletterDigestSheet } from './newsletterDigestSheet';
+import { NewsletterPostPrompt } from './newsletterPostPrompt';
+import { NewsletterSenderInfo } from './newsletterSenderInfo';
 import TransferFavoritesSheet from './transferFavoritesSheet/transferFavoritesSheet';
 
 // Basic UI Elements
@@ -316,5 +318,7 @@ export {
   CommunityRoleEditSheet,
   SearchFiltersSheet,
   NewsletterDigestSheet,
+  NewsletterPostPrompt,
+  NewsletterSenderInfo,
   TransferFavoritesSheet,
 };
