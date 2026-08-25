@@ -20,6 +20,14 @@ describe('pickPostDigestTarget', () => {
     expect(pickPostDigestTarget(rootPost, 'alice')).toBeNull();
   });
 
+  it('treats a non-canonical category as a plain tag, not a community', () => {
+    const oddPost = { ...communityPost, category: 'other-hive-125125' };
+    // The author of such a post gets no community offer; a reader still gets
+    // the creator digest.
+    expect(pickPostDigestTarget(oddPost, 'alice')).toBeNull();
+    expect(pickPostDigestTarget(oddPost, 'bob')).toEqual({ type: 'creator', target: 'alice' });
+  });
+
   it('offers nothing on comments or to anonymous viewers', () => {
     expect(pickPostDigestTarget({ ...rootPost, parent_author: 'x', depth: 1 }, 'bob')).toBeNull();
     expect(pickPostDigestTarget({ ...rootPost, depth: 2, parent_author: 'x' }, 'bob')).toBeNull();

@@ -40,11 +40,19 @@ const NewsletterPostPrompt = ({ post }: Props) => {
     if (!storageKey) {
       return undefined;
     }
-    getItemFromStorage(storageKey).then((flag) => {
-      if (live) {
-        setDismissed(!!flag);
-      }
-    });
+    getItemFromStorage(storageKey)
+      .then((flag) => {
+        if (live) {
+          setDismissed(!!flag);
+        }
+      })
+      // A failing store also cannot have PERSISTED a dismissal, so offering
+      // is the consistent outcome; leaving null would hide the card forever.
+      .catch(() => {
+        if (live) {
+          setDismissed(false);
+        }
+      });
     return () => {
       live = false;
     };
@@ -71,7 +79,9 @@ const NewsletterPostPrompt = ({ post }: Props) => {
   const _handleDismiss = () => {
     setDismissed(true);
     if (storageKey) {
-      setItemToStorage(storageKey, { dismissedAt: new Date().toISOString() });
+      // The in-session state above already hides the card; a lost write only
+      // costs persistence, never an unhandled rejection.
+      setItemToStorage(storageKey, { dismissedAt: new Date().toISOString() }).catch(() => {});
     }
   };
 

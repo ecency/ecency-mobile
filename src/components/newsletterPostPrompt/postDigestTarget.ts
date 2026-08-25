@@ -1,5 +1,9 @@
 import { DigestType } from '@ecency/sdk';
-import { isCommunity } from '../../utils/communityValidation';
+
+// Anchored ON PURPOSE: the shared isCommunity() matches only the suffix, so a
+// category like `other-hive-125125` would pass and target a digest list that
+// does not exist. A digest target must be the canonical community id.
+const COMMUNITY_RE = /^hive-[1-3]\d{4,6}$/;
 
 export interface PostDigestTarget {
   type: DigestType;
@@ -27,7 +31,7 @@ export const pickPostDigestTarget = (
   if (!isRoot) {
     return null;
   }
-  const community = post.category && isCommunity(post.category) ? post.category : null;
+  const community = post.category && COMMUNITY_RE.test(post.category) ? post.category : null;
   if (viewer === post.author) {
     return community ? { type: 'community', target: community } : null;
   }
