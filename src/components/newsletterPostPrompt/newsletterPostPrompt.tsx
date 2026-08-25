@@ -50,9 +50,19 @@ const NewsletterPostPrompt = ({ post }: Props) => {
     };
   }, [storageKey]);
 
-  const { subscription } = useDigestSubscription(target?.type ?? 'creator', target?.target ?? '');
+  const subscriptionQuery = useDigestSubscription(target?.type ?? 'creator', target?.target ?? '');
 
-  if (!target || dismissed !== false || subscription) {
+  // Render only once BOTH answers are in: the storage flag AND a successful
+  // subscriptions lookup. Unresolved data is "don't know", not "not
+  // subscribed" — rendering early would flash the card at existing
+  // subscribers, and on a failed lookup it would offer a sheet that can only
+  // report the service as unavailable.
+  if (
+    !target ||
+    dismissed !== false ||
+    !subscriptionQuery.isSuccess ||
+    subscriptionQuery.subscription
+  ) {
     return null;
   }
 
