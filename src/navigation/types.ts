@@ -170,6 +170,7 @@ export type AppParamList = {
     | { onInsert?: (url: string) => void; suggestedPrompt?: string }
     | undefined;
   [ROUTES.SCREENS.DAPP_BROWSER]: { url?: string } | undefined;
+  [ROUTES.SCREENS.EMAIL_DIGESTS]: undefined;
   [ROUTES.MODALS.ASSETS_SELECT]: undefined;
   [ROUTES.MODALS.ACCOUNT_LIST]: { users?: any[]; title?: string } | undefined;
   [ROUTES.MODALS.POLL_WIZARD]: { draftId?: string } | undefined;

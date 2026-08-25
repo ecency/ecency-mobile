@@ -26,6 +26,7 @@ import * as Sentry from '@sentry/react-native';
 import Config from 'react-native-config';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import { isInsufficientRcError } from '../../../utils/rcError';
+import { maybeOfferFirstPublishDigest } from '../../../utils/firstPublishDigest';
 import { getDigitPinCode, shouldPromptPostingAuthority } from '../../../providers/hive/hive';
 import { decryptKey } from '../../../utils/crypto';
 
@@ -1278,6 +1279,16 @@ class EditorContainer extends Component<any, any> {
               username: get(currentAccount, 'name'),
               key: get(currentAccount, 'name'),
             });
+            // Offer the own-notifications email digest once after the FIRST
+            // publish (post_count is still the pre-publish value here). The
+            // sheet lives in the global SheetProvider, so it survives the
+            // editor unmounting; delayed past the navigation transition.
+            setTimeout(() => {
+              maybeOfferFirstPublishDigest(
+                get(currentAccount, 'name'),
+                get(currentAccount, 'post_count'),
+              );
+            }, 1000);
           };
 
           if (draftId) {

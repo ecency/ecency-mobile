@@ -481,6 +481,19 @@ const SettingsScreen = ({
           {!!isLoggedIn && (
             <SettingsItem
               title={intl.formatMessage({
+                id: 'settings.email_digests',
+              })}
+              text={intl.formatMessage({
+                id: 'settings.backup',
+              })}
+              type="button"
+              actionType={settingsTypes.EMAIL_DIGESTS}
+              handleOnButtonPress={handleOnButtonPress}
+            />
+          )}
+          {!!isLoggedIn && (
+            <SettingsItem
+              title={intl.formatMessage({
                 id: 'settings.backup_private_keys',
               })}
               text={intl.formatMessage({

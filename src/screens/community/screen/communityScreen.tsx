@@ -180,6 +180,24 @@ const CommunityScreen = ({ route }: any) => {
                     isPin
                     onPress={handleNewPostButtonPress}
                   />
+                  {isLoggedIn && (
+                    <Tag
+                      style={styles.subscribeButton}
+                      value={intl.formatMessage({
+                        id: 'newsletter.community_button',
+                      })}
+                      isFilter
+                      onPress={() =>
+                        SheetManager.show(SheetNames.NEWSLETTER_DIGEST, {
+                          payload: {
+                            type: 'community',
+                            target: data.name,
+                            targetLabel: data.title,
+                          },
+                        })
+                      }
+                    />
+                  )}
                 </View>
               </View>
             </CollapsibleCard>

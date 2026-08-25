@@ -31,6 +31,7 @@ import {
   CommunityMembers,
   CommunitySettings,
   CommunityActivities,
+  EmailDigests,
   Communities,
   WebBrowser,
   ReferScreen,
@@ -90,6 +91,7 @@ const MainStackNavigator = () => {
       <MainStack.Screen name={ROUTES.SCREENS.POST} component={Post} />
       <MainStack.Screen name={ROUTES.SCREENS.CHAT_THREAD} component={ChatThread as any} />
       <MainStack.Screen name={ROUTES.SCREENS.DAPP_BROWSER} component={DappBrowser} />
+      <MainStack.Screen name={ROUTES.SCREENS.EMAIL_DIGESTS} component={EmailDigests} />
       <MainStack.Group screenOptions={{ animation: 'slide_from_bottom' }}>
         <MainStack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs as any} />
         <MainStack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters as any} />
