@@ -152,7 +152,7 @@ const CommunityScreen = ({ route }: any) => {
                   })}`}
                 </Text>
                 <View style={styles.separator} />
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', rowGap: 8 }}>
                   {isLoggedIn && (
                     <Tag
                       style={styles.subscribeButton}
