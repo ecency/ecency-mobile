@@ -599,6 +599,10 @@ class SettingsContainer extends Component<any, any> {
         openStoreListing();
         break;
 
+      case settingsTypes.EMAIL_DIGESTS:
+        navigation.navigate(ROUTES.SCREENS.EMAIL_DIGESTS);
+        break;
+
       case settingsTypes.BACKUP_PRIVATE_KEYS:
         if (isPinCodeOpen) {
           navigation.navigate(ROUTES.SCREENS.PINCODE, {

@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, Linking, Alert } from 'react-native';
 import get from 'lodash/get';
+import { SheetManager } from 'react-native-actions-sheet';
 
 // Constants
 import { Image as ExpoImage } from 'expo-image';
@@ -22,6 +23,7 @@ import { makeCountFriendly } from '../../../utils/formatter';
 // Styles
 import styles from './profileSummaryStyles';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
+import { SheetNames } from '../../../navigation/sheets';
 
 const DEVICE_WIDTH = getWindowDimensions().width;
 
@@ -69,6 +71,13 @@ class ProfileSummaryView extends PureComponent<any, any> {
         if (handleReportUser) {
           handleReportUser();
         }
+        break;
+      case 4:
+        // Appended LAST on purpose: the dropdown dispatches by index, so a
+        // middle insertion would silently reroute the actions below it.
+        SheetManager.show(SheetNames.NEWSLETTER_DIGEST, {
+          payload: { type: 'creator', target: this.props.username },
+        });
         break;
       default:
         Alert.alert('Action not implemented');
@@ -128,6 +137,7 @@ class ProfileSummaryView extends PureComponent<any, any> {
         intl.formatMessage({ id: 'user.delegate' }),
         intl.formatMessage({ id: !isMuted ? 'user.mute' : 'user.unmute' }),
         intl.formatMessage({ id: 'user.report' }),
+        intl.formatMessage({ id: 'newsletter.profile_option' }),
       ];
     }
 

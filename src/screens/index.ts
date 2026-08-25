@@ -30,6 +30,7 @@ import { Community } from './community';
 import { CommunityMembers } from './communityMembers';
 import { CommunitySettings } from './communitySettings';
 import { CommunityActivities } from './communityActivities';
+import { EmailDigests } from './emailDigests';
 import Communities from './communities';
 import ReferScreen from './referScreen/referScreen';
 import AssetDetails from './assetDetails';
@@ -78,6 +79,7 @@ export {
   CommunityMembers,
   CommunitySettings,
   CommunityActivities,
+  EmailDigests,
   Communities,
   WebBrowser,
   ReferScreen,

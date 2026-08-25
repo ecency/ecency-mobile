@@ -74,3 +74,10 @@ export { useWitnessProxyMutation } from './useWitnessProxyMutation';
 // Market
 export { useLimitOrderCreateMutation } from './useLimitOrderCreateMutation';
 export { useLimitOrderCancelMutation } from './useLimitOrderCancelMutation';
+
+// Newsletter (email digests)
+export {
+  useSubscribeDigestMutation,
+  useLeaveDigestMutation,
+  useUnsubscribeAllDigestsMutation,
+} from './useNewsletterDigestMutations';

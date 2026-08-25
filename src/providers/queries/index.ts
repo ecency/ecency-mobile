@@ -140,3 +140,4 @@ export * from './proQueries';
 export * from './statsQueries';
 export * from './searchQueries';
 export * from './communityQueries';
+export * from './newsletterQueries';

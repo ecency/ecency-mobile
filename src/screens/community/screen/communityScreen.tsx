@@ -152,7 +152,7 @@ const CommunityScreen = ({ route }: any) => {
                   })}`}
                 </Text>
                 <View style={styles.separator} />
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', rowGap: 8 }}>
                   {isLoggedIn && (
                     <Tag
                       style={styles.subscribeButton}
@@ -180,6 +180,24 @@ const CommunityScreen = ({ route }: any) => {
                     isPin
                     onPress={handleNewPostButtonPress}
                   />
+                  {isLoggedIn && (
+                    <Tag
+                      style={styles.subscribeButton}
+                      value={intl.formatMessage({
+                        id: 'newsletter.community_button',
+                      })}
+                      isFilter
+                      onPress={() =>
+                        SheetManager.show(SheetNames.NEWSLETTER_DIGEST, {
+                          payload: {
+                            type: 'community',
+                            target: data.name,
+                            targetLabel: data.title,
+                          },
+                        })
+                      }
+                    />
+                  )}
                 </View>
               </View>
             </CollapsibleCard>

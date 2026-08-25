@@ -1,5 +1,5 @@
 import { registerSheet, SheetDefinition, type Sheets } from 'react-native-actions-sheet';
-import type { Operation } from '@ecency/sdk';
+import type { DigestType, Operation } from '@ecency/sdk';
 import {
   ActionModal,
   PostTranslationModal,
@@ -19,11 +19,13 @@ import {
   ComposeTranslateModal,
   TransferFavoritesSheet,
   ModNotesSheet,
+  NewsletterDigestSheet,
   CommunityManageSheet,
   CommunityRoleEditSheet,
   SearchFiltersSheet,
 } from '../components';
 import type { ModNotesResult } from '../components/modNotesSheet/modNotesSheet';
+import type { NewsletterDigestResult } from '../components/newsletterDigestSheet/newsletterDigestSheet';
 import type { CommunityManageAction } from '../components/communityManageSheet/communityManageSheet';
 import type { CommunityRoleEditResult } from '../components/communityRoleEditSheet/communityRoleEditSheet';
 import type { SearchFilters } from '../components/searchFiltersSheet';
@@ -65,6 +67,7 @@ export enum SheetNames {
   COMMUNITY_ROLE_EDIT = 'community_role_edit',
   SEARCH_FILTERS = 'search_filters',
   WALLET_HISTORY_FILTERS = 'wallet_history_filters',
+  NEWSLETTER_DIGEST = 'newsletter_digest',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -95,6 +98,7 @@ registerSheet(SheetNames.COMMUNITY_MANAGE, CommunityManageSheet);
 registerSheet(SheetNames.COMMUNITY_ROLE_EDIT, CommunityRoleEditSheet);
 registerSheet(SheetNames.SEARCH_FILTERS, SearchFiltersSheet);
 registerSheet(SheetNames.WALLET_HISTORY_FILTERS, WalletHistoryFiltersSheet);
+registerSheet(SheetNames.NEWSLETTER_DIGEST, NewsletterDigestSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -323,6 +327,22 @@ declare module 'react-native-actions-sheet' {
       // as search_filters: a backdrop, swipe or back resolves the payload object, so gate
       // on `operations` being an array rather than on truthiness.
       returnValue: { operations?: string[]; cancelled?: boolean } | undefined;
+    }>;
+    newsletter_digest: SheetDefinition<{
+      payload: {
+        // Which list: 'own' (target = own username), 'creator' (target = author),
+        // 'community' (target = hive-xxxxx), 'site' (target = 'ecency').
+        type: DigestType;
+        target: string;
+        // Display name for community lists (the community title).
+        targetLabel?: string;
+        // First-publish flavor: prompt copy instead of the generic title/body.
+        firstPublish?: boolean;
+      };
+      // `{ done: true }` after a completed action, `{ cancelled: true }` on cancel.
+      // A backdrop/swipe/back dismissal resolves the payload object; gate on the
+      // field, never on truthiness.
+      returnValue: NewsletterDigestResult | undefined;
     }>;
   }
 }
