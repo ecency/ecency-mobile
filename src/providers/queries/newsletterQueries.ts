@@ -1,12 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import {
-  DigestSubscription,
-  DigestType,
-  getDigestSubscriptionsQueryOptions,
-  useLeaveDigest,
-  useSubscribeDigest,
-  useUnsubscribeAllDigests,
-} from '@ecency/sdk';
+import { DigestSubscription, DigestType, getDigestSubscriptionsQueryOptions } from '@ecency/sdk';
 import { useAuth } from '../../hooks';
 
 /**
@@ -47,19 +40,4 @@ export const useDigestSubscriptionsQuery = () => {
 export const useDigestSubscription = (type: DigestType, target: string) => {
   const query = useDigestSubscriptionsQuery();
   return { ...query, subscription: findDigestSubscription(query.data, type, target) };
-};
-
-export const useSubscribeDigestMutation = () => {
-  const { username, code } = useAuth();
-  return useSubscribeDigest(username, code);
-};
-
-export const useLeaveDigestMutation = () => {
-  const { username, code } = useAuth();
-  return useLeaveDigest(username, code);
-};
-
-export const useUnsubscribeAllDigestsMutation = () => {
-  const { username, code } = useAuth();
-  return useUnsubscribeAllDigests(username, code);
 };

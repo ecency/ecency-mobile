@@ -10,11 +10,8 @@ import { BasicHeader } from '../../../components';
 import { SheetNames } from '../../../navigation/sheets';
 import { useAppDispatch, useAuth } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
-import {
-  findDigestSubscription,
-  useDigestSubscriptionsQuery,
-  useUnsubscribeAllDigestsMutation,
-} from '../../../providers/queries';
+import { findDigestSubscription, useDigestSubscriptionsQuery } from '../../../providers/queries';
+import { useUnsubscribeAllDigestsMutation } from '../../../providers/sdk';
 
 /**
  * Every email digest subscription of the signed-in account, across all its

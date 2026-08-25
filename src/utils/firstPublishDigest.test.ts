@@ -8,11 +8,15 @@ jest.mock('../storage/storage', () => ({
   getItemFromStorage: jest.fn(),
   setItemToStorage: jest.fn(),
 }));
+jest.mock('../redux/store/store', () => ({ store: { getState: jest.fn(() => ({})) } }));
+jest.mock('../redux/selectors', () => ({ selectCurrentAccount: jest.fn() }));
 
 // eslint-disable-next-line import/first
 import { SheetManager } from 'react-native-actions-sheet';
 // eslint-disable-next-line import/first
 import { getItemFromStorage, setItemToStorage } from '../storage/storage';
+// eslint-disable-next-line import/first
+import { selectCurrentAccount } from '../redux/selectors';
 // eslint-disable-next-line import/first
 import {
   firstPublishDigestKey,
@@ -37,6 +41,7 @@ describe('maybeOfferFirstPublishDigest', () => {
     jest.clearAllMocks();
     (getItemFromStorage as jest.Mock).mockResolvedValue(null);
     (setItemToStorage as jest.Mock).mockResolvedValue(true);
+    (selectCurrentAccount as unknown as jest.Mock).mockReturnValue({ name: 'newbie' });
   });
 
   it('writes the per-username flag BEFORE showing the sheet', async () => {
@@ -63,6 +68,14 @@ describe('maybeOfferFirstPublishDigest', () => {
     await maybeOfferFirstPublishDigest('newbie', 5);
     await maybeOfferFirstPublishDigest(undefined, 0);
     expect(SheetManager.show).not.toHaveBeenCalled();
+    expect(setItemToStorage).not.toHaveBeenCalled();
+  });
+
+  it('skips silently, without burning the flag, when the account changed during the delay', async () => {
+    (selectCurrentAccount as unknown as jest.Mock).mockReturnValue({ name: 'someone-else' });
+    await maybeOfferFirstPublishDigest('newbie', 0);
+    expect(SheetManager.show).not.toHaveBeenCalled();
+    // Not written: the offer stays available for a later genuine first publish.
     expect(setItemToStorage).not.toHaveBeenCalled();
   });
 

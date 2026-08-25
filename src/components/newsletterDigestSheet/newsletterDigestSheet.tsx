@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -12,9 +12,8 @@ import {
   findDigestSubscription,
   knownDigestAddress,
   useDigestSubscriptionsQuery,
-  useLeaveDigestMutation,
-  useSubscribeDigestMutation,
 } from '../../providers/queries';
+import { useLeaveDigestMutation, useSubscribeDigestMutation } from '../../providers/sdk';
 
 const FALLBACK_SHEET_ID = 'newsletter_digest';
 
@@ -159,6 +158,39 @@ const NewsletterDigestSheet: React.FC<SheetProps<'newsletter_digest'>> = ({ shee
     </View>
   );
 
+  const _renderBody = () => {
+    if (checkInboxEmail) {
+      return _renderCheckInbox();
+    }
+    // The form must not render before the subscriptions lookup resolves:
+    // `undefined` data means "don't know yet", not "no address on file", and
+    // showing the email input early would let a second address be submitted
+    // for an account whose address just hadn't loaded.
+    if (subscriptionsQuery.isLoading) {
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator style={styles.loader} color={EStyleSheet.value('$primaryBlue')} />
+        </View>
+      );
+    }
+    if (subscriptionsQuery.isError) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.description}>
+            {intl.formatMessage({ id: 'newsletter.unavailable' })}
+          </Text>
+          <MainButton
+            onPress={() => _close({ cancelled: true })}
+            text={intl.formatMessage({ id: 'newsletter.cancel' })}
+            style={styles.cancelButton}
+            textStyle={styles.cancelButtonText}
+          />
+        </View>
+      );
+    }
+    return _renderForm();
+  };
+
   const isPendingConfirmation = subscription?.status === 'pending_confirmation';
   const isActive = subscription?.status === 'active';
   const cadenceUnchanged = isActive && effectiveCadence === subscription?.cadence;
@@ -261,7 +293,7 @@ const NewsletterDigestSheet: React.FC<SheetProps<'newsletter_digest'>> = ({ shee
       onBeforeShow={_reset}
       containerStyle={styles.sheetContainer}
     >
-      {checkInboxEmail ? _renderCheckInbox() : _renderForm()}
+      {_renderBody()}
     </ActionSheet>
   );
 };
@@ -289,6 +321,9 @@ const styles = EStyleSheet.create({
     textAlign: 'center',
     marginBottom: 16,
     lineHeight: 22,
+  },
+  loader: {
+    marginVertical: 24,
   },
   status: {
     fontSize: 13,

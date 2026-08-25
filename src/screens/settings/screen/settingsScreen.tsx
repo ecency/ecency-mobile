@@ -484,7 +484,7 @@ const SettingsScreen = ({
                 id: 'settings.email_digests',
               })}
               text={intl.formatMessage({
-                id: 'settings.backup',
+                id: 'newsletter.manage',
               })}
               type="button"
               actionType={settingsTypes.EMAIL_DIGESTS}

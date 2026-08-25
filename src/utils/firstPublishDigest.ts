@@ -1,6 +1,8 @@
 import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../navigation/sheets';
 import { getItemFromStorage, setItemToStorage } from '../storage/storage';
+import { store } from '../redux/store/store';
+import { selectCurrentAccount } from '../redux/selectors';
 
 /**
  * One-time own-digest offer after the account's FIRST root publish
@@ -33,6 +35,13 @@ export const maybeOfferFirstPublishDigest = async (
     return;
   }
   try {
+    // The offer fires on a delay after publish; an account switch or logout in
+    // that window must not open the sheet for the previous username. Checked at
+    // fire time against the live store, and skipped WITHOUT writing the flag.
+    const activeName = selectCurrentAccount(store.getState())?.name;
+    if (activeName !== username) {
+      return;
+    }
     const flag = await getItemFromStorage(firstPublishDigestKey(username));
     if (!shouldOfferFirstPublishDigest(postCount, !!flag)) {
       return;
