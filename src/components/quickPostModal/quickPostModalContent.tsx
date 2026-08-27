@@ -42,6 +42,7 @@ import {
   UserAvatar,
 } from '..';
 import { delay } from '../../utils/editor';
+import { appendDictatedText } from '../../utils/dictationInsert';
 import { hasClipboardImage as detectClipboardImage } from '../../utils/clipboard';
 import { deleteReplyCacheEntry, updateReplyCache } from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
@@ -513,7 +514,7 @@ export const QuickPostModalContent = forwardRef(
       RootNavigation.navigate({
         name: ROUTES.SCREENS.AI_IMAGE_GENERATOR,
         params: {
-          suggestedPrompt: commentValue?.trim() || undefined,
+          suggestedPrompt: commentValueRef.current?.trim() || undefined,
           onInsert: (url: string) => {
             _handleMediaInsert([
               {
@@ -533,11 +534,55 @@ export const QuickPostModalContent = forwardRef(
       [_addQuickCommentIntoCache],
     );
 
+    // Dictation appends: see appendDictatedText for why the end of the body is the only position
+    // that is always right here. Reads commentValueRef rather than the commentValue state, since
+    // the sheet stays open and fires once per recorded segment, so a captured state value would
+    // be stale from the second segment on.
+    const _handleDictationResult = useCallback(
+      (text: string) => {
+        const body = commentValueRef.current || '';
+        const next = appendDictatedText(body, text);
+        if (next === body) {
+          return;
+        }
+
+        // Same order as the AI assist onApply: cancel first, or the pending 500ms callback fires
+        // with the pre-dictation body and overwrites the draft cache.
+        _deboucedCacheUpdate.cancel();
+        commentValueRef.current = next;
+        setCommentValue(next);
+        inputRef.current?.setNativeProps({ text: next });
+        _addQuickCommentIntoCache(next);
+      },
+      [_deboucedCacheUpdate, _addQuickCommentIntoCache],
+    );
+
+    // The sheet freezes its payload at show time but stays open across segments, so route through
+    // a ref that always points at the current handler. Otherwise an upload finishing mid-session
+    // would leave the frozen closure holding stale mediaUrls and its cache write would drop them.
+    const _dictationResultRef = useRef(_handleDictationResult);
+    useEffect(() => {
+      _dictationResultRef.current = _handleDictationResult;
+    }, [_handleDictationResult]);
+
+    const _handleDictationBtn = () => {
+      // Dismissed for room, not for focus: the recorder needs the vertical space, and nothing is
+      // typed while speaking. The sheet library dismisses the keyboard on hide regardless.
+      Keyboard.dismiss();
+      SheetManager.show(SheetNames.DICTATION, {
+        payload: {
+          onInsert: (text: string) => _dictationResultRef.current(text),
+        },
+      });
+    };
+
     const _handleAiAssistBtn = () => {
       SheetManager.show(SheetNames.AI_ASSIST, {
         payload: {
           text: commentValueRef.current,
           supportedActions: ['improve', 'check_grammar', 'summarize'],
+          // AI image generation lives in this sheet now rather than its own toolbar icon.
+          onGenerateImage: _handleAiImageBtn,
           onApply: (output: string, _action: string) => {
             // Cancel any pending debounced cache update to prevent stale overwrite
             _deboucedCacheUpdate.cancel();
@@ -712,6 +757,10 @@ export const QuickPostModalContent = forwardRef(
       );
     };
 
+    // Content buttons first, then the AI pair, then expand: expand leaves this composer for the
+    // full editor, so it belongs at the end rather than interrupting the compose actions. The row
+    // is a fixed-width non-wrapping flex row, which is why AI image generation moved into the AI
+    // assist sheet to make room for dictation rather than taking a sixth slot.
     const _renderExpandBtn = () => {
       return (
         <View style={styles.toolbarContainer}>
@@ -723,15 +772,6 @@ export const QuickPostModalContent = forwardRef(
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
           />
-          {mode !== 'wave' && canCommentToCommunity && (
-            <IconButton
-              iconType="MaterialCommunityIcons"
-              name="arrow-expand"
-              onPress={_handleExpandBtn}
-              size={24}
-              color={EStyleSheet.value('$primaryBlack')}
-            />
-          )}
           {mode === 'wave' && (
             <>
               <IconButton
@@ -753,16 +793,6 @@ export const QuickPostModalContent = forwardRef(
             </>
           )}
           <IconButton
-            iconType="MaterialsIcons"
-            name="image-outline"
-            onPress={_handleAiImageBtn}
-            size={24}
-            color={EStyleSheet.value('$primaryBlack')}
-            badgeCount="AI"
-            badgeStyle={styles.aiBadge}
-            badgeTextStyle={styles.aiBadgeText}
-          />
-          <IconButton
             iconType="MaterialCommunityIcons"
             name="creation"
             onPress={_handleAiAssistBtn}
@@ -772,6 +802,25 @@ export const QuickPostModalContent = forwardRef(
             badgeStyle={styles.aiBadge}
             badgeTextStyle={styles.aiBadgeText}
           />
+          <IconButton
+            iconType="MaterialCommunityIcons"
+            name="microphone-outline"
+            onPress={_handleDictationBtn}
+            size={22}
+            color={EStyleSheet.value('$primaryBlack')}
+            badgeCount="AI"
+            badgeStyle={styles.aiBadge}
+            badgeTextStyle={styles.aiBadgeText}
+          />
+          {mode !== 'wave' && canCommentToCommunity && (
+            <IconButton
+              iconType="MaterialCommunityIcons"
+              name="arrow-expand"
+              onPress={_handleExpandBtn}
+              size={24}
+              color={EStyleSheet.value('$primaryBlack')}
+            />
+          )}
         </View>
       );
     };

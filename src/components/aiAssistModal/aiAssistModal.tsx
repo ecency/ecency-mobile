@@ -11,10 +11,16 @@ import {
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import { useIntl } from 'react-intl';
 import { useQuery } from '@tanstack/react-query';
-import { getPointsQueryOptions, getAiAssistPriceQueryOptions, useAiAssist } from '@ecency/sdk';
+import {
+  getPointsQueryOptions,
+  getAiAssistPriceQueryOptions,
+  getAiGeneratePriceQueryOptions,
+  useAiAssist,
+} from '@ecency/sdk';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { useAuth } from '../../hooks';
 import { SheetNames } from '../../navigation/sheets';
+import { Icon } from '../icon';
 import styles from './aiAssistModal.styles';
 
 const ACTIONS = [
@@ -27,6 +33,9 @@ const ACTIONS = [
 type AiAssistAction = (typeof ACTIONS)[number];
 
 const MAX_INPUT = 10000;
+
+// The generator screen opens on 4:3 at 1x power, so that row is the honest "from" figure.
+const IMAGE_PRICE_RATIO = '4:3';
 
 const getMinInput = (action: AiAssistAction | null) => {
   if (!action) return 50;
@@ -75,6 +84,14 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
     enabled: !!code,
   });
 
+  // Image generation is a different, metered endpoint: priced per aspect ratio with no free
+  // tier, so it cannot come out of the assist price list. Only fetched when a caller actually
+  // offers the entry point, so surfaces without it make no extra request.
+  const imagePricesQuery = useQuery({
+    ...getAiGeneratePriceQueryOptions(code || ''),
+    enabled: !!code && !!payload?.onGenerateImage,
+  });
+
   // AI assist mutation via SDK
   const assistMutation = useAiAssist(username, code);
 
@@ -91,6 +108,17 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
     if (!pointsQuery.data?.points) return 0;
     return parseFloat(String(pointsQuery.data.points).replace(/,/g, ''));
   }, [pointsQuery.data]);
+
+  // A starting price only: the real charge is base cost x power multiplier, and the multiplier is
+  // picked on the generator screen. No fallback constant here, or the screen's own default would
+  // gain a second, silently diverging source of truth.
+  const imageFromCost = useMemo(() => {
+    const prices = imagePricesQuery.data?.prices;
+    if (!prices?.length) {
+      return null;
+    }
+    return prices.find((p) => p.aspect_ratio === IMAGE_PRICE_RATIO)?.cost ?? prices[0].cost;
+  }, [imagePricesQuery.data]);
 
   const isInsufficientBalance = useMemo(() => {
     if (isFree) return false;
@@ -235,6 +263,18 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
     setSelectedAction(null);
   }, []);
 
+  const _handleGenerateImage = useCallback(async () => {
+    const _onGenerateImage = payload?.onGenerateImage;
+    if (!_onGenerateImage) {
+      return;
+    }
+    // Sheets render inside a modal, so this one has to be gone before the caller navigates or
+    // the pushed screen comes up behind it. The caller closes its OWN host surface, which is
+    // what flushes a composer draft; doing it from here would skip that.
+    await SheetManager.hide(SheetNames.AI_ASSIST);
+    await _onGenerateImage();
+  }, [payload]);
+
   const _renderActionCard = (action: AiAssistAction) => {
     const isSelected = selectedAction === action;
     const price = pricesQuery.data?.find((p) => p.action === action);
@@ -268,6 +308,39 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
       </TouchableOpacity>
     );
   };
+
+  // Deliberately NOT a member of ACTIONS: image generation is priced differently and navigates
+  // away instead of returning text to apply, so folding it into the union would drag it through
+  // selectedAction / minInput / canSubmit and post an action the assist endpoint does not know.
+  const _renderGenerateImageCard = () => (
+    <TouchableOpacity style={styles.actionCard} onPress={_handleGenerateImage} activeOpacity={0.7}>
+      <View style={styles.actionCardContent}>
+        <Text style={styles.actionName}>
+          {intl.formatMessage({ id: 'ai_assist.action_generate_image' })}
+        </Text>
+        <Text style={styles.actionDesc}>
+          {intl.formatMessage({ id: 'ai_assist.action_generate_image_desc' })}
+        </Text>
+      </View>
+      <View style={styles.costRow}>
+        {imageFromCost !== null && (
+          <Text style={styles.actionCost}>
+            {intl.formatMessage(
+              { id: 'ai_assist.cost_from' },
+              { cost: imageFromCost, unit: intl.formatMessage({ id: 'ai_assist.points_unit' }) },
+            )}
+          </Text>
+        )}
+        {/* The other cards select in place; this one leaves the sheet, so it says so. */}
+        <Icon
+          iconType="MaterialCommunityIcons"
+          name="chevron-right"
+          size={20}
+          style={styles.actionCardChevron}
+        />
+      </View>
+    </TouchableOpacity>
+  );
 
   const _renderResultView = () => {
     if (!result) return null;
@@ -399,6 +472,9 @@ export const AiAssistModal = ({ payload }: SheetProps<SheetNames.AI_ASSIST>) => 
       ) : (
         availableActions.map((action) => _renderActionCard(action))
       )}
+      {/* Outside the assist-price gate on purpose: this card prices itself, so it stays
+          reachable while the assist prices are slow or failing. */}
+      {!!payload?.onGenerateImage && _renderGenerateImageCard()}
 
       {/* Text input */}
       {selectedAction && (

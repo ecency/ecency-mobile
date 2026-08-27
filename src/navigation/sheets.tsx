@@ -221,6 +221,10 @@ declare module 'react-native-actions-sheet' {
         text: string;
         onApply?: (output: string, action: string) => void;
         supportedActions?: string[];
+        // Optional "leave the sheet and generate an image" entry. Only callers that can host
+        // the generator screen pass it, and the sheet renders the card only when they do, so
+        // surfaces without a place to put the result are unaffected.
+        onGenerateImage?: () => void | Promise<void>;
       };
     }>;
     dictation: SheetDefinition<{
