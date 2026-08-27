@@ -762,6 +762,22 @@ export const QuickPostModalContent = forwardRef(
     // is a fixed-width non-wrapping flex row, which is why AI image generation moved into the AI
     // assist sheet to make room for dictation rather than taking a sixth slot.
     const _renderExpandBtn = () => {
+      // Dictation sits with the other ways of getting content in, which puts it next to the
+      // video button in a wave and next to the image button in a reply. Same element either
+      // way, so the two placements cannot drift apart.
+      const _dictationBtn = (
+        <IconButton
+          iconType="MaterialCommunityIcons"
+          name="microphone-outline"
+          onPress={_handleDictationBtn}
+          size={22}
+          color={EStyleSheet.value('$primaryBlack')}
+          badgeCount="AI"
+          badgeStyle={styles.aiBadge}
+          badgeTextStyle={styles.aiBadgeText}
+        />
+      );
+
       return (
         <View style={styles.toolbarContainer}>
           <IconButton
@@ -772,7 +788,7 @@ export const QuickPostModalContent = forwardRef(
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
           />
-          {mode === 'wave' && (
+          {mode === 'wave' ? (
             <>
               <IconButton
                 iconType="MaterialCommunityIcons"
@@ -782,6 +798,7 @@ export const QuickPostModalContent = forwardRef(
                 color={EStyleSheet.value(videoEmbedUrl ? '$primaryBlue' : '$primaryBlack')}
                 disabled={!!videoEmbedUrl || isVideoUploading}
               />
+              {_dictationBtn}
               <IconButton
                 iconType="SimpleLineIcons"
                 style={!!pollDraft && styles.iconBottomBar}
@@ -791,22 +808,14 @@ export const QuickPostModalContent = forwardRef(
                 color={EStyleSheet.value('$primaryBlack')}
               />
             </>
+          ) : (
+            _dictationBtn
           )}
           <IconButton
             iconType="MaterialCommunityIcons"
             name="creation"
             onPress={_handleAiAssistBtn}
             size={24}
-            color={EStyleSheet.value('$primaryBlack')}
-            badgeCount="AI"
-            badgeStyle={styles.aiBadge}
-            badgeTextStyle={styles.aiBadgeText}
-          />
-          <IconButton
-            iconType="MaterialCommunityIcons"
-            name="microphone-outline"
-            onPress={_handleDictationBtn}
-            size={22}
             color={EStyleSheet.value('$primaryBlack')}
             badgeCount="AI"
             badgeStyle={styles.aiBadge}
