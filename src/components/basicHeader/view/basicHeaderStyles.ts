@@ -10,7 +10,9 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     alignItems: 'center',
   },
-  safeArea: {
+  // Background only, no inset. The top safe-area inset is the screen's job: every
+  // screen rendering BasicHeader wraps it in its own SafeAreaView.
+  headerBackground: {
     backgroundColor: '$primaryBackgroundColor',
     paddingHorizontal: 0,
   },

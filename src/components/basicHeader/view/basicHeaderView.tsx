@@ -111,7 +111,7 @@ const BasicHeaderView = ({
    */
 
   return (
-    <View style={styles.safeArea}>
+    <View style={styles.headerBackground}>
       <View style={styles.container}>
         <View style={styles.backWrapper}>
           <IconButton
