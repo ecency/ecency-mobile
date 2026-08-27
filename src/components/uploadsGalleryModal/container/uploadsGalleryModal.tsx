@@ -22,33 +22,18 @@ import { SheetNames } from '../../../navigation/sheets';
 import { selectIsLoggedIn } from '../../../redux/selectors';
 import { isSignImageUnavailable } from '../../../constants/imageUpload';
 
+import { MediaInsertData, MediaInsertStatus, Modes } from '../types';
+
+export { MediaInsertStatus, Modes } from '../types';
+export type { MediaInsertData } from '../types';
+
 export interface UploadsGalleryModalRef {
   showModal: () => void;
-}
-
-export enum Modes {
-  MODE_IMAGE = 0,
-  MODE_VIDEO = 1,
 }
 
 const MAX_IMAGE_UPLOAD_SIZE = 30000000; // 30MB server limit
 const MAX_IMAGE_DIMENSION = 1920;
 const COMPRESS_QUALITY = 0.85;
-
-export enum MediaInsertStatus {
-  UPLOADING = 'UPLOADING',
-  READY = 'READY',
-  FAILED = 'FAILED',
-}
-
-export interface MediaInsertData {
-  url: string;
-  filename?: string;
-  text: string;
-  status: MediaInsertStatus;
-  // absent for image inserts and failed uploads; only video inserts carry it
-  mode?: Modes;
-}
 
 interface UploadsGalleryModalProps {
   postBody: string;
@@ -90,6 +75,10 @@ export const UploadsGalleryModal = forwardRef(
     const pendingInserts = useRef<MediaInsertData[]>([]);
     const isEditingRef = useRef(isEditing);
     isEditingRef.current = isEditing;
+    // Latest insert callback for code that outlives renders (upload continuations,
+    // the deferred flush timer, the unmount flush below).
+    const handleMediaInsertRef = useRef(handleMediaInsert);
+    handleMediaInsertRef.current = handleMediaInsert;
     const speakUploaderRef = useRef<any>(null);
 
     const [showModal, setShowModal] = useState(false);
@@ -185,10 +174,38 @@ export const UploadsGalleryModal = forwardRef(
 
     useEffect(() => {
       if (!isEditing && pendingInserts.current.length) {
-        handleMediaInsert(pendingInserts.current);
-        pendingInserts.current = [];
+        // isEditing goes false exactly 500ms after the last keystroke — a natural
+        // typing-pause cadence — and the insert rewrites the whole native text from
+        // the JS-side refs. Let queued native keystroke events drain briefly before
+        // committing, and re-defer if typing resumed in the meantime (the next
+        // isEditing flip re-runs this effect, so nothing is lost).
+        const timer = setTimeout(() => {
+          if (!isEditingRef.current && pendingInserts.current.length) {
+            handleMediaInsertRef.current(pendingInserts.current);
+            pendingInserts.current = [];
+          }
+        }, 100);
+        return () => clearTimeout(timer);
       }
+      return undefined;
     }, [isEditing]);
+
+    useEffect(
+      () => () => {
+        // Deferred results must not die with this component: flush them so resolved
+        // URLs still replace their placeholders in the editor refs and reach the
+        // draft autosave (both stay live in closures past unmount). Then let any
+        // upload still in flight insert directly on completion — with the component
+        // gone there is no later isEditing flip to flush a deferral, so parking it
+        // would orphan the placeholder in the saved draft.
+        if (pendingInserts.current.length) {
+          handleMediaInsertRef.current(pendingInserts.current);
+          pendingInserts.current = [];
+        }
+        isEditingRef.current = false;
+      },
+      [],
+    );
 
     useEffect(() => {
       _getMediaUploads(mode); // get media uploads when there is new update
@@ -271,6 +288,15 @@ export const UploadsGalleryModal = forwardRef(
       try {
         if (!media || media.length == 0) {
           throw new Error('New media items returned');
+        }
+
+        // Gate before any placeholder is written: a logged-out upload can never
+        // resolve, so it must never put an "Uploading..." placeholder in the body.
+        // Reachable logged-out via the share-files intent (other entry points
+        // already gate in toggleModal/pasteImageFromClipboard).
+        if (!isLoggedIn) {
+          showLoginAlert({ intl });
+          return;
         }
 
         // filter out oversized images (server limit is 30MB)
@@ -356,7 +382,10 @@ export const UploadsGalleryModal = forwardRef(
             }
           });
           if (uploadingInserts.length > 0) {
-            handleMediaInsert(uploadingInserts);
+            // Through the deferral gate like every other programmatic insert, so a
+            // body being typed into or restored is never overwritten mid-flight
+            // (matters for the share-intent path, which fires on a timer at mount).
+            _handleMediaInsertion(uploadingInserts);
           }
         }
 
@@ -460,7 +489,22 @@ export const UploadsGalleryModal = forwardRef(
     };
 
     const _uploadImage = async (media: any, { shouldInsert } = { shouldInsert: false }) => {
-      if (!isLoggedIn) return;
+      if (!isLoggedIn) {
+        // Defensive: callers gate on login before inserting placeholders, but if a
+        // placeholder was written it must not be left stuck — silently returning
+        // here would leave it with neither READY nor FAILED forever.
+        if (shouldInsert) {
+          _handleMediaInsertion([
+            {
+              filename: media.filename,
+              url: '',
+              text: '',
+              status: MediaInsertStatus.FAILED,
+            },
+          ]);
+        }
+        return undefined;
+      }
       try {
         const data = await mediaUploadMutation.mutateAsync({
           media,
@@ -559,8 +603,8 @@ export const UploadsGalleryModal = forwardRef(
     const _handleMediaInsertion = (data: MediaInsertData[]) => {
       if (isEditingRef.current) {
         pendingInserts.current.push(...data);
-      } else if (handleMediaInsert) {
-        handleMediaInsert(data);
+      } else if (handleMediaInsertRef.current) {
+        handleMediaInsertRef.current(data);
       }
     };
 
@@ -622,7 +666,7 @@ export const UploadsGalleryModal = forwardRef(
           isUploading={isAddingToUploads}
           setIsUploading={_setIsSpeakUploading}
           onVideoUploaded={(embedUrl, thumbnailUrl) => {
-            handleMediaInsert([
+            _handleMediaInsertion([
               {
                 url: embedUrl,
                 text: '',

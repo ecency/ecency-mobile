@@ -957,6 +957,14 @@ class EditorContainer extends Component<any, any> {
       return;
     }
 
+    // Once published, never write the draft cache again (same rule _saveDraftToDB
+    // applies). Debounced/late saves — the 300ms form timer, an image upload
+    // resolving after the editor closed — would otherwise re-create the cache
+    // entry that publishing just deleted, resurfacing the post as a ghost draft.
+    if (this._isPublished) {
+      return;
+    }
+
     const { currentAccount, dispatch } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 

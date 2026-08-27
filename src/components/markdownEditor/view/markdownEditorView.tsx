@@ -10,6 +10,7 @@ import { Icon } from '../../icon';
 
 // Utils
 import applyMediaLink from '../children/formats/applyMediaLink';
+import { sweepUploadingPlaceholders } from '../children/formats/sweepUploadingPlaceholders';
 
 // Components
 import {
@@ -156,10 +157,18 @@ const MarkdownEditorView = ({
       // cached comment is appended to, not prepended (its body is short, so there is
       // no scroll problem and immediate typing is expected).
       const savedCaret = store.getState().editor.caretMap?.[_caretKey];
-      const { caret, hasSavedCaret } = resolveRestoreCaret(savedCaret, draftBody.length, isReply);
+      // Strip dead "Uploading..." placeholders left by a previous session (their
+      // uploads can no longer resolve into this editor), shifting the saved caret
+      // past the removals. The swept body flows to the form/autosave through the
+      // same debounced update this programmatic write already triggers.
+      const swept = sweepUploadingPlaceholders(
+        draftBody,
+        typeof savedCaret === 'number' ? savedCaret : undefined,
+      );
+      const { caret, hasSavedCaret } = resolveRestoreCaret(swept.caret, swept.text.length, isReply);
       _setTextAndSelection({
         selection: { start: caret, end: caret },
-        text: draftBody,
+        text: swept.text,
       });
       // Drop any caret write queued from the empty input's initial focus before this
       // load. It is stale relative to this authoritative restore (no real edit has
@@ -213,9 +222,14 @@ const MarkdownEditorView = ({
     }
   }, [isLoading]);
 
-  useEffect(() => {
-    bodyTextRef.current = draftBody;
-  }, [draftBody]);
+  // NOTE: there is deliberately no `bodyTextRef.current = draftBody` sync effect
+  // here. `draftBody` is `fields.body`, which is just this editor's own text echoed
+  // back through the 500ms debounce, so it is always as old as or older than the
+  // ref. Writing it into the ref reverted keystrokes typed since the echo was
+  // captured (text silently lost if nothing was typed afterwards) and undid the
+  // placeholder sweep the restore effect above applies. The restore effect owns the
+  // one real transition (empty ref -> loaded body); every other programmatic body
+  // change goes through _setTextAndSelection.
 
   useEffect(() => {
     if (isReply || (autoFocusText && inputRef && inputRef.current && draftBtnTooltipRegistered)) {
