@@ -36,13 +36,16 @@ import PostOptionsModal from '../children/postOptionsModal';
 import SaveTemplateModal from '../children/saveTemplateModal';
 import { AiToolsMeta, CommunityRole, CommunityTypeId } from '../../../providers/hive/hive.types';
 import { flushPendingEditorWork } from '../../../components/uploadsGalleryModal/mediaInsertQueue';
+import { resolveDraftSaveBody } from '../../../utils/editorDraftBody';
 
 class EditorScreen extends Component<any, any> {
   changeTimer: any;
 
-  // Latest body handed to `_handleFormUpdate`, recorded before its awaits so the
-  // unmount save is not limited to what has already reached state.
+  // Latest body handed to `_handleFormUpdate`, and whether it is still in flight
+  // (recorded but not yet committed to state). See `resolveDraftSaveBody`.
   _latestBody: string | undefined;
+
+  _latestBodyPending = false;
 
   /* Props
    * ------------------------------------------------
@@ -355,7 +358,11 @@ class EditorScreen extends Component<any, any> {
 
     if (componentID === 'body') {
       fields.body = content;
+      // Recorded before the awaits below so the unmount save is not limited to what
+      // has already reached state; marked pending until it lands there, so a body
+      // replaced afterwards by a clear or a late draft load is not overridden by it.
       this._latestBody = content;
+      this._latestBodyPending = true;
     } else if (componentID === 'title') {
       fields.title = content;
     } else if (componentID === 'tag-area') {
@@ -398,6 +405,11 @@ class EditorScreen extends Component<any, any> {
     this.setState(
       (prev: any) => ({ fields: { ...fields, aiTools: prev.fields.aiTools } }),
       () => {
+        // Only the update that recorded the current value clears the flag, so a
+        // newer body still in flight keeps its precedence.
+        if (componentID === 'body' && this._latestBody === content) {
+          this._latestBodyPending = false;
+        }
         this._handleIsFormValid();
       },
     );
@@ -475,13 +487,8 @@ class EditorScreen extends Component<any, any> {
     const { saveDraftToDB } = this.props;
     const { fields } = this.state;
 
-    // `_handleFormUpdate` records the body synchronously but only reaches state
-    // after an await, so on the unmount path state is a step behind. Prefer the
-    // recorded value so a body just committed by the drain above is the one saved.
-    const _fields =
-      typeof this._latestBody === 'string' && this._latestBody !== fields.body
-        ? { ...fields, body: this._latestBody }
-        : fields;
+    const _body = resolveDraftSaveBody(fields.body, this._latestBody, this._latestBodyPending);
+    const _fields = _body === fields.body ? fields : { ...fields, body: _body };
 
     // save draft only if any of field is valid
     if (_fields.body || _fields.title) {
