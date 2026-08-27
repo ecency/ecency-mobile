@@ -546,24 +546,33 @@ export const QuickPostModalContent = forwardRef(
           return;
         }
 
+        // The collapsed caret has to travel with the text. Android's updateExtraData preserves
+        // the caret's DISTANCE FROM THE END across a text-only update, so after an append it
+        // lands inside the segment just added and the next keystroke splits it.
+        const caret = next.length;
+
         // Same order as the AI assist onApply: cancel first, or the pending 500ms callback fires
         // with the pre-dictation body and overwrites the draft cache.
         _deboucedCacheUpdate.cancel();
         commentValueRef.current = next;
         setCommentValue(next);
-        inputRef.current?.setNativeProps({ text: next });
+        inputRef.current?.setNativeProps({ text: next, selection: { start: caret, end: caret } });
         _addQuickCommentIntoCache(next);
       },
       [_deboucedCacheUpdate, _addQuickCommentIntoCache],
     );
 
-    // The sheet freezes its payload at show time but stays open across segments, so route through
-    // a ref that always points at the current handler. Otherwise an upload finishing mid-session
-    // would leave the frozen closure holding stale mediaUrls and its cache write would drop them.
+    // A sheet payload is frozen at show time, so everything handed to one has to be reached
+    // through a ref or the sheet keeps calling the handler that existed when it opened. Both of
+    // these write the draft cache through closures over mediaUrls / videoEmbedUrl / videoThumbUrl,
+    // and that write replaces the whole entry, so a stale one drops media added in the meantime.
+    // Dictation needs it most, since its sheet stays open and fires once per recorded segment.
     const _dictationResultRef = useRef(_handleDictationResult);
+    const _aiImageBtnRef = useRef(_handleAiImageBtn);
     useEffect(() => {
       _dictationResultRef.current = _handleDictationResult;
-    }, [_handleDictationResult]);
+      _aiImageBtnRef.current = _handleAiImageBtn;
+    });
 
     const _handleDictationBtn = () => {
       // Dismissed for room, not for focus: the recorder needs the vertical space, and nothing is
@@ -582,13 +591,20 @@ export const QuickPostModalContent = forwardRef(
           text: commentValueRef.current,
           supportedActions: ['improve', 'check_grammar', 'summarize'],
           // AI image generation lives in this sheet now rather than its own toolbar icon.
-          onGenerateImage: _handleAiImageBtn,
+          onGenerateImage: () => _aiImageBtnRef.current(),
           onApply: (output: string, _action: string) => {
             // Cancel any pending debounced cache update to prevent stale overwrite
             _deboucedCacheUpdate.cancel();
             commentValueRef.current = output;
             setCommentValue(output);
-            inputRef.current?.setNativeProps({ text: output });
+            // Caret to the end, for the same reason as the dictation insert above: a text-only
+            // update keeps the caret's distance from the end, which is meaningless once the
+            // whole body has been replaced by different text.
+            const caret = output.length;
+            inputRef.current?.setNativeProps({
+              text: output,
+              selection: { start: caret, end: caret },
+            });
             _addQuickCommentIntoCache(output);
           },
         },
