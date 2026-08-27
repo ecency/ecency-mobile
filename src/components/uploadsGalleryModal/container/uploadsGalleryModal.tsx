@@ -442,24 +442,36 @@ export const UploadsGalleryModal = forwardRef(
         );
 
         // Batch insert all successful uploads in a single call to avoid race conditions
-        // where parallel onSuccess callbacks read stale body text from refs
+        // where parallel onSuccess callbacks read stale body text from refs. Every
+        // placeholder written above must get a verdict here: an upload that resolved
+        // without a url (or was skipped because the session ended mid-flight) throws
+        // nothing, so without the FAILED fallback its placeholder would stay in the
+        // body forever with no result left to resolve it. Rejections already emitted
+        // their own FAILED from _uploadImage, so they are not repeated here.
         if (shouldInsert) {
-          const successfulInserts = results
+          const resolvedInserts = results
             .map((result, index) => {
-              if (result.status === 'fulfilled' && result.value?.url) {
-                return {
-                  filename: media[index]?.filename || '',
-                  url: result.value.url,
-                  text: '',
-                  status: MediaInsertStatus.READY,
-                };
+              if (!media[index] || result.status !== 'fulfilled') {
+                return null;
               }
-              return null;
+              return result.value?.url
+                ? {
+                    filename: media[index]?.filename || '',
+                    url: result.value.url,
+                    text: '',
+                    status: MediaInsertStatus.READY,
+                  }
+                : {
+                    filename: media[index]?.filename || '',
+                    url: '',
+                    text: '',
+                    status: MediaInsertStatus.FAILED,
+                  };
             })
             .filter(Boolean);
 
-          if (successfulInserts.length > 0) {
-            _handleMediaInsertion(successfulInserts as any);
+          if (resolvedInserts.length > 0) {
+            _handleMediaInsertion(resolvedInserts as any);
           }
         }
 
@@ -525,19 +537,9 @@ export const UploadsGalleryModal = forwardRef(
 
     const _uploadImage = async (media: any, { shouldInsert } = { shouldInsert: false }) => {
       if (!isLoggedIn) {
-        // Defensive: callers gate on login before inserting placeholders, but if a
-        // placeholder was written it must not be left stuck — silently returning
-        // here would leave it with neither READY nor FAILED forever.
-        if (shouldInsert) {
-          _handleMediaInsertion([
-            {
-              filename: media.filename,
-              url: '',
-              text: '',
-              status: MediaInsertStatus.FAILED,
-            },
-          ]);
-        }
+        // Defensive: callers gate on login before any placeholder is written. If the
+        // session ended mid-flight and one exists, returning no url marks it FAILED
+        // in the batch above rather than leaving it stuck.
         return undefined;
       }
       try {
