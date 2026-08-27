@@ -38,6 +38,7 @@ import {
   MediaInsertContext,
   MediaInsertData,
 } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
+import { registerPendingFlush } from '../../uploadsGalleryModal/mediaInsertQueue';
 import { EditorToolbar } from '../children/editorToolbar';
 import applySnippet from '../children/formats/applySnippet';
 import styles from '../styles/markdownEditorStyles';
@@ -335,6 +336,18 @@ const MarkdownEditorView = ({
     [_persistCaret, _debouncedOnTextChange],
   );
 
+  // Let the screen commit the last keystrokes before it saves on the way out. The
+  // cleanup above runs after the screen's `componentWillUnmount`, so on its own it
+  // flushes typing from the debounce window too late for that save to see it.
+  useEffect(
+    () =>
+      registerPendingFlush(() => {
+        _persistCaret.flush();
+        _debouncedOnTextChange.flush();
+      }),
+    [_persistCaret, _debouncedOnTextChange],
+  );
+
   const _handleOnSelectionChange = async (event: any) => {
     const { selection } = event.nativeEvent;
     bodySelectionRef.current = selection;
@@ -407,6 +420,12 @@ const MarkdownEditorView = ({
         items: mediaArray,
         otherPending: context?.otherPending,
       });
+      if (context?.commitNow) {
+        // Drained during teardown: push the body to the form now rather than on the
+        // debounce, so the draft save running in the same breath sees the resolved
+        // url instead of the placeholder it replaced.
+        _debouncedOnTextChange.flush();
+      }
     }
   };
 

@@ -35,9 +35,14 @@ import styles from './editorScreenStyles';
 import PostOptionsModal from '../children/postOptionsModal';
 import SaveTemplateModal from '../children/saveTemplateModal';
 import { AiToolsMeta, CommunityRole, CommunityTypeId } from '../../../providers/hive/hive.types';
+import { flushPendingEditorWork } from '../../../components/uploadsGalleryModal/mediaInsertQueue';
 
 class EditorScreen extends Component<any, any> {
   changeTimer: any;
+
+  // Latest body handed to `_handleFormUpdate`, recorded before its awaits so the
+  // unmount save is not limited to what has already reached state.
+  _latestBody: string | undefined;
 
   /* Props
    * ------------------------------------------------
@@ -107,6 +112,13 @@ class EditorScreen extends Component<any, any> {
 
   componentWillUnmount() {
     const { isEdit } = this.props;
+    // Commit anything the editor is still holding — keystrokes inside the 500ms
+    // debounce, and an upload result queued behind live typing — BEFORE saving.
+    // This runs ahead of every descendant's effect cleanup, so without draining
+    // here the save below would write the body as it was before those landed,
+    // storing an unresolved "Uploading..." placeholder for an image that had in
+    // fact arrived.
+    flushPendingEditorWork();
     if (!isEdit) {
       this._saveDraftToDB();
     }
@@ -343,6 +355,7 @@ class EditorScreen extends Component<any, any> {
 
     if (componentID === 'body') {
       fields.body = content;
+      this._latestBody = content;
     } else if (componentID === 'title') {
       fields.title = content;
     } else if (componentID === 'tag-area') {
@@ -462,9 +475,17 @@ class EditorScreen extends Component<any, any> {
     const { saveDraftToDB } = this.props;
     const { fields } = this.state;
 
+    // `_handleFormUpdate` records the body synchronously but only reaches state
+    // after an await, so on the unmount path state is a step behind. Prefer the
+    // recorded value so a body just committed by the drain above is the one saved.
+    const _fields =
+      typeof this._latestBody === 'string' && this._latestBody !== fields.body
+        ? { ...fields, body: this._latestBody }
+        : fields;
+
     // save draft only if any of field is valid
-    if (fields.body || fields.title) {
-      saveDraftToDB(fields, saveAsNew);
+    if (_fields.body || _fields.title) {
+      saveDraftToDB(_fields, saveAsNew);
     }
   }
 

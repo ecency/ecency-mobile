@@ -23,7 +23,11 @@ import { selectIsLoggedIn } from '../../../redux/selectors';
 import { isSignImageUnavailable } from '../../../constants/imageUpload';
 
 import { MediaInsertContext, MediaInsertData, MediaInsertStatus, Modes } from '../types';
-import { prepareInsertDispatch, shouldQueueInsert } from '../mediaInsertQueue';
+import {
+  prepareInsertDispatch,
+  registerPendingFlush,
+  shouldQueueInsert,
+} from '../mediaInsertQueue';
 import { extractUploadPlaceholderNames } from '../uploadPlaceholder';
 
 export { MediaInsertStatus, Modes } from '../types';
@@ -117,9 +121,9 @@ export const UploadsGalleryModal = forwardRef(
       );
     }, []);
 
-    const _dispatchInserts = (data: MediaInsertData[]) => {
+    const _dispatchInserts = (data: MediaInsertData[], commitNow = false) => {
       const context = prepareInsertDispatch(inFlightPlaceholders.current, data);
-      handleMediaInsertRef.current?.(data, context);
+      handleMediaInsertRef.current?.(data, { ...context, commitNow });
     };
 
     const _cancelScheduledFlush = () => {
@@ -129,14 +133,17 @@ export const UploadsGalleryModal = forwardRef(
       }
     };
 
-    const _flushPendingInserts = () => {
+    // `commitNow` is for teardown: the editor writes the body straight through
+    // instead of on its 500ms debounce, so the draft save happening in the same
+    // breath sees the resolved url rather than the placeholder.
+    const _flushPendingInserts = (commitNow = false) => {
       _cancelScheduledFlush();
       if (!pendingInserts.current.length) {
         return;
       }
       const batch = pendingInserts.current;
       pendingInserts.current = [];
-      _dispatchInserts(batch);
+      _dispatchInserts(batch, commitNow);
     };
 
     const _scheduleFlush = () => {
@@ -244,6 +251,12 @@ export const UploadsGalleryModal = forwardRef(
       return _cancelScheduledFlush;
     }, [isEditing]);
 
+    // The editor screen drains this before it saves on the way out. Its
+    // `componentWillUnmount` runs ahead of every descendant's effect cleanup, so a
+    // queue flushed only from the cleanup below lands after the draft has already
+    // been written, and the resolved url misses that save.
+    useEffect(() => registerPendingFlush(() => _flushPendingInserts(true)), []);
+
     useEffect(
       () => () => {
         // Deferred results must not die with this component: flush them so resolved
@@ -253,7 +266,7 @@ export const UploadsGalleryModal = forwardRef(
         // gone there is no later isEditing flip to flush a deferral, so parking it
         // would orphan the placeholder in the saved draft.
         isEditingRef.current = false;
-        _flushPendingInserts();
+        _flushPendingInserts(true);
       },
       [],
     );

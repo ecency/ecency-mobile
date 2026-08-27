@@ -17,6 +17,42 @@ import { MediaInsertContext, MediaInsertData, MediaInsertStatus } from './types'
 export const shouldQueueInsert = (isEditing: boolean, pendingCount: number) =>
   isEditing || pendingCount > 0;
 
+const pendingFlushes = new Set<() => void>();
+
+/**
+ * Register a "commit whatever is pending, now" callback, and get back its
+ * unregister.
+ *
+ * The editor screen has to be able to drain this work BEFORE it saves. Its own
+ * `componentWillUnmount` runs in the commit phase, ahead of every descendant's
+ * effect cleanup, so a queue flushed from the gallery's own unmount runs after the
+ * screen has already written the draft — the resolved url would reach the body too
+ * late for that save. A registry rather than props because the queue sits three
+ * components below the screen (screen -> editor view -> toolbar -> gallery).
+ */
+export const registerPendingFlush = (flush: () => void) => {
+  pendingFlushes.add(flush);
+  return () => {
+    pendingFlushes.delete(flush);
+  };
+};
+
+/**
+ * Run every registered flush. Safe to call with none registered, and safe when
+ * another editing surface (the quick-post modal) has one registered too: each
+ * callback only commits its own pending work into its own editor.
+ */
+export const flushPendingEditorWork = () => {
+  pendingFlushes.forEach((flush) => {
+    try {
+      flush();
+    } catch (err) {
+      // a teardown-time commit must never break the unmount it runs inside
+      console.warn('pending editor flush failed', err);
+    }
+  });
+};
+
 /**
  * Advance the set of uploads whose placeholder is in the body but unresolved, and
  * return the context for the batch about to be dispatched.

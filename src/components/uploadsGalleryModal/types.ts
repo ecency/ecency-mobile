@@ -28,4 +28,10 @@ export interface MediaInsertContext {
    * upload's url into another image's slot.
    */
   otherPending?: string[];
+  /**
+   * Commit the resulting body immediately instead of on the editor's 500ms
+   * debounce. Set when the batch is being drained during teardown, where a draft
+   * save is about to read the body and must see the resolved url.
+   */
+  commitNow?: boolean;
 }

@@ -1,4 +1,9 @@
-import { prepareInsertDispatch, shouldQueueInsert } from './mediaInsertQueue';
+import {
+  flushPendingEditorWork,
+  prepareInsertDispatch,
+  registerPendingFlush,
+  shouldQueueInsert,
+} from './mediaInsertQueue';
 import { MediaInsertData, MediaInsertStatus } from './types';
 
 const uploading = (filename: string): MediaInsertData => ({
@@ -83,5 +88,46 @@ describe('prepareInsertDispatch', () => {
     ]);
     expect(context.otherPending).toEqual(['a.jpg']);
     expect([...inFlight]).toEqual(['a.jpg']);
+  });
+});
+
+describe('registerPendingFlush / flushPendingEditorWork', () => {
+  it('runs registered flushes and stops after unregister', () => {
+    const calls: string[] = [];
+    const un = registerPendingFlush(() => calls.push('a'));
+    flushPendingEditorWork();
+    expect(calls).toEqual(['a']);
+
+    un();
+    flushPendingEditorWork();
+    expect(calls).toEqual(['a']);
+  });
+
+  it('runs every registered flush, not just the first', () => {
+    const calls: string[] = [];
+    const unA = registerPendingFlush(() => calls.push('a'));
+    const unB = registerPendingFlush(() => calls.push('b'));
+    flushPendingEditorWork();
+    expect(calls.sort()).toEqual(['a', 'b']);
+    unA();
+    unB();
+  });
+
+  it('keeps going when one flush throws, so teardown is never broken', () => {
+    const calls: string[] = [];
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const unA = registerPendingFlush(() => {
+      throw new Error('boom');
+    });
+    const unB = registerPendingFlush(() => calls.push('b'));
+    expect(() => flushPendingEditorWork()).not.toThrow();
+    expect(calls).toEqual(['b']);
+    warn.mockRestore();
+    unA();
+    unB();
+  });
+
+  it('is a no-op with nothing registered', () => {
+    expect(() => flushPendingEditorWork()).not.toThrow();
   });
 });
