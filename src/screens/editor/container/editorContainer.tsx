@@ -1463,6 +1463,11 @@ class EditorContainer extends Component<any, any> {
         });
 
         AsyncStorage.setItem('temp-reply', '');
+        // Mark published BEFORE clearing the cache below, so a late autosave — the
+        // unmount save, or an image upload resolving after the editor closed —
+        // cannot re-create the entry we are about to delete and leave the comment
+        // box pre-filled with an already-published reply.
+        this._isPublished = true;
         this._handleSubmitSuccess();
 
         // delete quick comment draft cache if it exist (from replyCache)

@@ -29,10 +29,17 @@ export const sweepUploadingPlaceholders = (
   while (match !== null) {
     let start = match.index;
     let end = start + match[0].length;
+    // Absorb one adjacent line break, CRLF included, so removing the placeholder
+    // the insert wrote as `\n![](...)\n` doesn't leave a blank line (or a bare \r).
     if (text[end] === '\n') {
       end += 1;
+    } else if (text[end] === '\r' && text[end + 1] === '\n') {
+      end += 2;
     } else if (start > 0 && text[start - 1] === '\n') {
       start -= 1;
+      if (start > 0 && text[start - 1] === '\r') {
+        start -= 1;
+      }
     }
     const prev = removals[removals.length - 1];
     if (prev && start < prev.end) {

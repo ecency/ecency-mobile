@@ -31,6 +31,33 @@ describe('sweepUploadingPlaceholders', () => {
     expect(text).toBe('a\nb');
   });
 
+  it('strips a placeholder whose filename contains parentheses, leaving no garbage', () => {
+    const { text } = sweepUploadingPlaceholders('hi\n![](Uploading... IMG_2024 (1).jpg)\nbye');
+    expect(text).toBe('hi\nbye');
+  });
+
+  it('absorbs a CRLF line break without leaving a stray carriage return', () => {
+    const { text } = sweepUploadingPlaceholders('hi\r\n![](Uploading... img.jpg)\r\nbye');
+    expect(text).toBe('hi\r\nbye');
+  });
+
+  it('absorbs the TRAILING CRLF when the placeholder starts the body', () => {
+    // no preceding newline to absorb here, so the trailing branch is the only one
+    // that can keep a bare \r\n from being left behind
+    const { text } = sweepUploadingPlaceholders('![](Uploading... img.jpg)\r\nbye');
+    expect(text).toBe('bye');
+  });
+
+  it('absorbs the LEADING CRLF when the placeholder ends the body', () => {
+    const { text } = sweepUploadingPlaceholders('hi\r\n![](Uploading... img.jpg)');
+    expect(text).toBe('hi');
+  });
+
+  it('does not swallow text that follows a placeholder on the same line', () => {
+    const { text } = sweepUploadingPlaceholders('![](Uploading... img.jpg) see (this) too');
+    expect(text).toBe(' see (this) too');
+  });
+
   it('strips several placeholders, including adjacent ones, without eating body text', () => {
     const body = 'a\n![](Uploading... 1.jpg)\n![](Uploading... 2.jpg)\nb';
     const { text } = sweepUploadingPlaceholders(body);

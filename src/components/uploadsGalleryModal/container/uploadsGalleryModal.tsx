@@ -22,10 +22,11 @@ import { SheetNames } from '../../../navigation/sheets';
 import { selectIsLoggedIn } from '../../../redux/selectors';
 import { isSignImageUnavailable } from '../../../constants/imageUpload';
 
-import { MediaInsertData, MediaInsertStatus, Modes } from '../types';
+import { MediaInsertContext, MediaInsertData, MediaInsertStatus, Modes } from '../types';
+import { prepareInsertDispatch, shouldQueueInsert } from '../mediaInsertQueue';
 
 export { MediaInsertStatus, Modes } from '../types';
-export type { MediaInsertData } from '../types';
+export type { MediaInsertContext, MediaInsertData } from '../types';
 
 export interface UploadsGalleryModalRef {
   showModal: () => void;
@@ -34,6 +35,9 @@ export interface UploadsGalleryModalRef {
 const MAX_IMAGE_UPLOAD_SIZE = 30000000; // 30MB server limit
 const MAX_IMAGE_DIMENSION = 1920;
 const COMPRESS_QUALITY = 0.85;
+// Grace period between the editor reporting "typing stopped" and a queued insert
+// rewriting the body, so keystrokes already queued natively land first.
+const INSERT_SETTLE_MS = 100;
 
 interface UploadsGalleryModalProps {
   postBody: string;
@@ -42,7 +46,7 @@ interface UploadsGalleryModalProps {
   isPreviewActive: boolean;
   allowMultiple?: boolean;
   hideToolbarExtension: () => void;
-  handleMediaInsert: (data: Array<MediaInsertData>) => void;
+  handleMediaInsert: (data: Array<MediaInsertData>, context?: MediaInsertContext) => void;
   setIsUploading: (status: boolean) => void;
   /**
    * Receives the uploaded thumbnail of a 3Speak video along with the embed it belongs to,
@@ -73,6 +77,11 @@ export const UploadsGalleryModal = forwardRef(
     const mediaUploadMutation = editorQueries.useMediaUploadMutation();
 
     const pendingInserts = useRef<MediaInsertData[]>([]);
+    const flushTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    // Filenames whose "Uploading..." placeholder has been handed to the editor and
+    // not yet resolved. Sent along with each batch so the editor can tell whether an
+    // ambiguous placeholder might belong to a different upload.
+    const inFlightPlaceholders = useRef<Set<string>>(new Set());
     const isEditingRef = useRef(isEditing);
     isEditingRef.current = isEditing;
     // Latest insert callback for code that outlives renders (upload continuations,
@@ -92,6 +101,42 @@ export const UploadsGalleryModal = forwardRef(
     // Image gallery query (video gallery no longer needed with new embed architecture)
     const mediaUploadsQuery = imageUploadsQuery;
     const { fetchNextPage, hasNextPage, isFetchingNextPage } = mediaUploadsQuery;
+
+    const _dispatchInserts = (data: MediaInsertData[]) => {
+      const context = prepareInsertDispatch(inFlightPlaceholders.current, data);
+      handleMediaInsertRef.current?.(data, context);
+    };
+
+    const _cancelScheduledFlush = () => {
+      if (flushTimerRef.current) {
+        clearTimeout(flushTimerRef.current);
+        flushTimerRef.current = null;
+      }
+    };
+
+    const _flushPendingInserts = () => {
+      _cancelScheduledFlush();
+      if (!pendingInserts.current.length) {
+        return;
+      }
+      const batch = pendingInserts.current;
+      pendingInserts.current = [];
+      _dispatchInserts(batch);
+    };
+
+    const _scheduleFlush = () => {
+      if (flushTimerRef.current || !pendingInserts.current.length) {
+        return;
+      }
+      flushTimerRef.current = setTimeout(() => {
+        flushTimerRef.current = null;
+        if (isEditingRef.current) {
+          // typing resumed inside the settle window; the next pause re-schedules
+          return;
+        }
+        _flushPendingInserts();
+      }, INSERT_SETTLE_MS);
+    };
 
     useImperativeHandle(ref, () => ({
       toggleModal: (value: boolean, _mode: Modes = mode) => {
@@ -173,21 +218,15 @@ export const UploadsGalleryModal = forwardRef(
     }, [paramFiles]);
 
     useEffect(() => {
-      if (!isEditing && pendingInserts.current.length) {
-        // isEditing goes false exactly 500ms after the last keystroke — a natural
-        // typing-pause cadence — and the insert rewrites the whole native text from
-        // the JS-side refs. Let queued native keystroke events drain briefly before
-        // committing, and re-defer if typing resumed in the meantime (the next
-        // isEditing flip re-runs this effect, so nothing is lost).
-        const timer = setTimeout(() => {
-          if (!isEditingRef.current && pendingInserts.current.length) {
-            handleMediaInsertRef.current(pendingInserts.current);
-            pendingInserts.current = [];
-          }
-        }, 100);
-        return () => clearTimeout(timer);
+      // isEditing goes false exactly 500ms after the last keystroke — a natural
+      // typing-pause cadence — and an insert rewrites the whole native text from the
+      // JS-side refs. The scheduled flush lets queued native keystroke events drain
+      // first, and re-defers if typing resumed (the next isEditing flip re-runs this
+      // effect, so nothing is lost).
+      if (!isEditing) {
+        _scheduleFlush();
       }
-      return undefined;
+      return _cancelScheduledFlush;
     }, [isEditing]);
 
     useEffect(
@@ -198,11 +237,8 @@ export const UploadsGalleryModal = forwardRef(
         // upload still in flight insert directly on completion — with the component
         // gone there is no later isEditing flip to flush a deferral, so parking it
         // would orphan the placeholder in the saved draft.
-        if (pendingInserts.current.length) {
-          handleMediaInsertRef.current(pendingInserts.current);
-          pendingInserts.current = [];
-        }
         isEditingRef.current = false;
+        _flushPendingInserts();
       },
       [],
     );
@@ -337,7 +373,6 @@ export const UploadsGalleryModal = forwardRef(
             element.mime !== 'image/gif' &&
             (element.width > MAX_IMAGE_DIMENSION || element.height > MAX_IMAGE_DIMENSION)
           ) {
-            // eslint-disable-next-line no-await-in-loop
             const resizeOpt =
               element.width >= element.height
                 ? { width: MAX_IMAGE_DIMENSION }
@@ -601,11 +636,14 @@ export const UploadsGalleryModal = forwardRef(
     };
 
     const _handleMediaInsertion = (data: MediaInsertData[]) => {
-      if (isEditingRef.current) {
+      if (shouldQueueInsert(isEditingRef.current, pendingInserts.current.length)) {
         pendingInserts.current.push(...data);
-      } else if (handleMediaInsertRef.current) {
-        handleMediaInsertRef.current(data);
+        if (!isEditingRef.current) {
+          _scheduleFlush();
+        }
+        return;
       }
+      _dispatchInserts(data);
     };
 
     // fetch images from server
@@ -633,7 +671,9 @@ export const UploadsGalleryModal = forwardRef(
         });
       });
 
-      handleMediaInsert(data);
+      // Through the same gate as every other insert: these carry no placeholder and
+      // land at the caret, so they must not overtake a queued placeholder either.
+      _handleMediaInsertion(data);
     };
 
     const data = mediaUploadsQuery.data.slice();

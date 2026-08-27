@@ -19,3 +19,13 @@ export interface MediaInsertData {
   // absent for image inserts and failed uploads; only video inserts carry it
   mode?: Modes;
 }
+
+export interface MediaInsertContext {
+  /**
+   * Filenames of OTHER uploads whose "Uploading..." placeholder may still be in
+   * the body when this batch is applied. The editor uses it to refuse repairing an
+   * ambiguous placeholder that could belong to one of them, which would write this
+   * upload's url into another image's slot.
+   */
+  otherPending?: string[];
+}

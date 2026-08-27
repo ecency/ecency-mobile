@@ -3,7 +3,12 @@ import { MediaInsertStatus, Modes } from '../../../uploadsGalleryModal/types';
 
 // Helper: run applyMediaLink and capture what it writes back (null when it
 // decided nothing changed and skipped the write).
-const run = async (text: string, selection: { start: number; end: number }, items: any[]) => {
+const run = async (
+  text: string,
+  selection: { start: number; end: number },
+  items: any[],
+  otherPending?: string[],
+) => {
   let result: { text: string; selection: { start: number; end: number } } | null = null;
   await applyMediaLink({
     text,
@@ -12,6 +17,7 @@ const run = async (text: string, selection: { start: number; end: number }, item
       result = args;
     },
     items,
+    otherPending,
   });
   return result as { text: string; selection: { start: number; end: number } } | null;
 };
@@ -54,6 +60,27 @@ describe('applyMediaLink', () => {
       expect(result?.selection).toEqual({ start: 3, end: 3 });
     });
 
+    it('shifts a caret sitting exactly at the end of the replaced placeholder', async () => {
+      // index 31 is the character right after the placeholder's closing paren; the
+      // text from there on moves, so the caret must move with it
+      const result = await run(body, { start: 31, end: 31 }, [
+        { filename: 'img.jpg', url: 'https://x/y.png', text: '', status: MediaInsertStatus.READY },
+      ]);
+      expect(result?.selection).toEqual({ start: 26, end: 26 });
+    });
+
+    it('replaces a placeholder whose filename contains parentheses', async () => {
+      const result = await run('a\n![](Uploading... IMG_2024 (1).jpg)\nb', { start: 0, end: 0 }, [
+        {
+          filename: 'IMG_2024 (1).jpg',
+          url: 'https://x/y.png',
+          text: '',
+          status: MediaInsertStatus.READY,
+        },
+      ]);
+      expect(result?.text).toBe('a\n![](https://x/y.png)\nb');
+    });
+
     it('repairs a lone placeholder whose filename got mangled', async () => {
       const result = await run('a\n![](Uploading... imgXX)\nb', { start: 27, end: 27 }, [
         { filename: 'img.jpg', url: 'https://x/y.png', text: '', status: MediaInsertStatus.READY },
@@ -84,6 +111,38 @@ describe('applyMediaLink', () => {
       const result = await run(body, { start: 0, end: 0 }, [
         { filename: 'a.jpg', url: 'https://x/a.png', text: '', status: MediaInsertStatus.READY },
       ]);
+      expect(result).toBeNull();
+    });
+
+    it('never repairs a lone placeholder while another upload is still in flight', async () => {
+      // b.jpg's placeholder is intact and belongs to it; a.jpg's was deleted by the
+      // user. Repairing here would put a.jpg's url in b.jpg's slot and then lose b.
+      const result = await run(
+        'a\n![](Uploading... b.jpg)\nb',
+        { start: 0, end: 0 },
+        [{ filename: 'a.jpg', url: 'https://x/a.png', text: '', status: MediaInsertStatus.READY }],
+        ['b.jpg'],
+      );
+      expect(result).toBeNull();
+    });
+
+    it('never repairs a lone placeholder when the same batch carries another upload', async () => {
+      const result = await run('a\n![](Uploading... b.jpg)\nb', { start: 27, end: 27 }, [
+        { filename: 'a.jpg', url: 'https://x/a.png', text: '', status: MediaInsertStatus.READY },
+        { filename: 'b.jpg', url: '', text: '', status: MediaInsertStatus.UPLOADING },
+      ]);
+      // a's ambiguous repair is refused: b's slot must never receive a's url
+      expect(result?.text).not.toContain('https://x/a.png');
+      expect(result?.text).toContain('![](Uploading... b.jpg)');
+    });
+
+    it('does not remove another upload’s placeholder when a failed upload lost its own', async () => {
+      const result = await run(
+        'a\n![](Uploading... b.jpg)\nb',
+        { start: 0, end: 0 },
+        [{ filename: 'a.jpg', url: '', text: '', status: MediaInsertStatus.FAILED }],
+        ['b.jpg'],
+      );
       expect(result).toBeNull();
     });
   });

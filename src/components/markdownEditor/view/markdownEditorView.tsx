@@ -34,7 +34,10 @@ import { selectIsDarkTheme } from '../../../redux/selectors';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 import { OptionsModal } from '../../atoms';
 import { MainButton } from '../../mainButton';
-import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
+import {
+  MediaInsertContext,
+  MediaInsertData,
+} from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import { EditorToolbar } from '../children/editorToolbar';
 import applySnippet from '../children/formats/applySnippet';
 import styles from '../styles/markdownEditorStyles';
@@ -176,6 +179,14 @@ const MarkdownEditorView = ({
       // under this draft's key: on a no-caret draft that resurfaces prepend-on-type
       // next open, and on a saved-caret draft it clobbers the position being resumed.
       _persistCaret.cancel();
+      // A sweep shortened the body, so the stored caret now points past the text it
+      // belonged to. Rewrite it to the shifted position (only when one was actually
+      // saved — persisting the no-caret fallback of 0 is what the cancel above
+      // guards against). Without this, closing the draft untouched would resume at
+      // the stale offset on the next open.
+      if (hasSavedCaret && swept.text !== draftBody) {
+        dispatch(setDraftCaret(caretKeyRef.current, caret));
+      }
       // Opening a post/draft with no saved caret intentionally lands at position 0.
       // Do NOT keep an active cursor there: an auto-focused caret at 0 would prepend
       // on the next keystroke (the concern that reverted the previous fix) and the
@@ -380,13 +391,14 @@ const MarkdownEditorView = ({
     setIsSnippetsOpen(false);
   };
 
-  const _handleMediaInsert = (mediaArray: MediaInsertData[]) => {
+  const _handleMediaInsert = (mediaArray: MediaInsertData[], context?: MediaInsertContext) => {
     if (mediaArray.length) {
       applyMediaLink({
         text: bodyTextRef.current,
         selection: bodySelectionRef.current,
         setTextAndSelection: _setTextAndSelection,
         items: mediaArray,
+        otherPending: context?.otherPending,
       });
     }
   };

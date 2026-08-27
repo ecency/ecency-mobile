@@ -1,4 +1,9 @@
-import { MediaInsertData, MediaInsertStatus, Modes } from '../../../uploadsGalleryModal/types';
+import {
+  MediaInsertContext,
+  MediaInsertData,
+  MediaInsertStatus,
+  Modes,
+} from '../../../uploadsGalleryModal/types';
 import { replaceBetween } from './utils';
 
 interface Selection {
@@ -6,7 +11,7 @@ interface Selection {
   end: number;
 }
 
-interface Args {
+interface Args extends MediaInsertContext {
   text: string;
   selection: Selection;
   setTextAndSelection: (args: { selection: Selection; text: string }) => void;
@@ -19,11 +24,17 @@ export const uploadPlaceholderPrefix = 'Uploading... ';
 
 // Any upload placeholder this editor may have written: `![alt](Uploading... name)`.
 // Used to recover a placeholder whose filename got mangled (by the typing race or a
-// stray edit) and to sweep orphans out of restored drafts. Alt and filename exclude
-// newlines so the match can never swallow surrounding body text.
-export const uploadPlaceholderPattern = () => /!\[[^\]\n]*\]\(Uploading\.\.\.[^)\n]*\)/g;
+// stray edit) and to sweep orphans out of restored drafts.
+//
+// The filename part allows one level of balanced parentheses, because gallery
+// filenames routinely contain them (`IMG_2024 (1).jpg`); stopping at the first `)`
+// matched only a prefix and left `.jpg)` behind as garbage. Alt text and filename
+// both exclude newlines so a match can never swallow surrounding body text, and the
+// alternation cannot run past the placeholder's own closing paren.
+export const uploadPlaceholderPattern = () =>
+  /!\[[^\]\n]*\]\(Uploading\.\.\.(?:[^()\n]|\([^()\n]*\))*\)/g;
 
-export default async ({ text, selection, setTextAndSelection, items }: Args) => {
+export default async ({ text, selection, setTextAndSelection, items, otherPending }: Args) => {
   let newText = text;
   let newSelection = selection;
 
@@ -58,16 +69,29 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
 
     const replaceIndex = newText.indexOf(replaceStr);
     newText = newText.replace(replaceStr, `(${url})`);
-    _shiftSelectionAfter(replaceIndex + replaceStr.length + 1, url.length - placeholder.length);
+    // Shift from the first character AFTER the replaced span: a caret sitting
+    // exactly there moves with the text that follows it.
+    _shiftSelectionAfter(replaceIndex + replaceStr.length, url.length - placeholder.length);
   };
 
+  // Every filename that could own a placeholder in this body besides `filename`:
+  // other items in this batch (multi-select) plus uploads the gallery reports as
+  // still in flight from an earlier batch.
+  const _hasRivalUpload = (filename?: string) =>
+    items.some((other) => !!other.filename && other.filename !== filename) ||
+    (otherPending ?? []).some((name) => name !== filename);
+
   // The exact placeholder is gone (the user edited it, or a stray keystroke landed
-  // inside it). If exactly one upload placeholder remains in the body it can only be
-  // this upload's, so repair it in place. With zero or several candidates the target
-  // is unknowable: drop the insert rather than writing at the live caret, which lands
-  // the image mid-sentence wherever the user happens to be typing. The upload itself
-  // is safe in the uploads gallery either way.
-  const _findLonePlaceholder = () => {
+  // inside it). If exactly one upload placeholder remains in the body, and no other
+  // upload could own it, it can only be this upload's — so repair it in place. With
+  // zero or several candidates, or any rival upload in flight, the target is
+  // unknowable: drop the insert rather than writing at the live caret (which lands
+  // the image mid-sentence wherever the user happens to be typing) or into another
+  // image's slot. The upload itself is safe in the uploads gallery either way.
+  const _findLonePlaceholder = (filename?: string) => {
+    if (_hasRivalUpload(filename)) {
+      return undefined;
+    }
     const matches = [...newText.matchAll(uploadPlaceholderPattern())];
     return matches.length === 1 ? matches[0] : undefined;
   };
@@ -85,14 +109,14 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
     _shiftSelectionAfter(index + length, -length);
   };
 
-  const _removeFormatedString = (placeholder: string) => {
+  const _removeFormatedString = (placeholder: string, filename?: string) => {
     const formatedText = `${imagePrefix}[](${placeholder})`;
     const formatedTextIndex = newText.indexOf(formatedText);
     if (formatedTextIndex >= 0) {
       _removeAt(formatedTextIndex, formatedText.length);
       return;
     }
-    const lone = _findLonePlaceholder();
+    const lone = _findLonePlaceholder(filename);
     if (lone) {
       _removeAt(lone.index as number, lone[0].length);
     }
@@ -115,7 +139,7 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
           if (newText.includes(`(${_placeholder})`)) {
             _replaceFormatedString(_placeholder, item.url);
           } else if (item.url) {
-            const lone = _findLonePlaceholder();
+            const lone = _findLonePlaceholder(item.filename);
             if (lone) {
               _replaceLonePlaceholder(lone, item.url);
             }
@@ -131,7 +155,7 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
 
       case MediaInsertStatus.FAILED: // filename available but upload failed
         if (_placeholder) {
-          _removeFormatedString(_placeholder);
+          _removeFormatedString(_placeholder, item.filename);
         }
         break;
 
