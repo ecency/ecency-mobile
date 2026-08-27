@@ -28,15 +28,35 @@ export default async ({ text, selection, setTextAndSelection, items, otherPendin
   let newText = text;
   let newSelection = selection;
 
-  const _shiftSelectionAfter = (index: number, lengthDiff: number) => {
-    // Keep the caret in place relative to the text the user is editing: only
-    // positions at/after the edited region move.
-    if (newSelection.start >= index) {
-      newSelection = {
-        start: Math.max(0, newSelection.start + lengthDiff),
-        end: Math.max(0, newSelection.end + lengthDiff),
-      };
-    }
+  /**
+   * Carry the selection across one edit that replaced `[editStart, editEnd)` with
+   * `newLength` characters.
+   *
+   * Both endpoints are mapped INDEPENDENTLY, because a range that begins before
+   * the edit and ends after it has to keep covering the same words. Moving the two
+   * together (or, when only `start` was tested, moving neither) left the end where
+   * the old text put it, so a selection made across a placeholder grew to swallow
+   * whatever now sat in the gap — and the next keystroke replaced it.
+   *
+   * The mapping is monotonic, so `start <= end` still holds afterwards.
+   */
+  const _mapSelectionThroughEdit = (editStart: number, editEnd: number, newLength: number) => {
+    const lengthDiff = newLength - (editEnd - editStart);
+    const _mapPosition = (pos: number) => {
+      if (pos <= editStart) {
+        return pos;
+      }
+      if (pos >= editEnd) {
+        return Math.max(0, pos + lengthDiff);
+      }
+      // inside the replaced span, whose text is gone: collapse to where it began
+      return editStart;
+    };
+
+    newSelection = {
+      start: _mapPosition(newSelection.start),
+      end: _mapPosition(newSelection.end),
+    };
   };
 
   const _insertFormatedString = (altText: any, value: any, mode?: any) => {
@@ -59,9 +79,7 @@ export default async ({ text, selection, setTextAndSelection, items, otherPendin
 
     const replaceIndex = newText.indexOf(replaceStr);
     newText = newText.replace(replaceStr, `(${url})`);
-    // Shift from the first character AFTER the replaced span: a caret sitting
-    // exactly there moves with the text that follows it.
-    _shiftSelectionAfter(replaceIndex + replaceStr.length, url.length - placeholder.length);
+    _mapSelectionThroughEdit(replaceIndex, replaceIndex + replaceStr.length, url.length + 2);
   };
 
   // Every filename that could own a placeholder in this body besides `filename`:
@@ -91,7 +109,7 @@ export default async ({ text, selection, setTextAndSelection, items, otherPendin
     const start = (match.index as number) + parenIndex;
     const oldLength = match[0].length - parenIndex;
     newText = `${newText.slice(0, start)}(${url})${newText.slice(start + oldLength)}`;
-    _shiftSelectionAfter(start + oldLength, url.length + 2 - oldLength);
+    _mapSelectionThroughEdit(start, start + oldLength, url.length + 2);
   };
 
   const _removeAt = (index: number, length: number) => {
@@ -110,18 +128,8 @@ export default async ({ text, selection, setTextAndSelection, items, otherPendin
       }
     }
 
-    const removed = end - start;
     newText = newText.slice(0, start) + newText.slice(end);
-
-    if (newSelection.start >= end) {
-      newSelection = {
-        start: Math.max(0, newSelection.start - removed),
-        end: Math.max(0, newSelection.end - removed),
-      };
-    } else if (newSelection.start > start) {
-      // the caret sat inside the failed placeholder: land it where it began
-      newSelection = { start, end: start };
-    }
+    _mapSelectionThroughEdit(start, end, 0);
   };
 
   const _removeFormatedString = (placeholder: string, filename?: string) => {

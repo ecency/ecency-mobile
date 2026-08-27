@@ -210,6 +210,49 @@ describe('applyMediaLink', () => {
   });
 });
 
+describe('range selections', () => {
+  // 'hello\n![](Uploading... img.jpg)\nworld' — the placeholder spans [6, 31)
+  const body = 'hello\n![](Uploading... img.jpg)\nworld';
+
+  const selectedText = (r: { text: string; selection: { start: number; end: number } }) =>
+    r.text.slice(r.selection.start, r.selection.end);
+
+  it('keeps a range that spans the placeholder covering the same surviving text', async () => {
+    // start before the placeholder, end inside 'world'. The replacement is 5 chars
+    // shorter, so the end must come back by 5 — leaving it put would grow the
+    // selection over the trailing 'ld', which the next keystroke would replace.
+    const result = await run(body, { start: 2, end: 35 }, [
+      { filename: 'img.jpg', url: 'https://x/y.png', text: '', status: MediaInsertStatus.READY },
+    ]);
+    expect(result?.selection).toEqual({ start: 2, end: 30 });
+    expect(selectedText(result!)).toBe('llo\n![](https://x/y.png)\nwor');
+    expect(body.slice(2, 35).endsWith('wor')).toBe(true);
+  });
+
+  it('keeps a spanning range correct when a failed upload removes the placeholder', async () => {
+    const result = await run(body, { start: 2, end: 35 }, [
+      { filename: 'img.jpg', url: '', text: '', status: MediaInsertStatus.FAILED },
+    ]);
+    expect(selectedText(result!)).toBe('llo\nwor');
+  });
+
+  it('collapses a range that sat entirely inside the placeholder', async () => {
+    const result = await run(body, { start: 12, end: 20 }, [
+      { filename: 'img.jpg', url: 'https://x/y.png', text: '', status: MediaInsertStatus.READY },
+    ]);
+    expect(result?.selection.start).toBe(result?.selection.end);
+  });
+
+  it('maps a range that starts inside the placeholder and ends after it', async () => {
+    const result = await run(body, { start: 12, end: 35 }, [
+      { filename: 'img.jpg', url: 'https://x/y.png', text: '', status: MediaInsertStatus.READY },
+    ]);
+    // start collapses to where the replaced span began, end shifts with the text
+    expect(result?.selection).toEqual({ start: 9, end: 30 });
+    expect(result!.selection.start).toBeLessThanOrEqual(result!.selection.end);
+  });
+});
+
 describe('selection safety', () => {
   it('clamps a range selection that straddled the replaced placeholder', async () => {
     // start before the placeholder, end after it: neither endpoint is shifted, so
