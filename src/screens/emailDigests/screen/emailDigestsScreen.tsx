@@ -158,7 +158,7 @@ const EmailDigestsScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={styles.container}>
       <BasicHeader title={intl.formatMessage({ id: 'newsletter.screen_title' })} />
       {_renderContent()}
     </SafeAreaView>
