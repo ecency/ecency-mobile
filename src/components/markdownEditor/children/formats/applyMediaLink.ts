@@ -105,8 +105,33 @@ export default async ({ text, selection, setTextAndSelection, items, otherPendin
   };
 
   const _removeAt = (index: number, length: number) => {
-    newText = newText.slice(0, index) + newText.slice(index + length);
-    _shiftSelectionAfter(index + length, -length);
+    let start = index;
+    let end = index + length;
+    // Absorb one adjacent line break the way the draft sweep does: the insert wrote
+    // `\n![](...)\n`, so dropping only the placeholder leaves a blank line behind.
+    if (newText[end] === '\n') {
+      end += 1;
+    } else if (newText[end] === '\r' && newText[end + 1] === '\n') {
+      end += 2;
+    } else if (start > 0 && newText[start - 1] === '\n') {
+      start -= 1;
+      if (start > 0 && newText[start - 1] === '\r') {
+        start -= 1;
+      }
+    }
+
+    const removed = end - start;
+    newText = newText.slice(0, start) + newText.slice(end);
+
+    if (newSelection.start >= end) {
+      newSelection = {
+        start: Math.max(0, newSelection.start - removed),
+        end: Math.max(0, newSelection.end - removed),
+      };
+    } else if (newSelection.start > start) {
+      // the caret sat inside the failed placeholder: land it where it began
+      newSelection = { start, end: start };
+    }
   };
 
   const _removeFormatedString = (placeholder: string, filename?: string) => {

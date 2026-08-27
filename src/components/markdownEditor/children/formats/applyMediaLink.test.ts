@@ -170,19 +170,27 @@ describe('applyMediaLink', () => {
   });
 
   describe('FAILED', () => {
-    it('removes the exact placeholder and shifts a caret after it', async () => {
+    it('removes the exact placeholder and its line break, shifting a caret after it', async () => {
       const result = await run('hello\n![](Uploading... img.jpg)\nworld', { start: 37, end: 37 }, [
         { filename: 'img.jpg', url: '', text: '', status: MediaInsertStatus.FAILED },
       ]);
-      expect(result?.text).toBe('hello\n\nworld');
-      expect(result?.selection).toEqual({ start: 12, end: 12 });
+      // no blank line left where the image was
+      expect(result?.text).toBe('hello\nworld');
+      expect(result?.selection).toEqual({ start: 11, end: 11 });
+    });
+
+    it('lands a caret that sat inside the failed placeholder at its start', async () => {
+      const result = await run('hello\n![](Uploading... img.jpg)\nworld', { start: 15, end: 15 }, [
+        { filename: 'img.jpg', url: '', text: '', status: MediaInsertStatus.FAILED },
+      ]);
+      expect(result?.selection).toEqual({ start: 6, end: 6 });
     });
 
     it('removes a lone mangled placeholder', async () => {
       const result = await run('a\n![](Uploading... imgXX)\nb', { start: 0, end: 0 }, [
         { filename: 'img.jpg', url: '', text: '', status: MediaInsertStatus.FAILED },
       ]);
-      expect(result?.text).toBe('a\n\nb');
+      expect(result?.text).toBe('a\nb');
     });
 
     it('does nothing when no placeholder remains', async () => {
