@@ -22,33 +22,27 @@ import { SheetNames } from '../../../navigation/sheets';
 import { selectIsLoggedIn } from '../../../redux/selectors';
 import { isSignImageUnavailable } from '../../../constants/imageUpload';
 
+import { MediaInsertContext, MediaInsertData, MediaInsertStatus, Modes } from '../types';
+import {
+  prepareInsertDispatch,
+  registerPendingFlush,
+  shouldQueueInsert,
+} from '../mediaInsertQueue';
+import { extractUploadPlaceholderNames } from '../uploadPlaceholder';
+
+export { MediaInsertStatus, Modes } from '../types';
+export type { MediaInsertContext, MediaInsertData } from '../types';
+
 export interface UploadsGalleryModalRef {
   showModal: () => void;
-}
-
-export enum Modes {
-  MODE_IMAGE = 0,
-  MODE_VIDEO = 1,
 }
 
 const MAX_IMAGE_UPLOAD_SIZE = 30000000; // 30MB server limit
 const MAX_IMAGE_DIMENSION = 1920;
 const COMPRESS_QUALITY = 0.85;
-
-export enum MediaInsertStatus {
-  UPLOADING = 'UPLOADING',
-  READY = 'READY',
-  FAILED = 'FAILED',
-}
-
-export interface MediaInsertData {
-  url: string;
-  filename?: string;
-  text: string;
-  status: MediaInsertStatus;
-  // absent for image inserts and failed uploads; only video inserts carry it
-  mode?: Modes;
-}
+// Grace period between the editor reporting "typing stopped" and a queued insert
+// rewriting the body, so keystrokes already queued natively land first.
+const INSERT_SETTLE_MS = 100;
 
 interface UploadsGalleryModalProps {
   postBody: string;
@@ -57,7 +51,7 @@ interface UploadsGalleryModalProps {
   isPreviewActive: boolean;
   allowMultiple?: boolean;
   hideToolbarExtension: () => void;
-  handleMediaInsert: (data: Array<MediaInsertData>) => void;
+  handleMediaInsert: (data: Array<MediaInsertData>, context?: MediaInsertContext) => void;
   setIsUploading: (status: boolean) => void;
   /**
    * Receives the uploaded thumbnail of a 3Speak video along with the embed it belongs to,
@@ -88,8 +82,17 @@ export const UploadsGalleryModal = forwardRef(
     const mediaUploadMutation = editorQueries.useMediaUploadMutation();
 
     const pendingInserts = useRef<MediaInsertData[]>([]);
+    const flushTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    // Filenames whose "Uploading..." placeholder has been handed to the editor and
+    // not yet resolved. Sent along with each batch so the editor can tell whether an
+    // ambiguous placeholder might belong to a different upload.
+    const inFlightPlaceholders = useRef<Set<string>>(new Set());
     const isEditingRef = useRef(isEditing);
     isEditingRef.current = isEditing;
+    // Latest insert callback for code that outlives renders (upload continuations,
+    // the deferred flush timer, the unmount flush below).
+    const handleMediaInsertRef = useRef(handleMediaInsert);
+    handleMediaInsertRef.current = handleMediaInsert;
     const speakUploaderRef = useRef<any>(null);
 
     const [showModal, setShowModal] = useState(false);
@@ -103,6 +106,59 @@ export const UploadsGalleryModal = forwardRef(
     // Image gallery query (video gallery no longer needed with new embed architecture)
     const mediaUploadsQuery = imageUploadsQuery;
     const { fetchNextPage, hasNextPage, isFetchingNextPage } = mediaUploadsQuery;
+
+    // Recover the placeholders already in the body. This component unmounts whenever
+    // the user toggles preview, while its uploads keep running, so a fresh instance
+    // would otherwise start with an empty in-flight set and tell the editor there
+    // are no rival uploads — re-opening the very hole `otherPending` exists to close.
+    // A placeholder that is actually dead only costs the optional repair path, never
+    // correctness, and the draft sweep clears those on load anyway.
+    const bodyAtMountRef = useRef(postBody);
+    bodyAtMountRef.current = postBody;
+    useEffect(() => {
+      extractUploadPlaceholderNames(bodyAtMountRef.current).forEach((name) =>
+        inFlightPlaceholders.current.add(name),
+      );
+    }, []);
+
+    const _dispatchInserts = (data: MediaInsertData[], commitNow = false) => {
+      const context = prepareInsertDispatch(inFlightPlaceholders.current, data);
+      handleMediaInsertRef.current?.(data, { ...context, commitNow });
+    };
+
+    const _cancelScheduledFlush = () => {
+      if (flushTimerRef.current) {
+        clearTimeout(flushTimerRef.current);
+        flushTimerRef.current = null;
+      }
+    };
+
+    // `commitNow` is for teardown: the editor writes the body straight through
+    // instead of on its 500ms debounce, so the draft save happening in the same
+    // breath sees the resolved url rather than the placeholder.
+    const _flushPendingInserts = (commitNow = false) => {
+      _cancelScheduledFlush();
+      if (!pendingInserts.current.length) {
+        return;
+      }
+      const batch = pendingInserts.current;
+      pendingInserts.current = [];
+      _dispatchInserts(batch, commitNow);
+    };
+
+    const _scheduleFlush = () => {
+      if (flushTimerRef.current || !pendingInserts.current.length) {
+        return;
+      }
+      flushTimerRef.current = setTimeout(() => {
+        flushTimerRef.current = null;
+        if (isEditingRef.current) {
+          // typing resumed inside the settle window; the next pause re-schedules
+          return;
+        }
+        _flushPendingInserts();
+      }, INSERT_SETTLE_MS);
+    };
 
     useImperativeHandle(ref, () => ({
       toggleModal: (value: boolean, _mode: Modes = mode) => {
@@ -184,11 +240,36 @@ export const UploadsGalleryModal = forwardRef(
     }, [paramFiles]);
 
     useEffect(() => {
-      if (!isEditing && pendingInserts.current.length) {
-        handleMediaInsert(pendingInserts.current);
-        pendingInserts.current = [];
+      // isEditing goes false exactly 500ms after the last keystroke — a natural
+      // typing-pause cadence — and an insert rewrites the whole native text from the
+      // JS-side refs. The scheduled flush lets queued native keystroke events drain
+      // first, and re-defers if typing resumed (the next isEditing flip re-runs this
+      // effect, so nothing is lost).
+      if (!isEditing) {
+        _scheduleFlush();
       }
+      return _cancelScheduledFlush;
     }, [isEditing]);
+
+    // The editor screen drains this before it saves on the way out. Its
+    // `componentWillUnmount` runs ahead of every descendant's effect cleanup, so a
+    // queue flushed only from the cleanup below lands after the draft has already
+    // been written, and the resolved url misses that save.
+    useEffect(() => registerPendingFlush(() => _flushPendingInserts(true)), []);
+
+    useEffect(
+      () => () => {
+        // Deferred results must not die with this component: flush them so resolved
+        // URLs still replace their placeholders in the editor refs and reach the
+        // draft autosave (both stay live in closures past unmount). Then let any
+        // upload still in flight insert directly on completion — with the component
+        // gone there is no later isEditing flip to flush a deferral, so parking it
+        // would orphan the placeholder in the saved draft.
+        isEditingRef.current = false;
+        _flushPendingInserts(true);
+      },
+      [],
+    );
 
     useEffect(() => {
       _getMediaUploads(mode); // get media uploads when there is new update
@@ -273,6 +354,15 @@ export const UploadsGalleryModal = forwardRef(
           throw new Error('New media items returned');
         }
 
+        // Gate before any placeholder is written: a logged-out upload can never
+        // resolve, so it must never put an "Uploading..." placeholder in the body.
+        // Reachable logged-out via the share-files intent (other entry points
+        // already gate in toggleModal/pasteImageFromClipboard).
+        if (!isLoggedIn) {
+          showLoginAlert({ intl });
+          return;
+        }
+
         // filter out oversized images (server limit is 30MB)
         const oversized = media.filter(
           (item) => item && item.size && item.size > MAX_IMAGE_UPLOAD_SIZE,
@@ -311,7 +401,6 @@ export const UploadsGalleryModal = forwardRef(
             element.mime !== 'image/gif' &&
             (element.width > MAX_IMAGE_DIMENSION || element.height > MAX_IMAGE_DIMENSION)
           ) {
-            // eslint-disable-next-line no-await-in-loop
             const resizeOpt =
               element.width >= element.height
                 ? { width: MAX_IMAGE_DIMENSION }
@@ -356,7 +445,10 @@ export const UploadsGalleryModal = forwardRef(
             }
           });
           if (uploadingInserts.length > 0) {
-            handleMediaInsert(uploadingInserts);
+            // Through the deferral gate like every other programmatic insert, so a
+            // body being typed into or restored is never overwritten mid-flight
+            // (matters for the share-intent path, which fires on a timer at mount).
+            _handleMediaInsertion(uploadingInserts);
           }
         }
 
@@ -378,24 +470,36 @@ export const UploadsGalleryModal = forwardRef(
         );
 
         // Batch insert all successful uploads in a single call to avoid race conditions
-        // where parallel onSuccess callbacks read stale body text from refs
+        // where parallel onSuccess callbacks read stale body text from refs. Every
+        // placeholder written above must get a verdict here: an upload that resolved
+        // without a url (or was skipped because the session ended mid-flight) throws
+        // nothing, so without the FAILED fallback its placeholder would stay in the
+        // body forever with no result left to resolve it. Rejections already emitted
+        // their own FAILED from _uploadImage, so they are not repeated here.
         if (shouldInsert) {
-          const successfulInserts = results
+          const resolvedInserts = results
             .map((result, index) => {
-              if (result.status === 'fulfilled' && result.value?.url) {
-                return {
-                  filename: media[index]?.filename || '',
-                  url: result.value.url,
-                  text: '',
-                  status: MediaInsertStatus.READY,
-                };
+              if (!media[index] || result.status !== 'fulfilled') {
+                return null;
               }
-              return null;
+              return result.value?.url
+                ? {
+                    filename: media[index]?.filename || '',
+                    url: result.value.url,
+                    text: '',
+                    status: MediaInsertStatus.READY,
+                  }
+                : {
+                    filename: media[index]?.filename || '',
+                    url: '',
+                    text: '',
+                    status: MediaInsertStatus.FAILED,
+                  };
             })
             .filter(Boolean);
 
-          if (successfulInserts.length > 0) {
-            _handleMediaInsertion(successfulInserts as any);
+          if (resolvedInserts.length > 0) {
+            _handleMediaInsertion(resolvedInserts as any);
           }
         }
 
@@ -460,7 +564,12 @@ export const UploadsGalleryModal = forwardRef(
     };
 
     const _uploadImage = async (media: any, { shouldInsert } = { shouldInsert: false }) => {
-      if (!isLoggedIn) return;
+      if (!isLoggedIn) {
+        // Defensive: callers gate on login before any placeholder is written. If the
+        // session ended mid-flight and one exists, returning no url marks it FAILED
+        // in the batch above rather than leaving it stuck.
+        return undefined;
+      }
       try {
         const data = await mediaUploadMutation.mutateAsync({
           media,
@@ -557,11 +666,14 @@ export const UploadsGalleryModal = forwardRef(
     };
 
     const _handleMediaInsertion = (data: MediaInsertData[]) => {
-      if (isEditingRef.current) {
+      if (shouldQueueInsert(isEditingRef.current, pendingInserts.current.length)) {
         pendingInserts.current.push(...data);
-      } else if (handleMediaInsert) {
-        handleMediaInsert(data);
+        if (!isEditingRef.current) {
+          _scheduleFlush();
+        }
+        return;
       }
+      _dispatchInserts(data);
     };
 
     // fetch images from server
@@ -589,7 +701,9 @@ export const UploadsGalleryModal = forwardRef(
         });
       });
 
-      handleMediaInsert(data);
+      // Through the same gate as every other insert: these carry no placeholder and
+      // land at the caret, so they must not overtake a queued placeholder either.
+      _handleMediaInsertion(data);
     };
 
     const data = mediaUploadsQuery.data.slice();
@@ -622,7 +736,7 @@ export const UploadsGalleryModal = forwardRef(
           isUploading={isAddingToUploads}
           setIsUploading={_setIsSpeakUploading}
           onVideoUploaded={(embedUrl, thumbnailUrl) => {
-            handleMediaInsert([
+            _handleMediaInsertion([
               {
                 url: embedUrl,
                 text: '',

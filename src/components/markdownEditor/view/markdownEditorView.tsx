@@ -10,6 +10,7 @@ import { Icon } from '../../icon';
 
 // Utils
 import applyMediaLink from '../children/formats/applyMediaLink';
+import { sweepUploadingPlaceholders } from '../children/formats/sweepUploadingPlaceholders';
 
 // Components
 import {
@@ -33,7 +34,11 @@ import { selectIsDarkTheme } from '../../../redux/selectors';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 import { OptionsModal } from '../../atoms';
 import { MainButton } from '../../mainButton';
-import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
+import {
+  MediaInsertContext,
+  MediaInsertData,
+} from '../../uploadsGalleryModal/container/uploadsGalleryModal';
+import { registerPendingFlush } from '../../uploadsGalleryModal/mediaInsertQueue';
 import { EditorToolbar } from '../children/editorToolbar';
 import applySnippet from '../children/formats/applySnippet';
 import styles from '../styles/markdownEditorStyles';
@@ -156,10 +161,18 @@ const MarkdownEditorView = ({
       // cached comment is appended to, not prepended (its body is short, so there is
       // no scroll problem and immediate typing is expected).
       const savedCaret = store.getState().editor.caretMap?.[_caretKey];
-      const { caret, hasSavedCaret } = resolveRestoreCaret(savedCaret, draftBody.length, isReply);
+      // Strip dead "Uploading..." placeholders left by a previous session (their
+      // uploads can no longer resolve into this editor), shifting the saved caret
+      // past the removals. The swept body flows to the form/autosave through the
+      // same debounced update this programmatic write already triggers.
+      const swept = sweepUploadingPlaceholders(
+        draftBody,
+        typeof savedCaret === 'number' ? savedCaret : undefined,
+      );
+      const { caret, hasSavedCaret } = resolveRestoreCaret(swept.caret, swept.text.length, isReply);
       _setTextAndSelection({
         selection: { start: caret, end: caret },
-        text: draftBody,
+        text: swept.text,
       });
       // Drop any caret write queued from the empty input's initial focus before this
       // load. It is stale relative to this authoritative restore (no real edit has
@@ -167,6 +180,21 @@ const MarkdownEditorView = ({
       // under this draft's key: on a no-caret draft that resurfaces prepend-on-type
       // next open, and on a saved-caret draft it clobbers the position being resumed.
       _persistCaret.cancel();
+      if (swept.text !== draftBody) {
+        // Commit the swept body to the form NOW rather than 500ms later on the
+        // debounce. Both saves read `fields.body`, and the unmount save reads it
+        // synchronously, so a draft closed right after opening would otherwise be
+        // written back with the dead placeholder still in it — while the caret
+        // below has already moved to swept coordinates. The two must agree.
+        handleFormUpdate('body', swept.text);
+        // A sweep shortened the body, so the stored caret now points past the text
+        // it belonged to. Rewrite it to the shifted position (only when one was
+        // actually saved — persisting the no-caret fallback of 0 is what the cancel
+        // above guards against).
+        if (hasSavedCaret) {
+          dispatch(setDraftCaret(caretKeyRef.current, caret));
+        }
+      }
       // Opening a post/draft with no saved caret intentionally lands at position 0.
       // Do NOT keep an active cursor there: an auto-focused caret at 0 would prepend
       // on the next keystroke (the concern that reverted the previous fix) and the
@@ -213,9 +241,14 @@ const MarkdownEditorView = ({
     }
   }, [isLoading]);
 
-  useEffect(() => {
-    bodyTextRef.current = draftBody;
-  }, [draftBody]);
+  // NOTE: there is deliberately no `bodyTextRef.current = draftBody` sync effect
+  // here. `draftBody` is `fields.body`, which is just this editor's own text echoed
+  // back through the 500ms debounce, so it is always as old as or older than the
+  // ref. Writing it into the ref reverted keystrokes typed since the echo was
+  // captured (text silently lost if nothing was typed afterwards) and undid the
+  // placeholder sweep the restore effect above applies. The restore effect owns the
+  // one real transition (empty ref -> loaded body); every other programmatic body
+  // change goes through _setTextAndSelection.
 
   useEffect(() => {
     if (isReply || (autoFocusText && inputRef && inputRef.current && draftBtnTooltipRegistered)) {
@@ -303,6 +336,18 @@ const MarkdownEditorView = ({
     [_persistCaret, _debouncedOnTextChange],
   );
 
+  // Let the screen commit the last keystrokes before it saves on the way out. The
+  // cleanup above runs after the screen's `componentWillUnmount`, so on its own it
+  // flushes typing from the debounce window too late for that save to see it.
+  useEffect(
+    () =>
+      registerPendingFlush(() => {
+        _persistCaret.flush();
+        _debouncedOnTextChange.flush();
+      }),
+    [_persistCaret, _debouncedOnTextChange],
+  );
+
   const _handleOnSelectionChange = async (event: any) => {
     const { selection } = event.nativeEvent;
     bodySelectionRef.current = selection;
@@ -366,14 +411,21 @@ const MarkdownEditorView = ({
     setIsSnippetsOpen(false);
   };
 
-  const _handleMediaInsert = (mediaArray: MediaInsertData[]) => {
+  const _handleMediaInsert = (mediaArray: MediaInsertData[], context?: MediaInsertContext) => {
     if (mediaArray.length) {
       applyMediaLink({
         text: bodyTextRef.current,
         selection: bodySelectionRef.current,
         setTextAndSelection: _setTextAndSelection,
         items: mediaArray,
+        otherPending: context?.otherPending,
       });
+      if (context?.commitNow) {
+        // Drained during teardown: push the body to the form now rather than on the
+        // debounce, so the draft save running in the same breath sees the resolved
+        // url instead of the placeholder it replaced.
+        _debouncedOnTextChange.flush();
+      }
     }
   };
 

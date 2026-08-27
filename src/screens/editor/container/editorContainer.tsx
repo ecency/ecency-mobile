@@ -751,6 +751,18 @@ class EditorContainer extends Component<any, any> {
           return;
         }
 
+        // The guard at the top of this method ran before the awaits above, so a save
+        // that started just before the user hit publish would land here afterwards
+        // and rewrite (or recreate) the server draft the publish flow is asking the
+        // user about. Re-check right before the mutation; the local cache is already
+        // written and is guarded on its own.
+        if (this._isPublished) {
+          if (this._isMounted) {
+            this.setState({ isDraftSaving: false });
+          }
+          return;
+        }
+
         // update draft is draftId is present
         if (draftId && draftField && !saveAsNew) {
           await updateDraft(
@@ -954,6 +966,14 @@ class EditorContainer extends Component<any, any> {
 
     // skip draft save in case post is sending or is post beign edited
     if (isPostSending || isEdit) {
+      return;
+    }
+
+    // Once published, never write the draft cache again (same rule _saveDraftToDB
+    // applies). Debounced/late saves — the 300ms form timer, an image upload
+    // resolving after the editor closed — would otherwise re-create the cache
+    // entry that publishing just deleted, resurfacing the post as a ghost draft.
+    if (this._isPublished) {
       return;
     }
 
@@ -1455,6 +1475,11 @@ class EditorContainer extends Component<any, any> {
         });
 
         AsyncStorage.setItem('temp-reply', '');
+        // Mark published BEFORE clearing the cache below, so a late autosave — the
+        // unmount save, or an image upload resolving after the editor closed —
+        // cannot re-create the entry we are about to delete and leave the comment
+        // box pre-filled with an already-published reply.
+        this._isPublished = true;
         this._handleSubmitSuccess();
 
         // delete quick comment draft cache if it exist (from replyCache)
