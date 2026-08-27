@@ -1,4 +1,4 @@
-import { uploadPlaceholderPattern } from './applyMediaLink';
+import { uploadPlaceholderPattern } from '../../../uploadsGalleryModal/uploadPlaceholder';
 
 /**
  * Strip orphaned `![...](Uploading... filename)` placeholders from a body that is

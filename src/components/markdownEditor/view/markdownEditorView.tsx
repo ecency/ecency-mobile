@@ -179,13 +179,20 @@ const MarkdownEditorView = ({
       // under this draft's key: on a no-caret draft that resurfaces prepend-on-type
       // next open, and on a saved-caret draft it clobbers the position being resumed.
       _persistCaret.cancel();
-      // A sweep shortened the body, so the stored caret now points past the text it
-      // belonged to. Rewrite it to the shifted position (only when one was actually
-      // saved — persisting the no-caret fallback of 0 is what the cancel above
-      // guards against). Without this, closing the draft untouched would resume at
-      // the stale offset on the next open.
-      if (hasSavedCaret && swept.text !== draftBody) {
-        dispatch(setDraftCaret(caretKeyRef.current, caret));
+      if (swept.text !== draftBody) {
+        // Commit the swept body to the form NOW rather than 500ms later on the
+        // debounce. Both saves read `fields.body`, and the unmount save reads it
+        // synchronously, so a draft closed right after opening would otherwise be
+        // written back with the dead placeholder still in it — while the caret
+        // below has already moved to swept coordinates. The two must agree.
+        handleFormUpdate('body', swept.text);
+        // A sweep shortened the body, so the stored caret now points past the text
+        // it belonged to. Rewrite it to the shifted position (only when one was
+        // actually saved — persisting the no-caret fallback of 0 is what the cancel
+        // above guards against).
+        if (hasSavedCaret) {
+          dispatch(setDraftCaret(caretKeyRef.current, caret));
+        }
       }
       // Opening a post/draft with no saved caret intentionally lands at position 0.
       // Do NOT keep an active cursor there: an auto-focused caret at 0 would prepend

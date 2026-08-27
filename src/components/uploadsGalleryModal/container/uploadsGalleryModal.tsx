@@ -24,6 +24,7 @@ import { isSignImageUnavailable } from '../../../constants/imageUpload';
 
 import { MediaInsertContext, MediaInsertData, MediaInsertStatus, Modes } from '../types';
 import { prepareInsertDispatch, shouldQueueInsert } from '../mediaInsertQueue';
+import { extractUploadPlaceholderNames } from '../uploadPlaceholder';
 
 export { MediaInsertStatus, Modes } from '../types';
 export type { MediaInsertContext, MediaInsertData } from '../types';
@@ -101,6 +102,20 @@ export const UploadsGalleryModal = forwardRef(
     // Image gallery query (video gallery no longer needed with new embed architecture)
     const mediaUploadsQuery = imageUploadsQuery;
     const { fetchNextPage, hasNextPage, isFetchingNextPage } = mediaUploadsQuery;
+
+    // Recover the placeholders already in the body. This component unmounts whenever
+    // the user toggles preview, while its uploads keep running, so a fresh instance
+    // would otherwise start with an empty in-flight set and tell the editor there
+    // are no rival uploads — re-opening the very hole `otherPending` exists to close.
+    // A placeholder that is actually dead only costs the optional repair path, never
+    // correctness, and the draft sweep clears those on load anyway.
+    const bodyAtMountRef = useRef(postBody);
+    bodyAtMountRef.current = postBody;
+    useEffect(() => {
+      extractUploadPlaceholderNames(bodyAtMountRef.current).forEach((name) =>
+        inFlightPlaceholders.current.add(name),
+      );
+    }, []);
 
     const _dispatchInserts = (data: MediaInsertData[]) => {
       const context = prepareInsertDispatch(inFlightPlaceholders.current, data);

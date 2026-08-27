@@ -4,6 +4,10 @@ import {
   MediaInsertStatus,
   Modes,
 } from '../../../uploadsGalleryModal/types';
+import {
+  uploadPlaceholderPattern,
+  uploadPlaceholderPrefix,
+} from '../../../uploadsGalleryModal/uploadPlaceholder';
 import { replaceBetween } from './utils';
 
 interface Selection {
@@ -19,20 +23,6 @@ interface Args extends MediaInsertContext {
 }
 
 const imagePrefix = '!';
-
-export const uploadPlaceholderPrefix = 'Uploading... ';
-
-// Any upload placeholder this editor may have written: `![alt](Uploading... name)`.
-// Used to recover a placeholder whose filename got mangled (by the typing race or a
-// stray edit) and to sweep orphans out of restored drafts.
-//
-// The filename part allows one level of balanced parentheses, because gallery
-// filenames routinely contain them (`IMG_2024 (1).jpg`); stopping at the first `)`
-// matched only a prefix and left `.jpg)` behind as garbage. Alt text and filename
-// both exclude newlines so a match can never swallow surrounding body text, and the
-// alternation cannot run past the placeholder's own closing paren.
-export const uploadPlaceholderPattern = () =>
-  /!\[[^\]\n]*\]\(Uploading\.\.\.(?:[^()\n]|\([^()\n]*\))*\)/g;
 
 export default async ({ text, selection, setTextAndSelection, items, otherPending }: Args) => {
   let newText = text;
