@@ -751,6 +751,18 @@ class EditorContainer extends Component<any, any> {
           return;
         }
 
+        // The guard at the top of this method ran before the awaits above, so a save
+        // that started just before the user hit publish would land here afterwards
+        // and rewrite (or recreate) the server draft the publish flow is asking the
+        // user about. Re-check right before the mutation; the local cache is already
+        // written and is guarded on its own.
+        if (this._isPublished) {
+          if (this._isMounted) {
+            this.setState({ isDraftSaving: false });
+          }
+          return;
+        }
+
         // update draft is draftId is present
         if (draftId && draftField && !saveAsNew) {
           await updateDraft(

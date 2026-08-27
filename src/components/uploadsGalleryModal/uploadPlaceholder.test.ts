@@ -25,3 +25,11 @@ describe('extractUploadPlaceholderNames', () => {
     expect(extractUploadPlaceholderNames(body)).toEqual(['a.jpg', 'b.png']);
   });
 });
+
+describe('uploadPlaceholderPattern', () => {
+  it('does not match markdown that lacks the prefix’s trailing space', () => {
+    // the editor always writes 'Uploading... <name>'; anything else is the user's
+    // own markdown and must survive the sweep untouched
+    expect(extractUploadPlaceholderNames('![](Uploading...img.jpg)')).toEqual([]);
+  });
+});

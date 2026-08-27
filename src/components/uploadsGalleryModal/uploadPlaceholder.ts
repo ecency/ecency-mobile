@@ -8,13 +8,17 @@
  */
 export const uploadPlaceholderPrefix = 'Uploading... ';
 
+// Matches the literal prefix INCLUDING its trailing space, so only text this editor
+// actually wrote can be repaired or swept; `![](Uploading...x.jpg)` is someone's own
+// markdown and must be left alone (the sweep deletes what it matches).
+//
 // The filename part allows one level of balanced parentheses, because gallery
 // filenames routinely contain them (`IMG_2024 (1).jpg`); stopping at the first `)`
 // matched only a prefix and left `.jpg)` behind as garbage. Alt text and filename
 // both exclude newlines so a match can never swallow surrounding body text, and the
 // alternation cannot run past the placeholder's own closing paren.
 export const uploadPlaceholderPattern = () =>
-  /!\[[^\]\n]*\]\(Uploading\.\.\.(?:[^()\n]|\([^()\n]*\))*\)/g;
+  /!\[[^\]\n]*\]\(Uploading\.\.\. (?:[^()\n]|\([^()\n]*\))*\)/g;
 
 /**
  * Filenames of the upload placeholders currently in `text`.
