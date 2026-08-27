@@ -10,6 +10,12 @@ import { getItemFromStorage, setItemToStorage } from '../../storage/storage';
 import { IconButton } from '../iconButton';
 import { pickPostDigestTarget, postPromptStorageKey } from './postDigestTarget';
 
+// The dismiss is a fixed 30x30 and its write is permanent, so grow the target
+// vertically and toward the card edge. NOT to the left: the Subscribe pill is
+// flush against it and this button paints later, so left slop would let it
+// swallow Subscribe taps and dismiss the card for good.
+const DISMISS_HIT_SLOP = { top: 8, bottom: 8, left: 0, right: 8 };
+
 interface Props {
   post:
     | { author?: string; category?: string; parent_author?: string; depth?: number }
@@ -109,6 +115,7 @@ const NewsletterPostPrompt = ({ post }: Props) => {
         size={18}
         color={EStyleSheet.value('$primaryDarkGray')}
         onPress={_handleDismiss}
+        hitSlop={DISMISS_HIT_SLOP}
       />
     </View>
   );

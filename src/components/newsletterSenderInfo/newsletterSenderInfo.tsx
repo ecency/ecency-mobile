@@ -11,6 +11,10 @@ import { useAppDispatch, useAuth } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { IconButton } from '../iconButton';
 
+// The copy button is a fixed 30x30. Kept to 4 on the right so the target stays
+// inside the 8pt gap before "Manage" and cannot swallow taps meant for it.
+const COPY_HIT_SLOP = { top: 8, bottom: 8, left: 8, right: 4 };
+
 interface Props {
   username: string;
 }
@@ -56,6 +60,7 @@ const NewsletterSenderInfo = ({ username }: Props) => {
         size={18}
         color={EStyleSheet.value('$primaryDarkGray')}
         onPress={_handleCopyLink}
+        hitSlop={COPY_HIT_SLOP}
       />
       <TouchableOpacity onPress={() => navigation.navigate(ROUTES.SCREENS.EMAIL_DIGESTS)}>
         <Text style={styles.manageText} numberOfLines={1}>
