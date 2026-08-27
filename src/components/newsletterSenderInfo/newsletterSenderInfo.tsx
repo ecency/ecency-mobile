@@ -44,7 +44,7 @@ const NewsletterSenderInfo = ({ username }: Props) => {
 
   return (
     <View style={styles.row}>
-      <Text style={styles.countText}>
+      <Text style={styles.countText} numberOfLines={1}>
         {intl.formatMessage(
           { id: 'newsletter.subscriber_count' },
           { weekly: subscribers.weekly ?? 0, monthly: subscribers.monthly ?? 0 },
@@ -58,21 +58,28 @@ const NewsletterSenderInfo = ({ username }: Props) => {
         onPress={_handleCopyLink}
       />
       <TouchableOpacity onPress={() => navigation.navigate(ROUTES.SCREENS.EMAIL_DIGESTS)}>
-        <Text style={styles.manageText}>{intl.formatMessage({ id: 'newsletter.manage' })}</Text>
+        <Text style={styles.manageText} numberOfLines={1}>
+          {intl.formatMessage({ id: 'newsletter.manage' })}
+        </Text>
       </TouchableOpacity>
     </View>
   );
 };
 
 const styles = EStyleSheet.create({
+  // Natural (unfixed) height ON PURPOSE: the row lives OUTSIDE the summary
+  // card's one-shot height measurement, so it may grow with accessibility
+  // font scaling and its 30pt icon without clipping anything
+  // (vision-mobile#3522).
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 16,
-    paddingTop: 6,
+    paddingBottom: 4,
   },
   countText: {
+    flexShrink: 1,
     fontSize: 13,
     color: '$primaryDarkGray',
   },
@@ -80,6 +87,7 @@ const styles = EStyleSheet.create({
     fontSize: 13,
     color: '$primaryBlue',
     marginLeft: 8,
+    maxWidth: 120,
   },
 });
 

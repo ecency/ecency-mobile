@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { CollapsibleCard } from '../collapsibleCard';
 import { Header } from '../header';
 import { ProfileSummaryPlaceHolder, WalletDetailsPlaceHolder } from '../basicUIElements';
+import { NewsletterSenderInfo } from '../newsletterSenderInfo';
 import { ProfileSummary } from '../profileSummary';
 import { Wallet } from '../wallet';
 import { IconButton } from '../iconButton';
@@ -214,47 +215,58 @@ class ProfileView extends PureComponent<any, any> {
     return !isReady ? (
       <ProfileSummaryPlaceHolder />
     ) : (
-      <CollapsibleCard
-        title=""
-        defaultTitle=""
-        titleComponent={<View />}
-        isExpanded={isSummaryOpen}
-        handleOnExpanded={this._handleOnSummaryExpanded}
-        moreHeight={collapsibleMoreHeight}
-        fitContent
-        noBorder
-      >
-        <ProfileSummary
-          date={getFormatedCreatedDate(get(selectedUser, 'created'))}
-          about={about}
-          displayName={displayName}
-          reputation={reputation ? parseReputation(reputation) : ''}
-          followerCount={follows ? follows.follower_count : 0}
-          followingCount={follows ? follows.following_count : 0}
-          handleFollowUnfollowUser={handleFollowUnfollowUser}
-          handleMessage={handleMessage}
-          handleMuteUnmuteUser={handleMuteUnmuteUser}
-          handleOnFavoritePress={handleOnFavoritePress}
-          handleOnFollowsPress={handleOnFollowsPress}
-          handleReportUser={handleReportUser}
-          handleDelegateHp={handleDelegateHp}
-          handleUIChange={this._handleUIChange}
-          hoursRC={Math.ceil((100 - resourceCredits) * 0.833333) || null}
-          hoursVP={Math.ceil((100 - votingPower) * 0.833333) || null}
-          intl={intl}
-          isDarkTheme={isDarkTheme}
-          isFavorite={isFavorite}
-          isFollowing={isFollowing}
-          isLoggedIn={isLoggedIn}
-          isMuted={isMuted}
-          isOwnProfile={isOwnProfile}
-          isProfileLoading={isProfileLoading}
-          percentRC={resourceCredits}
-          percentVP={votingPower}
-          handleOnPressProfileEdit={handleOnPressProfileEdit}
-          username={username}
-        />
-      </CollapsibleCard>
+      <>
+        <CollapsibleCard
+          title=""
+          defaultTitle=""
+          titleComponent={<View />}
+          isExpanded={isSummaryOpen}
+          handleOnExpanded={this._handleOnSummaryExpanded}
+          moreHeight={collapsibleMoreHeight}
+          fitContent
+          noBorder
+        >
+          <ProfileSummary
+            date={getFormatedCreatedDate(get(selectedUser, 'created'))}
+            about={about}
+            displayName={displayName}
+            reputation={reputation ? parseReputation(reputation) : ''}
+            followerCount={follows ? follows.follower_count : 0}
+            followingCount={follows ? follows.following_count : 0}
+            handleFollowUnfollowUser={handleFollowUnfollowUser}
+            handleMessage={handleMessage}
+            handleMuteUnmuteUser={handleMuteUnmuteUser}
+            handleOnFavoritePress={handleOnFavoritePress}
+            handleOnFollowsPress={handleOnFollowsPress}
+            handleReportUser={handleReportUser}
+            handleDelegateHp={handleDelegateHp}
+            handleUIChange={this._handleUIChange}
+            hoursRC={Math.ceil((100 - resourceCredits) * 0.833333) || null}
+            hoursVP={Math.ceil((100 - votingPower) * 0.833333) || null}
+            intl={intl}
+            isDarkTheme={isDarkTheme}
+            isFavorite={isFavorite}
+            isFollowing={isFollowing}
+            isLoggedIn={isLoggedIn}
+            isMuted={isMuted}
+            isOwnProfile={isOwnProfile}
+            isProfileLoading={isProfileLoading}
+            percentRC={resourceCredits}
+            percentVP={votingPower}
+            handleOnPressProfileEdit={handleOnPressProfileEdit}
+            username={username}
+          />
+        </CollapsibleCard>
+        {/* Outside the CollapsibleCard ON PURPOSE: the card measures its content
+          ONCE, and this row appears only after the sender query resolves, so
+          inside it the row was clipped (and reserving a fixed height fought
+          font scaling and cached-data double counts). As a sibling it takes
+          natural height in normal flow; it follows the summary's collapse
+          state so a collapsed header hides it too. */}
+        {!!isOwnProfile && !!username && isSummaryOpen && (
+          <NewsletterSenderInfo username={username} />
+        )}
+      </>
     );
   };
 
