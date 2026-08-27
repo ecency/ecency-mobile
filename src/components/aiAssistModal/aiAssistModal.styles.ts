@@ -94,6 +94,12 @@ export default EStyleSheet.create({
     color: '$iconColor',
   } as TextStyle,
 
+  // Colour only: a fontSize here would override the Icon's `size` prop, since the vector-icon
+  // sets merge the incoming style AFTER their own { fontSize: size }.
+  actionCardChevron: {
+    color: '$iconColor',
+  } as TextStyle,
+
   actionCostSelected: {
     color: '$white',
     opacity: 0.8,

@@ -42,6 +42,7 @@ import {
   UserAvatar,
 } from '..';
 import { delay } from '../../utils/editor';
+import { appendDictatedText } from '../../utils/dictationInsert';
 import { hasClipboardImage as detectClipboardImage } from '../../utils/clipboard';
 import { deleteReplyCacheEntry, updateReplyCache } from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
@@ -513,7 +514,7 @@ export const QuickPostModalContent = forwardRef(
       RootNavigation.navigate({
         name: ROUTES.SCREENS.AI_IMAGE_GENERATOR,
         params: {
-          suggestedPrompt: commentValue?.trim() || undefined,
+          suggestedPrompt: commentValueRef.current?.trim() || undefined,
           onInsert: (url: string) => {
             _handleMediaInsert([
               {
@@ -533,17 +534,77 @@ export const QuickPostModalContent = forwardRef(
       [_addQuickCommentIntoCache],
     );
 
+    // Dictation appends: see appendDictatedText for why the end of the body is the only position
+    // that is always right here. Reads commentValueRef rather than the commentValue state, since
+    // the sheet stays open and fires once per recorded segment, so a captured state value would
+    // be stale from the second segment on.
+    const _handleDictationResult = useCallback(
+      (text: string) => {
+        const body = commentValueRef.current || '';
+        const next = appendDictatedText(body, text);
+        if (next === body) {
+          return;
+        }
+
+        // The collapsed caret has to travel with the text. Android's updateExtraData preserves
+        // the caret's DISTANCE FROM THE END across a text-only update, so after an append it
+        // lands inside the segment just added and the next keystroke splits it.
+        const caret = next.length;
+
+        // Same order as the AI assist onApply: cancel first, or the pending 500ms callback fires
+        // with the pre-dictation body and overwrites the draft cache.
+        _deboucedCacheUpdate.cancel();
+        commentValueRef.current = next;
+        setCommentValue(next);
+        inputRef.current?.setNativeProps({ text: next, selection: { start: caret, end: caret } });
+        _addQuickCommentIntoCache(next);
+      },
+      [_deboucedCacheUpdate, _addQuickCommentIntoCache],
+    );
+
+    // A sheet payload is frozen at show time, so everything handed to one has to be reached
+    // through a ref or the sheet keeps calling the handler that existed when it opened. Both of
+    // these write the draft cache through closures over mediaUrls / videoEmbedUrl / videoThumbUrl,
+    // and that write replaces the whole entry, so a stale one drops media added in the meantime.
+    // Dictation needs it most, since its sheet stays open and fires once per recorded segment.
+    const _dictationResultRef = useRef(_handleDictationResult);
+    const _aiImageBtnRef = useRef(_handleAiImageBtn);
+    useEffect(() => {
+      _dictationResultRef.current = _handleDictationResult;
+      _aiImageBtnRef.current = _handleAiImageBtn;
+    });
+
+    const _handleDictationBtn = () => {
+      // Dismissed for room, not for focus: the recorder needs the vertical space, and nothing is
+      // typed while speaking. The sheet library dismisses the keyboard on hide regardless.
+      Keyboard.dismiss();
+      SheetManager.show(SheetNames.DICTATION, {
+        payload: {
+          onInsert: (text: string) => _dictationResultRef.current(text),
+        },
+      });
+    };
+
     const _handleAiAssistBtn = () => {
       SheetManager.show(SheetNames.AI_ASSIST, {
         payload: {
           text: commentValueRef.current,
           supportedActions: ['improve', 'check_grammar', 'summarize'],
+          // AI image generation lives in this sheet now rather than its own toolbar icon.
+          onGenerateImage: () => _aiImageBtnRef.current(),
           onApply: (output: string, _action: string) => {
             // Cancel any pending debounced cache update to prevent stale overwrite
             _deboucedCacheUpdate.cancel();
             commentValueRef.current = output;
             setCommentValue(output);
-            inputRef.current?.setNativeProps({ text: output });
+            // Caret to the end, for the same reason as the dictation insert above: a text-only
+            // update keeps the caret's distance from the end, which is meaningless once the
+            // whole body has been replaced by different text.
+            const caret = output.length;
+            inputRef.current?.setNativeProps({
+              text: output,
+              selection: { start: caret, end: caret },
+            });
             _addQuickCommentIntoCache(output);
           },
         },
@@ -712,7 +773,27 @@ export const QuickPostModalContent = forwardRef(
       );
     };
 
+    // Content buttons first, then the AI pair, then expand: expand leaves this composer for the
+    // full editor, so it belongs at the end rather than interrupting the compose actions. The row
+    // is a fixed-width non-wrapping flex row, which is why AI image generation moved into the AI
+    // assist sheet to make room for dictation rather than taking a sixth slot.
     const _renderExpandBtn = () => {
+      // Dictation sits with the other ways of getting content in, which puts it next to the
+      // video button in a wave and next to the image button in a reply. Same element either
+      // way, so the two placements cannot drift apart.
+      const _dictationBtn = (
+        <IconButton
+          iconType="MaterialCommunityIcons"
+          name="microphone-outline"
+          onPress={_handleDictationBtn}
+          size={22}
+          color={EStyleSheet.value('$primaryBlack')}
+          badgeCount="AI"
+          badgeStyle={styles.aiBadge}
+          badgeTextStyle={styles.aiBadgeText}
+        />
+      );
+
       return (
         <View style={styles.toolbarContainer}>
           <IconButton
@@ -723,16 +804,7 @@ export const QuickPostModalContent = forwardRef(
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
           />
-          {mode !== 'wave' && canCommentToCommunity && (
-            <IconButton
-              iconType="MaterialCommunityIcons"
-              name="arrow-expand"
-              onPress={_handleExpandBtn}
-              size={24}
-              color={EStyleSheet.value('$primaryBlack')}
-            />
-          )}
-          {mode === 'wave' && (
+          {mode === 'wave' ? (
             <>
               <IconButton
                 iconType="MaterialCommunityIcons"
@@ -742,6 +814,7 @@ export const QuickPostModalContent = forwardRef(
                 color={EStyleSheet.value(videoEmbedUrl ? '$primaryBlue' : '$primaryBlack')}
                 disabled={!!videoEmbedUrl || isVideoUploading}
               />
+              {_dictationBtn}
               <IconButton
                 iconType="SimpleLineIcons"
                 style={!!pollDraft && styles.iconBottomBar}
@@ -751,17 +824,9 @@ export const QuickPostModalContent = forwardRef(
                 color={EStyleSheet.value('$primaryBlack')}
               />
             </>
+          ) : (
+            _dictationBtn
           )}
-          <IconButton
-            iconType="MaterialsIcons"
-            name="image-outline"
-            onPress={_handleAiImageBtn}
-            size={24}
-            color={EStyleSheet.value('$primaryBlack')}
-            badgeCount="AI"
-            badgeStyle={styles.aiBadge}
-            badgeTextStyle={styles.aiBadgeText}
-          />
           <IconButton
             iconType="MaterialCommunityIcons"
             name="creation"
@@ -772,6 +837,15 @@ export const QuickPostModalContent = forwardRef(
             badgeStyle={styles.aiBadge}
             badgeTextStyle={styles.aiBadgeText}
           />
+          {mode !== 'wave' && canCommentToCommunity && (
+            <IconButton
+              iconType="MaterialCommunityIcons"
+              name="arrow-expand"
+              onPress={_handleExpandBtn}
+              size={24}
+              color={EStyleSheet.value('$primaryBlack')}
+            />
+          )}
         </View>
       );
     };
