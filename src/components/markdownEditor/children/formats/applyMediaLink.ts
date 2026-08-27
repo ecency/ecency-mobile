@@ -189,5 +189,19 @@ export default async ({ text, selection, setTextAndSelection, items, otherPendin
     return;
   }
 
-  setTextAndSelection({ text: newText, selection: newSelection });
+  // Never hand the native input an out-of-range selection. The shifts above move
+  // both endpoints together, so a RANGE selection that straddled an edited
+  // placeholder (start before it, end after it) keeps an end that the shortened
+  // body no longer has — and on Android setting a selection past the text length
+  // throws rather than clamping.
+  const _clamped = {
+    start: Math.min(Math.max(0, newSelection.start), newText.length),
+    end: Math.min(Math.max(0, newSelection.end), newText.length),
+  };
+
+  setTextAndSelection({
+    text: newText,
+    selection:
+      _clamped.end < _clamped.start ? { start: _clamped.start, end: _clamped.start } : _clamped,
+  });
 };

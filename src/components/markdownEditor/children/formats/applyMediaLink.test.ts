@@ -209,3 +209,27 @@ describe('applyMediaLink', () => {
     expect(result?.text).toBe('hello\n![](https://x/y.png)\n world');
   });
 });
+
+describe('selection safety', () => {
+  it('clamps a range selection that straddled the replaced placeholder', async () => {
+    // start before the placeholder, end after it: neither endpoint is shifted, so
+    // the end would otherwise point past the shortened body (Android throws on that)
+    const body = 'hello\n![](Uploading... img.jpg)\nworld';
+    const result = await run(body, { start: 2, end: 37 }, [
+      { filename: 'img.jpg', url: 'https://x/y.png', text: '', status: MediaInsertStatus.READY },
+    ]);
+    expect(result).not.toBeNull();
+    const { start, end } = result!.selection;
+    expect(start).toBeGreaterThanOrEqual(0);
+    expect(end).toBeLessThanOrEqual(result!.text.length);
+    expect(start).toBeLessThanOrEqual(end);
+  });
+
+  it('never returns a selection past the end of a body shortened by a failed upload', async () => {
+    const body = 'hello\n![](Uploading... img.jpg)\nworld';
+    const result = await run(body, { start: 2, end: 37 }, [
+      { filename: 'img.jpg', url: '', text: '', status: MediaInsertStatus.FAILED },
+    ]);
+    expect(result!.selection.end).toBeLessThanOrEqual(result!.text.length);
+  });
+});
