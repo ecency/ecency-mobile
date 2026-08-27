@@ -14,7 +14,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import { getAiGeneratePriceQueryOptions, getPointsQueryOptions } from '@ecency/sdk';
 import { Image as ExpoImage } from 'expo-image';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BasicHeader } from '../../../components/basicHeader';
 import { MainButton } from '../../../components/mainButton';
 import { useGenerateImageMutation } from '../../../providers/sdk/mutations';
@@ -43,6 +43,7 @@ const AiImageGeneratorScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { username, code } = useAuth();
+  const insets = useSafeAreaInsets();
 
   const { onInsert, suggestedPrompt } = (route.params ?? {}) as AiImageGeneratorParams;
 
@@ -316,7 +317,10 @@ const AiImageGeneratorScreen = () => {
       <BasicHeader title={intl.formatMessage({ id: 'ai_image_generator.title' })} />
       <ScrollView
         style={styles.container}
-        contentContainerStyle={styles.scrollContent}
+        // Padding rather than a bottom edge on the SafeAreaView: the result view
+        // overflows at the portrait ratios, and this clears the home indicator
+        // without leaving a gap under the scroll area in the states that do not.
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: 16 + insets.bottom }]}
         keyboardShouldPersistTaps="handled"
       >
         {_renderCostAndBalance()}
