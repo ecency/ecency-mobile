@@ -1,120 +1,108 @@
 ---
 name: add-mutation
-description: Add a new blockchain mutation wrapper using @ecency/sdk in the mobile app
+description: Use when adding, wrapping, or calling an @ecency/sdk mutation hook in the mobile app (Hive broadcasts like transfer, follow, vote, delegate, community, engine token, or points)
 argument-hint: [operation-name]
-disable-model-invocation: true
 ---
 
 # Add Mutation
 
-Create a mobile mutation wrapper for an `@ecency/sdk` mutation hook.
+Wrap an `@ecency/sdk` mutation hook in `src/providers/sdk/mutations/`. CLAUDE.md
+("SDK Migration") covers the adapter; this file is only the procedure.
 
-## Architecture
+## 1. Create the wrapper
 
-```
-@ecency/sdk (platform-agnostic mutation hook)
-    |
-src/providers/sdk/mutations/use<Operation>Mutation.ts (mobile wrapper — adds auth context)
-    |
-Screen / Component (calls the mutation)
-```
-
-The SDK handles all broadcast logic (key signing, HiveSigner, HiveAuth fallback, auth upgrade).
-The mobile wrapper just provides the current user and auth context via `useMutationAuth()`.
-
-## Step 1: Create the Mutation Wrapper
-
-Location: `src/providers/sdk/mutations/use<Operation>Mutation.ts`
-
-Every wrapper follows this exact pattern:
+`src/providers/sdk/mutations/use<Operation>Mutation.ts`. 40 of the 47 wrappers there are
+exactly this shape, so copy it verbatim:
 
 ```typescript
-import { use<Operation> } from '@ecency/sdk';
+import { useTransfer } from '@ecency/sdk';
 import { useMutationAuth } from './common';
 
-export function use<Operation>Mutation() {
+export function useTransferMutation() {
   const { username, authContext } = useMutationAuth();
-  return use<Operation>(username, authContext);
+  return useTransfer(username, authContext, 'async');
 }
 ```
 
-`useMutationAuth()` (from `./common.ts`) provides:
-- `username` — from Redux `selectCurrentAccount`
-- `authContext` — `{ adapter: mobilePlatformAdapter, enableFallback: true }`
+- `'async'` is the broadcast mode: the last positional arg after `authContext`, so the
+  third arg in 40 wrappers but the fourth in the two community ones. Pass it unless the
+  hook has no such parameter. `useBroadcastMutation` takes it as
+  `{ broadcastMode: 'async' }` inside the options object instead.
+- `useMutationAuth()` from `./common.ts` (44 of 47 import it) returns
+  `{ username, authContext }`: `currentAccount?.name` off `selectCurrentAccount`, plus
+  `useAuthContext()` (`src/providers/sdk/useAuthContext.ts`) building
+  `{ adapter: createMobilePlatformAdapter({...}), enableFallback: true }`. There is no
+  `mobilePlatformAdapter` object, only the factory.
+- Wrappers take no arguments. Three differ. `useSetCommunityRoleMutation(community)` plus
+  `useUpdateCommunityMutation(community)` take the community because the SDK bakes it into
+  the mutation key. `useAccountRelationsUpdateMutation(target, onSuccess, onError)` takes
+  three because the SDK bakes the target plus both callbacks into the mutation options.
+- Three of the 47 files are not broadcasts, so they skip `useMutationAuth`.
+  `useGenerateImageMutation` plus the three digest hooks in
+  `useNewsletterDigestMutations.ts` (`useSubscribeDigestMutation`,
+  `useLeaveDigestMutation`, `useUnsubscribeAllDigestsMutation`) bind the HiveSigner `code`
+  from `useAuth()` (`src/hooks/useAuth.ts`): `useGenerateImage(username, code)`.
+  `useClaimPointsMutation` instead derives the access token itself, decrypting
+  `currentAccount.local.accessToken` with `getDigitPinCode(pin)` plus `decryptKey`.
 
-## Step 2: Export from Index
+## 2. Export from the barrel
 
-Add to `src/providers/sdk/mutations/index.ts`:
-
-```typescript
-export { use<Operation>Mutation } from './use<Operation>Mutation';
-```
-
-## Step 3: Use in a Screen/Component
-
-```typescript
-import { use<Operation>Mutation } from '../providers/sdk/mutations';
-
-function MyScreen() {
-  const mutation = use<Operation>Mutation();
-
-  const handleSubmit = async () => {
-    try {
-      await mutation.mutateAsync({ /* operation params */ });
-      // Success handling
-    } catch (error) {
-      // Error handling (auth upgrade, cancellation, etc.)
-    }
-  };
-}
-```
-
-## How Auth Works Under the Hood
-
-The `mobilePlatformAdapter` in `src/providers/sdk/mobilePlatformAdapter.ts` handles:
-
-1. **Key-based users**: Decrypts posting/active key from AsyncStorage using PIN
-2. **HiveSigner users**: Opens WebView for hot signing via `hive-uri` encoded operations
-3. **HiveAuth users**: Triggers `HiveAuthBroadcastSheet` for keychain app signing
-4. **Auth upgrade**: If active key is needed but user logged in with posting key, shows `AuthUpgradeSheet` to collect the key temporarily (60s expiry)
-
-You do NOT need to handle any of this in the wrapper — the SDK + adapter handles it automatically.
-
-## Step 4: If the SDK Mutation Doesn't Exist Yet
-
-If the operation isn't in `@ecency/sdk` yet, create it there first:
-
-Location: `packages/sdk/src/modules/<domain>/mutations/use-<operation>.ts`
+One line in `src/providers/sdk/mutations/index.ts`, under the matching domain comment.
+Without it the hook is not importable:
 
 ```typescript
-import { useBroadcastMutation, AuthorityLevel } from "@/modules/core/mutations/use-broadcast-mutation";
-import { AuthContextV2 } from "@/modules/core/types/auth";
-
-export function use<Operation>(username?: string, auth?: AuthContextV2) {
-  return useBroadcastMutation(
-    ["<operation-key>"],
-    async (args: { /* params */ }) => {
-      return [["<hive_operation_name>", { /* fields */ }]];
-    },
-    username,
-    auth,
-    {
-      authorityLevel: AuthorityLevel.POSTING, // or ACTIVE
-    }
-  );
-}
+export { useTransferMutation } from './useTransferMutation';
 ```
 
-Then rebuild SDK: `cd ../vision-web && pnpm --filter @ecency/sdk build`
+## 3. Call it (from the barrel, never the file)
 
-## Authority Levels
+```typescript
+import { useFollowMutation } from '../providers/sdk/mutations';
+const followMutation = useFollowMutation();
+await followMutation.mutateAsync({ following: data.following });
+```
 
-- **POSTING**: vote, comment, reblog, follow, community roles, account_update2 (profile)
-- **ACTIVE**: transfer, delegate, power up/down, savings, limit orders, account_update (key changes)
+## No SDK hook for the operation?
 
-## Common Gotchas
+There is no `packages/sdk` here. `@ecency/sdk` is an npm dependency (`^2.3.93`), so there
+is no local build step. Use the generic `useBroadcastMutation`, as
+`useIgnoreUserMutation.ts` does. Seven positional args:
 
-1. **Don't handle auth manually** — the adapter + SDK handle key decryption, HiveSigner, HiveAuth, and auth upgrade automatically
-2. **Don't show toasts in the wrapper** — use the SDK's `onSuccess`/`onError` callbacks or handle in the calling component
-3. **Re-export from index** — or the mutation won't be importable from `../providers/sdk/mutations`
-4. **Check SDK version** — ensure the SDK hook you're wrapping exists in the installed `@ecency/sdk` version
+```typescript
+return useBroadcastMutation(
+  ['hive', 'ignore-user'],                     // 1 mutation key
+  username,                                    // 2 username
+  ({ following }: { following: string }) => [  // 3 ops builder
+    buildIgnoreOp(username!, following),
+  ],
+  undefined,                                   // 4 onSuccess or undefined
+  authContext,                                 // 5 auth context
+  'posting',                                   // 6 authority
+  { broadcastMode: 'async' },                  // 7 options
+);
+```
+
+Pass authority as a plain lowercase string. The parameter is typed `AuthorityLevel` from
+`@ecency/sdk` (`'posting' | 'active' | 'owner' | 'memo'`); mobile wrappers only ever use
+`'posting'` or `'active'`. Do not import the same-named type from
+`src/screens/dappBrowser/bridges/bridgeTypes.ts`, an unrelated dapp browser union.
+
+- `'posting'`: vote, comment, reblog, follow, ignore, community roles
+- `'active'`: transfer, delegate, power up/down, savings, limit orders, proposal vote,
+  witness proxy, account_update, account_update2
+
+The SDK's exported `OPERATION_AUTHORITY_MAP` is the reference list. It maps both
+`account_update` plus `account_update2` to `active`. `useBroadcastMutation` never consults
+that map: its `authority` parameter just defaults to `'posting'`, so always pass the right
+value explicitly.
+
+Prefer an SDK `build<Operation>Op` helper (`buildTransferOp`, `buildVoteOp`) over a hand
+written op tuple.
+
+## Gotchas
+
+1. Auth is not your job: the adapter routes PIN key decryption, HiveSigner `hive-uri`
+   WebView signing, HiveAuth signing, plus the active key upgrade sheet (60s temp key).
+2. No toasts or navigation in the wrapper. Do that at the call site or in hook callbacks.
+3. Check the hook exists in the installed `@ecency/sdk` first, then run `yarn lint` plus
+   `yarn typecheck`; the baseline is empty, so any error fails CI.

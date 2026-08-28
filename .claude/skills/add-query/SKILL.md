@@ -1,136 +1,162 @@
 ---
 name: add-query
-description: Use an @ecency/sdk query in the mobile app or create a new app-specific query
+description: Use when reading server data in the mobile app - wiring an @ecency/sdk query option into a screen, adding or editing a hook under src/providers/queries/, paginating a feed or list with an infinite query, or fixing a query key, enabled guard, or cache persistence problem.
 argument-hint: [query-name]
-disable-model-invocation: true
 ---
 
 # Add Query
 
-Wire up SDK query options in the mobile app, or create app-specific queries.
+Read `CLAUDE.md` first (State Management, SDK Migration). Writes are a separate skill: `add-mutation`.
 
-## Using SDK Query Options (Preferred)
+## Rule: the SDK owns the fetch
 
-SDK queries are platform-agnostic and shared with the web app. Use them directly:
+`@ecency/sdk` 2.3.93 exports **165** `get*QueryOptions` helpers. 25 of the 32 non-test files under
+`src/providers/queries/` import from `@ecency/sdk`; only **2** `queryFn:` remain in that whole
+directory. Search the SDK for your own domain first. Write a `queryFn` only when that search comes
+back empty:
+
+```bash
+D=node_modules/@ecency/sdk/dist/browser/index.d.ts
+test -f "$D" || echo 'SDK not installed, run yarn'   # a missing file greps as empty, a false all-clear
+grep -o "get[A-Za-z]*QueryOptions" "$D" | sort -u | grep -i draft   # swap in your domain
+grep -n "declare function getPostQueryOptions" "$D"
+```
+
+Drop the trailing `| grep -i draft` to list all 165. The last grep gives the real argument order.
+Never guess it. `getPostQueryOptions(author, permlink?, observer?, num?)` takes the observer third.
+13 of its 14 call sites pass one.
+
+## 1. Straight from a component
 
 ```typescript
 import { useQuery } from '@tanstack/react-query';
 import { getPostQueryOptions, getAccountFullQueryOptions } from '@ecency/sdk';
 
-function MyComponent({ author, permlink }) {
-  const { data: post, isLoading } = useQuery(getPostQueryOptions(author, permlink));
-  const { data: account } = useQuery(getAccountFullQueryOptions(author));
-}
+const observer = currentAccount?.name;
+const { data: post, isLoading } = useQuery(getPostQueryOptions(author, permlink, observer));
+const { data: account } = useQuery(getAccountFullQueryOptions(author));
 ```
 
-For non-React contexts (Redux thunks, utilities):
+## 2. App hook that adds mobile-only options
+
+The dominant shape: spread the SDK options, then override. 47 spread sites across `src/`.
+Verbatim, `src/providers/queries/leaderboardQueries/leaderboardQueries.ts`:
 
 ```typescript
-import { getQueryClient } from '@ecency/sdk';
-import { getAccountsQueryOptions } from '@ecency/sdk';
+import { useQuery } from '@tanstack/react-query';
+import { getDiscoverLeaderboardQueryOptions } from '@ecency/sdk';
 
-const queryClient = getQueryClient();
-const accounts = await queryClient.fetchQuery(getAccountsQueryOptions([username]));
-```
-
-## Creating App-Specific Queries
-
-For queries that are mobile-specific or not in the SDK, add them in `src/providers/queries/`.
-
-### Query File Structure
-
-Location: `src/providers/queries/<domain>Queries.ts` or `src/providers/queries/<domain>Queries/`
-
-```typescript
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
-import { QueryKeys } from './queryKeys';
-
-// Simple query
-export function useSomeDataQuery(param: string) {
+/** hook used to return leaderboard data using SDK */
+export const useGetLeaderboardQuery = (duration: 'day' | 'week' | 'month') => {
   return useQuery({
-    queryKey: [QueryKeys.SOME_DATA, param],
-    queryFn: async () => {
-      const response = await fetch(`https://api.ecency.com/some-endpoint/${param}`);
-      return response.json();
-    },
-    enabled: !!param,
+    ...getDiscoverLeaderboardQueryOptions(duration),
+    // Opted in explicitly: the client default is off, because waking every query in
+    // the cache on every resume is far more than this needs. The board lives inside a
+    // tab that stays mounted, so without this it shows whatever it fetched hours ago
+    // until the user thinks to pull to refresh.
+    refetchOnWindowFocus: true,
   });
-}
-
-// Infinite query (paginated)
-export function useSomeListQuery(param: string) {
-  return useInfiniteQuery({
-    queryKey: [QueryKeys.SOME_LIST, param],
-    queryFn: async ({ pageParam = '' }) => {
-      return fetchSomeList(param, pageParam);
-    },
-    initialPageParam: '',
-    getNextPageParam: (lastPage) => {
-      if (!lastPage || lastPage.length < 20) return undefined;
-      return lastPage[lastPage.length - 1].id;
-    },
-    enabled: !!param,
-  });
-}
-```
-
-### Add Query Keys
-
-Location: `src/providers/queries/queryKeys.ts`
-
-```typescript
-export const QueryKeys = {
-  // ... existing keys
-  SOME_DATA: 'SOME_DATA',
-  SOME_LIST: 'SOME_LIST',
 };
 ```
 
-### Export
+Usual overrides: `enabled`, `select`, `staleTime`, `gcTime`, `initialData`. Keep the SDK's
+`queryKey` plus `queryFn` so the cache entry stays shared with every other surface.
 
-Add to `src/providers/queries/index.ts`:
+## 3. Private-API queries need the auth pair
+
+Ecency backend queries take `username` plus an access token. Use `useAuth()` (12 query files do),
+never re-derive it. From `src/providers/queries/newsletterQueries.ts`:
 
 ```typescript
-export { useSomeDataQuery } from './someQueries';
+import { useAuth } from '../../hooks';
+
+export const useDigestSubscriptionsQuery = () => {
+  const { username, code } = useAuth();
+  return useQuery(getDigestSubscriptionsQueryOptions(username, code));
+};
 ```
 
-## SDK Configuration
+## 4. Infinite queries
 
-SDK queries are configured in `src/providers/queries/sdk-config.ts`:
+SDK `get*InfiniteQueryOptions` already carry `initialPageParam` plus `getNextPageParam`. The repo
+hand-rolls those two exactly once out of 18 `useInfiniteQuery` calls. Flatten in the hook, do not
+re-key. From `src/providers/queries/draftQueries.ts` (comments stripped):
 
-- `ConfigManager.setQueryClient(queryClient)` — shares the QueryClient
-- `ConfigManager.setHiveNodes(nodes)` — configures RPC nodes with failover
-- `ConfigManager.setPrivateApiHost(host)` — Ecency backend API
-- `ConfigManager.setDmcaLists(lists)` — DMCA content filtering
-
-This is called once at app startup. You don't need to touch it for new queries.
-
-## Common Patterns
-
-### Guard Undefined Params
-Always use `enabled` to prevent queries from running with missing params:
 ```typescript
-useQuery({
-  queryKey: [QueryKeys.POST, author, permlink],
-  queryFn: () => fetchPost(author!, permlink!),
-  enabled: !!author && !!permlink,
+const { username, code } = useAuth();
+const enabled = !!username && !!code;
+
+const infiniteQuery = useInfiniteQuery({
+  ...getDraftsInfiniteQueryOptions(username ?? '', code ?? '', limit),
+  enabled,
 });
+
+const data = useMemo(() => {
+  if (!infiniteQuery.data?.pages) return [];
+  return infiniteQuery.data.pages.flatMap((page) => page.data);
+}, [infiniteQuery.data?.pages]);
+
+return { ...infiniteQuery, data, pagesLoaded: infiniteQuery.data?.pages?.length ?? 0 };
 ```
 
-### Cache Priming
-For optimistic updates, use Redux cache reducer:
+## 5. Query keys
+
+- **SDK keys**: `import { QueryKeys } from '@ecency/sdk'`. Namespaced factories, not strings:
+  `QueryKeys.posts.draftsInfinite(username, limit)`, `QueryKeys.accounts.full(name)`,
+  `QueryKeys.polls.details(author, permlink)`. Use these to invalidate or seed an SDK cache entry.
+- **Mobile-only keys**: `src/providers/queries/queryKeys.ts` is a *default* export named `QUERIES`
+  with a nested shape. 10 files import that default (`import QUERIES from '<relative>/queryKeys'`,
+  so the specifier depends on the file) then `queryKey: [QUERIES.WALLET.GET_ACTIVITIES, username]`.
+  There is no local `QueryKeys` export.
+
+## 6. Hand-rolled query (last resort)
+
+Only when the SDK has nothing. Verbatim, one of the two survivors,
+`src/providers/queries/settingsQueries.ts`:
+
 ```typescript
-import { useInjectVotesCache } from '../../hooks';
-// Injects cached vote data into post objects
-const posts = useInjectVotesCache(rawPosts);
+export const useGetServersQuery = () => {
+  return useQuery<string[]>({
+    queryKey: [QUERIES.SETTINGS.GET_SERVERS],
+    queryFn: getNodes,
+    placeholderData: [...SERVER_LIST],
+    staleTime: 0,
+  });
+};
 ```
 
-### Wallet Queries
-Wallet-specific queries live in `src/providers/queries/walletQueries/` and use SDK query options for blockchain data (delegations, balances, etc.).
+`getNodes` comes from `src/providers/ecency/ecency.ts`, a provider module, not a bare fetch.
 
-## Common Gotchas
+## 7. Export
 
-1. **Use SDK query options when available** — don't duplicate blockchain queries that exist in `@ecency/sdk`
-2. **Don't forget `enabled`** — prevents queries from running before params are ready
-3. **Return `undefined` from getNextPageParam** to stop pagination, not `null`
-4. **Query cache persists** to AsyncStorage via TanStack Query persistence — be mindful of cache size
+`src/providers/queries/index.ts` uses `export * from './<domain>Queries'` (16 of them). Its only
+named re-export is `getQueryClient` from the SDK; the rest of the file is local (`initQueryClient`
+plus the persistence allowlist). A subdirectory carries its own `index.ts` that re-exports
+namespaces, for example `export { postQueries, wavesQueries, pollQueries };`.
+
+## Gotchas
+
+1. **Persistence is an allowlist.** `_shouldDehydrateQuery` in `src/providers/queries/index.ts`
+   switches on `queryKey[0]`, then narrows on `queryKey[1]`. Only `core`, `get-account-full` plus
+   `points` persist wholesale. `posts`, `accounts`, `notifications` persist part of their subtypes:
+   `accounts` returns false unless the subtype is `bookmarks` or `favorites`, `posts` drops `entry`,
+   `notifications` drops `announcements`. Everything else is dropped, so a new namespace or subtype
+   is not persisted until you add its case. Read the switch before assuming a new key persists.
+   Infinite lists persist only while a single page is loaded.
+2. **Guard with `enabled`** whenever a param can be undefined: 27 uses under `providers/queries`
+   (`grep -rnE "^[[:space:]]*enabled[,:]" src/providers/queries | wc -l`). An `undefined` anywhere
+   in a query key also blocks persistence.
+3. Returning `undefined` from `getNextPageParam` stops pagination. `null` stops it too on the
+   installed TanStack Query 5.83.0, whose `hasNextPage` tests `!= null`, but the repo's one
+   hand-rolled case returns `undefined`.
+4. **Optimistic vote data is no longer Redux.** Call `updateVoteInQueryCaches()` and read back via
+   `applyRecentVoteOverrideToEntry()` from `src/providers/queries/postQueries/voteCacheUtils.ts`;
+   seed a post before navigation with `usePostsCachePrimer()`. `useInjectVotesCache` is gone.
+5. **Non-React code**: import `getQueryClient` from the app barrel `providers/queries` (19 sites)
+   rather than the SDK (5): `await queryClient.fetchQuery(getAccountsQueryOptions([username]))`.
+6. `src/providers/queries/sdk-config.ts` runs once from `initQueryClient()` and configures
+   `ConfigManager` (query client, private API host, image host, Hive nodes, DMCA lists). Adding a
+   query never requires touching it.
+
+Prettier width is 100 (`.prettierrc`). Finish with `yarn lint` plus `yarn typecheck`; the baseline
+in `tsc-baseline.json` is empty, so any type error fails CI.
