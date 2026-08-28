@@ -89,12 +89,25 @@ Pass authority as a plain lowercase string. The parameter is typed `AuthorityLev
 
 - `'posting'`: vote, comment, reblog, follow, ignore, community roles
 - `'active'`: transfer, delegate, power up/down, savings, limit orders, proposal vote,
-  witness proxy, account_update, account_update2
+  witness proxy, account_update
 
-The SDK's exported `OPERATION_AUTHORITY_MAP` is the reference list. It maps both
-`account_update` plus `account_update2` to `active`. `useBroadcastMutation` never consults
-that map: its `authority` parameter just defaults to `'posting'`, so always pass the right
-value explicitly.
+The SDK's exported `OPERATION_AUTHORITY_MAP` is the reference list. It maps
+`account_update2` to `'active'` flatly. Mobile deliberately does not, because most
+`account_update2` broadcasts here are a profile edit or a pinned-post change that touches
+only `posting_json_metadata`, which posting authority can sign. Forcing `'active'` would
+prompt a needless active-key upgrade every time.
+
+`src/utils/hiveOperationAuthority.ts:37` holds the real rule: `account_update2` resolves to
+`'posting'` unless the payload also sets `owner`, `active`, `posting`, `memo_key`, or a
+non-empty `json_metadata`, in which case it is `'active'`. `custom_json` is the other special
+case, active only when it declares `required_auths`. `src/utils/hiveOperationAuthority.test.ts`
+pins every branch.
+
+That resolver currently serves the hive-uri path only (`src/providers/hive/hive.ts:750` and
+`src/hooks/useLinkProcessor.tsx:648`); mutation wrappers still pass authority literally. So if
+you write an `account_update2` wrapper, decide from the payload rather than copying `'active'`
+out of the SDK map. `useBroadcastMutation` never consults that map either: its `authority`
+parameter defaults to `'posting'`, so always pass the right value explicitly.
 
 Prefer an SDK `build<Operation>Op` helper (`buildTransferOp`, `buildVoteOp`) over a hand
 written op tuple.
