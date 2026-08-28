@@ -99,9 +99,15 @@ paths match `favorites`/`payouts`.
 
 ## SDK, queries, styling, i18n
 
-- [ ] Mutation wrappers are two imports plus a four-line function: `useMutationAuth()`
-  from `src/providers/sdk/mutations/common.ts` then the SDK hook (45 call sites). No
-  key decryption or HiveSigner/HiveAuth branching in one; the adapter owns that.
+- [ ] Broadcast mutation wrappers are two imports plus a four-line function:
+  `useMutationAuth()` from `src/providers/sdk/mutations/common.ts` then the SDK hook
+  (44 of the 47 wrapper files). No key decryption, no HiveSigner/HiveAuth branching in
+  one; the adapter owns that. The other three files are not broadcasts and are the
+  documented exceptions, so do not report them: `useGenerateImageMutation.ts` plus the
+  three digest hooks in `useNewsletterDigestMutations.ts` bind the HiveSigner `code`
+  from `useAuth()`, while `useClaimPointsMutation.ts` derives a REST access token by
+  decrypting `currentAccount.local.accessToken` with `getDigitPinCode(pin)`. A new
+  wrapper that reaches for keys without a non-broadcast reason is still a finding.
 - [ ] Optional query params need `enabled: !!param` (38 call sites).
 - [ ] Mobile-only keys come from `QUERIES`, the DEFAULT export of
   `src/providers/queries/queryKeys.ts` (10 importers); SDK-owned data uses `QueryKeys`
@@ -113,13 +119,24 @@ paths match `favorites`/`payouts`.
   falsy (`src/utils/conversions.ts`), so a missing rate renders a silent 0.
 - [ ] Colors come from theme vars: `'$primaryBackgroundColor'` inside
   `EStyleSheet.create` (262 files) or `EStyleSheet.value('$primaryBlue')` at runtime.
-  A literal hex in a style is a finding.
+  A literal hex is a finding when it shadows a var, above all one that differs between
+  `src/themes/lightTheme.ts` and `src/themes/darkTheme.ts`: `'#357ce6'` is
+  `$primaryBlue` yet is written out 5 times across 4 files. Deliberately
+  theme-independent chrome is not a finding, e.g. the black media backgrounds in
+  `src/screens/waves/styles/wavesReels.styles.ts`; 27 of the 262 files already hold a
+  hex literal, so only flag ones on a surface that should follow the theme. `$white` is
+  `#1e2835` in the dark theme, `$pureWhite` is the one that stays white.
 - [ ] Text via `intl.formatMessage({ id: 'section.key' })`, key added to the NESTED
   `src/config/locales/en-US.json`; ids are dotted only because `flattenMessages`
   flattens the tree in `src/index.tsx`.
-- [ ] Redux reads use `useAppSelector` plus a selector from `src/redux/selectors`
-  (265 calls); a raw `useSelector` is a finding. Handlers are `_`-prefixed
-  (496 `const _handle*`/`const _on*` against 114 unprefixed).
+- [ ] Redux reads use `useAppSelector` (`src/hooks/index.ts:6`, only a
+  `TypedUseSelectorHook<RootState>` alias) plus a memoized selector from
+  `src/redux/selectors` (264 calls). The finding is an inline lambda picking state
+  apart, not the hook name: three hooks call `react-redux`'s `useSelector` directly and
+  still pass a memoized selector (`src/hooks/useImageReveal.ts:14`,
+  `src/hooks/useContentLanguageGate.ts:80`,
+  `src/hooks/useTransferMutations.ts:34`), which types identically. Handlers are
+  `_`-prefixed (496 `const _handle*`/`const _on*` against 111 unprefixed).
 
 ## Report
 

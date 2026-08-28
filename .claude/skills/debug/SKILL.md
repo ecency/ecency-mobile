@@ -106,8 +106,16 @@ one-to-one (29 each today).
   sheet renders is the payload captured when `SheetManager.show` ran, so re-show with fresh data.
 - **Result is `undefined`**: a sheet resolves with what it passes to
   `SheetManager.hide(sheetId, { payload: value })` (`src/components/authUpgradeSheet/`). A
-  backdrop dismiss resolves `undefined`, so a falsy result means dismissed, never confirmed:
+  backdrop dismiss resolves `undefined`, so a falsy result never means confirmed, but it does not
+  say why: `SignConfirmSheet` resolves `false` from its Cancel button as well as from its
+  `onClose`, so `!ok` lumps an explicit reject in with a dismissal. Bail out on falsy; resolve a
+  named field when the caller has to tell the two apart:
   `const ok = await SheetManager.show(SheetNames.SIGN_CONFIRM, { payload }); if (!ok) return;`
+- The library close path publishes `data || payloadRef.current || data`, where `payloadRef` is the
+  `payload` **prop of `<ActionSheet>`**, not the show payload the wrapper receives. No sheet here
+  forwards it (0 hits for `payload=` in `src/`), so the fallback is inert and a dismissal really
+  does resolve `undefined`. Forward `payload` into `<ActionSheet>` and a dismissal starts resolving
+  that truthy payload instead, which reads as confirmed.
 - A throw from a sheet render or cleanup is fatal: sheets sit outside the ErrorBoundary.
 
 ## 5. Theme

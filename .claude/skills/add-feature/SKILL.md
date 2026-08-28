@@ -14,7 +14,7 @@ New screens are functional. Only 12 of the 142 `.tsx` files under `src/screens/`
 legacy holdouts, plus `application/children/errorBoundary.tsx`, which React requires to be a class.
 A dismissible overlay is a bottom sheet instead: `src/navigation/sheets.tsx`, see CLAUDE.md.
 
-```
+```text
 src/screens/<feature>/
   index.ts                     # local barrel, re-exported from src/screens/index.ts
   screen/<feature>Screen.tsx
@@ -134,7 +134,7 @@ const navigation = useNavigation();
 navigation.navigate(ROUTES.SCREENS.MY_FEATURE, { username });
 ```
 
-Reading the params back is not settled house style. 25 files under `src/screens/` destructure a
+Reading the params back is not settled house style. Most screens destructure a
 `route` prop, usually typed `any`; only two call `useRoute`, one of them with a locally declared
 `RouteProp` (`dappBrowser.tsx`). Prefer keying off Step 4 instead. No screen does this yet:
 

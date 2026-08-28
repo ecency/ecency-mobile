@@ -60,7 +60,11 @@ reason is not.
 `src/components/modNotesSheet/modNotesSheet.tsx`:
 
 ```typescript
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { MainButton } from '../mainButton';
 
 // Matches the SheetNames value. 10 files keep this so `hide` has an id even when the
 // sheet is rendered outside the registry.
@@ -75,6 +79,7 @@ export interface MySheetResult {
 }
 
 const MySheet: React.FC<SheetProps<'my_sheet'>> = ({ sheetId, payload }) => {
+  const intl = useIntl();
   const [value, setValue] = useState('');
   const closedRef = useRef(false);
 
@@ -108,14 +113,22 @@ const MySheet: React.FC<SheetProps<'my_sheet'>> = ({ sheetId, payload }) => {
     </ActionSheet>
   );
 };
+
+const styles = EStyleSheet.create({
+  sheetContainer: { paddingHorizontal: 0, backgroundColor: '$primaryBackgroundColor' },
+});
+
+export default MySheet;
 ```
 
-Strings via `useIntl`. Colors via EStyleSheet theme variables from `src/themes/`
-(`$primaryBackgroundColor`, `$primaryBlack`, `$primaryDarkGray`, `$iconColor`), never a hex.
+Colors come from EStyleSheet theme variables in `src/themes/` (`$primaryBackgroundColor`,
+`$primaryBlack`, `$primaryDarkGray`, `$iconColor`), never a hex. For a color a prop needs as a
+plain string rather than a style, resolve it with `EStyleSheet.value('$primaryDarkGray')`, as
+`modNotesSheet` does for `placeholderTextColor`.
 
 ## Step 2: Folder index
 
-`src/components/<sheetName>/index.ts`. 13 component folders re-export their sheet with the first
+`src/components/<sheetName>/index.ts`. 11 sheet folders re-export their sheet with the first
 line; the 5 that also publish a result type (`modNotesSheet`, `communityManageSheet`,
 `communityRoleEditSheet`, `searchFiltersSheet`, `newsletterDigestSheet`) add the second:
 
