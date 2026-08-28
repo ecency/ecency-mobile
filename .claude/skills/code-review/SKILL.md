@@ -13,11 +13,19 @@ code on disk before reporting it.
 ## Action sheets
 
 - [ ] **Resolve an object, gate on a named field.** A repo convention, not something the
-  library enforces today. The library substitutes its own `payload` prop for a falsy
-  result, which would turn a cancel into a confirm, but no sheet here passes that prop, so
-  falsy results currently reach callers intact. The convention holds because one added
-  `payload` would flip every falsy cancel silently. It also holds because a dismissal
-  resolves `undefined`, which truthiness cannot tell apart from a deliberate `false`. Sheets resolve `{ cancelled: true }`
+  library enforces today. Two different payloads are involved, so keep them apart when
+  reviewing:
+  - the SHOW payload, `SheetManager.show(name, { payload })`, which the provider hands to
+    the registered component as a prop. Every sheet uses this.
+  - `<ActionSheet payload={...}>`, ActionSheet's OWN prop. Nothing in `src/` sets it, and
+    forwarding the show payload into it is not the same thing.
+
+  Only the second one feeds `payloadRef`, and the library resolves a close with
+  `data || payloadRef.current || data`. Since no sheet sets that prop, `payloadRef.current`
+  is `undefined` and a falsy result reaches the caller intact today. Keep the convention
+  anyway: adding `payload` to one `<ActionSheet>` would silently turn every falsy cancel in
+  that sheet into a confirm. A dismissal also resolves `undefined`, which truthiness cannot
+  tell apart from a deliberate `false`. Sheets resolve `{ cancelled: true }`
   or `{ field: value }` instead. Sheets document their own contract, e.g.
   `src/components/searchFiltersSheet/searchFiltersSheet.tsx`. Callers test the field,
   abridged from `src/screens/searchResult/screen/searchResultScreen.tsx:65-77`:
