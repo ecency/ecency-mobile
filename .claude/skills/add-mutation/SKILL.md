@@ -95,7 +95,8 @@ The SDK's exported `OPERATION_AUTHORITY_MAP` is the reference list. It maps both
 `account_update` plus `account_update2` to `'active'` flatly, which is right for the common
 cases but wrong at both ends, so do not copy it for either one.
 
-The two account update operations are the ones whose authority depends on the payload:
+Both account update operations have payload-dependent authority (`custom_json` is the third
+payload-dependent case, below):
 
 | Operation | Payload sets | Authority Hive requires |
 |---|---|---|
@@ -123,7 +124,7 @@ does not implement `getOwnerKey`, so the SDK's own `case 'owner'` throws "Owner 
 supported by adapter". Treat an owner change as unsupported and reject it rather than routing
 it to `'active'`.
 
-`custom_json` is the other payload-dependent case, active only when it declares
+`custom_json` is the third payload-dependent case, active only when it declares
 `required_auths`.
 
 None of this is reachable from one wrapper. `useBroadcastMutation` takes `authority` as its
