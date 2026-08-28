@@ -124,8 +124,16 @@ does not implement `getOwnerKey`, so the SDK's own `case 'owner'` throws "Owner 
 supported by adapter". Treat an owner change as unsupported and reject it rather than routing
 it to `'active'`.
 
-`custom_json` is the third payload-dependent case, active only when it declares
-`required_auths`.
+`custom_json` is the third payload-dependent case. Exactly one authority list may be
+populated: `required_auths` alone means active, `required_posting_auths` alone means posting.
+A payload carrying both is INVALID, not active. Hive rejects it outright, so the operation
+never reaches the chain (hive issue 632, case 2.3). Reject a mixed payload before broadcasting
+rather than picking an authority for it.
+
+Neither implementation enforces that today. `hiveOperationAuthority.ts` never reads
+`required_posting_auths` at all. The SDK's `getCustomJsonAuthority` returns `'active'` as soon
+as `required_auths` is non-empty, without checking the other list. Both therefore route a mixed
+payload to an active signature that the chain then refuses.
 
 None of this is reachable from one wrapper. `useBroadcastMutation` takes `authority` as its
 sixth positional parameter, fixed when the hook is created, while `operations` is
