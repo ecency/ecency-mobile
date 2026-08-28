@@ -34,8 +34,15 @@ Authority per operation: `resolveOperationAuthority` / `resolveTxRequiredAuthori
 `claim_reward_balance` are posting outright. The payload dependent ops are checked before that
 set: `custom_json` is posting unless it declares a non-empty `required_auths`; `account_update2`
 is posting unless it sets a non-empty `json_metadata` or any of
-`owner`/`active`/`posting`/`memo_key`. Everything else is active. A transaction needs active if
-any one of its operations does.
+`owner`/`active`/`posting`/`memo_key`. Everything else is active.
+
+`resolveTxRequiredAuthority` then collapses a whole transaction to a single authority, returning
+active when any one operation needs it, so the signer decrypts one key for the batch. That is
+fine for a uniform transaction. It is unverified for a mixed one, meaning a batch holding both a
+posting-only operation and an active operation. HF28 lifted the old ban on mixing the two in one
+transaction, so such a batch can now arrive from a deep link where it previously could not, and
+whether one active signature satisfies it is not settled here. Treat a mixed batch as untested
+rather than assuming either outcome.
 
 - **Active key gone right after upgrade**: `setTempActiveKey` expires it on a timer while
   `getActiveKey` calls `clearTempActiveKey()` on read, so it is single use.
