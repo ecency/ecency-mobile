@@ -92,22 +92,50 @@ Pass authority as a plain lowercase string. The parameter is typed `AuthorityLev
   witness proxy, account_update
 
 The SDK's exported `OPERATION_AUTHORITY_MAP` is the reference list. It maps
-`account_update2` to `'active'` flatly. Mobile deliberately does not, because most
-`account_update2` broadcasts here are a profile edit or a pinned-post change that touches
-only `posting_json_metadata`, which posting authority can sign. Forcing `'active'` would
-prompt a needless active-key upgrade every time.
+`account_update2` to `'active'` flatly, which is right for the common cases but wrong at both
+ends, so do not copy it for this operation.
 
-`src/utils/hiveOperationAuthority.ts:37` holds the real rule: `account_update2` resolves to
-`'posting'` unless the payload also sets `owner`, `active`, `posting`, `memo_key`, or a
-non-empty `json_metadata`, in which case it is `'active'`. `custom_json` is the other special
-case, active only when it declares `required_auths`. `src/utils/hiveOperationAuthority.test.ts`
-pins every branch.
+`account_update2` is the one operation whose authority depends on its payload:
 
-That resolver currently serves the hive-uri path only (`src/providers/hive/hive.ts:750` and
-`src/hooks/useLinkProcessor.tsx:648`); mutation wrappers still pass authority literally. So if
-you write an `account_update2` wrapper, decide from the payload rather than copying `'active'`
-out of the SDK map. `useBroadcastMutation` never consults that map either: its `authority`
-parameter defaults to `'posting'`, so always pass the right value explicitly.
+| Payload sets | Authority Hive requires |
+|---|---|
+| only `posting_json_metadata` (profile edit, pinned post) | `'posting'` |
+| `active`, `posting`, `memo_key`, or a non-empty `json_metadata` | `'active'` |
+| `owner` | `'owner'` |
+
+The owner row is not optional. Hive's own test matrix has an active-signed or posting-signed
+owner update failing outright (hive issue 520), so an `'active'` broadcast of an owner change
+is rejected on chain.
+
+`src/utils/hiveOperationAuthority.ts:37` implements the first two rows. It does NOT implement
+the third: it is typed `(operation: Operation) => 'posting' | 'active'`, so its `owner` branch
+returns `'active'`, and `hiveOperationAuthority.test.ts` has no owner case. That resolver
+serves the hive-uri path (`src/providers/hive/hive.ts:750` and
+`src/hooks/useLinkProcessor.tsx:648`), where the operations arrive from an external link, so a
+deep link that changes `owner` is currently signed with the wrong key. Mobile has no owner
+signing path at all: `mobilePlatformAdapter.ts` decrypts only the posting plus active keys and
+does not implement `getOwnerKey`, so the SDK's own `case 'owner'` throws "Owner key not
+supported by adapter". Treat an owner change as unsupported and reject it rather than routing
+it to `'active'`.
+
+`custom_json` is the other payload-dependent case, active only when it declares
+`required_auths`.
+
+None of this is reachable from one wrapper. `useBroadcastMutation` takes `authority` as its
+sixth positional parameter, fixed when the hook is created, while `operations` is
+`(payload: T) => Operation[]` and only runs at mutate time. The mutation reads the closed-over
+value, so a wrapper cannot choose an authority from its payload. If both shapes are possible,
+write two hooks with fixed authorities and pick at the call site:
+
+```typescript
+// posting: profile edit, pinned post, anything touching only posting_json_metadata
+export const useUpdateProfileMetadataMutation = () => { /* ..., 'posting' */ };
+// active: json_metadata or a key or authority change
+export const useUpdateAccountKeysMutation = () => { /* ..., 'active' */ };
+```
+
+`useBroadcastMutation` never consults `OPERATION_AUTHORITY_MAP` either: its `authority`
+parameter just defaults to `'posting'`, so always pass the right value explicitly.
 
 Prefer an SDK `build<Operation>Op` helper (`buildTransferOp`, `buildVoteOp`) over a hand
 written op tuple.
