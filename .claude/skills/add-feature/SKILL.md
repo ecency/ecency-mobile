@@ -1,196 +1,177 @@
 ---
 name: add-feature
-description: Add a new feature or screen to the Ecency mobile app following established patterns
+description: Use when adding a new screen, route, or user-facing feature to the Ecency mobile React Native app, covering navigator registration, route params, i18n strings and styling.
 argument-hint: [feature-name]
-disable-model-invocation: true
 ---
 
 # Add Feature
 
-Guide for adding a new feature to the Ecency mobile app.
+Ordered procedure for adding a screen. CLAUDE.md covers Redux, TanStack Query, `@ecency/sdk`,
+sheets and lint rules in more depth. Easiest to miss: the safe-area root (Step 1) and the params
+contract (Step 4). Each one breaks something.
 
-## Screen Structure Patterns
+New screens are functional. A few older screens under `src/screens/` are still classes, plus
+`application/children/errorBoundary.tsx`, which React requires to be a class. An overlay with no
+route of its own, shown with `SheetManager.show`, is a bottom sheet instead:
+`src/navigation/sheets.tsx`, see CLAUDE.md.
 
-The app uses two patterns for screens:
-
-### Pattern 1: Class Component (Legacy — existing screens)
-
-Many existing screens use class components with container/view separation:
-
-```
+```text
 src/screens/<feature>/
-  screen/<feature>Screen.tsx     # Class component with business logic
-  screen/<feature>Styles.ts      # EStyleSheet styles
+  index.ts                     # local barrel, re-exported from src/screens/index.ts
+  screen/<feature>Screen.tsx
+  screen/<feature>Styles.ts    # or <feature>.styles.ts
+  children/  hooks/            # optional
 ```
 
-Example: `src/screens/transfer/screen/delegateScreen.tsx`
+## Step 1: screen rooted in SafeAreaView
 
-### Pattern 2: Functional Component (Preferred for new screens)
+Use `SafeAreaView` from `react-native-safe-area-context` as the root; that is where screens
+generally import it from. `src/screens/dappBrowser/screen/dappBrowser.tsx` still takes it from
+`react-native`, which is the pattern this rule exists to replace. Do not pass `edges`: it
+**replaces** the defaults rather than extending them, so `edges={['bottom']}` drops the top inset
+and the header runs under the status bar. That shipped on the Email digests screen; the fix was
+removing `edges={['bottom']}`.
 
-New screens should use functional components with hooks:
+Skeleton for `screen/<feature>Screen.tsx` (a template, not a quote of any one file):
 
-```
-src/screens/<feature>/
-  screen/<feature>Screen.tsx     # Functional component
-  children/                      # Sub-components
-  hooks/                         # Custom hooks
-```
-
-## Step 1: Create the Screen
-
-Location: `src/screens/<feature>/screen/<feature>Screen.tsx`
-
-```typescript
+```tsx
 import React from 'react';
-import { View, Text } from 'react-native';
 import { useIntl } from 'react-intl';
-import { useQuery } from '@tanstack/react-query';
-import { getSomeQueryOptions } from '@ecency/sdk';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 import { BasicHeader } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount } from '../../../redux/selectors';
-import styles from './<feature>Styles';
+import styles from './myFeatureStyles';
 
-const FeatureScreen = ({ route, navigation }) => {
+const MyFeatureScreen = () => {
   const intl = useIntl();
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const { data, isLoading } = useQuery(getSomeQueryOptions(currentAccount?.name));
 
   return (
-    <View style={styles.container}>
-      <BasicHeader title={intl.formatMessage({ id: 'feature.title' })} />
-      {/* Screen content */}
-    </View>
+    <SafeAreaView style={styles.container}>
+      <BasicHeader title={intl.formatMessage({ id: 'myfeature.title' })} />
+      {/* content */}
+    </SafeAreaView>
   );
 };
 
-export default FeatureScreen;
+export default MyFeatureScreen;
 ```
 
-## Step 2: Add Route
+`useAppSelector(selectCurrentAccount)` reads the account; `useAuth()` from `src/hooks` when you
+only need `{ username, code }`. Reusable UI is exported from the `src/components/index.tsx` barrel
+(`BasicHeader`, `MainButton`, `TextInput`, `UserAvatar`, `Icon`).
 
-In `src/constants/routeNames.ts`:
+The styles file default-exports
+`EStyleSheet.create({ container: { flex: 1, backgroundColor: '$primaryBackgroundColor' } })`.
+Variables are defined in `src/themes/lightTheme.ts` and `darkTheme.ts`: `$primaryBlack` text,
+`$primaryDarkGray` secondary text, `$primaryBlue` accent, `$primaryLightBackground` cards,
+`$iconColor`, `$primaryRed` destructive. Hex literals do not follow the theme.
 
-```typescript
-export default {
-  SCREENS: {
-    // ... existing
-    FEATURE: 'Feature',
-  },
-  // ...
-};
+## Step 2: both barrels
+
+`src/screens/<feature>/index.ts` does `import MyFeature from './screen/myFeatureScreen';` then
+`export { MyFeature }; export default MyFeature;`. Add the import plus the name to the export block
+in `src/screens/index.ts`. `stackNavigator.tsx` imports its screens from that barrel.
+`src/screens/waves` shows the cost of skipping this: it never reached the barrel, so
+`botomTabNavigator.tsx` reaches it by path.
+
+## Step 3: route name
+
+In `src/constants/routeNames.ts`. Entries are template literals over the shared suffix consts. The
+object ends `as const`, which is what makes the route names a literal union:
+
+```ts
+    MY_FEATURE: `MyFeature${SCREEN_SUFFIX}`,
 ```
 
-## Step 3: Add to Stack Navigator
+## Step 4: params contract (skip it and typecheck fails)
 
-In `src/navigation/stackNavigator.tsx`:
+`src/navigation/types.ts` derives `RouteName` from ROUTES, then asserts every route has an entry:
 
-```typescript
-import FeatureScreen from '../screens/<feature>/screen/<feature>Screen';
-
-// Inside the Stack.Navigator:
-<Stack.Screen name={ROUTES.SCREENS.FEATURE} component={FeatureScreen} />
+```ts
+export type _MissingRouteContracts = AssertNever<Exclude<RouteName, keyof AppParamList>>;
 ```
 
-## Step 4: Navigation
+A ROUTES entry with no `AppParamList` entry breaks that assertion: the route name does not satisfy
+the constraint `never`. `yarn typecheck` runs against an empty baseline, so this fails CI. Add:
 
-```typescript
-import { useNavigation } from '@react-navigation/native';
-import ROUTES from '../../constants/routeNames';
+```ts
+  [ROUTES.SCREENS.MY_FEATURE]: { username?: string } | undefined;
+```
 
+Append `| undefined` only if the screen renders with no params. Leaving it off makes params required
+at the call sites, which is what you want for a screen that cannot render empty (`WEB_BROWSER`,
+`VOTERS`, `ASSET_DETAILS`, `CHAT_THREAD`, `PROFILE_EDIT`).
+
+## Step 5: register in the navigator
+
+`src/navigation/stackNavigator.tsx` defines `MainStackNavigator` and the root `StackNavigator`.
+`MainStackNavigator` registers the drawer as its first screen (`ROUTES.DRAWER.MAIN`), so an
+ordinary screen added to it is a sibling of the drawer that pushes over it. The root
+`StackNavigator` holds `MainStackNavigator` itself plus pre-auth and full-screen routes (Login,
+Register, Welcome, PinCode, WebBrowser). Most new screens go in the main one:
+
+```tsx
+<MainStack.Screen name={ROUTES.SCREENS.MY_FEATURE} component={MyFeature} />
+```
+
+Put it in the `<MainStack.Group screenOptions={{ animation: 'slide_from_bottom' }}>` block to slide
+up, add `options={{ presentation: 'modal' }}` for a true modal. The `as any` casts on existing rows
+are legacy prop debt; a new screen needs none.
+
+## Step 6: navigating
+
+`types.ts` declares `ReactNavigation.RootParamList extends AppParamList`, so the untyped hook is
+already checked against Step 4. Omitting params for a route that requires them is a compile error,
+not a blank screen.
+
+```tsx
 const navigation = useNavigation();
-navigation.navigate(ROUTES.SCREENS.FEATURE, { /* params */ });
+navigation.navigate(ROUTES.SCREENS.MY_FEATURE, { username });
 ```
 
-## Step 5: Internationalization
+Reading the params back is not settled house style. Most screens destructure a `route` prop, usually
+typed `any`; `useRoute` is rare. Prefer keying off Step 4 instead:
 
-Add strings to `src/config/locales/en-US.json`:
+```tsx
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { AppParamList } from '../../../navigation/types';
+
+const route = useRoute<RouteProp<AppParamList, typeof ROUTES.SCREENS.MY_FEATURE>>();
+```
+
+Outside a component (deep links, redux actions) use the equally typed object form,
+`RootNavigation.navigate({ name, params })` from `src/navigation/rootNavigation.tsx`.
+
+## Step 7: strings
+
+`src/config/locales/en-US.json` is the catalog you edit; Crowdin owns the translations. It is
+**nested**: top-level keys are objects, not dotted ids. `src/utils/flattenMessages.ts` joins the
+levels with dots at load, so a nested block is read with a dotted id.
 
 ```json
-{
-  "feature.title": "Feature Title",
-  "feature.description": "Some description"
-}
+{ "myfeature": { "title": "My Feature", "empty": "Nothing here yet" } }
 ```
 
-Use with `react-intl`:
-```typescript
-import { useIntl } from 'react-intl';
-const intl = useIntl();
-intl.formatMessage({ id: 'feature.title' });
+```tsx
+intl.formatMessage({ id: 'myfeature.title' });
 ```
 
-## Step 6: Styling
+## Step 8: data
 
-Use `react-native-extended-stylesheet` with theme variables:
-
-```typescript
-import EStyleSheet from 'react-native-extended-stylesheet';
-
-export default EStyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '$primaryBackgroundColor',
-  },
-  title: {
-    color: '$primaryBlack',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  subtitle: {
-    color: '$primaryDarkGray',
-    fontSize: 14,
-  },
-});
-```
-
-Key theme variables:
-- `$primaryBackgroundColor` — main background
-- `$primaryLightBackground` — card/section background
-- `$primaryBlack` — primary text
-- `$primaryDarkGray` — secondary text
-- `$primaryBlue` — accent/link color
-- `$iconColor` — icon tint
-- `$primaryRed` — error/destructive
-
-## Step 7: State Management
-
-| State type | Where | When |
-|---|---|---|
-| Blockchain/API data | TanStack Query via SDK query options | Always for server data |
-| Global app state | Redux (`src/redux/reducers/`) | Auth, settings, UI state |
-| Optimistic updates | Redux cache reducer | Vote caching, post metadata |
-| Local component state | `useState`/`useReducer` | Form inputs, toggles |
-
-### Redux Access
-```typescript
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { selectCurrentAccount } from '../../redux/selectors';
-import { someAction } from '../../redux/actions/someAction';
-
-const currentAccount = useAppSelector(selectCurrentAccount);
-const dispatch = useAppDispatch();
-dispatch(someAction(payload));
-```
-
-## Step 8: Reusable Components
-
-Common components from `src/components/`:
-- `BasicHeader` — screen header with back button
-- `MainButton` — primary action button
-- `TextInput` — styled text input
-- `UserAvatar` — user profile picture
-- `Icon` — icon component
-- `Modal` — modal dialog
-- `PostCard` — post list item
-- `ProfileSummary` — user profile header
+Server data uses `@ecency/sdk` query options with TanStack Query; mutations use a wrapper in
+`src/providers/sdk/mutations/`. See the SDK Migration section of CLAUDE.md. Keep Redux for auth,
+settings, UI state and the optimistic cache reducer. Older reducers (`postsReducer`,
+`walletReducer`) still hold server data; do not extend them for a new screen.
 
 ## Checklist
 
-- [ ] Screen created with proper structure
-- [ ] Route added to `routeNames.ts`
-- [ ] Screen registered in `stackNavigator.tsx`
-- [ ] i18n strings in `en-US.json`
-- [ ] Theme variables used (dark mode support)
-- [ ] SDK queries used for blockchain data
-- [ ] `yarn lint` passes
+- [ ] Root is `SafeAreaView` from `react-native-safe-area-context`, no `edges` override
+- [ ] `src/screens/<feature>/index.ts` re-exported from `src/screens/index.ts`
+- [ ] Route in `routeNames.ts` **and** a params entry in `AppParamList` (`src/navigation/types.ts`)
+- [ ] Registered in `src/navigation/stackNavigator.tsx`
+- [ ] Nested strings in `en-US.json` only
+- [ ] Theme variables, no hex literals
+- [ ] `yarn lint` and `yarn typecheck` clean
