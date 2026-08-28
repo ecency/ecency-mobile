@@ -89,27 +89,32 @@ Pass authority as a plain lowercase string. The parameter is typed `AuthorityLev
 
 - `'posting'`: vote, comment, reblog, follow, ignore, community roles
 - `'active'`: transfer, delegate, power up/down, savings, limit orders, proposal vote,
-  witness proxy, account_update
+  witness proxy
 
-The SDK's exported `OPERATION_AUTHORITY_MAP` is the reference list. It maps
-`account_update2` to `'active'` flatly, which is right for the common cases but wrong at both
-ends, so do not copy it for this operation.
+The SDK's exported `OPERATION_AUTHORITY_MAP` is the reference list. It maps both
+`account_update` plus `account_update2` to `'active'` flatly, which is right for the common
+cases but wrong at both ends, so do not copy it for either one.
 
-`account_update2` is the one operation whose authority depends on its payload:
+The two account update operations are the ones whose authority depends on the payload:
 
-| Payload sets | Authority Hive requires |
-|---|---|
-| only `posting_json_metadata` (profile edit, pinned post) | `'posting'` |
-| `active`, `posting`, `memo_key`, or a non-empty `json_metadata` | `'active'` |
-| `owner` | `'owner'` |
+| Operation | Payload sets | Authority Hive requires |
+|---|---|---|
+| both | `owner` | `'owner'` |
+| `account_update2` | only `posting_json_metadata` (profile edit, pinned post) | `'posting'` |
+| both | anything else | `'active'` |
 
-The owner row is not optional. Hive's own test matrix has an active-signed or posting-signed
-owner update failing outright (hive issue 520), so an `'active'` broadcast of an owner change
-is rejected on chain.
+The owner row is not optional. It covers BOTH versions. Hive's own test matrix has an
+active-signed or posting-signed owner update failing outright. It also states that its cases 1
+to 15 are the same for `account_update_operation` as for `account_update2_operation`
+(hive issue 520). So an `'active'` broadcast of an owner change is rejected on chain either
+way.
 
-`src/utils/hiveOperationAuthority.ts:37` implements the first two rows. It does NOT implement
-the third: it is typed `(operation: Operation) => 'posting' | 'active'`, so its `owner` branch
-returns `'active'`, and `hiveOperationAuthority.test.ts` has no owner case. That resolver
+`src/utils/hiveOperationAuthority.ts:37` implements the posting row plus the active row for
+`account_update2` only. It does NOT implement the owner row for either version: the function is
+typed `(operation: Operation) => 'posting' | 'active'`, so its `owner` branch returns
+`'active'`, `account_update` has no branch at all, plus `hiveOperationAuthority.test.ts` has
+no owner case. Its doc comment calling v1 "correctly resolves to active" is wrong whenever the
+payload sets `owner`. That resolver
 serves the hive-uri path (`src/providers/hive/hive.ts:750` and
 `src/hooks/useLinkProcessor.tsx:648`), where the operations arrive from an external link, so a
 deep link that changes `owner` is currently signed with the wrong key. Mobile has no owner
