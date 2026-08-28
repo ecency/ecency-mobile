@@ -12,9 +12,12 @@ code on disk before reporting it.
 
 ## Action sheets
 
-- [ ] **Resolve an object, gate on a named field.** This is a repo convention with a
-  reason, not something the library enforces: a dismissal can resolve something truthy,
-  so `if (result)` may read a cancel as a confirm. Sheets resolve `{ cancelled: true }`
+- [ ] **Resolve an object, gate on a named field.** A repo convention, not something the
+  library enforces today. The library substitutes its own `payload` prop for a falsy
+  result, which would turn a cancel into a confirm, but no sheet here passes that prop, so
+  falsy results currently reach callers intact. The convention holds because one added
+  `payload` would flip every falsy cancel silently. It also holds because a dismissal
+  resolves `undefined`, which truthiness cannot tell apart from a deliberate `false`. Sheets resolve `{ cancelled: true }`
   or `{ field: value }` instead. Sheets document their own contract, e.g.
   `src/components/searchFiltersSheet/searchFiltersSheet.tsx`. Callers test the field,
   abridged from `src/screens/searchResult/screen/searchResultScreen.tsx:65-77`:

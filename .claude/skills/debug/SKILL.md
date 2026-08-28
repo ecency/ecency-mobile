@@ -38,11 +38,13 @@ is posting unless it sets a non-empty `json_metadata` or any of
 
 `resolveTxRequiredAuthority` then collapses a whole transaction to a single authority, returning
 active when any one operation needs it, so the signer decrypts one key for the batch. That is
-fine for a uniform transaction. It is unverified for a mixed one, meaning a batch holding both a
-posting-only operation and an active operation. HF28 lifted the old ban on mixing the two in one
-transaction, so such a batch can now arrive from a deep link where it previously could not, and
-whether one active signature satisfies it is not settled here. Treat a mixed batch as untested
-rather than assuming either outcome.
+fine for a uniform transaction. It is wrong for a mixed one, meaning a batch holding both a
+posting-only operation and an active operation. Hive's `verify_authority` checks the required
+posting authorities, then calls `clear_approved()` before checking the required active ones, so
+the two sets are satisfied independently and one active signature does not cover both. HF28
+lifted the old ban on mixing them in a single transaction, so such a batch can now arrive from a
+deep link where it previously could not. Mobile signs with one key, so treat a mixed batch as
+unsupported by this client, the same as a mixed `custom_json`.
 
 - **Active key gone right after upgrade**: `setTempActiveKey` expires it on a timer while
   `getActiveKey` calls `clearTempActiveKey()` on read, so it is single use.
