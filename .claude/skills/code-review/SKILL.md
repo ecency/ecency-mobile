@@ -1,29 +1,21 @@
 ---
 name: code-review
-description: Review a vision-mobile React Native change (diff, branch, PR or file) against this repo's own shipped-bug traps: action sheet return values, setNativeProps caret, safe-area edges, editor teardown order, notification routing copies, SDK mutation wrappers, EStyleSheet theming.
+description: Review a vision-mobile React Native change (diff, branch, PR or file) against this repo's own traps and conventions: action sheet return values, setNativeProps caret, safe-area edges, editor teardown order, notification routing copies, SDK mutation wrappers, EStyleSheet theming.
 argument-hint: [file-or-branch]
 ---
 
 # Code Review
 
 Architecture, commands, TypeScript and ESLint rules live in CLAUDE.md. This file holds
-only traps that have already shipped bugs here. Confirm each finding against the code
-on disk before reporting it.
+the traps and repo conventions this review gates on. Confirm each finding against the
+code on disk before reporting it.
 
 ## Action sheets
 
 - [ ] **Resolve an object, gate on a named field.** This is a repo convention with a
-  reason, not something the library enforces. `react-native-actions-sheet` 0.9.7
-  publishes `data || payloadRef.current || data` on close (`dist/src/index.js:408`)
-  where `payloadRef` tracks `<ActionSheet>`'s own `payload` prop
-  (`dist/src/index.js:87` and `:139`). The provider hands the `SheetManager.show`
-  payload to the registered component (`dist/src/provider.js:160`) but no sheet in
-  `src/` forwards it on to `<ActionSheet>`, so `payloadRef.current` is `undefined`
-  today and a falsy resolve survives: `if (!result) return false;` at
-  `src/providers/sdk/mobilePlatformAdapter.ts:317` reads a dismissal correctly. One
-  added `payload={payload}` on an `<ActionSheet>` would silently turn every falsy
-  cancel into a truthy confirm, which is why sheets resolve `{ cancelled: true }` or
-  `{ field: value }` instead. Six sheets document the contract, e.g.
+  reason, not something the library enforces: a dismissal can resolve something truthy,
+  so `if (result)` may read a cancel as a confirm. Sheets resolve `{ cancelled: true }`
+  or `{ field: value }` instead. Sheets document their own contract, e.g.
   `src/components/searchFiltersSheet/searchFiltersSheet.tsx`. Callers test the field,
   abridged from `src/screens/searchResult/screen/searchResultScreen.tsx:65-77`:
   ```ts
@@ -32,8 +24,8 @@ on disk before reporting it.
   });
   if (result && typeof result === 'object' && result.filters) { ... }
   ```
-- [ ] **Sheets unmount on hide**, so mount-time resets are enough and every cleanup
-  runs on every close (CLAUDE.md, Sheets). Reject "state persists between invocations".
+- [ ] **Sheets unmount on hide**, so mount-time resets are enough and cleanups run on
+  close (CLAUDE.md, Sheets). Reject "state persists between invocations".
 - [ ] **A throw in a sheet render or cleanup is fatal:** `SheetProvider` wraps
   `<Application/>` (`src/index.tsx:39-43`), outside `ErrorBoundary`
   (`src/screens/application/index.tsx:17`). Watch native objects in cleanups.
@@ -41,106 +33,96 @@ on disk before reporting it.
   when the sheet opened, so route it through a ref
   (`src/components/quickPostModal/quickPostModalContent.tsx:565-575`).
 - [ ] **Missing `SheetDefinition`?** `everySheetHasDefinition`
-  (`src/navigation/sheets.tsx:358`) fails typecheck and names it. Keys are string
-  literals, never `[SheetNames.X]`.
+  (`src/navigation/sheets.tsx:358`) fails typecheck and names it. Keys are plain string
+  literals.
 
 ## Caret on programmatic writes
 
-- [ ] **`setNativeProps({ text })` on its own moves the caret.** Android's
-  `updateExtraData` keeps the caret's DISTANCE FROM THE END, so it lands inside the
-  text just written and the next keystroke splits it. Pass `selection` whenever the
-  caret position after the write matters: inserts and appends into existing text, plus
-  full replacements of a focused field. A reset to `text: ''` does not need it. 20 call
-  sites, of which 3 pass `selection`:
+- [ ] **`setNativeProps({ text })` on its own moves the caret.** Android keeps the
+  caret's DISTANCE FROM THE END, so it lands inside the text just written and the next
+  keystroke splits it. Pass `selection` whenever the caret position after the write
+  matters: inserts and appends into existing text, plus full replacements of a focused
+  field. A reset to `text: ''` does not need it. Call sites that pass it:
   `src/components/quickPostModal/quickPostModalContent.tsx:559` and `:604`, plus
   `src/components/markdownEditor/view/markdownEditorView.tsx:371`.
 
 ## Editor teardown order
 
 - [ ] **Pending work drains before the save, not in a child cleanup.**
-  `componentWillUnmount` runs in the commit phase ahead of every descendant effect
-  cleanup, so the screen calls `flushPendingEditorWork()` then `_saveDraftToDB()`
+  `componentWillUnmount` runs in the commit phase ahead of descendant effect cleanups,
+  so the screen calls `flushPendingEditorWork()` then `_saveDraftToDB()`
   (`src/screens/editor/screen/editorScreen.tsx:116-127`). Register new deferred editor
   work via `registerPendingFlush`
-  (`src/components/uploadsGalleryModal/mediaInsertQueue.ts:33`), never a local cleanup.
+  (`src/components/uploadsGalleryModal/mediaInsertQueue.ts:33`), not a local cleanup.
 
 ## Safe area
 
 - [ ] **`edges` REPLACES the defaults, it does not add to them.** `edges={['bottom']}`
-  removes the top inset. The top inset is the screen's job: a screen rendering
-  `BasicHeader` wraps it in its own `SafeAreaView`
-  (`src/components/basicHeader/view/basicHeaderStyles.ts:13`), while child components
-  and `Modal` bodies inherit the screen's. Modals use
-  `Platform.select({ ios: [], default: ['top'] })`.
+  removes the top inset. The top inset is generally the screen's job: a screen
+  rendering `BasicHeader` wraps it in its own `SafeAreaView`
+  (`src/components/basicHeader/view/basicHeaderStyles.ts:13`).
 
 ## Notification routing
 
-Three separate copies whose type strings do NOT match. A new type must be added to
-every copy it should reach.
+Notification type strings are matched in more than one place, whose spellings do NOT
+agree. A new type may need adding in several of them.
 
 - [ ] Tap routing: the switch at
-  `src/screens/application/hook/useInitApplication.tsx:222-302` handles 15 types
-  (`vote`, `unvote`, `mention`, `follow`, `unfollow`, `ignore`, `reblog`,
-  `scheduled_published`, `favorite`, `bookmark`, `reply`, `transfer`, `inactive`,
-  `spin`, `hiveuri`); its `default` does nothing.
+  `src/screens/application/hook/useInitApplication.tsx:222-302`; its `default` does
+  nothing.
 - [ ] Websocket to FCM bridge: the allowlist at
-  `src/screens/application/container/applicationContainer.tsx:891-901` admits 8 types
-  (`mention`, `reply`, `transfer`, `delegations`, `scheduled_published`, `payouts`,
-  `account_update`, `weekly_earnings`). Each one also needs a case in the title/body
+  `src/screens/application/container/applicationContainer.tsx:891-901` admits
+  `mention`, `reply`, `transfer`, `delegations`, `scheduled_published`, `payouts`,
+  `account_update` and `weekly_earnings`. Each one also needs a case in the title/body
   switch at `:914`, whose `default` announces a bare `@source`.
 - [ ] Foreground banner: the allowlist at
-  `src/components/foregroundNotification/foregroundNotification.tsx:51-58` admits five
-  (`reply`, `mention`, `transfer`, `delegations`, `scheduled_published`); anything else
-  shows nothing. Its own `_onPress` (`:127`) routes `transfer` and `delegations` to the
-  wallet, everything else to a post.
+  `src/components/foregroundNotification/foregroundNotification.tsx:51-58` admits
+  `reply`, `mention`, `transfer`, `delegations` and `scheduled_published`; anything
+  else shows nothing. Its own `_onPress` (`:127`) routes `transfer` and `delegations`
+  to the wallet, everything else to a post.
 
-Mind the singular/plural split: tap routing matches `favorite`, the list and websocket
-paths match `favorites`/`payouts`.
+Mind the singular/plural split: tap routing matches `favorite` and has no payout case
+at all, the list rendering (`src/utils/notificationImage.ts:12`,
+`src/components/notificationLine/view/notificationLineView.tsx:138`) matches `favorites`
+and `payouts`, while the websocket allowlist has `payouts` but no `favorites`.
 
 ## SDK, queries, styling, i18n
 
-- [ ] Broadcast mutation wrappers are two imports plus a four-line function:
-  `useMutationAuth()` from `src/providers/sdk/mutations/common.ts` then the SDK hook
-  (44 of the 47 wrapper files). No key decryption, no HiveSigner/HiveAuth branching in
-  one; the adapter owns that. The other three files are not broadcasts and are the
-  documented exceptions, so do not report them: `useGenerateImageMutation.ts` plus the
-  three digest hooks in `useNewsletterDigestMutations.ts` bind the HiveSigner `code`
-  from `useAuth()`, while `useClaimPointsMutation.ts` derives a REST access token by
-  decrypting `currentAccount.local.accessToken` with `getDigitPinCode(pin)`. A new
-  wrapper that reaches for keys without a non-broadcast reason is still a finding.
-- [ ] Optional query params need `enabled: !!param` (38 call sites).
+- [ ] Broadcast mutation wrappers are thin: `useMutationAuth()` from
+  `src/providers/sdk/mutations/common.ts`, then the SDK hook. No key decryption, no
+  HiveSigner/HiveAuth branching in one; the adapter owns that. The documented
+  exceptions are not broadcasts, so do not report them: `useGenerateImageMutation.ts`
+  and the digest hooks in `useNewsletterDigestMutations.ts` bind the HiveSigner `code`
+  from `useAuth()`, while `useClaimPointsMutation.ts` decrypts
+  `currentAccount.local.accessToken` into a REST access token. A new wrapper that
+  reaches for keys without a non-broadcast reason is still a finding.
+- [ ] Optional query params need `enabled: !!param`.
 - [ ] Mobile-only keys come from `QUERIES`, the DEFAULT export of
-  `src/providers/queries/queryKeys.ts` (10 importers); SDK-owned data uses `QueryKeys`
-  from `@ecency/sdk`.
+  `src/providers/queries/queryKeys.ts`; SDK-owned data uses `QueryKeys` from
+  `@ecency/sdk`.
 - [ ] DMCA lists are set once by `ConfigManager.setDmcaLists` in
   `src/providers/queries/sdk-config.ts:69`; a hand-rolled filter in a query is a
   finding.
 - [ ] `vestsToHp(vests, hivePerMVests)` takes TWO args and returns `0` when either is
   falsy (`src/utils/conversions.ts`), so a missing rate renders a silent 0.
 - [ ] Colors come from theme vars: `'$primaryBackgroundColor'` inside
-  `EStyleSheet.create` (262 files) or `EStyleSheet.value('$primaryBlue')` at runtime.
-  A literal hex is a finding when it shadows a var, above all one that differs between
-  `src/themes/lightTheme.ts` and `src/themes/darkTheme.ts`: `'#357ce6'` is
-  `$primaryBlue` yet is written out 5 times across 4 files. Deliberately
+  `EStyleSheet.create` or `EStyleSheet.value('$primaryBlue')` at runtime. A literal hex
+  is a finding when it shadows a var, above all one that differs between
+  `src/themes/lightTheme.ts` and `src/themes/darkTheme.ts`. Deliberately
   theme-independent chrome is not a finding, e.g. the black media backgrounds in
-  `src/screens/waves/styles/wavesReels.styles.ts`; 27 of the 262 files already hold a
-  hex literal, so only flag ones on a surface that should follow the theme. `$white` is
-  `#1e2835` in the dark theme, `$pureWhite` is the one that stays white.
+  `src/screens/waves/styles/wavesReels.styles.ts`, so flag literals on a surface that
+  should follow the theme. `$white` is `#1e2835` in the dark theme, `$pureWhite` stays
+  white in both.
 - [ ] Text via `intl.formatMessage({ id: 'section.key' })`, key added to the NESTED
   `src/config/locales/en-US.json`; ids are dotted only because `flattenMessages`
   flattens the tree in `src/index.tsx`.
-- [ ] Redux reads use `useAppSelector` (`src/hooks/index.ts:6`, only a
+- [ ] Redux reads use `useAppSelector` (`src/hooks/index.ts:6`, a
   `TypedUseSelectorHook<RootState>` alias) plus a memoized selector from
-  `src/redux/selectors` (264 calls). The finding is an inline lambda picking state
-  apart, not the hook name: three hooks call `react-redux`'s `useSelector` directly and
-  still pass a memoized selector (`src/hooks/useImageReveal.ts:14`,
-  `src/hooks/useContentLanguageGate.ts:80`,
-  `src/hooks/useTransferMutations.ts:34`), which types identically. Handlers are
-  `_`-prefixed (496 `const _handle*`/`const _on*` against 111 unprefixed).
+  `src/redux/selectors`. The finding is an inline lambda picking state apart, not the
+  hook name. Handlers are `_`-prefixed.
 
 ## Report
 
 Group as inline (must fix), outside-diff (should fix), nitpick. Per finding:
 `**[BUG|SECURITY|PERF|STYLE|NITPICK]** file:line`, then what is wrong, why it matters
-and the fix. Gate on `yarn lint`, `yarn typecheck` (empty baseline, any error fails CI)
-and `yarn test:ci`.
+and the fix. Gate on `yarn lint`, `yarn typecheck` and `yarn test:ci`.

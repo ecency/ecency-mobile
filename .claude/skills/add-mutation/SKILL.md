@@ -7,12 +7,13 @@ argument-hint: [operation-name]
 # Add Mutation
 
 Wrap an `@ecency/sdk` mutation hook in `src/providers/sdk/mutations/`. CLAUDE.md
-("SDK Migration") covers the adapter; this file is only the procedure.
+("SDK Migration") covers the adapter; this file is the procedure plus the Hive authority
+rules a wrapper must respect.
 
 ## 1. Create the wrapper
 
-`src/providers/sdk/mutations/use<Operation>Mutation.ts`. 40 of the 47 wrappers there are
-exactly this shape, so copy it verbatim:
+`src/providers/sdk/mutations/use<Operation>Mutation.ts`. Most wrappers there are exactly
+this shape, so copy it verbatim:
 
 ```typescript
 import { useTransfer } from '@ecency/sdk';
@@ -24,21 +25,22 @@ export function useTransferMutation() {
 }
 ```
 
-- `'async'` is the broadcast mode: the last positional arg after `authContext`, so the
-  third arg in 40 wrappers but the fourth in the two community ones. Pass it unless the
-  hook has no such parameter. `useBroadcastMutation` takes it as
+- `'async'` is the broadcast mode, passed as the last positional arg after `authContext`.
+  Its index varies by hook, so read the signature rather than assuming a position. Pass it
+  unless the hook has no such parameter. `useBroadcastMutation` takes it as
   `{ broadcastMode: 'async' }` inside the options object instead.
-- `useMutationAuth()` from `./common.ts` (44 of 47 import it) returns
+- `useMutationAuth()` from `./common.ts` (most wrappers import it) returns
   `{ username, authContext }`: `currentAccount?.name` off `selectCurrentAccount`, plus
   `useAuthContext()` (`src/providers/sdk/useAuthContext.ts`) building
   `{ adapter: createMobilePlatformAdapter({...}), enableFallback: true }`. There is no
-  `mobilePlatformAdapter` object, only the factory.
-- Wrappers take no arguments. Three differ. `useSetCommunityRoleMutation(community)` plus
+  `mobilePlatformAdapter` object to import, use the factory.
+- Most wrappers take no arguments. `useSetCommunityRoleMutation(community)` plus
   `useUpdateCommunityMutation(community)` take the community because the SDK bakes it into
   the mutation key. `useAccountRelationsUpdateMutation(target, onSuccess, onError)` takes
-  three because the SDK bakes the target plus both callbacks into the mutation options.
-- Three of the 47 files are not broadcasts, so they skip `useMutationAuth`.
-  `useGenerateImageMutation` plus the three digest hooks in
+  the target plus both callbacks because the SDK bakes them into the mutation options.
+- A few files are not broadcasts, so they skip `useMutationAuth`, despite
+  CLAUDE.md still saying all mutation wrappers use it.
+  `useGenerateImageMutation` plus the digest hooks in
   `useNewsletterDigestMutations.ts` (`useSubscribeDigestMutation`,
   `useLeaveDigestMutation`, `useUnsubscribeAllDigestsMutation`) bind the HiveSigner `code`
   from `useAuth()` (`src/hooks/useAuth.ts`): `useGenerateImage(username, code)`.
@@ -47,14 +49,13 @@ export function useTransferMutation() {
 
 ## 2. Export from the barrel
 
-One line in `src/providers/sdk/mutations/index.ts`, under the matching domain comment.
-Without it the hook is not importable:
+One line in `src/providers/sdk/mutations/index.ts`, under the matching domain comment:
 
 ```typescript
 export { useTransferMutation } from './useTransferMutation';
 ```
 
-## 3. Call it (from the barrel, never the file)
+## 3. Call it (from the barrel)
 
 ```typescript
 import { useFollowMutation } from '../providers/sdk/mutations';
@@ -64,9 +65,9 @@ await followMutation.mutateAsync({ following: data.following });
 
 ## No SDK hook for the operation?
 
-There is no `packages/sdk` here. `@ecency/sdk` is an npm dependency (`^2.3.93`), so there
+There is no `packages/sdk` here. `@ecency/sdk` is an npm dependency, so there
 is no local build step. Use the generic `useBroadcastMutation`, as
-`useIgnoreUserMutation.ts` does. Seven positional args:
+`useIgnoreUserMutation.ts` does. The positional args:
 
 ```typescript
 return useBroadcastMutation(
@@ -83,7 +84,7 @@ return useBroadcastMutation(
 ```
 
 Pass authority as a plain lowercase string. The parameter is typed `AuthorityLevel` from
-`@ecency/sdk` (`'posting' | 'active' | 'owner' | 'memo'`); mobile wrappers only ever use
+`@ecency/sdk` (`'posting' | 'active' | 'owner' | 'memo'`); mobile wrappers use
 `'posting'` or `'active'`. Do not import the same-named type from
 `src/screens/dappBrowser/bridges/bridgeTypes.ts`, an unrelated dapp browser union.
 
@@ -104,38 +105,34 @@ payload-dependent case, below):
 | `account_update2` | only `posting_json_metadata` (profile edit, pinned post) | `'posting'` |
 | both | anything else | `'active'` |
 
-The owner row is not optional. It covers BOTH versions. Hive's own test matrix has an
-active-signed or posting-signed owner update failing outright. It also states that its cases 1
-to 15 are the same for `account_update_operation` as for `account_update2_operation`
-(hive issue 520). So an `'active'` broadcast of an owner change is rejected on chain either
-way.
+The owner row covers BOTH versions.
 
-`src/utils/hiveOperationAuthority.ts:37` implements the posting row plus the active row for
+`src/utils/hiveOperationAuthority.ts` implements the posting row plus the active row for
 `account_update2` only. It does NOT implement the owner row for either version: the function is
 typed `(operation: Operation) => 'posting' | 'active'`, so its `owner` branch returns
 `'active'`, `account_update` has no branch at all, plus `hiveOperationAuthority.test.ts` has
 no owner case. Its doc comment calling v1 "correctly resolves to active" is wrong whenever the
 payload sets `owner`. That resolver
-serves the hive-uri path (`src/providers/hive/hive.ts:750` and
-`src/hooks/useLinkProcessor.tsx:648`), where the operations arrive from an external link, so a
-deep link that changes `owner` is currently signed with the wrong key. Mobile has no owner
-signing path at all: `mobilePlatformAdapter.ts` decrypts only the posting plus active keys and
-does not implement `getOwnerKey`, so the SDK's own `case 'owner'` throws "Owner key not
-supported by adapter". Treat an owner change as unsupported and reject it rather than routing
+serves the hive-uri path (`src/providers/hive/hive.ts` and
+`src/hooks/useLinkProcessor.tsx`), where the operations arrive from an external link.
+Treat an owner change as unsupported and reject it rather than routing
 it to `'active'`.
 
-`custom_json` is the third payload-dependent case. Exactly one authority list may be
-populated: `required_auths` alone means active, `required_posting_auths` alone means posting.
-A payload carrying both is INVALID, not active. Hive rejects it outright, so the operation
-never reaches the chain (hive issue 632, case 2.3). Reject a mixed payload before broadcasting
-rather than picking an authority for it.
+`custom_json` is the third payload-dependent case. `required_auths` alone means active,
+`required_posting_auths` alone means posting.
 
-Neither implementation enforces that today. `hiveOperationAuthority.ts` never reads
+A payload populating BOTH is the case this app does not handle. `resolveTxRequiredAuthority`
+collapses a whole transaction to a single `'posting' | 'active'`, which
+`src/providers/hive/hive.ts` then turns into one decrypted key, posting or active. So treat a
+mixed payload as unsupported by this client and say so, rather than calling it malformed or
+picking one authority for it.
+
+Neither implementation detects the case today. `hiveOperationAuthority.ts` never reads
 `required_posting_auths` at all. The SDK's `getCustomJsonAuthority` returns `'active'` as soon
-as `required_auths` is non-empty, without checking the other list. Both therefore route a mixed
-payload to an active signature that the chain then refuses.
+as `required_auths` is non-empty, without checking the other list. Both therefore sign with one
+key.
 
-None of this is reachable from one wrapper. `useBroadcastMutation` takes `authority` as its
+`useBroadcastMutation` takes `authority` as its
 sixth positional parameter, fixed when the hook is created, while `operations` is
 `(payload: T) => Operation[]` and only runs at mutate time. The mutation reads the closed-over
 value, so a wrapper cannot choose an authority from its payload. If both shapes are possible,
@@ -144,12 +141,13 @@ write two hooks with fixed authorities and pick at the call site:
 ```typescript
 // posting: profile edit, pinned post, anything touching only posting_json_metadata
 export const useUpdateProfileMetadataMutation = () => { /* ..., 'posting' */ };
-// active: json_metadata or a key or authority change
+// active: json_metadata or a key or authority change other than owner (an owner
+// change is unsupported, reject it)
 export const useUpdateAccountKeysMutation = () => { /* ..., 'active' */ };
 ```
 
-`useBroadcastMutation` never consults `OPERATION_AUTHORITY_MAP` either: its `authority`
-parameter just defaults to `'posting'`, so always pass the right value explicitly.
+`useBroadcastMutation`'s `authority` parameter defaults to `'posting'`, so pass the right
+value explicitly.
 
 Prefer an SDK `build<Operation>Op` helper (`buildTransferOp`, `buildVoteOp`) over a hand
 written op tuple.
@@ -157,7 +155,7 @@ written op tuple.
 ## Gotchas
 
 1. Auth is not your job: the adapter routes PIN key decryption, HiveSigner `hive-uri`
-   WebView signing, HiveAuth signing, plus the active key upgrade sheet (60s temp key).
+   WebView signing, HiveAuth signing, plus the active key upgrade sheet.
 2. No toasts or navigation in the wrapper. Do that at the call site or in hook callbacks.
 3. Check the hook exists in the installed `@ecency/sdk` first, then run `yarn lint` plus
    `yarn typecheck`; the baseline is empty, so any error fails CI.

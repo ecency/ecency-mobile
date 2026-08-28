@@ -10,10 +10,9 @@ Read `CLAUDE.md` first (State Management, SDK Migration). Writes are a separate 
 
 ## Rule: the SDK owns the fetch
 
-`@ecency/sdk` 2.3.93 exports **165** `get*QueryOptions` helpers. 25 of the 32 non-test files under
-`src/providers/queries/` import from `@ecency/sdk`; only **2** `queryFn:` remain in that whole
-directory. Search the SDK for your own domain first. Write a `queryFn` only when that search comes
-back empty:
+`@ecency/sdk` exports a large family of `get*QueryOptions` helpers. Most files under
+`src/providers/queries/` import from `@ecency/sdk`; a bare `queryFn:` is rare in that directory.
+Search the SDK for your own domain first. Write a `queryFn` only when that search comes back empty:
 
 ```bash
 D=node_modules/@ecency/sdk/dist/browser/index.d.ts
@@ -22,9 +21,8 @@ grep -o "get[A-Za-z]*QueryOptions" "$D" | sort -u | grep -i draft   # swap in yo
 grep -n "declare function getPostQueryOptions" "$D"
 ```
 
-Drop the trailing `| grep -i draft` to list all 165. The last grep gives the real argument order.
-Never guess it. `getPostQueryOptions(author, permlink?, observer?, num?)` takes the observer third.
-13 of its 14 call sites pass one.
+Drop the trailing `| grep -i draft` to list them all. The last grep gives the real argument order.
+Do not guess it. In the call sites here, `getPostQueryOptions` takes the observer third.
 
 ## 1. Straight from a component
 
@@ -39,8 +37,8 @@ const { data: account } = useQuery(getAccountFullQueryOptions(author));
 
 ## 2. App hook that adds mobile-only options
 
-The dominant shape: spread the SDK options, then override. 47 spread sites across `src/`.
-Verbatim, `src/providers/queries/leaderboardQueries/leaderboardQueries.ts`:
+The dominant shape: spread the SDK options, then override. Verbatim,
+`src/providers/queries/leaderboardQueries/leaderboardQueries.ts`:
 
 ```typescript
 import { useQuery } from '@tanstack/react-query';
@@ -60,12 +58,12 @@ export const useGetLeaderboardQuery = (duration: 'day' | 'week' | 'month') => {
 ```
 
 Usual overrides: `enabled`, `select`, `staleTime`, `gcTime`, `initialData`. Keep the SDK's
-`queryKey` plus `queryFn` so the cache entry stays shared with every other surface.
+`queryKey` plus `queryFn` so the cache entry stays shared with other surfaces.
 
 ## 3. Private-API queries need the auth pair
 
-Ecency backend queries take `username` plus an access token. Use `useAuth()` (12 query files do),
-never re-derive it. From `src/providers/queries/newsletterQueries.ts`:
+Ecency backend queries take `username` plus an access token. Use `useAuth()` rather than
+re-deriving it. From `src/providers/queries/newsletterQueries.ts`:
 
 ```typescript
 import { useAuth } from '../../hooks';
@@ -79,8 +77,8 @@ export const useDigestSubscriptionsQuery = () => {
 ## 4. Infinite queries
 
 SDK `get*InfiniteQueryOptions` already carry `initialPageParam` plus `getNextPageParam`. The repo
-hand-rolls those two exactly once out of 18 `useInfiniteQuery` calls. Flatten in the hook, do not
-re-key. From `src/providers/queries/draftQueries.ts` (comments stripped):
+rarely hand-rolls those two. Flatten in the hook, do not re-key. From
+`src/providers/queries/draftQueries.ts` (comments stripped):
 
 ```typescript
 const { username, code } = useAuth();
@@ -105,14 +103,13 @@ return { ...infiniteQuery, data, pagesLoaded: infiniteQuery.data?.pages?.length 
   `QueryKeys.posts.draftsInfinite(username, limit)`, `QueryKeys.accounts.full(name)`,
   `QueryKeys.polls.details(author, permlink)`. Use these to invalidate or seed an SDK cache entry.
 - **Mobile-only keys**: `src/providers/queries/queryKeys.ts` is a *default* export named `QUERIES`
-  with a nested shape. 10 files import that default (`import QUERIES from '<relative>/queryKeys'`,
+  with a nested shape. Files import that default (`import QUERIES from '<relative>/queryKeys'`,
   so the specifier depends on the file) then `queryKey: [QUERIES.WALLET.GET_ACTIVITIES, username]`.
   There is no local `QueryKeys` export.
 
 ## 6. Hand-rolled query (last resort)
 
-Only when the SDK has nothing. Verbatim, one of the two survivors,
-`src/providers/queries/settingsQueries.ts`:
+Only when the SDK has nothing. Verbatim, `src/providers/queries/settingsQueries.ts`:
 
 ```typescript
 export const useGetServersQuery = () => {
@@ -129,34 +126,34 @@ export const useGetServersQuery = () => {
 
 ## 7. Export
 
-`src/providers/queries/index.ts` uses `export * from './<domain>Queries'` (16 of them). Its only
-named re-export is `getQueryClient` from the SDK; the rest of the file is local (`initQueryClient`
-plus the persistence allowlist). A subdirectory carries its own `index.ts` that re-exports
-namespaces, for example `export { postQueries, wavesQueries, pollQueries };`.
+`src/providers/queries/index.ts` uses `export * from './<domain>Queries'`. It also re-exports
+`getQueryClient` from the SDK; the rest of the file is local (`initQueryClient` plus the
+persistence allowlist). A subdirectory carries its own `index.ts` that re-exports namespaces.
 
 ## Gotchas
 
 1. **Persistence is an allowlist.** `_shouldDehydrateQuery` in `src/providers/queries/index.ts`
-   switches on `queryKey[0]`, then narrows on `queryKey[1]`. Only `core`, `get-account-full` plus
-   `points` persist wholesale. `posts`, `accounts`, `notifications` persist part of their subtypes:
-   `accounts` returns false unless the subtype is `bookmarks` or `favorites`, `posts` drops `entry`,
-   `notifications` drops `announcements`. Everything else is dropped, so a new namespace or subtype
-   is not persisted until you add its case. Read the switch before assuming a new key persists.
-   Infinite lists persist only while a single page is loaded.
-2. **Guard with `enabled`** whenever a param can be undefined: 27 uses under `providers/queries`
-   (`grep -rnE "^[[:space:]]*enabled[,:]" src/providers/queries | wc -l`). An `undefined` anywhere
-   in a query key also blocks persistence.
-3. Returning `undefined` from `getNextPageParam` stops pagination. `null` stops it too on the
-   installed TanStack Query 5.83.0, whose `hasNextPage` tests `!= null`, but the repo's one
-   hand-rolled case returns `undefined`.
+   switches on `queryKey[0]`, then narrows on `queryKey[1]`. A namespace with no case falls to the
+   default and is dropped, so a new namespace is not persisted until you add its case. Within a
+   case the subtype handling differs per namespace: some subtypes are dropped, some persist only
+   while a single page is loaded, some persist wholesale. Read the switch before assuming a new key
+   persists.
+2. **Guard with `enabled`** when a param can be undefined. An `undefined` anywhere in a query key
+   also blocks persistence.
+3. Returning `undefined` from `getNextPageParam` stops pagination; that is what the repo's
+   hand-rolled case returns.
 4. **Optimistic vote data is no longer Redux.** Call `updateVoteInQueryCaches()` and read back via
    `applyRecentVoteOverrideToEntry()` from `src/providers/queries/postQueries/voteCacheUtils.ts`;
-   seed a post before navigation with `usePostsCachePrimer()`. `useInjectVotesCache` is gone.
-5. **Non-React code**: import `getQueryClient` from the app barrel `providers/queries` (19 sites)
-   rather than the SDK (5): `await queryClient.fetchQuery(getAccountsQueryOptions([username]))`.
-6. `src/providers/queries/sdk-config.ts` runs once from `initQueryClient()` and configures
+   seed a post before navigation with `usePostsCachePrimer()`. `useInjectVotesCache` is gone,
+   though CLAUDE.md's Post Data Flow still lists it.
+5. **Non-React code**: import `getQueryClient` from the app barrel `providers/queries` rather than
+   the SDK: `await queryClient.fetchQuery(getAccountsQueryOptions([username]))`.
+6. `src/providers/queries/sdk-config.ts` runs from `initQueryClient()` and configures
    `ConfigManager` (query client, private API host, image host, Hive nodes, DMCA lists). Adding a
-   query never requires touching it.
+   query rarely requires touching it.
 
-Prettier width is 100 (`.prettierrc`). Finish with `yarn lint` plus `yarn typecheck`; the baseline
-in `tsc-baseline.json` is empty, so any type error fails CI.
+Prettier width is 100 (`.prettierrc`). Finish with `yarn lint`, `yarn typecheck` plus
+`yarn test:ci`; `.github/workflows/test.yml` runs all three on every PR. The baseline in
+`tsc-baseline.json` is empty, so any type error fails. Two co-located tests in
+`src/providers/queries/` read `index.ts` and assert the `export * from './<domain>Queries';` line
+from section 7, so a missing barrel export fails jest.

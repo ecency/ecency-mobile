@@ -11,7 +11,7 @@ adds the per-area entry points plus the traps. Verify against the code before ac
 
 ## 1. Auth / broadcast
 
-`authType` is a **string**, never a number (`src/constants/authType.ts`):
+`authType` is a **string**, not a number (`src/constants/authType.ts`):
 `steemConnect`, `hiveAuth`, `masterKey`, `activeKey`, `memoKey`, `postingKey`, `ownerKey`.
 `mapAuthTypeToLoginType` (`src/utils/authMapper.ts`) maps them to the SDK login type:
 
@@ -19,22 +19,25 @@ adds the per-area entry points plus the traps. Verify against the code before ac
 |---|---|
 | `'steemConnect'` | `'hivesigner'` |
 | `'hiveAuth'` | `'hiveauth'` |
-| the five key types above | `'key'` |
+| the key types above | `'key'` |
 | anything else | `'key'` plus an `[AuthMapper] Unknown authType` warning |
 
-(CLAUDE.md still says `AUTH_TYPE 1/2/5/7`. Those numbers appear nowhere in `src/`.)
+(CLAUDE.md still describes `AUTH_TYPE` as numbers; the code uses the strings above.)
 
-Routing is `src/providers/sdk/mobilePlatformAdapter.ts`. `getLoginType(username, authority)`
-overrides the map twice: a key user doing an `active` op with `local.activeKey` signs directly;
-a key user with no `postingKey` but an `accessToken` goes to HiveSigner. A HiveSigner user asking
-for `active` returns `null`, so the SDK falls through to `showAuthUpgradeUI`.
+Routing is `src/providers/sdk/mobilePlatformAdapter.ts`. `getLoginType(username, authority)` can
+override the map: a key user with no `postingKey` but an `accessToken` goes to HiveSigner. A
+HiveSigner user asking for `active` returns `null`, so the SDK falls through to
+`showAuthUpgradeUI`.
 
 Authority per operation: `resolveOperationAuthority` / `resolveTxRequiredAuthority` in
-`src/utils/hiveOperationAuthority.ts`. Posting covers only `vote`, `comment`, `comment_options`,
-`custom_json`, `delete_comment`, `claim_reward_balance`; `custom_json` with `required_auths` plus
-`account_update2` touching keys or `json_metadata` escalate. Everything else is active.
+`src/utils/hiveOperationAuthority.ts`. `vote`, `comment`, `comment_options`, `delete_comment`,
+`claim_reward_balance` are posting outright. The payload dependent ops are checked before that
+set: `custom_json` is posting unless it declares a non-empty `required_auths`; `account_update2`
+is posting unless it sets a non-empty `json_metadata` or any of
+`owner`/`active`/`posting`/`memo_key`. Everything else is active. A transaction needs active if
+any one of its operations does.
 
-- **Active key gone right after upgrade**: `setTempActiveKey` expires it after `60_000` ms while
+- **Active key gone right after upgrade**: `setTempActiveKey` expires it on a timer while
   `getActiveKey` calls `clearTempActiveKey()` on read, so it is single use.
 - **HiveSigner WebView not opening**: `broadcastWithHiveSigner` calls
   `RootNavigation.navigate({ name: ROUTES.MODALS.HIVE_SIGNER, ... })`
@@ -47,11 +50,10 @@ Authority per operation: `resolveOperationAuthority` / `resolveTxRequiredAuthori
   via `getSheetDeps()`, a cached lazy `require()` deliberately used instead of `import()`
   (which Metro wraps in an async shim), to dodge a circular import. Check that first.
 - **"@ecency.app doesn't have permission to broadcast"**:
-  `isMissingEcencyPostingAuthorityError` lowercases `error_description` plus `message` then
-  matches the substring `permission to broadcast`, or `unauthorized_client` together with an
-  `ecency.app` mention; an `ecency.app` mention on its own matches neither branch. A bare
-  `unauthorized_client` is an expired token or wrong scope. `shouldPromptPostingAuthority` gates
-  the grant sheet.
+  `isMissingEcencyPostingAuthorityError` lowercases the error text then matches the substring
+  `permission to broadcast`, or `unauthorized_client` together with an `ecency.app` mention; an
+  `ecency.app` mention on its own matches neither branch. A bare `unauthorized_client` is an
+  expired token or wrong scope. `shouldPromptPostingAuthority` gates the grant sheet.
 
 ## 2. Wallet / transfer
 
@@ -63,15 +65,15 @@ composes SDK options (`getPortfolioQueryOptions`, `getPointsQueryOptions`,
 
 - Delegations are `getVestingDelegationsQueryOptions(username, limit)` (`delegateScreen.tsx`,
   `src/screens/assetDetails/children/delegationsModal.tsx`). The SDK also exports
-  `getHivePowerDelegatingsQueryOptions`, but mobile never uses it (0 hits in `src/`), so do not
-  reach for it by name.
+  `getHivePowerDelegatingsQueryOptions`, which mobile does not appear to use, so do not reach for
+  it by name.
 - **Shows 0 HP**: `vestsToHp(vests, hivePerMVests)` (`src/utils/conversions.ts`) returns `0` when
   either argument is falsy and runs `parseFloat(String(vests))`, so a raw number and
   `"1000000.000000 VESTS"` both work. Zero almost always means `hivePerMVests` was missing.
 - **Stale delegations**: invalidate the exact
   `getVestingDelegationsQueryOptions(name, limit).queryKey`; a different `limit` is another key.
-- **`[object Object]`**: RPC rejections are not `Error` instances, so `String(error)` collapses
-  them. See `src/components/upvotePopover/container/upvotePopover.tsx`.
+- **`[object Object]`**: RPC rejections are often not `Error` instances, so `String(error)`
+  collapses them. See `src/components/upvotePopover/container/upvotePopover.tsx`.
 
 ## 3. Navigation
 
@@ -79,15 +81,15 @@ composes SDK options (`getPortfolioQueryOptions`, `getPointsQueryOptions`,
 is intentional), `appNavigator.tsx`, plus `rootNavigation.tsx` for non-React navigation.
 
 - **Screen not found**: the route must be in `src/constants/routeNames.ts` *and* registered in one
-  of the navigators. `stackNavigator.tsx` holds 36 `<MainStack.Screen>` entries plus 9
-  `<RootStack.Screen>` entries for the pre-login and modal routes (`STACK.MAIN`,
-  `SCREENS.REGISTER`, `LOGIN`, `WELCOME`, `ACCOUNT_LIST`, `WEB_BROWSER`, `PINCODE`,
-  `MODALS.POLL_WIZARD`, `MODALS.HIVE_SIGNER`), so grepping only for `MainStack` wrongly declares
-  login, pincode, web browser and the HiveSigner modal unregistered. The remaining routes are the
-  5 `<Tab.Screen>` in `botomTabNavigator.tsx` and `<Drawer.Screen name={ROUTES.SCREENS.FEED}>` in
-  `drawerNavigator.tsx`.
-- **Deep link dead**: `src/hooks/useLinkProcessor.tsx` exports only `handleLink`, which
-  dispatches to `_handleEcencyAuthTransferDeeplink`, `_handleEcencyLoginDeeplink`,
+  of the navigators. `stackNavigator.tsx` holds both `<MainStack.Screen>` and `<RootStack.Screen>`
+  entries: the root stack mounts the main stack (`STACK.MAIN`, which renders
+  `MainStackNavigator`) and registers routes beside it (`SCREENS.REGISTER`, `LOGIN`, `WELCOME`,
+  `SCREENS.ACCOUNT_LIST`, `WEB_BROWSER`, `PINCODE`, `MODALS.POLL_WIZARD`, `MODALS.HIVE_SIGNER`),
+  so grepping only for `MainStack` wrongly declares login, pincode, web browser and the HiveSigner
+  modal unregistered. Remaining routes are the `<Tab.Screen>` entries in `botomTabNavigator.tsx`
+  and `<Drawer.Screen name={ROUTES.SCREENS.FEED}>` in `drawerNavigator.tsx`.
+- **Deep link dead**: `src/hooks/useLinkProcessor.tsx` returns `handleLink`, which dispatches to
+  `_handleEcencyAuthTransferDeeplink`, `_handleEcencyLoginDeeplink`,
   `_handleEcencyTransferDeeplink`, `_handleHiveUri` (which defers to `_handleHiveUriTransaction`)
   or else `_handleDeepLink`. That last one runs `deepLinkParser` then navigates, falling back to
   `ROUTES.SCREENS.WEB_BROWSER` when nothing parses, so an unrecognised link looks like the in-app
@@ -96,34 +98,29 @@ is intentional), `appNavigator.tsx`, plus `rootNavigation.tsx` for non-React nav
 
 ## 4. Bottom sheets
 
-Registry `src/navigation/sheets.tsx`: the `SheetNames` enum and the `registerSheet` calls are
-one-to-one (29 each today).
+Registry `src/navigation/sheets.tsx`: the `SheetNames` enum and the `registerSheet` calls line up
+one-to-one.
 
 - **Not opening**: the component must be imported into `sheets.tsx` and registered. It need not
-  come from the `src/components/index.tsx` barrel; 7 registered sheets are imported by direct
+  come from the `src/components/index.tsx` barrel; some registered sheets are imported by direct
   path instead, for example `SignConfirmSheet` from `src/screens/dappBrowser/components/`.
-- **Stale data**: sheets unmount on hide (CLAUDE.md), so no sheet state survives a close. What a
+- **Stale data**: sheets unmount on hide (CLAUDE.md), so sheet state resets between shows. What a
   sheet renders is the payload captured when `SheetManager.show` ran, so re-show with fresh data.
-- **Result is `undefined`**: a sheet resolves with what it passes to
-  `SheetManager.hide(sheetId, { payload: value })` (`src/components/authUpgradeSheet/`). A
-  backdrop dismiss resolves `undefined`, so a falsy result never means confirmed, but it does not
-  say why: `SignConfirmSheet` resolves `false` from its Cancel button as well as from its
-  `onClose`, so `!ok` lumps an explicit reject in with a dismissal. Bail out on falsy; resolve a
-  named field when the caller has to tell the two apart:
+- **Falsy result**: a sheet resolves with what it passes to
+  `SheetManager.hide(sheetId, { payload: value })` (`src/components/authUpgradeSheet/`), so a
+  falsy result does not mean confirmed. It also may not say why: `SignConfirmSheet` routes both
+  its Cancel button and its `onClose`, which fires on a backdrop or gesture dismiss, through the
+  same `_close(false)`, so `!ok` lumps an explicit reject in with a dismissal. Bail out on falsy;
+  resolve a named field when the caller has to tell the two apart:
   `const ok = await SheetManager.show(SheetNames.SIGN_CONFIRM, { payload }); if (!ok) return;`
-- The library close path publishes `data || payloadRef.current || data`, where `payloadRef` is the
-  `payload` **prop of `<ActionSheet>`**, not the show payload the wrapper receives. No sheet here
-  forwards it (0 hits for `payload=` in `src/`), so the fallback is inert and a dismissal really
-  does resolve `undefined`. Forward `payload` into `<ActionSheet>` and a dismissal starts resolving
-  that truthy payload instead, which reads as confirmed.
 - A throw from a sheet render or cleanup is fatal: sheets sit outside the ErrorBoundary.
 
 ## 5. Theme
 
-`react-native-extended-stylesheet` is built by the only `EStyleSheet.build` call in the repo,
+`react-native-extended-stylesheet` is built by
 `EStyleSheet.build(isDarkTheme ? darkTheme : lightTheme)` inside a `useMemo` keyed on
-`[isDarkTheme]` (`src/screens/application/hook/useInitApplication.tsx`), so it reruns on every
-theme toggle. Stylesheet values therefore re-resolve; only a value read outside a stylesheet stays
+`[isDarkTheme]` (`src/screens/application/hook/useInitApplication.tsx`), so it reruns when the
+theme toggles. Stylesheet values therefore re-resolve; a value read outside a stylesheet can stay
 stale. For those reads use `EStyleSheet.value('$theme') === 'darkTheme'`.
 
 | Variable | Light | Dark |
@@ -142,18 +139,18 @@ so switching to them fixes nothing. Bad dark mode colors usually mean a literal 
 Config `src/providers/queries/sdk-config.ts` (`initSdkConfig`), client
 `src/providers/queries/index.ts`.
 
-- **No fetch**: check `enabled`; an undefined username silently disables the query.
+- **No fetch**: check `enabled`; an undefined username usually disables the query.
 - **Stale after a mutation**: the adapter's `invalidateQueries` takes a raw key or `{ queryKey }`
-  and only warns on failure, so a wrong key looks like success.
-- **RPC errors**: `ConfigManager.setHiveNodes(nodes)` runs once from the saved server plus
-  `getNodes()`, both filtered by `withoutBlockedServers` / `isBlockedServer`
-  (`src/constants/options/api.ts`); `hiveTxConfig.timeout` is 10000 ms. A blocked node is never
-  retried, so check the pool before blaming failover.
+  and warns instead of throwing on failure, so a wrong key looks like success.
+- **RPC errors**: the node pool reaches the SDK through `ConfigManager.setHiveNodes(...)`, which
+  runs from more than one call site, so confirm which list won before blaming failover. Denied
+  nodes are dropped by `withoutBlockedServers` / `isBlockedServer`
+  (`src/constants/options/api.ts`), so check the pool too.
 
 ## 7. Build
 
 ```bash
-bash patch-gradle.sh                       # required for RN 0.79.5, also runs on install
+bash patch-gradle.sh                       # gradle patch, also runs on install
 cd android && ./gradlew clean && cd .. && yarn android
 cd ios && pod install && cd .. && yarn ios
 yarn start --reset-cache                   # Metro cache only
