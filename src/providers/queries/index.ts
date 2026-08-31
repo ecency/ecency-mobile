@@ -7,6 +7,7 @@ import VersionNumber from 'react-native-version-number';
 import NetInfo from '@react-native-community/netinfo';
 import { initSdkConfig } from './sdk-config';
 import { retryDelay, shouldRetryQuery } from './retryPolicy';
+import { isOnlineState } from './onlineState';
 
 /**
  * React Query has no connectivity signal of its own in React Native: its
@@ -15,15 +16,14 @@ import { retryDelay, shouldRetryQuery } from './retryPolicy';
  * work, so a screen left showing an error recovers by itself once the network
  * comes back rather than waiting for the user to pull to refresh.
  *
- * `isInternetReachable` is deliberately only treated as offline when it is
- * explicitly false: it is null while the probe is still running, and it can stay
- * wrong for a long time on a network that answers the reachability probe but not
- * much else. Treating that as offline would be worse than trying and failing.
+ * The online/offline rule itself lives in `./onlineState`, where it can be tested
+ * without standing up the persister: both NetInfo fields are three-valued and an
+ * unknown state is read as online rather than offline.
  */
 const _bindOnlineManager = () => {
   onlineManager.setEventListener((setOnline) =>
     NetInfo.addEventListener((state) => {
-      setOnline(!!state.isConnected && state.isInternetReachable !== false);
+      setOnline(isOnlineState(state));
     }),
   );
 };
