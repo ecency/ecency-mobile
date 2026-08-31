@@ -155,8 +155,17 @@ const PostsTabContent = ({
 
   // view rendereres
   const _renderEmptyContent = () => {
-    const _isNoPost = !feedQuery.isLoading && feedQuery.data.length == 0;
-    return <TabEmptyView filterKey={filterKey} isNoPost={_isNoPost} />;
+    const _isNoPost = !feedQuery.isLoading && !feedQuery.isError && feedQuery.data.length == 0;
+    return (
+      <TabEmptyView
+        filterKey={filterKey}
+        isNoPost={_isNoPost}
+        isError={feedQuery.isError}
+        error={feedQuery.error}
+        isRetrying={feedQuery.isRefreshing}
+        onRetry={feedQuery.refresh}
+      />
+    );
   };
 
   const scrollPopupCallback = useCallback((value: boolean) => {

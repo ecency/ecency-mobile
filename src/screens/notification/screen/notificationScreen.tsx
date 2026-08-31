@@ -19,6 +19,8 @@ const NotificationScreen = ({
   isNotificationRefreshing,
   isLoading,
   isFetching,
+  isError,
+  error,
   changeSelectedFilter,
   globalProps,
 }: any) => {
@@ -57,6 +59,8 @@ const NotificationScreen = ({
                   isNotificationRefreshing={isNotificationRefreshing}
                   isLoading={isLoading}
                   isFetching={isFetching}
+                  isError={isError}
+                  error={error}
                   changeSelectedFilter={changeSelectedFilter}
                   globalProps={globalProps}
                   listRef={notificationsListRef}

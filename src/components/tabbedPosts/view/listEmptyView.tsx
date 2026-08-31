@@ -12,7 +12,7 @@ import {
   useCommunitySubscriptionAction,
   useFollowUserAction,
 } from '../../../hooks';
-import { NoPost, PostCardPlaceHolder, UserListItem } from '../..';
+import { NoPost, PostCardPlaceHolder, QueryErrorRetry, UserListItem } from '../..';
 import globalStyles from '../../../globalStyles';
 import { CommunityListItem, EmptyScreen } from '../../basicUIElements';
 import styles from '../styles/tabbedPosts.styles';
@@ -29,9 +29,23 @@ import {
 interface TabEmptyViewProps {
   filterKey: string;
   isNoPost: boolean;
+  /** The first page failed and there is nothing cached to show instead. */
+  isError?: boolean;
+  error?: unknown;
+  isRetrying?: boolean;
+  onRetry?: () => void;
 }
 
-const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
+const TabEmptyView = ({
+  filterKey,
+  isNoPost,
+  isError,
+  // Renamed on the way in: this component already destructures an `error` out of
+  // the leaderboard and communities redux slices further down.
+  error: loadError,
+  isRetrying,
+  onRetry,
+}: TabEmptyViewProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -300,6 +314,14 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
     } else {
       return <EmptyScreen style={styles.emptyAnimationContainer} />;
     }
+  }
+
+  // Checked after the logged-out and empty-feed branches, both of which are
+  // real answers rather than failures, and before the placeholder: the
+  // placeholder is the fallthrough for "still loading", so without this a feed
+  // whose first page failed keeps a skeleton on screen with no way forward.
+  if (isError && onRetry) {
+    return <QueryErrorRetry error={loadError} onRetry={onRetry} isRetrying={isRetrying} />;
   }
 
   return (

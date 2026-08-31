@@ -1,5 +1,6 @@
 import { getPointsQueryOptions } from '@ecency/sdk';
 import { captureException, captureMessage } from '../../utils/sentryUtils';
+import { isAxiosTransportError } from '../../config/axiosTimeout';
 import ecencyApi from '../../config/ecencyApi';
 import { getQueryClient } from '../queries';
 import { EcencyUser, UserPoint } from './ecency.types';
@@ -26,7 +27,14 @@ export const userActivity = async (ty: number, tx = '', bl: string | number = ''
     return response.data;
   } catch (error) {
     console.warn('Failed to push user activity point', error);
-    captureException(error);
+    // Transport failures are not reported. The caller retries this mutation and
+    // then parks it in redux to replay later, so a broken path already recovers
+    // on its own; reporting each attempt would send three identical events per
+    // user action for a result the user never sees. Anything the server actually
+    // answered with is still reported.
+    if (!isAxiosTransportError(error)) {
+      captureException(error);
+    }
     throw error;
   }
 };

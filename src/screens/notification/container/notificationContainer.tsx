@@ -172,6 +172,8 @@ const NotificationContainer = ({ navigation }: any) => {
       globalProps={globalProps}
       isLoading={selectedQuery.isLoading || selectedQuery.isPending}
       isFetching={selectedQuery.isFetching}
+      isError={selectedQuery.isError}
+      error={selectedQuery.error}
     />
   );
 };

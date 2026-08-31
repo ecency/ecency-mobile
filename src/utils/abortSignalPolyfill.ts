@@ -12,12 +12,26 @@ declare global {
 
 const AbortSignalRef: any = typeof AbortSignal !== 'undefined' ? AbortSignal : undefined;
 
+/**
+ * The reason a timed-out signal carries.
+ *
+ * `name` is the contract, not `message`: the SDK, providers/hive/hive.ts and
+ * upvotePopover all branch on `err.name === 'TimeoutError'`, and the SDK builds
+ * exactly this shape for its own timeouts. An `Error` whose *message* is
+ * 'TimeoutError' has `name === 'Error'` and matches none of them.
+ */
+export const createTimeoutReason = (): Error => {
+  const reason = new Error('The operation was aborted due to timeout');
+  reason.name = 'TimeoutError';
+  return reason;
+};
+
 if (AbortSignalRef && typeof AbortSignalRef.timeout !== 'function') {
   AbortSignalRef.timeout = (ms: number): AbortSignal => {
     const controller: any = new AbortController();
     setTimeout(() => {
       try {
-        controller.abort(new Error('TimeoutError'));
+        controller.abort(createTimeoutReason());
       } catch {
         controller.abort();
       }
@@ -56,5 +70,3 @@ if (AbortSignalRef && typeof AbortSignalRef.any !== 'function') {
     return controller.signal;
   };
 }
-
-export {};

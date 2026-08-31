@@ -54,6 +54,10 @@ export const useNotificationsQuery = (filter?: NotificationFilters) => {
     fetchNextPage: infiniteQuery.fetchNextPage,
     refresh: infiniteQuery.refetch,
     hasNextPage: infiniteQuery.hasNextPage,
+    // Only an error when there is nothing to show: a failed "load more" must
+    // not replace the notifications already on screen.
+    isError: infiniteQuery.isError && data.length === 0,
+    error: infiniteQuery.error,
   };
 };
 

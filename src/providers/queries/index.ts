@@ -1,10 +1,32 @@
-import { Query, QueryClient } from '@tanstack/react-query';
+import { onlineManager, Query, QueryClient } from '@tanstack/react-query';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PersistQueryClientProviderProps } from '@tanstack/react-query-persist-client';
 import { getQueryClient as getQueryClientFromSDK } from '@ecency/sdk';
 import VersionNumber from 'react-native-version-number';
+import NetInfo from '@react-native-community/netinfo';
 import { initSdkConfig } from './sdk-config';
+import { retryDelay, shouldRetryQuery } from './retryPolicy';
+import { isOnlineState } from './onlineState';
+
+/**
+ * React Query has no connectivity signal of its own in React Native: its
+ * onlineManager listens for browser `online`/`offline` events, finds none, and
+ * assumes online forever. Feeding it NetInfo is what makes `refetchOnReconnect`
+ * work, so a screen left showing an error recovers by itself once the network
+ * comes back rather than waiting for the user to pull to refresh.
+ *
+ * The online/offline rule itself lives in `./onlineState`, where it can be tested
+ * without standing up the persister: both NetInfo fields are three-valued and an
+ * unknown state is read as online rather than offline.
+ */
+const _bindOnlineManager = () => {
+  onlineManager.setEventListener((setOnline) =>
+    NetInfo.addEventListener((state) => {
+      setOnline(isOnlineState(state));
+    }),
+  );
+};
 
 export const initQueryClient = () => {
   const asyncStoragePersister = createAsyncStoragePersister({
@@ -16,6 +38,8 @@ export const initQueryClient = () => {
     throttleTime: 2000,
   });
 
+  _bindOnlineManager();
+
   const client = new QueryClient({
     defaultOptions: {
       queries: {
@@ -23,6 +47,26 @@ export const initQueryClient = () => {
         gcTime: 30 * 60 * 1000, // 30 minutes — longer retention for mobile navigation patterns
         refetchOnWindowFocus: false,
         refetchOnMount: true, // refetch stale data on screen mount (respects staleTime)
+        retry: shouldRetryQuery,
+        retryDelay,
+        // 'online' would park a query in `paused` whenever the online signal says
+        // offline, and a paused query is indistinguishable from a loading one in
+        // the UI: the same indefinite skeleton this work removes. Always attempt
+        // the request and let it fail visibly; NetInfo's signal is kept for
+        // refetchOnReconnect only.
+        networkMode: 'always',
+        // networkMode 'always' turns refetchOnReconnect OFF by default
+        // (QueryClient.defaultQueryOptions derives it from networkMode), so it
+        // has to be asked for explicitly or reconnect recovery is silently lost.
+        refetchOnReconnect: true,
+      },
+      mutations: {
+        // Deliberately NOT 'always'. A paused query is a problem because it looks
+        // identical to a loading one, but a paused mutation is the behaviour we
+        // want: it is held while offline and fires once connectivity returns,
+        // rather than failing in the user's face the moment they tap. Leaving the
+        // default keeps that. Per-mutation `retry` overrides still win.
+        retry: false,
       },
     },
   });
