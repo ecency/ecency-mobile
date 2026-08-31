@@ -1,10 +1,32 @@
-import { Query, QueryClient } from '@tanstack/react-query';
+import { onlineManager, Query, QueryClient } from '@tanstack/react-query';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PersistQueryClientProviderProps } from '@tanstack/react-query-persist-client';
 import { getQueryClient as getQueryClientFromSDK } from '@ecency/sdk';
 import VersionNumber from 'react-native-version-number';
+import NetInfo from '@react-native-community/netinfo';
 import { initSdkConfig } from './sdk-config';
+import { retryDelay, shouldRetryQuery } from './retryPolicy';
+
+/**
+ * React Query has no connectivity signal of its own in React Native: its
+ * onlineManager listens for browser `online`/`offline` events, finds none, and
+ * assumes online forever. Feeding it NetInfo is what makes `refetchOnReconnect`
+ * work, so a screen left showing an error recovers by itself once the network
+ * comes back rather than waiting for the user to pull to refresh.
+ *
+ * `isInternetReachable` is deliberately only treated as offline when it is
+ * explicitly false: it is null while the probe is still running, and it can stay
+ * wrong for a long time on a network that answers the reachability probe but not
+ * much else. Treating that as offline would be worse than trying and failing.
+ */
+const _bindOnlineManager = () => {
+  onlineManager.setEventListener((setOnline) =>
+    NetInfo.addEventListener((state) => {
+      setOnline(!!state.isConnected && state.isInternetReachable !== false);
+    }),
+  );
+};
 
 export const initQueryClient = () => {
   const asyncStoragePersister = createAsyncStoragePersister({
@@ -16,6 +38,8 @@ export const initQueryClient = () => {
     throttleTime: 2000,
   });
 
+  _bindOnlineManager();
+
   const client = new QueryClient({
     defaultOptions: {
       queries: {
@@ -23,6 +47,25 @@ export const initQueryClient = () => {
         gcTime: 30 * 60 * 1000, // 30 minutes — longer retention for mobile navigation patterns
         refetchOnWindowFocus: false,
         refetchOnMount: true, // refetch stale data on screen mount (respects staleTime)
+        retry: shouldRetryQuery,
+        retryDelay,
+        // 'online' would park a query in `paused` whenever the online signal says
+        // offline, and a paused query is indistinguishable from a loading one in
+        // the UI: the same indefinite skeleton this work removes. Always attempt
+        // the request and let it fail visibly; NetInfo's signal is kept for
+        // refetchOnReconnect only.
+        networkMode: 'always',
+        // networkMode 'always' turns refetchOnReconnect OFF by default
+        // (QueryClient.defaultQueryOptions derives it from networkMode), so it
+        // has to be asked for explicitly or reconnect recovery is silently lost.
+        refetchOnReconnect: true,
+      },
+      mutations: {
+        // Same reasoning: a broadcast or a claim must reach a result the user can
+        // see, not sit paused behind a connectivity guess. Per-mutation `retry`
+        // overrides still win.
+        networkMode: 'always',
+        retry: false,
       },
     },
   });

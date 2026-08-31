@@ -6,6 +6,9 @@ import 'intl';
 import 'intl/locale-data/jsonp/en-US';
 import 'react-native-get-random-values';
 import './src/utils/abortSignalPolyfill';
+// Bounds every HTTP(S) fetch. Must run before ./App, which pulls in @ecency/sdk:
+// the SDK binds globalThis.fetch on first use and caches the bound reference.
+import './src/utils/installFetchDeadline';
 
 import EcencyApp from './App';
 

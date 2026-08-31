@@ -12,6 +12,7 @@ import WalletLineItem from './view/walletLineItem/walletLineItemView';
 import CommunityListItem from './view/communityListItem/communityListItem';
 import Separator from './view/separator/separatorView';
 import EmptyScreen from './view/emptyScreen/emptyScreenView';
+import QueryErrorRetry from './view/queryErrorRetry/queryErrorRetryView';
 
 // // Placeholders
 import ListItemPlaceHolder from './view/placeHolder/listItemPlaceHolderView';
@@ -52,4 +53,5 @@ export {
   CommunitiesPlaceHolder,
   Separator,
   EmptyScreen,
+  QueryErrorRetry,
 };

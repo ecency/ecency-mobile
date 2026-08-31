@@ -7,6 +7,8 @@ import { store } from '../redux/store/store';
 import { getDigitPinCode } from '../providers/hive/hive';
 import { decryptKey } from '../utils/crypto';
 import { selectIsLoggedIn } from '../redux/selectors';
+import { FIRST_PARTY_TIMEOUT_MS } from '../utils/networkTimeout';
+import { isAxiosTimeoutError, stampRequestStart } from './axiosTimeout';
 
 export const ECENCY_TERMS_URL = `${Config.ECENCY_BACKEND_API}/terms-of-service`;
 
@@ -16,10 +18,24 @@ const ecencyApi = axios.create({
     'Content-Type': 'application/json',
     'User-Agent': `${Config.USER_AGENT}/${VersionNumber.appVersion}`,
   },
+  // Axios does not go through the global fetch wrapper: with XMLHttpRequest
+  // defined it picks its xhr adapter, and an instance with no `timeout` inherits
+  // 0, which React Native passes through as "no deadline". A request that is
+  // accepted and never answered then never settles, and it holds one of the five
+  // concurrent slots the platform HTTP client allows per host for the life of the
+  // process. Five of those lock out every later call to this host, fetch included.
+  //
+  // Same budget as the fetch deadline for this host, and for the same reasons;
+  // per-request overrides win where an endpoint is not idempotent.
+  timeout: FIRST_PARTY_TIMEOUT_MS,
 });
 
 ecencyApi.interceptors.request.use((request) => {
   // console.log(`Starting ecency Request`, request);
+
+  // Stamp the start so the response interceptor can recognise a timeout on
+  // Android, where the platform reports one as a generic transport failure.
+  stampRequestStart(request);
 
   // skip code addition is register and token refresh endpoint is triggered
   if (
@@ -70,9 +86,21 @@ ecencyApi.interceptors.request.use((request) => {
   return request;
 });
 
-ecencyApi.interceptors.response.use((response) => {
-  // console.log('Response:', response);
-  return response;
-});
+ecencyApi.interceptors.response.use(
+  (response) => {
+    // console.log('Response:', response);
+    return response;
+  },
+  (error) => {
+    // Rename so callers, the retry policy and the error view can tell "the
+    // network never answered" from "the server said no". `error.code` is
+    // deliberately left alone: call sites already branch on it. `error.message`
+    // is left alone too, because it is surfaced to users.
+    if (isAxiosTimeoutError(error)) {
+      error.name = 'TimeoutError';
+    }
+    return Promise.reject(error);
+  },
+);
 
 export default ecencyApi;

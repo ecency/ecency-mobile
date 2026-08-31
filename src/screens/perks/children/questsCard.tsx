@@ -9,7 +9,7 @@ import {
   useBuyStreakFreeze,
 } from '@ecency/sdk';
 
-import { Icon } from '../../../components';
+import { Icon, QueryErrorRetry } from '../../../components';
 import { useAuth } from '../../../hooks';
 import { useGetQuestsQuery } from '../../../providers/queries/pointQueries';
 import RootNavigation from '../../../navigation/rootNavigation';
@@ -32,7 +32,7 @@ const byId = (arr?: { id: string }[]) => Object.fromEntries((arr || []).map((q) 
 const QuestsCard = () => {
   const intl = useIntl();
   const { username, code } = useAuth();
-  const { data } = useGetQuestsQuery(username);
+  const { data, isError, error, isFetching, refetch } = useGetQuestsQuery(username);
   const [tier, setTier] = useState<(typeof TIERS)[number]>('daily');
 
   const { mutateAsync: buyFreeze, isPending: isBuyingFreeze } = useBuyStreakFreeze(username, code);
@@ -93,6 +93,18 @@ const QuestsCard = () => {
       </View>
     );
   };
+
+  // Without this the card renders every quest at 0/goal when the request fails,
+  // which is indistinguishable from a user who has done nothing today. Wrong
+  // progress is worse than no progress, so say so and offer the retry.
+  if (isError && !data) {
+    return (
+      <View style={styles.card}>
+        <Text style={styles.cardTitle}>{intl.formatMessage({ id: 'perks.quests_title' })}</Text>
+        <QueryErrorRetry error={error} onRetry={refetch} isRetrying={isFetching} compact />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.card}>

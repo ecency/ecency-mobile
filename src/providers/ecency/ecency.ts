@@ -7,6 +7,14 @@ import { convertProposalMeta } from './converters';
 import { PurchaseRequestData } from './ecency.types';
 
 /**
+ * Deliberately far above the instance default. A purchase is not idempotent, so
+ * the cost of giving up too early (a charge whose outcome nobody knows) is much
+ * worse than the cost of waiting: this only exists so the call cannot hang for
+ * the life of the process.
+ */
+const PURCHASE_ORDER_TIMEOUT_MS = 60000;
+
+/**
  * ================================================================================
  * ECENCY API - MOBILE-SPECIFIC FUNCTIONS
  * ================================================================================
@@ -187,7 +195,12 @@ NOTE: data or type PurchaseRequestData should contain body, pass as it is
 
 export const purchaseOrder = async (data: PurchaseRequestData) => {
   try {
-    const response = await ecencyApi.post('/private-api/purchase-order', data);
+    // Not idempotent: a client deadline here turns a slow success into an unknown
+    // outcome, with the user's money on the wrong side of it. Overrides the
+    // instance default with a ceiling that only trips on a genuinely dead path.
+    const response = await ecencyApi.post('/private-api/purchase-order', data, {
+      timeout: PURCHASE_ORDER_TIMEOUT_MS,
+    });
     return response.data;
   } catch (error) {
     Sentry.captureException(error);

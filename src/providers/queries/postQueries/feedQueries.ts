@@ -127,6 +127,11 @@ export const useFeedQuery = ({
   // Avoids new Date() inside select which would defeat TanStack structural sharing.
   const feedQuery = useInfiniteQuery({
     ...(queryOptions as any),
+    // No client-side retry here. These reads go through hive-tx, which already
+    // walks the node pool (config.retry, bounded by resilience.totalBudgetFactor)
+    // before it rejects, so a React Query retry on top only doubles how long the
+    // screen holds a skeleton before it is allowed to show the error.
+    retry: false,
     select: useCallback(
       (data: any) => {
         if (!data?.pages) return data;
@@ -300,6 +305,11 @@ export const useFeedQuery = ({
     fetchNextPage: feedQuery.fetchNextPage,
     refresh: _refresh,
     deletePost,
+    // Surfaced so the list can render a retry instead of a skeleton that never
+    // resolves. Scoped to the first page: once posts are on screen a failed
+    // "load more" must not replace them with an error state.
+    isError: feedQuery.isError && _filteredData.length === 0,
+    error: feedQuery.error,
   };
 };
 

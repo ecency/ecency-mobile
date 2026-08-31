@@ -3,6 +3,9 @@ import axios from 'axios';
 import DeviceInfo from 'react-native-device-info';
 import * as Sentry from '@sentry/react-native';
 
+import { isAxiosTransportError } from '../../config/axiosTimeout';
+import { DEFAULT_TIMEOUT_MS } from '../../utils/networkTimeout';
+
 // Pageview recording only. Post-stats *reads* now go through `@ecency/sdk`
 // (`getStatsQueryOptions` -> the server-side `/api/stats` proxy), so the stats
 // API key is no longer shipped in the app — see providers/queries/statsQueries.
@@ -15,6 +18,11 @@ const plausibleApi = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  // Fire-and-forget analytics, which is exactly why it must not hold one of the
+  // five concurrent slots the platform HTTP client allows per host when the path
+  // is broken: nothing is waiting on it to notice. Axios sets no deadline of its
+  // own and does not go through the global fetch wrapper.
+  timeout: DEFAULT_TIMEOUT_MS,
 });
 
 export const recordPlausibleEvent = async (urlPath: string, eventName?: string): Promise<void> => {
@@ -48,7 +56,15 @@ export const recordPlausibleEvent = async (urlPath: string, eventName?: string):
   } catch (error) {
     // Analytics is fire-and-forget: report but do not rethrow, otherwise the
     // failure surfaces as an unhandled rejection from callers.
-    Sentry.captureException(error);
+    //
+    // Transport failures are NOT reported. This runs once per screen view, and
+    // now that the request has a deadline every pageview on a broken path
+    // produces an error instead of a silent hang; across the user base that is
+    // thousands of identical events a day for a call nothing waits on. Anything
+    // that is not a transport failure is still reported.
+    if (!isAxiosTransportError(error)) {
+      Sentry.captureException(error);
+    }
     console.error(`Failed to record event "${eventName}":`, error);
   }
 };

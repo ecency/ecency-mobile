@@ -6,7 +6,7 @@ import { ActivityIndicator, FlatList, Text, View, RefreshControl } from 'react-n
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { NotificationLine } from '../..';
-import { ListPlaceHolder } from '../../basicUIElements';
+import { ListPlaceHolder, QueryErrorRetry } from '../../basicUIElements';
 import { FilterBar } from '../../filterBar';
 
 // Styles
@@ -42,6 +42,9 @@ interface Props {
   notifications: any[];
   isLoading: boolean;
   isFetching: boolean;
+  /** The list failed and there is nothing cached to show instead. */
+  isError?: boolean;
+  error?: unknown;
   isNotificationRefreshing: boolean;
   globalProps: any;
   handleOnUserPress: (username?: string) => void;
@@ -56,6 +59,8 @@ const NotificationView = ({
   notifications,
   isLoading,
   isFetching,
+  isError,
+  error,
   isNotificationRefreshing,
   globalProps,
   handleOnUserPress,
@@ -109,6 +114,32 @@ const NotificationView = ({
     return null;
   };
 
+  // Order matters: the failure is checked before the loading skeleton, because
+  // a query that failed is still `isFetching` for the moment React Query spends
+  // settling it, and before the "no activity" copy, which would otherwise claim
+  // an empty inbox on a request that never arrived.
+  const _renderEmptyComponent = () => {
+    if (isError) {
+      return (
+        <QueryErrorRetry
+          error={error}
+          onRetry={() => getActivities()}
+          isRetrying={isNotificationRefreshing}
+        />
+      );
+    }
+
+    if (isLoading || isFetching || isNotificationRefreshing) {
+      return <ListPlaceHolder />;
+    }
+
+    return (
+      <Text style={globalStyles.hintText}>
+        {intl.formatMessage({ id: 'notification.noactivity' })}
+      </Text>
+    );
+  };
+
   const _renderItem = ({ item }: any) => (
     <NotificationLine
       notification={item}
@@ -141,15 +172,7 @@ const NotificationView = ({
         onEndReachedThreshold={0.3}
         onMomentumScrollBegin={_handleMomentumScrollBegin}
         ListFooterComponent={_renderFooterLoading}
-        ListEmptyComponent={
-          isLoading || isFetching || isNotificationRefreshing ? (
-            <ListPlaceHolder />
-          ) : (
-            <Text style={globalStyles.hintText}>
-              {intl.formatMessage({ id: 'notification.noactivity' })}
-            </Text>
-          )
-        }
+        ListEmptyComponent={_renderEmptyComponent}
         contentContainerStyle={styles.listContentContainer}
         refreshControl={
           <RefreshControl
