@@ -5,6 +5,7 @@
 const loadModule = () => {
   let mod: typeof import('./installFetchDeadline');
   jest.isolateModules(() => {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     mod = require('./installFetchDeadline');
   });
   return mod!;

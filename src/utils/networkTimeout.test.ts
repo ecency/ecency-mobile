@@ -82,6 +82,41 @@ describe('resolveTimeoutMs', () => {
       FIRST_PARTY_TIMEOUT_MS,
     );
   });
+
+  it('gives the upload ceiling to a body carried on the request rather than in init', () => {
+    // `fetch(request)` keeps the body on the Request, so a check that only reads
+    // `init.body` would hand a slow upload the short budget and cut it off.
+    const request = { url: 'https://ecency.com/private-api/x', body: new FormData() };
+    expect(resolveTimeoutMs('https://ecency.com/private-api/x', undefined, request)).toBe(
+      UPLOAD_TIMEOUT_MS,
+    );
+  });
+
+  it('gives the upload ceiling to a polyfill request that keeps its body privately', () => {
+    const request = { url: 'https://ecency.com/private-api/x', _bodyFormData: new FormData() };
+    expect(resolveTimeoutMs('https://ecency.com/private-api/x', undefined, request)).toBe(
+      UPLOAD_TIMEOUT_MS,
+    );
+  });
+});
+
+describe('withDeadline with a URL object input', () => {
+  it('bounds a stalling request made with a URL object rather than a string', async () => {
+    // A URL object is a valid fetch input and carries its address on `href`, not
+    // `url`. Reading only `url` yields no scheme, which resolves to NO_TIMEOUT and
+    // leaves the request pending forever -- the exact failure this module removes.
+    jest.useFakeTimers();
+    try {
+      const stalling = makeStallingFetch();
+      const wrapped = withDeadline(stalling as unknown as typeof fetch);
+      const pending = wrapped(new URL('https://ecency.com/private-api/x') as any);
+      const assertion = expect(pending).rejects.toMatchObject({ name: 'TimeoutError' });
+      jest.advanceTimersByTime(FIRST_PARTY_TIMEOUT_MS);
+      await assertion;
+    } finally {
+      jest.useRealTimers();
+    }
+  });
 });
 
 describe('hostOf', () => {

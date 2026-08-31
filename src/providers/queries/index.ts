@@ -61,10 +61,11 @@ export const initQueryClient = () => {
         refetchOnReconnect: true,
       },
       mutations: {
-        // Same reasoning: a broadcast or a claim must reach a result the user can
-        // see, not sit paused behind a connectivity guess. Per-mutation `retry`
-        // overrides still win.
-        networkMode: 'always',
+        // Deliberately NOT 'always'. A paused query is a problem because it looks
+        // identical to a loading one, but a paused mutation is the behaviour we
+        // want: it is held while offline and fires once connectivity returns,
+        // rather than failing in the user's face the moment they tap. Leaving the
+        // default keeps that. Per-mutation `retry` overrides still win.
         retry: false,
       },
     },

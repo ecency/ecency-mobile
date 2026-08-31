@@ -65,23 +65,23 @@ class MainApplication : Application(), ReactApplication {
         // real handshake even on a poor link, and low enough that a dead route falls
         // over to the next one inside the JS deadline (utils/networkTimeout).
         //
-        // read and write are idle timeouts, not deadlines: readTimeout bounds the gap
-        // between bytes and writeTimeout the gap between writes, so a slow but
-        // progressing upload is unaffected and a large download still completes.
-        // The per-request deadline stays on callTimeout, which React Native sets per
-        // request from the JS-side timeout (NetworkingModule).
+        // read and write are deliberately left alone. They are idle timeouts applied
+        // to every request on the shared client, so any value low enough to be a
+        // useful backstop is also low enough to cut short a request that asked for
+        // longer: a server that accepts an order and then works on it silently would
+        // be aborted mid-flight, which is the unknown-outcome case the wider
+        // purchase deadline exists to avoid. The per-request deadline belongs on
+        // callTimeout, which React Native sets per request from the JS-side timeout
+        // (NetworkingModule), and every JS caller now carries one.
         //
-        // A backstop under the JS-side deadlines, not a replacement for them: it
-        // catches whatever reaches the network without one. Must be set before the
-        // first client is created, which happens when NetworkingModule is built.
+        // Must be set before the first client is created, which happens when
+        // NetworkingModule is built.
         OkHttpClientProvider.setOkHttpClientFactory(
             OkHttpClientFactory {
                 // createClientBuilder(context) keeps React Native's own cookie jar
                 // and its 10MB response cache; only the timeouts change.
                 OkHttpClientProvider.createClientBuilder(this)
                     .connectTimeout(10, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .writeTimeout(30, TimeUnit.SECONDS)
                     .build()
             }
         )

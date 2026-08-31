@@ -112,7 +112,26 @@ export const isUploadBody = (body: unknown): boolean => {
   return ArrayBuffer.isView(body) || body instanceof ArrayBuffer;
 };
 
-export const resolveTimeoutMs = (url: string, init?: RequestInit): number => {
+/**
+ * True when a fetch input carries an upload body. `fetch(request)` keeps the body
+ * on the Request rather than in `init`, and the polyfill this app uses stores the
+ * original value on a private field instead of exposing a stream, so both are
+ * checked. Without this an upload passed that way gets the short deadline.
+ */
+export const hasUploadInput = (input?: unknown): boolean => {
+  if (!input || typeof input !== 'object') {
+    return false;
+  }
+  const req = input as Record<string, unknown>;
+  return (
+    isUploadBody(req.body) ||
+    isUploadBody(req._bodyFormData) ||
+    isUploadBody(req._bodyBlob) ||
+    isUploadBody(req._bodyArrayBuffer)
+  );
+};
+
+export const resolveTimeoutMs = (url: string, init?: RequestInit, input?: unknown): number => {
   const { scheme } = parseUrl(url);
 
   // Only network requests get a deadline. `file:`, `content:`, `asset:`, `data:`
@@ -121,7 +140,7 @@ export const resolveTimeoutMs = (url: string, init?: RequestInit): number => {
     return NO_TIMEOUT;
   }
 
-  if (isUploadBody(init?.body)) {
+  if (isUploadBody(init?.body) || hasUploadInput(input)) {
     return UPLOAD_TIMEOUT_MS;
   }
 
@@ -161,8 +180,18 @@ const urlOf = (input: unknown): string => {
   if (typeof input === 'string') {
     return input;
   }
-  if (input && typeof input === 'object' && 'url' in input) {
-    return String((input as { url?: string }).url ?? '');
+  if (input && typeof input === 'object') {
+    // A Request carries the address on `url`. A URL object carries it on `href`
+    // and is a valid fetch input in its own right -- fetch stringifies it. Miss
+    // that and the request resolves to no scheme, which reads as NO_TIMEOUT and
+    // leaves exactly the unbounded request this module exists to prevent.
+    const candidate = input as { url?: unknown; href?: unknown };
+    if (typeof candidate.url === 'string' && candidate.url) {
+      return candidate.url;
+    }
+    if (typeof candidate.href === 'string') {
+      return candidate.href;
+    }
   }
   return '';
 };
@@ -207,11 +236,11 @@ const combineSignals = (
  */
 export const withDeadline = (
   baseFetch: typeof fetch,
-  resolveTimeout: (url: string, init?: RequestInit) => number = resolveTimeoutMs,
+  resolveTimeout: (url: string, init?: RequestInit, input?: unknown) => number = resolveTimeoutMs,
 ): typeof fetch => {
   const deadlineFetch = (input: any, init?: RequestInit) => {
     const url = urlOf(input);
-    const timeoutMs = resolveTimeout(url, init);
+    const timeoutMs = resolveTimeout(url, init, input);
 
     if (!timeoutMs || timeoutMs <= 0) {
       return baseFetch(input, init);

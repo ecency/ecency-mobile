@@ -128,6 +128,16 @@ class InAppPurchaseContainer extends Component<any, any> {
         if (get(err, 'response.status') === 409) {
           return undefined;
         }
+        // A deadline leaves the server-side outcome unknown: the order may have
+        // been accepted and still be completing. Resubmitting the same receipt
+        // here races that in-flight request, so stop and leave the purchase
+        // unconsumed. The recovery path re-attempts it on a later launch, by
+        // which time the first attempt has settled and a duplicate is answered
+        // with the 409 handled above. Only a failure we know did not land --
+        // a transport error or a 5xx -- is worth retrying immediately.
+        if (get(err, 'name') === 'TimeoutError') {
+          throw err;
+        }
         lastErr = err;
         // Don't sleep after the final attempt -- there is nothing left to retry.
         if (attempt < PURCHASE_ORDER_MAX_ATTEMPTS - 1) {
