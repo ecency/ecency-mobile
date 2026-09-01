@@ -113,7 +113,15 @@ const NotificationContainer = ({ navigation }: any) => {
         author: get(data, 'source'),
         permlink,
       };
-    } else if (type === 'follow') {
+    } else if (
+      type === 'follow' ||
+      type === 'unfollow' ||
+      type === 'ignore' ||
+      type === 'blacklist'
+    ) {
+      // The whole follow family is serialized with follower/following and shares
+      // ACTIVITY_MAIN_TYPE_FOLLOW. Routing only 'follow' left the other three
+      // untappable, and disagreed with the push router in useInitApplication.
       routeName = ROUTES.SCREENS.PROFILE;
       key = get(data, 'follower');
       params = {

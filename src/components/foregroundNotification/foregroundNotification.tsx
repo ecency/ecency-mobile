@@ -21,7 +21,22 @@ interface RemoteMessage {
     permlink2: string;
     permlink3: string;
     amount?: string;
-    type: 'mention' | 'reply' | 'transfer' | 'delegations' | 'scheduled_published';
+    // Two producers feed this component with DIFFERENT vocabularies: FCM carries
+    // enotify's push strings (singular 'delegation' / 'payout') while the websocket
+    // bridge in applicationContainer carries str_activity_type's ('delegations' /
+    // 'payouts'). Both spellings are accepted rather than renamed, so neither
+    // producer silently stops matching.
+    type:
+      | 'mention'
+      | 'reply'
+      | 'transfer'
+      | 'delegation'
+      | 'delegations'
+      | 'scheduled_published'
+      | 'follow'
+      | 'unfollow'
+      | 'ignore'
+      | 'blacklist';
   };
   notification: {
     body: string;
@@ -53,8 +68,13 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
         (type === 'reply' ||
           type === 'mention' ||
           type === 'transfer' ||
+          type === 'delegation' ||
           type === 'delegations' ||
-          type === 'scheduled_published')
+          type === 'scheduled_published' ||
+          type === 'follow' ||
+          type === 'unfollow' ||
+          type === 'ignore' ||
+          type === 'blacklist')
       ) {
         let titleText = '';
         let bodyText = '';
@@ -77,6 +97,7 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
                 defaultMessage: 'Amount unavailable',
               });
             break;
+          case 'delegation':
           case 'delegations':
             titleText = `@${source} ${intl.formatMessage({ id: 'notification.delegations' })}`;
             bodyText =
@@ -92,6 +113,18 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
             bodyText =
               remoteMessage.notification?.body ||
               intl.formatMessage({ id: 'notification.scheduled_published_body' });
+            break;
+          case 'follow':
+            titleText = `@${source} ${intl.formatMessage({ id: 'notification.follow' })}`;
+            break;
+          case 'unfollow':
+            titleText = `@${source} ${intl.formatMessage({ id: 'notification.unfollow' })}`;
+            break;
+          case 'ignore':
+            titleText = `@${source} ${intl.formatMessage({ id: 'notification.ignore' })}`;
+            break;
+          case 'blacklist':
+            titleText = `@${source} ${intl.formatMessage({ id: 'notification.blacklist' })}`;
             break;
         }
 
@@ -128,9 +161,23 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
     const { data } = remoteMessage;
     const { type } = data;
 
-    if (type === 'transfer' || type === 'delegations') {
+    if (type === 'transfer' || type === 'delegation' || type === 'delegations') {
       // Navigate to wallet for financial transactions
       RootNavigation.navigate({ name: ROUTES.TABBAR.WALLET });
+    } else if (
+      type === 'follow' ||
+      type === 'unfollow' ||
+      type === 'ignore' ||
+      type === 'blacklist'
+    ) {
+      // The follow family carries no permlink. Falling through to the post branch
+      // below navigated to POST with an empty permlink, which opens nothing.
+      const source = get(data, 'source', '');
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.PROFILE,
+        params: { username: source },
+        key: source,
+      });
     } else {
       // Navigate to post for reply/mention
       const fullPermlink =
