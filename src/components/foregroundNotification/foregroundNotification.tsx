@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { IconButton } from '..';
 import UserAvatar from '../userAvatar';
 import ROUTES from '../../constants/routeNames';
+import { FOREGROUND_BANNER_TYPES } from '../../constants/notificationTypes';
 
 // Styles
 import styles from './styles';
@@ -21,7 +22,26 @@ interface RemoteMessage {
     permlink2: string;
     permlink3: string;
     amount?: string;
-    type: 'mention' | 'reply' | 'transfer' | 'delegations' | 'scheduled_published';
+    // Two producers feed this component with DIFFERENT vocabularies: FCM carries
+    // enotify's push strings (singular 'delegation' / 'payout') while the websocket
+    // bridge in applicationContainer carries str_activity_type's ('delegations' /
+    // 'payouts'). Both spellings are accepted rather than renamed, so neither
+    // producer silently stops matching.
+    type:
+      | 'mention'
+      | 'reply'
+      | 'transfer'
+      | 'delegation'
+      | 'delegations'
+      | 'scheduled_published'
+      | 'payout'
+      | 'payouts'
+      | 'account_update'
+      | 'weekly_earnings'
+      | 'follow'
+      | 'unfollow'
+      | 'ignore'
+      | 'blacklist';
   };
   notification: {
     body: string;
@@ -48,14 +68,7 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
   useEffect(() => {
     if (remoteMessage) {
       const { source, target, type, id, amount } = remoteMessage.data;
-      if (
-        activeId !== id &&
-        (type === 'reply' ||
-          type === 'mention' ||
-          type === 'transfer' ||
-          type === 'delegations' ||
-          type === 'scheduled_published')
-      ) {
+      if (activeId !== id && (FOREGROUND_BANNER_TYPES as readonly string[]).includes(type)) {
         let titleText = '';
         let bodyText = '';
 
@@ -77,6 +90,7 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
                 defaultMessage: 'Amount unavailable',
               });
             break;
+          case 'delegation':
           case 'delegations':
             titleText = `@${source} ${intl.formatMessage({ id: 'notification.delegations' })}`;
             bodyText =
@@ -92,6 +106,44 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
             bodyText =
               remoteMessage.notification?.body ||
               intl.formatMessage({ id: 'notification.scheduled_published_body' });
+            break;
+          // Both producers already build a correct title and body for these: enotify's
+          // push/format.py for FCM, and the websocket bridge in applicationContainer.
+          // Prefer what was delivered rather than rebuilding the interpolated strings
+          // here, the way scheduled_published already does for its body.
+          case 'payout':
+          case 'payouts':
+            titleText =
+              remoteMessage.notification?.title ||
+              intl.formatMessage({ id: 'notification.payouts' }, { amount: amount || '' });
+            bodyText = remoteMessage.notification?.body || '';
+            break;
+          case 'weekly_earnings':
+            titleText =
+              remoteMessage.notification?.title ||
+              intl.formatMessage(
+                { id: 'notification.weekly_earnings' },
+                { amount: amount || '', breakdown: '' },
+              );
+            bodyText = remoteMessage.notification?.body || '';
+            break;
+          case 'account_update':
+            titleText =
+              remoteMessage.notification?.title ||
+              intl.formatMessage({ id: 'notification.account_update' });
+            bodyText = remoteMessage.notification?.body || '';
+            break;
+          case 'follow':
+            titleText = `@${source} ${intl.formatMessage({ id: 'notification.follow' })}`;
+            break;
+          case 'unfollow':
+            titleText = `@${source} ${intl.formatMessage({ id: 'notification.unfollow' })}`;
+            break;
+          case 'ignore':
+            titleText = `@${source} ${intl.formatMessage({ id: 'notification.ignore' })}`;
+            break;
+          case 'blacklist':
+            titleText = `@${source} ${intl.formatMessage({ id: 'notification.blacklist' })}`;
             break;
         }
 
@@ -128,9 +180,33 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
     const { data } = remoteMessage;
     const { type } = data;
 
-    if (type === 'transfer' || type === 'delegations') {
+    if (
+      type === 'transfer' ||
+      type === 'delegation' ||
+      type === 'delegations' ||
+      type === 'payout' ||
+      type === 'payouts' ||
+      type === 'weekly_earnings'
+    ) {
       // Navigate to wallet for financial transactions
       RootNavigation.navigate({ name: ROUTES.TABBAR.WALLET });
+    } else if (type === 'account_update') {
+      // Informational only: the app has no account-update destination, and the post
+      // branch below would open an empty permlink. Dismiss without navigating.
+    } else if (
+      type === 'follow' ||
+      type === 'unfollow' ||
+      type === 'ignore' ||
+      type === 'blacklist'
+    ) {
+      // The follow family carries no permlink. Falling through to the post branch
+      // below navigated to POST with an empty permlink, which opens nothing.
+      const source = get(data, 'source', '');
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.PROFILE,
+        params: { username: source },
+        key: source,
+      });
     } else {
       // Navigate to post for reply/mention
       const fullPermlink =

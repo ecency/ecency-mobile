@@ -23,6 +23,10 @@ import {
 
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
+import {
+  FCM_FOREGROUND_NOTIFICATION_TYPES,
+  WS_NOTIFICATION_TYPES,
+} from '../../../constants/notificationTypes';
 
 // Services
 import {
@@ -384,18 +388,8 @@ class ApplicationContainer extends Component<any, any> {
     firebaseOnMessageListener = getMessaging().onMessage((remoteMessage) => {
       console.log('Notification Received: foreground', remoteMessage);
 
-      const notificationTypes = [
-        'mention',
-        'reply',
-        'transfer',
-        'delegations',
-        'scheduled_published',
-        'payouts',
-        'account_update',
-        'weekly_earnings',
-      ];
       const messageType = remoteMessage?.data?.type;
-      if (notificationTypes.includes(messageType as any)) {
+      if ((FCM_FOREGROUND_NOTIFICATION_TYPES as readonly string[]).includes(messageType as any)) {
         // FCM and the enotify websocket can both deliver the same event, so a
         // local +1 double-counted (e.g. daily-spin POINT transfers showed 2).
         // Re-fetch the authoritative unread count instead.
@@ -891,14 +885,7 @@ class ApplicationContainer extends Component<any, any> {
         if (
           wsData &&
           wsData.event === 'notify' &&
-          (wsData.type === 'mention' ||
-            wsData.type === 'reply' ||
-            wsData.type === 'transfer' ||
-            wsData.type === 'delegations' ||
-            wsData.type === 'scheduled_published' ||
-            wsData.type === 'payouts' ||
-            wsData.type === 'account_update' ||
-            wsData.type === 'weekly_earnings')
+          (WS_NOTIFICATION_TYPES as readonly string[]).includes(wsData.type)
         ) {
           // Re-fetch the authoritative unread count rather than a local +1:
           // FCM may deliver the same event, and a local increment in both
@@ -942,6 +929,18 @@ class ApplicationContainer extends Component<any, any> {
             case 'weekly_earnings':
               notifTitle = 'Weekly earnings';
               notifBody = extra?.total_usd ? `$${extra.total_usd}` : '';
+              break;
+            case 'follow':
+              notifTitle = `@${source} followed @${target}`;
+              break;
+            case 'unfollow':
+              notifTitle = `@${source} unfollowed @${target}`;
+              break;
+            case 'ignore':
+              notifTitle = `@${source} ignored @${target}`;
+              break;
+            case 'blacklist':
+              notifTitle = `@${source} blacklisted @${target}`;
               break;
             default:
               notifTitle = `@${source}`;
@@ -1107,30 +1106,34 @@ class ApplicationContainer extends Component<any, any> {
 
     // compile notify_types
     let notify_types: any[] = [];
-    if (settings) {
-      const notifyTypesConst = {
-        voteNotification: 1,
-        mentionNotification: 2,
-        followNotification: 3,
-        commentNotification: 4,
-        reblogNotification: 5,
-        transfersNotification: 6,
-        favoriteNotification: 13,
-        bookmarkNotification: 15,
-        delegationsNotification: 10,
-        payoutsNotification: 19,
-        accountUpdateNotification: 20,
-        weeklyEarningsNotification: 21,
-        scheduledPublishedNotification: 22,
-      };
+    const notifyTypesConst = {
+      voteNotification: 1,
+      mentionNotification: 2,
+      followNotification: 3,
+      commentNotification: 4,
+      reblogNotification: 5,
+      transfersNotification: 6,
+      favoriteNotification: 13,
+      bookmarkNotification: 15,
+      delegationsNotification: 10,
+      payoutsNotification: 19,
+      accountUpdateNotification: 20,
+      weeklyEarningsNotification: 21,
+      scheduledPublishedNotification: 22,
+    };
 
+    if (settings) {
       Object.keys(settings).forEach((item) => {
         if ((notifyTypesConst as any)[item] && settings[item]) {
           notify_types.push((notifyTypesConst as any)[item]);
         }
       });
     } else {
-      notify_types = [1, 2, 3, 4, 5, 6, 13, 15, 22];
+      // Derived, not hardcoded. The literal here used to be [1,2,3,4,5,6,13,15,22],
+      // which omitted 10, 19, 20 and 21, so a fresh login with no settings yet got no
+      // delegations, payouts, account_update or weekly_earnings pushes until it saved
+      // settings once. A hand-maintained copy of this map is guaranteed to drift.
+      notify_types = Object.values(notifyTypesConst);
     }
 
     try {
