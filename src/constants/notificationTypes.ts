@@ -50,3 +50,27 @@ export const WS_NOTIFICATION_TYPES = [
 
 /** Follow-family types, which route to the actor's profile rather than to a post. */
 export const FOLLOW_NOTIFICATION_TYPES = ['follow', 'unfollow', 'ignore', 'blacklist'] as const;
+
+/**
+ * Types ForegroundNotification will render a banner for.
+ *
+ * MUST cover every type in both allowlists above. A type accepted upstream but absent
+ * here refreshes the unread badge and then silently shows nothing, which is how payout,
+ * account_update and weekly_earnings were lost. notificationTypes.test.ts pins that.
+ */
+export const FOREGROUND_BANNER_TYPES = [
+  'reply',
+  'mention',
+  'transfer',
+  'delegation',
+  'delegations',
+  'scheduled_published',
+  'payout',
+  'payouts',
+  'account_update',
+  'weekly_earnings',
+  'follow',
+  'unfollow',
+  'ignore',
+  'blacklist',
+] as const;

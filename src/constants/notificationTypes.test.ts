@@ -1,6 +1,7 @@
 import {
   FCM_FOREGROUND_NOTIFICATION_TYPES,
   FOLLOW_NOTIFICATION_TYPES,
+  FOREGROUND_BANNER_TYPES,
   WS_NOTIFICATION_TYPES,
 } from './notificationTypes';
 
@@ -44,5 +45,18 @@ describe('notification type vocabularies', () => {
       (t) => !(FCM_FOREGROUND_NOTIFICATION_TYPES as readonly string[]).includes(t),
     );
     expect(onlyInWs.sort()).toEqual(['blacklist', 'delegations', 'payouts']);
+  });
+
+  it('renders a banner for every type either transport accepts', () => {
+    // A type accepted upstream but missing from the banner refreshes the unread badge
+    // and then shows nothing. payout, account_update and weekly_earnings were in
+    // exactly that state: accepted by both allowlists, absent from the banner.
+    const banner = FOREGROUND_BANNER_TYPES as readonly string[];
+
+    const uncovered = [...FCM_FOREGROUND_NOTIFICATION_TYPES, ...WS_NOTIFICATION_TYPES]
+      .filter((type) => !banner.includes(type))
+      .sort();
+
+    expect(uncovered).toEqual([]);
   });
 });
