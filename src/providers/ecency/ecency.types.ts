@@ -193,6 +193,8 @@ export enum NotificationFilters {
   // (`account_update`) — enotify routes on the plural form.
   ACCOUNT_UPDATES = 'account_updates',
   WEEKLY_EARNINGS = 'weekly_earnings',
+  // Posts carrying a hashtag the user follows (main type 23).
+  TAGS = 'tags',
 }
 
 export enum PointActivityIds {

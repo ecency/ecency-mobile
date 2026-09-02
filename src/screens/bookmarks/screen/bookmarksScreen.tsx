@@ -145,7 +145,8 @@ const BookmarksScreen = ({
             : item,
         )}
         contentContainerStyle={styles.listContent}
-        keyExtractor={(item) => item._id}
+        // Every row carries the API's _id; the tag and account are the fallbacks.
+        keyExtractor={(item) => item._id ?? item.tag ?? item.account}
         removeClippedSubviews={false}
         renderItem={(({ item, index }: any) => _renderItem(item, index, type)) as any}
         ListEmptyComponent={_renderEmptyContent()}

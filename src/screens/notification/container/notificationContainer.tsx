@@ -127,9 +127,17 @@ const NotificationContainer = ({ navigation }: any) => {
       params = {
         username: get(data, 'follower'),
       };
+    } else if (type === 'tags' && permlink) {
+      // A single post carries author and permlink and took the first branch above;
+      // this is the same post should a row ever arrive with the author only in source.
+      routeName = ROUTES.SCREENS.POST;
+      key = permlink;
+      params = {
+        author: get(data, 'source'),
+        permlink,
+      };
     } else if (type === 'tags' && /^[a-z0-9-]{1,32}$/.test(get(data, 'tag', ''))) {
-      // A bundle row (busy tag, one row an hour) has no post behind it; a single
-      // post carries author and permlink and took the first branch above.
+      // A bundle row (busy tag, one row an hour) has no post behind it.
       routeName = ROUTES.SCREENS.TAG_RESULT;
       key = get(data, 'tag');
       params = { tag: get(data, 'tag') };
