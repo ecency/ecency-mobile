@@ -154,8 +154,8 @@ describe('reduxMigrations', () => {
         },
       };
       const result = reduxMigrations[3](state);
-      expect(result.cache.draftsCollection['key1'].body).toBe('draft1');
-      expect(result.cache.draftsCollection['key2'].body).toBe('draft2');
+      expect(result.cache.draftsCollection.key1.body).toBe('draft1');
+      expect(result.cache.draftsCollection.key2.body).toBe('draft2');
       expect(result.cache.drafts).toBeUndefined();
     });
 
@@ -188,7 +188,7 @@ describe('reduxMigrations', () => {
         },
       };
       const result = reduxMigrations[4](state);
-      expect(result.cache.commentsCollection['c1'].body).toBe('comment');
+      expect(result.cache.commentsCollection.c1.body).toBe('comment');
       expect(result.cache.comments).toBeUndefined();
     });
   });
@@ -287,7 +287,7 @@ describe('reduxMigrations', () => {
       const result = reduxMigrations[14](state);
       expect(result.cache.replyCache['alice/ecency.waves']).toBeDefined();
       expect(result.cache.draftsCollection['alice/ecency.waves']).toBeUndefined();
-      expect(result.cache.draftsCollection['DEFAULT_USER_DRAFT_ID_alice']).toBeDefined();
+      expect(result.cache.draftsCollection.DEFAULT_USER_DRAFT_ID_alice).toBeDefined();
     });
 
     it('moves reply drafts (3-part key) to replyCache', () => {
@@ -449,6 +449,28 @@ describe('reduxMigrations', () => {
     it('is a no-op when notificationDetails is absent', () => {
       const state = { application: {}, account: { keep: 'me' } } as any;
       const result = reduxMigrations[21](state);
+      expect(result!.application.notificationDetails).toBeUndefined();
+      expect(result!.account.keep).toBe('me');
+    });
+  });
+
+  describe('v22: followed-hashtag notification default', () => {
+    it('defaults the tags notification setting ON when missing', () => {
+      const state = { application: { notificationDetails: { voteNotification: false } } } as any;
+      const result = reduxMigrations[22](state);
+      expect(result.application.notificationDetails.tagsNotification).toBe(true);
+      expect(result.application.notificationDetails.voteNotification).toBe(false);
+    });
+
+    it('preserves an explicit false', () => {
+      const state = { application: { notificationDetails: { tagsNotification: false } } } as any;
+      const result = reduxMigrations[22](state);
+      expect(result.application.notificationDetails.tagsNotification).toBe(false);
+    });
+
+    it('is a no-op when notificationDetails is absent', () => {
+      const state = { application: {}, account: { keep: 'me' } } as any;
+      const result = reduxMigrations[22](state);
       expect(result!.application.notificationDetails).toBeUndefined();
       expect(result!.account.keep).toBe('me');
     });

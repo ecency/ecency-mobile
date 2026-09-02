@@ -22,6 +22,8 @@ interface RemoteMessage {
     permlink2: string;
     permlink3: string;
     amount?: string;
+    // A followed-tag bundle names the tag feed to open; it carries no permlink.
+    tag?: string;
     // Two producers feed this component with DIFFERENT vocabularies: FCM carries
     // enotify's push strings (singular 'delegation' / 'payout') while the websocket
     // bridge in applicationContainer carries str_activity_type's ('delegations' /
@@ -34,6 +36,8 @@ interface RemoteMessage {
       | 'delegation'
       | 'delegations'
       | 'scheduled_published'
+      | 'tag'
+      | 'tags'
       | 'payout'
       | 'payouts'
       | 'account_update'
@@ -111,6 +115,13 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
           // push/format.py for FCM, and the websocket bridge in applicationContainer.
           // Prefer what was delivered rather than rebuilding the interpolated strings
           // here, the way scheduled_published already does for its body.
+          case 'tag':
+          case 'tags':
+            titleText =
+              remoteMessage.notification?.title ||
+              intl.formatMessage({ id: 'notification.tags_title' });
+            bodyText = remoteMessage.notification?.body || '';
+            break;
           case 'payout':
           case 'payouts':
             titleText =
@@ -207,6 +218,27 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
         params: { username: source },
         key: source,
       });
+    } else if (type === 'tag' || type === 'tags') {
+      // A single post carries a permlink and opens like a favourite author's post;
+      // a bundle carries none and opens the tag feed. The tag is held to its
+      // on-chain shape first, so a forged payload cannot open anything else. Same
+      // table as the push router and the notification list.
+      const tagPermlink =
+        get(data, 'permlink1', '') + get(data, 'permlink2', '') + get(data, 'permlink3', '');
+      const tag = get(data, 'tag', '');
+      if (tagPermlink) {
+        RootNavigation.navigate({
+          name: ROUTES.SCREENS.POST,
+          params: { author: get(data, 'source', ''), permlink: tagPermlink },
+          key: tagPermlink,
+        });
+      } else if (/^[a-z0-9-]{1,32}$/.test(tag)) {
+        RootNavigation.navigate({
+          name: ROUTES.SCREENS.TAG_RESULT,
+          params: { tag },
+          key: tag,
+        });
+      }
     } else {
       // Navigate to post for reply/mention
       const fullPermlink =

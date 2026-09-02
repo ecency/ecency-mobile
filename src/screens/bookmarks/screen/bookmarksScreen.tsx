@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
-import { View, FlatList, Text } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 
 // Components
 import { TabView } from 'react-native-tab-view';
@@ -18,6 +18,13 @@ const BookmarksScreen = ({
   isLoading,
   intl,
   handleOnFavoritePress,
+  handleOnTagPress,
+  favoriteTags,
+  removeFavoriteTag,
+  isLoadingFavoriteTags,
+  fetchNextFavoriteTagsPage,
+  hasNextFavoriteTagsPage,
+  isFetchingNextFavoriteTagsPage,
   handleOnBookmarkPress,
   favorites,
   bookmarks,
@@ -32,8 +39,15 @@ const BookmarksScreen = ({
   isFetchingNextFavoritesPage,
 }: any) => {
   const [tabIndex, setTabIndex] = React.useState(initialTabIndex);
+
+  // React Navigation can reuse this route and only update its params, in which
+  // case the container recomputes initialTabIndex on an already mounted screen.
+  React.useEffect(() => {
+    setTabIndex(initialTabIndex);
+  }, [initialTabIndex]);
   const bookmarksListRef = React.useRef<any>(null);
   const favoritesListRef = React.useRef<any>(null);
+  const tagsListRef = React.useRef<any>(null);
   const [routes] = React.useState([
     {
       key: 'bookmarks',
@@ -47,9 +61,32 @@ const BookmarksScreen = ({
         id: 'favorites.title',
       }),
     },
+    {
+      key: 'tags',
+      title: intl.formatMessage({
+        id: 'favorite_tags.title',
+      }),
+    },
   ]);
 
+  const _renderTagItem = (item: any) => (
+    // A followed hashtag has no account behind it, so it gets a plain row rather than
+    // the avatar row the other two tabs use. Single root View: the list measures it.
+    <View>
+      <TouchableOpacity
+        style={styles.tagItem}
+        onPress={() => handleOnTagPress(item.tag)}
+        onLongPress={() => _handleLongPress(item.tag)}
+      >
+        <Text style={styles.tagText}>#{item.tag}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   const _renderItem = (item: any, index: any, itemType: any) => {
+    if (itemType === 'tags') {
+      return _renderTagItem(item);
+    }
     const isFavorites = itemType === 'favorites';
     const text = isFavorites ? item.account : `${item.author}/${item.permlink}`;
 
@@ -72,8 +109,8 @@ const BookmarksScreen = ({
     }
   };
 
-  const _renderEmptyContent = () => {
-    if (isLoading) {
+  const _renderEmptyContent = (type?: string) => {
+    if (type === 'tags' ? isLoadingFavoriteTags : isLoading) {
       return <WalletDetailsPlaceHolder />;
     }
 
@@ -88,14 +125,25 @@ const BookmarksScreen = ({
 
   const _getTabItem = (data: any, type: any, listRef: any) => {
     const isFavorites = type === 'favorites';
-    const fetchNextPage = isFavorites ? fetchNextFavoritesPage : fetchNextBookmarksPage;
-    const hasNextPage = isFavorites ? hasNextFavoritesPage : hasNextBookmarksPage;
-    const isFetchingNextPage = isFavorites
+    const isTags = type === 'tags';
+    const fetchNextPage = isTags
+      ? fetchNextFavoriteTagsPage
+      : isFavorites
+      ? fetchNextFavoritesPage
+      : fetchNextBookmarksPage;
+    const hasNextPage = isTags
+      ? hasNextFavoriteTagsPage
+      : isFavorites
+      ? hasNextFavoritesPage
+      : hasNextBookmarksPage;
+    const isFetchingNextPage = isTags
+      ? isFetchingNextFavoriteTagsPage
+      : isFavorites
       ? isFetchingNextFavoritesPage
       : isFetchingNextBookmarksPage;
 
     const handleLoadMore = () => {
-      if (hasNextPage && !isFetchingNextPage) {
+      if (hasNextPage && !isFetchingNextPage && fetchNextPage) {
         fetchNextPage();
       }
     };
@@ -110,10 +158,11 @@ const BookmarksScreen = ({
             : item,
         )}
         contentContainerStyle={styles.listContent}
-        keyExtractor={(item) => item._id}
+        // Every row carries the API's _id; the tag and account are the fallbacks.
+        keyExtractor={(item) => item._id ?? item.tag ?? item.account}
         removeClippedSubviews={false}
         renderItem={(({ item, index }: any) => _renderItem(item, index, type)) as any}
-        ListEmptyComponent={_renderEmptyContent()}
+        ListEmptyComponent={_renderEmptyContent(type)}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
         ListFooterComponent={isFetchingNextPage ? <WalletDetailsPlaceHolder /> : null}
@@ -123,7 +172,13 @@ const BookmarksScreen = ({
 
   const _handleLongPress = (_selectedItemId: any) => {
     const _onConfirmDelete = () => {
-      tabIndex === 0 ? removeBookmark(_selectedItemId) : removeFavorite(_selectedItemId);
+      if (tabIndex === 0) {
+        removeBookmark(_selectedItemId);
+      } else if (tabIndex === 1) {
+        removeFavorite(_selectedItemId);
+      } else {
+        removeFavoriteTag(_selectedItemId);
+      }
     };
 
     SheetManager.show(SheetNames.ACTION_MODAL, {
@@ -160,6 +215,10 @@ const BookmarksScreen = ({
             {_getTabItem(favorites, 'favorites', favoritesListRef)}
           </View>
         );
+      case 'tags':
+        return (
+          <View style={styles.tabbarItem}>{_getTabItem(favoriteTags, 'tags', tagsListRef)}</View>
+        );
     }
   };
 
@@ -178,7 +237,12 @@ const BookmarksScreen = ({
           <TabBar
             {...tabProps}
             onTabPress={({ route }) => {
-              const listRef = route.key === 'favorites' ? favoritesListRef : bookmarksListRef;
+              const listRef =
+                route.key === 'tags'
+                  ? tagsListRef
+                  : route.key === 'favorites'
+                  ? favoritesListRef
+                  : bookmarksListRef;
               listRef.current?.scrollToOffset({ offset: 0, animated: true });
             }}
           />

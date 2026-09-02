@@ -49,6 +49,7 @@ const SettingsScreen = ({
   mentionNotification,
   favoriteNotification,
   bookmarkNotification,
+  tagsNotification,
   reblogNotification,
   transfersNotification,
   voteNotification,
@@ -322,6 +323,15 @@ const SettingsScreen = ({
                 type="toggle"
                 actionType="notification.bookmark"
                 isOn={bookmarkNotification}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.notification.tags',
+                })}
+                type="toggle"
+                actionType="notification.tags"
+                isOn={tagsNotification}
                 handleOnChange={handleOnChange}
               />
               <SettingsItem

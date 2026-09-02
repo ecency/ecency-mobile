@@ -942,6 +942,16 @@ class ApplicationContainer extends Component<any, any> {
             case 'blacklist':
               notifTitle = `@${source} blacklisted @${target}`;
               break;
+            case 'tags': {
+              // A post lists every followed tag it matched and shows the first; a
+              // bundle names its one tag and carries a count.
+              const wsTag = extra?.tags?.[0] || extra?.tag || '';
+              notifTitle = extra?.count
+                ? `${extra.count} new posts in #${wsTag}`
+                : `@${source} posted in #${wsTag}`;
+              notifBody = extra?.title || '';
+              break;
+            }
             default:
               notifTitle = `@${source}`;
               break;
@@ -961,6 +971,8 @@ class ApplicationContainer extends Component<any, any> {
               permlink3: (extra?.permlink || '').substring(500, 750),
               // For transfers/delegations: extra.amount
               amount: extra?.amount || '',
+              // For a followed-tag bundle: the tag feed to open
+              tag: extra?.tags?.[0] || extra?.tag || '',
             },
             notification: {
               title: notifTitle,
@@ -1115,6 +1127,7 @@ class ApplicationContainer extends Component<any, any> {
       transfersNotification: 6,
       favoriteNotification: 13,
       bookmarkNotification: 15,
+      tagsNotification: 23,
       delegationsNotification: 10,
       payoutsNotification: 19,
       accountUpdateNotification: 20,

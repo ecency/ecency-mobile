@@ -50,7 +50,7 @@ const persistConfig = {
   key: 'root',
   // Storage Method (React Native)
   storage: AsyncStorage,
-  version: 21, // v21: Default delegations/payouts/accountUpdate/weeklyEarnings notifications ON
+  version: 22, // v22: Default the followed-hashtag (tags) notification ON
   // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   transforms: [transformCacheVoteMap, transformWalkthroughMap],

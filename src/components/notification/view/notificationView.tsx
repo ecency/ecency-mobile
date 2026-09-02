@@ -32,6 +32,7 @@ const FILTERS = [
   { key: 'delegations' },
   { key: 'nfavorites' },
   { key: 'nbookmarks' },
+  { key: 'tags' },
   { key: 'payouts' },
   { key: 'scheduled_published' },
   { key: 'account_updates' },

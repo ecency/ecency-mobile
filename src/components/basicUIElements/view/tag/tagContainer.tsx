@@ -52,7 +52,7 @@ const TagContainer = ({
         }
       } catch (e) {
         if (!isCancelled) {
-          setLabel(isFilter ? val : `#${val}`);
+          setLabel(val);
           setIsCommunity(/hive-[1-3]\d{4,6}$/.test(val));
           return val;
         }
@@ -66,7 +66,9 @@ const TagContainer = ({
         fetchData(value);
       }
     } else {
-      setLabel(isFilter ? value : `#${value}`);
+      // Bare, like the web: a plain tag reads as itself and a community as its
+      // title, which is capitalised, so the two never look alike in one row.
+      setLabel(value);
       setIsCommunity(false);
     }
     return () => {

@@ -7,8 +7,10 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {
   useGetBookmarksQuery,
   useGetFavouritesQuery,
+  useGetFavoriteTagsQuery,
   useDeleteBookmarkMutation,
   useDeleteFavouriteMutation,
+  useDeleteFavoriteTagMutation,
 } from '../../../providers/queries';
 
 // Constants
@@ -39,18 +41,42 @@ const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }: 
     isFetchingNextPage: isFetchingNextFavoritesPage,
   } = useGetFavouritesQuery();
 
+  const {
+    data: favoriteTags = [],
+    isLoading: isLoadingFavoriteTags,
+    refetch: refetchFavoriteTags,
+    fetchNextPage: fetchNextFavoriteTagsPage,
+    hasNextPage: hasNextFavoriteTagsPage,
+    isFetchingNextPage: isFetchingNextFavoriteTagsPage,
+  } = useGetFavoriteTagsQuery();
+
   const deleteBookmarkMutation = useDeleteBookmarkMutation();
   const deleteFavoriteMutation = useDeleteFavouriteMutation();
+  const deleteFavoriteTagMutation = useDeleteFavoriteTagMutation();
 
+  // The Tags tab carries its own flag, so a slow tag request cannot hold the other
+  // two lists in their placeholder after their own requests have answered.
   const isLoading = isLoadingBookmarks || isLoadingFavorites;
 
   const _fetchData = () => {
     refetchBookmarks();
     refetchFavorites();
+    refetchFavoriteTags();
   };
 
   const _removeFavorite = (selectedUsername: any) => {
     deleteFavoriteMutation.mutate({ account: selectedUsername } as any);
+  };
+
+  const _removeFavoriteTag = (tag: string) => {
+    deleteFavoriteTagMutation.mutate(tag);
+  };
+
+  const _handleOnTagPress = (tag: string) => {
+    navigation.navigate({
+      name: ROUTES.SCREENS.TAG_RESULT,
+      params: { tag },
+    });
   };
 
   const _removeBoomark = (id: any) => {
@@ -82,14 +108,18 @@ const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }: 
   return (
     <BookmarksScreen
       isLoading={isLoading}
+      isLoadingFavoriteTags={isLoadingFavoriteTags}
       currentAccount={currentAccount}
       favorites={favorites}
       bookmarks={bookmarks}
+      favoriteTags={favoriteTags}
       removeFavorite={_removeFavorite}
       removeBookmark={_removeBoomark}
+      removeFavoriteTag={_removeFavoriteTag}
       handleOnFavoritePress={_handleOnFavoritePress}
       handleOnBookmarkPress={_handleOnBookmarkPress}
-      initialTabIndex={route.params?.showFavorites ? 1 : 0}
+      handleOnTagPress={_handleOnTagPress}
+      initialTabIndex={route.params?.showTags ? 2 : route.params?.showFavorites ? 1 : 0}
       // Pagination props for bookmarks
       fetchNextBookmarksPage={fetchNextBookmarksPage}
       hasNextBookmarksPage={hasNextBookmarksPage}
@@ -98,6 +128,10 @@ const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }: 
       fetchNextFavoritesPage={fetchNextFavoritesPage}
       hasNextFavoritesPage={hasNextFavoritesPage}
       isFetchingNextFavoritesPage={isFetchingNextFavoritesPage}
+      // Pagination props for followed tags
+      fetchNextFavoriteTagsPage={fetchNextFavoriteTagsPage}
+      hasNextFavoriteTagsPage={hasNextFavoriteTagsPage}
+      isFetchingNextFavoriteTagsPage={isFetchingNextFavoriteTagsPage}
     />
   );
 };

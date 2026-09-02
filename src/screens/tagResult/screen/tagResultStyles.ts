@@ -38,4 +38,23 @@ export default EStyleSheet.create({
   tabs: {
     flex: 1,
   },
+  followRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingTop: 8,
+  },
+  followHint: {
+    flex: 1,
+    marginRight: 12,
+    color: '$primaryDarkGray',
+    fontSize: 13,
+  },
+  followButton: {
+    paddingHorizontal: 16,
+  },
+  followButtonText: {
+    fontSize: 13,
+  },
 });

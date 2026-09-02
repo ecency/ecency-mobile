@@ -24,6 +24,17 @@ export default EStyleSheet.create({
   tabs: {
     flex: 1,
   },
+  tagItem: {
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '$primaryLightBackground',
+  },
+  tagText: {
+    color: '$primaryBlack',
+    fontSize: 16,
+    fontWeight: '600',
+  },
   tabLabelColor: {
     color: '$primaryDarkText',
   },

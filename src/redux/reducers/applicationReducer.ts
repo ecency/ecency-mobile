@@ -7,6 +7,7 @@ import {
   CHANGE_MENTION_NOTIFICATION,
   CHANGE_FAVORITE_NOTIFICATION,
   CHANGE_BOOKMARK_NOTIFICATION,
+  CHANGE_TAGS_NOTIFICATION,
   CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
   CHANGE_SCHEDULED_PUBLISHED_NOTIFICATION,
@@ -76,6 +77,7 @@ interface State {
     mentionNotification: boolean;
     favoriteNotification: boolean;
     bookmarkNotification: boolean;
+    tagsNotification: boolean;
     reblogNotification: boolean;
     transfersNotification: boolean;
     voteNotification: boolean;
@@ -126,6 +128,7 @@ const initialState: State = {
     mentionNotification: true,
     favoriteNotification: true,
     bookmarkNotification: true,
+    tagsNotification: true,
     reblogNotification: true,
     transfersNotification: true,
     voteNotification: true,
@@ -229,6 +232,13 @@ const applicationReducer = (state = initialState, action: any): State => {
           bookmarkNotification: action.payload,
         },
       });
+    case CHANGE_TAGS_NOTIFICATION:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          tagsNotification: action.payload,
+        },
+      });
     case CHANGE_REBLOG_NOTIFICATION:
       return Object.assign({}, state, {
         notificationDetails: {
@@ -296,6 +306,8 @@ const applicationReducer = (state = initialState, action: any): State => {
           // payloads (realm migration predates them), keep current value then
           bookmarkNotification:
             action.payload.bookmarkNotification ?? state.notificationDetails.bookmarkNotification,
+          tagsNotification:
+            action.payload.tagsNotification ?? state.notificationDetails.tagsNotification,
           reblogNotification: action.payload.reblogNotification,
           transfersNotification: action.payload.transfersNotification,
           voteNotification: action.payload.voteNotification,
