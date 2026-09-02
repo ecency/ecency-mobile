@@ -252,6 +252,7 @@ class LoginContainer extends PureComponent<any, any> {
       transfers: 6,
       favorite: 13,
       bookmark: 15,
+      tags: 23,
       delegations: 10,
       payouts: 19,
       accountUpdate: 20,
@@ -262,9 +263,12 @@ class LoginContainer extends PureComponent<any, any> {
 
     Object.keys(notificationDetails).forEach((item) => {
       const notificationType = item.replace('Notification', '');
+      const notifyType = (notifyTypesConst as any)[notificationType];
 
-      if (notificationDetails[item]) {
-        notifyTypes.push((notifyTypesConst as any)[notificationType]);
+      // Only a mapped type: a settings key this map does not know would otherwise
+      // register as null and the device would be told nothing useful about it.
+      if (notificationDetails[item] && notifyType) {
+        notifyTypes.push(notifyType);
       }
     });
 
