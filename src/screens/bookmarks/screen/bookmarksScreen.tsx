@@ -21,6 +21,10 @@ const BookmarksScreen = ({
   handleOnTagPress,
   favoriteTags,
   removeFavoriteTag,
+  isLoadingFavoriteTags,
+  fetchNextFavoriteTagsPage,
+  hasNextFavoriteTagsPage,
+  isFetchingNextFavoriteTagsPage,
   handleOnBookmarkPress,
   favorites,
   bookmarks,
@@ -35,6 +39,12 @@ const BookmarksScreen = ({
   isFetchingNextFavoritesPage,
 }: any) => {
   const [tabIndex, setTabIndex] = React.useState(initialTabIndex);
+
+  // React Navigation can reuse this route and only update its params, in which
+  // case the container recomputes initialTabIndex on an already mounted screen.
+  React.useEffect(() => {
+    setTabIndex(initialTabIndex);
+  }, [initialTabIndex]);
   const bookmarksListRef = React.useRef<any>(null);
   const favoritesListRef = React.useRef<any>(null);
   const tagsListRef = React.useRef<any>(null);
@@ -99,8 +109,8 @@ const BookmarksScreen = ({
     }
   };
 
-  const _renderEmptyContent = () => {
-    if (isLoading) {
+  const _renderEmptyContent = (type?: string) => {
+    if (type === 'tags' ? isLoadingFavoriteTags : isLoading) {
       return <WalletDetailsPlaceHolder />;
     }
 
@@ -115,16 +125,19 @@ const BookmarksScreen = ({
 
   const _getTabItem = (data: any, type: any, listRef: any) => {
     const isFavorites = type === 'favorites';
-    // The followed-tags list is one page at the cap, so it never loads more.
     const isTags = type === 'tags';
     const fetchNextPage = isTags
-      ? undefined
+      ? fetchNextFavoriteTagsPage
       : isFavorites
       ? fetchNextFavoritesPage
       : fetchNextBookmarksPage;
-    const hasNextPage = isTags ? false : isFavorites ? hasNextFavoritesPage : hasNextBookmarksPage;
+    const hasNextPage = isTags
+      ? hasNextFavoriteTagsPage
+      : isFavorites
+      ? hasNextFavoritesPage
+      : hasNextBookmarksPage;
     const isFetchingNextPage = isTags
-      ? false
+      ? isFetchingNextFavoriteTagsPage
       : isFavorites
       ? isFetchingNextFavoritesPage
       : isFetchingNextBookmarksPage;
@@ -149,7 +162,7 @@ const BookmarksScreen = ({
         keyExtractor={(item) => item._id ?? item.tag ?? item.account}
         removeClippedSubviews={false}
         renderItem={(({ item, index }: any) => _renderItem(item, index, type)) as any}
-        ListEmptyComponent={_renderEmptyContent()}
+        ListEmptyComponent={_renderEmptyContent(type)}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
         ListFooterComponent={isFetchingNextPage ? <WalletDetailsPlaceHolder /> : null}

@@ -45,13 +45,18 @@ const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }: 
     data: favoriteTags = [],
     isLoading: isLoadingFavoriteTags,
     refetch: refetchFavoriteTags,
+    fetchNextPage: fetchNextFavoriteTagsPage,
+    hasNextPage: hasNextFavoriteTagsPage,
+    isFetchingNextPage: isFetchingNextFavoriteTagsPage,
   } = useGetFavoriteTagsQuery();
 
   const deleteBookmarkMutation = useDeleteBookmarkMutation();
   const deleteFavoriteMutation = useDeleteFavouriteMutation();
   const deleteFavoriteTagMutation = useDeleteFavoriteTagMutation();
 
-  const isLoading = isLoadingBookmarks || isLoadingFavorites || isLoadingFavoriteTags;
+  // The Tags tab carries its own flag, so a slow tag request cannot hold the other
+  // two lists in their placeholder after their own requests have answered.
+  const isLoading = isLoadingBookmarks || isLoadingFavorites;
 
   const _fetchData = () => {
     refetchBookmarks();
@@ -103,6 +108,7 @@ const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }: 
   return (
     <BookmarksScreen
       isLoading={isLoading}
+      isLoadingFavoriteTags={isLoadingFavoriteTags}
       currentAccount={currentAccount}
       favorites={favorites}
       bookmarks={bookmarks}
@@ -122,6 +128,10 @@ const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }: 
       fetchNextFavoritesPage={fetchNextFavoritesPage}
       hasNextFavoritesPage={hasNextFavoritesPage}
       isFetchingNextFavoritesPage={isFetchingNextFavoritesPage}
+      // Pagination props for followed tags
+      fetchNextFavoriteTagsPage={fetchNextFavoriteTagsPage}
+      hasNextFavoriteTagsPage={hasNextFavoriteTagsPage}
+      isFetchingNextFavoriteTagsPage={isFetchingNextFavoriteTagsPage}
     />
   );
 };
