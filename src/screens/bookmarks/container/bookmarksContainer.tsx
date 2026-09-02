@@ -7,8 +7,10 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {
   useGetBookmarksQuery,
   useGetFavouritesQuery,
+  useGetFavoriteTagsQuery,
   useDeleteBookmarkMutation,
   useDeleteFavouriteMutation,
+  useDeleteFavoriteTagMutation,
 } from '../../../providers/queries';
 
 // Constants
@@ -39,18 +41,37 @@ const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }: 
     isFetchingNextPage: isFetchingNextFavoritesPage,
   } = useGetFavouritesQuery();
 
+  const {
+    data: favoriteTags = [],
+    isLoading: isLoadingFavoriteTags,
+    refetch: refetchFavoriteTags,
+  } = useGetFavoriteTagsQuery();
+
   const deleteBookmarkMutation = useDeleteBookmarkMutation();
   const deleteFavoriteMutation = useDeleteFavouriteMutation();
+  const deleteFavoriteTagMutation = useDeleteFavoriteTagMutation();
 
-  const isLoading = isLoadingBookmarks || isLoadingFavorites;
+  const isLoading = isLoadingBookmarks || isLoadingFavorites || isLoadingFavoriteTags;
 
   const _fetchData = () => {
     refetchBookmarks();
     refetchFavorites();
+    refetchFavoriteTags();
   };
 
   const _removeFavorite = (selectedUsername: any) => {
     deleteFavoriteMutation.mutate({ account: selectedUsername } as any);
+  };
+
+  const _removeFavoriteTag = (tag: string) => {
+    deleteFavoriteTagMutation.mutate(tag);
+  };
+
+  const _handleOnTagPress = (tag: string) => {
+    navigation.navigate({
+      name: ROUTES.SCREENS.TAG_RESULT,
+      params: { tag },
+    });
   };
 
   const _removeBoomark = (id: any) => {
@@ -85,11 +106,14 @@ const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }: 
       currentAccount={currentAccount}
       favorites={favorites}
       bookmarks={bookmarks}
+      favoriteTags={favoriteTags}
       removeFavorite={_removeFavorite}
       removeBookmark={_removeBoomark}
+      removeFavoriteTag={_removeFavoriteTag}
       handleOnFavoritePress={_handleOnFavoritePress}
       handleOnBookmarkPress={_handleOnBookmarkPress}
-      initialTabIndex={route.params?.showFavorites ? 1 : 0}
+      handleOnTagPress={_handleOnTagPress}
+      initialTabIndex={route.params?.showTags ? 2 : route.params?.showFavorites ? 1 : 0}
       // Pagination props for bookmarks
       fetchNextBookmarksPage={fetchNextBookmarksPage}
       hasNextBookmarksPage={hasNextBookmarksPage}

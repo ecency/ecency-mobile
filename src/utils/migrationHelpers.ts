@@ -581,6 +581,16 @@ const reduxMigrations = {
     }
     return state;
   },
+  22: (state: any) => {
+    // Default the followed-hashtag notification ON for existing installs, like every
+    // other type (20 and 21 above): autoMergeLevel1 keeps persisted notificationDetails
+    // as-is, so a new key is never picked up from initialState without a migration.
+    if (state.application?.notificationDetails) {
+      const details = state.application.notificationDetails;
+      details.tagsNotification = details.tagsNotification ?? true;
+    }
+    return state;
+  },
 };
 
 // Wrap every migration so a throw degrades to "skip this migration" and keep the

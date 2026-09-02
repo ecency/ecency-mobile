@@ -147,6 +147,16 @@
     "wizard_config_val": "Age  |  Visibility  |  Interpretation",
     "attach_poll": "Attach Poll"
   },
+  "favorite_tags": {
+    "title": "Tags",
+    "hint": "Follow to get notified about new posts with this tag",
+    "following_hint": "You get notified about new posts with this tag",
+    "follow": "Follow",
+    "following": "Following",
+    "added": "Following tag",
+    "removed": "Unfollowed tag",
+    "empty_list": "Nothing here"
+  },
   "favorites": {
     "add": "Add a favorite",
     "add_error": "Could not add favorite",
@@ -413,6 +423,7 @@
       "transfers": "Transfers",
       "delegations": "Delegations",
       "nfavorites": "Favorites",
+      "tags": "Tags",
       "nbookmarks": "Bookmarks",
       "payouts": "Payouts",
       "scheduled_published": "Scheduled posts",
@@ -447,6 +458,9 @@
     "yesterday": "Yesterday",
     "mention": "mentioned in",
     "favorites": "made new post",
+    "tags": "posted in #{tag}",
+    "tags_bundle": "{count} new posts in #{tag}",
+    "tags_title": "New posts in a tag you follow",
     "mentions": "Mentions",
     "spin": "Time to earn more Points",
     "last_week": "Last Week",
@@ -1711,6 +1725,7 @@
     "notification": {
       "comment": "Comment",
       "bookmark": "Bookmarks",
+      "tags": "Tags",
       "reblog": "Reblog",
       "favorite": "Favorites",
       "mention": "Mention",

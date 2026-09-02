@@ -30,6 +30,9 @@ export const FCM_FOREGROUND_NOTIFICATION_TYPES = [
   'follow',
   'unfollow',
   'ignore',
+  // A post carrying a followed hashtag (main type 23). Singular on push, plural on
+  // the websocket, like favorite/favorites.
+  'tag',
 ] as const;
 
 /** Types the enotify websocket bridge reacts to. WEBSOCKET vocabulary. */
@@ -46,6 +49,7 @@ export const WS_NOTIFICATION_TYPES = [
   'unfollow',
   'ignore',
   'blacklist',
+  'tags',
 ] as const;
 
 /** Follow-family types, which route to the actor's profile rather than to a post. */
@@ -73,4 +77,6 @@ export const FOREGROUND_BANNER_TYPES = [
   'unfollow',
   'ignore',
   'blacklist',
+  'tag',
+  'tags',
 ] as const;

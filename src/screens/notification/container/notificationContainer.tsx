@@ -127,6 +127,12 @@ const NotificationContainer = ({ navigation }: any) => {
       params = {
         username: get(data, 'follower'),
       };
+    } else if (type === 'tags' && /^[a-z0-9-]{1,32}$/.test(get(data, 'tag', ''))) {
+      // A bundle row (busy tag, one row an hour) has no post behind it; a single
+      // post carries author and permlink and took the first branch above.
+      routeName = ROUTES.SCREENS.TAG_RESULT;
+      key = get(data, 'tag');
+      params = { tag: get(data, 'tag') };
     } else if (type === 'transfer' || type === 'weekly_earnings') {
       routeName = ROUTES.TABBAR.WALLET;
     } else if (type === 'spin') {

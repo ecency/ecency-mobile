@@ -78,7 +78,7 @@ export type PinCodeParams = {
  * params, per React Navigation's convention.
  */
 export type AppParamList = {
-  [ROUTES.SCREENS.BOOKMARKS]: { showFavorites?: boolean } | undefined;
+  [ROUTES.SCREENS.BOOKMARKS]: { showFavorites?: boolean; showTags?: boolean } | undefined;
   [ROUTES.SCREENS.BOOST]: { username?: string; productId?: string } | undefined;
   [ROUTES.SCREENS.DRAFTS]: { showSchedules?: boolean } | undefined;
   [ROUTES.SCREENS.EDITOR]:

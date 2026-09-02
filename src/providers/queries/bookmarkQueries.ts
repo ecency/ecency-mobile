@@ -3,10 +3,13 @@ import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getBookmarksInfiniteQueryOptions,
   getFavoritesInfiniteQueryOptions,
+  getFavoriteTagsInfiniteQueryOptions,
   useBookmarkAdd,
   useBookmarkDelete,
   useAccountFavoriteAdd,
   useAccountFavoriteDelete,
+  useFavoriteTagAdd,
+  useFavoriteTagDelete,
 } from '@ecency/sdk';
 import { useIntl } from 'react-intl';
 import { useAppDispatch, useAuth } from '../../hooks';
@@ -163,6 +166,80 @@ export const useDeleteFavouriteMutation = () => {
       // does not match ['accounts','favorites',…] so the list would stay stale.
       queryClient.invalidateQueries({ queryKey: ['accounts', 'favorites'] });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
+    },
+    () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  );
+};
+
+/**
+ * A user can follow at most this many tags (the server refuses the next one) and the
+ * list endpoint pages at this size at most, so one page is the whole list.
+ */
+export const FOLLOWED_TAGS_PAGE_SIZE = 100;
+
+/**
+ * Hook to return the hashtags the user follows.
+ * One page at the cap is the whole list, which is what a "followed?" check needs.
+ */
+export const useGetFavoriteTagsQuery = (limit = FOLLOWED_TAGS_PAGE_SIZE) => {
+  const { username, code } = useAuth();
+
+  const infiniteQuery = useInfiniteQuery(
+    getFavoriteTagsInfiniteQueryOptions(username, code, limit),
+  );
+
+  const data = useMemo(() => {
+    if (!infiniteQuery.data?.pages) return [];
+    return infiniteQuery.data.pages.flatMap((page) => page.data);
+  }, [infiniteQuery.data?.pages]);
+
+  return {
+    ...infiniteQuery,
+    data,
+  };
+};
+
+/**
+ * Hook to follow a hashtag
+ * Uses SDK's useFavoriteTagAdd hook with mobile-specific error handling
+ */
+export const useAddFavoriteTagMutation = () => {
+  const intl = useIntl();
+  const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
+  const { username, code } = useAuth();
+
+  return useFavoriteTagAdd(
+    username,
+    code,
+    () => {
+      queryClient.invalidateQueries({ queryKey: ['accounts', 'favorite-tags'] });
+      dispatch(toastNotification(intl.formatMessage({ id: 'favorite_tags.added' })));
+    },
+    () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  );
+};
+
+/**
+ * Hook to unfollow a hashtag
+ * Uses SDK's useFavoriteTagDelete hook with mobile-specific error handling
+ */
+export const useDeleteFavoriteTagMutation = () => {
+  const intl = useIntl();
+  const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
+  const { username, code } = useAuth();
+
+  return useFavoriteTagDelete(
+    username,
+    code,
+    () => {
+      queryClient.invalidateQueries({ queryKey: ['accounts', 'favorite-tags'] });
+      dispatch(toastNotification(intl.formatMessage({ id: 'favorite_tags.removed' })));
     },
     () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));

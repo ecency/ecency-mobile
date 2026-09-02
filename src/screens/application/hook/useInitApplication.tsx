@@ -277,6 +277,25 @@ export const useInitApplication = () => {
           routeName = ROUTES.SCREENS.POST;
           break;
 
+        case 'tag':
+        case 'tags':
+          // A single post opens like a favourite author's; a bundle has no post and
+          // opens the tag feed. The tag is held to its on-chain shape first, so a
+          // forged payload cannot open anything but a tag feed.
+          if (fullPermlink) {
+            params = {
+              author: get(push, 'source', ''),
+              permlink: fullPermlink,
+            };
+            key = fullPermlink;
+            routeName = ROUTES.SCREENS.POST;
+          } else if (/^[a-z0-9-]{1,32}$/.test(get(push, 'tag', ''))) {
+            params = { tag: get(push, 'tag', '') };
+            key = get(push, 'tag', '');
+            routeName = ROUTES.SCREENS.TAG_RESULT;
+          }
+          break;
+
         case 'transfer':
           routeName = ROUTES.TABBAR.WALLET;
           break;

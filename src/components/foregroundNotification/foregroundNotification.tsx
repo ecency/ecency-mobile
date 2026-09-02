@@ -34,6 +34,8 @@ interface RemoteMessage {
       | 'delegation'
       | 'delegations'
       | 'scheduled_published'
+      | 'tag'
+      | 'tags'
       | 'payout'
       | 'payouts'
       | 'account_update'
@@ -111,6 +113,13 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
           // push/format.py for FCM, and the websocket bridge in applicationContainer.
           // Prefer what was delivered rather than rebuilding the interpolated strings
           // here, the way scheduled_published already does for its body.
+          case 'tag':
+          case 'tags':
+            titleText =
+              remoteMessage.notification?.title ||
+              intl.formatMessage({ id: 'notification.tags_title' });
+            bodyText = remoteMessage.notification?.body || '';
+            break;
           case 'payout':
           case 'payouts':
             titleText =

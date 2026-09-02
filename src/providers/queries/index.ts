@@ -129,7 +129,7 @@ export const initQueryClient = () => {
       // SDK key unification, so the old 'bookmarks'/'favourites' cases were dead and
       // they were silently never persisted. Persist first page only.
       case 'accounts':
-        if (subType === 'bookmarks' || subType === 'favorites') {
+        if (subType === 'bookmarks' || subType === 'favorites' || subType === 'favorite-tags') {
           return isSinglePage;
         }
         return false; // other account lists (followers, following, …) not persisted

@@ -39,6 +39,12 @@ const NotificationLineView = ({
         const suffix = notification.suffix ?? (count === 1 ? '' : 's');
         return { count, suffix };
       }
+      case 'tags': {
+        // A post lists every followed tag it matched and shows the first; a bundle
+        // names its one tag and carries a count.
+        const tag = Array.isArray(notification.tags) ? notification.tags[0] : notification.tag;
+        return { tag: typeof tag === 'string' ? tag : '', count: Number(notification.count) || 0 };
+      }
       case 'payouts':
         return { amount: notification.amount_usd || notification.amount || '' };
       case 'weekly_earnings': {
@@ -121,6 +127,8 @@ const NotificationLineView = ({
   const _intlId =
     notification.type === 'account_update'
       ? _getAccountUpdateIntlKey()
+      : notification.type === 'tags' && notification.count
+      ? 'notification.tags_bundle'
       : `notification.${notification.type}`;
 
   const _notificationText = intl.formatMessage(
@@ -136,6 +144,7 @@ const NotificationLineView = ({
     notification.type === 'vote' ||
     notification.type === 'reblog' ||
     notification.type === 'favorites' ||
+    (notification.type === 'tags' && notification.permlink) ||
     notification.type === 'checkin' ||
     notification.type === 'monthly_posts' ||
     notification.type === 'scheduled_published' ||

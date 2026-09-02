@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
-import { View, FlatList, Text } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 
 // Components
 import { TabView } from 'react-native-tab-view';
@@ -18,6 +18,9 @@ const BookmarksScreen = ({
   isLoading,
   intl,
   handleOnFavoritePress,
+  handleOnTagPress,
+  favoriteTags,
+  removeFavoriteTag,
   handleOnBookmarkPress,
   favorites,
   bookmarks,
@@ -34,6 +37,7 @@ const BookmarksScreen = ({
   const [tabIndex, setTabIndex] = React.useState(initialTabIndex);
   const bookmarksListRef = React.useRef<any>(null);
   const favoritesListRef = React.useRef<any>(null);
+  const tagsListRef = React.useRef<any>(null);
   const [routes] = React.useState([
     {
       key: 'bookmarks',
@@ -47,9 +51,32 @@ const BookmarksScreen = ({
         id: 'favorites.title',
       }),
     },
+    {
+      key: 'tags',
+      title: intl.formatMessage({
+        id: 'favorite_tags.title',
+      }),
+    },
   ]);
 
+  const _renderTagItem = (item: any) => (
+    // A followed hashtag has no account behind it, so it gets a plain row rather than
+    // the avatar row the other two tabs use. Single root View: the list measures it.
+    <View>
+      <TouchableOpacity
+        style={styles.tagItem}
+        onPress={() => handleOnTagPress(item.tag)}
+        onLongPress={() => _handleLongPress(item.tag)}
+      >
+        <Text style={styles.tagText}>#{item.tag}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   const _renderItem = (item: any, index: any, itemType: any) => {
+    if (itemType === 'tags') {
+      return _renderTagItem(item);
+    }
     const isFavorites = itemType === 'favorites';
     const text = isFavorites ? item.account : `${item.author}/${item.permlink}`;
 
@@ -88,14 +115,22 @@ const BookmarksScreen = ({
 
   const _getTabItem = (data: any, type: any, listRef: any) => {
     const isFavorites = type === 'favorites';
-    const fetchNextPage = isFavorites ? fetchNextFavoritesPage : fetchNextBookmarksPage;
-    const hasNextPage = isFavorites ? hasNextFavoritesPage : hasNextBookmarksPage;
-    const isFetchingNextPage = isFavorites
+    // The followed-tags list is one page at the cap, so it never loads more.
+    const isTags = type === 'tags';
+    const fetchNextPage = isTags
+      ? undefined
+      : isFavorites
+      ? fetchNextFavoritesPage
+      : fetchNextBookmarksPage;
+    const hasNextPage = isTags ? false : isFavorites ? hasNextFavoritesPage : hasNextBookmarksPage;
+    const isFetchingNextPage = isTags
+      ? false
+      : isFavorites
       ? isFetchingNextFavoritesPage
       : isFetchingNextBookmarksPage;
 
     const handleLoadMore = () => {
-      if (hasNextPage && !isFetchingNextPage) {
+      if (hasNextPage && !isFetchingNextPage && fetchNextPage) {
         fetchNextPage();
       }
     };
@@ -123,7 +158,13 @@ const BookmarksScreen = ({
 
   const _handleLongPress = (_selectedItemId: any) => {
     const _onConfirmDelete = () => {
-      tabIndex === 0 ? removeBookmark(_selectedItemId) : removeFavorite(_selectedItemId);
+      if (tabIndex === 0) {
+        removeBookmark(_selectedItemId);
+      } else if (tabIndex === 1) {
+        removeFavorite(_selectedItemId);
+      } else {
+        removeFavoriteTag(_selectedItemId);
+      }
     };
 
     SheetManager.show(SheetNames.ACTION_MODAL, {
@@ -160,6 +201,10 @@ const BookmarksScreen = ({
             {_getTabItem(favorites, 'favorites', favoritesListRef)}
           </View>
         );
+      case 'tags':
+        return (
+          <View style={styles.tabbarItem}>{_getTabItem(favoriteTags, 'tags', tagsListRef)}</View>
+        );
     }
   };
 
@@ -178,7 +223,12 @@ const BookmarksScreen = ({
           <TabBar
             {...tabProps}
             onTabPress={({ route }) => {
-              const listRef = route.key === 'favorites' ? favoritesListRef : bookmarksListRef;
+              const listRef =
+                route.key === 'tags'
+                  ? tagsListRef
+                  : route.key === 'favorites'
+                  ? favoritesListRef
+                  : bookmarksListRef;
               listRef.current?.scrollToOffset({ offset: 0, animated: true });
             }}
           />

@@ -402,6 +402,9 @@ export const setNotificationSettings = async ({
       case 'notification.favorite':
         setting.favoriteNotification = action;
         break;
+      case 'notification.tags':
+        setting.tagsNotification = action;
+        break;
       case 'notification.reblog':
         setting.reblogNotification = action;
         break;

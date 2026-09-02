@@ -44,7 +44,15 @@ describe('notification type vocabularies', () => {
     const onlyInWs = WS_NOTIFICATION_TYPES.filter(
       (t) => !(FCM_FOREGROUND_NOTIFICATION_TYPES as readonly string[]).includes(t),
     );
-    expect(onlyInWs.sort()).toEqual(['blacklist', 'delegations', 'payouts']);
+    expect(onlyInWs.sort()).toEqual(['blacklist', 'delegations', 'payouts', 'tags']);
+  });
+
+  it('spells the followed-tag type singular on push and plural on the websocket', () => {
+    // push/format.py sets custom_data['type'] = 'tag'; str_activity_type() says 'tags'.
+    expect(FCM_FOREGROUND_NOTIFICATION_TYPES).toContain('tag');
+    expect(FCM_FOREGROUND_NOTIFICATION_TYPES).not.toContain('tags');
+    expect(WS_NOTIFICATION_TYPES).toContain('tags');
+    expect(WS_NOTIFICATION_TYPES).not.toContain('tag');
   });
 
   it('renders a banner for every type either transport accepts', () => {

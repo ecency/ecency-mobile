@@ -477,6 +477,7 @@ class SettingsContainer extends Component<any, any> {
       case 'notification.mention':
       case 'notification.favorite':
       case 'notification.bookmark':
+      case 'notification.tags':
       case 'notification.reblog':
       case 'notification.transfers':
       case 'notification.scheduledPublished':
@@ -542,6 +543,7 @@ class SettingsContainer extends Component<any, any> {
       transfers: 6,
       favorite: 13,
       bookmark: 15,
+      tags: 23,
       delegations: 10,
       payouts: 19,
       accountUpdate: 20,
@@ -896,6 +898,7 @@ const mapStateToProps = (state: any) => {
     mentionNotification: notificationDetails.mentionNotification,
     favoriteNotification: notificationDetails.favoriteNotification,
     bookmarkNotification: notificationDetails.bookmarkNotification,
+    tagsNotification: notificationDetails.tagsNotification,
     reblogNotification: notificationDetails.reblogNotification,
     transfersNotification: notificationDetails.transfersNotification,
     voteNotification: notificationDetails.voteNotification,

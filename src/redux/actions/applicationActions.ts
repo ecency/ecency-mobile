@@ -6,6 +6,7 @@ import {
   CHANGE_MENTION_NOTIFICATION,
   CHANGE_FAVORITE_NOTIFICATION,
   CHANGE_BOOKMARK_NOTIFICATION,
+  CHANGE_TAGS_NOTIFICATION,
   CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
   CHANGE_SCHEDULED_PUBLISHED_NOTIFICATION,
@@ -124,6 +125,12 @@ export const changeNotificationSettings = (payload: any) => {
       return {
         payload: payload.action,
         type: CHANGE_BOOKMARK_NOTIFICATION,
+      };
+
+    case 'notification.tags':
+      return {
+        payload: payload.action,
+        type: CHANGE_TAGS_NOTIFICATION,
       };
 
     case 'notification.reblog':
