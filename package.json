@@ -104,7 +104,7 @@
     "path-browserify": "1.0.1",
     "process": "^0.11.0",
     "punycode": "^2.3.1",
-    "qs": "^6.15.2",
+    "qs": "^6.16.0",
     "querystring-es3": "~0.2.1",
     "react": "19.0.0",
     "react-intl": "^3.9.2",
