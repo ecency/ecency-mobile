@@ -34,7 +34,8 @@ export enum MODES {
 interface DelegationItem {
   username: string;
   vestingShares: string;
-  timestamp: string;
+  // Absent for received delegations since SDK 2.3.99: balance-api carries no time.
+  timestamp?: string;
   isExpiring?: boolean;
 }
 
@@ -221,7 +222,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
     const value = `${vestsToHp(item.vestingShares, globalProps.hivePerMVests).toFixed(3)} HP`;
 
     if (item.isExpiring) {
-      const timeLeft = _formatTimeLeft(item.timestamp);
+      const timeLeft = item.timestamp ? _formatTimeLeft(item.timestamp) : '';
       return (
         <UserListItem
           key={item.username}
@@ -239,7 +240,9 @@ export const DelegationsModal = forwardRef(({}, ref) => {
       );
     }
 
-    const timeString = new Date(item.timestamp).toDateString();
+    // No date line when the source has none (received delegations from balance-api)
+    // rather than an "Invalid Date" under the name.
+    const timeString = item.timestamp ? new Date(item.timestamp).toDateString() : undefined;
     const subRightText =
       mode === MODES.DELEGATEED && intl.formatMessage({ id: 'wallet.tap_update' });
 
