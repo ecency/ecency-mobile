@@ -51,19 +51,20 @@ describe('auth-request deeplink', () => {
     expect(parseAuthRequestDeeplink('garbage')).toBeNull();
   });
 
-  it('allows only https and registered app schemes', () => {
+  it('rejects transports, page schemes, messaging handlers and intents', () => {
     expect(isAcceptableCallback('honeyback://hive')).toBe(true);
-    expect(isAcceptableCallback('HONEYBACK://hive')).toBe(true);
+    expect(isAcceptableCallback('anyapp://callback')).toBe(true);
     expect(isAcceptableCallback('https://example.com/cb')).toBe(true);
     [
       'http://example.com/cb',
       'ftp://example.com/cb',
+      'ws://example.com/cb',
+      'wss://example.com/cb',
       'intent://collect#Intent;scheme=evil;end',
       'mailto:someone@example.com',
       'tel:+123',
       'data:text/html,x',
       'javascript:alert(1)',
-      'unregistered://app',
       'nope',
     ].forEach((rejected) => {
       expect(isAcceptableCallback(rejected)).toBe(false);
