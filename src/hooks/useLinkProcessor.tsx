@@ -6,6 +6,7 @@ import { get } from 'lodash';
 import { useIntl } from 'react-intl';
 import * as hiveuri from 'hive-uri';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { PrivateKey } from '@ecency/sdk';
 import { toastNotification } from '../redux/actions/uiAction';
 import {
   handleHiveUriOperation,
@@ -27,6 +28,8 @@ import authType from '../constants/authType';
 import { getUserDataWithUsername } from '../storage/storage';
 import { decryptKey } from '../utils/crypto';
 import { loginWithAuthTransfer } from '../providers/hive/auth';
+import { isAuthRequestDeeplink, parseAuthRequestDeeplink } from '../utils/authRequest';
+import { makeHsCode } from '../utils/hive-signer-helper';
 import {
   selectCurrentAccount,
   selectPin,
@@ -345,6 +348,105 @@ export const useLinkProcessor = (onClose?: () => void) => {
       );
     });
 
+  const _confirmSignInShare = (username: string, requesterLabel: string) =>
+    new Promise<boolean>((resolve) => {
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.confirm' }),
+        `${requesterLabel} wants to sign you in as @${username}.\n\nOnly your username and a login proof are shared. No key leaves Ecency.`,
+        [
+          {
+            text: intl.formatMessage({ id: 'qr.cancel' }),
+            style: 'cancel',
+            onPress: () => resolve(false),
+          },
+          {
+            text: intl.formatMessage({ id: 'qr.approve' }),
+            onPress: () => resolve(true),
+          },
+        ],
+        { cancelable: false },
+      );
+    });
+
+  // ecency://auth-request: sign the user in to another app with a login proof
+  // (a code signed with the posting key, or the account's HiveSigner token),
+  // never a key. See utils/authRequest.ts for the contract.
+  const _handleEcencyAuthRequestDeeplink = async (deeplink: string) => {
+    try {
+      onClose && onClose();
+      const request = parseAuthRequestDeeplink(deeplink);
+      if (!request) {
+        _showInvalidAlert();
+        return;
+      }
+      const { callback, requestId } = request;
+      const requesterLabel =
+        request.app !== 'another app' ? request.app : _getRequesterLabel(callback);
+      const currentAccountName = (currentAccount?.name || '').toLowerCase();
+      const username = request.username || currentAccountName;
+      const isKnownAccount =
+        !!username &&
+        (currentAccountName === username ||
+          otherAccounts?.some(
+            (account: any) => (account?.username || '').toLowerCase() === username,
+          ));
+      const responsePayload: Record<string, string> = { status: 'error' };
+      if (username) {
+        responsePayload.username = username;
+      }
+      if (!isLoggedIn || !isKnownAccount) {
+        responsePayload.error = 'not_logged_in';
+        responsePayload.message = username
+          ? `Username ${username} is not logged in on Ecency.`
+          : 'No account is logged in on Ecency.';
+        await _openCallback(callback, requestId, responsePayload);
+        return;
+      }
+      const userData = await _getStoredUserData(username);
+      if (!userData) {
+        responsePayload.error = 'not_found';
+        responsePayload.message = `Username ${username} is not logged in on Ecency.`;
+        await _openCallback(callback, requestId, responsePayload);
+        return;
+      }
+      const digitPinCode = pinCode ? getDigitPinCode(pinCode) : '';
+      if (!digitPinCode) {
+        responsePayload.error = 'pin_required';
+        responsePayload.message = `Unable to unlock stored credentials for ${username}.`;
+        await _openCallback(callback, requestId, responsePayload);
+        return;
+      }
+      const userConfirmed = await _confirmSignInShare(username, requesterLabel);
+      if (!userConfirmed) {
+        responsePayload.error = 'user_cancelled';
+        responsePayload.message = `User declined to sign in to ${requesterLabel}.`;
+        await _openCallback(callback, requestId, responsePayload);
+        return;
+      }
+      const successPayload: Record<string, string> = { status: 'success', username };
+      const postingKey = userData.postingKey ? decryptKey(userData.postingKey, digitPinCode) : '';
+      if (postingKey) {
+        // A key-based account: a fresh login code, signed here, the key stays here.
+        successPayload.code = makeHsCode(username, PrivateKey.fromString(postingKey));
+      } else {
+        const accessToken = userData.accessToken
+          ? decryptKey(userData.accessToken, digitPinCode)
+          : '';
+        if (!accessToken) {
+          responsePayload.error = 'credential_unavailable';
+          responsePayload.message = `No login proof is available for ${username} on this device.`;
+          await _openCallback(callback, requestId, responsePayload);
+          return;
+        }
+        successPayload.access_token = accessToken;
+      }
+      await _openCallback(callback, requestId, successPayload);
+    } catch (error) {
+      console.warn('Failed to handle ecency auth-request deeplink', error);
+      _showInvalidAlert();
+    }
+  };
+
   const _handleEcencyLoginDeeplink = async (deeplink: string) => {
     try {
       onClose && onClose();
@@ -533,6 +635,10 @@ export const useLinkProcessor = (onClose?: () => void) => {
   const handleLink = (deeplink: string) => {
     if (_isEcencyAuthTransferDeeplink(deeplink)) {
       _handleEcencyAuthTransferDeeplink(deeplink);
+      return;
+    }
+    if (isAuthRequestDeeplink(deeplink)) {
+      _handleEcencyAuthRequestDeeplink(deeplink);
       return;
     }
 
