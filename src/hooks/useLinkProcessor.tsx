@@ -6,6 +6,7 @@ import { get } from 'lodash';
 import { useIntl } from 'react-intl';
 import * as hiveuri from 'hive-uri';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { PrivateKey } from '@ecency/sdk';
 import { toastNotification } from '../redux/actions/uiAction';
 import {
   handleHiveUriOperation,
@@ -27,6 +28,13 @@ import authType from '../constants/authType';
 import { getUserDataWithUsername } from '../storage/storage';
 import { decryptKey } from '../utils/crypto';
 import { loginWithAuthTransfer } from '../providers/hive/auth';
+import {
+  callbackAudience,
+  isAuthRequestDeeplink,
+  isHiveAccountName,
+  parseAuthRequestDeeplink,
+} from '../utils/authRequest';
+import { makeHsLoginProof } from '../utils/hive-signer-helper';
 import {
   selectCurrentAccount,
   selectPin,
@@ -321,15 +329,11 @@ export const useLinkProcessor = (onClose?: () => void) => {
     }
   };
 
-  const _confirmPostingKeyShare = (username: string, requesterLabel: string) =>
+  const _confirmShare = (message: string) =>
     new Promise<boolean>((resolve) => {
-      const requesterText = requesterLabel
-        ? `${requesterLabel} is requesting the posting private key for @${username}.`
-        : `Another application is requesting the posting private key for @${username}.`;
-
       Alert.alert(
         intl.formatMessage({ id: 'alert.confirm' }),
-        `${requesterText}\n\nOnly continue if you trust this request.`,
+        message,
         [
           {
             text: intl.formatMessage({ id: 'qr.cancel' }),
@@ -344,6 +348,120 @@ export const useLinkProcessor = (onClose?: () => void) => {
         { cancelable: false },
       );
     });
+
+  const _confirmPostingKeyShare = (username: string, requesterLabel: string) =>
+    _confirmShare(
+      intl.formatMessage(
+        {
+          id: requesterLabel
+            ? 'deep_link.posting_key_request'
+            : 'deep_link.posting_key_request_unnamed',
+        },
+        { requester: requesterLabel, username },
+      ),
+    );
+
+  // ecency://auth-request: sign the user in to another app with a sign-in
+  // proof signed here. Never a key, never the stored HiveSigner token, and
+  // never a HiveSigner code, which Ecency's exchange would turn into tokens.
+  // See utils/authRequest.ts for the contract. The user confirms before any
+  // answer leaves, the requester shown is the callback itself, and refusals
+  // name no account.
+  const _handleEcencyAuthRequestDeeplink = async (deeplink: string) => {
+    onClose && onClose();
+    const request = parseAuthRequestDeeplink(deeplink);
+    if (!request) {
+      _showInvalidAlert();
+      return;
+    }
+    const { callback, requestId } = request;
+    const refuse = (error: string) =>
+      _openCallback(callback, requestId, { status: 'error', error });
+    try {
+      const requesterLabel = _getRequesterLabel(callback);
+      const userConfirmed = await _confirmShare(
+        request.username
+          ? intl.formatMessage(
+              { id: 'deep_link.auth_request_as_user' },
+              { requester: requesterLabel, username: request.username },
+            )
+          : intl.formatMessage(
+              { id: 'deep_link.auth_request_as_current' },
+              { requester: requesterLabel },
+            ),
+      );
+      if (!userConfirmed) {
+        await refuse('user_cancelled');
+        return;
+      }
+      if (isPinCodeOpen) {
+        RootNavigation.navigate({
+          name: ROUTES.SCREENS.PINCODE,
+          params: { callback: () => _completeAuthRequest(callback, requestId, request.username) },
+        });
+        return;
+      }
+      await _completeAuthRequest(callback, requestId, request.username);
+    } catch (error) {
+      console.warn('Failed to handle ecency auth-request deeplink', error);
+      await refuse('internal_error');
+    }
+  };
+
+  const _completeAuthRequest = async (
+    callback: string,
+    requestId: string | null,
+    requested: string | null,
+  ) => {
+    const refuse = (error: string) =>
+      _openCallback(callback, requestId, { status: 'error', error });
+    try {
+      const currentAccountName = (currentAccount?.name || '').toLowerCase();
+      const username = requested || currentAccountName;
+      const isKnownAccount =
+        !!username &&
+        (currentAccountName === username ||
+          otherAccounts?.some(
+            (account: any) => (account?.username || '').toLowerCase() === username,
+          ));
+      if (!isLoggedIn || !isKnownAccount) {
+        await refuse('not_logged_in');
+        return;
+      }
+      const userData = await _getStoredUserData(username);
+      if (!userData) {
+        await refuse('not_logged_in');
+        return;
+      }
+      const digitPinCode = pinCode ? getDigitPinCode(pinCode) : '';
+      if (!digitPinCode) {
+        await refuse('pin_required');
+        return;
+      }
+      // The posting key signs the proof. An account signed in with its active
+      // key alone holds only that one, and a proof it signs verifies the same.
+      const encryptedKey = userData.postingKey || userData.activeKey;
+      const signingKey = encryptedKey ? decryptKey(encryptedKey, digitPinCode) : '';
+      if (!signingKey) {
+        // Signed in through HiveSigner or HiveAuth: no key here to sign a fresh
+        // proof with, and the stored token is a signing credential, not a proof.
+        await refuse('use_hivesigner');
+        return;
+      }
+      await _openCallback(callback, requestId, {
+        status: 'success',
+        username,
+        code: makeHsLoginProof(
+          username,
+          PrivateKey.fromString(signingKey),
+          callbackAudience(callback),
+        ),
+      });
+    } catch (error) {
+      console.warn('Failed to complete ecency auth-request', error);
+      await refuse('internal_error');
+    }
+  };
 
   const _handleEcencyLoginDeeplink = async (deeplink: string) => {
     try {
@@ -363,7 +481,8 @@ export const useLinkProcessor = (onClose?: () => void) => {
       }
 
       const normalizedUsername = usernameParam.replace(/^@/, '').trim().toLowerCase();
-      if (!normalizedUsername) {
+      // Only a Hive account name reaches the confirmation below.
+      if (!isHiveAccountName(normalizedUsername)) {
         _showInvalidAlert();
         return;
       }
@@ -533,6 +652,10 @@ export const useLinkProcessor = (onClose?: () => void) => {
   const handleLink = (deeplink: string) => {
     if (_isEcencyAuthTransferDeeplink(deeplink)) {
       _handleEcencyAuthTransferDeeplink(deeplink);
+      return;
+    }
+    if (isAuthRequestDeeplink(deeplink)) {
+      _handleEcencyAuthRequestDeeplink(deeplink);
       return;
     }
 
