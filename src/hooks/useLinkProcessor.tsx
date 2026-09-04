@@ -324,126 +324,119 @@ export const useLinkProcessor = (onClose?: () => void) => {
     }
   };
 
+  const _confirmShare = (message: string) =>
+    new Promise<boolean>((resolve) => {
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.confirm' }),
+        message,
+        [
+          {
+            text: intl.formatMessage({ id: 'qr.cancel' }),
+            style: 'cancel',
+            onPress: () => resolve(false),
+          },
+          {
+            text: intl.formatMessage({ id: 'qr.approve' }),
+            onPress: () => resolve(true),
+          },
+        ],
+        { cancelable: false },
+      );
+    });
+
   const _confirmPostingKeyShare = (username: string, requesterLabel: string) =>
-    new Promise<boolean>((resolve) => {
-      const requesterText = requesterLabel
-        ? `${requesterLabel} is requesting the posting private key for @${username}.`
-        : `Another application is requesting the posting private key for @${username}.`;
+    _confirmShare(
+      `${
+        requesterLabel
+          ? `${requesterLabel} is requesting the posting private key for @${username}.`
+          : `Another application is requesting the posting private key for @${username}.`
+      }\n\nOnly continue if you trust this request.`,
+    );
 
-      Alert.alert(
-        intl.formatMessage({ id: 'alert.confirm' }),
-        `${requesterText}\n\nOnly continue if you trust this request.`,
-        [
-          {
-            text: intl.formatMessage({ id: 'qr.cancel' }),
-            style: 'cancel',
-            onPress: () => resolve(false),
-          },
-          {
-            text: intl.formatMessage({ id: 'qr.approve' }),
-            onPress: () => resolve(true),
-          },
-        ],
-        { cancelable: false },
-      );
-    });
-
-  const _confirmSignInShare = (username: string, requesterLabel: string) =>
-    new Promise<boolean>((resolve) => {
-      Alert.alert(
-        intl.formatMessage({ id: 'alert.confirm' }),
-        `${requesterLabel} wants to sign you in as @${username}.\n\nOnly your username and a login proof are shared. No key leaves Ecency.`,
-        [
-          {
-            text: intl.formatMessage({ id: 'qr.cancel' }),
-            style: 'cancel',
-            onPress: () => resolve(false),
-          },
-          {
-            text: intl.formatMessage({ id: 'qr.approve' }),
-            onPress: () => resolve(true),
-          },
-        ],
-        { cancelable: false },
-      );
-    });
-
-  // ecency://auth-request: sign the user in to another app with a login proof
-  // (a code signed with the posting key, or the account's HiveSigner token),
-  // never a key. See utils/authRequest.ts for the contract.
+  // ecency://auth-request: sign the user in to another app with a login proof,
+  // a code signed here with the posting key, never a key and never the stored
+  // HiveSigner token. See utils/authRequest.ts for the contract. The user
+  // confirms before any answer leaves, the requester shown is the callback
+  // itself, and refusals name no account.
   const _handleEcencyAuthRequestDeeplink = async (deeplink: string) => {
+    onClose && onClose();
+    const request = parseAuthRequestDeeplink(deeplink);
+    if (!request) {
+      _showInvalidAlert();
+      return;
+    }
+    const { callback, requestId } = request;
+    const refuse = (error: string) =>
+      _openCallback(callback, requestId, { status: 'error', error });
     try {
-      onClose && onClose();
-      const request = parseAuthRequestDeeplink(deeplink);
-      if (!request) {
-        _showInvalidAlert();
+      const requesterLabel = _getRequesterLabel(callback);
+      const who = request.username ? `as @${request.username}` : 'with your Ecency account';
+      const userConfirmed = await _confirmShare(
+        `${requesterLabel} wants to sign you in ${who}.\n\nOnly your username and a fresh login proof are shared. No key leaves Ecency.`,
+      );
+      if (!userConfirmed) {
+        await refuse('user_cancelled');
         return;
       }
-      const { callback, requestId } = request;
-      const requesterLabel =
-        request.app !== 'another app' ? request.app : _getRequesterLabel(callback);
+      if (isPinCodeOpen) {
+        RootNavigation.navigate({
+          name: ROUTES.SCREENS.PINCODE,
+          params: { callback: () => _completeAuthRequest(callback, requestId, request.username) },
+        });
+        return;
+      }
+      await _completeAuthRequest(callback, requestId, request.username);
+    } catch (error) {
+      console.warn('Failed to handle ecency auth-request deeplink', error);
+      await refuse('internal_error');
+    }
+  };
+
+  const _completeAuthRequest = async (
+    callback: string,
+    requestId: string | null,
+    requested: string | null,
+  ) => {
+    const refuse = (error: string) =>
+      _openCallback(callback, requestId, { status: 'error', error });
+    try {
       const currentAccountName = (currentAccount?.name || '').toLowerCase();
-      const username = request.username || currentAccountName;
+      const username = requested || currentAccountName;
       const isKnownAccount =
         !!username &&
         (currentAccountName === username ||
           otherAccounts?.some(
             (account: any) => (account?.username || '').toLowerCase() === username,
           ));
-      const responsePayload: Record<string, string> = { status: 'error' };
-      if (username) {
-        responsePayload.username = username;
-      }
       if (!isLoggedIn || !isKnownAccount) {
-        responsePayload.error = 'not_logged_in';
-        responsePayload.message = username
-          ? `Username ${username} is not logged in on Ecency.`
-          : 'No account is logged in on Ecency.';
-        await _openCallback(callback, requestId, responsePayload);
+        await refuse('not_logged_in');
         return;
       }
       const userData = await _getStoredUserData(username);
       if (!userData) {
-        responsePayload.error = 'not_found';
-        responsePayload.message = `Username ${username} is not logged in on Ecency.`;
-        await _openCallback(callback, requestId, responsePayload);
+        await refuse('not_logged_in');
         return;
       }
       const digitPinCode = pinCode ? getDigitPinCode(pinCode) : '';
       if (!digitPinCode) {
-        responsePayload.error = 'pin_required';
-        responsePayload.message = `Unable to unlock stored credentials for ${username}.`;
-        await _openCallback(callback, requestId, responsePayload);
+        await refuse('pin_required');
         return;
       }
-      const userConfirmed = await _confirmSignInShare(username, requesterLabel);
-      if (!userConfirmed) {
-        responsePayload.error = 'user_cancelled';
-        responsePayload.message = `User declined to sign in to ${requesterLabel}.`;
-        await _openCallback(callback, requestId, responsePayload);
-        return;
-      }
-      const successPayload: Record<string, string> = { status: 'success', username };
       const postingKey = userData.postingKey ? decryptKey(userData.postingKey, digitPinCode) : '';
-      if (postingKey) {
-        // A key-based account: a fresh login code, signed here, the key stays here.
-        successPayload.code = makeHsCode(username, PrivateKey.fromString(postingKey));
-      } else {
-        const accessToken = userData.accessToken
-          ? decryptKey(userData.accessToken, digitPinCode)
-          : '';
-        if (!accessToken) {
-          responsePayload.error = 'credential_unavailable';
-          responsePayload.message = `No login proof is available for ${username} on this device.`;
-          await _openCallback(callback, requestId, responsePayload);
-          return;
-        }
-        successPayload.access_token = accessToken;
+      if (!postingKey) {
+        // Signed in through HiveSigner or HiveAuth: no key here to sign a fresh
+        // proof with, and the stored token is a signing credential, not a proof.
+        await refuse('use_hivesigner');
+        return;
       }
-      await _openCallback(callback, requestId, successPayload);
+      await _openCallback(callback, requestId, {
+        status: 'success',
+        username,
+        code: makeHsCode(username, PrivateKey.fromString(postingKey)),
+      });
     } catch (error) {
-      console.warn('Failed to handle ecency auth-request deeplink', error);
-      _showInvalidAlert();
+      console.warn('Failed to complete ecency auth-request', error);
+      await refuse('internal_error');
     }
   };
 

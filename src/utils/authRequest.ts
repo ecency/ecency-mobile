@@ -1,21 +1,24 @@
 // ecency://auth-request: another app asks Ecency to sign the user in and
 // come back on its callback with the username and a login proof, never a key.
 //
-//   ecency://auth-request?callback=<url>&request_id=<id>[&username=<u>][&app=<name>]
+//   ecency://auth-request?callback=<url>&request_id=<id>[&username=<u>]
 //
 // Success:  <callback>?status=success&username=<u>&code=<login code>&request_id=<id>
-//       or  <callback>?status=success&username=<u>&access_token=<HiveSigner token>&request_id=<id>
-// Refusal:  <callback>?status=error&error=<code>&message=<text>&request_id=<id>
+// Refusal:  <callback>?status=error&error=<code>&request_id=<id>
 //
-// The code is what makeHsCode builds (signed for ecency.app with the posting
-// key); accounts signed in through HiveSigner or HiveAuth hand over their
-// HiveSigner access token instead. Both verify the HiveSigner way.
+// The code is what makeHsCode builds: a fresh message signed with the posting
+// key for ecency.app, verifiable the HiveSigner way and good for nothing else.
+// Accounts that hold no posting key here (signed in through HiveSigner or
+// HiveAuth) are answered with use_hivesigner: their stored token is a
+// reusable signing credential and is never shared. The user confirms before
+// any answer, and refusals name no account, so a caller cannot learn which
+// accounts live on the device. The requester shown to the user is the
+// callback itself; nothing the caller says about itself is displayed.
 
 export interface AuthRequest {
   callback: string;
   requestId: string | null;
   username: string | null; // a specific account, or the current one when absent
-  app: string; // who is asking, for the confirmation only
 }
 
 export const isAuthRequestDeeplink = (deeplink: string): boolean => {
@@ -29,6 +32,18 @@ export const isAuthRequestDeeplink = (deeplink: string): boolean => {
   }
 };
 
+// / A callback the answer may be sent to: an app's own scheme or https, never
+// / plain http or anything that runs in a page.
+export const isAcceptableCallback = (callback: string): boolean => {
+  try {
+    const url = new URL(callback);
+    const protocol = url.protocol.toLowerCase();
+    return !['http:', 'javascript:', 'data:', 'file:', 'blob:', 'about:'].includes(protocol);
+  } catch (err) {
+    return false;
+  }
+};
+
 export const parseAuthRequestDeeplink = (deeplink: string): AuthRequest | null => {
   try {
     const url = new URL(deeplink);
@@ -36,7 +51,7 @@ export const parseAuthRequestDeeplink = (deeplink: string): AuthRequest | null =
       url.searchParams.get('callback') ||
       url.searchParams.get('redirect_uri') ||
       url.searchParams.get('return_url');
-    if (!callback) {
+    if (!callback || !isAcceptableCallback(callback)) {
       return null;
     }
     const username = (url.searchParams.get('username') || '')
@@ -47,7 +62,6 @@ export const parseAuthRequestDeeplink = (deeplink: string): AuthRequest | null =
       callback,
       requestId: url.searchParams.get('request_id'),
       username: username || null,
-      app: (url.searchParams.get('app') || '').trim() || 'another app',
     };
   } catch (err) {
     return null;
