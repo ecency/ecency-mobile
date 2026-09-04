@@ -1,6 +1,8 @@
 import {
+  callbackAudience,
   isAcceptableCallback,
   isAuthRequestDeeplink,
+  isHiveAccountName,
   parseAuthRequestDeeplink,
 } from './authRequest';
 
@@ -51,7 +53,32 @@ describe('auth-request deeplink', () => {
     expect(parseAuthRequestDeeplink('garbage')).toBeNull();
   });
 
-  it('rejects transports, page schemes, messaging handlers and intents', () => {
+  it('takes a username only when it is a Hive account name', () => {
+    const base = 'ecency://auth-request?callback=honeyback%3A%2F%2Fhive';
+    expect(parseAuthRequestDeeplink(`${base}&username=ecency.waves`)?.username).toBe(
+      'ecency.waves',
+    );
+    expect(parseAuthRequestDeeplink(`${base}&username=`)?.username).toBeNull();
+    // Text a caller could aim at the confirmation dialog invalidates the request.
+    expect(
+      parseAuthRequestDeeplink(`${base}&username=you%0A%0AEcency%20verified%20this%20app`),
+    ).toBeNull();
+    expect(parseAuthRequestDeeplink(`${base}&username=ab`)).toBeNull();
+    expect(parseAuthRequestDeeplink(`${base}&username=%40you%20there`)).toBeNull();
+  });
+
+  it('knows a Hive account name', () => {
+    ['good-karma', 'ecency.waves', 'abc', 'a1-b2.c3d'].forEach((ok) => {
+      expect(isHiveAccountName(ok)).toBe(true);
+    });
+    ['', 'ab', 'Good-Karma', '1abc', 'a'.repeat(17), 'you\n\nverified', 'you there'].forEach(
+      (bad) => {
+        expect(isHiveAccountName(bad)).toBe(false);
+      },
+    );
+  });
+
+  it('rejects transports, page schemes, messaging handlers, intents and our own schemes', () => {
     expect(isAcceptableCallback('honeyback://hive')).toBe(true);
     expect(isAcceptableCallback('anyapp://callback')).toBe(true);
     expect(isAcceptableCallback('https://example.com/cb')).toBe(true);
@@ -65,9 +92,19 @@ describe('auth-request deeplink', () => {
       'tel:+123',
       'data:text/html,x',
       'javascript:alert(1)',
+      'ecency://login?callback=evil%3A%2F%2Fx',
+      'hive://sign/op/abc',
       'nope',
     ].forEach((rejected) => {
       expect(isAcceptableCallback(rejected)).toBe(false);
     });
+  });
+
+  it('names the audience of a proof after the callback', () => {
+    expect(callbackAudience('honeyback://hive')).toBe('honeyback://hive');
+    expect(callbackAudience('HONEYBACK://Hive/link?x=1')).toBe('honeyback://hive');
+    expect(callbackAudience('https://games-api.ecency.com/v1/hive/callback?x=1')).toBe(
+      'https://games-api.ecency.com',
+    );
   });
 });

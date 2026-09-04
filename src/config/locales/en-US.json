@@ -1125,7 +1125,11 @@
   "deep_link": {
     "no_existing_post": "No existing post",
     "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser",
-    "no_existing_user": "No existing user"
+    "no_existing_user": "No existing user",
+    "posting_key_request": "{requester} is requesting the posting private key for @{username}.\n\nOnly continue if you trust this request.",
+    "posting_key_request_unnamed": "Another application is requesting the posting private key for @{username}.\n\nOnly continue if you trust this request.",
+    "auth_request_as_user": "{requester} wants to sign you in as @{username}.\n\nOnly your username and a sign-in proof are shared. The proof cannot post, vote or spend from your account, and no key leaves Ecency.",
+    "auth_request_as_current": "{requester} wants to sign you in with your Ecency account.\n\nOnly your username and a sign-in proof are shared. The proof cannot post, vote or spend from your account, and no key leaves Ecency."
   },
   "payout": {
     "breakdown": "Breakdown",
