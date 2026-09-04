@@ -51,11 +51,22 @@ describe('auth-request deeplink', () => {
     expect(parseAuthRequestDeeplink('garbage')).toBeNull();
   });
 
-  it('judges callbacks by scheme', () => {
+  it('allows only https and registered app schemes', () => {
     expect(isAcceptableCallback('honeyback://hive')).toBe(true);
+    expect(isAcceptableCallback('HONEYBACK://hive')).toBe(true);
     expect(isAcceptableCallback('https://example.com/cb')).toBe(true);
-    expect(isAcceptableCallback('http://example.com/cb')).toBe(false);
-    expect(isAcceptableCallback('data:text/html,x')).toBe(false);
-    expect(isAcceptableCallback('nope')).toBe(false);
+    [
+      'http://example.com/cb',
+      'ftp://example.com/cb',
+      'intent://collect#Intent;scheme=evil;end',
+      'mailto:someone@example.com',
+      'tel:+123',
+      'data:text/html,x',
+      'javascript:alert(1)',
+      'unregistered://app',
+      'nope',
+    ].forEach((rejected) => {
+      expect(isAcceptableCallback(rejected)).toBe(false);
+    });
   });
 });

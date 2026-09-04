@@ -13,7 +13,8 @@
 // reusable signing credential and is never shared. The user confirms before
 // any answer, and refusals name no account, so a caller cannot learn which
 // accounts live on the device. The requester shown to the user is the
-// callback itself; nothing the caller says about itself is displayed.
+// callback itself; nothing the caller says about itself is displayed, and the
+// callback must be https or the scheme of a registered app.
 
 export interface AuthRequest {
   callback: string;
@@ -32,13 +33,16 @@ export const isAuthRequestDeeplink = (deeplink: string): boolean => {
   }
 };
 
-// / A callback the answer may be sent to: an app's own scheme or https, never
-// / plain http or anything that runs in a page.
+// The apps that may ask: their own URL schemes. Adding an integrator is a
+// line here, and nothing else on a device can be handed a login proof.
+export const REGISTERED_APP_SCHEMES = ['honeyback'];
+
+// A callback the answer may be sent to: https, or a registered app's scheme.
 export const isAcceptableCallback = (callback: string): boolean => {
   try {
     const url = new URL(callback);
-    const protocol = url.protocol.toLowerCase();
-    return !['http:', 'javascript:', 'data:', 'file:', 'blob:', 'about:'].includes(protocol);
+    const scheme = url.protocol.toLowerCase().replace(/:$/, '');
+    return scheme === 'https' || REGISTERED_APP_SCHEMES.includes(scheme);
   } catch (err) {
     return false;
   }
