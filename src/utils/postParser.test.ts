@@ -14,7 +14,18 @@ import { MutedReason } from '../providers/hive/hive.types';
 
 jest.mock('@ecency/render-helper', () => ({
   renderPostBody: jest.fn((post) => `<p>${post.body || ''}</p>`),
-  postBodySummary: jest.fn(() => 'summary text'),
+  // Mirrors the real helper's contract for these tests: a raw string is
+  // stripped of markdown and capped at `length`; an entry yields a fixed body summary.
+  postBodySummary: jest.fn((input, length) =>
+    typeof input === 'string'
+      ? input
+          .replace(/https?:\/\/\S+/g, '')
+          .replace(/[#*![\]()]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .slice(0, length)
+      : 'summary text',
+  ),
   catchPostImage: jest.fn((post, w, _h) =>
     w > 100 ? 'https://img.com/cover.jpg' : 'https://img.com/thumb.jpg',
   ),
@@ -395,12 +406,56 @@ describe('parsePost', () => {
     expect(result!.body).toBe('');
   });
 
-  it('uses json_metadata description for summary when available', () => {
-    const post = makePost({
-      json_metadata: { tags: ['test'], description: 'custom desc' },
+  describe('summary', () => {
+    const { postBodySummary } = jest.requireMock('@ecency/render-helper');
+
+    beforeEach(() => {
+      postBodySummary.mockClear();
     });
-    const result = parsePost(post, 'viewer', false);
-    expect(result!.summary).toBe('custom desc');
+
+    it('uses json_metadata description for summary when available', () => {
+      const post = makePost({
+        json_metadata: { tags: ['test'], description: 'custom desc' },
+      });
+      const result = parsePost(post, 'viewer', false);
+      expect(result!.summary).toBe('custom desc');
+    });
+
+    it('strips markdown from the description and caps it at the summary length', () => {
+      // Some apps write the whole markdown body into description.
+      const description = `![Image](https://x/y.png)\n\n# Heading\n\n* **bold** item\n`.repeat(40);
+      const post = makePost({ json_metadata: { tags: ['test'], description } });
+      const result = parsePost(post, 'viewer', false);
+      expect(postBodySummary).toHaveBeenCalledWith(description.trim(), 150, expect.any(String));
+      expect(result!.summary.length).toBeLessThanOrEqual(150);
+      expect(result!.summary).not.toContain('#');
+      expect(result!.summary).not.toContain('**');
+    });
+
+    it('ignores a non-string description and summarises the body instead', () => {
+      const post = makePost({ json_metadata: { tags: ['test'], description: { en: 'x' } } });
+      const result = parsePost(post, 'viewer', false);
+      expect(result!.summary).toBe('summary text');
+      expect(postBodySummary).toHaveBeenCalledWith(
+        expect.objectContaining({ body: post.body }),
+        150,
+        expect.any(String),
+      );
+    });
+
+    it('falls back to the body when the description is blank or strips to nothing', () => {
+      expect(
+        parsePost(makePost({ json_metadata: { description: '   ' } }), 'viewer', false)!.summary,
+      ).toBe('summary text');
+      // An image-only description renders to an empty summary.
+      expect(
+        parsePost(
+          makePost({ json_metadata: { description: '![](https://x/y.png)' } }),
+          'viewer',
+          false,
+        )!.summary,
+      ).toBe('summary text');
+    });
   });
 
   describe('parseTags (via parsePost)', () => {

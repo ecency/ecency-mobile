@@ -10,6 +10,27 @@ import { getResizedAvatar, shouldPrefetchImages } from './image';
 import { parseReputation } from './user';
 import { calculateVoteReward } from './vote';
 
+const SUMMARY_LENGTH = 150;
+
+/**
+ * Card summary: an author-set json_metadata.description wins over the generated
+ * body summary, but json_metadata is untrusted on-chain data. Some apps write the
+ * whole markdown body (or a non-string) into description, which used to render
+ * raw markdown of unbounded length in the feed. Route it through the same
+ * summary function as the body so both paths yield plain text of the same cap.
+ */
+export const parseSummary = (post: any): string => {
+  const platform = Platform.OS as any;
+  const declared = post?.json_metadata?.description;
+  if (typeof declared === 'string' && declared.trim()) {
+    const summary = postBodySummary(declared.trim(), SUMMARY_LENGTH, platform);
+    if (summary) {
+      return summary;
+    }
+  }
+  return postBodySummary(post, SUMMARY_LENGTH, platform);
+};
+
 export const parsePost = (
   post: any,
   currentUserName: string | null | undefined,
@@ -107,8 +128,7 @@ export const parsePost = (
   if (!isList) {
     post.body = renderPostBody({ ...post, last_update: post.updated }, true, false);
   }
-  // Use description from json_metadata if available, otherwise generate summary from body
-  post.summary = post.json_metadata?.description || postBodySummary(post, 150, Platform.OS as any);
+  post.summary = parseSummary(post);
   post.max_payout = parseAsset(post.max_accepted_payout).amount || 0;
   post.is_declined_payout = !!post.max_accepted_payout && post.max_payout === 0;
 
