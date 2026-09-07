@@ -262,7 +262,9 @@ const PostCardContentComponent = ({ content, nsfw, handleCardInteraction }: Prop
           <View style={[styles.postDescripton]}>
             {!!_featuredText && <Text style={styles.promotedText}>{_featuredText}</Text>}
             <Text style={styles.title}>{content.title}</Text>
-            <Text style={styles.summary}>{content.summary}</Text>
+            <Text style={styles.summary} numberOfLines={5}>
+              {content.summary}
+            </Text>
           </View>
         </View>
       </TouchableOpacity>

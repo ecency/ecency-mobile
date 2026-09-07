@@ -1,6 +1,5 @@
 import { get } from 'lodash';
-import { Platform } from 'react-native';
-import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
+import { renderPostBody, catchPostImage } from '@ecency/render-helper';
 import { getContentModerationReason } from '@ecency/sdk';
 import { Image as ExpoImage } from 'expo-image';
 
@@ -9,6 +8,7 @@ import parseAsset from './parseAsset';
 import { getResizedAvatar, shouldPrefetchImages } from './image';
 import { parseReputation } from './user';
 import { calculateVoteReward } from './vote';
+import { parseSummary } from './postSummary';
 
 export const parsePost = (
   post: any,
@@ -107,8 +107,7 @@ export const parsePost = (
   if (!isList) {
     post.body = renderPostBody({ ...post, last_update: post.updated }, true, false);
   }
-  // Use description from json_metadata if available, otherwise generate summary from body
-  post.summary = post.json_metadata?.description || postBodySummary(post, 150, Platform.OS as any);
+  post.summary = parseSummary(post);
   post.max_payout = parseAsset(post.max_accepted_payout).amount || 0;
   post.is_declined_payout = !!post.max_accepted_payout && post.max_payout === 0;
 

@@ -20,6 +20,12 @@ jest.mock('@ecency/render-helper', () => ({
   ),
 }));
 
+// Summary behaviour is specified in postSummary.test.ts against the real
+// render-helper; here only the wiring into parsePost matters.
+jest.mock('./postSummary', () => ({
+  parseSummary: jest.fn((post) => `summary of ${post.author}`),
+}));
+
 jest.mock('expo-image', () => ({
   Image: { prefetch: jest.fn() },
 }));
@@ -395,12 +401,12 @@ describe('parsePost', () => {
     expect(result!.body).toBe('');
   });
 
-  it('uses json_metadata description for summary when available', () => {
-    const post = makePost({
-      json_metadata: { tags: ['test'], description: 'custom desc' },
-    });
+  it('derives summary through parseSummary', () => {
+    const { parseSummary } = jest.requireMock('./postSummary');
+    const post = makePost({ json_metadata: { tags: ['test'], description: 'custom desc' } });
     const result = parsePost(post, 'viewer', false);
-    expect(result!.summary).toBe('custom desc');
+    expect(parseSummary).toHaveBeenCalledWith(result);
+    expect(result!.summary).toBe('summary of testuser');
   });
 
   describe('parseTags (via parsePost)', () => {
