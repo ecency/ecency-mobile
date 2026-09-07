@@ -1,6 +1,5 @@
 import { get } from 'lodash';
-import { Platform } from 'react-native';
-import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
+import { renderPostBody, catchPostImage } from '@ecency/render-helper';
 import { getContentModerationReason } from '@ecency/sdk';
 import { Image as ExpoImage } from 'expo-image';
 
@@ -9,27 +8,7 @@ import parseAsset from './parseAsset';
 import { getResizedAvatar, shouldPrefetchImages } from './image';
 import { parseReputation } from './user';
 import { calculateVoteReward } from './vote';
-
-const SUMMARY_LENGTH = 150;
-
-/**
- * Card summary: an author-set json_metadata.description wins over the generated
- * body summary, but json_metadata is untrusted on-chain data. Some apps write the
- * whole markdown body (or a non-string) into description, which used to render
- * raw markdown of unbounded length in the feed. Route it through the same
- * summary function as the body so both paths yield plain text of the same cap.
- */
-export const parseSummary = (post: any): string => {
-  const platform = Platform.OS as any;
-  const declared = post?.json_metadata?.description;
-  if (typeof declared === 'string' && declared.trim()) {
-    const summary = postBodySummary(declared.trim(), SUMMARY_LENGTH, platform);
-    if (summary) {
-      return summary;
-    }
-  }
-  return postBodySummary(post, SUMMARY_LENGTH, platform);
-};
+import { parseSummary } from './postSummary';
 
 export const parsePost = (
   post: any,
