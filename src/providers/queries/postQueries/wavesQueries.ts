@@ -25,7 +25,12 @@ import { WAVES_PRIMARY_HOST } from '../../../constants/waves';
 import { useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useBotAuthorsQuery } from './postQueries';
-import { selectCurrentAccount, selectCurrentAccountMutes } from '../../../redux/selectors';
+import {
+  selectCurrentAccount,
+  selectCurrentAccountMutes,
+  selectNsfw,
+} from '../../../redux/selectors';
+import { isWaveHiddenForNsfw } from '../../../utils/waveNsfw';
 import { useAuthContext } from '../../sdk';
 
 type CombinedWavesQueryOptions = ReturnType<typeof getWavesFeedQueryOptions>;
@@ -57,6 +62,7 @@ export const useWavesQuery = (
 
   const mutes = useAppSelector(selectCurrentAccountMutes);
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const nsfw = useAppSelector(selectNsfw);
 
   const botAuthorsQuery = useBotAuthorsQuery();
   const authContext = useAuthContext();
@@ -101,6 +107,12 @@ export const useWavesQuery = (
       }
       // discard bot authors
       if (botAuthors.includes(post.author)) {
+        return false;
+      }
+      // discard a wave the API flagged as explicit, unless the viewer chose to
+      // always show NSFW or it is their own. The shared feeds never receive one;
+      // this is for the profile author feed and promoted cards.
+      if (isWaveHiddenForNsfw(post, nsfw, currentAccount?.name)) {
         return false;
       }
       return true;
@@ -150,6 +162,7 @@ export const useWavesQuery = (
     applyMuteFilter,
     botAuthorsQuery.data,
     currentAccount?.name,
+    nsfw,
     promotedQuery.data,
     injectPromoted,
   ]);
