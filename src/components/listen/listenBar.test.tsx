@@ -202,6 +202,32 @@ describe('ListenBar', () => {
     expect(texts(render())).toContain('listen.preparing_eta {"n":2}');
   });
 
+  it('plays a short post a reader unlocked: there is no minimum length', () => {
+    mockAuth.current = { username: 'alice', code: 'token' };
+    const tracks = [{ lang: 'en', seconds: 3, url: 'https://audio.test/en.m4a' }];
+    mockStatus.current = { cost: 50, unlocked: true, status: 'ready', languages: [], tracks };
+    const tree = render({ ...POST, body: 'Good morning, friends.' });
+    expect(tree.root.findAll((n) => (n.type as any) === 'ListenAudio')).toHaveLength(1);
+  });
+
+  it('turns a failed renewal into an error the player can show', async () => {
+    mockAuth.current = { username: 'alice', code: 'token' };
+    const tracks = [{ lang: 'en', seconds: 150, url: 'https://audio.test/en.m4a' }];
+    mockStatus.current = { cost: 50, unlocked: true, status: 'ready', languages: LANGS, tracks };
+    const player = render().root.find((n) => (n.type as any) === 'ListenAudio');
+
+    mockRefetch.mockResolvedValueOnce({ isError: true, error: new Error('401'), data: undefined });
+    await expect(player.props.onExpired()).rejects.toThrow('401');
+    // answered, but locked (the token was refused): no fresh URLs, also an error
+    mockRefetch.mockResolvedValueOnce({
+      isError: false,
+      data: { unlocked: false, tracks: undefined },
+    });
+    await expect(player.props.onExpired()).rejects.toThrow();
+    mockRefetch.mockResolvedValueOnce({ isError: false, data: { unlocked: true, tracks } });
+    await expect(player.props.onExpired()).resolves.toBeUndefined();
+  });
+
   it('plays the ready tracks', () => {
     mockAuth.current = { username: 'alice', code: 'token' };
     const tracks = [

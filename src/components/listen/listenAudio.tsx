@@ -50,6 +50,8 @@ export const ListenAudio = ({ post, tracks, uiLanguage, onExpired }: ListenAudio
   // Where to resume after the source changes: a refreshed URL, or a switched track.
   const resumeRef = useRef<number | null>(null);
   const refreshesRef = useRef(0);
+  // The URL could not be renewed: say so and offer a retry rather than a silent player.
+  const [failed, setFailed] = useState(false);
 
   const stop = useCallback(() => setPaused(true), []);
 
@@ -74,15 +76,31 @@ export const ListenAudio = ({ post, tracks, uiLanguage, onExpired }: ListenAudio
     }
   };
 
+  const _renew = () =>
+    Promise.resolve()
+      .then(onExpired)
+      .catch(() => {
+        setPaused(true);
+        setFailed(true);
+      });
+
   const _onError = () => {
     // Most likely the signed URL expired: fetch a fresh one and pick up here.
     if (refreshesRef.current >= MAX_URL_REFRESHES) {
       setPaused(true);
+      setFailed(true);
       return;
     }
     refreshesRef.current += 1;
     resumeRef.current = time;
-    Promise.resolve(onExpired()).catch(() => undefined);
+    _renew();
+  };
+
+  const _retry = () => {
+    setFailed(false);
+    refreshesRef.current = 0;
+    resumeRef.current = time;
+    _renew();
   };
 
   const _switchTrack = (next: string) => {
@@ -139,6 +157,15 @@ export const ListenAudio = ({ post, tracks, uiLanguage, onExpired }: ListenAudio
           <Text style={styles.chipText}>{`${speed}x`}</Text>
         </TouchableOpacity>
       </View>
+
+      {failed && (
+        <View style={styles.failedRow}>
+          <Text style={styles.failedText}>{intl.formatMessage({ id: 'listen.unavailable' })}</Text>
+          <TouchableOpacity onPress={_retry} accessibilityRole="button">
+            <Text style={styles.retryText}>{intl.formatMessage({ id: 'listen.retry' })}</Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       {tracks.length > 1 && (
         <View
@@ -238,6 +265,22 @@ const styles = EStyleSheet.create({
   slider: {
     flex: 1,
     height: 32,
+  },
+  failedRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  failedText: {
+    flex: 1,
+    fontSize: 12,
+    color: '$primaryDarkGray',
+  },
+  retryText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '$primaryBlue',
   },
   langRow: {
     flexDirection: 'row',

@@ -119,7 +119,9 @@ export const ListenBar = ({ post }: ListenBarProps) => {
   // The text-only guess holds until the server has analysed the post.
   const analysedSupported =
     !!status && status.status !== 'unsupported' && status.languages.length > 0;
-  if (isComment || !post?.body || words < 10 || status?.status === 'unsupported') return null;
+  // No minimum length: the service has none, and a short post unlocked on the web must
+  // still play here.
+  if (isComment || !post?.body || status?.status === 'unsupported') return null;
   if (unreadable && !analysedSupported) return null;
 
   const tracks = view.unlocked && view.status === 'ready' ? status?.tracks ?? [] : [];
@@ -130,7 +132,12 @@ export const ListenBar = ({ post }: ListenBarProps) => {
         tracks={tracks}
         uiLanguage={appLang}
         onExpired={async () => {
-          await refetch();
+          // refetch() reports a failure in its result rather than throwing: turn it (and
+          // an answer without fresh tracks) into an error the player can show.
+          const result = await refetch();
+          if (result.isError || !result.data?.tracks?.length) {
+            throw result.error ?? new Error('listen: no fresh audio URLs');
+          }
         }}
       />
     );

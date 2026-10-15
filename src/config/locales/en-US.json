@@ -1872,7 +1872,9 @@
     "pause": "Pause",
     "seek": "Seek",
     "speed": "Playback speed",
-    "language": "Audio language"
+    "language": "Audio language",
+    "unavailable": "The audio could not be loaded.",
+    "retry": "Try again"
   },
   "posting_authority": {
     "title": "Enable Faster Posting",

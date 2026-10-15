@@ -115,12 +115,42 @@ describe('ListenAudio', () => {
     expect(mockDeactivate).toHaveBeenCalled();
   });
 
-  it('renews an expired URL a few times, then stops', () => {
+  it('renews an expired URL a few times, then stops', async () => {
     const onExpired = jest.fn();
     const tree = render(onExpired);
     press(byLabel(tree, 'listen.play'));
-    for (let i = 0; i < 5; i++) TestRenderer.act(() => video(tree).props.onError({}));
+    for (let i = 0; i < 5; i++) {
+      // eslint-disable-next-line no-await-in-loop
+      await TestRenderer.act(async () => {
+        video(tree).props.onError({});
+      });
+    }
     expect(onExpired).toHaveBeenCalledTimes(3);
     expect(video(tree).props.paused).toBe(true);
+    expect(tree.root.findAll((n) => n.props.children === 'listen.unavailable')).not.toHaveLength(0);
+  });
+
+  it('says so when the URL cannot be renewed, and retries on request', async () => {
+    const onExpired = jest
+      .fn()
+      .mockRejectedValueOnce(new Error('401'))
+      .mockResolvedValue(undefined);
+    const tree = render(onExpired);
+    press(byLabel(tree, 'listen.play'));
+    await TestRenderer.act(async () => {
+      video(tree).props.onError({});
+    });
+    expect(onExpired).toHaveBeenCalledTimes(1);
+    expect(video(tree).props.paused).toBe(true);
+    const retry = tree.root.find(
+      (n) =>
+        typeof n.props.onPress === 'function' &&
+        n.findAll((c) => c.props.children === 'listen.retry').length > 0,
+    );
+    await TestRenderer.act(async () => {
+      retry.props.onPress();
+    });
+    expect(onExpired).toHaveBeenCalledTimes(2);
+    expect(tree.root.findAll((n) => n.props.children === 'listen.unavailable')).toHaveLength(0);
   });
 });

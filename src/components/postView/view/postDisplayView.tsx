@@ -475,7 +475,7 @@ const PostDisplayView = ({
                 </View>
               </View>
               {post && <PostReadingMetadata post={post} />}
-              {post && <ListenBar post={post} />}
+              <ListenBar post={post} />
               <PostTranslateInline post={post} onTranslate={_handleTranslatedBody} />
               {translatedBody ? (
                 <Text
