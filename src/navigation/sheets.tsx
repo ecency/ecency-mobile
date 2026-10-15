@@ -40,7 +40,6 @@ import ReceiveQrSheet from '../components/receiveQrSheet/receiveQrSheet';
 import WalletHistoryFiltersSheet from '../components/walletHistoryFiltersSheet/walletHistoryFiltersSheet';
 import BalanceAnalyticsSheet from '../components/balanceAnalyticsSheet/balanceAnalyticsSheet';
 import { TippingDialog } from '../components/tipping';
-import { TTSSettingsSheet } from '../components/textToSpeech/ttsSettingsSheet';
 import { ActionModalPayload } from '../components/actionModal/container/actionModalContainer';
 import type { ChatNewGroupResult, ChatRenameGroupResult } from '../components/chatGroupSheets';
 
@@ -58,7 +57,6 @@ export enum SheetNames {
   CHAT_NEW_GROUP = 'chat_new_group',
   CHAT_RENAME_GROUP = 'chat_rename_group',
   TIPPING_DIALOG = 'tipping_dialog',
-  TTS_SETTINGS = 'tts_settings',
   POSTING_AUTHORITY_PROMPT = 'posting_authority_prompt',
   HIVE_AUTH_BROADCAST = 'hive_auth_broadcast',
   EMOJI_PICKER = 'emoji_picker',
@@ -92,7 +90,6 @@ registerSheet(SheetNames.CHAT_REACTORS, ChatReactorsSheet);
 registerSheet(SheetNames.CHAT_NEW_GROUP, ChatNewGroupSheet);
 registerSheet(SheetNames.CHAT_RENAME_GROUP, ChatRenameGroupSheet);
 registerSheet(SheetNames.TIPPING_DIALOG, TippingDialog);
-registerSheet(SheetNames.TTS_SETTINGS, TTSSettingsSheet);
 registerSheet(SheetNames.POSTING_AUTHORITY_PROMPT, PostingAuthoritySheet);
 registerSheet(SheetNames.HIVE_AUTH_BROADCAST, HiveAuthBroadcastSheet);
 registerSheet(SheetNames.EMOJI_PICKER, EmojiPickerSheet);
@@ -212,11 +209,6 @@ declare module 'react-native-actions-sheet' {
       payload: {
         post: any;
         onSuccess?: (data: any) => void;
-      };
-    }>;
-    tts_settings: SheetDefinition<{
-      payload?: {
-        onSettingsChanged?: () => void;
       };
     }>;
     posting_authority_prompt: SheetDefinition<{

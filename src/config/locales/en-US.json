@@ -1127,7 +1127,6 @@
     "image_saved": "Image saved to Photo Gallery",
     "words": "Words",
     "reading": "Reading",
-    "listen": "Listen",
     "min": "min",
     "summarize_start": "Start"
   },
@@ -1853,19 +1852,29 @@
     "request_sent": "Your request for deletion is sent",
     "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data"
   },
-  "tts": {
-    "settings_title": "Text-to-Speech Settings",
-    "voice": "Voice",
-    "voice_hint": "System default voice will be used",
-    "speed": "Speed",
-    "pitch": "Pitch",
-    "test_voice": "Test Voice",
-    "settings_info": "These settings will be used when reading posts aloud",
+  "listen": {
+    "title": "Listen to this post",
+    "minutes": "~{n} min",
+    "login": "Log in",
+    "unlock": "Unlock · {n} Points",
+    "confirm": "Spend {n} Points to listen to this post? The audio is yours to replay any time.",
+    "not_enough_title": "Not enough Points",
+    "not_enough": "Listening needs {required} Points and you have {available}.",
+    "get_points": "Get Points",
+    "unlock_failed": "Could not unlock the audio, please try again",
+    "failed_refunded": "Audio could not be made, your Points were refunded",
+    "preparing": "Preparing audio…",
+    "preparing_eta": "Preparing audio, about {n} min…",
+    "preparing_progress": "Preparing audio · {n}%",
+    "waiting": "Waiting in line, {n} ahead…",
+    "next_in_line": "Next in line…",
     "play": "Play",
     "pause": "Pause",
-    "language": "Language",
-    "language_auto": "Auto-detect",
-    "language_hint": "Auto-detect chooses the language based on post content"
+    "seek": "Seek",
+    "speed": "Playback speed",
+    "language": "Audio language",
+    "unavailable": "The audio could not be loaded.",
+    "retry": "Try again"
   },
   "posting_authority": {
     "title": "Enable Faster Posting",

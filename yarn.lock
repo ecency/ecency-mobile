@@ -1210,10 +1210,10 @@
     url "^0.11.0"
     xss "^1.0.9"
 
-"@ecency/sdk@^2.4.11":
-  version "2.4.11"
-  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.4.11.tgz#8aafa485d10e5e271b08f249b6b5f3545c292b95"
-  integrity sha512-DEo10W78up7D7ZenEjjwJZY+nKlB33Q6zryyRow3eld77pa8EYYG7rFVQB7WPxHR2K34AE8COKSg6SQ9lMqChg==
+"@ecency/sdk@^2.4.26":
+  version "2.4.26"
+  resolved "https://registry.yarnpkg.com/@ecency/sdk/-/sdk-2.4.26.tgz#d6ec6dc449ab12ddfe39082e05eb5dd91889c548"
+  integrity sha512-fkzVSvShL7vY84uzl7n5aqzASe7flpV8c5BvSpIO3wHABEwdDKIYm+9D0vUXLbwJyQc4OEeI6/mBJhSInqyjkg==
   dependencies:
     "@noble/ciphers" "^2.1.1"
     "@noble/curves" "^2.0.1"
@@ -6724,11 +6724,6 @@ expo-modules-core@2.5.0:
   integrity sha512-aIbQxZE2vdCKsolQUl6Q9Farlf8tjh/ROR4hfN1qT7QBGPl1XrJGnaOKkcgYaGrlzCPg/7IBe0Np67GzKMZKKQ==
   dependencies:
     invariant "^2.2.4"
-
-expo-speech@^13.1.7:
-  version "13.1.7"
-  resolved "https://registry.yarnpkg.com/expo-speech/-/expo-speech-13.1.7.tgz#b5b4cc3617eaf9040dd3eef3fdf20e7d81cb4418"
-  integrity sha512-RMMgK6IIPQD9uLhmY2Q9v+2j3wmTGqB/qZ7sdy5//5TLCzFwAq1vlpy5A2psVsctoWVxUO4EmlaNai0ahQmKRg==
 
 expo-store-review@~8.1.5:
   version "8.1.5"

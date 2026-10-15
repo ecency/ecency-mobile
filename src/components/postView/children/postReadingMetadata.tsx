@@ -2,11 +2,8 @@ import React, { useMemo, useState, useCallback, useEffect, memo } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
-import { SheetManager } from 'react-native-actions-sheet';
 import { useAiAssist } from '@ecency/sdk';
-import { Icon } from '../../icon';
 import { DropdownButton } from '../../dropdownButton';
-import { TTSControls } from '../../textToSpeech/ttsControls';
 import {
   extractPlainTextForTTS,
   hasReadableContent,
@@ -16,7 +13,6 @@ import {
 import { getTranslation, fetchSupportedLangs } from '../../../providers/translation/translation';
 import { useAuth, useAppSelector } from '../../../hooks';
 import { selectLanguage } from '../../../redux/selectors';
-import { SheetNames } from '../../../navigation/sheets';
 
 interface PostReadingMetadataProps {
   post: any;
@@ -50,10 +46,6 @@ const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
 
     return { wordCount: words, readingTime: minutes, plainText: text };
   }, [post?.body]);
-
-  const handleSettingsPress = () => {
-    SheetManager.show(SheetNames.TTS_SETTINGS);
-  };
 
   const handleSummarize = useCallback(async () => {
     if (!username || plainText.length < 50) return;
@@ -179,27 +171,6 @@ const PostReadingMetadataComponent = ({ post }: PostReadingMetadataProps) => {
           </Text>
         </View>
 
-        <View style={styles.divider} />
-
-        <View style={styles.listenSection}>
-          <Text style={styles.metadataLabel}>{intl.formatMessage({ id: 'post.listen' })}</Text>
-          <View style={styles.listenControls}>
-            <TTSControls post={post} style={styles.ttsControls} showLabel={true} />
-            <TouchableOpacity
-              onPress={handleSettingsPress}
-              style={styles.settingsButton}
-              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            >
-              <Icon
-                iconType="MaterialCommunityIcons"
-                name="cog-outline"
-                size={20}
-                color={EStyleSheet.value('$iconColor')}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-
         {!!username && wordCount >= 50 && (
           <>
             <View style={styles.divider} />
@@ -300,21 +271,6 @@ const styles = EStyleSheet.create({
     width: 1,
     height: 40,
     backgroundColor: '$primaryLightBackground',
-  },
-  listenSection: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  listenControls: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  ttsControls: {
-    marginRight: 4,
-  },
-  settingsButton: {
-    padding: 4,
   },
   summarizeSection: {
     flex: 1,

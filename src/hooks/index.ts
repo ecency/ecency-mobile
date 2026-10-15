@@ -10,6 +10,7 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export const useAppStore = () => useStore<RootState>();
 
 export * from './useAuth';
+export * from './useRefreshAccessToken';
 export * from './usePostLogin';
 export * from './useLinkProcessor';
 export * from './useStateWithRef';

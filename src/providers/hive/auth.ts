@@ -23,6 +23,7 @@ import {
   getSCAccount,
   setPinCode,
 } from '../../storage/storage';
+import { authEpoch, guardedAuthWrite } from '../../storage/authWriteGuard';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
 import { delay } from '../../utils/editor';
@@ -504,7 +505,24 @@ export const updatePinCode = (data: any) =>
     }
   });
 
-export const refreshSCToken = async (userData: any, pinCode: string | undefined) => {
+/**
+ * Renews a HiveSigner access token and stores it (SC account + user data).
+ *
+ * `isCurrent`, when given, is asked after the network call and before anything is
+ * stored: a caller that may still be waiting when the reader logs out or switches
+ * accounts passes it, and gets null back (with nothing written) when the answer is no,
+ * so a late renewal can never write a logged-out account's credentials back to disk.
+ */
+export const refreshSCToken = async (
+  userData: any,
+  pinCode: string | undefined,
+  options?: { isCurrent?: () => boolean },
+): Promise<string | null> => {
+  // Taken before anything is awaited, so a logout or account removal that begins at any
+  // point after this (during the account read, the network call or the write) turns the
+  // write below into a no-op (see storage/authWriteGuard). Callers read userData
+  // synchronously just before calling, so the mark matches what they read.
+  const epoch = authEpoch(userData.username);
   const scAccount = await getSCAccount(userData.username);
 
   if (!scAccount || !scAccount.refreshToken) {
@@ -517,14 +535,25 @@ export const refreshSCToken = async (userData: any, pinCode: string | undefined)
 
   try {
     const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
+    if (options?.isCurrent && !options.isCurrent()) {
+      return null;
+    }
 
-    await setSCAccount(newSCAccountData);
     const accessToken = newSCAccountData.access_token;
     const encryptedAccessToken = encryptKey(accessToken, pinCode!);
-    await updateUserData({
-      ...userData,
-      accessToken: encryptedAccessToken,
+    const stored = await guardedAuthWrite(userData.username, epoch, async () => {
+      await setSCAccount(newSCAccountData);
+      await updateUserData({
+        ...userData,
+        accessToken: encryptedAccessToken,
+      });
+      return true;
     });
+    if (!stored) {
+      // The account was being removed: nothing was written. A caller that asked about
+      // the reader learns so; the others keep the token they had, as on any failure.
+      return options?.isCurrent ? null : get(userData, 'accessToken', '');
+    }
     return encryptedAccessToken;
   } catch (error) {
     if (now > expireDate) {
