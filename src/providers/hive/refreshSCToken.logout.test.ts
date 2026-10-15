@@ -50,6 +50,33 @@ describe('refreshSCToken and logout', () => {
     );
   });
 
+  it('leaves nothing behind when a refresh starts while logout is clearing', async () => {
+    // the renewal answers after the logout has finished: the dangerous order
+    mockRenew.mockImplementation(() => new Promise((r) => setTimeout(() => r(RENEWED), 30)));
+    const realSetItem = AsyncStorage.setItem;
+    let held = false;
+    let clearing!: () => void;
+    const clearStarted = new Promise<void>((r) => {
+      clearing = r;
+    });
+    // hold logout's first clear (the user list) open; the SC account is still stored
+    AsyncStorage.setItem = (async (k: string, v: string) => {
+      if (!held && k === 'user') {
+        held = true;
+        clearing();
+        await new Promise((r) => setTimeout(r, 10));
+      }
+      return realSetItem(k, v);
+    }) as typeof AsyncStorage.setItem;
+    const loggingOut = removeAllUserData();
+    await clearStarted;
+    const refreshing = refreshSCToken(USER, '1234');
+    await Promise.all([refreshing, loggingOut]);
+    AsyncStorage.setItem = realSetItem;
+    expect(await stored('sc_accounts')).toEqual([]);
+    expect(await stored('user')).toEqual([]);
+  });
+
   it('leaves nothing behind when logout lands during the first account read', async () => {
     mockRenew.mockResolvedValue(RENEWED);
     const realGetItem = AsyncStorage.getItem;

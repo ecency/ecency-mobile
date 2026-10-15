@@ -1,7 +1,7 @@
 import sha256 from 'crypto-js/sha256';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import parseVersionNumber from '../utils/parseVersionNumber';
-import { beginAuthRemoval } from './authWriteGuard';
+import { withAuthRemoval } from './authWriteGuard';
 
 // CONSTANTS
 const USER_SCHEMA = 'user';
@@ -89,15 +89,16 @@ export const updateUserData = async (userData: any) => {
 
 export const removeUserData = async (username: string) => {
   try {
-    await beginAuthRemoval(username);
-    let account = await getItemFromStorage(USER_SCHEMA);
+    return await withAuthRemoval(username, async () => {
+      let account = await getItemFromStorage(USER_SCHEMA);
 
-    if (account.some((e: any) => e.username === username)) {
-      account = account.filter((item: any) => item.username !== username);
-      await setItemToStorage(USER_SCHEMA, account);
-    }
+      if (account.some((e: any) => e.username === username)) {
+        account = account.filter((item: any) => item.username !== username);
+        await setItemToStorage(USER_SCHEMA, account);
+      }
 
-    return true;
+      return true;
+    });
   } catch (error: any) {
     return error;
   }
@@ -105,10 +106,11 @@ export const removeUserData = async (username: string) => {
 
 export const removeAllUserData = async () => {
   try {
-    await beginAuthRemoval();
-    await setItemToStorage(USER_SCHEMA, []);
-    await setItemToStorage(SC_ACCOUNTS, []);
-    return true;
+    return await withAuthRemoval(undefined, async () => {
+      await setItemToStorage(USER_SCHEMA, []);
+      await setItemToStorage(SC_ACCOUNTS, []);
+      return true;
+    });
   } catch (error: any) {
     return error;
   }
@@ -116,9 +118,10 @@ export const removeAllUserData = async () => {
 
 export const removeAllSCAccounts = async () => {
   try {
-    await beginAuthRemoval();
-    await setItemToStorage(SC_ACCOUNTS, []);
-    return true;
+    return await withAuthRemoval(undefined, async () => {
+      await setItemToStorage(SC_ACCOUNTS, []);
+      return true;
+    });
   } catch (error: any) {
     return error;
   }
@@ -652,17 +655,18 @@ export const getAllSCAccounts = async () => {
 
 export const removeSCAccount = async (username: string) => {
   try {
-    await beginAuthRemoval(username);
-    let scAccount = await getItemFromStorage(SC_ACCOUNTS);
+    return await withAuthRemoval(username, async () => {
+      let scAccount = await getItemFromStorage(SC_ACCOUNTS);
 
-    if (scAccount.some((e: any) => e.username === username)) {
-      scAccount = scAccount.filter((item: any) => item.username !== username);
+      if (scAccount.some((e: any) => e.username === username)) {
+        scAccount = scAccount.filter((item: any) => item.username !== username);
 
-      await setItemToStorage(SC_ACCOUNTS, scAccount);
+        await setItemToStorage(SC_ACCOUNTS, scAccount);
 
-      return true;
-    }
-    return new Error('Could not remove selected user');
+        return true;
+      }
+      return new Error('Could not remove selected user');
+    });
   } catch (error: any) {
     return error;
   }
