@@ -23,6 +23,7 @@ import {
   getSCAccount,
   setPinCode,
 } from '../../storage/storage';
+import { authEpoch, guardedAuthWrite } from '../../storage/authWriteGuard';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
 import { delay } from '../../utils/editor';
@@ -526,6 +527,9 @@ export const refreshSCToken = async (
 
   const now = new Date().getTime();
   const expireDate = new Date(scAccount.expireDate).getTime();
+  // Taken before the network call: a logout or account removal that begins while it is
+  // in flight makes the write below a no-op (see storage/authWriteGuard).
+  const epoch = authEpoch(userData.username);
 
   try {
     const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
@@ -533,13 +537,21 @@ export const refreshSCToken = async (
       return null;
     }
 
-    await setSCAccount(newSCAccountData);
     const accessToken = newSCAccountData.access_token;
     const encryptedAccessToken = encryptKey(accessToken, pinCode!);
-    await updateUserData({
-      ...userData,
-      accessToken: encryptedAccessToken,
+    const stored = await guardedAuthWrite(userData.username, epoch, async () => {
+      await setSCAccount(newSCAccountData);
+      await updateUserData({
+        ...userData,
+        accessToken: encryptedAccessToken,
+      });
+      return true;
     });
+    if (!stored) {
+      // The account was being removed: nothing was written. A caller that asked about
+      // the reader learns so; the others keep the token they had, as on any failure.
+      return options?.isCurrent ? null : get(userData, 'accessToken', '');
+    }
     return encryptedAccessToken;
   } catch (error) {
     if (now > expireDate) {

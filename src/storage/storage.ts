@@ -1,6 +1,7 @@
 import sha256 from 'crypto-js/sha256';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import parseVersionNumber from '../utils/parseVersionNumber';
+import { beginAuthRemoval } from './authWriteGuard';
 
 // CONSTANTS
 const USER_SCHEMA = 'user';
@@ -88,6 +89,7 @@ export const updateUserData = async (userData: any) => {
 
 export const removeUserData = async (username: string) => {
   try {
+    await beginAuthRemoval(username);
     let account = await getItemFromStorage(USER_SCHEMA);
 
     if (account.some((e: any) => e.username === username)) {
@@ -103,6 +105,7 @@ export const removeUserData = async (username: string) => {
 
 export const removeAllUserData = async () => {
   try {
+    await beginAuthRemoval();
     await setItemToStorage(USER_SCHEMA, []);
     await setItemToStorage(SC_ACCOUNTS, []);
     return true;
@@ -113,6 +116,7 @@ export const removeAllUserData = async () => {
 
 export const removeAllSCAccounts = async () => {
   try {
+    await beginAuthRemoval();
     await setItemToStorage(SC_ACCOUNTS, []);
     return true;
   } catch (error: any) {
@@ -648,6 +652,7 @@ export const getAllSCAccounts = async () => {
 
 export const removeSCAccount = async (username: string) => {
   try {
+    await beginAuthRemoval(username);
     let scAccount = await getItemFromStorage(SC_ACCOUNTS);
 
     if (scAccount.some((e: any) => e.username === username)) {
