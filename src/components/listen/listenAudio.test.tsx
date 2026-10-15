@@ -167,6 +167,25 @@ describe('ListenAudio', () => {
     expect(tree.root.findAll((n) => n.props.children === 'listen.unavailable')).not.toHaveLength(0);
   });
 
+  it('clears the failure once a later renewal works', async () => {
+    const onExpired = jest
+      .fn()
+      .mockRejectedValueOnce(new Error('401'))
+      .mockResolvedValue(undefined);
+    const tree = render(onExpired);
+    press(byLabel(tree, 'listen.play'));
+    const fail = async () =>
+      TestRenderer.act(async () => {
+        video(tree).props.onError({});
+      });
+    await fail();
+    expect(tree.root.findAll((n) => n.props.children === 'listen.unavailable')).not.toHaveLength(0);
+    // the reader presses play again; the next error renews successfully
+    press(byLabel(tree, 'listen.play'));
+    await fail();
+    expect(tree.root.findAll((n) => n.props.children === 'listen.unavailable')).toHaveLength(0);
+  });
+
   it('says so when the URL cannot be renewed, and retries on request', async () => {
     const onExpired = jest
       .fn()

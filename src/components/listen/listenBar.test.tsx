@@ -18,17 +18,20 @@ jest.mock('react-intl', () => ({
 }));
 
 const mockStatus: { current: any } = { current: undefined };
+const mockStatusError: { current: Error | null } = { current: null };
 const mockRefetch = jest.fn();
 const mockFetchQuery = jest.fn();
 jest.mock('@tanstack/react-query', () => ({
   useQueryClient: () => ({ fetchQuery: (...args: any[]) => mockFetchQuery(...args) }),
   useQuery: (options: any) => ({
     data: options.enabled === false ? undefined : mockStatus.current,
+    error: mockStatusError.current,
     refetch: mockRefetch,
   }),
 }));
 
 const mockMutate = jest.fn();
+const mockMakeKey = jest.fn(() => 'key-1234567890');
 const mockStatusOptions = jest.fn(
   (author: string, permlink: string, username?: string, code?: string) => ({
     queryKey: ['listen', author, permlink, username, code],
@@ -37,7 +40,7 @@ const mockStatusOptions = jest.fn(
 jest.mock('@ecency/sdk', () => ({
   getListenStatusQueryOptions: (...args: any[]) => (mockStatusOptions as any)(...args),
   useListenUnlock: () => ({ mutate: mockMutate, isPending: false }),
-  makeIdempotencyKey: () => 'key-1234567890',
+  makeIdempotencyKey: () => mockMakeKey(),
 }));
 
 const mockAuth: { current: { username?: string; code?: string } } = { current: {} };
@@ -107,8 +110,10 @@ describe('ListenBar', () => {
 
   beforeEach(() => {
     mockStatus.current = undefined;
+    mockStatusError.current = null;
     mockAuth.current = {};
     mockMutate.mockReset();
+    mockMakeKey.mockImplementation(() => 'key-1234567890');
     mockLogin.mockReset();
     mockNavigate.mockReset();
     mockStatusOptions.mockClear();
@@ -169,11 +174,10 @@ describe('ListenBar', () => {
   it('sends a reader short of Points to buy them', () => {
     mockAuth.current = { username: 'alice', code: 'token' };
     mockStatus.current = { cost: 50, unlocked: false, status: 'none', languages: LANGS };
-    mockMutate.mockImplementation((_params, { onError, onSettled }) => {
+    mockMutate.mockImplementation((_params, { onError }) => {
       onError(
         Object.assign(new Error('402'), { status: 402, data: { required: 50, available: 12 } }),
       );
-      onSettled();
     });
     const tree = render();
     pressText(tree, 'listen.unlock');
@@ -267,6 +271,67 @@ describe('ListenBar', () => {
     mockRefreshToken.mockResolvedValueOnce('newer-token');
     mockFetchQuery.mockResolvedValueOnce({ unlocked: false });
     await expect(player.props.onExpired()).rejects.toThrow();
+  });
+
+  it("renews an expired token once when the reader's status is refused", async () => {
+    mockAuth.current = { username: 'alice', code: 'old-token' };
+    mockStatusError.current = new Error('Failed to fetch listen status: 401');
+    mockRefreshToken.mockResolvedValue('new-token');
+    mockFetchQuery.mockResolvedValue({ unlocked: true, status: 'ready', languages: LANGS });
+    const tree = render();
+    await TestRenderer.act(async () => undefined);
+    expect(mockRefreshToken).toHaveBeenCalledTimes(1);
+    expect(mockStatusOptions).toHaveBeenCalledWith(
+      'noelyss',
+      'plaza',
+      'alice',
+      'new-token',
+      undefined,
+    );
+    expect(mockFetchQuery.mock.calls[0][0]).toMatchObject({ staleTime: 0 });
+    // once per mount, not on every render
+    TestRenderer.act(() => tree.update(<ListenBar post={{ ...POST }} />));
+    await TestRenderer.act(async () => undefined);
+    expect(mockRefreshToken).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not renew for other errors, or for a visitor', async () => {
+    mockAuth.current = { username: 'alice', code: 'token' };
+    mockStatusError.current = new Error('Failed to fetch listen status: 500');
+    render();
+    mockAuth.current = {};
+    mockStatusError.current = new Error('Failed to fetch listen status: 401');
+    render();
+    await TestRenderer.act(async () => undefined);
+    expect(mockRefreshToken).not.toHaveBeenCalled();
+  });
+
+  it('renews an expired token and resends the same unlock, once', async () => {
+    mockAuth.current = { username: 'alice', code: 'old-token' };
+    mockStatus.current = { cost: 50, unlocked: false, status: 'none', languages: LANGS };
+    let n = 0;
+    // a fresh key per call, so reusing the first one is visible
+    mockMakeKey.mockImplementation(() => {
+      n += 1;
+      return `key-${n}-abcdefgh`;
+    });
+    const refused = Object.assign(new Error('401'), { status: 401 });
+    mockMutate.mockImplementation((_params, { onError }) => onError(refused));
+    mockRefreshToken.mockResolvedValue('new-token');
+    const tree = render();
+    pressText(tree, 'listen.unlock');
+    await TestRenderer.act(async () => {
+      alert.mock.calls[0][2].find((b: any) => b.text === 'alert.confirm').onPress();
+    });
+    expect(mockRefreshToken).toHaveBeenCalledTimes(1);
+    expect(mockMutate).toHaveBeenCalledTimes(2);
+    const [first, second] = mockMutate.mock.calls.map((c) => c[0]);
+    expect(first.code).toBeUndefined();
+    expect(second.code).toBe('new-token');
+    // the same request: a replay, never a second charge
+    expect(second.idempotency_key).toBe(first.idempotency_key);
+    // refused again: no loop, the reader is told
+    expect(alert.mock.calls[alert.mock.calls.length - 1][1]).toBe('listen.unlock_failed');
   });
 
   it('plays the ready tracks', () => {

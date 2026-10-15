@@ -74,6 +74,7 @@ export const ListenAudio = ({ post, tracks, uiLanguage, onExpired }: ListenAudio
 
   const _onLoad = ({ duration: d }: { duration: number }) => {
     setLoading(false);
+    setFailed(false);
     if (Number.isFinite(d) && d > 0) setDuration(d);
     if (resumeRef.current !== null) {
       playerRef.current?.seek(resumeRef.current);
@@ -84,6 +85,8 @@ export const ListenAudio = ({ post, tracks, uiLanguage, onExpired }: ListenAudio
   const _renew = () =>
     Promise.resolve()
       .then(onExpired)
+      // Fresh URLs are on their way: whatever failed before no longer applies.
+      .then(() => setFailed(false))
       .catch(() => {
         setPaused(true);
         setFailed(true);

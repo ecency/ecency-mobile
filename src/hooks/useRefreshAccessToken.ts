@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import Config from 'react-native-config';
-import { useAppDispatch, useAppSelector } from './index';
+import { useAppDispatch, useAppSelector, useAppStore } from './index';
 import { selectCurrentAccount, selectPin } from '../redux/selectors';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 import { refreshSCToken } from '../providers/hive/auth';
@@ -14,11 +14,12 @@ import { decryptKey } from '../utils/crypto';
  *
  * For a screen that has been open long enough for its token to expire, before it gives
  * up on a request. Resolves to the decrypted token (the unchanged one when the account
- * has nothing to refresh, e.g. a key login); throws when the token has expired and
- * cannot be renewed.
+ * has nothing to refresh, e.g. a key login), or undefined when the reader logged out or
+ * switched accounts while it ran; throws when the token has expired and cannot be renewed.
  */
 export const useRefreshAccessToken = () => {
   const dispatch = useAppDispatch();
+  const store = useAppStore();
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinHash = useAppSelector(selectPin);
 
@@ -27,14 +28,22 @@ export const useRefreshAccessToken = () => {
     // HiveAuth and other default-pin accounts are encrypted with the default pin (useAuth).
     const pin = (pinHash ? getDigitPinCode(pinHash) : undefined) || Config.DEFAULT_PIN;
     const encrypted = await refreshSCToken(currentAccount.local, pin);
-    if (encrypted && encrypted !== currentAccount.local.accessToken) {
-      dispatch(
-        updateCurrentAccount({
-          ...currentAccount,
-          local: { ...currentAccount.local, accessToken: encrypted },
-        }),
-      );
+
+    // The request took a while: act on the account as it is now, not as it was.
+    const latest = selectCurrentAccount(store.getState());
+    if (!latest?.local || latest.name !== currentAccount.name) {
+      // Logged out or switched accounts meanwhile: this token is not theirs to store.
+      return undefined;
     }
+    if (encrypted && latest.local.accessToken === currentAccount.local.accessToken) {
+      if (encrypted !== latest.local.accessToken) {
+        dispatch(
+          updateCurrentAccount({ ...latest, local: { ...latest.local, accessToken: encrypted } }),
+        );
+      }
+    }
+    // Otherwise another refresh (e.g. the app resuming) stored a newer token already;
+    // the one renewed here is still valid to use.
     return (encrypted && decryptKey(encrypted, pin)) || undefined;
-  }, [currentAccount, pinHash, dispatch]);
+  }, [currentAccount, pinHash, dispatch, store]);
 };

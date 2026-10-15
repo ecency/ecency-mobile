@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Text, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -42,10 +42,40 @@ export const ListenBar = ({ post }: ListenBarProps) => {
   const unreadable = useMemo(() => isUnreadableScript(post?.body ?? ''), [post?.body]);
 
   const reader = username && code ? username : undefined;
-  const { data: status, refetch } = useQuery({
+  const {
+    data: status,
+    refetch,
+    error: statusError,
+  } = useQuery({
     ...getListenStatusQueryOptions(post?.author, post?.permlink, reader, code, post?.updated),
     enabled: !isComment && !!post?.author && !!post?.permlink,
   });
+
+  // A screen open long enough for the access token to expire gets a 401 for the reader's
+  // status: renew the token once and ask again with it (the answer lands in the same
+  // cache entry, so the bar updates).
+  const statusRenewedRef = useRef(false);
+  useEffect(() => {
+    if (!reader || !statusError || statusRenewedRef.current) return;
+    if (!/\b401\b/.test(statusError.message)) return;
+    statusRenewedRef.current = true;
+    refreshAccessToken()
+      .then((fresh) =>
+        fresh && fresh !== code
+          ? queryClient.fetchQuery({
+              ...getListenStatusQueryOptions(
+                post.author,
+                post.permlink,
+                reader,
+                fresh,
+                post.updated,
+              ),
+              staleTime: 0,
+            })
+          : undefined,
+      )
+      .catch(() => undefined);
+  }, [statusError, reader, code, post, refreshAccessToken, queryClient]);
 
   const unlock = useListenUnlock(username, code);
   const keyRef = useRef<string | undefined>(undefined);
@@ -55,56 +85,90 @@ export const ListenBar = ({ post }: ListenBarProps) => {
   const languages = view.languages.map((l) => languageDisplayName(l.lang)).join(' + ');
   const minutes = listenMinutes(view.languages, words);
 
+  const _unlockFailed = useCallback(() => {
+    Alert.alert(
+      intl.formatMessage({ id: 'alert.fail' }),
+      intl.formatMessage({ id: 'listen.unlock_failed' }),
+    );
+  }, [intl]);
+
+  // token: a renewed access token, when the first attempt's was refused.
+  const _send = useCallback(
+    (token?: string) => {
+      setBusy(true);
+      // Reused until the outcome is known, so a retry after a lost answer is a replay.
+      keyRef.current = keyRef.current ?? makeIdempotencyKey();
+      unlock.mutate(
+        {
+          author: post.author,
+          permlink: post.permlink,
+          updated: post.updated,
+          idempotency_key: keyRef.current,
+          ...(token ? { code: token } : {}),
+        },
+        {
+          onSuccess: () => {
+            keyRef.current = undefined;
+            setBusy(false);
+          },
+          onError: (err) => {
+            const { status: httpStatus, data } = err as Error & {
+              status?: number;
+              data?: { required?: number; available?: number };
+            };
+            if (httpStatus === 401 && !token) {
+              // The token expired while the screen was open: nothing was charged (the
+              // request never got past the proxy). Renew it and send the same request.
+              refreshAccessToken()
+                .then((fresh) => {
+                  if (fresh && fresh !== code) {
+                    _send(fresh);
+                    return;
+                  }
+                  keyRef.current = undefined;
+                  setBusy(false);
+                  _unlockFailed();
+                })
+                .catch(() => {
+                  keyRef.current = undefined;
+                  setBusy(false);
+                  _unlockFailed();
+                });
+              return;
+            }
+            setBusy(false);
+            // A definite answer: the next attempt is a new request.
+            if (httpStatus && httpStatus >= 400 && httpStatus < 500) keyRef.current = undefined;
+            if (httpStatus === 402) {
+              Alert.alert(
+                intl.formatMessage({ id: 'listen.not_enough_title' }),
+                intl.formatMessage(
+                  { id: 'listen.not_enough' },
+                  { required: data?.required ?? view.cost, available: data?.available ?? 0 },
+                ),
+                [
+                  { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'cancel' },
+                  {
+                    text: intl.formatMessage({ id: 'listen.get_points' }),
+                    onPress: () =>
+                      RootNavigation.navigate({ name: ROUTES.SCREENS.BOOST, params: { username } }),
+                  },
+                ],
+              );
+            } else {
+              _unlockFailed();
+            }
+          },
+        },
+      );
+    },
+    [unlock, post, intl, view.cost, username, code, refreshAccessToken, _unlockFailed],
+  );
+
   const _unlock = useCallback(() => {
     if (!username || busy || unlock.isPending) return;
-    setBusy(true);
-    // Reused until the outcome is known, so a retry after a lost answer is a replay.
-    keyRef.current = keyRef.current ?? makeIdempotencyKey();
-    unlock.mutate(
-      {
-        author: post.author,
-        permlink: post.permlink,
-        updated: post.updated,
-        idempotency_key: keyRef.current,
-      },
-      {
-        onSuccess: () => {
-          keyRef.current = undefined;
-        },
-        onError: (err) => {
-          const { status: httpStatus, data } = err as Error & {
-            status?: number;
-            data?: { required?: number; available?: number };
-          };
-          // A definite answer: the next attempt is a new request.
-          if (httpStatus && httpStatus >= 400 && httpStatus < 500) keyRef.current = undefined;
-          if (httpStatus === 402) {
-            Alert.alert(
-              intl.formatMessage({ id: 'listen.not_enough_title' }),
-              intl.formatMessage(
-                { id: 'listen.not_enough' },
-                { required: data?.required ?? view.cost, available: data?.available ?? 0 },
-              ),
-              [
-                { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'cancel' },
-                {
-                  text: intl.formatMessage({ id: 'listen.get_points' }),
-                  onPress: () =>
-                    RootNavigation.navigate({ name: ROUTES.SCREENS.BOOST, params: { username } }),
-                },
-              ],
-            );
-          } else {
-            Alert.alert(
-              intl.formatMessage({ id: 'alert.fail' }),
-              intl.formatMessage({ id: 'listen.unlock_failed' }),
-            );
-          }
-        },
-        onSettled: () => setBusy(false),
-      },
-    );
-  }, [username, busy, unlock, post, intl, view.cost]);
+    _send();
+  }, [username, busy, unlock.isPending, _send]);
 
   const _confirm = () => {
     // Points are spent: never on a single tap.
