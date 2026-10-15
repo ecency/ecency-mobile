@@ -18,6 +18,7 @@ import { PostPlaceHolder, StickyBar, TextWithIcon, NoPost } from '../../basicUIE
 import { Icon } from '../../icon';
 import { ParentPost } from '../../parentPost';
 import { PostReadingMetadata } from '../children/postReadingMetadata';
+import { ListenBar } from '../../listen/listenBar';
 import { PostTranslateInline } from '../children/postTranslateInline';
 
 // Styles
@@ -474,6 +475,7 @@ const PostDisplayView = ({
                 </View>
               </View>
               {post && <PostReadingMetadata post={post} />}
+              {post && <ListenBar post={post} />}
               <PostTranslateInline post={post} onTranslate={_handleTranslatedBody} />
               {translatedBody ? (
                 <Text

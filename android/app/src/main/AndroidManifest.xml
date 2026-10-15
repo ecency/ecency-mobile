@@ -11,6 +11,9 @@
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.front" android:required="false" />
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <!-- Listen: post audio keeps playing in the background with media controls -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
@@ -187,6 +190,16 @@
             tools:replace="android:value"
             android:name="google_analytics_adid_collection_enabled"
             android:value="false" />
+      <!-- react-native-video's media session service: Listen playback in the background
+           and its notification / lock-screen controls (showNotificationControls) -->
+      <service
+        android:name="com.brentvatne.exoplayer.VideoPlaybackService"
+        android:exported="false"
+        android:foregroundServiceType="mediaPlayback">
+        <intent-filter>
+          <action android:name="androidx.media3.session.MediaSessionService" />
+        </intent-filter>
+      </service>
     </application>
 
 </manifest>

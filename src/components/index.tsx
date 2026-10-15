@@ -120,7 +120,6 @@ import { DictationModal } from './dictationModal';
 import { ComposeTranslateModal } from './composeTranslateModal';
 import { ChatOptionsSheet } from './chatOptionsSheet';
 import { ChatChannelOptionsSheet } from './chatChannelOptionsSheet';
-import { TTSControls } from './textToSpeech/ttsControls';
 import { PostingAuthoritySheet } from './postingAuthoritySheet';
 import { HiveAuthBroadcastSheet } from './hiveAuthBroadcastSheet';
 import EmojiPickerSheet from './emojiPickerSheet';
@@ -310,7 +309,6 @@ export {
   CopyModal,
   ChatOptionsSheet,
   ChatChannelOptionsSheet,
-  TTSControls,
   PostingAuthoritySheet,
   HiveAuthBroadcastSheet,
   EmojiPickerSheet,
