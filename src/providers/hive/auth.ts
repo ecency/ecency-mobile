@@ -504,7 +504,19 @@ export const updatePinCode = (data: any) =>
     }
   });
 
-export const refreshSCToken = async (userData: any, pinCode: string | undefined) => {
+/**
+ * Renews a HiveSigner access token and stores it (SC account + user data).
+ *
+ * `isCurrent`, when given, is asked after the network call and before anything is
+ * stored: a caller that may still be waiting when the reader logs out or switches
+ * accounts passes it, and gets null back (with nothing written) when the answer is no,
+ * so a late renewal can never write a logged-out account's credentials back to disk.
+ */
+export const refreshSCToken = async (
+  userData: any,
+  pinCode: string | undefined,
+  options?: { isCurrent?: () => boolean },
+): Promise<string | null> => {
   const scAccount = await getSCAccount(userData.username);
 
   if (!scAccount || !scAccount.refreshToken) {
@@ -517,6 +529,9 @@ export const refreshSCToken = async (userData: any, pinCode: string | undefined)
 
   try {
     const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
+    if (options?.isCurrent && !options.isCurrent()) {
+      return null;
+    }
 
     await setSCAccount(newSCAccountData);
     const accessToken = newSCAccountData.access_token;

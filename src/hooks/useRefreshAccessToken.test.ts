@@ -41,7 +41,9 @@ describe('useRefreshAccessToken', () => {
   it('stores a renewed token in the current account and returns it decrypted', async () => {
     mockRefreshSCToken.mockResolvedValue('enc-new');
     await expect(useRefreshAccessToken()()).resolves.toBe('plain(enc-new,1234)');
-    expect(mockRefreshSCToken).toHaveBeenCalledWith(mockState.account.local, '1234');
+    expect(mockRefreshSCToken).toHaveBeenCalledWith(mockState.account.local, '1234', {
+      isCurrent: expect.any(Function),
+    });
     expect(mockDispatch).toHaveBeenCalledWith({
       type: 'UPDATE_CURRENT_ACCOUNT',
       payload: { name: 'alice', local: { username: 'alice', accessToken: 'enc-new' } },
@@ -58,7 +60,9 @@ describe('useRefreshAccessToken', () => {
     mockState.pin = null;
     mockRefreshSCToken.mockResolvedValue('enc-new');
     await useRefreshAccessToken()();
-    expect(mockRefreshSCToken).toHaveBeenCalledWith(mockState.account.local, 'default');
+    expect(mockRefreshSCToken).toHaveBeenCalledWith(mockState.account.local, 'default', {
+      isCurrent: expect.any(Function),
+    });
   });
 
   it('reports a token that expired and cannot be renewed', async () => {
@@ -73,6 +77,18 @@ describe('useRefreshAccessToken', () => {
       return 'enc-new';
     });
     await expect(useRefreshAccessToken()()).resolves.toBeUndefined();
+    expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
+  it('tells the storage step who is current, so a logout mid-request writes nothing', async () => {
+    let askedAfterLogout: boolean | undefined;
+    mockRefreshSCToken.mockImplementation(async (_local, _pin, { isCurrent }) => {
+      mockLatest.account = undefined; // logged out while the request was in flight
+      askedAfterLogout = isCurrent();
+      return askedAfterLogout ? 'enc-new' : null; // refreshSCToken stores nothing then
+    });
+    await expect(useRefreshAccessToken()()).resolves.toBeUndefined();
+    expect(askedAfterLogout).toBe(false);
     expect(mockDispatch).not.toHaveBeenCalled();
   });
 

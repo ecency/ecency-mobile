@@ -27,15 +27,22 @@ export const useRefreshAccessToken = () => {
     if (!currentAccount?.local) return undefined;
     // HiveAuth and other default-pin accounts are encrypted with the default pin (useAuth).
     const pin = (pinHash ? getDigitPinCode(pinHash) : undefined) || Config.DEFAULT_PIN;
-    const encrypted = await refreshSCToken(currentAccount.local, pin);
+    // Still this reader? Asked by refreshSCToken after the network call and before it
+    // stores anything, so a logout during the request never gets credentials written
+    // back to disk; and again here, before redux is touched.
+    const isCurrent = () => {
+      const now = selectCurrentAccount(store.getState());
+      return !!now?.local && now.name === currentAccount.name;
+    };
+    const encrypted = await refreshSCToken(currentAccount.local, pin, { isCurrent });
+    if (!encrypted || !isCurrent()) {
+      // Logged out or switched accounts meanwhile: this token is not theirs.
+      return undefined;
+    }
 
     // The request took a while: act on the account as it is now, not as it was.
     const latest = selectCurrentAccount(store.getState());
-    if (!latest?.local || latest.name !== currentAccount.name) {
-      // Logged out or switched accounts meanwhile: this token is not theirs to store.
-      return undefined;
-    }
-    if (encrypted && latest.local.accessToken === currentAccount.local.accessToken) {
+    if (latest.local.accessToken === currentAccount.local.accessToken) {
       if (encrypted !== latest.local.accessToken) {
         dispatch(
           updateCurrentAccount({ ...latest, local: { ...latest.local, accessToken: encrypted } }),
@@ -44,6 +51,6 @@ export const useRefreshAccessToken = () => {
     }
     // Otherwise another refresh (e.g. the app resuming) stored a newer token already;
     // the one renewed here is still valid to use.
-    return (encrypted && decryptKey(encrypted, pin)) || undefined;
+    return decryptKey(encrypted, pin) || undefined;
   }, [currentAccount, pinHash, dispatch, store]);
 };

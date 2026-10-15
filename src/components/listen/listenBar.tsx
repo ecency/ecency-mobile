@@ -52,29 +52,32 @@ export const ListenBar = ({ post }: ListenBarProps) => {
   });
 
   // A screen open long enough for the access token to expire gets a 401 for the reader's
-  // status: renew the token once and ask again with it (the answer lands in the same
-  // cache entry, so the bar updates).
+  // status: renew the token and ask again with it (the answer lands in the same cache
+  // entry, so the bar updates). One renewal at a time; a failed one is allowed again on
+  // the next refused status (React Query refetches on reconnect and focus), so a
+  // passing network failure does not leave the bar loading until the screen reopens.
   const statusRenewedRef = useRef(false);
   useEffect(() => {
     if (!reader || !statusError || statusRenewedRef.current) return;
     if (!/\b401\b/.test(statusError.message)) return;
     statusRenewedRef.current = true;
+    const allowAgain = () => {
+      statusRenewedRef.current = false;
+    };
     refreshAccessToken()
-      .then((fresh) =>
-        fresh && fresh !== code
-          ? queryClient.fetchQuery({
-              ...getListenStatusQueryOptions(
-                post.author,
-                post.permlink,
-                reader,
-                fresh,
-                post.updated,
-              ),
-              staleTime: 0,
-            })
-          : undefined,
-      )
-      .catch(() => undefined);
+      .then((fresh) => {
+        if (!fresh || fresh === code) {
+          allowAgain();
+          return undefined;
+        }
+        return queryClient
+          .fetchQuery({
+            ...getListenStatusQueryOptions(post.author, post.permlink, reader, fresh, post.updated),
+            staleTime: 0,
+          })
+          .catch(allowAgain);
+      })
+      .catch(allowAgain);
   }, [statusError, reader, code, post, refreshAccessToken, queryClient]);
 
   const unlock = useListenUnlock(username, code);

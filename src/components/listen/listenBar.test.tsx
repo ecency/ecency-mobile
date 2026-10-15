@@ -295,6 +295,30 @@ describe('ListenBar', () => {
     expect(mockRefreshToken).toHaveBeenCalledTimes(1);
   });
 
+  it('tries the status renewal again after a failed one, on the next refusal', async () => {
+    mockAuth.current = { username: 'alice', code: 'old-token' };
+    mockStatusError.current = new Error('Failed to fetch listen status: 401');
+    mockRefreshToken.mockRejectedValueOnce(new Error('network down'));
+    const tree = render();
+    await TestRenderer.act(async () => undefined);
+    expect(mockRefreshToken).toHaveBeenCalledTimes(1);
+
+    // back online: React Query refetches and is refused again (a new error)
+    mockRefreshToken.mockResolvedValueOnce('new-token');
+    mockFetchQuery.mockResolvedValueOnce({ unlocked: true, status: 'ready', languages: LANGS });
+    mockStatusError.current = new Error('Failed to fetch listen status: 401');
+    TestRenderer.act(() => tree.update(<ListenBar post={{ ...POST }} />));
+    await TestRenderer.act(async () => undefined);
+    expect(mockRefreshToken).toHaveBeenCalledTimes(2);
+    expect(mockStatusOptions).toHaveBeenCalledWith(
+      'noelyss',
+      'plaza',
+      'alice',
+      'new-token',
+      undefined,
+    );
+  });
+
   it('does not renew for other errors, or for a visitor', async () => {
     mockAuth.current = { username: 'alice', code: 'token' };
     mockStatusError.current = new Error('Failed to fetch listen status: 500');
