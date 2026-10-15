@@ -19,7 +19,9 @@ jest.mock('react-intl', () => ({
 
 const mockStatus: { current: any } = { current: undefined };
 const mockRefetch = jest.fn();
+const mockFetchQuery = jest.fn();
 jest.mock('@tanstack/react-query', () => ({
+  useQueryClient: () => ({ fetchQuery: (...args: any[]) => mockFetchQuery(...args) }),
   useQuery: (options: any) => ({
     data: options.enabled === false ? undefined : mockStatus.current,
     refetch: mockRefetch,
@@ -39,8 +41,10 @@ jest.mock('@ecency/sdk', () => ({
 }));
 
 const mockAuth: { current: { username?: string; code?: string } } = { current: {} };
+const mockRefreshToken = jest.fn();
 jest.mock('../../hooks', () => ({
   useAuth: () => mockAuth.current,
+  useRefreshAccessToken: () => mockRefreshToken,
   useAppSelector: () => 'en-US',
 }));
 jest.mock('../../redux/selectors', () => ({ selectLanguage: jest.fn() }));
@@ -108,6 +112,9 @@ describe('ListenBar', () => {
     mockLogin.mockReset();
     mockNavigate.mockReset();
     mockStatusOptions.mockClear();
+    mockRefetch.mockReset();
+    mockFetchQuery.mockReset();
+    mockRefreshToken.mockReset();
     alert = jest.spyOn(Alert, 'alert').mockImplementation(() => undefined);
   });
 
@@ -216,16 +223,50 @@ describe('ListenBar', () => {
     mockStatus.current = { cost: 50, unlocked: true, status: 'ready', languages: LANGS, tracks };
     const player = render().root.find((n) => (n.type as any) === 'ListenAudio');
 
+    // a fresh answer: nothing else to do
+    mockRefetch.mockResolvedValueOnce({ isError: false, data: { unlocked: true, tracks } });
+    await expect(player.props.onExpired()).resolves.toBeUndefined();
+    expect(mockRefreshToken).not.toHaveBeenCalled();
+
+    // refused, and the token cannot be renewed (unchanged): an error
     mockRefetch.mockResolvedValueOnce({ isError: true, error: new Error('401'), data: undefined });
+    mockRefreshToken.mockResolvedValueOnce('token');
     await expect(player.props.onExpired()).rejects.toThrow('401');
-    // answered, but locked (the token was refused): no fresh URLs, also an error
+
+    // answered, but locked (the token was refused) and renewal fails outright
     mockRefetch.mockResolvedValueOnce({
       isError: false,
       data: { unlocked: false, tracks: undefined },
     });
-    await expect(player.props.onExpired()).rejects.toThrow();
-    mockRefetch.mockResolvedValueOnce({ isError: false, data: { unlocked: true, tracks } });
+    mockRefreshToken.mockRejectedValueOnce(new Error('expired'));
+    await expect(player.props.onExpired()).rejects.toThrow('expired');
+  });
+
+  it('renews the token and asks again with it when the screen outlived it', async () => {
+    mockAuth.current = { username: 'alice', code: 'old-token' };
+    const tracks = [{ lang: 'en', seconds: 150, url: 'https://audio.test/en.m4a' }];
+    mockStatus.current = { cost: 50, unlocked: true, status: 'ready', languages: LANGS, tracks };
+    const player = render().root.find((n) => (n.type as any) === 'ListenAudio');
+    mockStatusOptions.mockClear();
+
+    mockRefetch.mockResolvedValueOnce({ isError: true, error: new Error('401'), data: undefined });
+    mockRefreshToken.mockResolvedValueOnce('new-token');
+    mockFetchQuery.mockResolvedValueOnce({ unlocked: true, tracks });
     await expect(player.props.onExpired()).resolves.toBeUndefined();
+    expect(mockStatusOptions).toHaveBeenCalledWith(
+      'noelyss',
+      'plaza',
+      'alice',
+      'new-token',
+      undefined,
+    );
+    expect(mockFetchQuery.mock.calls[0][0]).toMatchObject({ staleTime: 0 });
+
+    // renewed, but still no audio: an error, not a silent player
+    mockRefetch.mockResolvedValueOnce({ isError: true, error: new Error('401'), data: undefined });
+    mockRefreshToken.mockResolvedValueOnce('newer-token');
+    mockFetchQuery.mockResolvedValueOnce({ unlocked: false });
+    await expect(player.props.onExpired()).rejects.toThrow();
   });
 
   it('plays the ready tracks', () => {

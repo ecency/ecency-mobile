@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Text, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getListenStatusQueryOptions,
   makeIdempotencyKey,
@@ -10,7 +10,7 @@ import {
   type ListenStatus,
 } from '@ecency/sdk';
 import { Icon } from '../icon';
-import { useAuth, useAppSelector } from '../../hooks';
+import { useAuth, useAppSelector, useRefreshAccessToken } from '../../hooks';
 import { selectLanguage } from '../../redux/selectors';
 import showLoginAlert from '../../utils/showLoginAlert';
 import RootNavigation from '../../navigation/rootNavigation';
@@ -33,6 +33,8 @@ interface ListenBarProps {
 export const ListenBar = ({ post }: ListenBarProps) => {
   const intl = useIntl();
   const { username, code } = useAuth();
+  const refreshAccessToken = useRefreshAccessToken();
+  const queryClient = useQueryClient();
   const appLang = useAppSelector(selectLanguage) || 'en-US';
   const isComment = !!post?.parent_author;
 
@@ -132,12 +134,26 @@ export const ListenBar = ({ post }: ListenBarProps) => {
         tracks={tracks}
         uiLanguage={appLang}
         onExpired={async () => {
-          // refetch() reports a failure in its result rather than throwing: turn it (and
-          // an answer without fresh tracks) into an error the player can show.
+          // refetch() reports a failure in its result rather than throwing.
           const result = await refetch();
-          if (result.isError || !result.data?.tracks?.length) {
+          if (!result.isError && result.data?.tracks?.length) return;
+          // The screen may have outlived the access token as well as the URL: renew the
+          // token and ask once more with it, so "Try again" can recover.
+          const fresh = username ? await refreshAccessToken() : undefined;
+          if (!fresh || fresh === code) {
             throw result.error ?? new Error('listen: no fresh audio URLs');
           }
+          const renewed = await queryClient.fetchQuery({
+            ...getListenStatusQueryOptions(
+              post.author,
+              post.permlink,
+              username,
+              fresh,
+              post.updated,
+            ),
+            staleTime: 0,
+          });
+          if (!renewed?.tracks?.length) throw new Error('listen: no fresh audio URLs');
         }}
       />
     );
