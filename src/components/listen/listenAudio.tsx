@@ -12,6 +12,10 @@ import { speakPlayback } from '../postHtmlRenderer/speakPlaybackCoordinator';
 
 // A signed URL that keeps failing is really gone: stop asking for fresh ones.
 const MAX_URL_REFRESHES = 3;
+// Playing this far past the point that failed proves a renewal worked, so the count of
+// renewals starts over: a long session can outlive many URLs, but a file that loads and
+// then fails at the same spot still stops after MAX_URL_REFRESHES.
+const RENEWAL_PROVEN_SECONDS = 30;
 
 interface ListenAudioProps {
   post: any;
@@ -50,6 +54,7 @@ export const ListenAudio = ({ post, tracks, uiLanguage, onExpired }: ListenAudio
   // Where to resume after the source changes: a refreshed URL, or a switched track.
   const resumeRef = useRef<number | null>(null);
   const refreshesRef = useRef(0);
+  const failedAtRef = useRef(0);
   // The URL could not be renewed: say so and offer a retry rather than a silent player.
   const [failed, setFailed] = useState(false);
 
@@ -92,6 +97,7 @@ export const ListenAudio = ({ post, tracks, uiLanguage, onExpired }: ListenAudio
       return;
     }
     refreshesRef.current += 1;
+    failedAtRef.current = time;
     resumeRef.current = time;
     _renew();
   };
@@ -212,7 +218,15 @@ export const ListenAudio = ({ post, tracks, uiLanguage, onExpired }: ListenAudio
           onLoadStart={() => setLoading(true)}
           onLoad={_onLoad}
           onBuffer={({ isBuffering }) => setLoading(isBuffering)}
-          onProgress={({ currentTime }) => setTime(currentTime)}
+          onProgress={({ currentTime }) => {
+            setTime(currentTime);
+            if (
+              refreshesRef.current > 0 &&
+              currentTime - failedAtRef.current > RENEWAL_PROVEN_SECONDS
+            ) {
+              refreshesRef.current = 0;
+            }
+          }}
           // Lock-screen and notification play/pause act on the player directly; keep the
           // button in step with them. Not while loading or seeking: the player reports
           // "not playing" then too, and following it would pause before the start.

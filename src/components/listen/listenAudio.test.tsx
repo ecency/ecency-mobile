@@ -130,6 +130,43 @@ describe('ListenAudio', () => {
     expect(tree.root.findAll((n) => n.props.children === 'listen.unavailable')).not.toHaveLength(0);
   });
 
+  it('starts the renewal count over once playback moves well past the failure', async () => {
+    const onExpired = jest.fn();
+    const tree = render(onExpired);
+    press(byLabel(tree, 'listen.play'));
+    const fail = async () =>
+      TestRenderer.act(async () => {
+        video(tree).props.onError({});
+      });
+    await fail();
+    await fail();
+    await fail();
+    expect(onExpired).toHaveBeenCalledTimes(3);
+    // the third renewal worked: the audio plays on, a minute further
+    TestRenderer.act(() => video(tree).props.onProgress({ currentTime: 60 }));
+    await fail();
+    expect(onExpired).toHaveBeenCalledTimes(4);
+    expect(tree.root.findAll((n) => n.props.children === 'listen.unavailable')).toHaveLength(0);
+  });
+
+  it('still stops for a file that keeps failing at the same spot', async () => {
+    const onExpired = jest.fn();
+    const tree = render(onExpired);
+    press(byLabel(tree, 'listen.play'));
+    const fail = async () =>
+      TestRenderer.act(async () => {
+        video(tree).props.onError({});
+      });
+    await fail();
+    await fail();
+    await fail();
+    // it loads and plays a few seconds, then fails again: not a working renewal
+    TestRenderer.act(() => video(tree).props.onProgress({ currentTime: 5 }));
+    await fail();
+    expect(onExpired).toHaveBeenCalledTimes(3);
+    expect(tree.root.findAll((n) => n.props.children === 'listen.unavailable')).not.toHaveLength(0);
+  });
+
   it('says so when the URL cannot be renewed, and retries on request', async () => {
     const onExpired = jest
       .fn()
