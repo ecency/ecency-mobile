@@ -50,6 +50,36 @@ describe('refreshSCToken and logout', () => {
     );
   });
 
+  it('leaves nothing behind when logout lands during the first account read', async () => {
+    mockRenew.mockResolvedValue(RENEWED);
+    const realGetItem = AsyncStorage.getItem;
+    let held = false;
+    let readStarted!: () => void;
+    const started = new Promise<void>((r) => {
+      readStarted = r;
+    });
+    // hold refreshSCToken's own read of the stored account open (replaced, not spied:
+    // the jest.setup mock is a jest.fn, and restoring a spy on it wipes its behaviour)
+    // The value is read first and handed back later, as a slow storage read would: the
+    // account is still there when read, and the logout runs before the caller sees it.
+    AsyncStorage.getItem = (async (k: string) => {
+      const value = await realGetItem(k);
+      if (!held) {
+        held = true;
+        readStarted();
+        await new Promise((r) => setTimeout(r, 10));
+      }
+      return value;
+    }) as typeof AsyncStorage.getItem;
+    const refreshing = refreshSCToken(USER, '1234');
+    await started;
+    const loggingOut = removeAllUserData();
+    await Promise.all([refreshing, loggingOut]);
+    AsyncStorage.getItem = realGetItem;
+    expect(await stored('sc_accounts')).toEqual([]);
+    expect(await stored('user')).toEqual([]);
+  });
+
   it('leaves nothing behind when logout lands while the renewal is on the network', async () => {
     let answer!: (value: any) => void;
     mockRenew.mockReturnValue(
@@ -69,21 +99,25 @@ describe('refreshSCToken and logout', () => {
   it('leaves nothing behind when logout lands while the token is being written', async () => {
     mockRenew.mockResolvedValue(RENEWED);
     const realSetItem = AsyncStorage.setItem;
+    let held = false;
     let writeStarted!: () => void;
     const started = new Promise<void>((r) => {
       writeStarted = r;
     });
     // hold the first credential write open, so the logout overlaps it
-    const spy = jest.spyOn(AsyncStorage, 'setItem').mockImplementationOnce(async (k, v) => {
-      writeStarted();
-      await new Promise((r) => setTimeout(r, 10));
+    AsyncStorage.setItem = (async (k: string, v: string) => {
+      if (!held) {
+        held = true;
+        writeStarted();
+        await new Promise((r) => setTimeout(r, 10));
+      }
       return realSetItem(k, v);
-    });
+    }) as typeof AsyncStorage.setItem;
     const refreshing = refreshSCToken(USER, '1234');
     await started;
     const loggingOut = removeAllUserData();
     await Promise.all([refreshing, loggingOut]);
-    spy.mockRestore();
+    AsyncStorage.setItem = realSetItem;
     expect(await stored('sc_accounts')).toEqual([]);
     expect(await stored('user')).toEqual([]);
   });

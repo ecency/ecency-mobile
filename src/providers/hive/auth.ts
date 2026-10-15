@@ -518,6 +518,11 @@ export const refreshSCToken = async (
   pinCode: string | undefined,
   options?: { isCurrent?: () => boolean },
 ): Promise<string | null> => {
+  // Taken before anything is awaited, so a logout or account removal that begins at any
+  // point after this (during the account read, the network call or the write) turns the
+  // write below into a no-op (see storage/authWriteGuard). Callers read userData
+  // synchronously just before calling, so the mark matches what they read.
+  const epoch = authEpoch(userData.username);
   const scAccount = await getSCAccount(userData.username);
 
   if (!scAccount || !scAccount.refreshToken) {
@@ -527,9 +532,6 @@ export const refreshSCToken = async (
 
   const now = new Date().getTime();
   const expireDate = new Date(scAccount.expireDate).getTime();
-  // Taken before the network call: a logout or account removal that begins while it is
-  // in flight makes the write below a no-op (see storage/authWriteGuard).
-  const epoch = authEpoch(userData.username);
 
   try {
     const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
